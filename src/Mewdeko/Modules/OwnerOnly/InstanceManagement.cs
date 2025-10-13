@@ -171,4 +171,156 @@ public class InstanceManagement(IDataConnectionFactory dbFactory) : MewdekoModul
         $"{Strings.InstanceCommandCount(ctx.Guild.Id, status.CommandsCount)}\n" +
         $"{Strings.InstanceModulesCount(ctx.Guild.Id, status.ModulesCount)}\n" +
         $"{Strings.InstanceUserCount(ctx.Guild.Id, status.UserCount)}";
+
+    /// <summary>
+    ///     Updates all registered bot instances.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    public async Task UpdateAllInstances()
+    {
+        var confirmMessage =
+            await PromptUserConfirmAsync(Strings.UpdateAllInstancesConfirm(ctx.Guild.Id), ctx.User.Id);
+        if (!confirmMessage)
+            return;
+
+        try
+        {
+            await ReplyAsync(Strings.UpdateAllInstancesTriggering(ctx.Guild.Id));
+
+            var results = await Service.UpdateAllInstancesAsync();
+
+            var eb = new EmbedBuilder()
+                .WithTitle(Strings.UpdateAllInstancesResultsTitle(ctx.Guild.Id))
+                .WithOkColor();
+
+            foreach (var (port, (success, message)) in results)
+            {
+                var emoji = success ? "✅" : "❌";
+                eb.AddField($"{emoji} Port {port}", message);
+            }
+
+            await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        }
+        catch (Exception ex)
+        {
+            await ErrorAsync(Strings.UpdateAllInstancesFailed(ctx.Guild.Id, ex.Message));
+        }
+    }
+
+    /// <summary>
+    ///     Updates a specific bot instance.
+    /// </summary>
+    /// <param name="instancePort">The port number of the instance to update</param>
+    [Cmd]
+    [Aliases]
+    public async Task UpdateInstance(int instancePort)
+    {
+        if (instancePort is < 1024 or > 65535)
+        {
+            await ErrorAsync(Strings.InvalidPort(ctx.Guild.Id));
+            return;
+        }
+
+        var confirmMessage =
+            await PromptUserConfirmAsync(Strings.UpdateInstanceConfirm(ctx.Guild.Id, instancePort), ctx.User.Id);
+        if (!confirmMessage)
+            return;
+
+        try
+        {
+            await ReplyAsync(Strings.UpdateInstanceTriggering(ctx.Guild.Id, instancePort));
+
+            var (success, message) = await Service.UpdateInstanceAsync(instancePort);
+
+            if (success)
+            {
+                await SuccessAsync(Strings.UpdateInstanceSuccess(ctx.Guild.Id, instancePort, message));
+            }
+            else
+            {
+                await ErrorAsync(Strings.UpdateInstanceFailed(ctx.Guild.Id, instancePort, message));
+            }
+        }
+        catch (Exception ex)
+        {
+            await ErrorAsync(Strings.UpdateInstanceError(ctx.Guild.Id, ex.Message));
+        }
+    }
+
+    /// <summary>
+    ///     Restarts all registered bot instances.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    public async Task RestartAllInstances()
+    {
+        var confirmMessage =
+            await PromptUserConfirmAsync(Strings.RestartAllInstancesConfirm(ctx.Guild.Id), ctx.User.Id);
+        if (!confirmMessage)
+            return;
+
+        try
+        {
+            await ReplyAsync(Strings.RestartAllInstancesTriggering(ctx.Guild.Id));
+
+            var results = await Service.RestartAllInstancesAsync();
+
+            var eb = new EmbedBuilder()
+                .WithTitle(Strings.RestartAllInstancesResultsTitle(ctx.Guild.Id))
+                .WithOkColor();
+
+            foreach (var (port, (success, message)) in results)
+            {
+                var emoji = success ? "✅" : "❌";
+                eb.AddField($"{emoji} Port {port}", message);
+            }
+
+            await ctx.Channel.SendMessageAsync(embed: eb.Build());
+        }
+        catch (Exception ex)
+        {
+            await ErrorAsync(Strings.RestartAllInstancesFailed(ctx.Guild.Id, ex.Message));
+        }
+    }
+
+    /// <summary>
+    ///     Restarts a specific bot instance.
+    /// </summary>
+    /// <param name="instancePort">The port number of the instance to restart</param>
+    [Cmd]
+    [Aliases]
+    public async Task RestartInstance(int instancePort)
+    {
+        if (instancePort is < 1024 or > 65535)
+        {
+            await ErrorAsync(Strings.InvalidPort(ctx.Guild.Id));
+            return;
+        }
+
+        var confirmMessage =
+            await PromptUserConfirmAsync(Strings.RestartInstanceConfirm(ctx.Guild.Id, instancePort), ctx.User.Id);
+        if (!confirmMessage)
+            return;
+
+        try
+        {
+            await ReplyAsync(Strings.RestartInstanceTriggering(ctx.Guild.Id, instancePort));
+
+            var (success, message) = await Service.RestartInstanceAsync(instancePort);
+
+            if (success)
+            {
+                await SuccessAsync(Strings.RestartInstanceSuccess(ctx.Guild.Id, instancePort, message));
+            }
+            else
+            {
+                await ErrorAsync(Strings.RestartInstanceFailed(ctx.Guild.Id, instancePort, message));
+            }
+        }
+        catch (Exception ex)
+        {
+            await ErrorAsync(Strings.RestartInstanceError(ctx.Guild.Id, ex.Message));
+        }
+    }
 }

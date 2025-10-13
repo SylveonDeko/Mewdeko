@@ -94,4 +94,146 @@ public class InstanceManagementController : Controller
             return StatusCode(500, "Internal server error");
         }
     }
+
+    /// <summary>
+    ///     Triggers an update on this instance (git pull + restart).
+    /// </summary>
+    [HttpPost("update")]
+    public IActionResult TriggerUpdate()
+    {
+        try
+        {
+            // Start the update process in the background
+            _ = instanceManagementService.ExecuteUpdateAsync();
+
+            return Ok(new
+            {
+                message = "Update initiated"
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to trigger update");
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    /// <summary>
+    ///     Triggers a restart on this instance.
+    /// </summary>
+    [HttpPost("restart")]
+    public IActionResult TriggerRestart()
+    {
+        try
+        {
+            // Start the restart process in the background
+            _ = instanceManagementService.ExecuteRestartAsync();
+
+            return Ok(new
+            {
+                message = "Restart initiated"
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to trigger restart");
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    /// <summary>
+    ///     Updates all registered instances (master only).
+    /// </summary>
+    [HttpPost("update-all")]
+    public async Task<IActionResult> UpdateAllInstances()
+    {
+        try
+        {
+            var results = await instanceManagementService.UpdateAllInstancesAsync();
+            return Ok(results);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to update all instances");
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    /// <summary>
+    ///     Restarts all registered instances (master only).
+    /// </summary>
+    [HttpPost("restart-all")]
+    public async Task<IActionResult> RestartAllInstances()
+    {
+        try
+        {
+            var results = await instanceManagementService.RestartAllInstancesAsync();
+            return Ok(results);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to restart all instances");
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    /// <summary>
+    ///     Updates a specific instance by port (master only).
+    /// </summary>
+    /// <param name="port">The port number of the instance to update.</param>
+    [HttpPost("update/{port}")]
+    public async Task<IActionResult> UpdateInstance(int port)
+    {
+        try
+        {
+            var result = await instanceManagementService.UpdateInstanceAsync(port);
+            if (!result.Success)
+                return BadRequest(result.Message);
+
+            return Ok(result);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to update instance on port {Port}", port);
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    /// <summary>
+    ///     Restarts a specific instance by port (master only).
+    /// </summary>
+    /// <param name="port">The port number of the instance to restart.</param>
+    [HttpPost("restart/{port}")]
+    public async Task<IActionResult> RestartInstance(int port)
+    {
+        try
+        {
+            var result = await instanceManagementService.RestartInstanceAsync(port);
+            if (!result.Success)
+                return BadRequest(result.Message);
+
+            return Ok(result);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to restart instance on port {Port}", port);
+            return StatusCode(500, "Internal server error");
+        }
+    }
 }

@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Diagnostics;
+using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
 using DataModel;
@@ -236,5 +237,210 @@ public class InstanceManagementService : INService, IReadyExecutor
 
         await db.DeleteAsync(instance);
         return true;
+    }
+
+    /// <summary>
+    ///     Executes an update on this instance (git pull + restart).
+    ///     This method is called when this instance receives an update request.
+    /// </summary>
+    public async Task ExecuteUpdateAsync()
+    {
+        logger.LogInformation("Starting update process for this instance");
+
+        try
+        {
+            // Execute git pull in a separate task to not block the API response
+            await Task.Run(async () =>
+            {
+                // Wait a bit to allow the API response to be sent
+                await Task.Delay(1000);
+
+                var gitPullInfo = new ProcessStartInfo
+                {
+                    FileName = "git",
+                    Arguments = "pull",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true
+                };
+
+                using var gitPullProcess = Process.Start(gitPullInfo);
+                if (gitPullProcess != null)
+                {
+                    await gitPullProcess.WaitForExitAsync();
+                    var output = await gitPullProcess.StandardOutput.ReadToEndAsync();
+                    var error = await gitPullProcess.StandardError.ReadToEndAsync();
+
+                    if (gitPullProcess.ExitCode == 0)
+                    {
+                        logger.LogInformation("Git pull successful: {Output}", output);
+
+                        // After successful pull, restart the instance
+                        await ExecuteRestartAsync();
+                    }
+                    else
+                    {
+                        logger.LogError("Git pull failed with exit code {ExitCode}. Output: {Output}, Error: {Error}",
+                            gitPullProcess.ExitCode, output, error);
+                    }
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to execute update");
+        }
+    }
+
+    /// <summary>
+    ///     Executes a restart on this instance.
+    ///     This method is called when this instance receives a restart request.
+    /// </summary>
+    public async Task ExecuteRestartAsync()
+    {
+        logger.LogWarning("Restarting this instance in 3 seconds...");
+
+        try
+        {
+            // Execute restart in a separate task to not block the API response
+            await Task.Run(async () =>
+            {
+                // Wait a bit to allow the API response to be sent
+                await Task.Delay(3000);
+
+                // Log out the Discord client gracefully
+                await client.StopAsync();
+
+                logger.LogInformation("Discord client stopped. Exiting process.");
+
+                // Exit the process - assuming a process manager (systemd, docker, etc.) will restart it
+                Environment.Exit(0);
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to execute restart");
+        }
+    }
+
+    /// <summary>
+    ///     Updates all registered bot instances by calling their update endpoints.
+    /// </summary>
+    /// <returns>A dictionary of port numbers to success status and messages.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when not running on master instance.</exception>
+    public async Task<Dictionary<int, (bool Success, string Message)>> UpdateAllInstancesAsync()
+    {
+        if (!new BotCredentials().IsMasterInstance)
+            throw new InvalidOperationException("Can only update all instances from master bot.");
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var instances = await db.BotInstances.ToListAsync();
+
+        var results = new Dictionary<int, (bool Success, string Message)>();
+
+        foreach (var instance in instances)
+        {
+            var result = await UpdateInstanceAsync(instance.Port);
+            results[instance.Port] = (result.Success, result.Message);
+        }
+
+        return results;
+    }
+
+    /// <summary>
+    ///     Restarts all registered bot instances by calling their restart endpoints.
+    /// </summary>
+    /// <returns>A dictionary of port numbers to success status and messages.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when not running on master instance.</exception>
+    public async Task<Dictionary<int, (bool Success, string Message)>> RestartAllInstancesAsync()
+    {
+        if (!new BotCredentials().IsMasterInstance)
+            throw new InvalidOperationException("Can only restart all instances from master bot.");
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var instances = await db.BotInstances.ToListAsync();
+
+        var results = new Dictionary<int, (bool Success, string Message)>();
+
+        foreach (var instance in instances)
+        {
+            var result = await RestartInstanceAsync(instance.Port);
+            results[instance.Port] = (result.Success, result.Message);
+        }
+
+        return results;
+    }
+
+    /// <summary>
+    ///     Updates a specific bot instance by calling its update endpoint.
+    /// </summary>
+    /// <param name="port">The port number of the instance to update.</param>
+    /// <returns>A tuple containing success status and message.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when not running on master instance.</exception>
+    public async Task<(bool Success, string Message)> UpdateInstanceAsync(int port)
+    {
+        if (!new BotCredentials().IsMasterInstance)
+            throw new InvalidOperationException("Can only update instances from master bot.");
+
+        try
+        {
+            using var httpClient = CreateAuthenticatedClient();
+            var response =
+                await httpClient.PostAsync($"http://localhost:{port}/botapi/InstanceManagement/update", null);
+
+            if (response.IsSuccessStatusCode)
+            {
+                logger.LogInformation("Successfully triggered update on instance at port {Port}", port);
+                return (true, "Update triggered successfully");
+            }
+
+            var errorContent = await response.Content.ReadAsStringAsync();
+            logger.LogError(
+                "Failed to trigger update on instance at port {Port}. Status: {Status}, Response: {Response}",
+                port, response.StatusCode, errorContent);
+            return (false, $"Failed: {response.StatusCode}");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to call update endpoint for instance on port {Port}", port);
+            return (false, $"Error: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    ///     Restarts a specific bot instance by calling its restart endpoint.
+    /// </summary>
+    /// <param name="port">The port number of the instance to restart.</param>
+    /// <returns>A tuple containing success status and message.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when not running on master instance.</exception>
+    public async Task<(bool Success, string Message)> RestartInstanceAsync(int port)
+    {
+        if (!new BotCredentials().IsMasterInstance)
+            throw new InvalidOperationException("Can only restart instances from master bot.");
+
+        try
+        {
+            using var httpClient = CreateAuthenticatedClient();
+            var response =
+                await httpClient.PostAsync($"http://localhost:{port}/botapi/InstanceManagement/restart", null);
+
+            if (response.IsSuccessStatusCode)
+            {
+                logger.LogInformation("Successfully triggered restart on instance at port {Port}", port);
+                return (true, "Restart triggered successfully");
+            }
+
+            var errorContent = await response.Content.ReadAsStringAsync();
+            logger.LogError(
+                "Failed to trigger restart on instance at port {Port}. Status: {Status}, Response: {Response}",
+                port, response.StatusCode, errorContent);
+            return (false, $"Failed: {response.StatusCode}");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to call restart endpoint for instance on port {Port}", port);
+            return (false, $"Error: {ex.Message}");
+        }
     }
 }

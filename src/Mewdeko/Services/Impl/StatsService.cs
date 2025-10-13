@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using Humanizer;
+using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Utility.Services;
 using Swan.Formatters;
 
@@ -12,7 +13,7 @@ namespace Mewdeko.Services.Impl;
 /// <summary>
 ///     Service for collecting and posting statistics about the bot.
 /// </summary>
-public class StatsService : IStatsService, IDisposable
+public class StatsService : IStatsService, IDisposable, IReadyExecutor
 {
     /// <summary>
     ///     The version of the bot. I should make this set from commits somehow idk
@@ -50,7 +51,6 @@ public class StatsService : IStatsService, IDisposable
         started = DateTime.UtcNow;
 
         _ = PostToTopGg();
-        _ = OnReadyAsync();
     }
 
     /// <summary>
@@ -59,6 +59,45 @@ public class StatsService : IStatsService, IDisposable
     public void Dispose()
     {
         topGgTimer?.Dispose();
+    }
+
+    /// <inheritdoc />
+    public Task OnReadyAsync()
+    {
+        _ = Task.Run(async () =>
+        {
+            var periodicTimer = new PeriodicTimer(TimeSpan.FromHours(12));
+
+            do
+            {
+                try
+                {
+                    logger.LogInformation("Updating top guilds");
+                    var guilds = await client.Rest.GetGuildsAsync(true);
+                    var servers = guilds.OrderByDescending(x => x.ApproximateMemberCount.Value)
+                        .Where(x => !x.Name.Contains("botlist", StringComparison.CurrentCultureIgnoreCase))
+                        .Where(x => !x.Name.Contains("bots")).Take(11)
+                        .Select(x =>
+                            new MewdekoPartialGuild
+                            {
+                                IconUrl = x.IconId.StartsWith("a_") ? x.IconUrl.Replace(".jpg", ".gif") : x.IconUrl,
+                                MemberCount = x.ApproximateMemberCount.Value,
+                                Name = x.Name
+                            });
+
+                    var serialied = Json.Serialize(servers);
+                    await cache.Redis.GetDatabase().StringSetAsync($"{client.CurrentUser.Id}_topguilds", serialied)
+                        .ConfigureAwait(false);
+                    logger.LogInformation("Updated top guilds");
+                }
+                catch (Exception e)
+                {
+                    logger.LogError("Failed to update top guilds: {0}", e);
+                    return;
+                }
+            } while (await periodicTimer.WaitForNextTickAsync());
+        });
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -92,44 +131,6 @@ public class StatsService : IStatsService, IDisposable
     public string GetUptimeString(string separator = ", ")
     {
         return GetUptime().Humanize(2, minUnit: TimeUnit.Minute, collectionSeparator: separator);
-    }
-
-    /// <inheritdoc />
-    public Task OnReadyAsync()
-    {
-        _ = Task.Run(async () =>
-        {
-            var periodicTimer = new PeriodicTimer(TimeSpan.FromHours(12));
-
-            do
-            {
-                try
-                {
-                    logger.LogInformation("Updating top guilds");
-                    var guilds = await client.Rest.GetGuildsAsync(true);
-                    var servers = guilds.OrderByDescending(x => x.ApproximateMemberCount.Value)
-                        .Where(x => !x.Name.Contains("botlist", StringComparison.CurrentCultureIgnoreCase)).Take(11)
-                        .Select(x =>
-                            new MewdekoPartialGuild
-                            {
-                                IconUrl = x.IconId.StartsWith("a_") ? x.IconUrl.Replace(".jpg", ".gif") : x.IconUrl,
-                                MemberCount = x.ApproximateMemberCount.Value,
-                                Name = x.Name
-                            });
-
-                    var serialied = Json.Serialize(servers);
-                    await cache.Redis.GetDatabase().StringSetAsync($"{client.CurrentUser.Id}_topguilds", serialied)
-                        .ConfigureAwait(false);
-                    logger.LogInformation("Updated top guilds");
-                }
-                catch (Exception e)
-                {
-                    logger.LogError("Failed to update top guilds: {0}", e);
-                    return;
-                }
-            } while (await periodicTimer.WaitForNextTickAsync());
-        });
-        return Task.CompletedTask;
     }
 
 
