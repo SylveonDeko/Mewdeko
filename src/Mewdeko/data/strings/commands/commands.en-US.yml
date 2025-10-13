@@ -19319,6 +19319,34 @@ repweeklylimit:
       name: limit
       optional: true
       type: int
+restartallinstances:
+  args:
+    - ''
+  desc: Restarts all registered bot instances.
+  params: [ ]
+restartallinstances_noparams:
+  args:
+    - ''
+  desc: Restarts all registered bot instances.
+  params: [ ]
+restartinstance:
+  args:
+    - number
+  desc: Restarts a specific bot instance.
+  params:
+    - desc: The port number of the instance to restart
+      name: instancePort
+      optional: false
+      type: int
+restartinstance_int:
+  args:
+    - number
+  desc: Restarts a specific bot instance.
+  params:
+    - desc: The port number of the instance to restart
+      name: instancePort
+      optional: false
+      type: int
 resetfilters:
   args:
     - ''
@@ -28655,6 +28683,34 @@ update_noparams_2:
     - ''
   desc: Indicates the user is idle and may be away from their device.
   params: [ ]
+updateallinstances:
+  args:
+    - ''
+  desc: Updates all registered bot instances.
+  params: [ ]
+updateallinstances_noparams:
+  args:
+    - ''
+  desc: Updates all registered bot instances.
+  params: [ ]
+updateinstance:
+  args:
+    - number
+  desc: Updates a specific bot instance.
+  params:
+    - desc: The port number of the instance to update
+      name: instancePort
+      optional: false
+      type: int
+updateinstance_int:
+  args:
+    - number
+  desc: Updates a specific bot instance.
+  params:
+    - desc: The port number of the instance to update
+      name: instancePort
+      optional: false
+      type: int
 urbandict:
   args:
     - null
