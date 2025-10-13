@@ -32,8 +32,7 @@ public static class RedisConnectionManager
             SyncTimeout = 30000, // Increase timeout
             ConnectTimeout = 30000, // Increase timeout
             ConnectRetry = 5, // Add retry count
-            ReconnectRetryPolicy = new ExponentialRetry(5000), // Add retry policy
-            DefaultDatabase = shardCount > 1 ? 8 : 0
+            ReconnectRetryPolicy = new ExponentialRetry(5000) // Add retry policy
         };
 
         var connections = redisConnections.Split(';');
