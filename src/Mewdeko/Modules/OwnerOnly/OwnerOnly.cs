@@ -313,7 +313,7 @@ public class OwnerOnly(
         async Task<PageBuilder> PageFactory(int page)
         {
             await Task.CompletedTask;
-            var newGuilds = guilds.Skip(10 * page);
+            var newGuilds = guilds.Skip(10 * page).Take(10);
             var eb = new PageBuilder()
                 .WithOkColor()
                 .WithTitle(Strings.ServersList(ctx.Guild.Id));

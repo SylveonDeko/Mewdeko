@@ -904,7 +904,7 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
     /// <summary>
     ///     Updates forum tag conditions for a repeater using JSON string.
     /// </summary>
-    public async Task<bool> UpdateRepeaterForumTagConditionsAsync(ulong guildId, int repeaterId,
+    public async Task<bool?> UpdateRepeaterForumTagConditionsAsync(ulong guildId, int repeaterId,
         string forumTagConditionsJson)
     {
         await using var dbContext = await dbFactory.CreateConnectionAsync();
