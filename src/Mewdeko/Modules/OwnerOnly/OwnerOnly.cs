@@ -308,7 +308,7 @@ public class OwnerOnly(
 
         try
         {
-            var guilds = await ctx.Client.GetGuildsAsync();
+            var guilds = await client.Rest.GetGuildsAsync(true);
             var servers = guilds.OrderByDescending(x => x.ApproximateMemberCount.Value)
                 .Where(x => !x.Name.Contains("botlist", StringComparison.CurrentCultureIgnoreCase))
                 .Where(x => !x.Name.Contains("bots", StringComparison.CurrentCultureIgnoreCase))
