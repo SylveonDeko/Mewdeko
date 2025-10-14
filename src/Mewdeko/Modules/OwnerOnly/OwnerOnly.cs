@@ -308,21 +308,27 @@ public class OwnerOnly(
 
         try
         {
-            var guilds = await client.Rest.GetGuildsAsync(true);
-            var servers = guilds.OrderByDescending(x => x.ApproximateMemberCount.Value)
-                .Where(x => !x.Name.Contains("botlist", StringComparison.CurrentCultureIgnoreCase))
-                .Where(x => !x.Name.Contains("bots", StringComparison.CurrentCultureIgnoreCase))
-                .Where(x => !x.Name.Contains("xhamster", StringComparison.CurrentCultureIgnoreCase))
-                .Where(x => !x.Name.Contains("nsfw", StringComparison.CurrentCultureIgnoreCase))
-                .Where(x => x.Id != 374071874222686211)
+            var guilds = (await ctx.Client.GetGuildsAsync().ConfigureAwait(false))
+                .Cast<SocketGuild>();
+
+            var excludedTerms = new[]
+            {
+                "botlist", "bots", "xhamster", "nsfw"
+            };
+            const ulong excludedId = 374071874222686211;
+
+            var servers = guilds
+                .Where(x => x.Id != excludedId &&
+                            !excludedTerms.Any(term => x.Name.Contains(term, StringComparison.OrdinalIgnoreCase)))
+                .OrderByDescending(x => x.MemberCount)
                 .Take(11)
-                .Select(x =>
-                    new StatsService.MewdekoPartialGuild
-                    {
-                        IconUrl = x.IconId.StartsWith("a_") ? x.IconUrl.Replace(".jpg", ".gif") : x.IconUrl,
-                        MemberCount = x.ApproximateMemberCount.Value,
-                        Name = x.Name
-                    });
+                .Select(x => new StatsService.MewdekoPartialGuild
+                {
+                    IconUrl = x.IconId.StartsWith("a_") ? x.IconUrl.Replace(".jpg", ".gif") : x.IconUrl,
+                    MemberCount = x.MemberCount,
+                    Name = x.Name
+                })
+                .ToList();
 
             var serialied = Json.Serialize(servers);
             await cache.Redis.GetDatabase().StringSetAsync($"{client.CurrentUser.Id}_topguilds", serialied)
