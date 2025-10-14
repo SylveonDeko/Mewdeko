@@ -313,7 +313,7 @@ public class OwnerOnly(
 
             var excludedTerms = new[]
             {
-                "botlist", "bots", "xhamster", "nsfw"
+                "botlist", "bots", "xhamster", "nsfw", "18+"
             };
             const ulong excludedId = 374071874222686211;
 
