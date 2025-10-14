@@ -21,7 +21,7 @@ public class StatsService : IStatsService, IDisposable, IReadyExecutor
     public const string BotVersion = "8";
 
     private readonly IDataCache cache;
-    private readonly IDiscordClient client;
+    private readonly DiscordShardedClient client;
     private readonly IBotCredentials creds;
     private readonly HttpClient http;
     private readonly ILogger<StatsService> logger;
@@ -39,7 +39,7 @@ public class StatsService : IStatsService, IDisposable, IReadyExecutor
     /// <exception cref="ArgumentNullException"></exception>
     /// <param name="logger">The logger instance for structured logging.</param>
     public StatsService(
-        IDiscordClient client, IBotCredentials creds,
+        DiscordShardedClient client, IBotCredentials creds,
         HttpClient http, IDataCache cache, ILogger<StatsService> logger)
     {
         this.client = client ?? throw new ArgumentNullException(nameof(client));
@@ -72,8 +72,9 @@ public class StatsService : IStatsService, IDisposable, IReadyExecutor
             {
                 try
                 {
+                    IDiscordClient cl = client;
                     logger.LogInformation("Updating top guilds");
-                    var guilds = (await client.GetGuildsAsync().ConfigureAwait(false))
+                    var guilds = (await cl.GetGuildsAsync().ConfigureAwait(false))
                         .Cast<SocketGuild>();
 
                     var excludedTerms = new[]
@@ -159,7 +160,8 @@ public class StatsService : IStatsService, IDisposable, IReadyExecutor
 
         while (await topGgTimer.WaitForNextTickAsync().ConfigureAwait(false))
         {
-            var guilds = await client.GetGuildsAsync();
+            IDiscordClient cl = client;
+            var guilds = await cl.GetGuildsAsync();
             var content = new FormUrlEncodedContent(new Dictionary<string, string>
             {
                 {
