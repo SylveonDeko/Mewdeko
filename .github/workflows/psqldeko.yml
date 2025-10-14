@@ -16,7 +16,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 9.0.x
 
       - name: Get previous tag
         id: prev_tag
@@ -110,3 +110,4 @@ jobs:
           asset_path: ./MewdekoPsql-win64.zip
           asset_name: MewdekoPsql-win64.zip
           asset_content_type: application/zip
+
