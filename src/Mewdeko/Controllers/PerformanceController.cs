@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using Mewdeko.Services.Impl;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,12 +40,6 @@ public class PerformanceController : ControllerBase
     [HttpGet("methods")]
     public IActionResult GetPerformanceData()
     {
-        var userId = GetAuthenticatedUserId();
-        if (userId == null || !credentials.IsOwner(userId.Value))
-        {
-            return Forbid();
-        }
-
         var topMethods = performanceService.GetTopCpuMethods();
 
         var result = topMethods.Select(m => new
@@ -68,12 +61,6 @@ public class PerformanceController : ControllerBase
     [HttpGet("events")]
     public IActionResult GetEventMetrics()
     {
-        var userId = GetAuthenticatedUserId();
-        if (userId == null || !credentials.IsOwner(userId.Value))
-        {
-            return Forbid();
-        }
-
         var eventMetrics = eventHandler.GetEventMetrics();
 
         var result = eventMetrics.Select(kvp => new
@@ -96,12 +83,6 @@ public class PerformanceController : ControllerBase
     [HttpGet("modules")]
     public IActionResult GetModuleMetrics()
     {
-        var userId = GetAuthenticatedUserId();
-        if (userId == null || !credentials.IsOwner(userId.Value))
-        {
-            return Forbid();
-        }
-
         var moduleMetrics = eventHandler.GetModuleMetrics();
 
         var result = moduleMetrics.Select(kvp => new
@@ -124,12 +105,6 @@ public class PerformanceController : ControllerBase
     [HttpGet("overview")]
     public IActionResult GetPerformanceOverview()
     {
-        var userId = GetAuthenticatedUserId();
-        if (userId == null || !credentials.IsOwner(userId.Value))
-        {
-            return Forbid();
-        }
-
         var topMethods = performanceService.GetTopCpuMethods();
         var eventMetrics = eventHandler.GetEventMetrics();
         var moduleMetrics = eventHandler.GetModuleMetrics();
@@ -185,12 +160,6 @@ public class PerformanceController : ControllerBase
     [HttpGet("events/{eventType}")]
     public IActionResult GetEventMetric(string eventType)
     {
-        var userId = GetAuthenticatedUserId();
-        if (userId == null || !credentials.IsOwner(userId.Value))
-        {
-            return Forbid();
-        }
-
         var eventMetrics = eventHandler.GetEventMetrics();
 
         if (!eventMetrics.TryGetValue(eventType, out var metrics))
@@ -219,12 +188,6 @@ public class PerformanceController : ControllerBase
     [HttpGet("modules/{moduleName}")]
     public IActionResult GetModuleMetric(string moduleName)
     {
-        var userId = GetAuthenticatedUserId();
-        if (userId == null || !credentials.IsOwner(userId.Value))
-        {
-            return Forbid();
-        }
-
         var moduleMetrics = eventHandler.GetModuleMetrics();
 
         if (!moduleMetrics.TryGetValue(moduleName, out var metrics))
@@ -252,41 +215,11 @@ public class PerformanceController : ControllerBase
     [HttpPost("clear")]
     public IActionResult ClearPerformanceData()
     {
-        var userId = GetAuthenticatedUserId();
-        if (userId == null || !credentials.IsOwner(userId.Value))
-        {
-            return Forbid();
-        }
-
         performanceService.ClearPerformanceData();
 
         return Ok(new
         {
             message = "Performance data cleared. Event metrics reset automatically every hour."
         });
-    }
-
-    /// <summary>
-    ///     Gets the authenticated user ID from either JWT or API key with dashboard header
-    /// </summary>
-    private ulong? GetAuthenticatedUserId()
-    {
-        // Check JWT authentication
-        var jwtUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (jwtUserId != null && ulong.TryParse(jwtUserId, out var parsedJwtUserId))
-        {
-            return parsedJwtUserId;
-        }
-
-        // Check dashboard proxy header (API key auth)
-        if (Request.Headers.TryGetValue("x-user-id", out var userIdHeader))
-        {
-            if (ulong.TryParse(userIdHeader.ToString(), out var parsedHeaderUserId))
-            {
-                return parsedHeaderUserId;
-            }
-        }
-
-        return null;
     }
 }
