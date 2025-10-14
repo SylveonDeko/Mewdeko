@@ -77,7 +77,9 @@ public class StatsService : IStatsService, IDisposable, IReadyExecutor
                     var servers = guilds.OrderByDescending(x => x.ApproximateMemberCount.Value)
                         .Where(x => !x.Name.Contains("botlist", StringComparison.CurrentCultureIgnoreCase))
                         .Where(x => !x.Name.Contains("bots", StringComparison.CurrentCultureIgnoreCase))
-                        .Where(x => !x.Name.Contains("xhamster", StringComparison.CurrentCultureIgnoreCase)).Take(11)
+                        .Where(x => !x.Name.Contains("xhamster", StringComparison.CurrentCultureIgnoreCase))
+                        .Where(x => !x.Name.Contains("nsfw", StringComparison.CurrentCultureIgnoreCase))
+                        .Take(11)
                         .Select(x =>
                             new MewdekoPartialGuild
                             {
