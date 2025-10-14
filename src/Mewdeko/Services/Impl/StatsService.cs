@@ -173,7 +173,7 @@ public class StatsService : IStatsService, IDisposable, IReadyExecutor
             });
 
             http.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Authorization", creds.VotesToken);
+                new AuthenticationHeaderValue("Authorization", $"Bearer {creds.VotesToken}");
             var response = await http
                 .PostAsync(new Uri($"https://top.gg/api/bots/{client.CurrentUser.Id}/stats"), content)
                 .ConfigureAwait(false);
