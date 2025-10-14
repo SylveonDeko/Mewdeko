@@ -23,5 +23,15 @@ public enum WorkflowAction
     /// <summary>
     ///     Roles were pre-assigned for the user in RoleStates (join application approved).
     /// </summary>
-    RolesPreassigned = 3
+    RolesPreassigned = 3,
+
+    /// <summary>
+    ///     Roles were assigned directly to the user (regular form approved).
+    /// </summary>
+    RolesAssigned = 4,
+
+    /// <summary>
+    ///     Roles were removed from the user (regular form rejected).
+    /// </summary>
+    RolesRemoved = 5
 }

@@ -1306,4 +1306,15 @@ public class MewdekoDb : DataConnection
             return this.GetTable<FormResponseWorkflow>();
         }
     }
+
+    /// <summary>
+    ///     Gets the form question conditions table for advanced conditional logic.
+    /// </summary>
+    public ITable<FormQuestionCondition> FormQuestionConditions
+    {
+        get
+        {
+            return this.GetTable<FormQuestionCondition>();
+        }
+    }
 }

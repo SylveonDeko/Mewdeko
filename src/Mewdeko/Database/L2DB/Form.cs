@@ -62,6 +62,36 @@ public class Form
     [Column("auto_approve_role_ids")]
     public string? AutoApproveRoleIds { get; set; }
 
+    /// <summary>
+    ///     Whether form submissions require manual approval
+    /// </summary>
+    [Column("require_approval", CanBeNull = false)]
+    public bool RequireApproval { get; set; }
+
+    /// <summary>
+    ///     Action type to perform when a submission is approved (0 = None, 1 = AddRole, 2 = RemoveRole)
+    /// </summary>
+    [Column("approval_action_type", CanBeNull = false)]
+    public int ApprovalActionType { get; set; }
+
+    /// <summary>
+    ///     Comma-separated list of role IDs to add/remove when a submission is approved
+    /// </summary>
+    [Column("approval_role_ids")]
+    public string? ApprovalRoleIds { get; set; }
+
+    /// <summary>
+    ///     Action type to perform when a submission is rejected (0 = None, 1 = AddRole, 2 = RemoveRole)
+    /// </summary>
+    [Column("rejection_action_type", CanBeNull = false)]
+    public int RejectionActionType { get; set; }
+
+    /// <summary>
+    ///     Comma-separated list of role IDs to add/remove when a submission is rejected
+    /// </summary>
+    [Column("rejection_role_ids")]
+    public string? RejectionRoleIds { get; set; }
+
     [Column("invite_max_uses")]
     public int? InviteMaxUses { get; set; }
 

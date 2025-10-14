@@ -112,9 +112,9 @@ public class FormsController : Controller
             {
                 var responseCount = await service.GetResponseCountAsync(form.Id);
 
-                // Get pending response count for workflow forms
+                // Get pending response count for workflow forms and Regular forms with approval
                 var pendingCount = 0;
-                if (form.FormType != (int)FormType.Regular)
+                if (form.FormType != (int)FormType.Regular || form.RequireApproval)
                 {
                     var pendingResponses = await service.GetPendingResponsesAsync(form.Id);
                     pendingCount = pendingResponses.Count;
@@ -142,6 +142,11 @@ public class FormsController : Controller
                     form.InviteMaxUses,
                     form.InviteMaxAge,
                     form.NotificationWebhookUrl,
+                    form.RequireApproval,
+                    form.ApprovalActionType,
+                    form.ApprovalRoleIds,
+                    form.RejectionActionType,
+                    form.RejectionRoleIds,
                     form.CreatedBy,
                     form.CreatedAt,
                     form.UpdatedAt,
@@ -417,11 +422,12 @@ public class FormsController : Controller
         {
             var questions = await service.GetFormQuestionsAsync(formId);
 
-            // Include options for each question
+            // Include options and conditions for each question
             var questionsWithOptions = new List<object>();
             foreach (var question in questions)
             {
                 var options = await service.GetQuestionOptionsAsync(question.Id);
+                var conditions = await service.GetQuestionConditionsAsync(question.Id);
                 questionsWithOptions.Add(new
                 {
                     question.Id,
@@ -438,8 +444,21 @@ public class FormsController : Controller
                     question.ConditionalParentQuestionId,
                     question.ConditionalOperator,
                     question.ConditionalExpectedValue,
+                    question.ConditionalType,
+                    question.ConditionalRoleIds,
+                    question.ConditionalRoleLogic,
+                    question.ConditionalDaysInServer,
+                    question.ConditionalAccountAgeDays,
+                    question.ConditionalRequiresBoost,
+                    question.ConditionalRequiresNitro,
+                    question.ConditionalPermissionFlags,
+                    question.RequiredWhenParentQuestionId,
+                    question.RequiredWhenOperator,
+                    question.RequiredWhenValue,
+                    question.EnableAnswerPiping,
                     question.CreatedAt,
-                    Options = options
+                    Options = options,
+                    Conditions = conditions
                 });
             }
 
@@ -606,6 +625,87 @@ public class FormsController : Controller
             return BadRequest(new
             {
                 message = ex.Message
+            });
+        }
+    }
+
+    /// <summary>
+    ///     Gets all conditions for a question (for multi-condition logic).
+    /// </summary>
+    /// <param name="questionId">The question ID.</param>
+    /// <returns>List of conditions.</returns>
+    [HttpGet("questions/{questionId:int}/conditions")]
+    public async Task<IActionResult> GetQuestionConditions(int questionId)
+    {
+        try
+        {
+            var conditions = await service.GetQuestionConditionsAsync(questionId);
+            return Ok(conditions);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to get conditions for question {QuestionId}", questionId);
+            return StatusCode(500, new
+            {
+                message = "Failed to retrieve conditions"
+            });
+        }
+    }
+
+    /// <summary>
+    ///     Adds a condition to a question.
+    /// </summary>
+    /// <param name="questionId">The question ID.</param>
+    /// <param name="condition">The condition to add.</param>
+    /// <returns>The created condition.</returns>
+    [HttpPost("questions/{questionId:int}/conditions")]
+    public async Task<IActionResult> AddQuestionCondition(int questionId, [FromBody] FormQuestionCondition condition)
+    {
+        try
+        {
+            condition.QuestionId = questionId; // Ensure question ID matches route
+            var createdCondition = await service.AddQuestionConditionAsync(condition);
+            return Ok(createdCondition);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to add condition to question {QuestionId}", questionId);
+            return BadRequest(new
+            {
+                message = ex.Message
+            });
+        }
+    }
+
+    /// <summary>
+    ///     Deletes a condition.
+    /// </summary>
+    /// <param name="conditionId">The condition ID to delete.</param>
+    /// <returns>Success status.</returns>
+    [HttpDelete("conditions/{conditionId:int}")]
+    public async Task<IActionResult> DeleteCondition(int conditionId)
+    {
+        try
+        {
+            var success = await service.DeleteConditionAsync(conditionId);
+
+            if (!success)
+                return NotFound(new
+                {
+                    message = "Condition not found"
+                });
+
+            return Ok(new
+            {
+                message = "Condition deleted successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to delete condition {ConditionId}", conditionId);
+            return StatusCode(500, new
+            {
+                message = "Failed to delete condition"
             });
         }
     }

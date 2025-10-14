@@ -1,4 +1,6 @@
+using System.Text.RegularExpressions;
 using DataModel;
+using Discord.Net;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Database.Enums;
@@ -478,6 +480,56 @@ public class FormsService : INService
             .DeleteAsync();
     }
 
+    /// <summary>
+    ///     Gets all conditions for a question.
+    /// </summary>
+    /// <param name="questionId">The question ID.</param>
+    /// <returns>List of conditions.</returns>
+    public async Task<List<FormQuestionCondition>> GetQuestionConditionsAsync(int questionId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        return await db.FormQuestionConditions
+            .Where(c => c.QuestionId == questionId)
+            .OrderBy(c => c.ConditionGroup)
+            .ThenBy(c => c.Id)
+            .ToListAsync();
+    }
+
+    /// <summary>
+    ///     Adds a condition to a question.
+    /// </summary>
+    /// <param name="condition">The condition to add.</param>
+    /// <returns>The created condition with assigned ID.</returns>
+    public async Task<FormQuestionCondition> AddQuestionConditionAsync(FormQuestionCondition condition)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        condition.CreatedAt = DateTime.UtcNow;
+        var id = await db.InsertWithInt32IdentityAsync(condition);
+        condition.Id = id;
+
+        logger.LogInformation("Added condition {ConditionId} to question {QuestionId}",
+            condition.Id, condition.QuestionId);
+        return condition;
+    }
+
+    /// <summary>
+    ///     Deletes a condition.
+    /// </summary>
+    /// <param name="conditionId">The condition ID to delete.</param>
+    /// <returns>True if successful.</returns>
+    public async Task<bool> DeleteConditionAsync(int conditionId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var deleted = await db.FormQuestionConditions
+            .Where(c => c.Id == conditionId)
+            .DeleteAsync();
+
+        logger.LogInformation("Deleted condition {ConditionId}", conditionId);
+        return deleted > 0;
+    }
+
     #endregion
 
     #region Response Management
@@ -692,10 +744,65 @@ public class FormsService : INService
     /// </summary>
     /// <param name="question">The question to evaluate.</param>
     /// <param name="currentAnswers">Dictionary of questionId -> current answer values.</param>
+    /// <param name="userId">The user ID for Discord-based conditionals.</param>
+    /// <param name="guildId">The guild ID for Discord-based conditionals.</param>
     /// <returns>True if the question should be shown.</returns>
+    public async Task<bool> ShouldShowQuestionAsync(
+        FormQuestion question,
+        Dictionary<int, object> currentAnswers,
+        ulong userId,
+        ulong guildId)
+    {
+        var conditionalType = (ConditionalType)question.ConditionalType;
+
+        // If no conditional logic at all, always show
+        if (conditionalType == ConditionalType.QuestionBased && !question.ConditionalParentQuestionId.HasValue)
+            return true;
+
+        // Evaluate based on conditional type
+        switch (conditionalType)
+        {
+            case ConditionalType.QuestionBased:
+                return EvaluateQuestionBasedCondition(question, currentAnswers);
+
+            case ConditionalType.DiscordRole:
+                return await EvaluateDiscordRoleConditionAsync(question, userId, guildId);
+
+            case ConditionalType.ServerTenure:
+                return await EvaluateServerTenureConditionAsync(question, userId, guildId);
+
+            case ConditionalType.BoostStatus:
+                return await EvaluateBoostStatusConditionAsync(question, userId, guildId);
+
+            case ConditionalType.Permission:
+                return await EvaluatePermissionConditionAsync(question, userId, guildId);
+
+            case ConditionalType.MultipleConditions:
+                return await EvaluateMultipleConditionsAsync(question.Id, currentAnswers, userId, guildId);
+
+            default:
+                // Unknown condition type, show by default
+                logger.LogWarning("Unknown conditional type {ConditionalType} for question {QuestionId}",
+                    conditionalType, question.Id);
+                return true;
+        }
+    }
+
+    /// <summary>
+    ///     Legacy method for backward compatibility. Calls async version.
+    /// </summary>
     public bool ShouldShowQuestion(FormQuestion question, Dictionary<int, object> currentAnswers)
     {
-        // If no conditional logic, always show
+        // For backward compatibility, assume no Discord conditionals
+        return ShouldShowQuestionAsync(question, currentAnswers, 0, 0).GetAwaiter().GetResult();
+    }
+
+    /// <summary>
+    ///     Evaluates question-based conditional logic (original/legacy).
+    /// </summary>
+    private bool EvaluateQuestionBasedCondition(FormQuestion question, Dictionary<int, object> currentAnswers)
+    {
+        // If no parent question specified, always show
         if (!question.ConditionalParentQuestionId.HasValue)
             return true;
 
@@ -733,6 +840,413 @@ public class FormsService : INService
                            double.TryParse(expectedValue, out var e2) && a2 < e2,
             _ => true
         };
+    }
+
+    /// <summary>
+    ///     Evaluates Discord role-based conditional logic.
+    /// </summary>
+    private async Task<bool> EvaluateDiscordRoleConditionAsync(FormQuestion question, ulong userId, ulong guildId)
+    {
+        if (string.IsNullOrWhiteSpace(question.ConditionalRoleIds))
+        {
+            logger.LogWarning("Discord role condition for question {QuestionId} has no role IDs specified",
+                question.Id);
+            return true; // No roles specified, show by default
+        }
+
+        var guild = client.GetGuild(guildId);
+        if (guild == null)
+        {
+            logger.LogWarning("Guild {GuildId} not found for role condition evaluation", guildId);
+            return false; // Can't verify roles without guild
+        }
+
+        var guildUser = guild.GetUser(userId);
+        if (guildUser == null)
+        {
+            logger.LogWarning("User {UserId} not found in guild {GuildId} for role condition evaluation",
+                userId, guildId);
+            return false; // User not in guild, can't have roles
+        }
+
+        // Parse required role IDs
+        List<ulong> requiredRoleIds;
+        try
+        {
+            requiredRoleIds = question.ConditionalRoleIds
+                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => ulong.Parse(x.Trim()))
+                .ToList();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to parse role IDs '{RoleIds}' for question {QuestionId}",
+                question.ConditionalRoleIds, question.Id);
+            return true; // Parse error, show by default
+        }
+
+        if (!requiredRoleIds.Any())
+            return true; // No valid roles, show by default
+
+        var userRoleIds = guildUser.Roles.Select(r => r.Id).ToHashSet();
+
+        // Evaluate based on role logic type
+        var roleLogic = question.ConditionalRoleLogic?.ToLower() ?? "any";
+        return roleLogic switch
+        {
+            "any" => requiredRoleIds.Any(roleId => userRoleIds.Contains(roleId)),
+            "all" => requiredRoleIds.All(roleId => userRoleIds.Contains(roleId)),
+            "none" => !requiredRoleIds.Any(roleId => userRoleIds.Contains(roleId)),
+            _ => true // Unknown logic, show by default
+        };
+    }
+
+    /// <summary>
+    ///     Evaluates server tenure-based conditional logic.
+    /// </summary>
+    private async Task<bool> EvaluateServerTenureConditionAsync(FormQuestion question, ulong userId, ulong guildId)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild == null)
+        {
+            logger.LogWarning("Guild {GuildId} not found for tenure condition evaluation", guildId);
+            return false;
+        }
+
+        var guildUser = guild.GetUser(userId);
+        if (guildUser == null)
+        {
+            logger.LogWarning("User {UserId} not found in guild {GuildId} for tenure condition evaluation",
+                userId, guildId);
+            return false;
+        }
+
+        var now = DateTime.UtcNow;
+        var passesConditions = true;
+
+        // Check days in server
+        if (question.ConditionalDaysInServer.HasValue)
+        {
+            if (!guildUser.JoinedAt.HasValue)
+            {
+                logger.LogWarning("User {UserId} has no join date in guild {GuildId}", userId, guildId);
+                return false;
+            }
+
+            var daysInServer = (now - guildUser.JoinedAt.Value.UtcDateTime).TotalDays;
+            if (daysInServer < question.ConditionalDaysInServer.Value)
+            {
+                passesConditions = false;
+            }
+        }
+
+        // Check account age
+        if (question.ConditionalAccountAgeDays.HasValue && passesConditions)
+        {
+            var accountAgeDays = (now - guildUser.CreatedAt.UtcDateTime).TotalDays;
+            if (accountAgeDays < question.ConditionalAccountAgeDays.Value)
+            {
+                passesConditions = false;
+            }
+        }
+
+        return passesConditions;
+    }
+
+    /// <summary>
+    ///     Evaluates boost status conditional logic.
+    /// </summary>
+    private async Task<bool> EvaluateBoostStatusConditionAsync(FormQuestion question, ulong userId, ulong guildId)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild == null)
+        {
+            logger.LogWarning("Guild {GuildId} not found for boost condition evaluation", guildId);
+            return false;
+        }
+
+        var guildUser = guild.GetUser(userId);
+        if (guildUser == null)
+        {
+            logger.LogWarning("User {UserId} not found in guild {GuildId} for boost condition evaluation",
+                userId, guildId);
+            return false;
+        }
+
+        var passesConditions = true;
+
+        // Check boost status
+        if (question.ConditionalRequiresBoost.HasValue && question.ConditionalRequiresBoost.Value)
+        {
+            var isBoosting = guildUser.PremiumSince.HasValue;
+            if (!isBoosting)
+            {
+                passesConditions = false;
+            }
+        }
+
+        // Check Nitro status
+        if (question.ConditionalRequiresNitro.HasValue && question.ConditionalRequiresNitro.Value && passesConditions)
+        {
+            // Note: Discord.Net does not expose PremiumType (Nitro tier) on SocketGuildUser
+            // We can only check if they're boosting, not their actual Nitro subscription
+            // As a heuristic, we'll check if they have any Nitro-exclusive features:
+            // - Custom avatar in this guild (requires Nitro)
+            // - Has boosted before (implies Nitro at some point)
+
+            var hasNitroFeatures = guildUser.GetDisplayAvatarUrl() != guildUser.GetDefaultAvatarUrl()
+                                   || guildUser.PremiumSince.HasValue;
+
+            if (!hasNitroFeatures)
+            {
+                passesConditions = false;
+            }
+        }
+
+        return passesConditions;
+    }
+
+    /// <summary>
+    ///     Evaluates permission-based conditional logic.
+    /// </summary>
+    private async Task<bool> EvaluatePermissionConditionAsync(FormQuestion question, ulong userId, ulong guildId)
+    {
+        if (!question.ConditionalPermissionFlags.HasValue || question.ConditionalPermissionFlags.Value == 0)
+        {
+            logger.LogWarning("Permission condition for question {QuestionId} has no permissions specified",
+                question.Id);
+            return true; // No permissions specified, show by default
+        }
+
+        var guild = client.GetGuild(guildId);
+        if (guild == null)
+        {
+            logger.LogWarning("Guild {GuildId} not found for permission condition evaluation", guildId);
+            return false;
+        }
+
+        var guildUser = guild.GetUser(userId);
+        if (guildUser == null)
+        {
+            logger.LogWarning("User {UserId} not found in guild {GuildId} for permission condition evaluation",
+                userId, guildId);
+            return false;
+        }
+
+        var requiredPermissions = (GuildPermission)question.ConditionalPermissionFlags.Value;
+        var userPermissions = guildUser.GuildPermissions;
+
+        // User must have ALL specified permissions
+        return userPermissions.Has(requiredPermissions);
+    }
+
+    /// <summary>
+    ///     Evaluates multiple conditions with AND/OR logic.
+    /// </summary>
+    private async Task<bool> EvaluateMultipleConditionsAsync(
+        int questionId,
+        Dictionary<int, object> currentAnswers,
+        ulong userId,
+        ulong guildId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var conditions = await db.FormQuestionConditions
+            .Where(c => c.QuestionId == questionId)
+            .OrderBy(c => c.ConditionGroup)
+            .ToListAsync();
+
+        if (!conditions.Any())
+        {
+            logger.LogWarning("Multiple conditions specified for question {QuestionId} but no conditions found",
+                questionId);
+            return true; // No conditions, show by default
+        }
+
+        // Group conditions by condition_group
+        var groupedConditions = conditions.GroupBy(c => c.ConditionGroup);
+
+        // Evaluate each group (conditions within a group are ANDed)
+        var groupResults = new List<bool>();
+
+        foreach (var group in groupedConditions)
+        {
+            var groupConditions = group.ToList();
+            var groupResult = true;
+
+            foreach (var condition in groupConditions)
+            {
+                var conditionResult = await EvaluateSingleConditionAsync(condition, currentAnswers, userId, guildId);
+
+                if (condition.LogicType.ToUpper() == "AND")
+                {
+                    groupResult = groupResult && conditionResult;
+                }
+                else // OR
+                {
+                    groupResult = groupResult || conditionResult;
+                }
+
+                // Early exit if AND fails
+                if (!groupResult && condition.LogicType.ToUpper() == "AND")
+                    break;
+            }
+
+            groupResults.Add(groupResult);
+        }
+
+        // Different groups are ORed together
+        return groupResults.Any(r => r);
+    }
+
+    /// <summary>
+    ///     Evaluates a single condition from the FormQuestionConditions table.
+    /// </summary>
+    private async Task<bool> EvaluateSingleConditionAsync(
+        FormQuestionCondition condition,
+        Dictionary<int, object> currentAnswers,
+        ulong userId,
+        ulong guildId)
+    {
+        var conditionType = (ConditionalType)condition.ConditionType;
+
+        switch (conditionType)
+        {
+            case ConditionalType.QuestionBased:
+                if (!condition.TargetQuestionId.HasValue ||
+                    !currentAnswers.TryGetValue(condition.TargetQuestionId.Value, out var answer))
+                    return false;
+
+                return EvaluateCondition(
+                    answer,
+                    condition.Operator ?? "equals",
+                    condition.ExpectedValue ?? string.Empty
+                );
+
+            case ConditionalType.DiscordRole:
+                if (string.IsNullOrWhiteSpace(condition.TargetRoleIds))
+                    return true;
+
+                var tempQuestion = new FormQuestion
+                {
+                    ConditionalRoleIds = condition.TargetRoleIds,
+                    ConditionalRoleLogic = "any" // Default to any for individual conditions
+                };
+                return await EvaluateDiscordRoleConditionAsync(tempQuestion, userId, guildId);
+
+            case ConditionalType.ServerTenure:
+                var tenureQuestion = new FormQuestion
+                {
+                    ConditionalDaysInServer = condition.DaysThreshold
+                };
+                return await EvaluateServerTenureConditionAsync(tenureQuestion, userId, guildId);
+
+            case ConditionalType.BoostStatus:
+                var boostQuestion = new FormQuestion
+                {
+                    ConditionalRequiresBoost = condition.RequiresBoost,
+                    ConditionalRequiresNitro = condition.RequiresNitro
+                };
+                return await EvaluateBoostStatusConditionAsync(boostQuestion, userId, guildId);
+
+            case ConditionalType.Permission:
+                if (!condition.PermissionFlags.HasValue)
+                    return true;
+
+                var permQuestion = new FormQuestion
+                {
+                    ConditionalPermissionFlags = condition.PermissionFlags.Value
+                };
+                return await EvaluatePermissionConditionAsync(permQuestion, userId, guildId);
+
+            default:
+                logger.LogWarning("Unknown condition type {ConditionType} in FormQuestionCondition {ConditionId}",
+                    conditionType, condition.Id);
+                return true;
+        }
+    }
+
+    /// <summary>
+    ///     Checks if a question is dynamically required based on conditional logic.
+    /// </summary>
+    /// <param name="question">The question to evaluate.</param>
+    /// <param name="currentAnswers">Dictionary of questionId -> current answer values.</param>
+    /// <returns>True if the question is required.</returns>
+    public bool IsQuestionRequired(FormQuestion question, Dictionary<int, object> currentAnswers)
+    {
+        // Base required field
+        if (question.IsRequired)
+            return true;
+
+        // Check conditional required
+        if (question.RequiredWhenParentQuestionId.HasValue)
+        {
+            if (!currentAnswers.TryGetValue(question.RequiredWhenParentQuestionId.Value, out var parentAnswer))
+                return false;
+
+            return EvaluateCondition(
+                parentAnswer,
+                question.RequiredWhenOperator ?? "equals",
+                question.RequiredWhenValue ?? string.Empty
+            );
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    ///     Applies answer piping to question text and placeholder.
+    /// </summary>
+    /// <param name="text">The text with {{QX}} placeholders.</param>
+    /// <param name="currentAnswers">Dictionary of questionId -> current answer values.</param>
+    /// <param name="questions">All questions in the form (for looking up by ID).</param>
+    /// <returns>Text with placeholders replaced by actual answers.</returns>
+    public string ApplyAnswerPiping(
+        string text,
+        Dictionary<int, object> currentAnswers,
+        List<FormQuestion> questions)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+            return text;
+
+        // Find all {{QX}} patterns where X is a question ID
+        var regex = new Regex(@"\{\{Q(\d+)\}\}");
+        var matches = regex.Matches(text);
+
+        var result = text;
+        foreach (Match match in matches)
+        {
+            if (int.TryParse(match.Groups[1].Value, out var questionId))
+            {
+                if (currentAnswers.TryGetValue(questionId, out var answer))
+                {
+                    var answerText = answer switch
+                    {
+                        string[] arr => string.Join(", ", arr),
+                        _ => answer?.ToString() ?? string.Empty
+                    };
+
+                    // Sanitize answer text to prevent injection
+                    answerText = answerText.Replace("<", "&lt;").Replace(">", "&gt;");
+
+                    // Truncate long answers for readability
+                    if (answerText.Length > 100)
+                        answerText = answerText[..97] + "...";
+
+                    result = result.Replace(match.Value, answerText);
+                }
+                else
+                {
+                    // Question not yet answered, replace with placeholder
+                    var targetQuestion = questions.FirstOrDefault(q => q.Id == questionId);
+                    var placeholderText =
+                        targetQuestion != null ? $"[{targetQuestion.QuestionText}]" : "[Not answered]";
+                    result = result.Replace(match.Value, placeholderText);
+                }
+            }
+        }
+
+        return result;
     }
 
     #endregion
@@ -1006,6 +1520,29 @@ public class FormsService : INService
                 }
 
                 break;
+
+            case FormType.Regular:
+                // Handle role actions for regular forms if approval workflow is configured
+                if (form.RequireApproval && response.UserId.HasValue)
+                {
+                    if (form.ApprovalActionType != (int)RoleActionType.None &&
+                        !string.IsNullOrWhiteSpace(form.ApprovalRoleIds))
+                    {
+                        var roleActionSuccess = await ApplyRoleActionsAsync(
+                            form,
+                            response.UserId.Value,
+                            form.ApprovalRoleIds,
+                            (RoleActionType)form.ApprovalActionType,
+                            reviewerId,
+                            true
+                        );
+
+                        if (roleActionSuccess)
+                            actionTaken = WorkflowAction.RolesAssigned;
+                    }
+                }
+
+                break;
         }
 
         workflow.ActionTaken = (int)actionTaken;
@@ -1028,6 +1565,18 @@ public class FormsService : INService
     {
         await using var db = await dbFactory.CreateConnectionAsync();
 
+        // Get the response and form
+        var response = await db.FormResponses
+            .Where(r => r.Id == responseId)
+            .FirstOrDefaultAsync();
+
+        if (response == null)
+            return false;
+
+        var form = await GetFormAsync(response.FormId);
+        if (form == null)
+            return false;
+
         var workflow = await db.FormResponseWorkflows
             .Where(w => w.ResponseId == responseId)
             .FirstOrDefaultAsync();
@@ -1041,10 +1590,34 @@ public class FormsService : INService
         workflow.ReviewNotes = notes;
         workflow.UpdatedAt = DateTime.UtcNow;
 
+        // Handle role actions for regular forms on rejection
+        var actionTaken = WorkflowAction.None;
+        if (form.FormType == (int)FormType.Regular &&
+            form.RequireApproval &&
+            response.UserId.HasValue)
+        {
+            if (form.RejectionActionType != (int)RoleActionType.None &&
+                !string.IsNullOrWhiteSpace(form.RejectionRoleIds))
+            {
+                var roleActionSuccess = await ApplyRoleActionsAsync(
+                    form,
+                    response.UserId.Value,
+                    form.RejectionRoleIds,
+                    (RoleActionType)form.RejectionActionType,
+                    reviewerId,
+                    false
+                );
+
+                if (roleActionSuccess)
+                    actionTaken = WorkflowAction.RolesRemoved;
+            }
+        }
+
+        workflow.ActionTaken = (int)actionTaken;
         await db.UpdateAsync(workflow);
 
-        logger.LogInformation("Rejected response {ResponseId} by reviewer {ReviewerId}",
-            responseId, reviewerId);
+        logger.LogInformation("Rejected response {ResponseId} by reviewer {ReviewerId}. Action: {Action}",
+            responseId, reviewerId, actionTaken);
 
         return true;
     }
@@ -1102,6 +1675,246 @@ public class FormsService : INService
         }
 
         return (true, null);
+    }
+
+    /// <summary>
+    ///     Applies role actions (add/remove) to a user for form workflow approvals or rejections.
+    /// </summary>
+    /// <param name="form">The form.</param>
+    /// <param name="userId">The user ID to apply role actions to.</param>
+    /// <param name="roleIds">Comma-separated list of role IDs.</param>
+    /// <param name="actionType">The type of action to perform (AddRoles or RemoveRoles).</param>
+    /// <param name="reviewerId">The Discord user ID of the reviewer performing the action.</param>
+    /// <param name="isApproval">Whether this is an approval (true) or rejection (false) action.</param>
+    /// <returns>True if successful.</returns>
+    private async Task<bool> ApplyRoleActionsAsync(
+        Form form,
+        ulong userId,
+        string roleIds,
+        RoleActionType actionType,
+        ulong reviewerId,
+        bool isApproval)
+    {
+        // Validate: Regular forms cannot have anonymous submissions if role actions are configured
+        if (form.AllowAnonymous)
+        {
+            logger.LogWarning(
+                "Cannot apply role actions for anonymous form {FormId}. User ID not available.",
+                form.Id
+            );
+            return false;
+        }
+
+        var guild = client.GetGuild(form.GuildId);
+        if (guild == null)
+        {
+            logger.LogWarning("Guild {GuildId} not found for role action application", form.GuildId);
+            return false;
+        }
+
+        var guildUser = guild.GetUser(userId);
+        if (guildUser == null)
+        {
+            logger.LogWarning(
+                "User {UserId} not found in guild {GuildId} for role action application. User must be a guild member for role actions to work.",
+                userId,
+                form.GuildId
+            );
+            return false;
+        }
+
+        // Parse and validate role IDs
+        List<ulong> parsedRoleIds;
+        try
+        {
+            parsedRoleIds = roleIds
+                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => ulong.Parse(x.Trim()))
+                .ToList();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to parse role IDs '{RoleIds}' for form {FormId}", roleIds, form.Id);
+            return false;
+        }
+
+        if (!parsedRoleIds.Any())
+        {
+            logger.LogWarning("No valid role IDs provided for form {FormId} role action", form.Id);
+            return false;
+        }
+
+        // Get role objects and validate they exist
+        var roles = new List<IRole>();
+        var missingRoles = new List<ulong>();
+
+        foreach (var roleId in parsedRoleIds)
+        {
+            var role = guild.GetRole(roleId);
+            if (role == null)
+            {
+                missingRoles.Add(roleId);
+                logger.LogWarning("Role {RoleId} not found in guild {GuildId}", roleId, form.GuildId);
+                continue;
+            }
+
+            // Validate: Bot's highest role must be higher than the role being assigned/removed
+            var botUser = guild.CurrentUser;
+            if (botUser.Hierarchy <= role.Position)
+            {
+                logger.LogWarning(
+                    "Bot lacks permission to manage role {RoleId} '{RoleName}' in guild {GuildId}. Bot hierarchy: {BotHierarchy}, Role position: {RolePosition}",
+                    roleId,
+                    role.Name,
+                    form.GuildId,
+                    botUser.Hierarchy,
+                    role.Position
+                );
+                continue;
+            }
+
+            // Validate: Cannot manage @everyone role
+            if (role.IsEveryone)
+            {
+                logger.LogWarning("Cannot manage @everyone role in guild {GuildId}", form.GuildId);
+                continue;
+            }
+
+            // Validate: Cannot manage managed roles (bot/integration roles)
+            if (role.IsManaged)
+            {
+                logger.LogWarning(
+                    "Cannot manage managed role {RoleId} '{RoleName}' in guild {GuildId}",
+                    roleId,
+                    role.Name,
+                    form.GuildId
+                );
+                continue;
+            }
+
+            roles.Add(role);
+        }
+
+        if (!roles.Any())
+        {
+            logger.LogError(
+                "No valid roles available for action on form {FormId} in guild {GuildId}. All roles were either missing, managed, or above bot hierarchy.",
+                form.Id,
+                form.GuildId
+            );
+            return false;
+        }
+
+        // Validate: Bot must have ManageRoles permission
+        var botPermissions = guild.CurrentUser.GuildPermissions;
+        if (!botPermissions.ManageRoles)
+        {
+            logger.LogError(
+                "Bot lacks ManageRoles permission in guild {GuildId}. Cannot apply role actions for form {FormId}",
+                form.GuildId,
+                form.Id
+            );
+            return false;
+        }
+
+        // Apply role actions
+        try
+        {
+            var formName = form.Name.Length > 50 ? form.Name[..47] + "..." : form.Name;
+            var actionDescription = isApproval ? "approved" : "rejected";
+            var auditReason =
+                $"Form response {actionDescription} by <@{reviewerId}> (Form #{form.Id}: {formName})";
+
+            switch (actionType)
+            {
+                case RoleActionType.AddRoles:
+                    // Filter out roles the user already has
+                    var rolesToAdd = roles.Where(r => !guildUser.Roles.Any(ur => ur.Id == r.Id)).ToList();
+                    if (rolesToAdd.Any())
+                    {
+                        await guildUser.AddRolesAsync(rolesToAdd, new RequestOptions
+                        {
+                            AuditLogReason = auditReason
+                        });
+
+                        logger.LogInformation(
+                            "Added {RoleCount} roles to user {UserId} in guild {GuildId} for form {FormId}: {RoleNames}",
+                            rolesToAdd.Count,
+                            userId,
+                            form.GuildId,
+                            form.Id,
+                            string.Join(", ", rolesToAdd.Select(r => r.Name))
+                        );
+                    }
+                    else
+                    {
+                        logger.LogInformation(
+                            "User {UserId} already has all specified roles for form {FormId}",
+                            userId,
+                            form.Id
+                        );
+                    }
+
+                    break;
+
+                case RoleActionType.RemoveRoles:
+                    // Filter to only roles the user actually has
+                    var rolesToRemove = roles.Where(r => guildUser.Roles.Any(ur => ur.Id == r.Id)).ToList();
+                    if (rolesToRemove.Any())
+                    {
+                        await guildUser.RemoveRolesAsync(rolesToRemove, new RequestOptions
+                        {
+                            AuditLogReason = auditReason
+                        });
+
+                        logger.LogInformation(
+                            "Removed {RoleCount} roles from user {UserId} in guild {GuildId} for form {FormId}: {RoleNames}",
+                            rolesToRemove.Count,
+                            userId,
+                            form.GuildId,
+                            form.Id,
+                            string.Join(", ", rolesToRemove.Select(r => r.Name))
+                        );
+                    }
+                    else
+                    {
+                        logger.LogInformation(
+                            "User {UserId} does not have any of the specified roles to remove for form {FormId}",
+                            userId,
+                            form.Id
+                        );
+                    }
+
+                    break;
+
+                default:
+                    logger.LogWarning("Unknown role action type {ActionType} for form {FormId}", actionType, form.Id);
+                    return false;
+            }
+
+            return true;
+        }
+        catch (HttpException httpEx) when (httpEx.DiscordCode == DiscordErrorCode.MissingPermissions)
+        {
+            logger.LogError(
+                httpEx,
+                "Missing permissions to apply role actions for form {FormId} in guild {GuildId}",
+                form.Id,
+                form.GuildId
+            );
+            return false;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(
+                ex,
+                "Failed to apply role actions for user {UserId} in guild {GuildId} for form {FormId}",
+                userId,
+                form.GuildId,
+                form.Id
+            );
+            return false;
+        }
     }
 
     /// <summary>

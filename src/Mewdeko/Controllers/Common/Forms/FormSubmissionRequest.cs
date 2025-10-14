@@ -30,4 +30,10 @@ public class FormSubmissionRequest
     ///     Optional IP address for spam prevention.
     /// </summary>
     public string? IpAddress { get; set; }
+
+    /// <summary>
+    ///     User's Discord premium type from OAuth (0=None, 1=NitroClassic, 2=Nitro, 3=NitroBasic).
+    ///     Used for Nitro-based conditional logic since backend can't access this from gateway.
+    /// </summary>
+    public int? PremiumType { get; set; }
 }

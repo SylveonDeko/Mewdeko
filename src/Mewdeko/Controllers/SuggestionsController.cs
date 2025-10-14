@@ -39,13 +39,14 @@ public class SuggestionsController(
         // Fetch user info from guild cache only (no expensive REST calls)
         var guild = client.GetGuild(guildId);
         var uniqueUserIds = suggestions.Select(s => s.UserId).Distinct().ToList();
+
+        // Bulk fetch all cached guild users at once instead of individual GetUser calls
+        var guildUsersLookup = guild?.Users.ToDictionary(u => u.Id) ?? new Dictionary<ulong, SocketGuildUser>();
         var userInfoMap = new Dictionary<ulong, object>();
 
         foreach (var uid in uniqueUserIds)
         {
-            // Only check guild cache - if not found, return "Unknown User"
-            var guildUser = guild?.GetUser(uid);
-            if (guildUser != null)
+            if (guildUsersLookup.TryGetValue(uid, out var guildUser))
             {
                 userInfoMap[uid] = new
                 {
