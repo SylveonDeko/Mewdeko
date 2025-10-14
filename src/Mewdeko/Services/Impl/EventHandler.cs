@@ -87,8 +87,6 @@ public sealed class EventHandler : IDisposable
 
         RegisterEvents();
         StartBatchProcessors();
-
-        logger.LogInformation("EventHandler initialized with {Options}", this.options);
     }
 
     #region Event Execution
@@ -756,9 +754,6 @@ public sealed class EventHandler : IDisposable
                 };
                 return newList;
             });
-
-        logger.LogWarning("Module {ModuleName} subscribed to string event {EventName} with priority {Priority}",
-            moduleName, eventName, priority);
     }
 
     /// <summary>

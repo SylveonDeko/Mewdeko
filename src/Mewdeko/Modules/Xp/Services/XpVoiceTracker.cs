@@ -80,10 +80,6 @@ public class XpVoiceTracker : INService, IDisposable
         // Initialize diagnostics timer to log stats every hour
         diagnosticsTimer = new Timer(_ => LogDiagnostics(), null,
             TimeSpan.FromMinutes(10), TimeSpan.FromHours(1));
-
-        logger.LogInformation(
-            "Voice XP Tracker initialized with memory optimization - Max sessions: {MaxSessions}, Cleanup interval: {CleanupInterval}min",
-            MaxConcurrentSessions, 3);
     }
 
     /// <summary>
