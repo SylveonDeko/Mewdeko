@@ -7,6 +7,10 @@ acadd:
       name: command
       optional: false
       type: string
+updatetopguilds:
+  args:
+    - ''
+  desc: Updates the top guilds list. Can only be run on the master instance.
 accept:
   args:
     - sid null

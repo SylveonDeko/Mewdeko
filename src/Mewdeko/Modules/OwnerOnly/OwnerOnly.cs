@@ -23,6 +23,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.Extensions.DependencyInjection;
+using Swan.Formatters;
 
 namespace Mewdeko.Modules.OwnerOnly;
 
@@ -61,7 +62,8 @@ public class OwnerOnly(
     BotConfig botConfig,
     HttpClient httpClient,
     Localization localization,
-    ILogger<OwnerOnly> logger)
+    ILogger<OwnerOnly> logger,
+    BotCredentials creds)
     : MewdekoModuleBase<OwnerOnlyService>
 {
     /// <summary>
@@ -285,6 +287,53 @@ public class OwnerOnly(
         var affected = await dbContext.ExecuteAsync(sql).ConfigureAwait(false);
         await ctx.Channel.SendErrorAsync(Strings.SqlAffectedRows(ctx.Guild.Id, affected), botConfig)
             .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Updates the list of top guilds based on member count, excluding certain guilds by name or ID,
+    ///     and stores the updated information in the cache for further use.
+    /// </summary>
+    /// <returns>
+    ///     An asynchronous task that completes upon successful update of the top guilds list in the cache.
+    /// </returns>
+    [Cmd]
+    [Aliases]
+    public async Task TopServersUpdate()
+    {
+        if (!creds.IsMasterInstance)
+        {
+            await ErrorAsync(Strings.NotMasterInstance(ctx.Guild.Id));
+            return;
+        }
+
+        try
+        {
+            var guilds = await ctx.Client.GetGuildsAsync();
+            var servers = guilds.OrderByDescending(x => x.ApproximateMemberCount.Value)
+                .Where(x => !x.Name.Contains("botlist", StringComparison.CurrentCultureIgnoreCase))
+                .Where(x => !x.Name.Contains("bots", StringComparison.CurrentCultureIgnoreCase))
+                .Where(x => !x.Name.Contains("xhamster", StringComparison.CurrentCultureIgnoreCase))
+                .Where(x => !x.Name.Contains("nsfw", StringComparison.CurrentCultureIgnoreCase))
+                .Where(x => x.Id != 374071874222686211)
+                .Take(11)
+                .Select(x =>
+                    new StatsService.MewdekoPartialGuild
+                    {
+                        IconUrl = x.IconId.StartsWith("a_") ? x.IconUrl.Replace(".jpg", ".gif") : x.IconUrl,
+                        MemberCount = x.ApproximateMemberCount.Value,
+                        Name = x.Name
+                    });
+
+            var serialied = Json.Serialize(servers);
+            await cache.Redis.GetDatabase().StringSetAsync($"{client.CurrentUser.Id}_topguilds", serialied)
+                .ConfigureAwait(false);
+            await SuccessAsync(Strings.TopGuildsUpdated(ctx.Guild.Id)).ConfigureAwait(false);
+        }
+        catch (Exception e)
+        {
+            await ErrorAsync(Strings.ErrorUpdatingTopGuilds(ctx.Guild.Id, e.Message)).ConfigureAwait(false);
+            logger.LogError(e, "Error updating top guilds");
+        }
     }
 
     /// <summary>

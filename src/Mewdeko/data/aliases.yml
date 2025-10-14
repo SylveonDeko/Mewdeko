@@ -20,6 +20,8 @@ addautopublish:
   - addautopublish
   - addautopub
   - aap
+updatetopguilds:
+  - updatetopguilds
 addblacklistedpermission:
   - addblacklistedpermission
   - abp

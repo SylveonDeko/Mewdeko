@@ -177,7 +177,7 @@ public class StatsService : IStatsService, IDisposable, IReadyExecutor
     /// <summary>
     ///     Represents a partial guild information.
     /// </summary>
-    private class MewdekoPartialGuild
+    public class MewdekoPartialGuild
     {
         /// <summary>
         ///     Gets or sets the name of the guild.
