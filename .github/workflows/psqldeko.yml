@@ -13,6 +13,20 @@ jobs:
         with:
           fetch-depth: 0  # This ensures all history is fetched
 
+          
+      - name: Debug .NET Environment
+        run: |
+          echo "--- Checking PATH and which dotnet ---"
+          echo "$PATH"
+          which dotnet
+          
+          echo "\n--- Running dotnet --info ---"
+          dotnet --info
+          
+          echo "\n--- Listing installed SDKs ---"
+          ls -l /usr/share/dotnet/sdk/
+
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -110,4 +124,5 @@ jobs:
           asset_path: ./MewdekoPsql-win64.zip
           asset_name: MewdekoPsql-win64.zip
           asset_content_type: application/zip
+
 
