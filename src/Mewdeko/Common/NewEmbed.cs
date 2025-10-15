@@ -233,36 +233,32 @@ public class NewEmbed
     /// <returns>A <see cref="ComponentBuilder" /> containing the components.</returns>
     public ComponentBuilder? GetComponents(ulong? guildId)
     {
+        if (Components is null) return null;
+
         var cb = new ComponentBuilder();
 
-        var activeRowId = 0;
-        var rowLength = 0;
-        if (Components is null) return null;
-        foreach (var comp in Components)
+        // Group components by row and add them in order
+        var groupedByRow = Components
+            .GroupBy(c => c.Row)
+            .OrderBy(g => g.Key)
+            .ToList();
+
+        foreach (var rowGroup in groupedByRow)
         {
-            if (comp.IsSelect)
+            var rowId = rowGroup.Key;
+            var componentsInRow = rowGroup.ToList();
+
+            // Add all components in this row
+            foreach (var comp in componentsInRow)
             {
-                if (rowLength != 0)
+                if (comp.IsSelect)
                 {
-                    ++activeRowId;
-                    rowLength = 0;
+                    cb.WithSelectMenu(GetSelectMenu(comp, rowId, guildId ?? 0), rowId);
                 }
-
-                cb.WithSelectMenu(GetSelectMenu(comp, activeRowId, guildId ?? 0));
-
-                ++activeRowId;
-            }
-            else
-            {
-                if (rowLength != 0)
+                else
                 {
-                    ++activeRowId;
-                    rowLength = 0;
+                    cb.WithButton(GetButton(comp, rowId, guildId ?? 0), rowId);
                 }
-
-
-                cb.WithButton(GetButton(comp, activeRowId, guildId ?? 0));
-                ++rowLength;
             }
         }
 
@@ -412,6 +408,12 @@ public class NewEmbed
     /// </summary>
     public class NewEmbedComponent
     {
+        /// <summary>
+        ///     Gets or sets the row number (0-4) for this component.
+        /// </summary>
+        [JsonPropertyName("row")]
+        public int Row { get; set; } = 0;
+
         /// <summary>
         ///     Gets or sets the display name of the component.
         /// </summary>

@@ -467,4 +467,58 @@ public class ClientOperations(DiscordShardedClient client) : Controller
             return StatusCode(500, $"Failed to retrieve forum threads: {ex.Message}");
         }
     }
+
+    /// <summary>
+    ///     Gets emojis from mutual guilds for the emoji picker
+    /// </summary>
+    /// <param name="userId">The user ID to get mutual guild emojis for</param>
+    /// <param name="adminOnly">Whether to only include guilds where user has admin permissions (default: true)</param>
+    /// <returns>List of guild emojis grouped by guild</returns>
+    [HttpGet("emojis/{userId}")]
+    public async Task<IActionResult> GetMutualGuildEmojis(ulong userId, [FromQuery] bool adminOnly = false)
+    {
+        await Task.CompletedTask;
+        var guilds = client.Guilds;
+        var mutualGuilds = guilds
+            .Where(x => x.Users.Any(y => y.Id == userId &&
+                                         (!adminOnly || y.GuildPermissions.Has(GuildPermission.Administrator))))
+            .ToList();
+
+        if (mutualGuilds.Count == 0)
+            return NotFound("No mutual guilds found");
+
+        var result = new List<GuildEmojiInfo>();
+
+        foreach (var guild in mutualGuilds)
+        {
+            var emojis = guild.Emotes
+                .Where(e => e.IsAvailable != false) // Filter out unavailable emojis
+                .Select(e => new EmojiInfo
+                {
+                    Id = e.Id,
+                    Name = e.Name,
+                    Animated = e.Animated,
+                    IsAvailable = e.IsAvailable,
+                    RoleIds = e.RoleIds?.ToList() ?? new List<ulong>(),
+                    RequireColons = e.RequireColons,
+                    Url = e.Url
+                })
+                .ToList();
+
+            // Only include guilds that have emojis
+            if (emojis.Count > 0)
+            {
+                result.Add(new GuildEmojiInfo
+                {
+                    Guild = new GuildInfo
+                    {
+                        Id = guild.Id, Name = guild.Name, IconUrl = guild.IconUrl
+                    },
+                    Emojis = emojis
+                });
+            }
+        }
+
+        return Ok(result);
+    }
 }
