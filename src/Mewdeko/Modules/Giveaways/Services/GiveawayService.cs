@@ -165,11 +165,11 @@ public class GiveawayService : INService, IDisposable
         Giveaway giveaway)
     {
         // Validate guild and channel
-        var guild = client.GetGuild(serverId);
+        IGuild guild = client.GetGuild(serverId);
         if (guild == null)
             throw new Exception(strings.GiveawayGuildNotFound(serverId));
 
-        var channel = guild.GetTextChannel(giveaway.ChannelId);
+        var channel = await guild.GetTextChannelAsync(giveaway.ChannelId);
         if (channel == null)
             throw new Exception(strings.GiveawayChannelNotFound(serverId));
 
@@ -185,7 +185,10 @@ public class GiveawayService : INService, IDisposable
 
         // Create embed
         var emote = (await GetGiveawayEmote(guild.Id)).ToIEmote();
-        var eb = CreateGiveawayEmbed(guild, giveaway, emote, gconfig);
+        if (giveaway.Emote != null)
+            emote = giveaway.Emote.ToIEmote();
+        var hostUser = await guild.GetUserAsync(giveaway.UserId);
+        var eb = CreateGiveawayEmbed(guild, giveaway, emote, gconfig, hostUser);
 
         // Send giveaway message
         var msg = await channel.SendMessageAsync(
@@ -196,9 +199,10 @@ public class GiveawayService : INService, IDisposable
         if (!giveaway.UseButton && !giveaway.UseCaptcha)
             await msg.AddReactionAsync(emote);
 
+        var curUser = await guild.GetCurrentUserAsync();
         // Set giveaway properties
         giveaway.ServerId = serverId;
-        giveaway.UserId = guild.CurrentUser.Id;
+        giveaway.UserId = hostUser.Id;
         giveaway.Ended = 0;
         giveaway.MessageId = msg.Id;
         giveaway.Emote = emote.ToString();
