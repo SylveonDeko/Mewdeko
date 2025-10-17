@@ -300,7 +300,27 @@ public class KaladontChannelService : INService, IReadyExecutor
                 return;
             }
 
-            // Try to play the word
+            // Get channel config to check current word
+            var channelConfig = await GetChannel(msg.Channel.Id);
+            if (channelConfig == null)
+                return;
+
+            var currentWord = channelConfig.CurrentWord;
+            var lastTwo = currentWord.Length >= 2 ? currentWord[^2..] : "";
+
+            // Quick pre-filter: Only process if message could be a valid game move
+            // - Single word (no spaces)
+            // - At least 3 characters
+            // - Starts with the required 2 letters
+            if (content.Contains(' ') ||
+                content.Length < 3 ||
+                !content.StartsWith(lastTwo, StringComparison.OrdinalIgnoreCase))
+            {
+                // Silently ignore - this is just regular chat
+                return;
+            }
+
+            // This looks like a game attempt - validate it
             var result = await game.PlayWord(msg.Author.Id, msg.Author.ToString(), content);
 
             if (result.Success)
@@ -321,9 +341,7 @@ public class KaladontChannelService : INService, IReadyExecutor
             }
             else if (result.ValidationResult != KaladontGame.ValidationResult.Valid)
             {
-                // Show error
-                var channelConfig = await GetChannel(msg.Channel.Id);
-                var currentWord = channelConfig?.CurrentWord ?? "???";
+                // Show error for failed game attempts
                 var guildId = textChannel.GuildId;
                 var errorMsg = GetErrorMessage(result.ValidationResult, content, currentWord, guildId);
                 if (!string.IsNullOrEmpty(errorMsg))
