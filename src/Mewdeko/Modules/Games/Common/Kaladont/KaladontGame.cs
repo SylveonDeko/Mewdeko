@@ -10,6 +10,22 @@ namespace Mewdeko.Modules.Games.Common.Kaladont;
 public sealed class KaladontGame : IDisposable
 {
     /// <summary>
+    ///     Represents the game mode.
+    /// </summary>
+    public enum GameMode
+    {
+        /// <summary>
+        ///     Normal mode - players can play dead-end words that make it impossible for the next player.
+        /// </summary>
+        Normal,
+
+        /// <summary>
+        ///     Endless mode - players cannot play words that would make it impossible for the next player to continue.
+        /// </summary>
+        Endless
+    }
+
+    /// <summary>
     ///     Represents the phase of a Kaladont game.
     /// </summary>
     public enum Phase
@@ -63,11 +79,17 @@ public sealed class KaladontGame : IDisposable
         /// <summary>
         ///     The word was not found in the dictionary.
         /// </summary>
-        NotInDictionary
+        NotInDictionary,
+
+        /// <summary>
+        ///     The word creates a dead-end (no valid words start with its last 2 letters) in Endless mode.
+        /// </summary>
+        DeadEnd
     }
 
     private readonly HashSet<string> dictionary;
 
+    private readonly TaskCompletionSource<bool> endingCompletionSource = new();
     private readonly SemaphoreSlim locker = new(1, 1);
     private readonly List<KaladontPlayer> players = [];
     private readonly HashSet<string> usedWords = new(StringComparer.OrdinalIgnoreCase);
@@ -144,6 +166,17 @@ public sealed class KaladontGame : IDisposable
         get
         {
             return usedWords.TakeLast(5).ToImmutableArray();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the task representing the end of the Kaladont game.
+    /// </summary>
+    public Task EndedTask
+    {
+        get
+        {
+            return endingCompletionSource.Task;
         }
     }
 
@@ -234,6 +267,7 @@ public sealed class KaladontGame : IDisposable
             if (players.Count < Opts.MinPlayers)
             {
                 CurrentPhase = Phase.Ended;
+                endingCompletionSource.TrySetResult(false);
                 return false;
             }
 
@@ -347,6 +381,7 @@ public sealed class KaladontGame : IDisposable
 
             CurrentPhase = Phase.Ended;
             turnTimer?.Change(Timeout.Infinite, Timeout.Infinite);
+            endingCompletionSource.TrySetResult(true);
 
             if (OnGameEnded != null)
                 await OnGameEnded.Invoke(this, null).ConfigureAwait(false);
@@ -385,7 +420,30 @@ public sealed class KaladontGame : IDisposable
         if (!dictionary.Contains(normalized))
             return ValidationResult.NotInDictionary;
 
+        // In endless mode, check if this word creates a dead-end
+        if (Opts.Mode == GameMode.Endless)
+        {
+            if (IsDeadEnd(normalized))
+                return ValidationResult.DeadEnd;
+        }
+
         return ValidationResult.Valid;
+    }
+
+    private bool IsDeadEnd(string word)
+    {
+        // Get the last 2 letters of this word
+        var lastTwo = word[^2..];
+
+        // Check if ANY word in the dictionary (excluding already used words) starts with these 2 letters
+        // We need to find at least one valid continuation
+        var hasValidContinuation = dictionary.Any(dictWord =>
+            dictWord.Length >= 3 &&
+            dictWord.StartsWith(lastTwo, StringComparison.OrdinalIgnoreCase) &&
+            !usedWords.Contains(dictWord) &&
+            dictWord[^2..] != dictWord[..2]); // Not a loop word
+
+        return !hasValidContinuation;
     }
 
     private async Task NextTurn()
@@ -435,6 +493,7 @@ public sealed class KaladontGame : IDisposable
         {
             CurrentPhase = Phase.Ended;
             turnTimer?.Change(Timeout.Infinite, Timeout.Infinite);
+            endingCompletionSource.TrySetResult(true);
 
             var winner = players.Count == 1 ? players[0] : null;
             if (OnGameEnded != null)
@@ -456,6 +515,7 @@ public sealed class KaladontGame : IDisposable
             ValidationResult.WrongLetters => "wrong_letters",
             ValidationResult.KaladontLoop => "kaladont_loop",
             ValidationResult.NotInDictionary => "not_in_dictionary",
+            ValidationResult.DeadEnd => "dead_end",
             _ => "unknown"
         };
     }
@@ -492,6 +552,25 @@ public sealed class KaladontGame : IDisposable
         [Option('l', "language", Required = false, Default = "en",
             HelpText = "Language for the game dictionary (en or sr).")]
         public string Language { get; set; } = "en";
+
+        /// <summary>
+        ///     Gets or sets the game mode.
+        /// </summary>
+        [Option('e', "endless", Required = false, Default = false,
+            HelpText =
+                "Enable endless mode - prevents playing words that would make it impossible for the next player.")]
+        public bool Endless { get; set; }
+
+        /// <summary>
+        ///     Gets the game mode based on the endless option.
+        /// </summary>
+        public GameMode Mode
+        {
+            get
+            {
+                return Endless ? GameMode.Endless : GameMode.Normal;
+            }
+        }
 
         /// <summary>
         ///     Normalizes the options by ensuring they are within acceptable ranges.

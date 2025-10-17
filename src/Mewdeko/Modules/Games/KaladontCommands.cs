@@ -14,7 +14,8 @@ public partial class Games
     ///     A module containing Kaladont commands.
     /// </summary>
     [Group]
-    public class KaladontCommands(EventHandler handler) : MewdekoSubmodule<GamesService>
+    public class KaladontCommands(EventHandler handler, KaladontChannelService channelService)
+        : MewdekoSubmodule<GamesService>
     {
         /// <summary>
         ///     Command for starting a Kaladont game.
@@ -74,7 +75,11 @@ public partial class Games
                             Strings.Kaladont(ctx.Guild.Id),
                             Strings.KaladontNotEnoughPlayers(ctx.Guild.Id, game.Opts.MinPlayers)
                         ).ConfigureAwait(false);
+                        return;
                     }
+
+                    // Wait for the game to end
+                    await game.EndedTask.ConfigureAwait(false);
                 }
                 finally
                 {
@@ -94,16 +99,43 @@ public partial class Games
                 if (msg.Channel.Id != ctx.Channel.Id || msg.Author.IsBot)
                     return;
 
+                // Check if game still exists and is not disposed
+                if (!Service.KaladontGames.TryGetValue(channel.Id, out var activeGame) ||
+                    activeGame.CurrentPhase == KaladontGame.Phase.Ended)
+                    return;
+
                 var content = msg.Content?.Trim();
                 if (string.IsNullOrEmpty(content))
                     return;
 
-                // Check if user is saying "kaladont" to give up
-                if (content.Equals("kaladont", StringComparison.OrdinalIgnoreCase))
+                try
                 {
-                    var success = await game.SayKaladont(msg.Author.Id).ConfigureAwait(false);
-                    if (success)
+                    // Check if user is saying "kaladont" to give up
+                    if (content.Equals("kaladont", StringComparison.OrdinalIgnoreCase))
                     {
+                        var success = await activeGame.SayKaladont(msg.Author.Id).ConfigureAwait(false);
+                        if (success)
+                        {
+                            try
+                            {
+                                await msg.DeleteAsync().ConfigureAwait(false);
+                            }
+                            catch
+                            {
+                                // Ignore deletion errors
+                            }
+                        }
+
+                        return;
+                    }
+
+                    // Try to play the word
+                    var (wordSuccess, validationResult) =
+                        await activeGame.PlayWord(msg.Author.Id, content).ConfigureAwait(false);
+
+                    if (wordSuccess || validationResult != KaladontGame.ValidationResult.Valid)
+                    {
+                        // Delete the message if it was a game-related input
                         try
                         {
                             await msg.DeleteAsync().ConfigureAwait(false);
@@ -112,33 +144,19 @@ public partial class Games
                         {
                             // Ignore deletion errors
                         }
-                    }
 
-                    return;
+                        // Show error for invalid words
+                        if (!wordSuccess && validationResult != KaladontGame.ValidationResult.Valid)
+                        {
+                            var errorMessage = GetValidationErrorMessage(validationResult, content);
+                            await channel.SendErrorAsync(Strings.Kaladont(ctx.Guild.Id), errorMessage)
+                                .ConfigureAwait(false);
+                        }
+                    }
                 }
-
-                // Try to play the word
-                var (wordSuccess, validationResult) = await game.PlayWord(msg.Author.Id, content).ConfigureAwait(false);
-
-                if (wordSuccess || validationResult != KaladontGame.ValidationResult.Valid)
+                catch (ObjectDisposedException)
                 {
-                    // Delete the message if it was a game-related input
-                    try
-                    {
-                        await msg.DeleteAsync().ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                        // Ignore deletion errors
-                    }
-
-                    // Show error for invalid words
-                    if (!wordSuccess && validationResult != KaladontGame.ValidationResult.Valid)
-                    {
-                        var errorMessage = GetValidationErrorMessage(validationResult, content);
-                        await channel.SendErrorAsync(Strings.Kaladont(ctx.Guild.Id), errorMessage)
-                            .ConfigureAwait(false);
-                    }
+                    // Game was disposed, ignore
                 }
             }
 
@@ -148,20 +166,32 @@ public partial class Games
                 if (reactionChannel.Id != ctx.Channel.Id || reaction.UserId == ctx.Client.CurrentUser.Id)
                     return;
 
-                if (game.CurrentPhase == KaladontGame.Phase.Joining && reaction.Emote.Name == "✅")
-                {
-                    var user = await ctx.Guild.GetUserAsync(reaction.UserId).ConfigureAwait(false);
-                    if (user == null || user.IsBot)
-                        return;
+                // Check if game still exists and is not disposed
+                if (!Service.KaladontGames.TryGetValue(channel.Id, out var activeGame) ||
+                    activeGame.CurrentPhase == KaladontGame.Phase.Ended)
+                    return;
 
-                    var joined = await game.Join(user.Id, user.ToString()).ConfigureAwait(false);
-                    if (joined)
+                try
+                {
+                    if (activeGame.CurrentPhase == KaladontGame.Phase.Joining && reaction.Emote.Name == "✅")
                     {
-                        await channel.SendConfirmAsync(
-                            Strings.KaladontPlayerJoined(ctx.Guild.Id, Format.Bold(user.ToString()),
-                                game.Players.Length, game.Opts.MinPlayers)
-                        ).ConfigureAwait(false);
+                        var user = await ctx.Guild.GetUserAsync(reaction.UserId).ConfigureAwait(false);
+                        if (user == null || user.IsBot)
+                            return;
+
+                        var joined = await activeGame.Join(user.Id, user.ToString()).ConfigureAwait(false);
+                        if (joined)
+                        {
+                            await channel.SendConfirmAsync(
+                                Strings.KaladontPlayerJoined(ctx.Guild.Id, Format.Bold(user.ToString()),
+                                    activeGame.Players.Length, activeGame.Opts.MinPlayers)
+                            ).ConfigureAwait(false);
+                        }
                     }
+                }
+                catch (ObjectDisposedException)
+                {
+                    // Game was disposed, ignore
                 }
             }
         }
@@ -187,14 +217,85 @@ public partial class Games
             }
         }
 
+        /// <summary>
+        ///     Sets up a persistent Kaladont channel.
+        /// </summary>
+        /// <param name="args">Configuration arguments</param>
+        /// <example>.kaladontsetup -l sr -e</example>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageChannels)]
+        [MewdekoOptions(typeof(KaladontGame.Options))]
+        public async Task KaladontSetup(params string[] args)
+        {
+            var (options, _) = OptionsParser.ParseFrom(new KaladontGame.Options(), args);
+            var channel = (ITextChannel)ctx.Channel;
+
+            // Check if dictionary exists
+            var dictionary = Service.GetKaladontDictionary(options.Language);
+            if (dictionary.Count == 0)
+            {
+                await ReplyErrorAsync(Strings.KaladontDictNotLoaded(ctx.Guild.Id, options.Language))
+                    .ConfigureAwait(false);
+                return;
+            }
+
+            var mode = options.Endless ? 1 : 0;
+            var success = await channelService.SetupChannel(
+                ctx.Guild.Id,
+                channel.Id,
+                options.Language,
+                mode,
+                options.TurnTime
+            );
+
+            if (success)
+            {
+                var modeText = options.Endless ? "♾️ Endless" : "🎯 Normal";
+                await ReplyConfirmAsync(
+                    Strings.KaladontSetupSuccess(ctx.Guild.Id, options.Language.ToUpperInvariant(), modeText,
+                        options.TurnTime)
+                ).ConfigureAwait(false);
+            }
+            else
+            {
+                await ReplyErrorAsync(Strings.KaladontSetupFailed(ctx.Guild.Id)).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        ///     Disables the persistent Kaladont channel.
+        /// </summary>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageChannels)]
+        public async Task KaladontDisable()
+        {
+            var success = await channelService.DisableChannel(ctx.Channel.Id);
+
+            if (success)
+            {
+                await ReplyConfirmAsync(Strings.KaladontDisabled(ctx.Guild.Id)).ConfigureAwait(false);
+            }
+            else
+            {
+                await ReplyErrorAsync(Strings.KaladontNotSetup(ctx.Guild.Id)).ConfigureAwait(false);
+            }
+        }
+
         private async Task ShowJoinPhase(KaladontGame game)
         {
+            var modeText = game.Opts.Mode == KaladontGame.GameMode.Endless ? "♾️ Endless" : "🎯 Normal";
+
             var embed = new EmbedBuilder()
                 .WithOkColor()
                 .WithTitle($"🎮 {Strings.Kaladont(ctx.Guild.Id)}")
                 .WithDescription(Strings.KaladontJoinPhase(ctx.Guild.Id, game.Opts.JoinTime, game.Opts.MinPlayers))
                 .AddField(Strings.KaladontRules(ctx.Guild.Id, game.Opts.TurnTime), "\u200b")
-                .WithFooter($"Language: {game.Opts.Language.ToUpperInvariant()} | Join time: {game.Opts.JoinTime}s");
+                .WithFooter(
+                    $"Language: {game.Opts.Language.ToUpperInvariant()} | Mode: {modeText} | Join time: {game.Opts.JoinTime}s");
 
             var msg = await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
             await msg.AddReactionAsync(new Emoji("✅")).ConfigureAwait(false);
@@ -249,7 +350,7 @@ public partial class Games
 
         private async Task Game_OnPlayerEliminated(KaladontGame game, KaladontPlayer player, string reason)
         {
-            var reasonText = reason switch
+            string reasonText = reason switch
             {
                 "timeout" => Strings.KaladontPlayerTimeout(ctx.Guild.Id),
                 "kaladont" => Strings.KaladontUserSaidKaladont(ctx.Guild.Id),
@@ -258,6 +359,7 @@ public partial class Games
                 "wrong_letters" => Strings.KaladontWrongLetters(ctx.Guild.Id, ""),
                 "kaladont_loop" => Strings.KaladontLoopDetected(ctx.Guild.Id, ""),
                 "not_in_dictionary" => Strings.KaladontNotFound(ctx.Guild.Id, ""),
+                "dead_end" => Strings.KaladontDeadEnd(ctx.Guild.Id, "", ""),
                 _ => reason
             };
 
@@ -272,10 +374,13 @@ public partial class Games
 
         private Task Game_OnGameEnded(KaladontGame game, KaladontPlayer? winner)
         {
+            var modeText = game.Opts.Mode == KaladontGame.GameMode.Endless ? "Endless" : "Normal";
+
             var embed = new EmbedBuilder()
                 .WithTitle($"🏆 {Strings.KaladontGameEnded(ctx.Guild.Id)}")
                 .AddField("Total Words", game.UsedWordsCount.ToString(), true)
-                .AddField("Language", game.Opts.Language.ToUpperInvariant(), true);
+                .AddField("Language", game.Opts.Language.ToUpperInvariant(), true)
+                .AddField("Mode", modeText, true);
 
             if (winner != null)
             {
@@ -303,6 +408,9 @@ public partial class Games
                     Format.Bold(word)),
                 KaladontGame.ValidationResult.NotInDictionary => Strings.KaladontNotFound(ctx.Guild.Id,
                     Format.Bold(word)),
+                KaladontGame.ValidationResult.DeadEnd => Strings.KaladontDeadEnd(ctx.Guild.Id,
+                    Format.Bold(word),
+                    Format.Bold(word.Length >= 2 ? word[^2..].ToUpperInvariant() : "")),
                 _ => "Invalid word"
             };
         }

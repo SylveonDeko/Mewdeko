@@ -1,0 +1,519 @@
+using System.Threading;
+using DataModel;
+using LinqToDB;
+using LinqToDB.Async;
+using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Modules.Games.Common.Kaladont;
+using Microsoft.Extensions.Caching.Memory;
+
+namespace Mewdeko.Modules.Games.Services;
+
+/// <summary>
+///     Service for managing persistent Kaladont channels.
+/// </summary>
+public class KaladontChannelService : INService, IReadyExecutor
+{
+    private const string CHANNEL_CACHE_KEY = "kaladont_channel_{0}";
+    private readonly IMemoryCache cache;
+    private readonly DiscordShardedClient client;
+
+    private readonly IDataConnectionFactory dbFactory;
+    private readonly EventHandler eventHandler;
+    private readonly GamesService gamesService;
+    private readonly ILogger<KaladontChannelService> logger;
+
+    // Active persistent games by channel ID
+    private readonly System.Collections.Concurrent.ConcurrentDictionary<ulong, PersistentKaladontGame> persistentGames =
+        new();
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="KaladontChannelService" /> class.
+    /// </summary>
+    public KaladontChannelService(
+        IDataConnectionFactory dbFactory,
+        GamesService gamesService,
+        ILogger<KaladontChannelService> logger,
+        IMemoryCache cache,
+        EventHandler eventHandler,
+        DiscordShardedClient client)
+    {
+        this.dbFactory = dbFactory;
+        this.gamesService = gamesService;
+        this.logger = logger;
+        this.cache = cache;
+        this.eventHandler = eventHandler;
+        this.client = client;
+
+        // Subscribe to message events
+        this.eventHandler.Subscribe("MessageReceived", "KaladontChannelService", MessageReceived);
+    }
+
+    /// <summary>
+    ///     Initializes the service when the bot is ready.
+    /// </summary>
+    public async Task OnReadyAsync()
+    {
+        logger.LogInformation("Kaladont Channel Service Ready - Loading persistent channels");
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var channels = await db.GetTable<KaladontChannel>()
+            .Where(x => x.IsActive)
+            .ToListAsync();
+
+        foreach (var channel in channels)
+        {
+            try
+            {
+                await StartPersistentGame(channel);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Failed to start persistent Kaladont game in channel {ChannelId}",
+                    channel.ChannelId);
+            }
+        }
+
+        logger.LogInformation("Loaded {Count} persistent Kaladont channels", persistentGames.Count);
+    }
+
+    /// <summary>
+    ///     Sets up a new persistent Kaladont channel.
+    /// </summary>
+    public async Task<bool> SetupChannel(ulong guildId, ulong channelId, string language, int mode, int turnTime)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        // Check if channel already exists
+        var existing = await db.GetTable<KaladontChannel>()
+            .FirstOrDefaultAsync(x => x.ChannelId == channelId);
+
+        if (existing != null)
+            return false;
+
+        var dictionary = gamesService.GetKaladontDictionary(language);
+        if (dictionary.Count == 0)
+            return false;
+
+        var startingWord = gamesService.GetRandomKaladontStartingWord(language);
+
+        var channel = new KaladontChannel
+        {
+            GuildId = guildId,
+            ChannelId = channelId,
+            Language = language,
+            Mode = mode,
+            TurnTime = turnTime,
+            CurrentWord = startingWord,
+            IsActive = true,
+            CreatedAt = DateTime.UtcNow,
+            TotalWords = 0
+        };
+
+        await db.InsertAsync(channel);
+        cache.Remove(string.Format(CHANNEL_CACHE_KEY, channelId));
+
+        // Start the persistent game
+        await StartPersistentGame(channel);
+
+        return true;
+    }
+
+    /// <summary>
+    ///     Disables a persistent Kaladont channel.
+    /// </summary>
+    public async Task<bool> DisableChannel(ulong channelId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var updated = await db.GetTable<KaladontChannel>()
+            .Where(x => x.ChannelId == channelId)
+            .UpdateAsync(x => new KaladontChannel
+            {
+                IsActive = false
+            });
+
+        if (updated > 0)
+        {
+            cache.Remove(string.Format(CHANNEL_CACHE_KEY, channelId));
+
+            // Stop the persistent game
+            if (persistentGames.TryRemove(channelId, out var game))
+            {
+                game.Dispose();
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    ///     Gets a kaladont channel configuration.
+    /// </summary>
+    public async Task<KaladontChannel?> GetChannel(ulong channelId)
+    {
+        var cacheKey = string.Format(CHANNEL_CACHE_KEY, channelId);
+
+        if (cache.TryGetValue(cacheKey, out KaladontChannel? cached))
+            return cached;
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var channel = await db.GetTable<KaladontChannel>()
+            .FirstOrDefaultAsync(x => x.ChannelId == channelId && x.IsActive);
+
+        if (channel != null)
+            cache.Set(cacheKey, channel, TimeSpan.FromMinutes(10));
+
+        return channel;
+    }
+
+    private async Task StartPersistentGame(KaladontChannel channelConfig)
+    {
+        var dictionary = gamesService.GetKaladontDictionary(channelConfig.Language);
+        if (dictionary.Count == 0)
+        {
+            logger.LogWarning("Cannot start persistent Kaladont in channel {ChannelId} - dictionary not loaded",
+                channelConfig.ChannelId);
+            return;
+        }
+
+        var game = new PersistentKaladontGame(
+            channelConfig,
+            dictionary,
+            async () => await OnGameEnded(channelConfig.ChannelId));
+
+        persistentGames[channelConfig.ChannelId] = game;
+    }
+
+    private async Task OnGameEnded(ulong channelId)
+    {
+        // Get fresh channel config
+        var channelConfig = await GetChannel(channelId);
+        if (channelConfig == null || !channelConfig.IsActive)
+        {
+            persistentGames.TryRemove(channelId, out _);
+            return;
+        }
+
+        // Restart the game with a new word
+        var newWord = gamesService.GetRandomKaladontStartingWord(channelConfig.Language);
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        await db.GetTable<KaladontChannel>()
+            .Where(x => x.ChannelId == channelId)
+            .UpdateAsync(x => new KaladontChannel
+            {
+                CurrentWord = newWord
+            });
+
+        cache.Remove(string.Format(CHANNEL_CACHE_KEY, channelId));
+
+        // Restart the persistent game
+        if (persistentGames.TryRemove(channelId, out var oldGame))
+        {
+            oldGame.Dispose();
+        }
+
+        channelConfig.CurrentWord = newWord;
+        await StartPersistentGame(channelConfig);
+
+        // Notify channel
+        try
+        {
+            if (client.GetChannel(channelId) is ITextChannel textChannel)
+            {
+                var embed = new EmbedBuilder()
+                    .WithOkColor()
+                    .WithTitle("🔄 New Kaladont Round!")
+                    .WithDescription($"Starting word: **{newWord}**\n\nJust type a valid word to join!")
+                    .Build();
+
+                await textChannel.SendMessageAsync(embed: embed);
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to send restart message in channel {ChannelId}", channelId);
+        }
+    }
+
+    private async Task MessageReceived(SocketMessage msg)
+    {
+        if (msg.Author.IsBot || msg.Channel is not ITextChannel textChannel)
+            return;
+
+        // Check if this is a persistent Kaladont channel
+        if (!persistentGames.TryGetValue(msg.Channel.Id, out var game))
+            return;
+
+        var content = msg.Content?.Trim();
+        if (string.IsNullOrEmpty(content))
+            return;
+
+        try
+        {
+            // Handle "kaladont" to give up
+            if (content.Equals("kaladont", StringComparison.OrdinalIgnoreCase))
+            {
+                var gaveUp = await game.SayKaladont(msg.Author.Id);
+                if (gaveUp)
+                {
+                    try
+                    {
+                        await msg.DeleteAsync();
+                    }
+                    catch
+                    {
+                        // Ignore
+                    }
+
+                    await UpdateStats(msg.Channel.Id, msg.Author.Id, false, true);
+                }
+
+                return;
+            }
+
+            // Try to play the word
+            var result = await game.PlayWord(msg.Author.Id, msg.Author.ToString(), content);
+
+            if (result.Success)
+            {
+                // Update database
+                await UpdateWord(msg.Channel.Id, content);
+                await UpdateStats(msg.Channel.Id, msg.Author.Id, true, false);
+
+                // Add reaction
+                try
+                {
+                    await msg.AddReactionAsync(new Emoji("✅"));
+                }
+                catch
+                {
+                    // Ignore
+                }
+            }
+            else if (result.ValidationResult != KaladontGame.ValidationResult.Valid)
+            {
+                // Show error
+                var errorMsg = GetErrorMessage(result.ValidationResult, content);
+                if (!string.IsNullOrEmpty(errorMsg))
+                {
+                    try
+                    {
+                        await msg.AddReactionAsync(new Emoji("❌"));
+                        var reply = await textChannel.SendMessageAsync(errorMsg);
+
+                        // Delete error after 5 seconds
+                        _ = Task.Run(async () =>
+                        {
+                            await Task.Delay(5000);
+                            try
+                            {
+                                await reply.DeleteAsync();
+                                await msg.DeleteAsync();
+                            }
+                            catch
+                            {
+                                // Ignore
+                            }
+                        });
+                    }
+                    catch
+                    {
+                        // Ignore
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error processing Kaladont message in channel {ChannelId}", msg.Channel.Id);
+        }
+    }
+
+    private async Task UpdateWord(ulong channelId, string word)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        await db.GetTable<KaladontChannel>()
+            .Where(x => x.ChannelId == channelId)
+            .UpdateAsync(x => new KaladontChannel
+            {
+                CurrentWord = word.Trim().ToLowerInvariant(), TotalWords = x.TotalWords + 1
+            });
+
+        cache.Remove(string.Format(CHANNEL_CACHE_KEY, channelId));
+    }
+
+    private async Task UpdateStats(ulong channelId, ulong userId, bool wordPlayed, bool eliminated)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var stats = await db.GetTable<KaladontStats>()
+            .FirstOrDefaultAsync(x => x.ChannelId == channelId && x.UserId == userId);
+
+        if (stats == null)
+        {
+            stats = new KaladontStats
+            {
+                ChannelId = channelId,
+                UserId = userId,
+                WordsCount = wordPlayed ? 1 : 0,
+                Eliminations = eliminated ? 1 : 0,
+                LastPlayed = DateTime.UtcNow
+            };
+
+            await db.InsertAsync(stats);
+        }
+        else
+        {
+            await db.GetTable<KaladontStats>()
+                .Where(x => x.Id == stats.Id)
+                .UpdateAsync(x => new KaladontStats
+                {
+                    WordsCount = wordPlayed ? x.WordsCount + 1 : x.WordsCount,
+                    Eliminations = eliminated ? x.Eliminations + 1 : x.Eliminations,
+                    LastPlayed = DateTime.UtcNow
+                });
+        }
+    }
+
+    private string GetErrorMessage(KaladontGame.ValidationResult result, string word)
+    {
+        return result switch
+        {
+            KaladontGame.ValidationResult.TooShort => "❌ Word must be at least 3 characters!",
+            KaladontGame.ValidationResult.AlreadyUsed => $"❌ **{word}** was already used!",
+            KaladontGame.ValidationResult.WrongLetters => "❌ Word must start with the correct letters!",
+            KaladontGame.ValidationResult.KaladontLoop => $"❌ KALADONT! **{word}** creates a loop!",
+            KaladontGame.ValidationResult.NotInDictionary => $"❌ **{word}** not in dictionary!",
+            KaladontGame.ValidationResult.DeadEnd => $"❌ **{word}** would create a dead-end! (Endless mode)",
+            _ => string.Empty
+        };
+    }
+
+    /// <summary>
+    ///     Represents a persistent Kaladont game that runs continuously in a channel.
+    /// </summary>
+    private class PersistentKaladontGame : IDisposable
+    {
+        private readonly HashSet<ulong> currentPlayers = [];
+        private readonly HashSet<string> dictionary;
+        private readonly SemaphoreSlim locker = new(1, 1);
+        private readonly int mode;
+        private readonly Func<Task> onGameEnded;
+        private readonly HashSet<string> usedWords = new(StringComparer.OrdinalIgnoreCase);
+        private string currentWord;
+
+        public PersistentKaladontGame(KaladontChannel config, HashSet<string> dictionary, Func<Task> onGameEnded)
+        {
+            this.dictionary = dictionary;
+            this.onGameEnded = onGameEnded;
+            mode = config.Mode;
+            currentWord = config.CurrentWord;
+            usedWords.Add(currentWord);
+        }
+
+        public void Dispose()
+        {
+            locker.Dispose();
+            usedWords.Clear();
+            currentPlayers.Clear();
+        }
+
+        public async Task<bool> SayKaladont(ulong userId)
+        {
+            await locker.WaitAsync();
+            try
+            {
+                if (!currentPlayers.Contains(userId))
+                    return false;
+
+                currentPlayers.Remove(userId);
+
+                // If no players left, restart
+                if (currentPlayers.Count == 0)
+                {
+                    await onGameEnded();
+                }
+
+                return true;
+            }
+            finally
+            {
+                locker.Release();
+            }
+        }
+
+        public async Task<(bool Success, KaladontGame.ValidationResult ValidationResult)> PlayWord(ulong userId,
+            string userName, string word)
+        {
+            await locker.WaitAsync();
+            try
+            {
+                var validation = ValidateWord(word);
+                if (validation != KaladontGame.ValidationResult.Valid)
+                {
+                    // Player is eliminated
+                    currentPlayers.Remove(userId);
+                    return (false, validation);
+                }
+
+                // Word is valid
+                var normalized = word.Trim().ToLowerInvariant();
+                usedWords.Add(normalized);
+                currentWord = normalized;
+
+                // Add player if not already in
+                currentPlayers.Add(userId);
+
+                return (true, KaladontGame.ValidationResult.Valid);
+            }
+            finally
+            {
+                locker.Release();
+            }
+        }
+
+        private KaladontGame.ValidationResult ValidateWord(string word)
+        {
+            var normalized = word.Trim().ToLowerInvariant();
+
+            if (normalized.Length < 3)
+                return KaladontGame.ValidationResult.TooShort;
+
+            if (usedWords.Contains(normalized))
+                return KaladontGame.ValidationResult.AlreadyUsed;
+
+            var lastTwo = currentWord[^2..];
+            var firstTwo = normalized[..2];
+
+            if (lastTwo != firstTwo)
+                return KaladontGame.ValidationResult.WrongLetters;
+
+            var endTwo = normalized[^2..];
+            if (firstTwo == endTwo)
+                return KaladontGame.ValidationResult.KaladontLoop;
+
+            if (!dictionary.Contains(normalized))
+                return KaladontGame.ValidationResult.NotInDictionary;
+
+            // In endless mode, check for dead-end
+            if (mode == 1) // Endless
+            {
+                var nextLastTwo = normalized[^2..];
+                var hasValidContinuation = dictionary.Any(dictWord =>
+                    dictWord.Length >= 3 &&
+                    dictWord.StartsWith(nextLastTwo, StringComparison.OrdinalIgnoreCase) &&
+                    !usedWords.Contains(dictWord) &&
+                    dictWord[^2..] != dictWord[..2]);
+
+                if (!hasValidContinuation)
+                    return KaladontGame.ValidationResult.DeadEnd;
+            }
+
+            return KaladontGame.ValidationResult.Valid;
+        }
+    }
+}

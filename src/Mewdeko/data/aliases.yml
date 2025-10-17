@@ -1185,6 +1185,12 @@ kaladont:
 kaladontstop:
   - kaladontstop
   - kalstop
+kaladontsetup:
+  - kaladontsetup
+  - kalsetup
+kaladontdisable:
+  - kaladontdisable
+  - kaldisable
 karaoke:
   - karaoke
 keno:

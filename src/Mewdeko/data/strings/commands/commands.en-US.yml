@@ -10812,6 +10812,54 @@ kaladontstop_noparams_2:
     - ''
   desc: A module containing Kaladont commands.
   params: [ ]
+kaladontsetup:
+  args:
+    - text
+  desc: Sets up a persistent Kaladont channel where players can join anytime by typing words.
+  params:
+    - &ref_kaladont_setup_1
+      desc: 'Options: -l [en/sr] (language), -e (endless mode), -t [seconds] (turn time)'
+      name: text
+      optional: true
+      type: text
+kaladontsetup_text:
+  args:
+    - text
+  desc: Sets up a persistent Kaladont channel where players can join anytime by typing words.
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_1:
+  args:
+    - text
+  desc: Sets up a persistent Kaladont channel where players can join anytime by typing words.
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_2:
+  args:
+    - text
+  desc: Sets up a persistent Kaladont channel where players can join anytime by typing words.
+  params:
+    - *ref_kaladont_setup_1
+kaladontdisable:
+  args:
+    - ''
+  desc: Disables the persistent Kaladont channel.
+  params: [ ]
+kaladontdisable_noparams:
+  args:
+    - ''
+  desc: Disables the persistent Kaladont channel.
+  params: [ ]
+kaladontdisable_noparams_1:
+  args:
+    - ''
+  desc: Disables the persistent Kaladont channel.
+  params: [ ]
+kaladontdisable_noparams_2:
+  args:
+    - ''
+  desc: A module containing Kaladont commands.
+  params: [ ]
 happy:
   args:
     - null
