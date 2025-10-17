@@ -174,6 +174,63 @@ public class CustomVoiceService : INService, IUnloadableService
 
             await dbContext.InsertAsync(config);
         }
+        else
+        {
+            // Auto-migrate bad bitrate values (if stored in bps instead of kbps)
+            var needsUpdate = false;
+
+            if (config.DefaultBitrate > 1000)
+            {
+                logger.LogWarning("Guild {GuildId} has bad DefaultBitrate {OldValue}, converting from bps to kbps",
+                    guildId, config.DefaultBitrate);
+                config.DefaultBitrate = config.DefaultBitrate / 1000;
+                needsUpdate = true;
+            }
+
+            if (config.MaxBitrate > 1000)
+            {
+                logger.LogWarning("Guild {GuildId} has bad MaxBitrate {OldValue}, converting from bps to kbps",
+                    guildId, config.MaxBitrate);
+                config.MaxBitrate = config.MaxBitrate / 1000;
+                needsUpdate = true;
+            }
+
+            // Also validate against Discord limits
+            var guild = client.GetGuild(guildId);
+            if (guild != null)
+            {
+                var maxAllowed = guild.PremiumTier switch
+                {
+                    PremiumTier.Tier3 => 384,
+                    PremiumTier.Tier2 => 256,
+                    PremiumTier.Tier1 => 128,
+                    _ => 96
+                };
+
+                if (config.MaxBitrate > maxAllowed)
+                {
+                    logger.LogWarning(
+                        "Guild {GuildId} MaxBitrate {OldValue} exceeds Discord limit {MaxAllowed} for Tier {PremiumTier}, capping to {MaxAllowed}",
+                        guildId, config.MaxBitrate, maxAllowed, guild.PremiumTier, maxAllowed);
+                    config.MaxBitrate = maxAllowed;
+                    needsUpdate = true;
+                }
+
+                if (config.DefaultBitrate > maxAllowed)
+                {
+                    logger.LogWarning(
+                        "Guild {GuildId} DefaultBitrate {OldValue} exceeds Discord limit {MaxAllowed} for Tier {PremiumTier}, capping to {MaxAllowed}",
+                        guildId, config.DefaultBitrate, maxAllowed, guild.PremiumTier, maxAllowed);
+                    config.DefaultBitrate = maxAllowed;
+                    needsUpdate = true;
+                }
+            }
+
+            if (needsUpdate)
+            {
+                await dbContext.UpdateAsync(config);
+            }
+        }
 
         return config;
     }
@@ -436,11 +493,28 @@ public class CustomVoiceService : INService, IUnloadableService
             userLimit = Math.Min(prefs.UserLimit.Value, config.MaxUserLimit);
         }
 
-        // Determine bitrate
+        // Determine bitrate and validate against Discord limits
         var bitrate = config.DefaultBitrate;
         if (prefs?.Bitrate.HasValue == true && config.AllowBitrateCustomization)
         {
             bitrate = Math.Min(prefs.Bitrate.Value, config.MaxBitrate);
+        }
+
+        // Validate bitrate against Discord's actual limits (cap to safe defaults if misconfigured)
+        var maxAllowedBitrate = (guild as SocketGuild)?.PremiumTier switch
+        {
+            PremiumTier.Tier3 => 384,
+            PremiumTier.Tier2 => 256,
+            PremiumTier.Tier1 => 128,
+            _ => 96
+        };
+
+        if (bitrate > maxAllowedBitrate)
+        {
+            logger.LogWarning(
+                "Configured bitrate {ConfiguredBitrate} exceeds Discord limit {MaxAllowed} for guild {GuildId} (Tier: {PremiumTier}). Capping to {MaxAllowed}.",
+                bitrate, maxAllowedBitrate, guild.Id, (guild as SocketGuild)?.PremiumTier, maxAllowedBitrate);
+            bitrate = maxAllowedBitrate;
         }
 
         // Create the channel
@@ -505,6 +579,15 @@ public class CustomVoiceService : INService, IUnloadableService
         }
 
         await dbContext.InsertAsync(customChannel);
+
+        // Keep track of the channel immediately after database insert
+        activeChannels.AddOrUpdate(guild.Id,
+            [voiceChannel.Id],
+            (_, set) =>
+            {
+                set.Add(voiceChannel.Id);
+                return set;
+            });
 
         // Set permissions for the channel
         if (config.AutoPermission)
@@ -669,15 +752,6 @@ public class CustomVoiceService : INService, IUnloadableService
             logger.LogError(ex, "Error setting up text channel for voice channel {ChannelId}", voiceChannel.Id);
         }
 
-        // Keep track of the channel
-        activeChannels.AddOrUpdate(guild.Id,
-            [voiceChannel.Id],
-            (_, set) =>
-            {
-                set.Add(voiceChannel.Id);
-                return set;
-            });
-
         // Move the user to the new channel
         try
         {
@@ -806,6 +880,24 @@ public class CustomVoiceService : INService, IUnloadableService
             if (bitrate.HasValue && config.AllowBitrateCustomization)
             {
                 var rate = Math.Min(bitrate.Value, config.MaxBitrate);
+
+                // Validate against Discord's actual limits
+                var maxAllowedBitrate = (guild as SocketGuild)?.PremiumTier switch
+                {
+                    PremiumTier.Tier3 => 384,
+                    PremiumTier.Tier2 => 256,
+                    PremiumTier.Tier1 => 128,
+                    _ => 96
+                };
+
+                if (rate > maxAllowedBitrate)
+                {
+                    logger.LogWarning(
+                        "Requested bitrate {RequestedBitrate} exceeds Discord limit {MaxAllowed} for guild {GuildId} (Tier: {PremiumTier}). Capping to {MaxAllowed}.",
+                        rate, maxAllowedBitrate, guildId, (guild as SocketGuild)?.PremiumTier, maxAllowedBitrate);
+                    rate = maxAllowedBitrate;
+                }
+
                 await channel.ModifyAsync(props => props.Bitrate = rate * 1000);
             }
 
@@ -1392,9 +1484,10 @@ public class CustomVoiceService : INService, IUnloadableService
                 }
             }
 
+            activeChannels.TryGetValue(guild.Id, out var oldChannels);
             // Check if the user left a custom voice channel
-            if (oldState.VoiceChannel != null && activeChannels.TryGetValue(guild.Id, out var oldChannels) &&
-                oldChannels.Contains(oldState.VoiceChannel.Id))
+            if (oldState.VoiceChannel != null &&
+                oldChannels != null && oldChannels.Contains(oldState.VoiceChannel.Id))
             {
                 var vc = guild.GetVoiceChannel(oldState.VoiceChannel.Id);
 

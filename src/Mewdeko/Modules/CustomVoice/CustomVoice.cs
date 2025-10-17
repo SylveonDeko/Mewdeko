@@ -581,6 +581,22 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
             case "maxbitrate":
                 if (int.TryParse(value, out var maxBitrate) && maxBitrate > 0)
                 {
+                    // Validate against Discord's limits based on server boost level
+                    var maxAllowed = Context.Guild.PremiumTier switch
+                    {
+                        PremiumTier.Tier3 => 384,
+                        PremiumTier.Tier2 => 256,
+                        PremiumTier.Tier1 => 128,
+                        _ => 96
+                    };
+
+                    if (maxBitrate > maxAllowed)
+                    {
+                        await ReplyErrorAsync(
+                            $"Max bitrate cannot exceed {maxAllowed} kbps for your server's boost level ({Context.Guild.PremiumTier}).");
+                        return;
+                    }
+
                     config.MaxBitrate = maxBitrate;
                 }
                 else
