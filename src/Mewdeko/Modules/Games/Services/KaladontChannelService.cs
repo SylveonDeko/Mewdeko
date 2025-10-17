@@ -82,19 +82,32 @@ public class KaladontChannelService : INService, IReadyExecutor
     }
 
     /// <summary>
-    ///     Sets up a new persistent Kaladont channel.
+    ///     Sets up a new persistent Kaladont channel. If already set up, replaces the configuration.
     /// </summary>
     public async Task<(bool Success, string StartingWord)> SetupChannel(ulong guildId, ulong channelId, string language,
         int mode, int turnTime)
     {
         await using var db = await dbFactory.CreateConnectionAsync();
 
-        // Check if channel already exists
+        // Check if channel already exists - if so, delete it first
         var existing = await db.GetTable<KaladontChannel>()
             .FirstOrDefaultAsync(x => x.ChannelId == channelId);
 
         if (existing != null)
-            return (false, string.Empty);
+        {
+            // Stop the existing game
+            if (persistentGames.TryRemove(channelId, out var oldGame))
+            {
+                oldGame.Dispose();
+            }
+
+            // Delete existing configuration
+            await db.GetTable<KaladontChannel>()
+                .Where(x => x.ChannelId == channelId)
+                .DeleteAsync();
+
+            cache.Remove(string.Format(CHANNEL_CACHE_KEY, channelId));
+        }
 
         var dictionary = gamesService.GetKaladontDictionary(language);
         if (dictionary.Count == 0)
@@ -130,6 +143,13 @@ public class KaladontChannelService : INService, IReadyExecutor
     public async Task<bool> DisableChannel(ulong channelId)
     {
         await using var db = await dbFactory.CreateConnectionAsync();
+
+        // Check if channel exists and is active
+        var channel = await db.GetTable<KaladontChannel>()
+            .FirstOrDefaultAsync(x => x.ChannelId == channelId && x.IsActive);
+
+        if (channel == null)
+            return false;
 
         var updated = await db.GetTable<KaladontChannel>()
             .Where(x => x.ChannelId == channelId)

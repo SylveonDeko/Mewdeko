@@ -259,7 +259,8 @@ public partial class Games
                     .WithOkColor()
                     .WithTitle($"🎮 {Strings.KaladontChannelActive(ctx.Guild.Id)}")
                     .WithDescription($"**Language:** {options.Language.ToUpperInvariant()} | **Mode:** {modeText}")
-                    .AddField(Strings.KaladontCurrentWordLabel(ctx.Guild.Id), $"# {startingWord.ToUpperInvariant()}")
+                    .AddField(Strings.KaladontCurrentWordLabel(ctx.Guild.Id), $"# {startingWord.ToUpperInvariant()}",
+                        false)
                     .AddField(Strings.KaladontNextMustStart(ctx.Guild.Id), Format.Bold(lastTwo), true)
                     .AddField(Strings.KaladontHowToPlay(ctx.Guild.Id), Strings.KaladontTypeToJoin(ctx.Guild.Id), true);
 
@@ -267,7 +268,8 @@ public partial class Games
             }
             else
             {
-                await ReplyErrorAsync(Strings.KaladontSetupFailed(ctx.Guild.Id)).ConfigureAwait(false);
+                await ReplyErrorAsync(Strings.KaladontDictNotLoaded(ctx.Guild.Id, options.Language))
+                    .ConfigureAwait(false);
             }
         }
 
