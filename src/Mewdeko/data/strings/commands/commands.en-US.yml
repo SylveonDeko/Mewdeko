@@ -10764,6 +10764,54 @@ hangmanstop_noparams_2:
     - ''
   desc: Stops the currently running hangman game in the current channel.
   params: [ ]
+kaladont:
+  args:
+    - text
+  desc: Starts a Kaladont word game where players take turns saying words that start with the last 2 letters of the previous word.
+  params:
+    - &ref_kaladont_1
+      desc: 'Options: -l [en/sr] (language), -t [seconds] (turn time), -j [seconds] (join time), -m [number] (min players)'
+      name: text
+      optional: true
+      type: text
+kaladont_text:
+  args:
+    - text
+  desc: Starts a Kaladont word game where players take turns saying words that start with the last 2 letters of the previous word.
+  params:
+    - *ref_kaladont_1
+kaladont_text_1:
+  args:
+    - text
+  desc: Starts a Kaladont word game where players take turns saying words that start with the last 2 letters of the previous word.
+  params:
+    - *ref_kaladont_1
+kaladont_text_2:
+  args:
+    - text
+  desc: Starts a Kaladont word game where players take turns saying words that start with the last 2 letters of the previous word.
+  params:
+    - *ref_kaladont_1
+kaladontstop:
+  args:
+    - ''
+  desc: Stops the currently running Kaladont game in the current channel.
+  params: [ ]
+kaladontstop_noparams:
+  args:
+    - ''
+  desc: Stops the currently running Kaladont game in the current channel.
+  params: [ ]
+kaladontstop_noparams_1:
+  args:
+    - ''
+  desc: Stops the currently running Kaladont game in the current channel.
+  params: [ ]
+kaladontstop_noparams_2:
+  args:
+    - ''
+  desc: A module containing Kaladont commands.
+  params: [ ]
 happy:
   args:
     - null

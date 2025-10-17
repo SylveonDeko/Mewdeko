@@ -3,6 +3,7 @@ using System.Text.Json;
 using Mewdeko.Modules.Games.Common;
 using Mewdeko.Modules.Games.Common.Acrophobia;
 using Mewdeko.Modules.Games.Common.Hangman;
+using Mewdeko.Modules.Games.Common.Kaladont;
 using Mewdeko.Modules.Games.Common.Nunchi;
 using Mewdeko.Modules.Games.Common.Trivia;
 
@@ -14,6 +15,9 @@ namespace Mewdeko.Modules.Games.Services;
 public class GamesService : INService, IUnloadableService
 {
     private const string TypingArticlesPath = "data/typing_articles3.json";
+    private const string KaladontEnglishDictPath = "data/kaladont/words_en.txt";
+    private const string KaladontSerbianDictPath = "data/kaladont/words_sr.txt";
+
     private readonly GamesConfigService gamesConfig;
     private readonly ILogger<GamesService> logger;
     private readonly Random rng;
@@ -42,6 +46,29 @@ public class GamesService : INService, IUnloadableService
             // Log a warning if loading typing articles fails
             logger.LogWarning("Error while loading typing articles {0}", ex.ToString());
             TypingArticles = [];
+        }
+
+        // Attempt to load Kaladont dictionaries
+        try
+        {
+            KaladontEnglishDictionary = LoadDictionary(KaladontEnglishDictPath);
+            logger.LogInformation("Loaded {Count} English words for Kaladont", KaladontEnglishDictionary.Count);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning("Error while loading Kaladont English dictionary: {Error}", ex.Message);
+            KaladontEnglishDictionary = [];
+        }
+
+        try
+        {
+            KaladontSerbianDictionary = LoadDictionary(KaladontSerbianDictPath);
+            logger.LogInformation("Loaded {Count} Serbian words for Kaladont", KaladontSerbianDictionary.Count);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning("Error while loading Kaladont Serbian dictionary: {Error}", ex.Message);
+            KaladontSerbianDictionary = [];
         }
     }
 
@@ -98,6 +125,21 @@ public class GamesService : INService, IUnloadableService
     public ConcurrentDictionary<ulong, NunchiGame> NunchiGames { get; } = new();
 
     /// <summary>
+    ///     Represents a collection of Kaladont games.
+    /// </summary>
+    public ConcurrentDictionary<ulong, KaladontGame> KaladontGames { get; } = new();
+
+    /// <summary>
+    ///     Gets the English dictionary for Kaladont games.
+    /// </summary>
+    public HashSet<string> KaladontEnglishDictionary { get; }
+
+    /// <summary>
+    ///     Gets the Serbian dictionary for Kaladont games.
+    /// </summary>
+    public HashSet<string> KaladontSerbianDictionary { get; }
+
+    /// <summary>
     ///     Unloads all active games and clears game-related data.
     /// </summary>
     public async Task Unload()
@@ -124,6 +166,10 @@ public class GamesService : INService, IUnloadableService
         // Dispose and clear Nunchi games
         NunchiGames.ForEach(x => x.Value.Dispose());
         NunchiGames.Clear();
+
+        // Dispose and clear Kaladont games
+        KaladontGames.ForEach(x => x.Value.Dispose());
+        KaladontGames.Clear();
     }
 
     /// <summary>
@@ -170,5 +216,57 @@ public class GamesService : INService, IUnloadableService
         // Save the updated list to the JSON file
         File.WriteAllText(TypingArticlesPath, JsonSerializer.Serialize(TypingArticles));
         return removed;
+    }
+
+    /// <summary>
+    ///     Loads a dictionary from a file.
+    /// </summary>
+    /// <param name="path">The path to the dictionary file.</param>
+    /// <returns>A HashSet containing all words from the dictionary.</returns>
+    private static HashSet<string> LoadDictionary(string path)
+    {
+        if (!File.Exists(path))
+            return [];
+
+        var words = File.ReadAllLines(path)
+            .Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith('#'))
+            .Select(line => line.Trim().ToLowerInvariant())
+            .Where(word => word.Length >= 3)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        return words;
+    }
+
+    /// <summary>
+    ///     Gets a random starting word for Kaladont from the specified language dictionary.
+    /// </summary>
+    /// <param name="language">The language code ("en" or "sr").</param>
+    /// <returns>A random starting word, or a default word if dictionary is empty.</returns>
+    public string GetRandomKaladontStartingWord(string language)
+    {
+        var dictionary = language.ToLowerInvariant() == "sr" ? KaladontSerbianDictionary : KaladontEnglishDictionary;
+
+        if (dictionary.Count == 0)
+            return language == "sr" ? "tabla" : "table";
+
+        // Get words that are 4-8 characters long for good starting words
+        var goodStartingWords = dictionary
+            .Where(w => w.Length is >= 4 and <= 8)
+            .ToList();
+
+        if (goodStartingWords.Count == 0)
+            return dictionary.First();
+
+        return goodStartingWords[rng.Next(goodStartingWords.Count)];
+    }
+
+    /// <summary>
+    ///     Gets the dictionary for the specified language.
+    /// </summary>
+    /// <param name="language">The language code ("en" or "sr").</param>
+    /// <returns>The dictionary HashSet for the specified language.</returns>
+    public HashSet<string> GetKaladontDictionary(string language)
+    {
+        return language.ToLowerInvariant() == "sr" ? KaladontSerbianDictionary : KaladontEnglishDictionary;
     }
 }
