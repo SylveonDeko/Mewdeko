@@ -396,24 +396,53 @@ public sealed class KaladontGame : IDisposable
     {
         var normalized = word.Trim().ToLowerInvariant();
 
-        // Check minimum length
-        if (normalized.Length < 3)
-            return ValidationResult.TooShort;
+        // For Serbian, use digraph-aware letter counting
+        var isSerbianLanguage = Opts.Language.ToLowerInvariant() == "sr";
+        if (isSerbianLanguage)
+        {
+            var letterCount = SerbianDigraphHelper.GetLetterCount(normalized);
+            if (letterCount < 3)
+                return ValidationResult.TooShort;
+        }
+        else
+        {
+            // For other languages, use character count
+            if (normalized.Length < 3)
+                return ValidationResult.TooShort;
+        }
 
         // Check if already used
         if (usedWords.Contains(normalized))
             return ValidationResult.AlreadyUsed;
 
         // Check if starts with last 2 letters of current word
-        var lastTwo = CurrentWord[^2..];
-        var firstTwo = normalized[..2];
+        string lastTwo, firstTwo;
+        if (isSerbianLanguage)
+        {
+            lastTwo = SerbianDigraphHelper.GetLastTwoLetters(CurrentWord);
+            firstTwo = SerbianDigraphHelper.GetFirstTwoLetters(normalized);
+        }
+        else
+        {
+            lastTwo = CurrentWord[^2..];
+            firstTwo = normalized[..2];
+        }
 
-        if (lastTwo != firstTwo)
+        if (!lastTwo.Equals(firstTwo, StringComparison.OrdinalIgnoreCase))
             return ValidationResult.WrongLetters;
 
         // Check for kaladont loop (word ends with same 2 letters it starts with)
-        var endTwo = normalized[^2..];
-        if (firstTwo == endTwo)
+        string endTwo;
+        if (isSerbianLanguage)
+        {
+            endTwo = SerbianDigraphHelper.GetLastTwoLetters(normalized);
+        }
+        else
+        {
+            endTwo = normalized[^2..];
+        }
+
+        if (firstTwo.Equals(endTwo, StringComparison.OrdinalIgnoreCase))
             return ValidationResult.KaladontLoop;
 
         // Check dictionary
@@ -432,16 +461,39 @@ public sealed class KaladontGame : IDisposable
 
     private bool IsDeadEnd(string word)
     {
+        var isSerbianLanguage = Opts.Language.ToLowerInvariant() == "sr";
+
         // Get the last 2 letters of this word
-        var lastTwo = word[^2..];
+        var lastTwo = isSerbianLanguage
+            ? SerbianDigraphHelper.GetLastTwoLetters(word)
+            : word[^2..];
 
         // Check if ANY word in the dictionary (excluding already used words) starts with these 2 letters
         // We need to find at least one valid continuation
         var hasValidContinuation = dictionary.Any(dictWord =>
-            dictWord.Length >= 3 &&
-            dictWord.StartsWith(lastTwo, StringComparison.OrdinalIgnoreCase) &&
-            !usedWords.Contains(dictWord) &&
-            dictWord[^2..] != dictWord[..2]); // Not a loop word
+        {
+            if (usedWords.Contains(dictWord))
+                return false;
+
+            // Get first 2 letters
+            var firstTwo = isSerbianLanguage
+                ? SerbianDigraphHelper.GetFirstTwoLetters(dictWord)
+                : dictWord.Length >= 2
+                    ? dictWord[..2]
+                    : "";
+
+            if (!firstTwo.Equals(lastTwo, StringComparison.OrdinalIgnoreCase))
+                return false;
+
+            // Check if it's a loop word
+            var endTwo = isSerbianLanguage
+                ? SerbianDigraphHelper.GetLastTwoLetters(dictWord)
+                : dictWord.Length >= 2
+                    ? dictWord[^2..]
+                    : "";
+
+            return !firstTwo.Equals(endTwo, StringComparison.OrdinalIgnoreCase);
+        });
 
         return !hasValidContinuation;
     }

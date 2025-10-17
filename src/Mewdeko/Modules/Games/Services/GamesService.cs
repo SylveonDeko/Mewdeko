@@ -6,6 +6,7 @@ using Mewdeko.Modules.Games.Common.Hangman;
 using Mewdeko.Modules.Games.Common.Kaladont;
 using Mewdeko.Modules.Games.Common.Nunchi;
 using Mewdeko.Modules.Games.Common.Trivia;
+using SerbianDigraphHelper = Mewdeko.Modules.Games.Common.Kaladont.SerbianDigraphHelper;
 
 namespace Mewdeko.Modules.Games.Services;
 
@@ -249,15 +250,66 @@ public class GamesService : INService, IUnloadableService
         if (dictionary.Count == 0)
             return language == "sr" ? "tabla" : "table";
 
-        // Get words that are 4-8 characters long for good starting words
+        // Get words that are 4-8 characters long AND have valid continuations
         var goodStartingWords = dictionary
-            .Where(w => w.Length is >= 4 and <= 8)
+            .Where(w => w.Length is >= 4 and <= 8 && HasValidContinuation(w, dictionary))
             .ToList();
+
+        if (goodStartingWords.Count == 0)
+        {
+            // Fallback: just find any word with valid continuations
+            goodStartingWords = dictionary
+                .Where(w => HasValidContinuation(w, dictionary))
+                .ToList();
+        }
 
         if (goodStartingWords.Count == 0)
             return dictionary.First();
 
         return goodStartingWords[rng.Next(goodStartingWords.Count)];
+    }
+
+    /// <summary>
+    ///     Checks if a word has at least one valid continuation in the dictionary.
+    /// </summary>
+    /// <param name="word">The word to check.</param>
+    /// <param name="dictionary">The dictionary to search.</param>
+    /// <returns>True if there's at least one valid continuation; otherwise, false.</returns>
+    private bool HasValidContinuation(string word, HashSet<string> dictionary)
+    {
+        if (word.Length < 2)
+            return true;
+
+        // Determine if this is Serbian dictionary
+        var isSerbianDict = dictionary == KaladontSerbianDictionary;
+
+        var lastTwo = isSerbianDict
+            ? SerbianDigraphHelper.GetLastTwoLetters(word)
+            : word[^2..];
+
+        // Check if any word in dictionary starts with these 2 letters and is not a loop
+        return dictionary.Any(w =>
+        {
+            if (w == word)
+                return false;
+
+            var firstTwo = isSerbianDict
+                ? SerbianDigraphHelper.GetFirstTwoLetters(w)
+                : w.Length >= 2
+                    ? w[..2]
+                    : "";
+
+            if (!firstTwo.Equals(lastTwo, StringComparison.OrdinalIgnoreCase))
+                return false;
+
+            var endTwo = isSerbianDict
+                ? SerbianDigraphHelper.GetLastTwoLetters(w)
+                : w.Length >= 2
+                    ? w[^2..]
+                    : "";
+
+            return !firstTwo.Equals(endTwo, StringComparison.OrdinalIgnoreCase);
+        });
     }
 
     /// <summary>

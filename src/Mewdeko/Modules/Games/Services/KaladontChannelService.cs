@@ -306,18 +306,43 @@ public class KaladontChannelService : INService, IReadyExecutor
                 return;
 
             var currentWord = channelConfig.CurrentWord;
-            var lastTwo = currentWord.Length >= 2 ? currentWord[^2..] : "";
+            var isSerbianLanguage = channelConfig.Language.ToLowerInvariant() == "sr";
+
+            // Get last 2 letters of current word (digraph-aware for Serbian)
+            var lastTwo = isSerbianLanguage
+                ? SerbianDigraphHelper.GetLastTwoLetters(currentWord)
+                : currentWord.Length >= 2
+                    ? currentWord[^2..]
+                    : "";
 
             // Quick pre-filter: Only process if message could be a valid game move
             // - Single word (no spaces)
-            // - At least 3 characters
+            // - At least 3 characters or 3 letters (for Serbian)
             // - Starts with the required 2 letters
-            if (content.Contains(' ') ||
-                content.Length < 3 ||
-                !content.StartsWith(lastTwo, StringComparison.OrdinalIgnoreCase))
+            if (content.Contains(' '))
             {
-                // Silently ignore - this is just regular chat
+                // Silently ignore - this is chat
                 return;
+            }
+
+            if (isSerbianLanguage)
+            {
+                // For Serbian, check letter count and first 2 letters
+                if (SerbianDigraphHelper.GetLetterCount(content) < 3)
+                    return;
+
+                var firstTwo = SerbianDigraphHelper.GetFirstTwoLetters(content);
+                if (!firstTwo.Equals(lastTwo, StringComparison.OrdinalIgnoreCase))
+                    return;
+            }
+            else
+            {
+                // For other languages, use character-based checking
+                if (content.Length < 3)
+                    return;
+
+                if (!content.StartsWith(lastTwo, StringComparison.OrdinalIgnoreCase))
+                    return;
             }
 
             // This looks like a game attempt - validate it
@@ -451,6 +476,7 @@ public class KaladontChannelService : INService, IReadyExecutor
     {
         private readonly HashSet<ulong> currentPlayers = [];
         private readonly HashSet<string> dictionary;
+        private readonly string language;
         private readonly SemaphoreSlim locker = new(1, 1);
         private readonly int mode;
         private readonly Func<Task> onGameEnded;
@@ -462,6 +488,7 @@ public class KaladontChannelService : INService, IReadyExecutor
             this.dictionary = dictionary;
             this.onGameEnded = onGameEnded;
             mode = config.Mode;
+            language = config.Language;
             currentWord = config.CurrentWord;
             usedWords.Add(currentWord);
         }
@@ -534,21 +561,52 @@ public class KaladontChannelService : INService, IReadyExecutor
         private KaladontGame.ValidationResult ValidateWord(string word)
         {
             var normalized = word.Trim().ToLowerInvariant();
+            var isSerbianLanguage = language.ToLowerInvariant() == "sr";
 
-            if (normalized.Length < 3)
-                return KaladontGame.ValidationResult.TooShort;
+            // Check minimum length
+            if (isSerbianLanguage)
+            {
+                var letterCount = SerbianDigraphHelper.GetLetterCount(normalized);
+                if (letterCount < 3)
+                    return KaladontGame.ValidationResult.TooShort;
+            }
+            else
+            {
+                if (normalized.Length < 3)
+                    return KaladontGame.ValidationResult.TooShort;
+            }
 
             if (usedWords.Contains(normalized))
                 return KaladontGame.ValidationResult.AlreadyUsed;
 
-            var lastTwo = currentWord[^2..];
-            var firstTwo = normalized[..2];
+            // Get last 2 letters of current word and first 2 of new word
+            string lastTwo, firstTwo;
+            if (isSerbianLanguage)
+            {
+                lastTwo = SerbianDigraphHelper.GetLastTwoLetters(currentWord);
+                firstTwo = SerbianDigraphHelper.GetFirstTwoLetters(normalized);
+            }
+            else
+            {
+                lastTwo = currentWord[^2..];
+                firstTwo = normalized[..2];
+            }
 
-            if (lastTwo != firstTwo)
+            if (!lastTwo.Equals(firstTwo, StringComparison.OrdinalIgnoreCase))
                 return KaladontGame.ValidationResult.WrongLetters;
 
-            var endTwo = normalized[^2..];
-            if (firstTwo == endTwo)
+            // Check for kaladont loop
+            string endTwo;
+            if (isSerbianLanguage)
+            {
+                endTwo = SerbianDigraphHelper.GetLastTwoLetters(normalized);
+            }
+            else
+            {
+                endTwo = normalized[^2..];
+            }
+
+            if (firstTwo.Equals(endTwo, StringComparison.OrdinalIgnoreCase))
                 return KaladontGame.ValidationResult.KaladontLoop;
 
             if (!dictionary.Contains(normalized))
@@ -557,12 +615,32 @@ public class KaladontChannelService : INService, IReadyExecutor
             // In endless mode, check for dead-end
             if (mode == 1) // Endless
             {
-                var nextLastTwo = normalized[^2..];
+                var nextLastTwo = isSerbianLanguage
+                    ? SerbianDigraphHelper.GetLastTwoLetters(normalized)
+                    : normalized[^2..];
+
                 var hasValidContinuation = dictionary.Any(dictWord =>
-                    dictWord.Length >= 3 &&
-                    dictWord.StartsWith(nextLastTwo, StringComparison.OrdinalIgnoreCase) &&
-                    !usedWords.Contains(dictWord) &&
-                    dictWord[^2..] != dictWord[..2]);
+                {
+                    if (usedWords.Contains(dictWord))
+                        return false;
+
+                    var dictFirstTwo = isSerbianLanguage
+                        ? SerbianDigraphHelper.GetFirstTwoLetters(dictWord)
+                        : dictWord.Length >= 2
+                            ? dictWord[..2]
+                            : "";
+
+                    if (!dictFirstTwo.Equals(nextLastTwo, StringComparison.OrdinalIgnoreCase))
+                        return false;
+
+                    var dictEndTwo = isSerbianLanguage
+                        ? SerbianDigraphHelper.GetLastTwoLetters(dictWord)
+                        : dictWord.Length >= 2
+                            ? dictWord[^2..]
+                            : "";
+
+                    return !dictFirstTwo.Equals(dictEndTwo, StringComparison.OrdinalIgnoreCase);
+                });
 
                 if (!hasValidContinuation)
                     return KaladontGame.ValidationResult.DeadEnd;
