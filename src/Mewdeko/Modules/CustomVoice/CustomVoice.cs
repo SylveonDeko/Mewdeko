@@ -72,32 +72,38 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
         users = users.Where(x => x.VoiceChannel == channel);
 
         // Build the embed
+        var userListValue = !users.Any()
+            ? Strings.CustomVoiceControlsNoUsers(Context.Guild.Id)
+            : string.Join(", ", users.Select(u => u.Mention));
+
+        // Ensure user list value is not null/empty
+        if (string.IsNullOrWhiteSpace(userListValue))
+            userListValue = "None";
+
         var embed = new EmbedBuilder()
             .WithTitle(Strings.CustomVoiceControlsTitle(Context.Guild.Id, channel.Name))
             .WithOkColor()
-            .WithDescription(Strings.CustomVoiceControlsDesc(Context.Guild.Id))
-            .AddField(Strings.CustomVoiceControlsOwner(Context.Guild.Id),
+            .WithDescription(Strings.CustomVoiceControlsDesc(Context.Guild.Id) ?? "Manage your voice channel")
+            .AddField(Strings.CustomVoiceControlsOwner(Context.Guild.Id) ?? "Owner",
                 MentionUtils.MentionUser(customChannel.OwnerId), true)
-            .AddField(Strings.CustomVoiceControlsCreated(Context.Guild.Id),
+            .AddField(Strings.CustomVoiceControlsCreated(Context.Guild.Id) ?? "Created",
                 Strings.CustomVoiceControlsTimeAgo(Context.Guild.Id,
-                    (DateTime.UtcNow - customChannel.CreatedAt).TotalHours.ToString("F1")), true)
-            .AddField(Strings.CustomVoiceControlsUserLimit(Context.Guild.Id),
+                    (DateTime.UtcNow - customChannel.CreatedAt).TotalHours.ToString("F1")) ?? "Unknown", true)
+            .AddField(Strings.CustomVoiceControlsUserLimit(Context.Guild.Id) ?? "User Limit",
                 channel.UserLimit == 0
-                    ? Strings.CustomVoiceConfigUnlimited(Context.Guild.Id)
+                    ? Strings.CustomVoiceConfigUnlimited(Context.Guild.Id) ?? "Unlimited"
                     : channel.UserLimit.ToString(), true)
-            .AddField(Strings.CustomVoiceControlsBitrate(Context.Guild.Id), $"{channel.Bitrate / 1000} kbps", true)
-            .AddField(Strings.CustomVoiceControlsLocked(Context.Guild.Id),
+            .AddField(Strings.CustomVoiceControlsBitrate(Context.Guild.Id) ?? "Bitrate",
+                $"{channel.Bitrate / 1000} kbps", true)
+            .AddField(Strings.CustomVoiceControlsLocked(Context.Guild.Id) ?? "Locked",
                 customChannel.IsLocked
-                    ? Strings.CustomVoiceConfigYes(Context.Guild.Id)
-                    : Strings.CustomVoiceConfigNo(Context.Guild.Id), true)
-            .AddField(Strings.CustomVoiceControlsKeepAlive(Context.Guild.Id),
+                    ? Strings.CustomVoiceConfigYes(Context.Guild.Id) ?? "Yes"
+                    : Strings.CustomVoiceConfigNo(Context.Guild.Id) ?? "No", true)
+            .AddField(Strings.CustomVoiceControlsKeepAlive(Context.Guild.Id) ?? "Keep Alive",
                 customChannel.KeepAlive
-                    ? Strings.CustomVoiceConfigYes(Context.Guild.Id)
-                    : Strings.CustomVoiceConfigNo(Context.Guild.Id), true)
-            .AddField(Strings.CustomVoiceControlsUsers(Context.Guild.Id),
-                !users.Any()
-                    ? Strings.CustomVoiceControlsNoUsers(Context.Guild.Id)
-                    : string.Join(", ", users.Select(u => u.Mention)));
+                    ? Strings.CustomVoiceConfigYes(Context.Guild.Id) ?? "Yes"
+                    : Strings.CustomVoiceConfigNo(Context.Guild.Id) ?? "No", true)
+            .AddField(Strings.CustomVoiceControlsUsers(Context.Guild.Id) ?? "Users", userListValue);
 
         // Create the components for quick actions
         var components = new ComponentBuilder();
