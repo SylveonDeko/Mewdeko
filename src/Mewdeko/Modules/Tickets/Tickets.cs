@@ -878,7 +878,7 @@ public partial class Tickets(ILogger<Tickets> logger) : MewdekoModuleBase<Ticket
     [Aliases]
     [RequireContext(ContextType.Guild)]
     [UserPerm(GuildPermission.Administrator)]
-    public async Task TicketUpdatePanel(int panelId, [Remainder] string embedJson)
+    public async Task TicketUpdatePanel(ulong panelId, [Remainder] string embedJson)
     {
         var success = await Service.UpdatePanelEmbedAsync(ctx.Guild, panelId, embedJson);
         if (success)

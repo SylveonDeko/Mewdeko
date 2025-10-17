@@ -96,7 +96,7 @@ public class CustomVoiceService : INService, IUnloadableService
                 if (voiceChannel == null)
                 {
                     // Channel no longer exists, remove from database
-                    await dbContext.CustomVoiceChannels.Select(x => channel).DeleteAsync();
+                    await dbContext.DeleteAsync(channel);
                     continue;
                 }
 
@@ -400,15 +400,8 @@ public class CustomVoiceService : INService, IUnloadableService
 
             if (existingChannel != null)
             {
-                var channel = await guild.GetVoiceChannelAsync(existingChannel.ChannelId);
-                if (channel != null)
-                {
-                    // If the channel still exists, return it
-                    return channel;
-                }
-
-                // If the channel doesn't exist anymore, remove it from the database
-                await dbContext.CustomVoiceChannels.Select(x => existingChannel).DeleteAsync();
+                // Delete the old channel and create a new one
+                await DeleteVoiceChannelAsync(guild.Id, existingChannel.ChannelId);
             }
         }
 
@@ -724,11 +717,13 @@ public class CustomVoiceService : INService, IUnloadableService
                 return false;
 
             await using var dbContext = await dbFactory.CreateConnectionAsync();
-            var customChannel = await dbContext.CustomVoiceChannels.FirstOrDefaultAsync(c => c.ChannelId == channelId);
-            if (customChannel != null)
-            {
-                await dbContext.CustomVoiceChannels.Select(x => customChannel).DeleteAsync();
-            }
+
+            // Delete from database
+            var cvc = await dbContext.CustomVoiceChannels
+                .FirstOrDefaultAsync(c => c.ChannelId == channelId);
+
+            if (cvc != null)
+                await dbContext.DeleteAsync(cvc);
 
             await channel.DeleteAsync();
 
@@ -1480,13 +1475,13 @@ public class CustomVoiceService : INService, IUnloadableService
         {
             // Check if this was a custom voice channel
             await using var dbContext = await dbFactory.CreateConnectionAsync();
-            var customChannel =
-                await dbContext.CustomVoiceChannels.FirstOrDefaultAsync(c => c.ChannelId == voiceChannel.Id);
+            var customChannel = await dbContext.CustomVoiceChannels
+                .FirstOrDefaultAsync(c => c.ChannelId == voiceChannel.Id);
+
             if (customChannel != null)
             {
                 // Delete the channel from the database
-                await dbContext.CustomVoiceChannels.Select(x => customChannel).DeleteAsync();
-
+                await dbContext.DeleteAsync(customChannel);
 
                 // Remove from tracking collections
                 if (activeChannels.TryGetValue(guild.Id, out var channels))

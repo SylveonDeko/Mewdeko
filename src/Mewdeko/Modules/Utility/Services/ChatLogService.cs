@@ -135,4 +135,49 @@ public class ChatLogService(IDataConnectionFactory dbFactory, ILogger<ChatLogSer
             throw;
         }
     }
+
+    /// <summary>
+    ///     Saves a ticket transcript to the chat log system
+    /// </summary>
+    /// <param name="guildId">Guild ID</param>
+    /// <param name="channelId">Ticket channel ID</param>
+    /// <param name="channelName">Ticket channel name</param>
+    /// <param name="ticketId">Ticket ID</param>
+    /// <param name="createdBy">User ID who created the ticket</param>
+    /// <param name="messages">Messages to save</param>
+    /// <returns>Chat log ID</returns>
+    public async Task<int> SaveTicketTranscriptAsync(
+        ulong guildId,
+        ulong channelId,
+        string channelName,
+        int ticketId,
+        ulong createdBy,
+        IEnumerable<ChatLogMessageDto> messages)
+    {
+        try
+        {
+            var messagesArray = messages.ToArray();
+            var chatLog = new ChatLog
+            {
+                GuildId = guildId,
+                ChannelId = channelId,
+                ChannelName = channelName,
+                Name = $"Ticket #{ticketId} - {channelName}",
+                CreatedBy = createdBy,
+                Messages = JsonConvert.SerializeObject(messagesArray),
+                MessageCount = messagesArray.Length,
+                DateAdded = DateTime.UtcNow
+            };
+
+            await using var context = await dbFactory.CreateConnectionAsync();
+            var id = await context.InsertWithInt32IdentityAsync(chatLog);
+
+            return id;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error saving ticket transcript");
+            throw;
+        }
+    }
 }

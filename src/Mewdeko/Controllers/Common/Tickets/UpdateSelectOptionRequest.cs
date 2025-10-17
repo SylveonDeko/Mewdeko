@@ -1,24 +1,24 @@
 namespace Mewdeko.Controllers.Common.Tickets;
 
 /// <summary>
-///     Request model for updating button settings
+///     Request model for updating select menu option settings
 /// </summary>
-public class UpdateButtonRequest
+public class UpdateSelectOptionRequest
 {
     /// <summary>
-    ///     Updated button label
+    ///     Updated option label
     /// </summary>
     public string? Label { get; set; }
 
     /// <summary>
-    ///     Updated button emoji
+    ///     Updated option description
     /// </summary>
-    public string? Emoji { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
-    ///     Updated button style
+    ///     Updated option emoji
     /// </summary>
-    public ButtonStyle? Style { get; set; }
+    public string? Emoji { get; set; }
 
     /// <summary>
     ///     Updated category ID

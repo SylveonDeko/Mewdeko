@@ -174,7 +174,8 @@ public class TicketController : Controller
     /// <param name="request">Updated embed configuration</param>
     /// <returns>Success or failure response</returns>
     [HttpPut("panels/{panelId}/embed")]
-    public async Task<IActionResult> UpdatePanelEmbed(ulong guildId, int panelId, [FromBody] UpdateEmbedRequest request)
+    public async Task<IActionResult> UpdatePanelEmbed(ulong guildId, ulong panelId,
+        [FromBody] UpdateEmbedRequest request)
     {
         try
         {
@@ -493,6 +494,8 @@ public class TicketController : Controller
     {
         try
         {
+            logger.LogInformation("UpdateButton called - Request deserialized successfully");
+
             IGuild guild = client.GetGuild(guildId);
             if (guild == null)
                 return NotFound("Guild not found");
@@ -524,6 +527,8 @@ public class TicketController : Controller
             if (request.RemoveCreatorOnArchive.HasValue)
                 settings["removeCreatorOnArchive"] = request.RemoveCreatorOnArchive.Value;
             if (request.AutoArchiveOnClose.HasValue) settings["autoArchiveOnClose"] = request.AutoArchiveOnClose.Value;
+            if (request.ModalJson != null) settings["modalJson"] = request.ModalJson;
+            if (request.OpenMessageJson != null) settings["openMessageJson"] = request.OpenMessageJson;
 
             if (!settings.Any())
                 return BadRequest("No settings provided to update");
@@ -537,6 +542,36 @@ public class TicketController : Controller
         catch (Exception ex)
         {
             logger.LogError(ex, "Error updating button {ButtonId} in guild {GuildId}", buttonId, guildId);
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    /// <summary>
+    ///     Reorders buttons on a panel
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="panelId">The message ID of the panel</param>
+    /// <param name="request">Request containing the new button order</param>
+    /// <returns>Success or failure response</returns>
+    [HttpPut("panels/{panelId}/buttons/reorder")]
+    public async Task<IActionResult> ReorderPanelButtons(ulong guildId, ulong panelId,
+        [FromBody] ReorderButtonsRequest request)
+    {
+        try
+        {
+            IGuild guild = client.GetGuild(guildId);
+            if (guild == null)
+                return NotFound("Guild not found");
+
+            var success = await ticketService.ReorderPanelButtonsAsync(guild, panelId, request.ButtonOrder);
+
+            if (success)
+                return Ok();
+            return BadRequest("Failed to reorder buttons");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error reordering buttons for panel {PanelId} in guild {GuildId}", panelId, guildId);
             return StatusCode(500, "Internal server error");
         }
     }
@@ -557,9 +592,11 @@ public class TicketController : Controller
                 return NotFound("Button not found");
 
             IGuild guild = client.GetGuild(guildId);
-            await ticketService.UpdateButtonSettingsAsync(guild, buttonId, new Dictionary<string, object>());
+            var success = await ticketService.DeleteButtonAsync(guild, buttonId);
 
-            return Ok();
+            if (success)
+                return Ok();
+            return BadRequest("Failed to delete button");
         }
         catch (Exception ex)
         {
@@ -738,6 +775,132 @@ public class TicketController : Controller
     }
 
     /// <summary>
+    ///     Gets detailed information about a specific select menu option
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="optionId">The ID of the option</param>
+    /// <returns>Detailed option configuration</returns>
+    [HttpGet("selectmenus/options/{optionId}")]
+    public async Task<IActionResult> GetSelectOption(ulong guildId, int optionId)
+    {
+        try
+        {
+            var option = await ticketService.GetSelectOptionAsync(optionId);
+            if (option == null || option.SelectMenu.Panel.GuildId != guildId)
+                return NotFound("Select menu option not found");
+
+            IGuild guild = client.GetGuild(guildId);
+            var category = option.CategoryId.HasValue
+                ? await guild.GetCategoryChannelAsync(option.CategoryId.Value)
+                : null;
+            var archiveCategory = option.ArchiveCategoryId.HasValue
+                ? await guild.GetCategoryChannelAsync(option.ArchiveCategoryId.Value)
+                : null;
+
+            return Ok(new
+            {
+                option.Id,
+                option.Label,
+                option.Description,
+                option.Emoji,
+                option.Value,
+                option.ChannelNameFormat,
+                option.CategoryId,
+                CategoryName = category?.Name,
+                option.ArchiveCategoryId,
+                ArchiveCategoryName = archiveCategory?.Name,
+                option.SupportRoles,
+                option.ViewerRoles,
+                option.AutoCloseTime,
+                option.RequiredResponseTime,
+                option.MaxActiveTickets,
+                option.AllowedPriorities,
+                option.DefaultPriority,
+                option.SaveTranscript,
+                option.DeleteOnClose,
+                option.LockOnClose,
+                option.RenameOnClose,
+                option.RemoveCreatorOnClose,
+                option.DeleteDelay,
+                option.LockOnArchive,
+                option.RenameOnArchive,
+                option.RemoveCreatorOnArchive,
+                option.AutoArchiveOnClose,
+                option.OpenMessageJson,
+                option.ModalJson
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error getting select option {OptionId} in guild {GuildId}", optionId, guildId);
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    /// <summary>
+    ///     Updates select menu option settings
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="optionId">The ID of the option to update</param>
+    /// <param name="request">Updated option settings</param>
+    /// <returns>Success or failure response</returns>
+    [HttpPut("selectmenus/options/{optionId}")]
+    public async Task<IActionResult> UpdateSelectOption(ulong guildId, int optionId,
+        [FromBody] UpdateSelectOptionRequest request)
+    {
+        try
+        {
+            IGuild guild = client.GetGuild(guildId);
+            if (guild == null)
+                return NotFound("Guild not found");
+
+            var settings = new Dictionary<string, object>();
+
+            if (request.Label != null) settings["label"] = request.Label;
+            if (request.Description != null) settings["description"] = request.Description;
+            if (request.Emoji != null) settings["emoji"] = request.Emoji;
+            if (request.CategoryId.HasValue) settings["categoryId"] = request.CategoryId.Value;
+            if (request.ArchiveCategoryId.HasValue) settings["archiveCategoryId"] = request.ArchiveCategoryId.Value;
+            if (request.SupportRoles != null) settings["supportRoles"] = request.SupportRoles.ToArray();
+            if (request.ViewerRoles != null) settings["viewerRoles"] = request.ViewerRoles.ToArray();
+            if (request.AutoCloseTime.HasValue) settings["autoCloseTime"] = request.AutoCloseTime.Value;
+            if (request.RequiredResponseTime.HasValue)
+                settings["requiredResponseTime"] = request.RequiredResponseTime.Value;
+            if (request.MaxActiveTickets.HasValue) settings["maxActiveTickets"] = request.MaxActiveTickets.Value;
+            if (request.AllowedPriorities != null) settings["allowedPriorities"] = request.AllowedPriorities.ToArray();
+            if (request.DefaultPriority != null) settings["defaultPriority"] = request.DefaultPriority;
+            if (request.SaveTranscript.HasValue) settings["saveTranscript"] = request.SaveTranscript.Value;
+            if (request.DeleteOnClose.HasValue) settings["deleteOnClose"] = request.DeleteOnClose.Value;
+            if (request.LockOnClose.HasValue) settings["lockOnClose"] = request.LockOnClose.Value;
+            if (request.RenameOnClose.HasValue) settings["renameOnClose"] = request.RenameOnClose.Value;
+            if (request.RemoveCreatorOnClose.HasValue)
+                settings["removeCreatorOnClose"] = request.RemoveCreatorOnClose.Value;
+            if (request.DeleteDelay.HasValue) settings["deleteDelay"] = request.DeleteDelay.Value;
+            if (request.LockOnArchive.HasValue) settings["lockOnArchive"] = request.LockOnArchive.Value;
+            if (request.RenameOnArchive.HasValue) settings["renameOnArchive"] = request.RenameOnArchive.Value;
+            if (request.RemoveCreatorOnArchive.HasValue)
+                settings["removeCreatorOnArchive"] = request.RemoveCreatorOnArchive.Value;
+            if (request.AutoArchiveOnClose.HasValue) settings["autoArchiveOnClose"] = request.AutoArchiveOnClose.Value;
+            if (request.ModalJson != null) settings["modalJson"] = request.ModalJson;
+            if (request.OpenMessageJson != null) settings["openMessageJson"] = request.OpenMessageJson;
+
+            if (!settings.Any())
+                return BadRequest("No settings provided to update");
+
+            var success = await ticketService.UpdateSelectOptionSettingsAsync(guild, optionId, settings);
+
+            if (success)
+                return Ok();
+            return BadRequest("Failed to update select option settings");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error updating select option {OptionId} in guild {GuildId}", optionId, guildId);
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    /// <summary>
     ///     Deletes an option from a select menu
     /// </summary>
     /// <param name="guildId">The ID of the guild</param>
@@ -867,6 +1030,69 @@ public class TicketController : Controller
         catch (Exception ex)
         {
             logger.LogError(ex, "Error getting ticket by channel {ChannelId} in guild {GuildId}", channelId, guildId);
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    /// <summary>
+    ///     Gets all tickets for a guild
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="includeArchived">Whether to include archived tickets</param>
+    /// <param name="includeClosed">Whether to include closed tickets</param>
+    /// <param name="includeDeleted">Whether to include soft-deleted tickets</param>
+    /// <returns>List of tickets matching the criteria</returns>
+    [HttpGet("tickets")]
+    public async Task<IActionResult> GetGuildTickets(ulong guildId, [FromQuery] bool includeArchived = true,
+        [FromQuery] bool includeClosed = true, [FromQuery] bool includeDeleted = false)
+    {
+        try
+        {
+            var tickets =
+                await ticketService.GetGuildTicketsAsync(guildId, includeArchived, includeClosed, includeDeleted);
+            IGuild guild = client.GetGuild(guildId);
+            if (guild == null)
+                return NotFound("Guild not found");
+
+            var result = await Task.WhenAll(tickets.Select(async ticket =>
+            {
+                var channel = await guild.GetTextChannelAsync(ticket.ChannelId);
+                var creator = await guild.GetUserAsync(ticket.CreatorId);
+                var claimedBy = ticket.ClaimedBy.HasValue ? await guild.GetUserAsync(ticket.ClaimedBy.Value) : null;
+                var buttonLabel = ticket.Button?.Label;
+                var optionLabel = ticket.SelectOption?.Label;
+
+                return new
+                {
+                    ticket.Id,
+                    ticket.GuildId,
+                    ticket.ChannelId,
+                    ChannelName = channel?.Name ?? "Deleted Channel",
+                    ticket.CreatorId,
+                    CreatorName = creator?.Username ?? "Unknown User",
+                    ticket.ClaimedBy,
+                    ClaimedByName = claimedBy?.Username,
+                    ticket.ButtonId,
+                    ButtonLabel = buttonLabel,
+                    ticket.SelectOptionId,
+                    OptionLabel = optionLabel,
+                    ticket.Priority,
+                    ticket.Tags,
+                    ticket.CreatedAt,
+                    ticket.ClosedAt,
+                    ticket.LastActivityAt,
+                    ticket.IsArchived,
+                    ticket.IsDeleted,
+                    ticket.TranscriptUrl,
+                    ticket.CaseId
+                };
+            }));
+
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error getting all tickets for guild {GuildId}", guildId);
             return StatusCode(500, "Internal server error");
         }
     }
@@ -1128,6 +1354,72 @@ public class TicketController : Controller
         {
             logger.LogError(ex, "Error adding note to ticket in channel {ChannelId} in guild {GuildId}", channelId,
                 guildId);
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    /// <summary>
+    ///     Edits an existing ticket note
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="noteId">The ID of the note to edit</param>
+    /// <param name="request">Request containing new content and author information</param>
+    /// <returns>Success or failure response</returns>
+    [HttpPut("tickets/notes/{noteId}")]
+    public async Task<IActionResult> EditTicketNote(ulong guildId, int noteId, [FromBody] EditNoteRequest request)
+    {
+        try
+        {
+            IGuild guild = client.GetGuild(guildId);
+            if (guild == null)
+                return NotFound("Guild not found");
+
+            var author = await guild.GetUserAsync(request.AuthorId);
+            if (author == null)
+                return NotFound("Author not found");
+
+            var success = await ticketService.EditNote(noteId, author, request.Content);
+
+            if (success)
+                return Ok();
+            return BadRequest("Failed to edit note");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error editing note {NoteId} in guild {GuildId}", noteId, guildId);
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    /// <summary>
+    ///     Deletes a ticket note
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="noteId">The ID of the note to delete</param>
+    /// <param name="request">Request containing author information</param>
+    /// <returns>Success or failure response</returns>
+    [HttpDelete("tickets/notes/{noteId}")]
+    public async Task<IActionResult> DeleteTicketNote(ulong guildId, int noteId, [FromBody] DeleteNoteRequest request)
+    {
+        try
+        {
+            IGuild guild = client.GetGuild(guildId);
+            if (guild == null)
+                return NotFound("Guild not found");
+
+            var author = await guild.GetUserAsync(request.AuthorId);
+            if (author == null)
+                return NotFound("Author not found");
+
+            var success = await ticketService.DeleteNote(noteId, author);
+
+            if (success)
+                return Ok();
+            return BadRequest("Failed to delete note");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error deleting note {NoteId} in guild {GuildId}", noteId, guildId);
             return StatusCode(500, "Internal server error");
         }
     }
@@ -1905,6 +2197,32 @@ public class TicketController : Controller
     #endregion
 
     #region Settings
+
+    /// <summary>
+    ///     Gets the ticket settings for the guild
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <returns>Guild ticket settings</returns>
+    [HttpGet("settings")]
+    public async Task<IActionResult> GetSettings(ulong guildId)
+    {
+        try
+        {
+            var settings = await ticketService.GetGuildTicketSettingsAsync(guildId);
+            return Ok(new
+            {
+                transcriptChannelId = settings?.TranscriptChannelId,
+                logChannelId = settings?.LogChannelId,
+                defaultMaxTickets = settings?.DefaultMaxTickets,
+                blacklistedUsers = settings?.BlacklistedUsers
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error getting ticket settings for guild {GuildId}", guildId);
+            return StatusCode(500, "Internal server error");
+        }
+    }
 
     /// <summary>
     ///     Sets the transcript channel for the guild

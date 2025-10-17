@@ -23,10 +23,16 @@ namespace DataModel
 		[Column("DefaultMaxTickets"                                                                                       )] public int        DefaultMaxTickets     { get; set; } // integer
 		[Column("LogChannelId"                                                                                            )] public ulong?   LogChannelId          { get; set; } // numeric(20,0)
 		[Column("TranscriptChannelId"                                                                                     )] public ulong?   TranscriptChannelId   { get; set; } // numeric(20,0)
-		[Column("BlacklistedUsers"                                                                                        )] public ulong[]? BlacklistedUsers      { get; set; } // numeric(20,0)[]
 		[Column("EnableStaffPings"                                                                                        )] public bool       EnableStaffPings      { get; set; } // boolean
 		[Column("EnableDmNotifications"                                                                                   )] public bool       EnableDmNotifications { get; set; } // boolean
-		[Column("NotificationRoles"    , CanBeNull    = false                                                             )] public ulong[]  NotificationRoles     { get; set; } = null!; // numeric(20,0)[]
+
+        // Internal storage as long[] for database compatibility
+        [Column("BlacklistedUsers")]
+        internal long[]? _blacklistedUsers { get; set; }
+
+        [Column("NotificationRoles")]
+        internal long[]? _notificationRoles { get; set; }
+
         [Column("DeleteTicketsOnClose")]
         public bool DeleteTicketsOnClose { get; set; } = false;
 
@@ -53,5 +59,25 @@ namespace DataModel
 
         [Column("AutoArchiveOnClose")]
         public bool AutoArchiveOnClose { get; set; } = false;
+
+        /// <summary>
+        /// Blacklisted user IDs
+        /// </summary>
+        [NotColumn]
+        public ulong[]? BlacklistedUsers
+        {
+            get => _blacklistedUsers?.Select(x => (ulong)x).ToArray();
+            set => _blacklistedUsers = value?.Select(x => (long)x).ToArray();
+        }
+
+        /// <summary>
+        /// Notification role IDs
+        /// </summary>
+        [NotColumn]
+        public ulong[]? NotificationRoles
+        {
+            get => _notificationRoles?.Select(x => (ulong)x).ToArray();
+            set => _notificationRoles = value?.Select(x => (long)x).ToArray();
+        }
 	}
 }

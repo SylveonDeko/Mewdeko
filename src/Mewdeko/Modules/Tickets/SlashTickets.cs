@@ -533,6 +533,7 @@ public partial class TicketsSlash : MewdekoSlashModuleBase<TicketService>
                 return;
             }
 
+            // Update to clear the select menu selection (rebuilds components without changing content)
             if (!string.IsNullOrEmpty(option.ModalJson))
             {
                 await Service.HandleModalCreation(
@@ -544,13 +545,30 @@ public partial class TicketsSlash : MewdekoSlashModuleBase<TicketService>
             }
             else
             {
-                await Service.CreateTicketAsync(ctx.Guild, ctx.User, option: option);
-                await RespondAsync("Ticket created successfully!", ephemeral: true);
+                try
+                {
+                    await Service.CreateTicketAsync(ctx.Guild, ctx.User, option: option);
+                    await FollowupAsync($"{Config.SuccessEmote} Ticket created successfully!", ephemeral: true);
+                    await (Context.Interaction as IComponentInteraction).Message.ModifyAsync(x =>
+                    {
+                        // Don't change content or embeds - just trigger component rebuild to clear selection
+                        x.Components = x.Components;
+                    });
+                }
+                catch (InvalidOperationException ex)
+                {
+                    await FollowupAsync($"{Config.ErrorEmote} {ex.Message}", ephemeral: true);
+                }
             }
         }
         catch (InvalidOperationException ex)
         {
             await RespondAsync(ex.Message, ephemeral: true);
+            await (Context.Interaction as IComponentInteraction).Message.ModifyAsync(x =>
+            {
+                // Don't change content or embeds - just trigger component rebuild to clear selection
+                x.Components = x.Components;
+            });
         }
         catch (Exception ex)
         {
@@ -1787,7 +1805,7 @@ public partial class TicketsSlash : MewdekoSlashModuleBase<TicketService>
     }
 
     /// <summary>
-    ///     Handles custom modals for ticket creation.
+    ///     Handles custom modals for ticket creation from buttons.
     /// </summary>
     /// <param name="buttonId">The buttons db ID</param>
     /// <param name="unused">Unused modal parameter</param>
@@ -1825,7 +1843,7 @@ public partial class TicketsSlash : MewdekoSlashModuleBase<TicketService>
 
             if (ticket != null)
             {
-                await FollowupAsync($"{Config.ErrorEmote} Ticket created: <#{ticket.ChannelId}>", ephemeral: true);
+                await FollowupAsync($"{Config.SuccessEmote} Ticket created: <#{ticket.ChannelId}>", ephemeral: true);
             }
             else
             {
@@ -1839,6 +1857,63 @@ public partial class TicketsSlash : MewdekoSlashModuleBase<TicketService>
         catch (Exception ex)
         {
             logger.LogError($"Error handling ticket modal submission: {ex}");
+            await FollowupAsync($"{Config.ErrorEmote} An error occurred while creating your ticket.", ephemeral: true);
+        }
+    }
+
+    /// <summary>
+    ///     Handles custom modals for ticket creation from select menu options.
+    /// </summary>
+    /// <param name="optionId">The select menu option's db ID</param>
+    /// <param name="unused">Unused modal parameter</param>
+    [ModalInteraction("ticket_modal_select:*", true)]
+    public async Task HandleTicketModalSelectSubmission(string optionId, SimpleInputModal unused)
+    {
+        await DeferAsync(true);
+
+        try
+        {
+            if (!int.TryParse(optionId, out var optionIdParsed))
+            {
+                await FollowupAsync($"{Config.ErrorEmote} Invalid option ID.", ephemeral: true);
+                return;
+            }
+
+            var option = await Service.GetSelectOptionAsync(optionIdParsed);
+            if (option == null)
+            {
+                await FollowupAsync($"{Config.ErrorEmote} Select option configuration not found.", ephemeral: true);
+                return;
+            }
+
+            // Get the modal data from the interaction
+            var modal = (IModalInteraction)Context.Interaction;
+            var modalResponses = ExtractModalResponses(modal.Data.Components);
+
+            // Create the ticket using the submitted modal data
+            var ticket = await Service.CreateTicketAsync(
+                ctx.Guild,
+                ctx.User,
+                option: option,
+                modalResponses: modalResponses
+            );
+
+            if (ticket != null)
+            {
+                await FollowupAsync($"{Config.SuccessEmote} Ticket created: <#{ticket.ChannelId}>", ephemeral: true);
+            }
+            else
+            {
+                await FollowupAsync($"{Config.ErrorEmote} Failed to create ticket. Please try again.", ephemeral: true);
+            }
+        }
+        catch (InvalidOperationException ex)
+        {
+            await FollowupAsync($"There was an issue creating your ticket:\n{ex.Message}", ephemeral: true);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError($"Error handling ticket modal submission from select option: {ex}");
             await FollowupAsync($"{Config.ErrorEmote} An error occurred while creating your ticket.", ephemeral: true);
         }
     }

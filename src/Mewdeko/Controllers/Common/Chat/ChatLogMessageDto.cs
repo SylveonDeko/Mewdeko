@@ -117,6 +117,11 @@ public class ChatLogEmbedDto
     ///     The embed author information.
     /// </summary>
     public ChatLogEmbedAuthorDto? Author { get; set; }
+
+    /// <summary>
+    ///     The embed fields.
+    /// </summary>
+    public List<ChatLogEmbedFieldDto> Fields { get; set; } = new();
 }
 
 /// <summary>
@@ -133,4 +138,25 @@ public class ChatLogEmbedAuthorDto
     ///     The embed author icon URL.
     /// </summary>
     public string? IconUrl { get; set; }
+}
+
+/// <summary>
+///     Data transfer object for chat log embed fields.
+/// </summary>
+public class ChatLogEmbedFieldDto
+{
+    /// <summary>
+    ///     The field name.
+    /// </summary>
+    public string Name { get; set; } = string.Empty;
+
+    /// <summary>
+    ///     The field value.
+    /// </summary>
+    public string Value { get; set; } = string.Empty;
+
+    /// <summary>
+    ///     Whether the field is inline.
+    /// </summary>
+    public bool Inline { get; set; }
 }

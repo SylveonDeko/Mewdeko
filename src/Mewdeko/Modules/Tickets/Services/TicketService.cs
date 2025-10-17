@@ -1,11 +1,13 @@
-using System.IO;
 using System.Text;
 using System.Text.Json;
 using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
+using Mewdeko.Controllers.Common.Chat;
 using Mewdeko.Database.L2DB;
 using Mewdeko.Modules.Tickets.Common;
+using Mewdeko.Modules.Utility.Services;
+using Mewdeko.Services.Impl;
 using Mewdeko.Services.Strings;
 using Embed = Mewdeko.Common.Embed;
 using SelectMenuOption = DataModel.SelectMenuOption;
@@ -19,7 +21,9 @@ public class TicketService : INService
 {
     private const string ClaimButtonId = "ticket_claim";
     private const string CloseButtonId = "ticket_close";
+    private readonly ChatLogService chatLogService;
     private readonly DiscordShardedClient client;
+    private readonly BotCredentials credentials;
     private readonly IDataConnectionFactory dbFactory;
     private readonly EventHandler eventHandler;
     private readonly ILogger<TicketService> logger;
@@ -33,20 +37,26 @@ public class TicketService : INService
     /// <param name="eventHandler">The event handler service.</param>
     /// <param name="strings">The localized strings service.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="chatLogService">The chat log service for transcript management.</param>
+    /// <param name="credentials">The bot credentials for dashboard URL.</param>
     public TicketService(
         IDataConnectionFactory dbFactory,
         DiscordShardedClient client,
         EventHandler eventHandler,
-        GeneratedBotStrings strings, ILogger<TicketService> logger)
+        GeneratedBotStrings strings,
+        ILogger<TicketService> logger,
+        ChatLogService chatLogService,
+        BotCredentials credentials)
     {
         this.dbFactory = dbFactory;
         this.client = client;
         this.eventHandler = eventHandler;
         this.strings = strings;
         this.logger = logger;
+        this.chatLogService = chatLogService;
+        this.credentials = credentials;
 
         eventHandler.Subscribe("MessageDeleted", "TicketService", HandleMessageDeleted);
-        eventHandler.Subscribe("ModalSubmitted", "TicketService", HandleModalSubmitted);
     }
 
     /// <summary>
@@ -55,7 +65,6 @@ public class TicketService : INService
     public Task Unload()
     {
         eventHandler.Unsubscribe("MessageDeleted", "TicketService", HandleMessageDeleted);
-        eventHandler.Unsubscribe("ModalSubmitted", "TicketService", HandleModalSubmitted);
         return Task.CompletedTask;
     }
 
@@ -253,6 +262,19 @@ public class TicketService : INService
         try
         {
             await using var ctx = await dbFactory.CreateConnectionAsync();
+
+            // Check component limits before adding (1 button = 1 component, 1 select menu = 5 components)
+            var currentButtonCount = await ctx.PanelButtons.Where(b => b.PanelId == panel.Id).CountAsync();
+            var currentMenuCount = await ctx.PanelSelectMenus.Where(m => m.PanelId == panel.Id).CountAsync();
+            var currentTotal = currentButtonCount + currentMenuCount * 5;
+
+            if (currentTotal + 1 > 25)
+            {
+                logger.LogError(
+                    "Cannot add button to panel {PanelId}: would exceed component limit ({CurrentTotal} + 1 > 25)",
+                    panel.Id, currentTotal);
+                return null;
+            }
 
             var button = new PanelButton
             {
@@ -488,7 +510,7 @@ public class TicketService : INService
 
             if (panel.PanelSelectMenus?.Any() == true)
             {
-                var menuIds = panel.PanelSelectMenus.Select(m => m.Id).ToArray();
+                var menuIds = panel.PanelSelectMenus.Select(m => m.Id).ToList();
                 var options = await ctx.SelectMenuOptions
                     .Where(o => menuIds.Contains(o.SelectMenuId))
                     .Select(o => o.Id)
@@ -574,7 +596,7 @@ public class TicketService : INService
             // Delete select menu options first
             if (panel.PanelSelectMenus?.Any() == true)
             {
-                var menuIds = panel.PanelSelectMenus.Select(m => m.Id).ToArray();
+                var menuIds = panel.PanelSelectMenus.Select(m => m.Id).ToList();
                 await ctx.SelectMenuOptions
                     .Where(o => menuIds.Contains(o.SelectMenuId))
                     .DeleteAsync();
@@ -744,13 +766,20 @@ public class TicketService : INService
     public async Task UnlinkTicketsFromCase(IEnumerable<Ticket> tickets)
     {
         await using var ctx = await dbFactory.CreateConnectionAsync();
+        var ticketIds = tickets.Select(t => t.Id).ToList();
+
+        // Use bulk update query instead of updating enumerable
+        await ctx.Tickets
+            .Where(t => ticketIds.Contains(t.Id))
+            .Set(t => t.CaseId, (int?)null)
+            .UpdateAsync();
+
+        // Update in-memory objects
         foreach (var ticket in tickets)
         {
             ticket.CaseId = null;
             ticket.Case = null;
         }
-
-        await ctx.UpdateAsync(tickets);
     }
 
     /// <summary>
@@ -821,16 +850,22 @@ public class TicketService : INService
 
         if (activeTickets.Count >= maxTickets)
         {
-            throw new InvalidOperationException($"You can only have {maxTickets} active tickets of this type.");
+            throw new InvalidOperationException(
+                $"You can only have {maxTickets} active {(maxTickets == 1 ? "ticket" : "tickets")} of this type.");
         }
 
         // Create ticket channel
         var categoryId = button?.CategoryId ?? option?.CategoryId;
         var category = categoryId.HasValue ? await guild.GetCategoryChannelAsync(categoryId.Value) : null;
 
+        // Get total ticket count for this user (not just active ones) to use as ID
+        var totalUserTickets = await ctx.Tickets
+            .Where(t => t.GuildId == guild.Id && t.CreatorId == creator.Id)
+            .CountAsync();
+
         var channelName = (button?.ChannelNameFormat ?? option?.ChannelNameFormat ?? "ticket-{username}-{id}")
             .Replace("{username}", creator.Username.ToLower())
-            .Replace("{id}", (activeTickets.Count + 1).ToString());
+            .Replace("{id}", (totalUserTickets + 1).ToString());
 
         ITextChannel channel;
         try
@@ -929,19 +964,6 @@ public class TicketService : INService
             else
             {
                 await SendDefaultOpenMessage(channel, ticket);
-            }
-
-            // 2. Modal responses if any
-            if (modalResponses?.Any() == true)
-            {
-                var modalEmbed = new EmbedBuilder()
-                    .WithTitle(strings.TicketInformation(guild.Id))
-                    .WithDescription(string.Join("\n",
-                        modalResponses.Select(r => strings.ModalResponseFormat(guild.Id, r.Key, r.Value))))
-                    .WithColor(Color.Blue)
-                    .Build();
-
-                await channel.SendMessageAsync(embed: modalEmbed);
             }
 
             // Send notifications
@@ -1136,7 +1158,7 @@ public class TicketService : INService
     ///     Archives a ticket using existing schema
     /// </summary>
     /// <param name="ticket">The ticket to archive</param>
-    public async Task ArchiveTicketAsync(Ticket ticket)
+    public async Task ArchiveTicketAsync(Ticket ticket, bool skipTranscript = false)
     {
         await using var ctx = await dbFactory.CreateConnectionAsync();
 
@@ -1157,8 +1179,8 @@ public class TicketService : INService
                     }
                 }
 
-                // Generate transcript if enabled (using existing SaveTranscript field)
-                if (ticket.Button?.SaveTranscript ?? ticket.SelectOption?.SaveTranscript ?? true)
+                // Generate transcript if enabled and not skipped (skip when auto-archiving after close)
+                if (!skipTranscript && (ticket.Button?.SaveTranscript ?? ticket.SelectOption?.SaveTranscript ?? true))
                 {
                     await GenerateAndSaveTranscriptAsync(guild, channel, ticket);
                 }
@@ -1276,7 +1298,7 @@ public class TicketService : INService
                 return;
 
             // Load select menu options
-            var menuIds = fullPanel.PanelSelectMenus?.Select(m => m.Id).ToArray() ?? [];
+            var menuIds = fullPanel.PanelSelectMenus?.Select(m => m.Id).ToList() ?? new List<int>();
             if (menuIds.Any())
             {
                 var options = await ctx.SelectMenuOptions
@@ -1286,6 +1308,36 @@ public class TicketService : INService
                 foreach (var menu in fullPanel.PanelSelectMenus)
                 {
                     menu.SelectMenuOptions = options.Where(o => o.SelectMenuId == menu.Id).ToList();
+                }
+            }
+
+            // Validate Discord component limits
+            // Max 25 components per message (buttons = 1, select menus = 5 each)
+            var buttonCount = fullPanel.PanelButtons?.Count() ?? 0;
+            var selectMenuCount = fullPanel.PanelSelectMenus?.Count() ?? 0;
+            var totalComponents = buttonCount + selectMenuCount * 5;
+
+            if (totalComponents > 25)
+            {
+                logger.LogError(
+                    "Panel {PanelId} exceeds Discord component limit: {ButtonCount} buttons + {SelectMenuCount} select menus = {TotalComponents} components (max 25)",
+                    panel.Id, buttonCount, selectMenuCount, totalComponents);
+                return;
+            }
+
+            // Validate select menu option limits (max 25 per menu)
+            if (fullPanel.PanelSelectMenus?.Any() == true)
+            {
+                foreach (var menu in fullPanel.PanelSelectMenus)
+                {
+                    var optionCount = menu.SelectMenuOptions?.Count() ?? 0;
+                    if (optionCount > 25)
+                    {
+                        logger.LogError(
+                            "Select menu {MenuId} on panel {PanelId} has {OptionCount} options (max 25)",
+                            menu.Id, panel.Id, optionCount);
+                        return;
+                    }
                 }
             }
 
@@ -1423,64 +1475,6 @@ public class TicketService : INService
                         readMessageHistory: PermValue.Allow,
                         sendMessages: PermValue.Deny));
             }
-        }
-    }
-
-    private async Task HandleModalSubmitted(SocketModal modal)
-    {
-        await using var ctx = await dbFactory.CreateConnectionAsync();
-
-        try
-        {
-            var responses = modal.Data.Components.ToDictionary(
-                x => x.CustomId,
-                x => x.Value);
-
-            if (modal.Data.CustomId.StartsWith("ticket_modal_"))
-            {
-                if (modal.Data.CustomId.Contains("select_"))
-                {
-                    // Handle select menu modal
-                    var optionId = int.Parse(modal.Data.CustomId.Split('_').Last());
-                    var option = await ctx.SelectMenuOptions.FindAsync(optionId);
-
-                    if (option != null)
-                    {
-                        await CreateTicketAsync(
-                            (modal.Channel as IGuildChannel)?.Guild,
-                            modal.User,
-                            option: option,
-                            modalResponses: responses);
-
-                        await modal.RespondAsync(
-                            strings.TicketCreatedResponse((modal.Channel as IGuildChannel)?.Guild.Id), ephemeral: true);
-                    }
-                }
-                else
-                {
-                    // Handle button modal
-                    var buttonId = int.Parse(modal.Data.CustomId.Split('_').Last());
-                    var button = await ctx.PanelButtons.FindAsync(buttonId);
-
-                    if (button != null)
-                    {
-                        await CreateTicketAsync(
-                            (modal.Channel as IGuildChannel)?.Guild,
-                            modal.User,
-                            button,
-                            modalResponses: responses);
-
-                        await modal.RespondAsync(
-                            strings.TicketCreatedResponse((modal.Channel as IGuildChannel)?.Guild.Id), ephemeral: true);
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "Error handling modal submission");
-            await modal.RespondAsync(strings.TicketCreateFailed((modal.Channel as IGuildChannel)?.Guild.Id),
-                ephemeral: true);
         }
     }
 
@@ -2095,6 +2089,16 @@ public class TicketService : INService
         }
     }
 
+    /// <summary>
+    ///     Gets the ticket settings for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <returns>The guild ticket settings, or null if not found.</returns>
+    public async Task<GuildTicketSetting?> GetGuildTicketSettingsAsync(ulong guildId)
+    {
+        await using var ctx = await dbFactory.CreateConnectionAsync();
+        return await ctx.GuildTicketSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
+    }
 
     /// <summary>
     ///     Sets the transcript channel for a guild.
@@ -2103,12 +2107,31 @@ public class TicketService : INService
     /// <param name="channelId">The ID of the channel to set as the transcript channel.</param>
     public async Task SetTranscriptChannelAsync(ulong guildId, ulong channelId)
     {
-        await using var ctx = await dbFactory.CreateConnectionAsync();
-        var settings = await ctx.GuildTicketSettings.FirstOrDefaultAsync(x => x.GuildId == guildId) ??
-                       new GuildTicketSetting();
+        try
+        {
+            await using var ctx = await dbFactory.CreateConnectionAsync();
+            var settings = await ctx.GuildTicketSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
 
-        settings.TranscriptChannelId = channelId;
-        await ctx.UpdateAsync(settings);
+            if (settings == null)
+            {
+                // Create new settings
+                settings = new GuildTicketSetting
+                {
+                    GuildId = guildId, TranscriptChannelId = channelId
+                };
+                await ctx.InsertAsync(settings);
+            }
+            else
+            {
+                // Update existing settings
+                settings.TranscriptChannelId = channelId;
+                await ctx.UpdateAsync(settings);
+            }
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Failed to set transcript channel for guild {GuildId}", guildId);
+        }
     }
 
     /// <summary>
@@ -2118,12 +2141,31 @@ public class TicketService : INService
     /// <param name="channelId">The ID of the channel to set as the log channel.</param>
     public async Task SetLogChannelAsync(ulong guildId, ulong channelId)
     {
-        await using var ctx = await dbFactory.CreateConnectionAsync();
-        var settings = await ctx.GuildTicketSettings.FirstOrDefaultAsync(x => x.GuildId == guildId) ??
-                       new GuildTicketSetting();
+        try
+        {
+            await using var ctx = await dbFactory.CreateConnectionAsync();
+            var settings = await ctx.GuildTicketSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
 
-        settings.LogChannelId = channelId;
-        await ctx.UpdateAsync(settings);
+            if (settings == null)
+            {
+                // Create new settings
+                settings = new GuildTicketSetting
+                {
+                    GuildId = guildId, LogChannelId = channelId
+                };
+                await ctx.InsertAsync(settings);
+            }
+            else
+            {
+                // Update existing settings
+                settings.LogChannelId = channelId;
+                await ctx.UpdateAsync(settings);
+            }
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "Failed to set log channel for guild {GuildId}", guildId);
+        }
     }
 
 
@@ -2138,12 +2180,19 @@ public class TicketService : INService
         var ticketCase = await ctx.TicketCases.FindAsync(caseId);
         if (ticketCase == null) throw new InvalidOperationException("Case not found.");
 
+        var ticketIds = tickets.Select(t => t.Id).ToList();
+
+        // Use bulk update query instead of updating enumerable
+        await ctx.Tickets
+            .Where(t => ticketIds.Contains(t.Id))
+            .Set(t => t.CaseId, caseId)
+            .UpdateAsync();
+
+        // Update in-memory objects
         foreach (var ticket in tickets)
         {
             ticket.CaseId = caseId;
         }
-
-        await ctx.UpdateAsync(tickets);
     }
 
     /// <summary>
@@ -2349,6 +2398,41 @@ public class TicketService : INService
     /// </summary>
     /// <param name="ticketIds">The IDs of the tickets to retrieve.</param>
     /// <returns>A list of tickets matching the specified IDs.</returns>
+    /// <summary>
+    ///     Gets all tickets for a guild
+    /// </summary>
+    /// <param name="guildId">The guild ID</param>
+    /// <param name="includeArchived">Whether to include archived tickets</param>
+    /// <param name="includeClosed">Whether to include closed tickets</param>
+    /// <param name="includeDeleted">Whether to include soft-deleted tickets</param>
+    /// <returns>List of tickets matching the criteria</returns>
+    public async Task<List<Ticket>> GetGuildTicketsAsync(ulong guildId, bool includeArchived = true,
+        bool includeClosed = true, bool includeDeleted = false)
+    {
+        await using var ctx = await dbFactory.CreateConnectionAsync();
+
+        var query = ctx.Tickets
+            .LoadWithAsTable(t => t.Button)
+            .LoadWithAsTable(t => t.SelectOption)
+            .Where(t => t.GuildId == guildId);
+
+        if (!includeDeleted)
+            query = query.Where(t => !t.IsDeleted);
+
+        if (!includeArchived)
+            query = query.Where(t => !t.IsArchived);
+
+        if (!includeClosed)
+            query = query.Where(t => !t.ClosedAt.HasValue);
+
+        return await query.OrderByDescending(t => t.CreatedAt).ToListAsync();
+    }
+
+    /// <summary>
+    ///     Retrieves tickets by their IDs.
+    /// </summary>
+    /// <param name="ticketIds">The IDs of the tickets to retrieve.</param>
+    /// <returns>A list of tickets matching the specified IDs.</returns>
     public async Task<List<Ticket>> GetTicketsAsync(IEnumerable<int> ticketIds)
     {
         await using var ctx = await dbFactory.CreateConnectionAsync();
@@ -2448,16 +2532,21 @@ public class TicketService : INService
                 );
             }
 
-            await component.RespondWithModalAsync(mb.Build());
+            _ = Task.Run(async () => await component.RespondWithModalAsync(mb.Build()));
+            var msg = (component as IComponentInteraction).Message;
+            await (component as IComponentInteraction).Message.ModifyAsync(x =>
+            {
+                x.Components = ComponentBuilder.FromComponents(msg.Components).Build();
+            });
         }
         catch (JsonException ex)
         {
             logger.LogError($"Invalid modal configuration format: {ex}");
             await component.RespondAsync(strings.InvalidTicketFormConfig(user.GuildId), ephemeral: true);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            logger.LogError("Error creating modal");
+            logger.LogError(ex, "Error creating modal");
             await component.RespondAsync(strings.FailedCreateTicketForm(user.GuildId), ephemeral: true);
         }
     }
@@ -2496,6 +2585,19 @@ public class TicketService : INService
         int maxValues = 1, bool updateComponents = true)
     {
         await using var ctx = await dbFactory.CreateConnectionAsync();
+
+        // Check component limits before adding (1 select menu = 5 components)
+        var currentButtonCount = await ctx.PanelButtons.Where(b => b.PanelId == panel.Id).CountAsync();
+        var currentMenuCount = await ctx.PanelSelectMenus.Where(m => m.PanelId == panel.Id).CountAsync();
+        var currentTotal = currentButtonCount + currentMenuCount * 5;
+
+        if (currentTotal + 5 > 25)
+        {
+            logger.LogError(
+                "Cannot add select menu to panel {PanelId}: would exceed component limit ({CurrentTotal} + 5 > 25)",
+                panel.Id, currentTotal);
+            return null;
+        }
 
         try
         {
@@ -2641,6 +2743,16 @@ public class TicketService : INService
         {
             await using var ctx = await dbFactory.CreateConnectionAsync();
 
+            // Check option limit (max 25 per select menu)
+            var currentOptionCount = await ctx.SelectMenuOptions.Where(o => o.SelectMenuId == menu.Id).CountAsync();
+            if (currentOptionCount >= 25)
+            {
+                logger.LogError(
+                    "Cannot add option to select menu {MenuId}: already has 25 options (Discord limit)",
+                    menu.Id);
+                return null;
+            }
+
             var option = new SelectMenuOption
             {
                 SelectMenuId = menu.Id,
@@ -2694,13 +2806,26 @@ public class TicketService : INService
     /// </summary>
     /// <param name="menuId">The custom ID of the menu to retrieve.</param>
     /// <returns>The select menu matching the specified ID, if found.</returns>
-    public async Task<PanelSelectMenu> GetSelectMenuAsync(string menuId)
+    public async Task<PanelSelectMenu?> GetSelectMenuAsync(string menuId)
     {
+        var parsedInt = int.TryParse(menuId, out var potentialInt);
         await using var ctx = await dbFactory.CreateConnectionAsync();
-        return await ctx.PanelSelectMenus
+        var menu = await ctx.PanelSelectMenus
             .LoadWithAsTable(m => m.Panel)
             .LoadWithAsTable(m => m.SelectMenuOptions)
             .FirstOrDefaultAsync(m => m.CustomId == menuId);
+
+        if (menu is not null) return menu;
+        {
+            if (!parsedInt)
+                return null;
+            menu = await ctx.PanelSelectMenus.LoadWithAsTable(m => m.Panel).LoadWithAsTable(m => m.SelectMenuOptions)
+                .FindAsync(potentialInt) ?? await ctx.PanelSelectMenus.LoadWithAsTable(m => m.Panel)
+                .LoadWithAsTable(m => m.SelectMenuOptions)
+                .FirstOrDefaultAsync(m => m.PanelId == potentialInt);
+        }
+
+        return menu;
     }
 
     /// <summary>
@@ -2821,8 +2946,10 @@ public class TicketService : INService
 
                 if (shouldAutoArchive)
                 {
-                    // Auto-archive the ticket
-                    await ArchiveTicketAsync(ticket);
+                    // Auto-archive the ticket (skip transcript since we already generated it above)
+                    var transcriptGenerated = ticket.Button?.SaveTranscript == true ||
+                                              ticket.SelectOption?.SaveTranscript == true;
+                    await ArchiveTicketAsync(ticket, transcriptGenerated);
 
                     var archiveEmbed = new EmbedBuilder()
                         .WithDescription(strings.TicketAutoArchived(guild.Id))
@@ -3086,11 +3213,70 @@ public class TicketService : INService
             var transcriptChannel = await guild.GetTextChannelAsync(settings.TranscriptChannelId.Value);
             if (transcriptChannel == null) return;
 
-            var transcript = await GenerateTranscriptAsync(channel, ticket);
+            // Fetch messages from the ticket channel
+            var messages = await channel.GetMessagesAsync(5000).FlattenAsync();
+            var messagesList = messages.Reverse().ToList();
 
-            using var stream = new MemoryStream(Encoding.UTF8.GetBytes(transcript));
-            var transcriptFile = new FileAttachment(stream, $"ticket-{ticket.Id}-transcript.html");
+            // Convert Discord messages to ChatLogMessageDto format
+            var chatLogMessages = messagesList.Select(msg => new ChatLogMessageDto
+            {
+                Id = msg.Id.ToString(),
+                Content = msg.Content ?? string.Empty,
+                Author = new ChatLogAuthorDto
+                {
+                    Id = msg.Author.Id.ToString(),
+                    Username = msg.Author.Username,
+                    AvatarUrl = msg.Author.GetAvatarUrl() ?? msg.Author.GetDefaultAvatarUrl()
+                },
+                Timestamp = msg.Timestamp.UtcDateTime.ToString("O"),
+                Attachments = msg.Attachments.Select(att => new ChatLogAttachmentDto
+                {
+                    Url = att.Url, ProxyUrl = att.ProxyUrl ?? att.Url, Filename = att.Filename, FileSize = att.Size
+                }).ToList(),
+                Embeds = msg.Embeds.Select(embed => new ChatLogEmbedDto
+                {
+                    Type = embed.Type.ToString(),
+                    Title = embed.Title,
+                    Description = embed.Description,
+                    Url = embed.Url,
+                    Thumbnail = embed.Thumbnail?.Url,
+                    Author = embed.Author.HasValue
+                        ? new ChatLogEmbedAuthorDto
+                        {
+                            Name = embed.Author.Value.Name, IconUrl = embed.Author.Value.IconUrl
+                        }
+                        : null,
+                    Fields = embed.Fields.Select(field => new ChatLogEmbedFieldDto
+                    {
+                        Name = field.Name, Value = field.Value, Inline = field.Inline
+                    }).ToList()
+                }).ToList()
+            }).ToList();
 
+            // Save transcript using ChatLogService
+            var chatLogId = await chatLogService.SaveTicketTranscriptAsync(
+                guild.Id,
+                channel.Id,
+                channel.Name,
+                ticket.Id,
+                ticket.CreatorId,
+                chatLogMessages
+            );
+
+            // Create encoded share code with chatLogId, guildId, and instance port (similar to forms system)
+            var shareData = $"{chatLogId}_{guild.Id}_{credentials.ApiPort}";
+            var shareCodeBytes = Encoding.UTF8.GetBytes(shareData);
+            var shareCode = Convert.ToBase64String(shareCodeBytes)
+                .TrimEnd('=')
+                .Replace('+', '-')
+                .Replace('/', '_');
+
+            // Store full dashboard URL with encoded share code
+            var dashboardUrl = credentials.DashboardUrl?.TrimEnd('/') ?? "https://mewdeko.tech";
+            ticket.TranscriptUrl = $"{dashboardUrl}/dashboard/tickets/transcript/{shareCode}";
+            await ctx.UpdateAsync(ticket);
+
+            // Post notification embed with link to dashboard view
             var transcriptEmbed = new EmbedBuilder()
                 .WithTitle(strings.TicketTranscriptTitle(guild.Id, ticket.Id))
                 .WithDescription(
@@ -3098,19 +3284,20 @@ public class TicketService : INService
                     strings.TicketTranscriptType(guild.Id,
                         ticket.Button?.Label ?? ticket.SelectOption?.Label ?? "Unknown") +
                     $"**Created:** {TimestampTag.FromDateTime(ticket.CreatedAt)}\n" +
-                    $"**Closed:** {TimestampTag.FromDateTime(ticket.ClosedAt ?? DateTime.UtcNow)}")
+                    $"**Closed:** {TimestampTag.FromDateTime(ticket.ClosedAt ?? DateTime.UtcNow)}\n\n" +
+                    $"[View Transcript]({ticket.TranscriptUrl})")
                 .AddField("Channel", channel.Name, true)
                 .AddField("Category", (await guild.GetCategoryChannelAsync(channel.CategoryId ?? 0))?.Name ?? "None",
                     true)
+                .AddField("Messages", chatLogMessages.Count.ToString(), true)
                 .WithColor(Mewdeko.OkColor)
                 .WithCurrentTimestamp()
                 .Build();
 
-            var msg = await transcriptChannel.SendFileAsync(transcriptFile, embed: transcriptEmbed);
+            await transcriptChannel.SendMessageAsync(embed: transcriptEmbed);
 
-            // Store transcript URL in existing field
-            ticket.TranscriptUrl = msg.Attachments.FirstOrDefault()?.Url;
-            await ctx.UpdateAsync(ticket);
+            logger.LogInformation("Saved transcript for ticket {TicketId} as ChatLog {ChatLogId}", ticket.Id,
+                chatLogId);
         }
         catch (Exception ex)
         {
@@ -4204,6 +4391,8 @@ public class TicketService : INService
         {
             ((IList)settings.BlacklistedUsers).Add(userId);
 
+            // Persist the change
+            await ctx.UpdateAsync(settings);
 
             // Log the blacklist if logging is enabled
             if (settings.LogChannelId.HasValue)
@@ -4251,6 +4440,8 @@ public class TicketService : INService
         {
             ((IList)settings.BlacklistedUsers).Remove(userId);
 
+            // Persist the change
+            await ctx.UpdateAsync(settings);
 
             // Log the unblacklist if logging is enabled
             if (settings.LogChannelId.HasValue)
@@ -4289,7 +4480,7 @@ public class TicketService : INService
         var settings = await ctx.GuildTicketSettings
             .FirstOrDefaultAsync(s => s.GuildId == guildId);
 
-        if (settings == null)
+        if (settings == null || settings.BlacklistedUsers == null)
             return new Dictionary<ulong, List<string>>();
 
         var result = new Dictionary<ulong, List<string>>();
@@ -4524,10 +4715,15 @@ public class TicketService : INService
     /// <param name="panelId">The ID of the panel to update.</param>
     /// <param name="embedJson">The new embed JSON configuration.</param>
     /// <returns>True if the panel was successfully updated, false otherwise.</returns>
-    public async Task<bool> UpdatePanelEmbedAsync(IGuild guild, int panelId, string embedJson)
+    public async Task<bool> UpdatePanelEmbedAsync(IGuild guild, ulong panelId, string embedJson)
     {
         await using var ctx = await dbFactory.CreateConnectionAsync();
-        var panel = await ctx.TicketPanels.FindAsync(panelId);
+        var panel = await ctx.TicketPanels.FindAsync((int)panelId);
+
+        if (panel == null)
+        {
+            panel = await ctx.TicketPanels.FirstOrDefaultAsync(x => x.GuildId == guild.Id && x.MessageId == panelId);
+        }
 
         if (panel == null || panel.GuildId != guild.Id)
             return false;
@@ -5066,6 +5262,9 @@ public class TicketService : INService
                     case "modaljson":
                         button.ModalJson = (string)setting.Value;
                         break;
+                    case "openmessagejson":
+                        button.OpenMessageJson = (string)setting.Value;
+                        break;
 
                     default:
                         logger.LogWarning("Unknown button setting: {SettingKey}", setting.Key);
@@ -5084,6 +5283,125 @@ public class TicketService : INService
         catch (Exception ex)
         {
             logger.LogError(ex, "Failed to update settings for button {ButtonId}", buttonId);
+            return false;
+        }
+    }
+
+    /// <summary>
+    ///     Updates multiple settings for a select menu option in a single operation.
+    /// </summary>
+    /// <param name="guild">The guild containing the panel.</param>
+    /// <param name="optionId">The ID of the option to update.</param>
+    /// <param name="settings">Dictionary of setting names and their new values.</param>
+    /// <returns>True if all settings were successfully updated, false if any failed.</returns>
+    public async Task<bool> UpdateSelectOptionSettingsAsync(IGuild guild, int optionId,
+        Dictionary<string, object> settings)
+    {
+        await using var ctx = await dbFactory.CreateConnectionAsync();
+        var option = await ctx.SelectMenuOptions
+            .LoadWithAsTable(o => o.SelectMenu)
+            .LoadWithAsTable(o => o.SelectMenu.Panel)
+            .FirstOrDefaultAsync(o => o.Id == optionId && o.SelectMenu.Panel.GuildId == guild.Id);
+
+        if (option == null)
+            return false;
+
+        try
+        {
+            foreach (var setting in settings)
+            {
+                switch (setting.Key.ToLower())
+                {
+                    case "label":
+                        option.Label = (string)setting.Value;
+                        break;
+                    case "description":
+                        option.Description = (string)setting.Value;
+                        break;
+                    case "emoji":
+                        option.Emoji = (string)setting.Value;
+                        break;
+                    case "categoryid":
+                        option.CategoryId = (ulong?)setting.Value;
+                        break;
+                    case "archivecategoryid":
+                        option.ArchiveCategoryId = (ulong?)setting.Value;
+                        break;
+                    case "supportroles":
+                        option.SupportRoles = (ulong[])setting.Value;
+                        break;
+                    case "viewerroles":
+                        option.ViewerRoles = (ulong[])setting.Value;
+                        break;
+                    case "autoclosetime":
+                        option.AutoCloseTime = (TimeSpan?)setting.Value;
+                        break;
+                    case "requiredresponsetime":
+                        option.RequiredResponseTime = (TimeSpan?)setting.Value;
+                        break;
+                    case "maxactivetickets":
+                        option.MaxActiveTickets = (int)setting.Value;
+                        break;
+                    case "allowedpriorities":
+                        option.AllowedPriorities = (string[])setting.Value;
+                        break;
+                    case "defaultpriority":
+                        option.DefaultPriority = (string)setting.Value;
+                        break;
+                    case "savetranscript":
+                        option.SaveTranscript = (bool)setting.Value;
+                        break;
+                    case "deleteonclose":
+                        option.DeleteOnClose = (bool)setting.Value;
+                        break;
+                    case "lockonclose":
+                        option.LockOnClose = (bool)setting.Value;
+                        break;
+                    case "renameonclose":
+                        option.RenameOnClose = (bool)setting.Value;
+                        break;
+                    case "removecreatoronclose":
+                        option.RemoveCreatorOnClose = (bool)setting.Value;
+                        break;
+                    case "deletedelay":
+                        option.DeleteDelay = (TimeSpan)setting.Value;
+                        break;
+                    case "lockonarchive":
+                        option.LockOnArchive = (bool)setting.Value;
+                        break;
+                    case "renameonarchive":
+                        option.RenameOnArchive = (bool)setting.Value;
+                        break;
+                    case "removecreatoronarchive":
+                        option.RemoveCreatorOnArchive = (bool)setting.Value;
+                        break;
+                    case "autoarchiveonclose":
+                        option.AutoArchiveOnClose = (bool)setting.Value;
+                        break;
+                    case "modaljson":
+                        option.ModalJson = (string)setting.Value;
+                        break;
+                    case "openmessagejson":
+                        option.OpenMessageJson = (string)setting.Value;
+                        break;
+
+                    default:
+                        logger.LogWarning("Unknown select option setting: {SettingKey}", setting.Key);
+                        break;
+                }
+            }
+
+            // Actually save the changes to the database
+            await ctx.UpdateAsync(option);
+
+            // Update the panel components in Discord
+            await UpdatePanelComponentsAsync(option.SelectMenu.Panel);
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to update settings for select option {OptionId}", optionId);
             return false;
         }
     }
