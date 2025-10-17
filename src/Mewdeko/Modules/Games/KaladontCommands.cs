@@ -242,7 +242,7 @@ public partial class Games
             }
 
             var mode = options.Endless ? 1 : 0;
-            var success = await channelService.SetupChannel(
+            var (success, startingWord) = await channelService.SetupChannel(
                 ctx.Guild.Id,
                 channel.Id,
                 options.Language,
@@ -253,10 +253,17 @@ public partial class Games
             if (success)
             {
                 var modeText = options.Endless ? "♾️ Endless" : "🎯 Normal";
-                await ReplyConfirmAsync(
-                    Strings.KaladontSetupSuccess(ctx.Guild.Id, options.Language.ToUpperInvariant(), modeText,
-                        options.TurnTime)
-                ).ConfigureAwait(false);
+                var lastTwo = startingWord.Length >= 2 ? startingWord[^2..].ToUpperInvariant() : "";
+
+                var embed = new EmbedBuilder()
+                    .WithOkColor()
+                    .WithTitle($"🎮 {Strings.KaladontChannelActive(ctx.Guild.Id)}")
+                    .WithDescription($"**Language:** {options.Language.ToUpperInvariant()} | **Mode:** {modeText}")
+                    .AddField(Strings.KaladontCurrentWordLabel(ctx.Guild.Id), $"# {startingWord.ToUpperInvariant()}")
+                    .AddField(Strings.KaladontNextMustStart(ctx.Guild.Id), Format.Bold(lastTwo), true)
+                    .AddField(Strings.KaladontHowToPlay(ctx.Guild.Id), Strings.KaladontTypeToJoin(ctx.Guild.Id), true);
+
+                await channel.EmbedAsync(embed).ConfigureAwait(false);
             }
             else
             {

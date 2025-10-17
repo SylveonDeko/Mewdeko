@@ -4,6 +4,7 @@ using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Games.Common.Kaladont;
+using Mewdeko.Services.Strings;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Mewdeko.Modules.Games.Services;
@@ -26,6 +27,8 @@ public class KaladontChannelService : INService, IReadyExecutor
     private readonly System.Collections.Concurrent.ConcurrentDictionary<ulong, PersistentKaladontGame> persistentGames =
         new();
 
+    private readonly GeneratedBotStrings strings;
+
     /// <summary>
     ///     Initializes a new instance of the <see cref="KaladontChannelService" /> class.
     /// </summary>
@@ -35,7 +38,8 @@ public class KaladontChannelService : INService, IReadyExecutor
         ILogger<KaladontChannelService> logger,
         IMemoryCache cache,
         EventHandler eventHandler,
-        DiscordShardedClient client)
+        DiscordShardedClient client,
+        GeneratedBotStrings strings)
     {
         this.dbFactory = dbFactory;
         this.gamesService = gamesService;
@@ -43,6 +47,7 @@ public class KaladontChannelService : INService, IReadyExecutor
         this.cache = cache;
         this.eventHandler = eventHandler;
         this.client = client;
+        this.strings = strings;
 
         // Subscribe to message events
         this.eventHandler.Subscribe("MessageReceived", "KaladontChannelService", MessageReceived);
@@ -79,7 +84,8 @@ public class KaladontChannelService : INService, IReadyExecutor
     /// <summary>
     ///     Sets up a new persistent Kaladont channel.
     /// </summary>
-    public async Task<bool> SetupChannel(ulong guildId, ulong channelId, string language, int mode, int turnTime)
+    public async Task<(bool Success, string StartingWord)> SetupChannel(ulong guildId, ulong channelId, string language,
+        int mode, int turnTime)
     {
         await using var db = await dbFactory.CreateConnectionAsync();
 
@@ -88,11 +94,11 @@ public class KaladontChannelService : INService, IReadyExecutor
             .FirstOrDefaultAsync(x => x.ChannelId == channelId);
 
         if (existing != null)
-            return false;
+            return (false, string.Empty);
 
         var dictionary = gamesService.GetKaladontDictionary(language);
         if (dictionary.Count == 0)
-            return false;
+            return (false, string.Empty);
 
         var startingWord = gamesService.GetRandomKaladontStartingWord(language);
 
@@ -115,7 +121,7 @@ public class KaladontChannelService : INService, IReadyExecutor
         // Start the persistent game
         await StartPersistentGame(channel);
 
-        return true;
+        return (true, startingWord);
     }
 
     /// <summary>
@@ -225,8 +231,8 @@ public class KaladontChannelService : INService, IReadyExecutor
             {
                 var embed = new EmbedBuilder()
                     .WithOkColor()
-                    .WithTitle("🔄 New Kaladont Round!")
-                    .WithDescription($"Starting word: **{newWord}**\n\nJust type a valid word to join!")
+                    .WithTitle($"🔄 {strings.KaladontNewRound(textChannel.GuildId)}")
+                    .WithDescription(strings.KaladontStartingWord(textChannel.GuildId, newWord))
                     .Build();
 
                 await textChannel.SendMessageAsync(embed: embed);
@@ -296,7 +302,10 @@ public class KaladontChannelService : INService, IReadyExecutor
             else if (result.ValidationResult != KaladontGame.ValidationResult.Valid)
             {
                 // Show error
-                var errorMsg = GetErrorMessage(result.ValidationResult, content);
+                var channelConfig = await GetChannel(msg.Channel.Id);
+                var currentWord = channelConfig?.CurrentWord ?? "???";
+                var guildId = textChannel.GuildId;
+                var errorMsg = GetErrorMessage(result.ValidationResult, content, currentWord, guildId);
                 if (!string.IsNullOrEmpty(errorMsg))
                 {
                     try
@@ -379,16 +388,20 @@ public class KaladontChannelService : INService, IReadyExecutor
         }
     }
 
-    private string GetErrorMessage(KaladontGame.ValidationResult result, string word)
+    private string GetErrorMessage(KaladontGame.ValidationResult result, string word, string currentWord, ulong guildId)
     {
+        var lastTwo = currentWord.Length >= 2 ? currentWord[^2..].ToUpperInvariant() : "??";
+
         return result switch
         {
-            KaladontGame.ValidationResult.TooShort => "❌ Word must be at least 3 characters!",
-            KaladontGame.ValidationResult.AlreadyUsed => $"❌ **{word}** was already used!",
-            KaladontGame.ValidationResult.WrongLetters => "❌ Word must start with the correct letters!",
-            KaladontGame.ValidationResult.KaladontLoop => $"❌ KALADONT! **{word}** creates a loop!",
-            KaladontGame.ValidationResult.NotInDictionary => $"❌ **{word}** not in dictionary!",
-            KaladontGame.ValidationResult.DeadEnd => $"❌ **{word}** would create a dead-end! (Endless mode)",
+            KaladontGame.ValidationResult.TooShort => strings.KaladontInvalidLength(guildId),
+            KaladontGame.ValidationResult.AlreadyUsed => strings.KaladontAlreadyUsed(guildId, Format.Bold(word)),
+            KaladontGame.ValidationResult.WrongLetters =>
+                $"{strings.KaladontWrongLetters(guildId, Format.Bold(lastTwo))}\nCurrent: **{currentWord.ToUpperInvariant()}**",
+            KaladontGame.ValidationResult.KaladontLoop => strings.KaladontLoopDetected(guildId, Format.Bold(word)),
+            KaladontGame.ValidationResult.NotInDictionary => strings.KaladontNotFound(guildId, Format.Bold(word)),
+            KaladontGame.ValidationResult.DeadEnd => strings.KaladontDeadEnd(guildId, Format.Bold(word),
+                Format.Bold(word.Length >= 2 ? word[^2..].ToUpperInvariant() : "")),
             _ => string.Empty
         };
     }
@@ -455,8 +468,7 @@ public class KaladontChannelService : INService, IReadyExecutor
                 var validation = ValidateWord(word);
                 if (validation != KaladontGame.ValidationResult.Valid)
                 {
-                    // Player is eliminated
-                    currentPlayers.Remove(userId);
+                    // Player is NOT eliminated in persistent mode - just rejected
                     return (false, validation);
                 }
 
@@ -474,6 +486,11 @@ public class KaladontChannelService : INService, IReadyExecutor
             {
                 locker.Release();
             }
+        }
+
+        public string GetCurrentWord()
+        {
+            return currentWord;
         }
 
         private KaladontGame.ValidationResult ValidateWord(string word)
