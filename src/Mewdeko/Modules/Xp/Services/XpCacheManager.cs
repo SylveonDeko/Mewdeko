@@ -623,7 +623,8 @@ public class XpCacheManager : INService
             {
                 $"{RedisKeyPrefix}{GuildUserKey}:{guildId}:*", $"{RedisKeyPrefix}{GuildSettingsKey}:{guildId}",
                 $"{RedisKeyPrefix}{ExclusionKey}:{guildId}:*", $"{RedisKeyPrefix}{MultiplierKey}:{guildId}:*",
-                $"{RedisKeyPrefix}{CooldownKey}:{guildId}:*", $"{RedisKeyPrefix}{FirstMsgKey}:{guildId}:*"
+                $"{RedisKeyPrefix}{CooldownKey}:{guildId}:*", $"{RedisKeyPrefix}{FirstMsgKey}:{guildId}:*",
+                $"{RedisKeyPrefix}leaderboard:{guildId}:*", $"{RedisKeyPrefix}leaderboard:count:{guildId}"
             };
 
             // Gather all keys to delete
@@ -657,6 +658,50 @@ public class XpCacheManager : INService
         catch (Exception ex)
         {
             logger.LogError(ex, "Error clearing XP caches for guild {GuildId}", guildId);
+        }
+    }
+
+    /// <summary>
+    ///     Invalidates the leaderboard cache for a specific guild.
+    ///     This is called after XP updates to ensure leaderboard reflects changes immediately.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public async Task InvalidateLeaderboardCacheAsync(ulong guildId)
+    {
+        try
+        {
+            // Get the Redis server instance
+            var server = dataCache.Redis.GetServer(dataCache.Redis.GetEndPoints().First());
+
+            // Define patterns for leaderboard cache keys
+            var patterns = new[]
+            {
+                $"{RedisKeyPrefix}leaderboard:{guildId}:*", $"{RedisKeyPrefix}leaderboard:count:{guildId}"
+            };
+
+            // Gather all keys to delete
+            var redisKeysToDelete = new List<RedisKey>();
+
+            foreach (var pattern in patterns)
+            {
+                await foreach (var key in server.KeysAsync(pattern: pattern))
+                {
+                    redisKeysToDelete.Add(key);
+                }
+            }
+
+            // Delete all matching keys in one operation
+            if (redisKeysToDelete.Count > 0)
+            {
+                await redisCache.KeyDeleteAsync(redisKeysToDelete.ToArray()).ConfigureAwait(false);
+                logger.LogDebug("Invalidated {Count} leaderboard cache keys for guild {GuildId}",
+                    redisKeysToDelete.Count, guildId);
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error invalidating leaderboard cache for guild {GuildId}", guildId);
         }
     }
 

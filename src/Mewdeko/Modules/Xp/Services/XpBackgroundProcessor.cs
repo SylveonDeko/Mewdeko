@@ -615,6 +615,22 @@ public class XpBackgroundProcessor : INService, IDisposable
             // Execute database operations with retry
             await ExecuteDatabaseOperationsWithRetry(db, guildId, insertRecords, updateRecords).ConfigureAwait(false);
 
+            // Invalidate leaderboard cache after XP updates to ensure immediate updates
+            if (insertRecords.Count > 0 || updateRecords.Count > 0)
+            {
+                _ = Task.Run(async () =>
+                {
+                    try
+                    {
+                        await cacheManager.InvalidateLeaderboardCacheAsync(guildId).ConfigureAwait(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogError(ex, "Error invalidating leaderboard cache for guild {GuildId}", guildId);
+                    }
+                });
+            }
+
             return items.Count;
         }
         catch (Exception ex)

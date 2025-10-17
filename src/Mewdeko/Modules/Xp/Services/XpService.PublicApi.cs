@@ -281,6 +281,19 @@ public partial class XpService
         // Update cache synchronously to ensure it's updated before events are fired
         await cacheManager.UpdateUserXpCacheAsync(userXp);
 
+        // Invalidate leaderboard cache to reflect reset immediately
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                await cacheManager.InvalidateLeaderboardCacheAsync(guildId);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error invalidating leaderboard cache after reset for guild {GuildId}", guildId);
+            }
+        });
+
         // Publish level change event if user had a level before reset
         if (oldLevel > 0)
         {
@@ -326,6 +339,19 @@ public partial class XpService
 
         // Update cache synchronously to ensure it's updated before events are fired
         await cacheManager.UpdateUserXpCacheAsync(userXp);
+
+        // Invalidate leaderboard cache to reflect changes immediately
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                await cacheManager.InvalidateLeaderboardCacheAsync(guildId);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error invalidating leaderboard cache after set for guild {GuildId}", guildId);
+            }
+        });
 
         // Publish level change event if level changed
         if (newLevel != oldLevel)
