@@ -743,8 +743,16 @@ public class CustomVoiceService : INService, IUnloadableService
                     }
                 }
 
-                // Send a welcome message to the text channel
-                await textChannel.SendMessageAsync(strings.CustomVoiceDescription(voiceChannel.Guild.Id));
+                // Send a welcome message with control buttons to the text channel
+                var embed = new EmbedBuilder()
+                    .WithOkColor()
+                    .WithTitle("Voice Channel Controls")
+                    .WithDescription(strings.CustomVoiceDescription(voiceChannel.Guild.Id) ??
+                                     "This is your custom voice channel. Use the buttons below to manage it.")
+                    .Build();
+
+                var components = BuildVoiceControlButtons(voiceChannel.Id, customChannel, config);
+                await textChannel.SendMessageAsync(embed: embed, components: components.Build());
             }
         }
         catch (Exception ex)
@@ -1434,6 +1442,91 @@ public class CustomVoiceService : INService, IUnloadableService
 
         // Remove starting/ending spaces
         return name.Trim();
+    }
+
+    /// <summary>
+    ///     Builds the interactive control buttons for a voice channel.
+    /// </summary>
+    private ComponentBuilder BuildVoiceControlButtons(ulong channelId, CustomVoiceChannel customChannel,
+        CustomVoiceConfig config)
+    {
+        var components = new ComponentBuilder();
+
+        // Row 1: Basic controls
+        components.WithButton(
+            customId: $"voice:rename:{channelId}",
+            label: "Rename",
+            style: ButtonStyle.Primary,
+            disabled: !config.AllowNameCustomization,
+            emote: new Emoji("✏️"),
+            row: 0
+        );
+
+        components.WithButton(
+            customId: $"voice:limit:{channelId}",
+            label: "User Limit",
+            style: ButtonStyle.Primary,
+            disabled: !config.AllowUserLimitCustomization,
+            emote: new Emoji("👥"),
+            row: 0
+        );
+
+        components.WithButton(
+            customId: $"voice:bitrate:{channelId}",
+            label: "Bitrate",
+            style: ButtonStyle.Primary,
+            disabled: !config.AllowBitrateCustomization,
+            emote: new Emoji("🔊"),
+            row: 0
+        );
+
+        // Row 2: Lock/Keep Alive/Transfer/Delete toggles
+        components.WithButton(
+            customId: $"voice:{(customChannel.IsLocked ? "unlock" : "lock")}:{channelId}",
+            label: customChannel.IsLocked ? "Unlock" : "Lock",
+            style: customChannel.IsLocked ? ButtonStyle.Success : ButtonStyle.Danger,
+            disabled: !config.AllowLocking,
+            emote: new Emoji(customChannel.IsLocked ? "🔓" : "🔒"),
+            row: 1
+        );
+
+        components.WithButton(
+            customId: $"voice:keepalive:{channelId}:{!customChannel.KeepAlive}",
+            label: customChannel.KeepAlive ? "Disable Keep Alive" : "Enable Keep Alive",
+            style: customChannel.KeepAlive ? ButtonStyle.Danger : ButtonStyle.Success,
+            emote: new Emoji("⏱️"),
+            row: 1
+        );
+
+        components.WithButton(
+            customId: $"voice:transfer:{channelId}",
+            label: "Transfer",
+            style: ButtonStyle.Secondary,
+            emote: new Emoji("👑"),
+            row: 1
+        );
+
+        components.WithButton(
+            customId: $"voice:delete:{channelId}",
+            label: "Delete",
+            style: ButtonStyle.Danger,
+            emote: new Emoji("🗑️"),
+            row: 1
+        );
+
+        // Row 3: User Management button
+        if (config.AllowUserManagement)
+        {
+            components.WithButton(
+                customId: $"voice:manage:{channelId}",
+                label: "Manage Users",
+                style: ButtonStyle.Secondary,
+                emote: new Emoji("⚙️"),
+                row: 2
+            );
+        }
+
+        return components;
     }
 
     /// <summary>
