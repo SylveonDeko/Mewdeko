@@ -1,5 +1,6 @@
 using DataModel;
 using Discord.Interactions;
+using Mewdeko.Common.Modals;
 using Mewdeko.Modules.CustomVoice.Services;
 
 namespace Mewdeko.Modules.CustomVoice;
@@ -266,7 +267,7 @@ public class CustomVoiceInteractions : MewdekoSlashModuleBase<CustomVoiceService
     ///     Handles rename modal submission.
     /// </summary>
     [ModalInteraction("voice:rename:modal:*")]
-    public async Task HandleRenameModal(string channelIdStr, RenameModal modal)
+    public async Task HandleRenameModal(string channelIdStr, RenameVoiceChannelModal modal)
     {
         await DeferAsync(true);
 
@@ -290,7 +291,7 @@ public class CustomVoiceInteractions : MewdekoSlashModuleBase<CustomVoiceService
     ///     Handles user limit modal submission.
     /// </summary>
     [ModalInteraction("voice:limit:modal:*")]
-    public async Task HandleLimitModal(string channelIdStr, LimitModal modal)
+    public async Task HandleLimitModal(string channelIdStr, VoiceChannelLimitModal modal)
     {
         await DeferAsync(true);
 
@@ -321,7 +322,7 @@ public class CustomVoiceInteractions : MewdekoSlashModuleBase<CustomVoiceService
     ///     Handles bitrate modal submission.
     /// </summary>
     [ModalInteraction("voice:bitrate:modal:*")]
-    public async Task HandleBitrateModal(string channelIdStr, BitrateModal modal)
+    public async Task HandleBitrateModal(string channelIdStr, VoiceChannelBitrateModal modal)
     {
         await DeferAsync(true);
 
@@ -344,60 +345,6 @@ public class CustomVoiceInteractions : MewdekoSlashModuleBase<CustomVoiceService
         else
         {
             await FollowupAsync("Failed to update bitrate.", ephemeral: true);
-        }
-    }
-
-    /// <summary>
-    ///     Modal for renaming a voice channel.
-    /// </summary>
-    public class RenameModal : IModal
-    {
-        [InputLabel("New Channel Name")]
-        [ModalTextInput("name", TextInputStyle.Short, "Enter new name", 1, 100)]
-        public string Name { get; set; }
-
-        public string Title
-        {
-            get
-            {
-                return "Rename Voice Channel";
-            }
-        }
-    }
-
-    /// <summary>
-    ///     Modal for setting user limit.
-    /// </summary>
-    public class LimitModal : IModal
-    {
-        [InputLabel("User Limit")]
-        [ModalTextInput("limit", TextInputStyle.Short, "0 for unlimited", 1, 3)]
-        public string Limit { get; set; }
-
-        public string Title
-        {
-            get
-            {
-                return "Set User Limit";
-            }
-        }
-    }
-
-    /// <summary>
-    ///     Modal for setting bitrate.
-    /// </summary>
-    public class BitrateModal : IModal
-    {
-        [InputLabel("Bitrate (kbps)")]
-        [ModalTextInput("bitrate", TextInputStyle.Short, "Enter bitrate in kbps", 1, 6)]
-        public string Bitrate { get; set; }
-
-        public string Title
-        {
-            get
-            {
-                return "Set Bitrate";
-            }
         }
     }
 }
