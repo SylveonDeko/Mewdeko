@@ -693,28 +693,35 @@ public class UserPunishService : INService, IDisposable
     /// <param name="text">The message to set.</param>
     public async Task SetBanTemplate(ulong guildId, string? text)
     {
-        await using var dbContext = await dbFactory.CreateConnectionAsync();
-        var template = dbContext.BanTemplates
-            .AsQueryable()
-            .FirstOrDefault(x => x.GuildId == guildId);
-
-        if (text == null)
+        try
         {
-            if (template is null)
-                return;
+            await using var dbContext = await dbFactory.CreateConnectionAsync();
+            var template = dbContext.BanTemplates
+                .AsQueryable()
+                .FirstOrDefault(x => x.GuildId == guildId);
 
-            await dbContext.BanTemplates.Select(x => template).DeleteAsync();
-        }
-        else if (template == null)
-        {
-            await dbContext.InsertAsync(new BanTemplate
+            if (text == null)
             {
-                GuildId = guildId, Text = text
-            });
+                if (template is null)
+                    return;
+
+                await dbContext.BanTemplates.Select(x => template).DeleteAsync();
+            }
+            else if (template == null)
+            {
+                await dbContext.InsertAsync(new BanTemplate
+                {
+                    GuildId = guildId, Text = text
+                });
+            }
+            else
+            {
+                template.Text = text;
+            }
         }
-        else
+        catch (Exception ex)
         {
-            template.Text = text;
+            logger.LogError(ex, "Unable to set ban template for guild {GuildId}", guildId);
         }
     }
 
