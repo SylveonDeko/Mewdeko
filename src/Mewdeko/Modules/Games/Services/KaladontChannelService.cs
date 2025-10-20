@@ -101,10 +101,7 @@ public class KaladontChannelService : INService, IReadyExecutor
                 oldGame.Dispose();
             }
 
-            // Delete existing configuration
-            await db.GetTable<KaladontChannel>()
-                .Where(x => x.ChannelId == channelId)
-                .DeleteAsync();
+            await db.DeleteAsync(existing);
 
             cache.Remove(string.Format(CHANNEL_CACHE_KEY, channelId));
         }
