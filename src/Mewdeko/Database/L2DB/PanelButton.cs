@@ -42,12 +42,12 @@ public class PanelButton
     [Column("ArchiveCategoryId")]
     public ulong? ArchiveCategoryId { get; set; }
 
-    // Internal storage as long[] for database compatibility
+    // Public storage as long[] for database compatibility (must be public for linq2db)
     [Column("SupportRoles")]
-    internal long[] _supportRoles { get; set; } = [];
+    public long[] _supportRoles { get; set; } = [];
 
     [Column("ViewerRoles")]
-    internal long[] _viewerRoles { get; set; } = [];
+    public long[] _viewerRoles { get; set; } = [];
 
     [Column("AutoCloseTime")]
     public TimeSpan? AutoCloseTime { get; set; }

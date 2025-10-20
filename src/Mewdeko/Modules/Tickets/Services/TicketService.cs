@@ -2303,17 +2303,17 @@ public class TicketService : INService
             var panelIds = panels.Select(p => p.Id).ToArray();
 
             var panelButtons = await ctx.PanelButtons
-                .Where(b => panelIds.Contains(b.PanelId))
+                .Where(b => panelIds.AsEnumerable().Contains(b.PanelId))
                 .ToListAsync();
 
             var selectMenus = await ctx.PanelSelectMenus
-                .Where(m => panelIds.Contains(m.PanelId))
+                .Where(m => panelIds.AsEnumerable().Contains(m.PanelId))
                 .ToListAsync();
 
             var menuIds = selectMenus.Select(m => m.Id).ToArray();
             var options = menuIds.Any()
                 ? await ctx.SelectMenuOptions
-                    .Where(o => menuIds.Contains(o.SelectMenuId))
+                    .Where(o => menuIds.AsEnumerable().Contains(o.SelectMenuId))
                     .ToListAsync()
                 : [];
 
@@ -5209,10 +5209,14 @@ public class TicketService : INService
                         button.ArchiveCategoryId = (ulong?)setting.Value;
                         break;
                     case "supportroles":
-                        button.SupportRoles = (ulong[])setting.Value;
+                        // Directly set internal field to ensure linq2db detects the change
+                        var supportRolesUlong = (ulong[])setting.Value;
+                        button._supportRoles = supportRolesUlong?.Select(x => (long)x).ToArray() ?? [];
                         break;
                     case "viewerroles":
-                        button.ViewerRoles = (ulong[])setting.Value;
+                        // Directly set internal field to ensure linq2db detects the change
+                        var viewerRolesUlong = (ulong[])setting.Value;
+                        button._viewerRoles = viewerRolesUlong?.Select(x => (long)x).ToArray() ?? [];
                         break;
                     case "autoclosetime":
                         button.AutoCloseTime = (TimeSpan?)setting.Value;
@@ -5272,8 +5276,14 @@ public class TicketService : INService
                 }
             }
 
-            // Actually save the changes to the database
-            await ctx.UpdateAsync(button);
+            // linq2db's UpdateAsync should include all [Column] mapped fields
+            // Make sure internal fields have values set before calling Update
+            logger.LogDebug("Updating button {ButtonId}: SupportRoles={SupportRoles}, ViewerRoles={ViewerRoles}",
+                buttonId,
+                string.Join(",", button._supportRoles ?? Array.Empty<long>()),
+                string.Join(",", button._viewerRoles ?? Array.Empty<long>()));
+
+            var complete = await ctx.UpdateAsync(button);
 
             // Update the panel components in Discord
             await UpdatePanelComponentsAsync(button.Panel);
@@ -5328,10 +5338,14 @@ public class TicketService : INService
                         option.ArchiveCategoryId = (ulong?)setting.Value;
                         break;
                     case "supportroles":
-                        option.SupportRoles = (ulong[])setting.Value;
+                        // Directly set internal field to ensure linq2db detects the change
+                        var supportRolesUlong = (ulong[])setting.Value;
+                        option._supportRoles = supportRolesUlong?.Select(x => (long)x).ToArray() ?? [];
                         break;
                     case "viewerroles":
-                        option.ViewerRoles = (ulong[])setting.Value;
+                        // Directly set internal field to ensure linq2db detects the change
+                        var viewerRolesUlong = (ulong[])setting.Value;
+                        option._viewerRoles = viewerRolesUlong?.Select(x => (long)x).ToArray() ?? [];
                         break;
                     case "autoclosetime":
                         option.AutoCloseTime = (TimeSpan?)setting.Value;
@@ -5391,7 +5405,13 @@ public class TicketService : INService
                 }
             }
 
-            // Actually save the changes to the database
+            // linq2db's UpdateAsync should include all [Column] mapped fields
+            // Make sure internal fields have values set before calling Update
+            logger.LogDebug("Updating option {OptionId}: SupportRoles={SupportRoles}, ViewerRoles={ViewerRoles}",
+                optionId,
+                string.Join(",", option._supportRoles ?? Array.Empty<long>()),
+                string.Join(",", option._viewerRoles ?? Array.Empty<long>()));
+
             await ctx.UpdateAsync(option);
 
             // Update the panel components in Discord

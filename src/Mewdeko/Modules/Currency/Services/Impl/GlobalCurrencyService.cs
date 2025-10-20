@@ -64,7 +64,7 @@ public class GlobalCurrencyService : ICurrencyService
         // Create a new transaction entry
         var transaction = new TransactionHistory
         {
-            UserId = userId, Amount = amount, Description = description
+            UserId = userId, Amount = amount, Description = description, DateAdded = DateTime.UtcNow
         };
 
         // Add transaction to the database

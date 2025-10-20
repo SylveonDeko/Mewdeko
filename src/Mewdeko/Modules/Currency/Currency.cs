@@ -211,9 +211,9 @@ public partial class Currency(
     [UserPerm(GuildPermission.Administrator)]
     public async Task SetDaily(int amount, StoopidTime time)
     {
-        await Service.SetReward(amount, time.Time.Seconds, ctx.Guild.Id);
+        await Service.SetReward(amount, (int)time.Time.TotalSeconds, ctx.Guild.Id);
         await ctx.Channel.SendConfirmAsync(Strings.SetdailySuccess(ctx.Guild.Id, amount,
-            await Service.GetCurrencyEmote(ctx.Guild.Id), time.Time.Seconds));
+            await Service.GetCurrencyEmote(ctx.Guild.Id), time.Time.ToReadableDuration()));
     }
 
     /// <summary>

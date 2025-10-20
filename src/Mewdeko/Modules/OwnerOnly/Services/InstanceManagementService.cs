@@ -166,7 +166,7 @@ public class InstanceManagementService : INService, IReadyExecutor
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Failed to get status for instance on port {Port}", port);
+            logger.LogError("Failed to get status for instance on port {Port}", port);
             return null;
         }
     }

@@ -580,11 +580,19 @@ public class StreamNotificationService : IReadyExecutor, INService
     {
         var guild = client.GetGuild(guildId);
 
+        // Ensure stream URL has protocol for button compatibility
+        var streamUrl = stream.StreamUrl ?? "";
+        if (!string.IsNullOrWhiteSpace(streamUrl) && !streamUrl.StartsWith("http://") &&
+            !streamUrl.StartsWith("https://"))
+        {
+            streamUrl = $"https://{streamUrl}";
+        }
+
         return new ReplacementBuilder()
             // Stream-specific data only
             .WithOverride("%stream.name%", () => stream.Name ?? "Unknown")
             .WithOverride("%stream.username%", () => stream.UniqueName ?? "Unknown")
-            .WithOverride("%stream.url%", () => stream.StreamUrl ?? "")
+            .WithOverride("%stream.url%", () => streamUrl)
             .WithOverride("%stream.title%", () => stream.Title ?? "No title")
             .WithOverride("%stream.game%", () => stream.Game ?? "No category")
             .WithOverride("%stream.viewers%", () => stream.IsLive ? stream.Viewers.ToString("N0") : "-")

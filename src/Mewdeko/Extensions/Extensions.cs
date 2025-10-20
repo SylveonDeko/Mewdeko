@@ -258,6 +258,37 @@ public static partial class Extensions
         return span < TimeSpan.FromMinutes(2) ? $"{span:mm}m {span:ss}s" : $"{(int)span.TotalHours:D2}h {span:mm}m";
     }
 
+    /// <summary>
+    ///     Converts a TimeSpan to a human-readable string with days, hours, and minutes.
+    /// </summary>
+    /// <param name="span">TimeSpan to convert.</param>
+    /// <returns>Formatted duration string.</returns>
+    public static string ToReadableDuration(this TimeSpan span)
+    {
+        if (span.Days > 0)
+        {
+            var result = $"{span.Days} day{(span.Days != 1 ? "s" : "")}";
+            if (span.Hours > 0)
+                result += $" {span.Hours} hour{(span.Hours != 1 ? "s" : "")}";
+            if (span.Minutes > 0)
+                result += $" {span.Minutes} minute{(span.Minutes != 1 ? "s" : "")}";
+            return result;
+        }
+
+        if (span.Hours > 0)
+        {
+            var result = $"{span.Hours} hour{(span.Hours != 1 ? "s" : "")}";
+            if (span.Minutes > 0)
+                result += $" {span.Minutes} minute{(span.Minutes != 1 ? "s" : "")}";
+            return result;
+        }
+
+        if (span.Minutes > 0)
+            return $"{span.Minutes} minute{(span.Minutes != 1 ? "s" : "")}";
+
+        return $"{span.Seconds} second{(span.Seconds != 1 ? "s" : "")}";
+    }
+
 
     /// <summary>
     ///     Adds a range of items to the list.

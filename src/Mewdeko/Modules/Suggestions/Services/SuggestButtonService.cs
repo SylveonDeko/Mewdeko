@@ -6,7 +6,7 @@ namespace Mewdeko.Modules.Suggestions.Services;
 /// <summary>
 ///     Handles button interactions for suggestions, including voting and starting discussion threads.
 /// </summary>
-public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
+public class SuggestButtonService(ILogger<SuggestButtonService> logger) : MewdekoSlashSubmodule<SuggestionsService>
 {
     /// <summary>
     ///     Updates the vote count for a suggestion based on user interaction with emote buttons.
@@ -19,88 +19,96 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
     [ComponentInteraction("emotebutton:*")]
     public async Task UpdateCount(string number)
     {
-        await DeferAsync(true).ConfigureAwait(false);
-        var componentInteraction = ctx.Interaction as IComponentInteraction;
-        var componentData = ComponentBuilder.FromMessage(componentInteraction.Message);
-        if (!int.TryParse(number, out var emoteNum)) return;
-        var changed = false;
-        var pickedEmote = await Service.GetPickedEmote(componentInteraction.Message.Id, ctx.User.Id);
-        if (pickedEmote == emoteNum)
+        try
         {
-            if (await PromptUserConfirmAsync(Strings.RemoveVoteConfirm(ctx.Guild.Id), ctx.User.Id, true, false))
+            await DeferAsync(true).ConfigureAwait(false);
+            var componentInteraction = ctx.Interaction as IComponentInteraction;
+            var componentData = ComponentBuilder.FromMessage(componentInteraction.Message);
+            if (!int.TryParse(number, out var emoteNum)) return;
+            var changed = false;
+            var pickedEmote = await Service.GetPickedEmote(componentInteraction.Message.Id, ctx.User.Id);
+            if (pickedEmote == emoteNum)
             {
-                changed = true;
-                await ctx.Interaction.SendEphemeralFollowupConfirmAsync(Strings.VoteRemoved(ctx.Guild.Id));
-            }
-            else
-            {
-                await ctx.Interaction.SendEphemeralFollowupErrorAsync(Strings.VoteNotRemoved(ctx.Guild.Id), Config)
-                    .ConfigureAwait(false);
-                return;
-            }
-        }
-
-        if (pickedEmote != 0 && pickedEmote != emoteNum)
-        {
-            if (!await PromptUserConfirmAsync(Strings.ChangeVoteConfirm(ctx.Guild.Id), ctx.User.Id, true, false))
-            {
-                await ctx.Interaction.SendEphemeralFollowupErrorAsync(Strings.VoteNotChanged(ctx.Guild.Id), Config)
-                    .ConfigureAwait(false);
-                return;
+                if (await PromptUserConfirmAsync(Strings.RemoveVoteConfirm(ctx.Guild.Id), ctx.User.Id, true, false))
+                {
+                    changed = true;
+                    await ctx.Interaction.SendEphemeralFollowupConfirmAsync(Strings.VoteRemoved(ctx.Guild.Id));
+                }
+                else
+                {
+                    await ctx.Interaction.SendEphemeralFollowupErrorAsync(Strings.VoteNotRemoved(ctx.Guild.Id), Config)
+                        .ConfigureAwait(false);
+                    return;
+                }
             }
 
-            await ctx.Interaction.SendEphemeralFollowupConfirmAsync(Strings.VoteChanged(ctx.Guild.Id));
-        }
-
-        await Service.UpdatePickedEmote(componentInteraction.Message.Id, ctx.User.Id, changed ? 0 : emoteNum)
-            .ConfigureAwait(false);
-        var suggest = await Service.GetSuggestByMessage(componentInteraction.Message.Id);
-        var builder = new ComponentBuilder();
-        var rows = componentData.ActionRows;
-        var buttons = rows.ElementAt(0).Components;
-        var count = 0;
-        foreach (var i in buttons.Select(x => x as ButtonComponent))
-        {
-            ++count;
-            var splitNum = int.Parse(i.CustomId.Split(":")[1]);
-            if (splitNum == emoteNum && !changed)
+            if (pickedEmote != 0 && pickedEmote != emoteNum)
             {
-                await Service.UpdateEmoteCount(componentInteraction.Message.Id, emoteNum).ConfigureAwait(false);
-                var label = int.Parse(i.Label);
-                builder.WithButton((label + 1).ToString(), $"emotebutton:{emoteNum}",
-                    emote: await Service.GetSuggestMote(ctx.Guild, emoteNum),
-                    style: await Service.GetButtonStyle(ctx.Guild, emoteNum));
-                continue;
+                if (!await PromptUserConfirmAsync(Strings.ChangeVoteConfirm(ctx.Guild.Id), ctx.User.Id, true, false))
+                {
+                    await ctx.Interaction.SendEphemeralFollowupErrorAsync(Strings.VoteNotChanged(ctx.Guild.Id), Config)
+                        .ConfigureAwait(false);
+                    return;
+                }
+
+                await ctx.Interaction.SendEphemeralFollowupConfirmAsync(Strings.VoteChanged(ctx.Guild.Id));
             }
 
-            if (splitNum == pickedEmote)
+            await Service.UpdatePickedEmote(componentInteraction.Message.Id, ctx.User.Id, changed ? 0 : emoteNum)
+                .ConfigureAwait(false);
+            var suggest = await Service.GetSuggestByMessage(componentInteraction.Message.Id);
+            var builder = new ComponentBuilder();
+            var rows = componentData.ActionRows;
+            var buttons = rows.ElementAt(0).Components;
+            var count = 0;
+            foreach (var i in buttons.Select(x => x as ButtonBuilder))
             {
-                await Service.UpdateEmoteCount(componentInteraction.Message.Id, splitNum, true).ConfigureAwait(false);
-                var label = int.Parse(i.Label);
-                builder.WithButton((label - 1).ToString(), $"emotebutton:{splitNum}",
-                    emote: await Service.GetSuggestMote(ctx.Guild, splitNum),
-                    style: await Service.GetButtonStyle(ctx.Guild, splitNum));
-                continue;
+                ++count;
+                var splitNum = int.Parse(i.CustomId.Split(":")[1]);
+                if (splitNum == emoteNum && !changed)
+                {
+                    await Service.UpdateEmoteCount(componentInteraction.Message.Id, emoteNum).ConfigureAwait(false);
+                    var label = int.Parse(i.Label);
+                    builder.WithButton((label + 1).ToString(), $"emotebutton:{emoteNum}",
+                        emote: await Service.GetSuggestMote(ctx.Guild, emoteNum),
+                        style: await Service.GetButtonStyle(ctx.Guild, emoteNum));
+                    continue;
+                }
+
+                if (splitNum == pickedEmote)
+                {
+                    await Service.UpdateEmoteCount(componentInteraction.Message.Id, splitNum, true)
+                        .ConfigureAwait(false);
+                    var label = int.Parse(i.Label);
+                    builder.WithButton((label - 1).ToString(), $"emotebutton:{splitNum}",
+                        emote: await Service.GetSuggestMote(ctx.Guild, splitNum),
+                        style: await Service.GetButtonStyle(ctx.Guild, splitNum));
+                    continue;
+                }
+
+                builder.WithButton(i.Label,
+                    $"emotebutton:{count}", await Service.GetButtonStyle(ctx.Guild, count),
+                    await Service.GetSuggestMote(ctx.Guild, count));
             }
 
-            builder.WithButton(i.Label,
-                $"emotebutton:{count}", await Service.GetButtonStyle(ctx.Guild, count),
-                await Service.GetSuggestMote(ctx.Guild, count));
-        }
+            if (await Service.GetThreadType(ctx.Guild) == 1)
+            {
+                builder.WithButton("Join/Create Public Discussion", $"publicsuggestthread:{suggest.SuggestionId}",
+                    ButtonStyle.Secondary, row: 1);
+            }
 
-        if (await Service.GetThreadType(ctx.Guild) == 1)
+            if (await Service.GetThreadType(ctx.Guild) == 2)
+            {
+                builder.WithButton("Join/Create Private Discussion",
+                    $"privatesuggestthread:{suggest.SuggestionId}", ButtonStyle.Secondary, row: 1);
+            }
+
+            await componentInteraction.Message.ModifyAsync(x => x.Components = builder.Build()).ConfigureAwait(false);
+        }
+        catch (Exception e)
         {
-            builder.WithButton("Join/Create Public Discussion", $"publicsuggestthread:{suggest.SuggestionId}",
-                ButtonStyle.Secondary, row: 1);
+            logger.LogError(e, "Error updating suggestions");
         }
-
-        if (await Service.GetThreadType(ctx.Guild) == 2)
-        {
-            builder.WithButton("Join/Create Private Discussion",
-                $"privatesuggestthread:{suggest.SuggestionId}", ButtonStyle.Secondary, row: 1);
-        }
-
-        await componentInteraction.Message.ModifyAsync(x => x.Components = builder.Build()).ConfigureAwait(false);
     }
 
 

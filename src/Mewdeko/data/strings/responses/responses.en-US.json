@@ -2972,7 +2972,7 @@
   "set_guild_profile_http_error": "Failed to set guild profile - HTTP error occurred.",
   "set_guild_profile_no_image": "Please provide an image URL or attach an image to your message.",
   "set_guild_profile_processing": "Setting guild profile...",
-  "setdaily_success": "Daily reward set to {0} {1} every {2} seconds.",
+  "setdaily_success": "Daily reward set to {0} {1} with a cooldown of {2}.",
   "setrole": "Successfully added role {0} to user {1}",
   "setrole_err": "Failed to add role. I have insufficient permissions.",
   "setrole_time": "Successfully added role {0} to user {1} for {2}",

@@ -28,12 +28,12 @@ namespace DataModel
 		[Column("ChannelNameFormat"   ,CanBeNull                                                            = true)] public string     ChannelNameFormat    { get; set; } = null!; // text
 		[Column("CategoryId"                                                                                             )] public ulong?   CategoryId           { get; set; } // numeric(20,0)
 		[Column("ArchiveCategoryId"                                                                                      )] public ulong?   ArchiveCategoryId    { get; set; } // numeric(20,0)
-        // Internal storage as long[] for database compatibility
+        // Public storage as long[] for database compatibility (must be public for linq2db)
         [Column("SupportRoles")]
-        internal long[] _supportRoles { get; set; } = [];
+        public long[] _supportRoles { get; set; } = [];
 
         [Column("ViewerRoles")]
-        internal long[] _viewerRoles { get; set; } = [];
+        public long[] _viewerRoles { get; set; } = [];
         [Column("AutoCloseTime"                                                                                          )] public TimeSpan?  AutoCloseTime        { get; set; } // interval
 		[Column("RequiredResponseTime"                                                                                   )] public TimeSpan?  RequiredResponseTime { get; set; } // interval
 		[Column("MaxActiveTickets"                                                                                       )] public int        MaxActiveTickets     { get; set; } // integer

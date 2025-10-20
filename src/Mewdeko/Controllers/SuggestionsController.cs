@@ -67,7 +67,7 @@ public class SuggestionsController(
             }
         }
 
-        // Enrich suggestions with user data
+        // Enrich suggestions with user data and emote counts
         var enrichedSuggestions = suggestions.Select(s => new
         {
             s.Id,
@@ -78,6 +78,16 @@ public class SuggestionsController(
             s.CurrentState,
             s.DateAdded,
             s.StateChangeUser,
+            s.StateChangeCount,
+            s.MessageId,
+            EmoteCounts = new
+            {
+                Emote1 = s.EmoteCount1,
+                Emote2 = s.EmoteCount2,
+                Emote3 = s.EmoteCount3,
+                Emote4 = s.EmoteCount4,
+                Emote5 = s.EmoteCount5
+            },
             User = userInfoMap[s.UserId]
         });
 
@@ -710,5 +720,132 @@ public class SuggestionsController(
         var guild = client.GetGuild(guildId);
         await service.SetSuggestionEmotes(guild, emotes);
         return Ok("");
+    }
+
+    /// <summary>
+    ///     Gets the suggestion message format for a guild
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <returns>The suggestion message format</returns>
+    [HttpGet("suggestionMessage")]
+    public async Task<IActionResult> GetSuggestionMessage(ulong guildId)
+    {
+        var guild = client.GetGuild(guildId);
+        var message = await service.GetSuggestionMessage(guild);
+        return Ok(message == "-" ? "" : message);
+    }
+
+    /// <summary>
+    ///     Sets the suggestion message format for a guild
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="message">The new suggestion message format</param>
+    /// <returns>An IActionResult indicating the result of the operation</returns>
+    [HttpPost("suggestionMessage")]
+    public async Task<IActionResult> SetSuggestionMessage(ulong guildId, [FromBody] string message)
+    {
+        var guild = client.GetGuild(guildId);
+        await service.SetSuggestionMessage(guild, message);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Gets the emote mode for suggestions in a guild (0 = reactions, 1 = buttons)
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <returns>The emote mode</returns>
+    [HttpGet("emoteMode")]
+    public async Task<IActionResult> GetEmoteMode(ulong guildId)
+    {
+        var guild = client.GetGuild(guildId);
+        var mode = await service.GetEmoteMode(guild);
+        return Ok(mode);
+    }
+
+    /// <summary>
+    ///     Sets the emote mode for suggestions in a guild (0 = reactions, 1 = buttons)
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="mode">The new emote mode</param>
+    /// <returns>An IActionResult indicating the result of the operation</returns>
+    [HttpPost("emoteMode")]
+    public async Task<IActionResult> SetEmoteMode(ulong guildId, [FromBody] int mode)
+    {
+        var guild = client.GetGuild(guildId);
+        await service.SetEmoteMode(guild, mode);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Gets the suggest button color for a guild
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <returns>The button style/color</returns>
+    [HttpGet("suggestButtonColor")]
+    public async Task<IActionResult> GetSuggestButtonColor(ulong guildId)
+    {
+        var guild = client.GetGuild(guildId);
+        var color = await service.GetSuggestButtonColor(guild);
+        return Ok((int)color);
+    }
+
+    /// <summary>
+    ///     Sets the suggest button color for a guild
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="color">The new button color (1=Blue, 2=Grey, 3=Green, 4=Red)</param>
+    /// <returns>An IActionResult indicating the result of the operation</returns>
+    [HttpPost("suggestButtonColor")]
+    public async Task<IActionResult> SetSuggestButtonColor(ulong guildId, [FromBody] int color)
+    {
+        var guild = client.GetGuild(guildId);
+        await service.SetSuggestButtonColor(guild, color);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Gets the button style for a specific emote button
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="buttonId">The button number (1-5)</param>
+    /// <returns>The button style for the specified emote</returns>
+    [HttpGet("emoteButtonStyle/{buttonId}")]
+    public async Task<IActionResult> GetEmoteButtonStyle(ulong guildId, int buttonId)
+    {
+        var guild = client.GetGuild(guildId);
+        var style = await service.GetButtonStyle(guild, buttonId);
+        return Ok((int)style);
+    }
+
+    /// <summary>
+    ///     Sets the button style for a specific emote button
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="buttonId">The button number (1-5)</param>
+    /// <param name="color">The new button color (1=Blue, 2=Grey, 3=Green, 4=Red)</param>
+    /// <returns>An IActionResult indicating the result of the operation</returns>
+    [HttpPost("emoteButtonStyle/{buttonId}")]
+    public async Task<IActionResult> SetEmoteButtonStyle(ulong guildId, int buttonId, [FromBody] int color)
+    {
+        var guild = client.GetGuild(guildId);
+        await service.SetButtonType(guild, buttonId, color);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Clears all suggestions for a guild
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <returns>An IActionResult indicating the result of the operation</returns>
+    [HttpDelete("clear")]
+    public async Task<IActionResult> ClearSuggestions(ulong guildId)
+    {
+        var guild = client.GetGuild(guildId);
+        var suggestions = await service.Suggestions(guildId);
+        if (suggestions.Count == 0)
+            return NotFound("No suggestions to clear");
+
+        await service.SuggestReset(guild);
+        return Ok();
     }
 }

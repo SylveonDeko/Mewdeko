@@ -71,7 +71,11 @@ public class GuildCurrencyService : ICurrencyService
 
         var transaction = new TransactionHistory
         {
-            UserId = userId, GuildId = guildId.Value, Amount = amount, Description = description
+            UserId = userId,
+            GuildId = guildId.Value,
+            Amount = amount,
+            Description = description,
+            DateAdded = DateTime.UtcNow
         };
         await using var dbContext = await dbFactory.CreateConnectionAsync();
 
