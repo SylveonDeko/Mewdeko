@@ -301,6 +301,55 @@ public class TicketController : Controller
     }
 
     /// <summary>
+    ///     Checks the status of a single panel
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="panelId">The message ID of the panel to check</param>
+    /// <returns>Panel status information</returns>
+    [HttpGet("panels/{panelId}/status")]
+    public async Task<IActionResult> CheckSinglePanelStatus(ulong guildId, ulong panelId)
+    {
+        try
+        {
+            IGuild guild = client.GetGuild(guildId);
+            if (guild == null)
+                return NotFound("Guild not found");
+
+            var panel = await ticketService.GetPanelAsync(panelId);
+            if (panel == null || panel.GuildId != guildId)
+                return NotFound("Panel not found");
+
+            var channel = await guild.GetTextChannelAsync(panel.ChannelId);
+            if (channel == null)
+            {
+                return Ok(new
+                {
+                    PanelId = panelId, Status = 2
+                }); // Channel deleted
+            }
+
+            var message = await channel.GetMessageAsync(panel.MessageId);
+            if (message == null)
+            {
+                return Ok(new
+                {
+                    PanelId = panelId, Status = 1
+                }); // Message deleted
+            }
+
+            return Ok(new
+            {
+                PanelId = panelId, Status = 0
+            }); // OK
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error checking panel {PanelId} status in guild {GuildId}", panelId, guildId);
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    /// <summary>
     ///     Checks the status of all panels in a guild
     /// </summary>
     /// <param name="guildId">The ID of the guild to check panels for</param>
@@ -1727,6 +1776,62 @@ public class TicketController : Controller
     #endregion
 
     #region Statistics
+
+    /// <summary>
+    ///     Gets overview data optimized for dashboard without expensive Discord API calls
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="activityDays">Number of days to include in activity summary (default 30)</param>
+    /// <returns>Overview data with statistics and counts</returns>
+    [HttpGet("overview")]
+    public async Task<IActionResult> GetOverviewData(ulong guildId, [FromQuery] int activityDays = 30)
+    {
+        try
+        {
+            var stats = await ticketService.GetGuildStatistics(guildId);
+            var panels = await ticketService.GetPanelsAsync(guildId);
+            var priorities = await ticketService.GetGuildPriorities(guildId);
+            var tags = await ticketService.GetGuildTags(guildId);
+            var cases = await ticketService.GetGuildCasesAsync(guildId);
+            var activitySummary = await ticketService.GetTicketActivitySummary(guildId, activityDays);
+            var staffMetrics = await ticketService.GetStaffResponseMetrics(guildId);
+            IGuild guild = client.GetGuild(guildId);
+
+            // Only fetch Discord data for staff members (much smaller set than all tickets/panels)
+            var staffResponseStats = await Task.WhenAll(staffMetrics.Select(async kvp =>
+            {
+                var staff = await guild.GetUserAsync(kvp.Key);
+                return new
+                {
+                    StaffId = kvp.Key,
+                    StaffName = staff?.Username ?? "Unknown User",
+                    AverageResponseTimeMinutes = kvp.Value
+                };
+            }));
+
+            return Ok(new
+            {
+                Statistics = stats,
+                TicketActivity = activitySummary,
+                StaffResponseStats = staffResponseStats,
+                Panels = panels.Select(p => new
+                {
+                    p.Id, p.MessageId, p.ChannelId
+                }),
+                Priorities = priorities,
+                Tags = tags,
+                Cases = cases.Select(c => new
+                {
+                    c.Id, c.Title, c.CreatedAt, c.ClosedAt
+                })
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error getting overview data for guild {GuildId}", guildId);
+            return StatusCode(500, "Internal server error");
+        }
+    }
 
     /// <summary>
     ///     Gets guild-wide ticket statistics

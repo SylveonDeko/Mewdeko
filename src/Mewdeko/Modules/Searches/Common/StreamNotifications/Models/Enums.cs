@@ -28,5 +28,10 @@ public enum FType
     /// <summary>
     ///     Trovo stream.
     /// </summary>
-    Trovo = 6
+    Trovo = 6,
+
+    /// <summary>
+    ///     Kick stream.
+    /// </summary>
+    Kick = 7
 }

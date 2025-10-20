@@ -67,6 +67,7 @@ public class LoggingController(LogCommandService logService, IDataConnectionFact
             config.LogTypes["ChannelCreated"] = logSettings.ChannelCreatedId;
             config.LogTypes["ChannelDestroyed"] = logSettings.ChannelDestroyedId;
             config.LogTypes["ChannelUpdated"] = logSettings.ChannelUpdatedId;
+            config.LogTypes["ReactionEvents"] = logSettings.ReactionEventsId;
         }
 
         return Ok(config);

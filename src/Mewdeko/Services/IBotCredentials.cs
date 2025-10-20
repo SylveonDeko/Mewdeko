@@ -64,6 +64,15 @@ public interface IBotCredentials
     /// </summary>
     public string TrovoClientId { get; }
 
+    /// <summary>
+    ///     Gets the bot's Kick client ID.
+    /// </summary>
+    public string KickClientId { get; }
+
+    /// <summary>
+    ///     Gets the bot's Kick client secret.
+    /// </summary>
+    public string KickClientSecret { get; }
 
     /// <summary>
     ///     Gets the token used for voting.

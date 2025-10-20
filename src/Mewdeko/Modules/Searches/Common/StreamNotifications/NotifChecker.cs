@@ -53,6 +53,9 @@ public class NotifChecker
             },
             {
                 FType.Youtube, new YoutubeScrapingProvider()
+            },
+            {
+                FType.Kick, new KickProvider(httpClientFactory, credsProvider)
             }
         };
         offlineBuffer = [];
