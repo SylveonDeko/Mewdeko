@@ -71,6 +71,10 @@ public class GamesService : INService, IUnloadableService
             logger.LogWarning("Error while loading Kaladont Serbian dictionary: {Error}", ex.Message);
             KaladontSerbianDictionary = [];
         }
+
+        EnglishPrefixLookup = BuildPrefixLookup(KaladontEnglishDictionary, false);
+        SerbianPrefixLookup = BuildPrefixLookup(KaladontSerbianDictionary, true);
+        logger.LogInformation("Built Kaladont prefix lookups for fast continuation checks");
     }
 
     /// <summary>
@@ -139,6 +143,16 @@ public class GamesService : INService, IUnloadableService
     ///     Gets the Serbian dictionary for Kaladont games.
     /// </summary>
     public HashSet<string> KaladontSerbianDictionary { get; }
+
+    /// <summary>
+    ///     Pre-computed lookup for English words by their first two letters.
+    /// </summary>
+    private Dictionary<string, HashSet<string>> EnglishPrefixLookup { get; }
+
+    /// <summary>
+    ///     Pre-computed lookup for Serbian words by their first two letters.
+    /// </summary>
+    private Dictionary<string, HashSet<string>> SerbianPrefixLookup { get; }
 
     /// <summary>
     ///     Unloads all active games and clears game-related data.
@@ -239,6 +253,37 @@ public class GamesService : INService, IUnloadableService
     }
 
     /// <summary>
+    ///     Builds a prefix lookup dictionary for fast continuation checks.
+    /// </summary>
+    /// <param name="dictionary">The dictionary to build the lookup from.</param>
+    /// <param name="isSerbianDict">Whether this is the Serbian dictionary.</param>
+    /// <returns>A dictionary mapping first two letters to all words starting with those letters.</returns>
+    private static Dictionary<string, HashSet<string>> BuildPrefixLookup(HashSet<string> dictionary, bool isSerbianDict)
+    {
+        var lookup = new Dictionary<string, HashSet<string>>(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var word in dictionary)
+        {
+            if (word.Length < 2)
+                continue;
+
+            var firstTwo = isSerbianDict
+                ? SerbianDigraphHelper.GetFirstTwoLetters(word)
+                : word[..2];
+
+            if (!lookup.TryGetValue(firstTwo, out var wordSet))
+            {
+                wordSet = [];
+                lookup[firstTwo] = wordSet;
+            }
+
+            wordSet.Add(word);
+        }
+
+        return lookup;
+    }
+
+    /// <summary>
     ///     Gets a random starting word for Kaladont from the specified language dictionary.
     /// </summary>
     /// <param name="language">The language code ("en" or "sr").</param>
@@ -287,20 +332,18 @@ public class GamesService : INService, IUnloadableService
             ? SerbianDigraphHelper.GetLastTwoLetters(word)
             : word[^2..];
 
-        // Check if any word in dictionary starts with these 2 letters and is not a loop
-        return dictionary.Any(w =>
+        // Get the appropriate prefix lookup
+        var prefixLookup = isSerbianDict ? SerbianPrefixLookup : EnglishPrefixLookup;
+
+        // O(1) lookup instead of O(n) scan
+        if (!prefixLookup.TryGetValue(lastTwo, out var candidateWords))
+            return false;
+
+        // Check if any candidate word is valid (not the same word, not a loop)
+        foreach (var w in candidateWords)
         {
-            if (w == word)
-                return false;
-
-            var firstTwo = isSerbianDict
-                ? SerbianDigraphHelper.GetFirstTwoLetters(w)
-                : w.Length >= 2
-                    ? w[..2]
-                    : "";
-
-            if (!firstTwo.Equals(lastTwo, StringComparison.OrdinalIgnoreCase))
-                return false;
+            if (w.Equals(word, StringComparison.OrdinalIgnoreCase))
+                continue;
 
             var endTwo = isSerbianDict
                 ? SerbianDigraphHelper.GetLastTwoLetters(w)
@@ -308,8 +351,12 @@ public class GamesService : INService, IUnloadableService
                     ? w[^2..]
                     : "";
 
-            return !firstTwo.Equals(endTwo, StringComparison.OrdinalIgnoreCase);
-        });
+            // Valid if it doesn't loop back to itself (first two != last two)
+            if (!lastTwo.Equals(endTwo, StringComparison.OrdinalIgnoreCase))
+                return true;
+        }
+
+        return false;
     }
 
     /// <summary>
