@@ -352,9 +352,28 @@ public partial class Games
 
         private Task Game_OnWordPlayed(KaladontGame game, KaladontPlayer player, string word)
         {
-            return ctx.Channel.SendConfirmAsync(
-                $"✅ {Strings.KaladontWordPlayed(ctx.Guild.Id, Format.Bold(player.UserName), Format.Bold(word))}"
-            );
+            // Determine if this is Serbian language for proper letter extraction
+            var isSerbianLanguage = game.Opts.Language.ToLowerInvariant() == "sr";
+
+            // Get the next required prefix (last two letters of the word just played)
+            var nextPrefix = isSerbianLanguage
+                ? SerbianDigraphHelper.GetLastTwoLetters(word)
+                : word.Length >= 2
+                    ? word[^2..]
+                    : word;
+
+            // Use different emote for endless mode
+            var emote = game.Opts.Mode == KaladontGame.GameMode.Endless ? "♾️" : Config.SuccessEmote;
+
+            var embed = new EmbedBuilder()
+                .WithOkColor()
+                .WithTitle($"{emote} {Strings.KaladontWordAccepted(ctx.Guild.Id)}")
+                .WithDescription(Strings.KaladontWordPlayed(ctx.Guild.Id, Format.Bold(player.UserName),
+                    Format.Bold(word.ToUpperInvariant())))
+                .AddField(Strings.KaladontLastWord(ctx.Guild.Id), Format.Bold(word.ToUpperInvariant()), true)
+                .AddField(Strings.KaladontNextPrefix(ctx.Guild.Id), Format.Bold(nextPrefix.ToUpperInvariant()), true);
+
+            return ctx.Channel.EmbedAsync(embed);
         }
 
         private async Task Game_OnPlayerEliminated(KaladontGame game, KaladontPlayer player, string reason)

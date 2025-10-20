@@ -351,14 +351,37 @@ public class KaladontChannelService : INService, IReadyExecutor
                 await UpdateWord(msg.Channel.Id, content);
                 await UpdateStats(msg.Channel.Id, msg.Author.Id, true, false);
 
-                // Add reaction
+                // Send embed showing the accepted word and next prefix
                 try
                 {
-                    await msg.AddReactionAsync(new Emoji("✅"));
+                    var guildId = textChannel.GuildId;
+                    var normalizedWord = content.Trim().ToLowerInvariant();
+
+                    // Get next required prefix
+                    var nextPrefix = isSerbianLanguage
+                        ? SerbianDigraphHelper.GetLastTwoLetters(normalizedWord)
+                        : normalizedWord.Length >= 2
+                            ? normalizedWord[^2..]
+                            : normalizedWord;
+
+                    // Use different emote for endless mode
+                    var emote = channelConfig.Mode == 1 ? "♾️" : "✅";
+
+                    var embed = new EmbedBuilder()
+                        .WithOkColor()
+                        .WithTitle($"{emote} {strings.KaladontWordAccepted(guildId)}")
+                        .WithDescription(strings.KaladontWordPlayed(guildId, Format.Bold(msg.Author.ToString()),
+                            Format.Bold(normalizedWord.ToUpperInvariant())))
+                        .AddField(strings.KaladontLastWord(guildId), Format.Bold(normalizedWord.ToUpperInvariant()),
+                            true)
+                        .AddField(strings.KaladontNextPrefix(guildId), Format.Bold(nextPrefix.ToUpperInvariant()), true)
+                        .Build();
+
+                    await textChannel.SendMessageAsync(embed: embed);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // Ignore
+                    logger.LogError(ex, "Failed to send word accepted embed in channel {ChannelId}", msg.Channel.Id);
                 }
             }
             else if (result.ValidationResult != KaladontGame.ValidationResult.Valid)
