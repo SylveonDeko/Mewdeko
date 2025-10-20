@@ -204,6 +204,7 @@ public class KaladontChannelService : INService, IReadyExecutor
         var game = new PersistentKaladontGame(
             channelConfig,
             dictionary,
+            gamesService,
             async () => await OnGameEnded(channelConfig.ChannelId));
 
         persistentGames[channelConfig.ChannelId] = game;
@@ -496,6 +497,7 @@ public class KaladontChannelService : INService, IReadyExecutor
     {
         private readonly HashSet<ulong> currentPlayers = [];
         private readonly HashSet<string> dictionary;
+        private readonly GamesService gamesService;
         private readonly string language;
         private readonly SemaphoreSlim locker = new(1, 1);
         private readonly int mode;
@@ -503,9 +505,11 @@ public class KaladontChannelService : INService, IReadyExecutor
         private readonly HashSet<string> usedWords = new(StringComparer.OrdinalIgnoreCase);
         private string currentWord;
 
-        public PersistentKaladontGame(KaladontChannel config, HashSet<string> dictionary, Func<Task> onGameEnded)
+        public PersistentKaladontGame(KaladontChannel config, HashSet<string> dictionary, GamesService gamesService,
+            Func<Task> onGameEnded)
         {
             this.dictionary = dictionary;
+            this.gamesService = gamesService;
             this.onGameEnded = onGameEnded;
             mode = config.Mode;
             language = config.Language;
@@ -639,28 +643,34 @@ public class KaladontChannelService : INService, IReadyExecutor
                     ? SerbianDigraphHelper.GetLastTwoLetters(normalized)
                     : normalized[^2..];
 
-                var hasValidContinuation = dictionary.Any(dictWord =>
+                // Use O(1) prefix lookup instead of O(n) dictionary scan
+                var prefixLookup = isSerbianLanguage
+                    ? gamesService.GetSerbianPrefixLookup()
+                    : gamesService.GetEnglishPrefixLookup();
+
+                var hasValidContinuation = false;
+                if (prefixLookup.TryGetValue(nextLastTwo, out var candidateWords))
                 {
-                    if (usedWords.Contains(dictWord))
-                        return false;
+                    // Check if any candidate word is valid (not used, not a loop)
+                    foreach (var dictWord in candidateWords)
+                    {
+                        if (usedWords.Contains(dictWord))
+                            continue;
 
-                    var dictFirstTwo = isSerbianLanguage
-                        ? SerbianDigraphHelper.GetFirstTwoLetters(dictWord)
-                        : dictWord.Length >= 2
-                            ? dictWord[..2]
-                            : "";
+                        var dictEndTwo = isSerbianLanguage
+                            ? SerbianDigraphHelper.GetLastTwoLetters(dictWord)
+                            : dictWord.Length >= 2
+                                ? dictWord[^2..]
+                                : "";
 
-                    if (!dictFirstTwo.Equals(nextLastTwo, StringComparison.OrdinalIgnoreCase))
-                        return false;
-
-                    var dictEndTwo = isSerbianLanguage
-                        ? SerbianDigraphHelper.GetLastTwoLetters(dictWord)
-                        : dictWord.Length >= 2
-                            ? dictWord[^2..]
-                            : "";
-
-                    return !dictFirstTwo.Equals(dictEndTwo, StringComparison.OrdinalIgnoreCase);
-                });
+                        // Valid if it doesn't loop back to itself
+                        if (!nextLastTwo.Equals(dictEndTwo, StringComparison.OrdinalIgnoreCase))
+                        {
+                            hasValidContinuation = true;
+                            break;
+                        }
+                    }
+                }
 
                 if (!hasValidContinuation)
                     return KaladontGame.ValidationResult.DeadEnd;

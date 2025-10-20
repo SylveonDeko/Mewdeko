@@ -368,4 +368,22 @@ public class GamesService : INService, IUnloadableService
     {
         return language.ToLowerInvariant() == "sr" ? KaladontSerbianDictionary : KaladontEnglishDictionary;
     }
+
+    /// <summary>
+    ///     Gets the English prefix lookup dictionary for fast word continuation checks.
+    /// </summary>
+    /// <returns>The English prefix lookup dictionary.</returns>
+    public Dictionary<string, HashSet<string>> GetEnglishPrefixLookup()
+    {
+        return EnglishPrefixLookup;
+    }
+
+    /// <summary>
+    ///     Gets the Serbian prefix lookup dictionary for fast word continuation checks.
+    /// </summary>
+    /// <returns>The Serbian prefix lookup dictionary.</returns>
+    public Dictionary<string, HashSet<string>> GetSerbianPrefixLookup()
+    {
+        return SerbianPrefixLookup;
+    }
 }
