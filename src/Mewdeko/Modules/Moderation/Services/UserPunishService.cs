@@ -717,6 +717,7 @@ public class UserPunishService : INService, IDisposable
             else
             {
                 template.Text = text;
+                await dbContext.UpdateAsync(template);
             }
         }
         catch (Exception ex)
