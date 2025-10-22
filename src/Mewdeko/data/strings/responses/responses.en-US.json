@@ -3925,5 +3925,16 @@
   "you_need_to_attach_file_or_url": "You need to attach a file or use a URL with this!",
   "your_claim_on_ticket_removed": "Your claim on ticket #{0} has been removed by {1}",
   "zodiac_invalid": "That zodiac sign doesn't exist.",
-  "zodiac_set": "Your Zodiac has been set to:\n`{0}`"
+  "zodiac_set": "Your Zodiac has been set to:\n`{0}`",
+  "lastfm_link_title": "Link Your Last.fm Account",
+  "lastfm_link_instructions": "Click the button below to authorize Mewdeko to scrobble tracks to your Last.fm account. You'll be redirected to Last.fm to log in and approve access.",
+  "lastfm_link_button": "Connect to Last.fm",
+  "lastfm_unlinked": "Your Last.fm account has been unlinked successfully.",
+  "lastfm_not_linked": "You don't have a Last.fm account linked. Use `{0}lastfmlink` to connect one.",
+  "lastfm_scrobbling_enabled": "Last.fm scrobbling has been **enabled**. Your tracks will now be scrobbled!",
+  "lastfm_scrobbling_disabled": "Last.fm scrobbling has been **disabled**. Tracks will no longer be scrobbled.",
+  "lastfm_status_title": "Last.fm Status",
+  "lastfm_status_info": "**Username:** {0}\n**Scrobbling:** {1}",
+  "lastfm_enabled": "Enabled",
+  "lastfm_disabled": "Disabled"
 }

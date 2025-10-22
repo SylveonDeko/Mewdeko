@@ -31389,3 +31389,39 @@ youtube_string_2:
   desc: Execute the Youtube command
   params:
     - *ref_675
+lastfmlink:
+  args: [ ]
+  desc: Links your Last.fm account to enable automatic scrobbling of tracks you listen to through Mewdeko.
+  params: [ ]
+lastfmlink_noparams:
+  args:
+    - ''
+  desc: Links your Last.fm account to enable automatic scrobbling of tracks you listen to through Mewdeko.
+  params: [ ]
+lastfmunlink:
+  args: [ ]
+  desc: Unlinks your Last.fm account and stops automatic scrobbling.
+  params: [ ]
+lastfmunlink_noparams:
+  args:
+    - ''
+  desc: Unlinks your Last.fm account and stops automatic scrobbling.
+  params: [ ]
+lastfmtoggle:
+  args: [ ]
+  desc: Toggles Last.fm scrobbling on or off for your linked account.
+  params: [ ]
+lastfmtoggle_noparams:
+  args:
+    - ''
+  desc: Toggles Last.fm scrobbling on or off for your linked account.
+  params: [ ]
+lastfmstatus:
+  args: [ ]
+  desc: Shows your current Last.fm connection status and scrobbling settings.
+  params: [ ]
+lastfmstatus_noparams:
+  args:
+    - ''
+  desc: Shows your current Last.fm connection status and scrobbling settings.
+  params: [ ]

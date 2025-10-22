@@ -42,7 +42,8 @@
     <PackageReference Include="GroqApiLibrary" Version="1.0.9"/>
     <PackageReference Include="HarfBuzzSharp" Version="8.3.1.1"/>
     <PackageReference Include="HarfBuzzSharp.NativeAssets.Linux" Version="8.3.1.1"/>
-    <PackageReference Include="Hqub.Last.fm" Version="2.5.0"/>
+    <PackageReference Include="IF.Lastfm.Core" Version="1.0.0"/>
+    <PackageReference Include="Inflatable.Lastfm" Version="1.2.0"/>
     <PackageReference Include="LibGit2Sharp" Version="0.31.0"/>
     <PackageReference Include="linq2db" Version="6.0.0-rc.2"/>
     <PackageReference Include="MathNet.Symbolics" Version="0.25.0"/>

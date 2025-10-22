@@ -114,6 +114,15 @@ public interface IBotCredentials
     /// </summary>
     public string LastFmApiKey { get; }
 
+    /// <summary>
+    ///     Last.fm API secret
+    /// </summary>
+    public string LastFmApiSecret { get; }
+
+    /// <summary>
+    ///     Gets the dashboard URL for OAuth redirects
+    /// </summary>
+    public string DashboardUrl { get; }
 
     /// <summary>
     ///     Gets the bot's Patreon client ID.

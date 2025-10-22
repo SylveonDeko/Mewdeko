@@ -4,7 +4,8 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
 using DataModel;
-using Hqub.Lastfm;
+using IF.Lastfm.Core.Api;
+using IF.Lastfm.Core.Objects;
 using Lavalink4NET;
 using Lavalink4NET.Players;
 using Lavalink4NET.Protocol.Payloads.Events;
@@ -45,6 +46,7 @@ public sealed class MewdekoPlayer : LavalinkPlayer
 
     private readonly GeneratedBotStrings Strings;
     private bool isAprilFoolsJokeRunning;
+    private DateTime? trackStartTime;
 
     /// <summary>
     ///     Initializes a new instance of <see cref="MewdekoPlayer" />.
@@ -77,6 +79,18 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     {
         if (stateTracker != null && State is PlayerState.Playing or PlayerState.Paused)
             await stateTracker.ForceUpdate();
+
+        // Scrobble track if it ended normally
+        if (reason == TrackEndReason.Finished && trackStartTime.HasValue)
+        {
+            var playDuration = DateTime.UtcNow - trackStartTime.Value;
+            var currentTrackData = await cache.GetCurrentTrack(GuildId);
+            if (currentTrackData?.Requester != null)
+            {
+                await ScrobbleTrackAsync(item, playDuration, currentTrackData.Requester.Id);
+            }
+        }
+
         var musicChannel = await GetMusicChannel();
         var queue = await cache.GetMusicQueue(GuildId);
         var currentTrack = await cache.GetCurrentTrack(GuildId);
@@ -156,6 +170,7 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     protected override async ValueTask NotifyTrackStartedAsync(ITrackQueueItem track,
         CancellationToken cancellationToken = default)
     {
+        trackStartTime = DateTime.UtcNow;
         await stateTracker.ForceUpdate();
         var queue = await cache.GetMusicQueue(GuildId);
         var currentTrack = await cache.GetCurrentTrack(GuildId);
@@ -540,10 +555,6 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     }
 
     /// <summary>
-    ///     Contains logic for handling autoplay in a server using Spotify's recommendation system.
-    /// </summary>
-    /// <returns>A bool indicating if the operation was successful.</returns>
-    /// <summary>
     ///     Contains logic for handling autoplay in a server using Last.fm's similar tracks API.
     /// </summary>
     /// <returns>A bool indicating if the operation was successful.</returns>
@@ -570,11 +581,12 @@ public sealed class MewdekoPlayer : LavalinkPlayer
                 return false;
             }
 
-            var lastfmClient = new LastfmClient(creds.LastFmApiKey);
+            var lastfmClient = new LastfmClient(creds.LastFmApiKey, creds.LastFmApiSecret);
 
             // Get similar tracks from Last.fm
-            var similarTracks = await lastfmClient.Track.GetSimilarAsync(trackTitle, artistName, autoPlay * 2);
-            if (similarTracks == null || !similarTracks.Any())
+            var similarTracksResponse =
+                await lastfmClient.Track.GetSimilarAsync(trackTitle, artistName, limit: autoPlay * 2);
+            if (!similarTracksResponse.Success || !similarTracksResponse.Content.Any())
             {
                 logger.LogWarning($"No similar tracks found for {trackTitle} by {artistName}");
                 return true;
@@ -585,8 +597,8 @@ public sealed class MewdekoPlayer : LavalinkPlayer
                 queue.Select(q => q.Track.Title.ToLower()),
                 StringComparer.OrdinalIgnoreCase);
 
-            var filteredTracks = similarTracks
-                .Where(t => !queuedTrackNames.Contains($"{t.Name} - {t.Artist.Name}".ToLower()))
+            var filteredTracks = similarTracksResponse.Content
+                .Where(t => !queuedTrackNames.Contains($"{t.Name} - {t.ArtistName}".ToLower()))
                 .ToList();
 
             var toTake = Math.Min(autoPlay, filteredTracks.Count);
@@ -596,7 +608,7 @@ public sealed class MewdekoPlayer : LavalinkPlayer
             foreach (var track in filteredTracks.Take(toTake))
             {
                 // Create search query with track name and artist
-                var searchQuery = $"{track.Name} {track.Artist.Name}";
+                var searchQuery = $"{track.Name} {track.ArtistName}";
 
                 var trackToLoad = await audioService.Tracks.LoadTrackAsync(searchQuery, TrackSearchMode.YouTube);
                 if (trackToLoad is null)
@@ -624,6 +636,76 @@ public sealed class MewdekoPlayer : LavalinkPlayer
         {
             logger.LogError(e, "Last.fm AutoPlay error");
             return false;
+        }
+    }
+
+    /// <summary>
+    ///     Scrobbles a track to Last.fm for the specified user.
+    /// </summary>
+    /// <param name="track">The track that was played</param>
+    /// <param name="playDuration">How long the track was played</param>
+    /// <param name="userId">The Discord user ID who requested the track</param>
+    private async Task ScrobbleTrackAsync(ITrackQueueItem track, TimeSpan playDuration, ulong userId)
+    {
+        try
+        {
+            // Check if Last.fm credentials are configured
+            if (string.IsNullOrEmpty(creds.LastFmApiKey) || string.IsNullOrEmpty(creds.LastFmApiSecret))
+            {
+                return;
+            }
+
+            // Get user's Last.fm session
+            await using var db = await dbFactory.CreateConnectionAsync();
+            var lastFmUser = await db.GetTable<LastFmUser>()
+                .FirstOrDefaultAsync(x => x.UserId == userId);
+
+            // User hasn't linked Last.fm or has disabled scrobbling
+            if (lastFmUser == null || !lastFmUser.ScrobblingEnabled)
+            {
+                return;
+            }
+
+            // Last.fm scrobbling rules: track must be played for at least 30 seconds OR 50% of duration
+            var minDuration = TimeSpan.FromSeconds(30);
+            var halfDuration = TimeSpan.FromMilliseconds(track.Track.Duration.TotalMilliseconds / 2);
+
+            if (playDuration < minDuration && playDuration < halfDuration)
+            {
+                logger.LogDebug(
+                    $"Track not scrobbled: played {playDuration.TotalSeconds}s, needs {minDuration.TotalSeconds}s or {halfDuration.TotalSeconds}s");
+                return;
+            }
+
+            // Extract artist and title
+            var (artistName, trackTitle) = ExtractTrackInfo(track.Track.Title, track.Track.Author);
+
+            // Create Last.fm client with user session
+            var lastfmClient = new LastfmClient(creds.LastFmApiKey, creds.LastFmApiSecret);
+            lastfmClient.Auth.LoadSession(new LastUserSession
+            {
+                Username = lastFmUser.Username, Token = lastFmUser.SessionKey
+            });
+
+            // Scrobble the track
+            var scrobbleResponse = await lastfmClient.Scrobbler.ScrobbleAsync(
+                new Scrobble(artistName, null, trackTitle, DateTimeOffset.UtcNow)
+                {
+                    Duration = track.Track.Duration
+                });
+
+            if (scrobbleResponse.Success)
+            {
+                logger.LogInformation($"Scrobbled '{trackTitle}' by '{artistName}' for user {lastFmUser.Username}");
+            }
+            else
+            {
+                logger.LogWarning($"Failed to scrobble track for {lastFmUser.Username}: {scrobbleResponse.Status}");
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error scrobbling track to Last.fm");
         }
     }
 

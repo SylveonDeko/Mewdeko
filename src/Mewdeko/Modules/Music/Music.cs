@@ -9,6 +9,8 @@ using Lavalink4NET.DiscordNet;
 using Lavalink4NET.Players;
 using Lavalink4NET.Rest.Entities.Tracks;
 using Lavalink4NET.Tracks;
+using LinqToDB;
+using LinqToDB.Async;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Modules.Music.Common;
@@ -28,7 +30,9 @@ public partial class Music(
     GuildSettingsService guildSettingsService,
     ILogger<Music> logger,
     MusicEventManager eventManager,
-    IPubSub pubSub) : MewdekoModule
+    IPubSub pubSub,
+    IDataConnectionFactory dbFactory,
+    IBotCredentials creds) : MewdekoModule
 {
     /// <summary>
     ///     Retrieves the music player an attempts to join the voice channel.
@@ -1340,6 +1344,135 @@ public partial class Music(
 
         await player.SetRepeatTypeAsync(repeatType).ConfigureAwait(false);
         await ReplyConfirmAsync(Strings.MusicRepeatType(ctx.Guild.Id, repeatType)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Links the user's Last.fm account for scrobbling.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    public async Task LastFmLink()
+    {
+        var user = ctx.User as IGuildUser;
+        if (user.VoiceChannel is null)
+        {
+            await ReplyErrorAsync(Strings.MusicNotInChannel(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var authUrl =
+            $"https://www.last.fm/api/auth/?api_key={creds.LastFmApiKey}&cb={creds.DashboardUrl}/api/lastfm/callback";
+        var components = new ComponentBuilderV2()
+            .WithContainer([
+                new TextDisplayBuilder($"# {Strings.LastfmLinkTitle(ctx.Guild.Id)}")
+            ], Mewdeko.OkColor)
+            .WithSeparator()
+            .WithContainer(new TextDisplayBuilder(Strings.LastfmLinkInstructions(ctx.Guild.Id)))
+            .WithSeparator()
+            .WithContainer(new ActionRowBuilder()
+                .WithButton(Strings.LastfmLinkButton(ctx.Guild.Id),
+                    url: authUrl,
+                    style: ButtonStyle.Link));
+
+        await ctx.Channel.SendMessageAsync(components: components.Build(),
+            flags: MessageFlags.ComponentsV2, allowedMentions: AllowedMentions.None).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Unlinks the user's Last.fm account.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    public async Task LastFmUnlink()
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var userId = ctx.User.Id;
+
+        var deleted = await db.GetTable<LastFmUser>()
+            .Where(x => x.UserId == userId)
+            .DeleteAsync();
+
+        if (deleted > 0)
+        {
+            await ReplyConfirmAsync(Strings.LastfmUnlinked(ctx.Guild.Id)).ConfigureAwait(false);
+        }
+        else
+        {
+            var prefix = await guildSettingsService.GetPrefix(ctx.Guild);
+            await ReplyErrorAsync(Strings.LastfmNotLinked(ctx.Guild.Id, prefix)).ConfigureAwait(false);
+        }
+    }
+
+    /// <summary>
+    ///     Toggles Last.fm scrobbling on or off.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    public async Task LastFmToggle()
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var userId = ctx.User.Id;
+
+        var lastFmUser = await db.GetTable<LastFmUser>()
+            .FirstOrDefaultAsync(x => x.UserId == userId);
+
+        if (lastFmUser == null)
+        {
+            var prefix = await guildSettingsService.GetPrefix(ctx.Guild);
+            await ReplyErrorAsync(Strings.LastfmNotLinked(ctx.Guild.Id, prefix)).ConfigureAwait(false);
+            return;
+        }
+
+        lastFmUser.ScrobblingEnabled = !lastFmUser.ScrobblingEnabled;
+        await db.UpdateAsync(lastFmUser);
+
+        if (lastFmUser.ScrobblingEnabled)
+        {
+            await ReplyConfirmAsync(Strings.LastfmScrobblingEnabled(ctx.Guild.Id)).ConfigureAwait(false);
+        }
+        else
+        {
+            await ReplyConfirmAsync(Strings.LastfmScrobblingDisabled(ctx.Guild.Id)).ConfigureAwait(false);
+        }
+    }
+
+    /// <summary>
+    ///     Shows the user's Last.fm account status.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    public async Task LastFmStatus()
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var userId = ctx.User.Id;
+
+        var lastFmUser = await db.GetTable<LastFmUser>()
+            .FirstOrDefaultAsync(x => x.UserId == userId);
+
+        if (lastFmUser == null)
+        {
+            var prefix = await guildSettingsService.GetPrefix(ctx.Guild);
+            await ReplyErrorAsync(Strings.LastfmNotLinked(ctx.Guild.Id, prefix)).ConfigureAwait(false);
+            return;
+        }
+
+        var components = new ComponentBuilderV2()
+            .WithContainer([
+                new TextDisplayBuilder($"# {Strings.LastfmStatusTitle(ctx.Guild.Id)}")
+            ], Mewdeko.OkColor)
+            .WithSeparator()
+            .WithContainer(new TextDisplayBuilder(
+                Strings.LastfmStatusInfo(ctx.Guild.Id, lastFmUser.Username,
+                    lastFmUser.ScrobblingEnabled
+                        ? Strings.LastfmEnabled(ctx.Guild.Id)
+                        : Strings.LastfmDisabled(ctx.Guild.Id))));
+
+        await ctx.Channel.SendMessageAsync(components: components.Build(),
+            flags: MessageFlags.ComponentsV2, allowedMentions: AllowedMentions.None).ConfigureAwait(false);
     }
 
     /// <summary>

@@ -97,6 +97,7 @@ namespace DataModel
 		public ITable<InviteCount>               InviteCounts               => this.GetTable<InviteCount>();
 		public ITable<InvitedBy>                 InvitedBies                => this.GetTable<InvitedBy>();
 		public ITable<JoinLeaveLog>              JoinLeaveLogs              => this.GetTable<JoinLeaveLog>();
+		public ITable<LastFmUser>                LastFmUsers                => this.GetTable<LastFmUser>();
 		public ITable<LockdownChannelPermission> LockdownChannelPermissions => this.GetTable<LockdownChannelPermission>();
 		public ITable<LoggingV2>                 LoggingV2                  => this.GetTable<LoggingV2>();
 		public ITable<MessageCount>              MessageCounts              => this.GetTable<MessageCount>();
