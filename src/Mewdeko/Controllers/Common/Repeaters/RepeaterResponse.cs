@@ -103,6 +103,11 @@ public class RepeaterResponse
     public bool ThreadOnlyMode { get; set; }
 
     /// <summary>
+    ///     Whether notifications from this repeater are suppressed
+    /// </summary>
+    public bool SuppressNotifications { get; set; }
+
+    /// <summary>
     ///     JSON string of forum tag conditions
     /// </summary>
     public string? ForumTagConditions { get; set; }
