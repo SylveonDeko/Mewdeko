@@ -1,6 +1,7 @@
 using System.Text.Json;
 using DataModel;
 using Discord.Commands;
+using Discord.Net;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.Attributes.TextCommands;
@@ -952,7 +953,7 @@ public class AdministrationController(
     }
 
     /// <summary>
-    ///     Gets reaction roles
+    ///     Gets reaction roles ordered by Index (0-based indexing for removal)
     /// </summary>
     [HttpGet("reaction-roles")]
     public async Task<IActionResult> GetReactionRoles(ulong guildId)
@@ -974,27 +975,95 @@ public class AdministrationController(
         if (guild == null)
             return NotFound("Guild not found");
 
+        if (request.MessageId == 0)
+            return BadRequest("MessageId is required");
+
+        if (request.ChannelId == 0)
+            return BadRequest("ChannelId is required");
+
+        if (request.Roles.Count == 0)
+            return BadRequest("At least one role must be provided");
+
+        // Fetch the channel
+        var channel = guild.GetTextChannel(request.ChannelId);
+        if (channel == null)
+            return NotFound("Channel not found");
+
+        // Fetch the message
+        var message = await channel.GetMessageAsync(request.MessageId);
+        if (message == null)
+            return NotFound("Message not found");
+
+        if (message is not IUserMessage userMessage)
+            return BadRequest("Message must be a user message");
+
+        // Parse and validate emotes, then add reactions
+        var reactionRoles = new List<ReactionRole>();
+        foreach (var roleData in request.Roles)
+        {
+            // Validate role exists
+            var role = guild.GetRole(roleData.RoleId);
+            if (role == null)
+                return NotFound($"Role {roleData.RoleId} not found");
+
+            // Parse emote
+            IEmote emote;
+            try
+            {
+                emote = roleData.EmoteName.ToIEmote();
+            }
+            catch
+            {
+                return BadRequest($"Invalid emote: {roleData.EmoteName}");
+            }
+
+            // Add reaction to message
+            try
+            {
+                await userMessage.AddReactionAsync(emote, new RequestOptions
+                {
+                    RetryMode = RetryMode.Retry502 | RetryMode.RetryRatelimit
+                });
+                await Task.Delay(500); // Rate limit protection
+            }
+            catch (HttpException ex)
+            {
+                return BadRequest($"Failed to add reaction {roleData.EmoteName}: {ex.Message}");
+            }
+
+            reactionRoles.Add(new ReactionRole
+            {
+                EmoteName = roleData.EmoteName, RoleId = roleData.RoleId
+            });
+        }
+
+        // Create reaction role message with correct ChannelId
         var reactionRoleMessage = new ReactionRoleMessage
         {
-            MessageId = request.MessageId ?? 0,
-            ChannelId = 0, // Will be set by service if message exists
+            MessageId = request.MessageId,
+            ChannelId = request.ChannelId,
             Exclusive = request.Exclusive,
-            ReactionRoles = request.Roles.Select(r => new ReactionRole
-            {
-                EmoteName = r.EmoteName, RoleId = r.RoleId
-            }).ToList()
+            ReactionRoles = reactionRoles
         };
 
         var success = await roleCommandsService.Add(guildId, reactionRoleMessage);
-        return Ok(success);
+        return Ok(new
+        {
+            success
+        });
     }
 
     /// <summary>
-    ///     Removes reaction role by index
+    ///     Removes reaction role by 0-based index (from ordered list)
     /// </summary>
+    /// <param name="guildId">The guild ID</param>
+    /// <param name="index">0-based index in the ordered list of reaction roles (0 = first item)</param>
     [HttpDelete("reaction-roles/{index}")]
     public async Task<IActionResult> RemoveReactionRole(ulong guildId, int index)
     {
+        if (index < 0)
+            return BadRequest("Index must be non-negative");
+
         await roleCommandsService.Remove(guildId, index);
         return Ok();
     }

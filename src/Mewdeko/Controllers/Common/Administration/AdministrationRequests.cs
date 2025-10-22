@@ -56,9 +56,14 @@ public class SetGroupRequest
 public class AddReactionRolesRequest
 {
     /// <summary>
-    ///     The ID of the message to add reaction roles to (null for new message)
+    ///     The ID of the message to add reaction roles to (required)
     /// </summary>
-    public ulong? MessageId { get; set; }
+    public ulong MessageId { get; set; }
+
+    /// <summary>
+    ///     The ID of the channel containing the message (required)
+    /// </summary>
+    public ulong ChannelId { get; set; }
 
     /// <summary>
     ///     Whether the reaction roles are mutually exclusive

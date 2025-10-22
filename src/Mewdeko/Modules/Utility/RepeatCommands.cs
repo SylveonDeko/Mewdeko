@@ -781,6 +781,45 @@ public partial class Utility
         }
 
         /// <summary>
+        ///     Toggles notification suppression for a repeater.
+        /// </summary>
+        /// <param name="index">The one-based index of the repeater to modify.</param>
+        /// <remarks>
+        ///     When enabled, the repeater messages will not send push or desktop notifications to users.
+        ///     Requires the Manage Messages permission.
+        /// </remarks>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageMessages)]
+        public async Task RepeatSuppressNotifications(int index)
+        {
+            if (!Service.RepeaterReady)
+                return;
+
+            var repeater = Service.GetRepeaterByIndex(ctx.Guild.Id, index - 1);
+            if (repeater == null)
+            {
+                await ReplyErrorAsync(Strings.IndexOutOfRange(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            var success = await Service.ToggleRepeaterSuppressNotificationsAsync(ctx.Guild.Id, repeater.Repeater.Id);
+            if (!success)
+            {
+                await ReplyErrorAsync(Strings.RepeatActionFailed(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            if (repeater.Repeater.SuppressNotifications)
+                await ReplyConfirmAsync(Strings.RepeaterSuppressNotificationsEnabled(ctx.Guild.Id, index))
+                    .ConfigureAwait(false);
+            else
+                await ReplyConfirmAsync(Strings.RepeaterSuppressNotificationsDisabled(ctx.Guild.Id, index))
+                    .ConfigureAwait(false);
+        }
+
+        /// <summary>
         ///     Sets forum tag conditions for a repeater.
         /// </summary>
         /// <param name="index">The one-based index of the repeater to modify.</param>
@@ -969,6 +1008,9 @@ public partial class Utility
 
             if (runner.Repeater.ThreadOnlyMode)
                 description += $"📱 {Format.Bold(Strings.StickyThreadOnlyModeStatus(ctx.Guild.Id))}\n";
+
+            if (runner.Repeater.SuppressNotifications)
+                description += $"{Format.Bold(Strings.RepeaterSuppressNotificationsStatus(ctx.Guild.Id))}\n";
 
             // Time conditions
             if (!string.IsNullOrWhiteSpace(runner.Repeater.TimeConditions))

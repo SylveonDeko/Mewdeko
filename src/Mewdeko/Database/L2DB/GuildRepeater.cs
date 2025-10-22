@@ -43,5 +43,6 @@ namespace DataModel
 		[Column("ActivityBasedLastCheck"                                                                          )] public DateTime? ActivityBasedLastCheck { get; set; } // timestamp (6) without time zone
 		[Column("ThreadOnlyMode"                                                                                  )] public bool      ThreadOnlyMode { get; set; } = false; // boolean
 		[Column("ThreadStickyMessages"                                                                            )] public string?   ThreadStickyMessages { get; set; } // text - JSON tracking thread sticky message IDs
+		[Column("SuppressNotifications"                                                                           )] public bool      SuppressNotifications { get; set; } = false; // boolean
 	}
 }

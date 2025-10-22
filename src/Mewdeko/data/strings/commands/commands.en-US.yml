@@ -19064,6 +19064,15 @@ repeatthreadonly:
       name: index
       optional: false
       type: int
+repeatsuppressnotifications:
+  args:
+    - index
+  desc: Toggles notification suppression for a repeater.
+  params:
+    - desc: The one-based index of the repeater to modify.
+      name: index
+      optional: false
+      type: int
 repeattoggle:
   args:
     - index

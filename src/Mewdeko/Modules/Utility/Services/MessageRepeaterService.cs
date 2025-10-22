@@ -843,6 +843,30 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
     }
 
     /// <summary>
+    ///     Toggles the notification suppression setting of a repeater.
+    /// </summary>
+    public async Task<bool> ToggleRepeaterSuppressNotificationsAsync(ulong guildId, int repeaterId)
+    {
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+
+        var item = await dbContext.GuildRepeaters
+            .FirstOrDefaultAsync(r => r.Id == repeaterId && r.GuildId == guildId);
+
+        if (item == null) return false;
+
+        item.SuppressNotifications = !item.SuppressNotifications;
+        await dbContext.UpdateAsync(item);
+
+        if (Repeaters.TryGetValue(guildId, out var guildRepeaters) &&
+            guildRepeaters.TryGetValue(repeaterId, out var runner))
+        {
+            runner.Repeater.SuppressNotifications = item.SuppressNotifications;
+        }
+
+        return true;
+    }
+
+    /// <summary>
     ///     Updates the conversation threshold for a repeater.
     /// </summary>
     public async Task<bool> UpdateRepeaterConversationThresholdAsync(ulong guildId, int repeaterId, int threshold)

@@ -504,13 +504,17 @@ public class RepeatRunner : IDisposable
 
         var message = rep.Replace(Repeater.Message);
 
+        // Set message flags - suppress notifications if enabled
+        var flags = Repeater.SuppressNotifications ? MessageFlags.SuppressNotification : MessageFlags.None;
+
         if (SmartEmbed.TryParse(message, Channel.GuildId, out var embed, out var plainText, out var components))
         {
-            return await Channel.SendMessageAsync(plainText ?? "", embeds: embed, components: components?.Build())
+            return await Channel
+                .SendMessageAsync(plainText ?? "", embeds: embed, components: components?.Build(), flags: flags)
                 .ConfigureAwait(false);
         }
 
-        return await Channel.SendMessageAsync(message).ConfigureAwait(false);
+        return await Channel.SendMessageAsync(message, flags: flags).ConfigureAwait(false);
     }
 
     private async Task RemoveRepeater()

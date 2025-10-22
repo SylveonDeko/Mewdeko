@@ -178,14 +178,15 @@ public class RoleCommandsService : INService
     }
 
     /// <summary>
-    ///     Gets all reaction role messages for a guild.
+    ///     Gets all reaction role messages for a guild, ordered by Index.
     /// </summary>
     /// <param name="guildId">ID of the guild.</param>
-    /// <returns>A tuple containing success status and collection of reaction role messages.</returns>
-    public async Task<(bool Success, HashSet<ReactionRoleMessage>? Messages)> Get(ulong guildId)
+    /// <returns>A tuple containing success status and ordered list of reaction role messages.</returns>
+    public async Task<(bool Success, List<ReactionRoleMessage>? Messages)> Get(ulong guildId)
     {
         var reactRoles = await guildSettings.GetReactionRoles(guildId);
-        return (reactRoles is { Count: > 0 }, reactRoles);
+        var orderedList = reactRoles?.OrderBy(x => x.Index).ToList();
+        return (orderedList is { Count: > 0 }, orderedList);
     }
 
     /// <summary>
@@ -227,19 +228,21 @@ public class RoleCommandsService : INService
     ///     Removes a reaction role message and its associated reaction roles from a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
-    /// <param name="index">The index of the reaction role message to remove.</param>
+    /// <param name="index">The 0-based index of the reaction role message to remove (based on ordered list).</param>
     public async Task Remove(ulong guildId, int index)
     {
         await using var db = await dbFactory.CreateConnectionAsync();
 
-        var messageToRemove = await db.GetTable<ReactionRoleMessage>()
+        // Get all messages for the guild ordered by Index, then select the one at the specified position
+        var allMessages = await db.GetTable<ReactionRoleMessage>()
             .Where(x => x.GuildId == guildId)
             .OrderBy(x => x.Index)
-            .Skip(index)
-            .FirstOrDefaultAsync().ConfigureAwait(false);
+            .ToListAsync().ConfigureAwait(false);
 
-        if (messageToRemove == null)
+        if (index < 0 || index >= allMessages.Count)
             return;
+
+        var messageToRemove = allMessages[index];
 
         try
         {
