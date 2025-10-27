@@ -271,7 +271,11 @@ public class UserPunishService : INService, IDisposable
             case PunishmentAction.Ban:
                 if (minutes == 0)
                 {
-                    await guild.AddBanAsync(user, options: new RequestOptions
+                    var pruneDays = 0;
+                    if (reason.ToLower().Contains("postchannelban"))
+                        pruneDays = 1;
+
+                    await guild.AddBanAsync(user, pruneDays, options: new RequestOptions
                     {
                         AuditLogReason = reason
                     }).ConfigureAwait(false);
