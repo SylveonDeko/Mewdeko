@@ -517,6 +517,53 @@ confessionunblacklist:
 config:
   - config
   - conf
+coprmonitoradd:
+  - coprmonitoradd
+  - coprmonadd
+  - copradd
+coprmonitorremove:
+  - coprmonitorremove
+  - coprmonremove
+  - coprremove
+  - coprmonrem
+coprmonitorlist:
+  - coprmonitorlist
+  - coprmonlist
+  - coprlist
+coprmonitortoggle:
+  - coprmonitortoggle
+  - coprmontoggle
+  - coprtoggle
+coprnotify:
+  - coprnotify
+  - coprn
+coprfilter:
+  - coprfilter
+  - coprf
+coprsucceededmessage:
+  - coprsucceededmessage
+  - coprsuccessmsg
+  - coprsuccessmessage
+coprfailedmessage:
+  - coprfailedmessage
+  - coprfailmsg
+  - coprfailmessage
+coprcanceledmessage:
+  - coprcanceledmessage
+  - coprcancelmsg
+  - coprcancelmessage
+coprpendingmessage:
+  - coprpendingmessage
+  - coprpendmsg
+coprrunningmessage:
+  - coprrunningmessage
+  - coprrunmsg
+coprskippedmessage:
+  - coprskippedmessage
+  - coprskipmsg
+coprdefaultmessage:
+  - coprdefaultmessage
+  - coprdefmsg
 consider:
   - consider
   - suggestconsider

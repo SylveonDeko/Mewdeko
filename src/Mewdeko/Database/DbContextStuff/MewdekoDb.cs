@@ -362,6 +362,17 @@ public class MewdekoDb : DataConnection
     public ITable<Confession> Confessions => this.GetTable<Confession>();
 
     /// <summary>
+    ///     Gets the COPR monitors table.
+    /// </summary>
+    public ITable<CoprMonitor> CoprMonitors
+    {
+        get
+        {
+            return this.GetTable<CoprMonitor>();
+        }
+    }
+
+    /// <summary>
     ///     Gets the delete message on command channels table.
     /// </summary>
     public ITable<DelMsgOnCmdChannel> DelMsgOnCmdChannels => this.GetTable<DelMsgOnCmdChannel>();

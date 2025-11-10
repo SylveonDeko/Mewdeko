@@ -67,6 +67,7 @@ namespace DataModel
 		public ITable<CommandCooldown>           CommandCooldowns           => this.GetTable<CommandCooldown>();
 		public ITable<CommandStat>               CommandStats               => this.GetTable<CommandStat>();
 		public ITable<Confession>                Confessions                => this.GetTable<Confession>();
+	    public ITable<CoprMonitor>               CoprMonitors               => this.GetTable<CoprMonitor>();
 		public ITable<CustomVoiceChannel>        CustomVoiceChannels        => this.GetTable<CustomVoiceChannel>();
 		public ITable<CustomVoiceConfig>         CustomVoiceConfigs         => this.GetTable<CustomVoiceConfig>();
 		public ITable<DelMsgOnCmdChannel>        DelMsgOnCmdChannels        => this.GetTable<DelMsgOnCmdChannel>();
