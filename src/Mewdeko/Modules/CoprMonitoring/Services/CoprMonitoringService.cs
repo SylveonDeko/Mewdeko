@@ -367,23 +367,35 @@ public class CoprMonitoringService : INService, IReadyExecutor, IDisposable
 
             switch (status)
             {
-                case CoprBuildStatus.Succeeded:
-                    monitor.NotifyOnSucceeded = enabled;
-                    break;
                 case CoprBuildStatus.Failed:
                     monitor.NotifyOnFailed = enabled;
+                    break;
+                case CoprBuildStatus.Succeeded:
+                    monitor.NotifyOnSucceeded = enabled;
                     break;
                 case CoprBuildStatus.Canceled:
                     monitor.NotifyOnCanceled = enabled;
                     break;
-                case CoprBuildStatus.Pending:
-                    monitor.NotifyOnPending = enabled;
-                    break;
                 case CoprBuildStatus.Running:
                     monitor.NotifyOnRunning = enabled;
                     break;
+                case CoprBuildStatus.Pending:
+                    monitor.NotifyOnPending = enabled;
+                    break;
                 case CoprBuildStatus.Skipped:
                     monitor.NotifyOnSkipped = enabled;
+                    break;
+                case CoprBuildStatus.Starting:
+                    monitor.NotifyOnStarting = enabled;
+                    break;
+                case CoprBuildStatus.Importing:
+                    monitor.NotifyOnImporting = enabled;
+                    break;
+                case CoprBuildStatus.Forked:
+                    monitor.NotifyOnForked = enabled;
+                    break;
+                case CoprBuildStatus.Waiting:
+                    monitor.NotifyOnWaiting = enabled;
                     break;
                 default:
                     return false;
@@ -424,23 +436,35 @@ public class CoprMonitoringService : INService, IReadyExecutor, IDisposable
 
             switch (status)
             {
-                case CoprBuildStatus.Succeeded:
-                    monitor.SucceededMessage = message;
-                    break;
                 case CoprBuildStatus.Failed:
                     monitor.FailedMessage = message;
+                    break;
+                case CoprBuildStatus.Succeeded:
+                    monitor.SucceededMessage = message;
                     break;
                 case CoprBuildStatus.Canceled:
                     monitor.CanceledMessage = message;
                     break;
-                case CoprBuildStatus.Pending:
-                    monitor.PendingMessage = message;
-                    break;
                 case CoprBuildStatus.Running:
                     monitor.RunningMessage = message;
                     break;
+                case CoprBuildStatus.Pending:
+                    monitor.PendingMessage = message;
+                    break;
                 case CoprBuildStatus.Skipped:
                     monitor.SkippedMessage = message;
+                    break;
+                case CoprBuildStatus.Starting:
+                    monitor.StartingMessage = message;
+                    break;
+                case CoprBuildStatus.Importing:
+                    monitor.ImportingMessage = message;
+                    break;
+                case CoprBuildStatus.Forked:
+                    monitor.ForkedMessage = message;
+                    break;
+                case CoprBuildStatus.Waiting:
+                    monitor.WaitingMessage = message;
                     break;
                 default:
                     monitor.DefaultMessage = message;
@@ -633,6 +657,12 @@ public class CoprMonitoringService : INService, IReadyExecutor, IDisposable
                 null);
             var queueName = queueDeclareResult.QueueName;
 
+            // Bind to all COPR build events
+            await amqpChannel.QueueBindAsync(
+                queueName,
+                "amq.topic",
+                "org.fedoraproject.prod.copr.build.start");
+
             await amqpChannel.QueueBindAsync(
                 queueName,
                 "amq.topic",
@@ -653,7 +683,7 @@ public class CoprMonitoringService : INService, IReadyExecutor, IDisposable
 
             await amqpChannel.BasicConsumeAsync(queueName, true, consumer);
 
-            logger.LogInformation("Connected to Fedora Messaging and subscribed to COPR build events");
+            logger.LogInformation("Connected to Fedora Messaging and subscribed to COPR build events (start and end)");
         }
         catch (Exception ex)
         {
@@ -671,15 +701,14 @@ public class CoprMonitoringService : INService, IReadyExecutor, IDisposable
         try
         {
             var json = Encoding.UTF8.GetString(messageBody);
-            var message = JsonSerializer.Deserialize<FedoraMessage>(json);
+            var buildData = JsonSerializer.Deserialize<CoprBuildMessage>(json);
 
-            if (message?.Body == null)
+            if (buildData == null)
                 return;
 
-            var buildData = message.Body;
             var status = CoprExtensions.ParseStatus(buildData.Status);
 
-            logger.LogInformation("Received COPR build event: {Owner}/{Project} - {Package} - {Status}",
+            logger.LogDebug("Received COPR build event: {Owner}/{Project} - {Package} - {Status}",
                 buildData.Owner, buildData.Project, buildData.Package, buildData.Status);
 
             var key = (buildData.Owner, buildData.Project);
@@ -732,12 +761,16 @@ public class CoprMonitoringService : INService, IReadyExecutor, IDisposable
         // Check status filter
         return status switch
         {
-            CoprBuildStatus.Succeeded => monitor.NotifyOnSucceeded,
             CoprBuildStatus.Failed => monitor.NotifyOnFailed,
+            CoprBuildStatus.Succeeded => monitor.NotifyOnSucceeded,
             CoprBuildStatus.Canceled => monitor.NotifyOnCanceled,
-            CoprBuildStatus.Pending => monitor.NotifyOnPending,
             CoprBuildStatus.Running => monitor.NotifyOnRunning,
+            CoprBuildStatus.Pending => monitor.NotifyOnPending,
             CoprBuildStatus.Skipped => monitor.NotifyOnSkipped,
+            CoprBuildStatus.Starting => monitor.NotifyOnStarting,
+            CoprBuildStatus.Importing => monitor.NotifyOnImporting,
+            CoprBuildStatus.Forked => monitor.NotifyOnForked,
+            CoprBuildStatus.Waiting => monitor.NotifyOnWaiting,
             _ => false
         };
     }
@@ -795,12 +828,16 @@ public class CoprMonitoringService : INService, IReadyExecutor, IDisposable
     {
         return status switch
         {
-            CoprBuildStatus.Succeeded => monitor.SucceededMessage,
             CoprBuildStatus.Failed => monitor.FailedMessage,
+            CoprBuildStatus.Succeeded => monitor.SucceededMessage,
             CoprBuildStatus.Canceled => monitor.CanceledMessage,
-            CoprBuildStatus.Pending => monitor.PendingMessage,
             CoprBuildStatus.Running => monitor.RunningMessage,
+            CoprBuildStatus.Pending => monitor.PendingMessage,
             CoprBuildStatus.Skipped => monitor.SkippedMessage,
+            CoprBuildStatus.Starting => monitor.StartingMessage,
+            CoprBuildStatus.Importing => monitor.ImportingMessage,
+            CoprBuildStatus.Forked => monitor.ForkedMessage,
+            CoprBuildStatus.Waiting => monitor.WaitingMessage,
             _ => monitor.DefaultMessage
         };
     }
@@ -819,7 +856,7 @@ public class CoprMonitoringService : INService, IReadyExecutor, IDisposable
             $"https://copr.fedorainfracloud.org/coprs/{buildData.Owner}/{buildData.Project}/build/{buildData.Build}/";
 
         var embed = new EmbedBuilder()
-            .WithTitle($"{emote} COPR Build {statusText}")
+            .WithTitle($"COPR Build {statusText}")
             .WithDescription($"**Project:** {buildData.Owner}/{buildData.Project}\n" +
                              $"**Package:** {buildData.Package}\n" +
                              $"**Build ID:** {buildData.Build}\n" +

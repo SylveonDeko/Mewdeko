@@ -85,6 +85,26 @@ namespace DataModel
 		[Column("notifyonskipped")] public bool NotifyOnSkipped { get; set; } // boolean
 
 		/// <summary>
+		///     Gets or sets whether to notify on starting builds.
+		/// </summary>
+		[Column("notifyonstarting")] public bool NotifyOnStarting { get; set; } // boolean
+
+		/// <summary>
+		///     Gets or sets whether to notify on importing builds.
+		/// </summary>
+		[Column("notifyonimporting")] public bool NotifyOnImporting { get; set; } // boolean
+
+		/// <summary>
+		///     Gets or sets whether to notify on forked builds.
+		/// </summary>
+		[Column("notifyonforked")] public bool NotifyOnForked { get; set; } // boolean
+
+		/// <summary>
+		///     Gets or sets whether to notify on waiting builds.
+		/// </summary>
+		[Column("notifyonwaiting")] public bool NotifyOnWaiting { get; set; } // boolean
+
+		/// <summary>
 		///     Gets or sets the custom message for succeeded builds.
 		/// </summary>
 		[Column("succeededmessage")] public string? SucceededMessage { get; set; } // text
@@ -113,6 +133,26 @@ namespace DataModel
 		///     Gets or sets the custom message for skipped builds.
 		/// </summary>
 		[Column("skippedmessage")] public string? SkippedMessage { get; set; } // text
+
+		/// <summary>
+		///     Gets or sets the custom message for starting builds.
+		/// </summary>
+		[Column("startingmessage")] public string? StartingMessage { get; set; } // text
+
+		/// <summary>
+		///     Gets or sets the custom message for importing builds.
+		/// </summary>
+		[Column("importingmessage")] public string? ImportingMessage { get; set; } // text
+
+		/// <summary>
+		///     Gets or sets the custom message for forked builds.
+		/// </summary>
+		[Column("forkedmessage")] public string? ForkedMessage { get; set; } // text
+
+		/// <summary>
+		///     Gets or sets the custom message for waiting builds.
+		/// </summary>
+		[Column("waitingmessage")] public string? WaitingMessage { get; set; } // text
 
 		/// <summary>
 		///     Gets or sets the default message for other build statuses.

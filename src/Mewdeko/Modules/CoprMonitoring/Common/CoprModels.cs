@@ -38,10 +38,10 @@ public class CoprBuildMessage
     public string Chroot { get; set; } = null!;
 
     /// <summary>
-    ///     Gets or sets the build status.
+    ///     Gets or sets the build status as an integer.
     /// </summary>
     [JsonPropertyName("status")]
-    public string Status { get; set; } = null!;
+    public int Status { get; set; }
 
     /// <summary>
     ///     Gets or sets the COPR project owner.
@@ -52,7 +52,7 @@ public class CoprBuildMessage
     /// <summary>
     ///     Gets or sets the COPR project name.
     /// </summary>
-    [JsonPropertyName("project")]
+    [JsonPropertyName("copr")]
     public string Project { get; set; } = null!;
 
     /// <summary>
@@ -86,19 +86,19 @@ public class CoprBuildMessage
 public enum CoprBuildStatus
 {
     /// <summary>
-    ///     Package sources are being imported into Copr DistGit.
+    ///     Build failed.
     /// </summary>
-    Importing = 0,
+    Failed = 0,
 
     /// <summary>
-    ///     Build is waiting in queue for a backend worker.
+    ///     Successfully built.
     /// </summary>
-    Pending = 1,
+    Succeeded = 1,
 
     /// <summary>
-    ///     Backend worker is trying to acquire a builder machine.
+    ///     The build has been cancelled manually.
     /// </summary>
-    Starting = 2,
+    Canceled = 2,
 
     /// <summary>
     ///     Build in progress.
@@ -106,24 +106,24 @@ public enum CoprBuildStatus
     Running = 3,
 
     /// <summary>
-    ///     Successfully built.
+    ///     Build is waiting in queue for a backend worker.
     /// </summary>
-    Succeeded = 4,
-
-    /// <summary>
-    ///     Build failed.
-    /// </summary>
-    Failed = 5,
-
-    /// <summary>
-    ///     The build has been cancelled manually.
-    /// </summary>
-    Canceled = 6,
+    Pending = 4,
 
     /// <summary>
     ///     This package was skipped.
     /// </summary>
-    Skipped = 7,
+    Skipped = 5,
+
+    /// <summary>
+    ///     Backend worker is trying to acquire a builder machine.
+    /// </summary>
+    Starting = 6,
+
+    /// <summary>
+    ///     Package sources are being imported into Copr DistGit.
+    /// </summary>
+    Importing = 7,
 
     /// <summary>
     ///     Build has been forked from another build.
@@ -142,27 +142,15 @@ public enum CoprBuildStatus
 public static class CoprExtensions
 {
     /// <summary>
-    ///     Parses a string status to the corresponding enum value.
+    ///     Parses an integer status to the corresponding enum value.
     /// </summary>
-    /// <param name="status">The status string from COPR.</param>
+    /// <param name="status">The status integer from COPR.</param>
     /// <returns>The parsed CoprBuildStatus enum value.</returns>
-    public static CoprBuildStatus ParseStatus(string status)
+    public static CoprBuildStatus ParseStatus(int status)
     {
-        return status.ToLowerInvariant() switch
-        {
-            "importing" => CoprBuildStatus.Importing,
-            "pending" => CoprBuildStatus.Pending,
-            "starting" => CoprBuildStatus.Starting,
-            "running" => CoprBuildStatus.Running,
-            "succeeded" => CoprBuildStatus.Succeeded,
-            "failed" => CoprBuildStatus.Failed,
-            "canceled" => CoprBuildStatus.Canceled,
-            "cancelled" => CoprBuildStatus.Canceled,
-            "skipped" => CoprBuildStatus.Skipped,
-            "forked" => CoprBuildStatus.Forked,
-            "waiting" => CoprBuildStatus.Waiting,
-            _ => CoprBuildStatus.Pending
-        };
+        return status >= 0 && status <= 9
+            ? (CoprBuildStatus)status
+            : CoprBuildStatus.Pending;
     }
 
     /// <summary>
