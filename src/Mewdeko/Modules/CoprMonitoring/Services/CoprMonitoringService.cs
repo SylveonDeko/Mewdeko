@@ -679,7 +679,7 @@ public class CoprMonitoringService : INService, IReadyExecutor, IDisposable
             var buildData = message.Body;
             var status = CoprExtensions.ParseStatus(buildData.Status);
 
-            logger.LogDebug("Received COPR build event: {Owner}/{Project} - {Package} - {Status}",
+            logger.LogInformation("Received COPR build event: {Owner}/{Project} - {Package} - {Status}",
                 buildData.Owner, buildData.Project, buildData.Package, buildData.Status);
 
             var key = (buildData.Owner, buildData.Project);
