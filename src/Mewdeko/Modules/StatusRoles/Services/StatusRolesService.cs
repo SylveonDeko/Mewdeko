@@ -1,4 +1,5 @@
-﻿using DataModel;
+﻿using System.Text;
+using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
 using ZiggyCreatures.Caching.Fusion;
@@ -63,32 +64,54 @@ public class StatusRolesService : INService
 
     private async Task<List<StatusRole>> GetStatusRolesAsync()
     {
-        var cacheResult = await cache.GetOrSetAsync("statusRoles", async () =>
-        {
-            await using var dbContext = await dbFactory.CreateConnectionAsync();
-            return await dbContext.StatusRoles.ToListAsync();
-        });
+        var statusRoles = await cache.GetOrDefaultAsync<List<StatusRole>>("statusRoles");
 
-        return await cacheResult.Invoke();
+        if (statusRoles != null) return statusRoles;
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+        statusRoles = await dbContext.StatusRoles.ToListAsync();
+        await cache.SetAsync("statusRoles", statusRoles);
+
+        return statusRoles;
     }
 
     private async Task EventHandlerOnPresenceUpdated(SocketUser args, SocketPresence args2, SocketPresence args3)
     {
-        if (args is not SocketGuildUser user || args3.Activities?.FirstOrDefault() is not CustomStatusGame status)
+        if (args is not SocketGuildUser user)
             return;
 
-        var beforeStatus = args2?.Activities?.FirstOrDefault() as CustomStatusGame;
-        if (status.State is null && beforeStatus?.State is null || status.State == beforeStatus?.State)
+        if (user.Guild.Id != 900378009188565022)
             return;
 
-        var cachedStatus = await cache.GetOrDefaultAsync<string>($"userStatus_{args.Id}");
-        if (cachedStatus == status.State?.ToBase64())
+        // Check if user is offline/invisible - if so, ignore completely
+        var isOffline = args3?.Status == UserStatus.Offline || args3?.Status == UserStatus.Invisible;
+        if (isOffline)
             return;
 
-        await cache.SetAsync($"userStatus_{args.Id}", status.State?.ToBase64());
+        // User is online - get their current custom status
+        var status = args3.Activities?.FirstOrDefault() as CustomStatusGame;
+        var currentState = status?.State;
+        var currentEncodedStatus = currentState?.ToBase64();
+
+        // Check what we have cached as their last known status
+        var cachedStatus = await cache.GetOrDefaultAsync<string>($"userStatus_{user.Id}");
+
+        // If status hasn't changed from our cache, don't process
+        if (cachedStatus == currentEncodedStatus)
+            return;
+
+        // Status changed - update cache
+        await cache.SetAsync($"userStatus_{user.Id}", currentEncodedStatus);
 
         if (!this.guildStatusRoles.TryGetValue(user.Guild.Id, out var guildStatusRoles))
             return;
+
+        // Process role changes using cached status as "before"
+        CustomStatusGame beforeStatus = null;
+        if (!string.IsNullOrEmpty(cachedStatus))
+        {
+            var decodedStatus = Encoding.UTF8.GetString(Convert.FromBase64String(cachedStatus));
+            beforeStatus = new CustomStatusGame(decodedStatus);
+        }
 
         foreach (var statusRole in guildStatusRoles)
         {
@@ -99,6 +122,7 @@ public class StatusRolesService : INService
     private async Task ProcessStatusRole(SocketGuildUser user, CustomStatusGame status, CustomStatusGame? beforeStatus,
         StatusRole? statusRole)
     {
+        if (user.Guild.Id != 900378009188565022) return;
         var toAdd = string.IsNullOrWhiteSpace(statusRole.ToAdd)
             ? []
             : statusRole.ToAdd.Split(" ").Select(ulong.Parse).ToList();
@@ -205,7 +229,9 @@ public class StatusRolesService : INService
         {
             Status = status, GuildId = guildId
         };
-        await dbContext.InsertAsync(toAdd);
+        var id = await dbContext.InsertWithInt32IdentityAsync(toAdd);
+
+        toAdd.Id = id;
 
         guildStatusRoles.AddOrUpdate(guildId,
             [toAdd],
@@ -278,9 +304,11 @@ public class StatusRolesService : INService
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>The set of status role configurations for the guild.</returns>
-    public Task<HashSet<StatusRole>> GetStatusRoleConfig(ulong guildId)
+    public async Task<HashSet<StatusRole>> GetStatusRoleConfig(ulong guildId)
     {
-        return Task.FromResult(guildStatusRoles.GetValueOrDefault(guildId, []));
+        var statusRoles = await GetStatusRolesAsync();
+        var roles = statusRoles.Where(x => x.GuildId == guildId);
+        return roles.ToHashSet();
     }
 
     /// <summary>
