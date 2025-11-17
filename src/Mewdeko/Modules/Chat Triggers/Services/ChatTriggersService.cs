@@ -1122,6 +1122,29 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             CtField.NoRespond => !ct.NoRespond,
             _ => newVal // Default case: return the current value
         };
+
+        switch (field)
+        {
+            case CtField.AutoDelete:
+                ct.AutoDeleteTrigger = newVal;
+                break;
+            case CtField.ContainsAnywhere:
+                ct.ContainsAnywhere = newVal;
+                break;
+            case CtField.DmResponse:
+                ct.DmResponse = newVal;
+                break;
+            case CtField.AllowTarget:
+                ct.AllowTarget = newVal;
+                break;
+            case CtField.ReactToTrigger:
+                ct.ReactToTrigger = newVal;
+                break;
+            case CtField.NoRespond:
+                ct.NoRespond = newVal;
+                break;
+        }
+
         await using var dbContext = await dbFactory.CreateConnectionAsync();
         // Update the chat trigger in the database
         await dbContext.UpdateAsync(ct);
