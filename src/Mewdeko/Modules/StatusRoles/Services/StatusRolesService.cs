@@ -79,9 +79,6 @@ public class StatusRolesService : INService
         if (args is not SocketGuildUser user)
             return;
 
-        if (user.Guild.Id != 900378009188565022)
-            return;
-
         // Check if user is offline/invisible - if so, ignore completely
         var isOffline = args3?.Status == UserStatus.Offline || args3?.Status == UserStatus.Invisible;
         if (isOffline)
