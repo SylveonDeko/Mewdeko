@@ -543,7 +543,8 @@ public class TicketController : Controller
     {
         try
         {
-            logger.LogInformation("UpdateButton called - Request deserialized successfully");
+            if (request == null)
+                return BadRequest("Request body is null or could not be deserialized");
 
             IGuild guild = client.GetGuild(guildId);
             if (guild == null)

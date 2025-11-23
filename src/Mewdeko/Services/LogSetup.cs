@@ -92,7 +92,7 @@ public static class LogSetup
             .MinimumLevel.Information()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
             .MinimumLevel.Override("System", LogEventLevel.Error)
-            .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Error)
+            .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Debug)
 
             // Database specific logging
             .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Error)

@@ -1011,7 +1011,7 @@ public class FormsService : INService
     /// </summary>
     private async Task<bool> EvaluatePermissionConditionAsync(FormQuestion question, ulong userId, ulong guildId)
     {
-        if (!question.ConditionalPermissionFlags.HasValue || question.ConditionalPermissionFlags.Value == 0)
+        if (question.ConditionalPermissionFlags is null or 0)
         {
             logger.LogWarning("Permission condition for question {QuestionId} has no permissions specified",
                 question.Id);

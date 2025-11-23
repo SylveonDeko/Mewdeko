@@ -348,7 +348,7 @@ public class WizardController : Controller
     /// <returns>Updated preferences</returns>
     [HttpPost("user-preferences/{userId:long}")]
     public async Task<ActionResult<UserPreferencesResponse>> UpdateUserPreferences(ulong userId,
-        [FromBody] UserPreferencesRequest request)
+        [FromBody] WizardPreferencesRequest request)
     {
         try
         {

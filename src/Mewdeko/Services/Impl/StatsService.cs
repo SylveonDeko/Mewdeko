@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
 using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Threading;
 using Humanizer;
 using Mewdeko.Common.ModuleBehaviors;
@@ -19,6 +19,11 @@ public class StatsService : IStatsService, IDisposable, IReadyExecutor
     ///     The version of the bot. I should make this set from commits somehow idk
     /// </summary>
     public const string BotVersion = "8";
+
+    private static readonly string[] function = new[]
+    {
+        "botlist", "bots", "xhamster", "nsfw", "18+"
+    };
 
     private readonly IDataCache cache;
     private readonly DiscordShardedClient client;
@@ -77,10 +82,7 @@ public class StatsService : IStatsService, IDisposable, IReadyExecutor
                     var guilds = (await cl.GetGuildsAsync().ConfigureAwait(false))
                         .Cast<SocketGuild>();
 
-                    var excludedTerms = new[]
-                    {
-                        "botlist", "bots", "xhamster", "nsfw", "18+"
-                    };
+                    var excludedTerms = function;
                     const ulong excludedId = 374071874222686211;
 
                     var servers = guilds
@@ -156,24 +158,19 @@ public class StatsService : IStatsService, IDisposable, IReadyExecutor
     {
         if (string.IsNullOrEmpty(creds.VotesToken)) return;
 
-        topGgTimer = new PeriodicTimer(TimeSpan.FromSeconds(10));
+        topGgTimer = new PeriodicTimer(TimeSpan.FromMinutes(30));
 
         while (await topGgTimer.WaitForNextTickAsync().ConfigureAwait(false))
         {
             IDiscordClient cl = client;
             var guilds = await cl.GetGuildsAsync();
-            var content = new FormUrlEncodedContent(new Dictionary<string, string>
+            var content = JsonContent.Create(new
             {
-                {
-                    "shard_count", creds.TotalShards.ToString()
-                },
-                {
-                    "server_count", guilds.Count.ToString()
-                }
+                shard_count = creds.TotalShards, server_count = guilds.Count
             });
 
-            http.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Authorization", $"Bearer {creds.VotesToken}");
+            http.DefaultRequestHeaders.Remove("Authorization");
+            http.DefaultRequestHeaders.Add("Authorization", creds.VotesToken);
             var response = await http
                 .PostAsync(new Uri($"https://top.gg/api/bots/{client.CurrentUser.Id}/stats"), content)
                 .ConfigureAwait(false);

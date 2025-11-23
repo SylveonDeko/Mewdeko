@@ -206,8 +206,7 @@ public class Program
                             var host = uri.Host;
 
                             // Allow specific domains
-                            if (host == "mewdeko.tech" || host == "api.mewdeko.tech" || host == "localhost" ||
-                                host == "127.0.0.1")
+                            if (host is "mewdeko.tech" or "api.mewdeko.tech" or "localhost" or "127.0.0.1")
                                 return true;
 
                             // Allow Android emulator special IP

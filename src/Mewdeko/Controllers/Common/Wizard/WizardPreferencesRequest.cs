@@ -3,7 +3,7 @@ namespace Mewdeko.Controllers.Common.Wizard;
 /// <summary>
 ///     Request model for updating user wizard preferences
 /// </summary>
-public class UserPreferencesRequest
+public class WizardPreferencesRequest
 {
     /// <summary>
     ///     User ID

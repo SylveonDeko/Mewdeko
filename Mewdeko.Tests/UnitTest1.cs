@@ -22,52 +22,12 @@ public class StringUsageTests
 
 
     private readonly Regex methodCallRegex;
+
     private readonly Regex stringLiteralRegex = new("""
                                                     "[^"]*"
                                                     """);
 
-    public StringUsageTests()
-    {
-        var methodPattern = string.Join("|", discordSendMethods);
-        methodCallRegex = new Regex($@"\.({methodPattern})\s*\(([^)]*)\)", RegexOptions.Multiline);
-    }
-
-    private List<(string methodName, string rawString, string lineContext)> CheckForRawStrings(
-        string code)
-    {
-        var results = new List<(string methodName, string rawString, string lineContext)>();
-        var matches = methodCallRegex.Matches(code);
-        foreach (Match match in matches)
-        {
-            var methodName = match.Groups[1].Value;
-            var parameters = match.Groups[2].Value;
-
-            var lineStart = code.LastIndexOf('\n', match.Index) + 1;
-            var lineEnd = code.IndexOf('\n', match.Index);
-            if (lineEnd == -1) lineEnd = code.Length;
-            var lineContext = code[lineStart..lineEnd].Trim();
-
-            // Also check for new EmbedBuilder() patterns
-            if (lineContext.Contains("new EmbedBuilder()") || lineContext.Contains("new DiscordEmbedBuilder()"))
-            {
-                var embedEnd = code.IndexOf(';', match.Index);
-                if (embedEnd != -1)
-                    lineContext = code[lineStart..embedEnd].Trim();
-            }
-
-            var stringMatches = stringLiteralRegex.Matches(parameters);
-            foreach (Match strMatch in stringMatches)
-            {
-                var str = strMatch.Value;
-                if (str != "\"\"" && !parameters.Contains("Strings.") && !IsExemptString(str))
-                    results.Add((methodName, str, lineContext));
-            }
-        }
-
-        return results;
-    }
-
-    private bool IsExemptString(string str) => new[]
+    private static readonly string[] sourceArray = new[]
     {
         """
         "http[s]?://[^"]*"
@@ -153,7 +113,53 @@ public class StringUsageTests
         """
         "^Powered by [a-zA-Z0-9\.]+.*$"
         """ // API attribution strings like "Powered by openweathermap.org"
-    }.Any(pattern => Regex.IsMatch(str, pattern));
+    };
+
+    public StringUsageTests()
+    {
+        var methodPattern = string.Join("|", discordSendMethods);
+        methodCallRegex = new Regex($@"\.({methodPattern})\s*\(([^)]*)\)", RegexOptions.Multiline);
+    }
+
+    private List<(string methodName, string rawString, string lineContext)> CheckForRawStrings(
+        string code)
+    {
+        var results = new List<(string methodName, string rawString, string lineContext)>();
+        var matches = methodCallRegex.Matches(code);
+        foreach (Match match in matches)
+        {
+            var methodName = match.Groups[1].Value;
+            var parameters = match.Groups[2].Value;
+
+            var lineStart = code.LastIndexOf('\n', match.Index) + 1;
+            var lineEnd = code.IndexOf('\n', match.Index);
+            if (lineEnd == -1) lineEnd = code.Length;
+            var lineContext = code[lineStart..lineEnd].Trim();
+
+            // Also check for new EmbedBuilder() patterns
+            if (lineContext.Contains("new EmbedBuilder()") || lineContext.Contains("new DiscordEmbedBuilder()"))
+            {
+                var embedEnd = code.IndexOf(';', match.Index);
+                if (embedEnd != -1)
+                    lineContext = code[lineStart..embedEnd].Trim();
+            }
+
+            var stringMatches = stringLiteralRegex.Matches(parameters);
+            foreach (Match strMatch in stringMatches)
+            {
+                var str = strMatch.Value;
+                if (str != "\"\"" && !parameters.Contains("Strings.") && !IsExemptString(str))
+                    results.Add((methodName, str, lineContext));
+            }
+        }
+
+        return results;
+    }
+
+    private bool IsExemptString(string str)
+    {
+        return sourceArray.Any(pattern => Regex.IsMatch(str, pattern));
+    }
 
     [Test]
     public void ModulesShouldNotUseRawStrings()

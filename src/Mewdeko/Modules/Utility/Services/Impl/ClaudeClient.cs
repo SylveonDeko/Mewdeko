@@ -14,6 +14,11 @@ namespace Mewdeko.Modules.Utility.Services.Impl;
 /// </summary>
 public class ClaudeClient : IAiClient
 {
+    private static readonly string[] item = new[]
+    {
+        "user_query"
+    };
+
     private readonly IHttpClientFactory httpClientFactory;
 
     /// <summary>
@@ -131,10 +136,7 @@ public class ClaudeClient : IAiClient
                                 ["description"] = "User ID, username, display name, or @mention to look up"
                             }
                         },
-                        ["required"] = new[]
-                        {
-                            "user_query"
-                        }
+                        ["required"] = item
                     }
                 });
             }
