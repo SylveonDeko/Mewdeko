@@ -30,7 +30,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using NekosBestApiNet;
 using Serilog;
 using ZiggyCreatures.Caching.Fusion;
@@ -164,17 +164,10 @@ public class Program
                     Type = SecuritySchemeType.ApiKey,
                     Description = "Authorization by x-api-key inside request's header"
                 });
-                x.AddSecurityRequirement(new OpenApiSecurityRequirement
+                x.AddSecurityRequirement(_ => new OpenApiSecurityRequirement
                 {
                     {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme, Id = "ApiKeyHeader"
-                            }
-                        },
-                        []
+                        new OpenApiSecuritySchemeReference("ApiKeyHeader"), []
                     }
                 });
             });

@@ -180,7 +180,7 @@ public class SearchesService : INService, IUnloadableService
         if (File.Exists("data/yomama.txt"))
         {
             yomamaJokes = File.ReadAllLines("data/yomama.txt")
-                .Shuffle()
+                .SecureShuffle()
                 .ToList();
         }
 
@@ -975,7 +975,7 @@ public class SearchesService : INService, IUnloadableService
                 yomamaJokeIndex = 0;
                 var newList = yomamaJokes.ToList();
                 yomamaJokes.Clear();
-                yomamaJokes.AddRange(newList.Shuffle());
+                yomamaJokes.AddRange(newList.SecureShuffle());
             }
 
             joke = yomamaJokes[yomamaJokeIndex++];

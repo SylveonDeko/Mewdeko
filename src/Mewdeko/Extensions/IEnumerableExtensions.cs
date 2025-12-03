@@ -109,12 +109,13 @@ public static class EnumerableExtensions
     }
 
     /// <summary>
-    ///     Randomizes the order of elements in the sequence by performing the Fisher-Yates shuffle.
+    ///     Randomizes the order of elements in the sequence by performing the Fisher-Yates shuffle
+    ///     using cryptographically secure random number generation.
     /// </summary>
     /// <typeparam name="T">The type of items in the sequence.</typeparam>
     /// <param name="items">The sequence of items to shuffle.</param>
     /// <returns>An IReadOnlyList with the elements shuffled.</returns>
-    public static IReadOnlyList<T> Shuffle<T>(this IEnumerable<T> items)
+    public static IReadOnlyList<T> SecureShuffle<T>(this IEnumerable<T> items)
     {
         using var provider = RandomNumberGenerator.Create();
         var list = items.ToList();

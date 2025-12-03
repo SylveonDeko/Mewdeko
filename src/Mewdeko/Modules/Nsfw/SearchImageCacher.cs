@@ -88,7 +88,7 @@ public class SearchImageCacher : INService
             {
                 images.SelectMany(x => x.Tags)
                     .Distinct()
-                    .Shuffle()
+                    .SecureShuffle()
                     .Take(50)
                     .ForEach(x => typeUsedTags.Add(x));
             }

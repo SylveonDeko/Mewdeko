@@ -205,7 +205,7 @@ public partial class Utility
                 embed.AddField(fb =>
                     fb.WithName($"{Strings.CustomEmojis(ctx.Guild.Id)}({guild.Emotes.Count})")
                         .WithValue(string.Join(" ", guild.Emotes
-                                .Shuffle()
+                                .SecureShuffle()
                                 .Take(30)
                                 .Select(e => $"{e}"))
                             .TrimTo(1024)));

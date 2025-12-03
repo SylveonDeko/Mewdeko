@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <LangVersion>13</LangVersion>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>default</LangVersion>
     <RunWorkingDirectory>$(MSBuildProjectDirectory)</RunWorkingDirectory>
     <OutputType>exe</OutputType>
     <RuntimeIdentifiers>win-x86;win-x64;linux-x64;linux-arm</RuntimeIdentifiers>
@@ -29,7 +29,7 @@
 
   <ItemGroup>
     <PackageReference Include="Claudia" Version="1.3.2"/>
-    <PackageReference Include="dbup-postgresql" Version="6.0.3"/>
+    <PackageReference Include="dbup-postgresql" Version="6.1.5"/>
     <PackageReference Include="Discord.Net.WebSocket" Version="3.18.0"/>
     <PackageReference Include="Discord.Net.Rest" Version="3.18.0"/>
     <PackageReference Include="Discord.Net.Webhook" Version="3.18.0"/>
@@ -37,94 +37,85 @@
     <PackageReference Include="Discord.Net.Commands" Version="3.18.0"/>
     <PackageReference Include="Discord.Addons.Hosting" Version="6.1.0"/>
     <PackageReference Include="Figgle.Fonts" Version="0.6.5"/>
-    <PackageReference Include="FluentMigrator" Version="7.1.0"/>
-    <PackageReference Include="Google.Cloud.Vision.V1" Version="3.7.0"/>
+    <PackageReference Include="FluentMigrator" Version="7.2.0"/>
+    <PackageReference Include="Google.Cloud.Vision.V1" Version="3.8.0"/>
     <PackageReference Include="GroqApiLibrary" Version="1.0.9"/>
-    <PackageReference Include="HarfBuzzSharp" Version="8.3.1.1"/>
-    <PackageReference Include="HarfBuzzSharp.NativeAssets.Linux" Version="8.3.1.1"/>
+    <PackageReference Include="HarfBuzzSharp" Version="8.3.1.2"/>
+    <PackageReference Include="HarfBuzzSharp.NativeAssets.Linux" Version="8.3.1.2"/>
+    <PackageReference Include="HtmlAgilityPack" Version="1.12.4"/>
     <PackageReference Include="IF.Lastfm.Core" Version="1.0.0"/>
     <PackageReference Include="Inflatable.Lastfm" Version="1.2.0"/>
     <PackageReference Include="LibGit2Sharp" Version="0.31.0"/>
     <PackageReference Include="linq2db" Version="6.0.0-rc.2"/>
     <PackageReference Include="MathNet.Symbolics" Version="0.25.0"/>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.9"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.0"/>
     <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="3.0.1"/>
     <PackageReference Include="morelinq" Version="4.4.0"/>
-    <PackageReference Include="Npgsql" Version="9.0.3"/>
-    <PackageReference Include="OpenAI" Version="2.2.0"/>
+    <PackageReference Include="Npgsql" Version="10.0.0"/>
+    <PackageReference Include="OpenAI" Version="2.7.0"/>
     <PackageReference Include="OxyPlot.Core" Version="2.2.0"/>
     <PackageReference Include="OxyPlot.SkiaSharp" Version="2.2.0"/>
-    <PackageReference Include="Polly" Version="8.6.2"/>
+    <PackageReference Include="Polly" Version="8.6.5"/>
     <PackageReference Include="RabbitMQ.Client" Version="7.2.0"/>
-    <PackageReference Include="Sentry.AspNetCore" Version="5.15.1"/>
-    <PackageReference Include="Sentry.Serilog" Version="5.15.1"/>
-    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0"/>
-    <PackageReference Include="System.ServiceProcess.ServiceController" Version="10.0.0-preview.6.25358.103"/>
-    <PackageReference Include="ZiggyCreatures.FusionCache" Version="2.3.0"/>
+    <PackageReference Include="Sentry.AspNetCore" Version="5.16.2"/>
+    <PackageReference Include="Sentry.Serilog" Version="5.16.2"/>
+    <PackageReference Include="Serilog.AspNetCore" Version="10.0.0"/>
+    <PackageReference Include="System.ServiceProcess.ServiceController" Version="10.0.0"/>
+    <PackageReference Include="ZiggyCreatures.FusionCache" Version="2.4.0"/>
   </ItemGroup>
 
 
   <ItemGroup>
-    <PackageReference Include="AngleSharp" Version="1.3.1-beta.491"/>
+    <PackageReference Include="AngleSharp" Version="1.4.0"/>
     <PackageReference Include="Anilist4Net" Version="1.5.0"/>
     <PackageReference Include="CodeHollow.FeedReader" Version="1.2.6"/>
     <PackageReference Include="CommandLineParser" Version="2.9.1"/>
     <PackageReference Include="CoreCLR-NCalc" Version="3.1.253"/>
-    <PackageReference Include="Fergun.Interactive" Version="1.9.0"/>
+    <PackageReference Include="Fergun.Interactive" Version="1.9.1"/>
     <PackageReference Include="Figgle" Version="0.6.5"/>
     <PackageReference Include="Genius.NET" Version="4.0.1"/>
     <PackageReference Include="GScraper" Version="1.1.3"/>
     <PackageReference Include="GTranslate" Version="2.3.1"/>
-    <PackageReference Include="Html2Markdown" Version="7.0.5.102-beta"/>
-    <PackageReference Include="Humanizer" Version="3.0.0-beta.96"/>
-    <PackageReference Include="JikanDotNet" Version="2.9.1"/>
+    <PackageReference Include="Html2Markdown" Version="7.1.1.19"/>
+    <PackageReference Include="Humanizer" Version="3.0.1"/>
+    <PackageReference Include="JikanDotNet" Version="2.10.1"/>
     <PackageReference Include="Google.Apis.YouTube.v3" Version="1.70.0.3847"/>
     <PackageReference Include="Google.Apis.Customsearch.v1" Version="1.49.0.2084"/>
-    <PackageReference Include="Lavalink4NET.Discord.NET" Version="4.0.27"/>
-    <PackageReference Include="Lavalink4NET.Integrations.Lavasearch" Version="4.0.27"/>
-    <PackageReference Include="Lavalink4NET.Integrations.Lavasrc" Version="4.0.27"/>
+    <PackageReference Include="Lavalink4NET.Discord.NET" Version="4.1.0"/>
+    <PackageReference Include="Lavalink4NET.Integrations.Lavasearch" Version="4.1.0"/>
+    <PackageReference Include="Lavalink4NET.Integrations.Lavasrc" Version="4.1.0"/>
     <PackageReference Include="LazyCache" Version="2.4.0"/>
-    <PackageReference Include="MartineApiNet" Version="1.0.14"/>
+    <PackageReference Include="MartineApiNet" Version="1.0.15"/>
     <PackageReference Include="MathNet.Numerics" Version="6.0.0-beta2"/>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0"/>
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.14.0"/>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.14.0"/>
-    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.14.0"/>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.14.0"/>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0"/>
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="5.0.0"/>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.0.0"/>
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="5.0.0"/>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="5.0.0"/>
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="5.0.0-1.25277.114">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.0-preview.6.25358.103"/>
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.0-preview.6.25358.103"/>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0-preview.6.25358.103"/>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0-preview.6.25358.103"/>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0-preview.6.25358.103"/>
-    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.0-preview.6.25358.103"/>
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.0-preview.6.25358.103"/>
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.0-preview.6.25358.103"/>
-    <PackageReference Include="NekosBestApiNet" Version="1.0.7"/>
+    <PackageReference Include="NekosBestApiNet" Version="1.0.8"/>
     <PackageReference Include="NHentaiAPI" Version="1.8.0"/>
     <PackageReference Include="NonBlocking" Version="2.1.2"/>
     <PackageReference Include="Octokit" Version="14.0.0"/>
-    <PackageReference Include="Otp.NET" Version="1.4.0"/>
-    <PackageReference Include="PokeApiNet" Version="4.0.0"/>
-    <PackageReference Include="QRCoder" Version="1.6.0"/>
-    <PackageReference Include="Scrutor" Version="6.1.0"/>
+    <PackageReference Include="Otp.NET" Version="1.4.1"/>
+    <PackageReference Include="PokeApiNet" Version="4.1.0"/>
+    <PackageReference Include="QRCoder" Version="1.7.0"/>
+    <PackageReference Include="Scrutor" Version="7.0.0"/>
     <PackageReference Include="Serilog" Version="4.3.1-dev-02373"/>
-    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.1-dev-00953"/>
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1"/>
     <PackageReference Include="Serilog.Sinks.Seq" Version="9.0.0"/>
     <PackageReference Include="ServiceCollectionExtensions" Version="1.0.2"/>
-    <PackageReference Include="SkiaSharp" Version="3.119.0"/>
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.0"/>
+    <PackageReference Include="SkiaSharp" Version="3.119.1"/>
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.1"/>
     <PackageReference Include="SpotifyAPI.Web" Version="7.2.1"/>
     <PackageReference Include="SpotifyAPI.Web.Auth" Version="7.2.1"/>
-    <PackageReference Include="StackExchange.Redis" Version="2.8.58"/>
-    <PackageReference Include="System.Text.Json" Version="10.0.0-preview.6.25358.103"/>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3"/>
-    <PackageReference Include="System.Drawing.Common" Version="10.0.0-preview.6.25358.103"/>
-    <PackageReference Include="System.Threading.Channels" Version="10.0.0-preview.6.25358.103"/>
-    <PackageReference Include="TwitchLib.Api" Version="3.10.1-preview.197.eadb60e"/>
+    <PackageReference Include="StackExchange.Redis" Version="2.10.1"/>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.1"/>
+    <PackageReference Include="System.Drawing.Common" Version="10.0.0"/>
+    <PackageReference Include="TwitchLib.Api" Version="3.10.2"/>
     <PackageReference Include="VirusTotalNet" Version="2.2.0"/>
     <PackageReference Include="YamlDotNet" Version="16.3.0"/>
   </ItemGroup>

@@ -211,7 +211,7 @@ public partial class Searches
             if (favorites.Length > 0 && favorites[0].QuerySelector("p") == null)
             {
                 favAnime = string.Join("\n", favorites[0].QuerySelectorAll("ul > li > div.di-tc.va-t > a")
-                    .Shuffle()
+                    .SecureShuffle()
                     .Take(3)
                     .Select(x =>
                     {

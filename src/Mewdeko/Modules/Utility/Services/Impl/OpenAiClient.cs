@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.ClientModel;
+using System.Threading;
 using DataModel;
 using OpenAI.Chat;
 
@@ -28,10 +29,9 @@ public class OpenAiClient : IAiClient
     /// <param name="apiKey">The API key for authentication.</param>
     /// <param name="cancellationToken">Optional token to cancel the operation.</param>
     /// <returns>A stream containing the AI response.</returns>
-    public async Task<IAsyncEnumerable<string>> StreamResponseAsync(IEnumerable<AiMessage> messages, string model,
+    public Task<IAsyncEnumerable<string>> StreamResponseAsync(IEnumerable<AiMessage> messages, string model,
         string apiKey, CancellationToken cancellationToken = default)
     {
-        await Task.CompletedTask;
         var client = new ChatClient(model, apiKey);
 
         var chatMessages = messages.Select<AiMessage, ChatMessage>(m => m.Role switch
@@ -44,6 +44,15 @@ public class OpenAiClient : IAiClient
 
         var completionUpdates = client.CompleteChatStreamingAsync(chatMessages, cancellationToken: cancellationToken);
 
-        return completionUpdates.Select(update => update.ContentUpdate.FirstOrDefault()?.Text ?? "");
+        return Task.FromResult(TransformUpdates(completionUpdates));
+
+        static async IAsyncEnumerable<string> TransformUpdates(
+            AsyncCollectionResult<StreamingChatCompletionUpdate> updates)
+        {
+            await foreach (var update in updates)
+            {
+                yield return update.ContentUpdate.FirstOrDefault()?.Text ?? "";
+            }
+        }
     }
 }

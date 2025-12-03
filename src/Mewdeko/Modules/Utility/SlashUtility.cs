@@ -418,7 +418,8 @@ public partial class SlashUtility(
         {
             embed.AddField(fb =>
                 fb.WithName($"{Strings.CustomEmojis(ctx.Guild.Id)}({guild.Emotes.Count})")
-                    .WithValue(string.Join(" ", guild.Emotes.Shuffle().Take(30).Select(e => $"{e}")).TrimTo(1024)));
+                    .WithValue(string.Join(" ", guild.Emotes.SecureShuffle().Take(30).Select(e => $"{e}"))
+                        .TrimTo(1024)));
         }
 
         var msg = await ctx.Interaction.FollowupAsync(embed: embed.Build(), components: component.Build())
