@@ -3082,6 +3082,31 @@ autobanroleremove_IRole_2:
   desc: Removes a role from the list of AutoBanRoles.
   params:
     - *ref_88
+autobanrolereason:
+  args:
+    - '@role'
+    - '@role reason text'
+  desc: Sets or shows the ban reason for an AutoBanRole. The reason appears in the audit log when users are banned.
+  params:
+    - *ref_88
+    - &ref_abreason
+      desc: The reason to show in the audit log (leave empty to view current, provide text to set, or use empty quotes to clear).
+      name: reason
+      optional: true
+      type: string
+autobanrolereason_IRole:
+  args:
+    - '@role'
+  desc: Shows the current ban reason for an AutoBanRole.
+  params:
+    - *ref_88
+autobanrolereason_IRole_string:
+  args:
+    - '@role reason text'
+  desc: Sets the ban reason for an AutoBanRole that appears in the audit log.
+  params:
+    - *ref_88
+    - *ref_abreason
 autobanword:
   args:
     - text
@@ -7374,6 +7399,16 @@ ctsexport_noparams_2:
   args:
     - ''
   desc: Module for chat triggers.
+  params: [ ]
+ctsmigrate:
+  args:
+    - ''
+  desc: Migrates old CrEmbed format chat triggers to the new embed format. Creates a backup first.
+  params: [ ]
+ctsmigrate_noparams:
+  args:
+    - ''
+  desc: Migrates old CrEmbed format chat triggers to the new embed format. Creates a backup first.
   params: [ ]
 ctsimport:
   args:

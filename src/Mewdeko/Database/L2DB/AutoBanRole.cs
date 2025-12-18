@@ -20,5 +20,6 @@ namespace DataModel
 		[Column("GuildId"                                                                                    )] public ulong   GuildId   { get; set; } // numeric(20,0)
 		[Column("RoleId"                                                                                     )] public ulong   RoleId    { get; set; } // numeric(20,0)
 		[Column("DateAdded"                                                                                  )] public DateTime? DateAdded { get; set; } // timestamp (6) without time zone
+		[Column("Reason"                                                                                     )] public string?   Reason    { get; set; } // text
 	}
 }

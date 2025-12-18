@@ -15,6 +15,8 @@ using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.Strings;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using CTModel = DataModel.ChatTrigger;
@@ -706,6 +708,284 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         }
 
         return true;
+    }
+
+    /// <summary>
+    ///     Migrates old CrEmbed format triggers to the new embed format.
+    ///     Old format: {"PlainText":"...","Title":"...","Description":"...","Color":12345,"Image":"url",...}
+    ///     New format:
+    ///     {"content":"...","embeds":[{"title":"...","description":"...","color":12345,"image":{"url":"url"},...}],...}
+    /// </summary>
+    /// <param name="guildId">The guild ID to migrate triggers for. If null, migrates global triggers.</param>
+    /// <returns>A MigrationResult with the count of checked and migrated triggers.</returns>
+    public async Task<MigrationResult> MigrateCrEmbedFormat(ulong? guildId)
+    {
+        var triggers = await GetChatTriggersFor(guildId);
+        var migrated = 0;
+
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+
+        foreach (var trigger in triggers)
+        {
+            if (string.IsNullOrWhiteSpace(trigger.Response))
+                continue;
+
+            var converted = ConvertCrEmbedToNewFormat(trigger.Response);
+            if (converted == null)
+                continue;
+
+            // Update the trigger in the database
+            await dbContext.ChatTriggers
+                .Where(x => x.Id == trigger.Id)
+                .Set(x => x.Response, converted)
+                .UpdateAsync()
+                .ConfigureAwait(false);
+
+            migrated++;
+        }
+
+        if (migrated > 0)
+        {
+            // Reload triggers to reflect the changes
+            await TriggerReloadChatTriggers().ConfigureAwait(false);
+        }
+
+        return new MigrationResult(triggers.Length, migrated);
+    }
+
+    /// <summary>
+    ///     Converts an old CrEmbed format JSON to the new embed format.
+    ///     Returns null if the response is not in old CrEmbed format.
+    /// </summary>
+    private static string? ConvertCrEmbedToNewFormat(string response)
+    {
+        // Check if this looks like JSON
+        var trimmed = response.Trim();
+        if (!trimmed.StartsWith('{') || !trimmed.EndsWith('}'))
+            return null;
+
+        try
+        {
+            var json = JObject.Parse(trimmed);
+
+            // Check if it's already in new format (has "embeds" array)
+            if (json["embeds"] != null)
+                return null;
+
+            // Check if this looks like old CrEmbed format
+            // Old format has properties like PlainText, Title, Description, Image (as string), Color (as uint)
+            var hasOldFormatProps = json["PlainText"] != null ||
+                                    json["Title"] != null ||
+                                    json["Description"] != null ||
+                                    json["Image"] != null && json["Image"]?.Type == JTokenType.String ||
+                                    json["Thumbnail"] != null && json["Thumbnail"]?.Type == JTokenType.String ||
+                                    json["Author"] != null ||
+                                    json["Footer"] != null ||
+                                    json["Fields"] != null;
+
+            // Also check for the case where it's just embed properties without the wrapper
+            // (e.g., {"description":"...","color":53380,"image":"https://..."})
+            var hasDirectEmbedProps = json["description"] != null ||
+                                      json["title"] != null ||
+                                      json["image"] != null && json["image"]?.Type == JTokenType.String ||
+                                      json["thumbnail"] != null && json["thumbnail"]?.Type == JTokenType.String;
+
+            if (!hasOldFormatProps && !hasDirectEmbedProps)
+                return null;
+
+            var newFormat = new JObject();
+
+            // Handle PlainText -> content (old CrEmbed format)
+            if (json["PlainText"] != null)
+            {
+                newFormat["content"] = json["PlainText"];
+            }
+            // Handle content passthrough (direct format)
+            else if (json["content"] != null)
+            {
+                newFormat["content"] = json["content"];
+            }
+
+            // Build the embed object
+            var embed = new JObject();
+            var hasEmbedContent = false;
+
+            // Handle both PascalCase (CrEmbed) and camelCase (direct) property names
+            if (json["Title"] != null)
+            {
+                embed["title"] = json["Title"];
+                hasEmbedContent = true;
+            }
+            else if (json["title"] != null)
+            {
+                embed["title"] = json["title"];
+                hasEmbedContent = true;
+            }
+
+            if (json["Description"] != null)
+            {
+                embed["description"] = json["Description"];
+                hasEmbedContent = true;
+            }
+            else if (json["description"] != null)
+            {
+                embed["description"] = json["description"];
+                hasEmbedContent = true;
+            }
+
+            if (json["Url"] != null)
+            {
+                embed["url"] = json["Url"];
+                hasEmbedContent = true;
+            }
+            else if (json["url"] != null)
+            {
+                embed["url"] = json["url"];
+                hasEmbedContent = true;
+            }
+
+            // Handle Color (old format uses uint, new format uses int)
+            if (json["Color"] != null)
+            {
+                embed["color"] = json["Color"];
+                hasEmbedContent = true;
+            }
+            else if (json["color"] != null)
+            {
+                embed["color"] = json["color"];
+                hasEmbedContent = true;
+            }
+
+            // Handle Image - old format: string, new format: { url: string }
+            if (json["Image"] != null && json["Image"]?.Type == JTokenType.String)
+            {
+                embed["image"] = new JObject
+                {
+                    ["url"] = json["Image"]
+                };
+                hasEmbedContent = true;
+            }
+            else if (json["image"] != null && json["image"]?.Type == JTokenType.String)
+            {
+                embed["image"] = new JObject
+                {
+                    ["url"] = json["image"]
+                };
+                hasEmbedContent = true;
+            }
+
+            // Handle Thumbnail - old format: string, new format: { url: string }
+            if (json["Thumbnail"] != null && json["Thumbnail"]?.Type == JTokenType.String)
+            {
+                embed["thumbnail"] = new JObject
+                {
+                    ["url"] = json["Thumbnail"]
+                };
+                hasEmbedContent = true;
+            }
+            else if (json["thumbnail"] != null && json["thumbnail"]?.Type == JTokenType.String)
+            {
+                embed["thumbnail"] = new JObject
+                {
+                    ["url"] = json["thumbnail"]
+                };
+                hasEmbedContent = true;
+            }
+
+            // Handle Author
+            if (json["Author"] != null)
+            {
+                var author = json["Author"];
+                var newAuthor = new JObject();
+                if (author?["Name"] != null) newAuthor["name"] = author["Name"];
+                if (author?["IconUrl"] != null) newAuthor["icon_url"] = author["IconUrl"];
+                if (author?["Url"] != null) newAuthor["url"] = author["Url"];
+                if (newAuthor.HasValues)
+                {
+                    embed["author"] = newAuthor;
+                    hasEmbedContent = true;
+                }
+            }
+            else if (json["author"] != null)
+            {
+                embed["author"] = json["author"];
+                hasEmbedContent = true;
+            }
+
+            // Handle Footer
+            if (json["Footer"] != null)
+            {
+                var footer = json["Footer"];
+                var newFooter = new JObject();
+                if (footer?["Text"] != null) newFooter["text"] = footer["Text"];
+                if (footer?["IconUrl"] != null) newFooter["icon_url"] = footer["IconUrl"];
+                if (newFooter.HasValues)
+                {
+                    embed["footer"] = newFooter;
+                    hasEmbedContent = true;
+                }
+            }
+            else if (json["footer"] != null)
+            {
+                embed["footer"] = json["footer"];
+                hasEmbedContent = true;
+            }
+
+            // Handle Fields
+            if (json["Fields"] != null && json["Fields"] is JArray oldFields)
+            {
+                var newFields = new JArray();
+                foreach (var field in oldFields)
+                {
+                    var newField = new JObject();
+                    if (field["Name"] != null) newField["name"] = field["Name"];
+                    if (field["Value"] != null) newField["value"] = field["Value"];
+                    if (field["Inline"] != null) newField["inline"] = field["Inline"];
+                    newFields.Add(newField);
+                }
+
+                if (newFields.Count > 0)
+                {
+                    embed["fields"] = newFields;
+                    hasEmbedContent = true;
+                }
+            }
+            else if (json["fields"] != null)
+            {
+                embed["fields"] = json["fields"];
+                hasEmbedContent = true;
+            }
+
+            // Only add embeds array if there's actual embed content
+            if (hasEmbedContent)
+            {
+                newFormat["embeds"] = new JArray
+                {
+                    embed
+                };
+            }
+
+            // Handle Components (pass through, format should be similar)
+            if (json["Components"] != null)
+            {
+                newFormat["components"] = json["Components"];
+            }
+            else if (json["components"] != null)
+            {
+                newFormat["components"] = json["components"];
+            }
+
+            // If there's nothing to convert, return null
+            if (!newFormat.HasValues)
+                return null;
+
+            return newFormat.ToString(Formatting.None);
+        }
+        catch (JsonException)
+        {
+            // Not valid JSON, return null
+            return null;
+        }
     }
 
 
@@ -2468,6 +2748,13 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         eventHandler.Unsubscribe("ReactionAdded", "ChatTriggersService", OnReactionAdded);
         return Task.CompletedTask;
     }
+
+    /// <summary>
+    ///     Result of the CrEmbed migration operation.
+    /// </summary>
+    /// <param name="TotalChecked">Total number of triggers checked.</param>
+    /// <param name="Migrated">Number of triggers that were migrated.</param>
+    public record MigrationResult(int TotalChecked, int Migrated);
 
     /// <summary>
     ///     Represents the grouping of trigger children for building application command properties.

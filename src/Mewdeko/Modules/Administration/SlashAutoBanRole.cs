@@ -19,23 +19,30 @@ public partial class SlashAdministration
         [SlashUserPerm(GuildPermission.Administrator)]
         public async Task AutoBanRoleList()
         {
-            var roles = await Service.GetAutoBanRoles(Context.Guild.Id);
+            var rolesWithReasons = await Service.GetAutoBanRolesWithReasons(Context.Guild.Id);
 
-            if (roles.Count == 0)
+            if (rolesWithReasons.Count == 0)
             {
-                await ReplyErrorAsync("No auto-ban roles configured for this server.").ConfigureAwait(false);
+                await ReplyErrorAsync(Strings.AbroleNone(Context.Guild.Id)).ConfigureAwait(false);
                 return;
             }
 
-            var roleList = (from roleId in roles
-                let role = Context.Guild.GetRole(roleId)
-                select role != null ? $"• {role.Mention} (`{role.Id}`)" : $"• Deleted Role (`{roleId}`)").ToList();
+            var roleList = new List<string>();
+            foreach (var (roleId, reason) in rolesWithReasons)
+            {
+                var role = Context.Guild.GetRole(roleId);
+                var roleDisplay = role != null ? $"{role.Mention} (`{role.Id}`)" : $"Deleted Role (`{roleId}`)";
+                var reasonDisplay = !string.IsNullOrWhiteSpace(reason)
+                    ? $"\n  └ {Strings.AbroleReasonDisplay(Context.Guild.Id, reason)}"
+                    : "";
+                roleList.Add($"• {roleDisplay}{reasonDisplay}");
+            }
 
             var embed = new EmbedBuilder()
                 .WithTitle(Strings.AutoBanRolesTitle(Context.Guild.Id))
                 .WithDescription(string.Join("\n", roleList))
                 .WithColor(Mewdeko.ErrorColor)
-                .WithFooter($"Total: {roleList.Count} role(s)")
+                .WithFooter($"Total: {rolesWithReasons.Count} role(s)")
                 .Build();
 
             await RespondAsync(embed: embed).ConfigureAwait(false);
@@ -72,6 +79,67 @@ public partial class SlashAdministration
             if (success)
             {
                 await ReplyConfirmAsync(Strings.AbroleRemove(Context.Guild.Id, role.Mention)).ConfigureAwait(false);
+            }
+            else
+            {
+                await ReplyErrorAsync(Strings.AbroleNotexists(Context.Guild.Id, role.Mention)).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        ///     Sets or views the ban reason for an AutoBanRole.
+        /// </summary>
+        /// <param name="role">The role to set/view the reason for</param>
+        /// <param name="reason">The reason to show in the audit log (leave empty to view current, use 'clear' to remove)</param>
+        [SlashCommand("reason", "Set or view the ban reason for an auto-ban role")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        public async Task AutoBanRoleReason(IRole role, string? reason = null)
+        {
+            // Check if this role is in the auto-ban list
+            var roles = await Service.GetAutoBanRoles(Context.Guild.Id);
+            if (!roles.Contains(role.Id))
+            {
+                await ReplyErrorAsync(Strings.AbroleNotexists(Context.Guild.Id, role.Mention)).ConfigureAwait(false);
+                return;
+            }
+
+            // If no reason provided, show the current reason
+            if (reason == null)
+            {
+                var currentReason = await Service.GetAutoBanRoleReason(Context.Guild.Id, role.Id);
+                if (string.IsNullOrWhiteSpace(currentReason))
+                {
+                    await ReplyConfirmAsync(Strings.AbroleReasonNone(Context.Guild.Id, role.Mention))
+                        .ConfigureAwait(false);
+                }
+                else
+                {
+                    await ReplyConfirmAsync(Strings.AbroleReasonCurrent(Context.Guild.Id, role.Mention, currentReason))
+                        .ConfigureAwait(false);
+                }
+
+                return;
+            }
+
+            // Clear reason if "clear" or empty
+            var newReason = reason.Equals("clear", StringComparison.OrdinalIgnoreCase) ||
+                            string.IsNullOrWhiteSpace(reason)
+                ? null
+                : reason;
+
+            var success = await Service.SetAutoBanRoleReason(Context.Guild.Id, role.Id, newReason);
+            if (success)
+            {
+                if (newReason == null)
+                {
+                    await ReplyConfirmAsync(Strings.AbroleReasonCleared(Context.Guild.Id, role.Mention))
+                        .ConfigureAwait(false);
+                }
+                else
+                {
+                    await ReplyConfirmAsync(Strings.AbroleReasonSet(Context.Guild.Id, role.Mention, newReason))
+                        .ConfigureAwait(false);
+                }
             }
             else
             {

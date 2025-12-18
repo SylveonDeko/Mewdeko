@@ -501,6 +501,46 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     }
 
     /// <summary>
+    ///     Migrates old CrEmbed format chat triggers to the new embed format.
+    ///     First exports a backup, then converts all triggers.
+    /// </summary>
+    /// <example>.ctsmigrate</example>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task CtsMigrate()
+    {
+        await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
+
+        // First export a backup
+        var serialized = await Service.ExportCrs(ctx.Guild?.Id);
+        var stream = await serialized.ToStream().ConfigureAwait(false);
+        await using var _ = stream.ConfigureAwait(false);
+        await ctx.Channel.SendFileAsync(stream, $"crs-backup-{DateTime.UtcNow:yyyy-MM-dd-HH-mm-ss}.yml",
+            Strings.CtMigrateBackup(ctx.Guild.Id)).ConfigureAwait(false);
+
+        // Perform the migration
+        var result = await Service.MigrateCrEmbedFormat(ctx.Guild?.Id).ConfigureAwait(false);
+
+        if (result.TotalChecked == 0)
+        {
+            await ReplyErrorAsync(Strings.CtMigrateNoTriggers(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (result.Migrated == 0)
+        {
+            await ReplyConfirmAsync(Strings.CtMigrateNoneNeeded(ctx.Guild.Id, result.TotalChecked))
+                .ConfigureAwait(false);
+            return;
+        }
+
+        await ReplyConfirmAsync(Strings.CtMigrateSuccess(ctx.Guild.Id, result.Migrated, result.TotalChecked))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
     ///     Clears all chat triggers.
     /// </summary>
     /// <example>.ctsclear</example>

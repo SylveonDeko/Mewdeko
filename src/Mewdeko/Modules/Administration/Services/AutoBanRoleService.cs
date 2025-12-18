@@ -42,21 +42,25 @@ public class AutoBanRoleService : INService
 
         // Get auto-ban roles for this guild
         await using var db = await dbFactory.CreateConnectionAsync().ConfigureAwait(false);
-        var autoBanRoleIds = await db.AutoBanRoles
+        var autoBanRoles = await db.AutoBanRoles
             .Where(x => x.GuildId == after.Guild.Id)
-            .Select(x => x.RoleId)
             .ToListAsync()
             .ConfigureAwait(false);
 
         // Check if any added role is an auto-ban role
-        var rolesSet = autoBanRoleIds.ToHashSet();
-        if (!addedRoles.Any(x => rolesSet.Contains(x.Id)))
+        var matchingAutoBanRole = autoBanRoles.FirstOrDefault(x => addedRoles.Any(r => r.Id == x.RoleId));
+        if (matchingAutoBanRole == null)
             return;
+
+        // Determine the ban reason
+        var reason = !string.IsNullOrWhiteSpace(matchingAutoBanRole.Reason)
+            ? matchingAutoBanRole.Reason
+            : "Auto-ban role assigned";
 
         // Ban the user
         try
         {
-            await after.Guild.AddBanAsync(after, 0, "Auto-ban role assigned").ConfigureAwait(false);
+            await after.Guild.AddBanAsync(after, 0, reason).ConfigureAwait(false);
         }
         catch
         {
@@ -122,5 +126,62 @@ public class AutoBanRoleService : INService
             .ConfigureAwait(false);
 
         return deletedRows > 0;
+    }
+
+    /// <summary>
+    ///     Sets or updates the reason for an AutoBanRole.
+    /// </summary>
+    /// <param name="guildId">The guild ID</param>
+    /// <param name="roleId">The role ID to set reason for</param>
+    /// <param name="reason">The reason to show in the audit log when banning (null to clear)</param>
+    /// <returns>True if the reason was set successfully, false if the role doesn't exist in auto-ban list</returns>
+    public async Task<bool> SetAutoBanRoleReason(ulong guildId, ulong roleId, string? reason)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync().ConfigureAwait(false);
+
+        var updatedRows = await db.AutoBanRoles
+            .Where(x => x.GuildId == guildId && x.RoleId == roleId)
+            .Set(x => x.Reason, reason)
+            .UpdateAsync()
+            .ConfigureAwait(false);
+
+        return updatedRows > 0;
+    }
+
+    /// <summary>
+    ///     Gets the reason for an AutoBanRole.
+    /// </summary>
+    /// <param name="guildId">The guild ID</param>
+    /// <param name="roleId">The role ID to get reason for</param>
+    /// <returns>The reason if set, null if not set or role doesn't exist</returns>
+    public async Task<string?> GetAutoBanRoleReason(ulong guildId, ulong roleId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync().ConfigureAwait(false);
+
+        return await db.AutoBanRoles
+            .Where(x => x.GuildId == guildId && x.RoleId == roleId)
+            .Select(x => x.Reason)
+            .FirstOrDefaultAsync()
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Gets all AutoBanRoles with their reasons for a specific guild.
+    /// </summary>
+    /// <param name="guildId">The guild ID to get auto-ban roles for</param>
+    /// <returns>A list of tuples containing role IDs and their reasons</returns>
+    public async Task<List<(ulong RoleId, string? Reason)>> GetAutoBanRolesWithReasons(ulong guildId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync().ConfigureAwait(false);
+        var results = await db.AutoBanRoles
+            .Where(x => x.GuildId == guildId)
+            .Select(x => new
+            {
+                x.RoleId, x.Reason
+            })
+            .ToListAsync()
+            .ConfigureAwait(false);
+
+        return results.Select(x => (x.RoleId, x.Reason)).ToList();
     }
 }
