@@ -28195,6 +28195,26 @@ togglerolestatesignorebots_noparams_2:
     - ''
   desc: Toggles whether bots should be ignored by the role states feature.
   params: [ ]
+togglerolestatesskipautoassign:
+  args:
+    - ''
+  desc: Toggles whether auto-assign roles should be skipped for users with saved role states.
+  params: [ ]
+togglerolestatesskipautoassign_noparams:
+  args:
+    - ''
+  desc: Toggles whether auto-assign roles should be skipped for users with saved role states.
+  params: [ ]
+togglerolestatesskipautoassign_noparams_1:
+  args:
+    - ''
+  desc: Toggles whether auto-assign roles should be skipped for users with saved role states.
+  params: [ ]
+togglerolestatesskipautoassign_noparams_2:
+  args:
+    - ''
+  desc: Toggles whether auto-assign roles should be skipped for users with saved role states.
+  params: [ ]
 togglexclsar:
   args:
     - ''

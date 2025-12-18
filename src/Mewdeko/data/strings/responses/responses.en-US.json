@@ -2772,6 +2772,8 @@
   "role_states_users_removed_from_deny": "{0} Successfully removed {1} user(s) from the deny list.",
   "role_states_will_clear_on_ban": "Role states will clear on ban!",
   "role_states_will_not_clear_on_ban": "Role states will not clear on ban!",
+  "role_states_will_skip_auto_assign": "Auto-assign roles will be skipped for users with saved role states!",
+  "role_states_will_not_skip_auto_assign": "Auto-assign roles will no longer be skipped for users with saved role states!",
   "role_unblacklist_error": "Failed to unblacklist role {0}: {1}",
   "role_unblacklisted": "Role {0} has been removed from the blacklist.",
   "role_unwhitelisted": "Role {0} has been removed from the whitelist.",

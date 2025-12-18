@@ -267,13 +267,13 @@ public class LogCommandService(
             case ActionType.Ban:
             {
                 if (args.Data is BanAuditLogData data)
-                    await OnUserBanned(data.Target, arsg2, args.User);
+                    await OnUserBanned(data.Target, arsg2, args.User, args.Reason);
                 break;
             }
             case ActionType.Unban:
             {
                 if (args.Data is UnbanAuditLogData data)
-                    await OnUserUnbanned(data.Target, arsg2, args.User);
+                    await OnUserUnbanned(data.Target, arsg2, args.User, args.Reason);
                 break;
             }
         }
@@ -1503,7 +1503,8 @@ public class LogCommandService(
     /// <param name="user">The user that was banned.</param>
     /// <param name="guild">The guild the user was banned from.</param>
     /// <param name="bannedBy">The user that banned the user.</param>
-    private async Task OnUserBanned(IUser user, SocketGuild guild, SocketUser bannedBy)
+    /// <param name="reason">The reason for the ban.</param>
+    private async Task OnUserBanned(IUser user, SocketGuild guild, SocketUser bannedBy, string? reason = null)
     {
         if (GuildLogSettings.TryGetValue(guild.Id, out var logSetting))
         {
@@ -1522,7 +1523,8 @@ public class LogCommandService(
                         strings.UserInfoLine(guild.Id, user.Mention, user.Id) +
                         $"`User Global Name:` {user.GlobalName ?? user.Username}\n" +
                         $"`Account Created:` {user.CreatedAt:dd/MM/yyyy HH:mm:ss}\n" +
-                        $"`Banned By:` {bannedBy?.Mention ?? "Unknown"} | {bannedBy?.Id.ToString() ?? "N/A"}")
+                        $"`Banned By:` {bannedBy?.Mention ?? "Unknown"} | {bannedBy?.Id.ToString() ?? "N/A"}\n" +
+                        $"`Reason:` {reason ?? "No reason provided"}")
                 ], Mewdeko.ErrorColor);
 
             if (!string.IsNullOrEmpty(avatarUrl))

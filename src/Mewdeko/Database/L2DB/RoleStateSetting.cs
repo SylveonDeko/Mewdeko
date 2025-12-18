@@ -24,5 +24,6 @@ namespace DataModel
 		[Column("DeniedRoles"                                                                                  )] public string?   DeniedRoles { get; set; } // text
 		[Column("DeniedUsers"                                                                                  )] public string?   DeniedUsers { get; set; } // text
 		[Column("DateAdded"                                                                                    )] public DateTime? DateAdded   { get; set; } // timestamp (6) without time zone
+		[Column("SkipAutoAssignRoles"                                                                          )] public bool      SkipAutoAssignRoles { get; set; } // boolean
 	}
 }

@@ -3029,6 +3029,10 @@ togglerolestatesclearonban:
 togglerolestatesignorebots:
   - togglerolestatesignorebots
   - trsib
+togglerolestatesskipautoassign:
+  - togglerolestatesskipautoassign
+  - trssaa
+  - rsskipautoassign
 togglexclsar:
   - togglexclsar
   - tesar
