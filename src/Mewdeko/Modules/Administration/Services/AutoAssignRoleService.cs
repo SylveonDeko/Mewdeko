@@ -3,6 +3,7 @@ using DataModel;
 using Discord.Net;
 using LinqToDB;
 using LinqToDB.Async;
+using Mewdeko.Modules.RoleStates.Services;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -24,6 +25,7 @@ public sealed class AutoAssignRoleService : INService
     private readonly EventHandler eventHandler;
     private readonly GuildSettingsService guildSettings;
     private readonly ILogger<AutoAssignRoleService> logger;
+    private readonly RoleStatesService roleStatesService;
 
     /// <summary>
     ///     Constructs a new instance of the AutoAssignRoleService.
@@ -32,13 +34,16 @@ public sealed class AutoAssignRoleService : INService
     /// <param name="guildSettings">The guild settings service.</param>
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="roleStatesService">The role states service.</param>
     public AutoAssignRoleService(IDataConnectionFactory dbFactory,
-        GuildSettingsService guildSettings, EventHandler eventHandler, ILogger<AutoAssignRoleService> logger)
+        GuildSettingsService guildSettings, EventHandler eventHandler, ILogger<AutoAssignRoleService> logger,
+        RoleStatesService roleStatesService)
     {
         this.dbFactory = dbFactory;
         this.guildSettings = guildSettings;
         this.logger = logger;
         this.eventHandler = eventHandler;
+        this.roleStatesService = roleStatesService;
         _ = RunAutoLoop();
 
         eventHandler.Subscribe("UserJoined", "AutoAssignRoleService", OnClientOnUserJoined);
@@ -53,6 +58,18 @@ public sealed class AutoAssignRoleService : INService
             var user = await assignQueue.Reader.ReadAsync().ConfigureAwait(false);
             if (user is null)
                 continue;
+
+            // Check if skip auto-assign roles is enabled and user has a role state
+            if (await roleStatesService.ShouldSkipAutoAssignRoles(user.Guild.Id) &&
+                await roleStatesService.UserHasRoleState(user.Guild.Id, user.Id))
+            {
+                logger.LogDebug(
+                    "Skipping auto-assign roles for {User} in {Guild} because they have a saved role state",
+                    user.Username,
+                    user.Guild.Name);
+                continue;
+            }
+
             var autoroles = await TryGetNormalRoles(user.Guild.Id);
             var autobotroles = await TryGetBotRoles(user.Guild.Id);
             if (user.IsBot && autobotroles.Any())

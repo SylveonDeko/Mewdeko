@@ -261,6 +261,60 @@ public class RoleStatesService : INService
     }
 
     /// <summary>
+    ///     Toggles the option to skip auto-assign roles for users with saved role states.
+    /// </summary>
+    /// <param name="roleStateSettings">The <see cref="RoleStateSetting" /> to be updated.</param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation, containing a boolean indicating if auto-assign roles
+    ///     are skipped for users with role states.
+    /// </returns>
+    public async Task<bool> ToggleSkipAutoAssignRoles(RoleStateSetting roleStateSettings)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        roleStateSettings.SkipAutoAssignRoles = !roleStateSettings.SkipAutoAssignRoles;
+        await db.UpdateAsync(roleStateSettings);
+
+        return roleStateSettings.SkipAutoAssignRoles;
+    }
+
+    /// <summary>
+    ///     Checks if a user has a saved role state with roles in the specified guild.
+    /// </summary>
+    /// <param name="guildId">The unique identifier of the guild.</param>
+    /// <param name="userId">The unique identifier of the user.</param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation, containing a boolean indicating if the user has saved roles.
+    /// </returns>
+    public async Task<bool> UserHasRoleState(ulong guildId, ulong userId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var roleState = await db.UserRoleStates
+            .FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == userId);
+
+        return roleState != null && !string.IsNullOrWhiteSpace(roleState.SavedRoles);
+    }
+
+    /// <summary>
+    ///     Checks if auto-assign roles should be skipped for users with role states in the specified guild.
+    /// </summary>
+    /// <param name="guildId">The unique identifier of the guild.</param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation, containing a boolean indicating if auto-assign should be
+    ///     skipped.
+    /// </returns>
+    public async Task<bool> ShouldSkipAutoAssignRoles(ulong guildId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var settings = await db.RoleStateSettings
+            .FirstOrDefaultAsync(x => x.GuildId == guildId);
+
+        return settings is { Enabled: true, SkipAutoAssignRoles: true };
+    }
+
+    /// <summary>
     ///     Adds roles to a user's saved role state.
     /// </summary>
     /// <param name="guildId">The unique identifier of the guild.</param>

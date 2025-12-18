@@ -143,6 +143,30 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity, 
     }
 
     /// <summary>
+    ///     Toggles whether auto-assign roles should be skipped for users with saved role states.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task ToggleRoleStatesSkipAutoAssign()
+    {
+        var roleStateSettings = await Service.GetRoleStateSettings(ctx.Guild.Id);
+        if (roleStateSettings is null)
+        {
+            await ctx.Channel.SendErrorAsync(
+                Strings.RoleStatesNotEnabled(ctx.Guild.Id, bss.Data.ErrorEmote), Config);
+            return;
+        }
+
+        if (await Service.ToggleSkipAutoAssignRoles(roleStateSettings))
+            await ctx.Channel.SendConfirmAsync(
+                $"{bss.Data.SuccessEmote} {Strings.RoleStatesWillSkipAutoAssign(ctx.Guild.Id)}");
+        else
+            await ctx.Channel.SendConfirmAsync(
+                $"{bss.Data.SuccessEmote} {Strings.RoleStatesWillNotSkipAutoAssign(ctx.Guild.Id)}");
+    }
+
+    /// <summary>
     ///     Displays the current settings for the role states feature.
     /// </summary>
     [Cmd]
@@ -171,6 +195,7 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity, 
                 .WithDescription(Strings.RoleStatesConfigEnabled(ctx.Guild.Id, roleStateSettings.Enabled) + "\n" +
                                  $"`Clear on ban:` {roleStateSettings.ClearOnBan}\n" +
                                  $"`Ignore bots:` {roleStateSettings.IgnoreBots}\n" +
+                                 $"`Skip auto-assign roles:` {roleStateSettings.SkipAutoAssignRoles}\n" +
                                  $"`Denied roles:` {(deniedRoles.Any() ? string.Join("|", deniedRoles.Select(x => $"<@&{x}>")) : "None")}\n" +
                                  $"`Denied users:` {(deniedUsers.Any() ? string.Join("|", deniedUsers.Select(x => $"<@{x}>")) : "None")}\n");
             await ctx.Channel.SendMessageAsync(embed: eb.Build());

@@ -96,6 +96,34 @@ public class SlashRoleStates(BotConfigService bss, InteractiveService interactiv
     }
 
     /// <summary>
+    ///     Toggles whether auto-assign roles should be skipped for users with saved role states.
+    /// </summary>
+    /// <remarks>
+    ///     When enabled, users who have a saved role state will not receive auto-assign roles when they rejoin.
+    ///     This prevents duplicate role assignments and allows role states to take priority.
+    ///     This command requires administrator permissions to use.
+    /// </remarks>
+    [SlashCommand("toggle-skip-auto-assign", "Toggle whether auto-assign roles are skipped for users with role states")]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    public async Task ToggleRoleStatesSkipAutoAssign()
+    {
+        var roleStateSettings = await Service.GetRoleStateSettings(ctx.Guild.Id);
+        if (roleStateSettings is null)
+        {
+            await ctx.Interaction.SendErrorAsync(
+                Strings.RoleStatesNotEnabledSlash(ctx.Guild.Id, bss.Data.ErrorEmote), Config);
+            return;
+        }
+
+        if (await Service.ToggleSkipAutoAssignRoles(roleStateSettings))
+            await ctx.Interaction.SendConfirmAsync(
+                $"{bss.Data.SuccessEmote} {Strings.RoleStatesWillSkipAutoAssign(ctx.Guild.Id)}");
+        else
+            await ctx.Interaction.SendConfirmAsync(
+                $"{bss.Data.SuccessEmote} {Strings.RoleStatesWillNotSkipAutoAssign(ctx.Guild.Id)}");
+    }
+
+    /// <summary>
     ///     Adds specified roles to a user's saved RoleState, allowing those roles to be automatically reapplied if the user
     ///     rejoins the guild.
     /// </summary>
@@ -129,6 +157,7 @@ public class SlashRoleStates(BotConfigService bss, InteractiveService interactiv
                 .WithDescription(Strings.RoleStatesConfigEnabled(ctx.Guild.Id, roleStateSettings.Enabled) +
                                  $"`Clear on ban:` {roleStateSettings.ClearOnBan}\n" +
                                  $"`Ignore bots:` {roleStateSettings.IgnoreBots}\n" +
+                                 $"`Skip auto-assign roles:` {roleStateSettings.SkipAutoAssignRoles}\n" +
                                  $"`Denied roles:` {(deniedRoles.Any() ? string.Join("|", deniedRoles.Select(x => $"<@&{x}>")) : "None")}\n" +
                                  $"`Denied users:` {(deniedUsers.Any() ? string.Join("|", deniedUsers.Select(x => $"<@{x}>")) : "None")}\n");
             await ctx.Interaction.RespondAsync(embed: eb.Build());
