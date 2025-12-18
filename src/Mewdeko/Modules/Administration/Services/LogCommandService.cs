@@ -1551,7 +1551,7 @@ public class LogCommandService(
     /// <param name="user">The user that was unbanned.</param>
     /// <param name="guild">The guild the user was unbanned from.</param>
     /// <param name="unbannedBy">The user that unbanned the user.</param>
-    private async Task OnUserUnbanned(IUser user, SocketGuild guild, SocketUser unbannedBy)
+    private async Task OnUserUnbanned(IUser user, SocketGuild guild, SocketUser unbannedBy, string reason)
     {
         if (GuildLogSettings.TryGetValue(guild.Id, out var logSetting))
         {
@@ -1574,7 +1574,8 @@ public class LogCommandService(
                 .WithContainer(new TextDisplayBuilder($"**Additional Information**\n" +
                                                       $"`User Global Name:` {user.GlobalName ?? user.Username}\n" +
                                                       $"`Account Created:` {user.CreatedAt:dd/MM/yyyy HH:mm:ss}\n" +
-                                                      $"`Unbanned By:` {unbannedBy?.Mention ?? "Unknown"} | {unbannedBy?.Id.ToString() ?? "N/A"}"))
+                                                      $"`Unbanned By:` {unbannedBy?.Mention ?? "Unknown"} | {unbannedBy?.Id.ToString() ?? "N/A"}" +
+                                                      $"`Reason:` {reason ?? "No reason provided"}"))
                 .WithActionRow([
                     new ButtonBuilder("View User (May not work)", style: ButtonStyle.Link,
                         url: $"discord://-/users/{user.Id}")
