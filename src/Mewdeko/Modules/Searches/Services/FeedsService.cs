@@ -332,8 +332,9 @@ public class FeedsService : INService
         await using var db = await dbFactory.CreateConnectionAsync();
 
         // Check if feed already exists for this guild
+        var trimmedFeed = rssFeed.Trim().ToLower();
         var exists = await db.FeedSubs
-            .AnyAsync(x => x.GuildId == guildId && x.Url.Equals(rssFeed.Trim(), StringComparison.OrdinalIgnoreCase));
+            .AnyAsync(x => x.GuildId == guildId && x.Url.ToLower() == trimmedFeed);
 
         if (exists)
             return false;
