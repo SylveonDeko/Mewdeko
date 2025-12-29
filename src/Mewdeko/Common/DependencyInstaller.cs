@@ -168,6 +168,9 @@ public static class DependencyInstaller
     public static void CheckAndInstallDependencies(string psqlString, bool isMasterInstance,
         bool setupCompleted = false)
     {
+        if (setupCompleted)
+            return;
+
         if (!isMasterInstance)
         {
             Log.Information("This is not the master instance. Skipping dependency installation.");
