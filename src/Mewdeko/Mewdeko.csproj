@@ -181,7 +181,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="data\strings\commands\"/>
-    <Folder Include="data\strings\enums\"/>
     <Folder Include="Modules\Currency\Common\"/>
     <Folder Include="Modules\Xp\Extensions\"/>
   </ItemGroup>
