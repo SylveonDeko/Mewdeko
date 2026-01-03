@@ -1,0 +1,273 @@
+addstatusrole:
+  args:
+    - text
+  desc: 'Adds a status role configuration.'
+  params:
+    - &ref_32
+      desc: 'The status to add.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string:
+  args:
+    - text
+  desc: 'Adds a status role configuration.'
+  params:
+    - desc: 'The status to add.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_1:
+  args:
+    - text
+  desc: 'Adds a status role configuration.'
+  params:
+    - desc: 'The status to add.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_2:
+  args:
+    - text
+  desc: 'Adds a status role configuration.'
+  params:
+    - desc: 'The status to add.'
+      name: status
+      optional: false
+      type: string
+liststatusroles:
+  args:
+    - ''
+  desc: 'Lists all current status roles with their details.'
+  params: [ ]
+removeaddroles:
+  args:
+    - number @role
+  desc: 'Sets the roles to remove when a user has the selected status.'
+  params:
+    - &ref_390
+      desc: 'The index of the status role.'
+      name: index
+      optional: false
+      type: int
+    - &ref_391
+      desc: 'The roles to remove.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: 'Sets the roles to remove when a user has the selected status.'
+  params:
+    - desc: 'The index of the status role.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'The roles to remove.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: 'Sets the roles to remove when a user has the selected status.'
+  params:
+    - desc: 'The index of the status role.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'The roles to remove.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: 'Sets the roles to remove when a user has the selected status.'
+  params:
+    - desc: 'The index of the status role.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'The roles to remove.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeremoveroles:
+  args:
+    - number @role
+  desc: >-
+    Removes one or more roles from the roles added when a user has the selected
+    status.
+  params:
+    - desc: 'The index of the status role.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'The roles to remove.'
+      name: roles
+      optional: false
+      type: IRole[]
+removestatusrole:
+  args:
+    - number
+  desc: 'Removes a status role configuration.'
+  params:
+    - desc: 'The index of the status role to remove.'
+      name: index
+      optional: false
+      type: int
+setaddroles:
+  args:
+    - number @role
+  desc: 'Sets the roles to add when a user has the selected status.'
+  params:
+    - desc: 'The index of the status role.'
+      name: index
+      optional: false
+      type: int
+    - &ref_486
+      desc: 'The roles to add.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: 'Sets the roles to add when a user has the selected status.'
+  params:
+    - desc: 'The index of the status role.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'The roles to add.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: 'Sets the roles to add when a user has the selected status.'
+  params:
+    - desc: 'The index of the status role.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'The roles to add.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: 'Sets the roles to add when a user has the selected status.'
+  params:
+    - desc: 'The index of the status role.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'The roles to add.'
+      name: roles
+      optional: false
+      type: IRole[]
+setremoveroles:
+  args:
+    - number @role
+  desc: 'Sets the roles to remove when a user has the selected status.'
+  params:
+    - desc: 'The index of the status role.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'The roles to remove.'
+      name: roles
+      optional: false
+      type: IRole[]
+setstatusrolechannel:
+  args:
+    - number channel
+  desc: 'Sets the channel for a specific status role.'
+  params:
+    - desc: 'The index of the status role.'
+      name: index
+      optional: false
+      type: int
+    - &ref_527
+      desc: 'The channel to set.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: 'Sets the channel for a specific status role.'
+  params:
+    - desc: 'The index of the status role.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'The channel to set.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: 'Sets the channel for a specific status role.'
+  params:
+    - desc: 'The index of the status role.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'The channel to set.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: 'Sets the channel for a specific status role.'
+  params:
+    - desc: 'The index of the status role.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'The channel to set.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusroleembed:
+  args:
+    - '<index> [embedText]'
+    - number
+  desc: 'Sets or previews the embed text for a specific status role.'
+  params:
+    - desc: 'The index of the status role.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'The embed text to set.'
+      name: embedText
+      optional: true
+      type: string
+togglereaddremoved:
+  args:
+    - number
+  desc: 'Toggles whether added roles are removed when a status is removed.'
+  params:
+    - desc: 'The index of the status role.'
+      name: index
+      optional: false
+      type: int
+toggleremoveadded:
+  args:
+    - number
+  desc: >-
+    Toggles whether added roles are removed when a user no longer has a status by
+    the provided index
+  params:
+    - desc: 'The index of the status role.'
+      name: index
+      optional: false
+      type: int

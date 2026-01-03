@@ -1,0 +1,384 @@
+multigreetadd:
+  args:
+    - '[@channel]'
+  desc: 'Adds a MultiGreet channel.'
+  params:
+    - desc: 'The channel to add'
+      name: channel
+      optional: true
+      type: channel
+multigreetdelete:
+  args:
+    - number time
+  desc: 'Changes the delete time for a MultiGreet message in seconds.'
+  params:
+    - &ref_303
+      desc: 'The id of the MultiGreet to change'
+      name: id
+      optional: false
+      type: int
+    - &ref_305
+      desc: 'Changes the delete time for a MultiGreet message in seconds.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime:
+  args:
+    - number time
+  desc: 'Changes the delete time for a MultiGreet message in seconds.'
+  params:
+    - desc: 'The id of the MultiGreet to change'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Changes the delete time for a MultiGreet message in seconds.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'Changes the delete time for a MultiGreet message in seconds.'
+  params:
+    - desc: 'The id of the MultiGreet to change'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Changes the delete time for a MultiGreet message in seconds.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'Changes the delete time for a MultiGreet message in seconds.'
+  params:
+    - desc: 'The id of the MultiGreet to change'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Changes the delete time for a MultiGreet message in seconds.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_int:
+  args:
+    - number number
+  desc: 'Changes the delete time for a MultiGreet message in seconds.'
+  params:
+    - desc: 'The id of the MultiGreet to change'
+      name: id
+      optional: false
+      type: int
+    - &ref_304
+      desc: 'The time to delete the message after in seconds'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_1:
+  args:
+    - number number
+  desc: 'Changes the delete time for a MultiGreet message in seconds.'
+  params:
+    - desc: 'The id of the MultiGreet to change'
+      name: id
+      optional: false
+      type: int
+    - desc: 'The time to delete the message after in seconds'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_2:
+  args:
+    - number number
+  desc: 'Changes the delete time for a MultiGreet message in seconds.'
+  params:
+    - desc: 'The id of the MultiGreet to change'
+      name: id
+      optional: false
+      type: int
+    - desc: 'The time to delete the message after in seconds'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_3:
+  args:
+    - number number
+  desc: 'Changes the delete time for a MultiGreet message in seconds.'
+  params:
+    - desc: 'The id of the MultiGreet to change'
+      name: id
+      optional: false
+      type: int
+    - desc: 'The time to delete the message after in seconds'
+      name: howlong
+      optional: false
+      type: int
+multigreetdisable:
+  args:
+    - number true|false
+  desc: 'Disables a MultiGreet.'
+  params:
+    - &ref_306
+      desc: 'The id of the MultiGreet to disable'
+      name: num
+      optional: false
+      type: int
+    - &ref_307
+      desc: 'Whether to disable the MultiGreet'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool:
+  args:
+    - number true|false
+  desc: 'Disables a MultiGreet.'
+  params:
+    - desc: 'The id of the MultiGreet to disable'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Whether to disable the MultiGreet'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Disables a MultiGreet.'
+  params:
+    - desc: 'The id of the MultiGreet to disable'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Whether to disable the MultiGreet'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Disables a MultiGreet.'
+  params:
+    - desc: 'The id of the MultiGreet to disable'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Whether to disable the MultiGreet'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots:
+  args:
+    - number true|false
+  desc: 'Changes whether a MultiGreet greets bots.'
+  params:
+    - &ref_308
+      desc: 'The id of the MultiGreet to change'
+      name: num
+      optional: false
+      type: int
+    - &ref_309
+      desc: 'Whether to greet bots'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool:
+  args:
+    - number true|false
+  desc: 'Changes whether a MultiGreet greets bots.'
+  params:
+    - desc: 'The id of the MultiGreet to change'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Whether to greet bots'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Changes whether a MultiGreet greets bots.'
+  params:
+    - desc: 'The id of the MultiGreet to change'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Whether to greet bots'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Changes whether a MultiGreet greets bots.'
+  params:
+    - desc: 'The id of the MultiGreet to change'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Whether to greet bots'
+      name: enabled
+      optional: false
+      type: bool
+multigreetlist:
+  args:
+    - ''
+  desc: 'Lists all MultiGreets.'
+  params: [ ]
+multigreetmessage:
+  args:
+    - '<id> [embedTemplate]'
+    - number
+  desc: 'Changes the message for a MultiGreet.'
+  params:
+    - desc: 'The id of the MultiGreet to change'
+      name: id
+      optional: false
+      type: int
+    - desc: 'The message/embed template to set'
+      name: embedTemplate
+      optional: true
+      type: embedtemplateresult
+multigreetremove:
+  args:
+    - number
+  desc: 'Removes all MultiGreets from a channel.'
+  params:
+    - &ref_310
+      desc: 'Removes all MultiGreets from a channel.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_ITextChannel:
+  args:
+    - channel
+  desc: 'Removes all MultiGreets from a channel.'
+  params:
+    - &ref_311
+      desc: 'The channel to remove MultiGreets from'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Removes all MultiGreets from a channel.'
+  params:
+    - desc: 'The channel to remove MultiGreets from'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Removes all MultiGreets from a channel.'
+  params:
+    - desc: 'The channel to remove MultiGreets from'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_3:
+  args:
+    - channel
+  desc: 'Removes all MultiGreets from a channel.'
+  params:
+    - desc: 'The channel to remove MultiGreets from'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_int:
+  args:
+    - number
+  desc: 'Removes all MultiGreets from a channel.'
+  params:
+    - desc: 'Removes all MultiGreets from a channel.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_int_1:
+  args:
+    - number
+  desc: 'Removes all MultiGreets from a channel.'
+  params:
+    - desc: 'Removes all MultiGreets from a channel.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_int_2:
+  args:
+    - number
+  desc: 'Removes all MultiGreets from a channel.'
+  params:
+    - desc: 'Removes all MultiGreets from a channel.'
+      name: id
+      optional: false
+      type: int
+multigreettype:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Changes the type of MultiGreet.'
+  params:
+    - &ref_312
+      desc: 'The type of MultiGreet to set'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Changes the type of MultiGreet.'
+  params:
+    - desc: 'The type of MultiGreet to set'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes_1:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Changes the type of MultiGreet.'
+  params:
+    - desc: 'The type of MultiGreet to set'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes_2:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Changes the type of MultiGreet.'
+  params:
+    - desc: 'The type of MultiGreet to set'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreetwebhook:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Changes the webhook for a MultiGreet.'
+  params:
+    - desc: 'The id of the MultiGreet to change'
+      name: id
+      optional: false
+      type: int
+    - desc: 'The name of the webhook'
+      name: name
+      optional: true
+      type: string
+    - desc: 'The avatar of the webhook'
+      name: avatar
+      optional: true
+      type: string

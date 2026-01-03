@@ -51,13 +51,16 @@ public class LocalFileStringsSource : IStringsSource
 
     /// <summary>
     ///     Gets the command strings from the local files.
+    ///     Supports both single-file format (commands.en-US.yml) and split-file format (en-US/*.yml).
     /// </summary>
     /// <returns>A dictionary containing command strings for each locale.</returns>
     public Dictionary<string, Dictionary<string, CommandStrings>> GetCommandStrings()
     {
         var deserializer = new DeserializerBuilder().Build();
         var outputDict = new Dictionary<string, Dictionary<string, CommandStrings>>();
-        foreach (var file in Directory.GetFiles(commandsPath))
+
+        // First, load any single-file locales (legacy format: commands.en-US.yml)
+        foreach (var file in Directory.GetFiles(commandsPath, "*.yml"))
         {
             try
             {
@@ -70,6 +73,41 @@ public class LocalFileStringsSource : IStringsSource
             {
                 Log.Error(ex, "Error loading {FileName} command strings: {ErrorMessage}", file, ex.Message);
             }
+        }
+
+        // Then, load split-file locales (new format: en-US/*.yml)
+        foreach (var localeDir in Directory.GetDirectories(commandsPath))
+        {
+            var localeName = Path.GetFileName(localeDir);
+            var mergedDict = outputDict.TryGetValue(localeName, out var existing)
+                ? existing
+                : new Dictionary<string, CommandStrings>();
+
+            foreach (var file in Directory.GetFiles(localeDir, "*.yml"))
+            {
+                try
+                {
+                    var text = File.ReadAllText(file);
+                    var moduleDict = deserializer.Deserialize<Dictionary<string, CommandStrings>>(text);
+
+                    if (moduleDict == null)
+                        continue;
+
+                    // Merge into the locale dictionary
+                    foreach (var (key, value) in moduleDict)
+                    {
+                        mergedDict[key] = value;
+                    }
+
+                    Log.Debug("Loaded {Count} commands from {File}", moduleDict.Count, Path.GetFileName(file));
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "Error loading {FileName} command strings: {ErrorMessage}", file, ex.Message);
+                }
+            }
+
+            outputDict[localeName] = mergedDict;
         }
 
         return outputDict;

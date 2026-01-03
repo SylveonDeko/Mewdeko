@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'Toggles birthday announcements for the user.'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'Sets the birthday announcement channel.'
+  params:
+    - desc: >-
+        The text channel to use for announcements. Defaults to the current
+        channel if not specified.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'Views the current birthday configuration.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'Shows upcoming birthdays in the server.'
+  params:
+    - desc: How many days to look ahead. Default is 7, max is 30.
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'Sets a custom birthday message template.'
+  params:
+    - desc: >-
+        The message template. Use {user} to mention the user. Shows the current
+        message if left empty.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'Sets the role to ping when announcing birthdays.'
+  params:
+    - desc: The role to ping. Provide no role to disable it.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'Sets the birthday role that users get on their birthday.'
+  params:
+    - desc: The role to assign on a user's birthday. Provide no role to disable it.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'Sets the user''s timezone for birthday calculations.'
+  params:
+    - desc: The timezone to set (e.g., "America/New_York").
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'Shows today''s birthdays.'
+  params: [ ]

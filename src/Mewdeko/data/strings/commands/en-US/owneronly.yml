@@ -1,0 +1,1216 @@
+acadd:
+  args:
+    - command
+  desc: Adds an automatic command.
+  params:
+    - desc: The command to add as automatic.
+      name: command
+      optional: false
+      type: string
+updatetopguilds:
+  args:
+    - ''
+  desc: Updates the top guilds list. Can only be run on the master instance.
+aclist:
+  args:
+    - ''
+  desc: Lists all automatic commands.
+  params: [ ]
+acrm:
+  args:
+    - index
+  desc: Removes an automatic command.
+  params:
+    - desc: The index of the command to remove.
+      name: index
+      optional: false
+      type: int
+addinstance:
+  args:
+    - number
+  desc: 'Adds a bot instance to be managed from the dashboard.'
+  params:
+    - &ref_400
+      desc: 'The port number the instance is running on'
+      name: instancePort
+      optional: false
+      type: int
+addinstance_int:
+  args:
+    - number
+  desc: 'Adds a bot instance to be managed from the dashboard.'
+  params:
+    - desc: The port number the instance is running on
+      name: instancePort
+      optional: false
+      type: int
+addplaying:
+  args:
+    - t text
+  desc: 'Adds a new status to the rotation of playing statuses for the bot.'
+  params:
+    - &ref_21
+      desc: 'The type of activity (e.g., Playing, Streaming).'
+      name: t
+      optional: false
+      type: ActivityType
+    - &ref_22
+      desc: 'The text of the status to add.'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string:
+  args:
+    - t text
+  desc: 'Adds a new status to the rotation of playing statuses for the bot.'
+  params:
+    - desc: 'The type of activity (e.g., Playing, Streaming).'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: 'The text of the status to add.'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string_1:
+  args:
+    - t text
+  desc: 'Adds a new status to the rotation of playing statuses for the bot.'
+  params:
+    - desc: 'The type of activity (e.g., Playing, Streaming).'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: 'The text of the status to add.'
+      name: status
+      optional: false
+      type: string
+addplaying_ActivityType_string_2:
+  args:
+    - t text
+  desc: 'Adds a new status to the rotation of playing statuses for the bot.'
+  params:
+    - desc: 'The type of activity (e.g., Playing, Streaming).'
+      name: t
+      optional: false
+      type: ActivityType
+    - desc: 'The text of the status to add.'
+      name: status
+      optional: false
+      type: string
+autocommandadd:
+  args:
+    - number text
+  desc: 'Adds an auto command to be executed periodically in the specified guild.'
+  params:
+    - &ref_91
+      desc: 'The interval in seconds at which the command should be executed. Must be 5 seconds or more.'
+      name: interval
+      optional: false
+      type: int
+    - &ref_92
+      desc: 'The command text to be executed automatically.'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string:
+  args:
+    - number text
+  desc: 'Adds an auto command to be executed periodically in the specified guild.'
+  params:
+    - desc: 'The interval in seconds at which the command should be executed. Must be 5 seconds or more.'
+      name: interval
+      optional: false
+      type: int
+    - desc: 'The command text to be executed automatically.'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string_1:
+  args:
+    - number text
+  desc: 'Adds an auto command to be executed periodically in the specified guild.'
+  params:
+    - desc: 'The interval in seconds at which the command should be executed. Must be 5 seconds or more.'
+      name: interval
+      optional: false
+      type: int
+    - desc: 'The command text to be executed automatically.'
+      name: cmdText
+      optional: false
+      type: string
+autocommandadd_int_string_2:
+  args:
+    - number text
+  desc: 'Adds an auto command to be executed periodically in the specified guild.'
+  params:
+    - desc: 'The interval in seconds at which the command should be executed. Must be 5 seconds or more.'
+      name: interval
+      optional: false
+      type: int
+    - desc: 'The command text to be executed automatically.'
+      name: cmdText
+      optional: false
+      type: string
+autocommandremove:
+  args:
+    - number
+  desc: 'Removes an auto command based on its index.'
+  params:
+    - &ref_93
+      desc: 'The one-based index of the auto command to remove.'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int:
+  args:
+    - number
+  desc: 'Removes an auto command based on its index.'
+  params:
+    - &ref_94
+      desc: 'The one-based index of the auto command to remove.'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int_1:
+  args:
+    - number
+  desc: 'Removes an auto command based on its index.'
+  params:
+    - desc: 'The one-based index of the auto command to remove.'
+      name: index
+      optional: false
+      type: int
+autocommandremove_int_2:
+  args:
+    - number
+  desc: 'Removes an auto command based on its index.'
+  params:
+    - desc: 'The one-based index of the auto command to remove.'
+      name: index
+      optional: false
+      type: int
+autocommandslist:
+  args:
+    - 1
+  desc: 'Lists the auto commands configured for the guild.'
+  params:
+    - &ref_95
+      desc: 'Lists the auto commands configured for the guild.'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=:
+  args:
+    - 1
+  desc: 'Lists the auto commands configured for the guild.'
+  params:
+    - desc: 'Lists the auto commands configured for the guild.'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=_1:
+  args:
+    - 1
+  desc: 'Lists the auto commands configured for the guild.'
+  params:
+    - desc: 'Lists the auto commands configured for the guild.'
+      name: 1
+      optional: false
+      type: '='
+autocommandslist_=_2:
+  args:
+    - 1
+  desc: 'Lists the auto commands configured for the guild.'
+  params:
+    - desc: 'Lists the auto commands configured for the guild.'
+      name: 1
+      optional: false
+      type: '='
+bash:
+  args:
+    - text
+  desc: >-
+    Executes a bash command. Depending on the platform, the command is executed
+    in either bash or PowerShell.
+  params:
+    - &ref_110
+      desc: 'The command to execute.'
+      name: message
+      optional: false
+      type: string
+bash_string:
+  args:
+    - text
+  desc: >-
+    Executes a bash command. Depending on the platform, the command is executed
+    in either bash or PowerShell.
+  params:
+    - desc: 'The command to execute.'
+      name: message
+      optional: false
+      type: string
+bash_string_1:
+  args:
+    - text
+  desc: >-
+    Executes a bash command. Depending on the platform, the command is executed
+    in either bash or PowerShell.
+  params:
+    - desc: 'The command to execute.'
+      name: message
+      optional: false
+      type: string
+bash_string_2:
+  args:
+    - text
+  desc: >-
+    Executes a bash command. Depending on the platform, the command is executed
+    in either bash or PowerShell.
+  params:
+    - desc: 'The command to execute.'
+      name: message
+      optional: false
+      type: string
+commandstats:
+  args:
+    - ''
+  desc: >-
+    Retrieves and displays statistics on the most used command, module, guild,
+    and user.
+  params: [ ]
+commandstats_noparams:
+  args:
+    - ''
+  desc: >-
+    Retrieves and displays statistics on the most used command, module, guild,
+    and user.
+  params: [ ]
+commandstats_noparams_1:
+  args:
+    - ''
+  desc: >-
+    Retrieves and displays statistics on the most used command, module, guild,
+    and user.
+  params: [ ]
+commandstats_noparams_2:
+  args:
+    - ''
+  desc: >-
+    Retrieves and displays statistics on the most used command, module, guild,
+    and user.
+  params: [ ]
+config:
+  args:
+    - ''
+  desc: Changes yml based config for the bot.
+  params: [ ]
+config_string:
+  args:
+    - name
+  desc: Changes yml based config for the bot.
+  params:
+    - desc: The name of the config to change.
+      name: name
+      optional: true
+      type: string
+config_string_string:
+  args:
+    - name prop
+  desc: Changes yml based config for the bot.
+  params:
+    - desc: The name of the config to change.
+      name: name
+      optional: true
+      type: string
+    - desc: The property of the config to change.
+      name: prop
+      optional: true
+      type: string
+config_string_string_string:
+  args:
+    - name prop value
+  desc: Changes yml based config for the bot.
+  params:
+    - desc: The name of the config to change.
+      name: name
+      optional: true
+      type: string
+    - desc: The property of the config to change.
+      name: prop
+      optional: true
+      type: string
+    - desc: The new value to set for the property.
+      name: value
+      optional: true
+      type: string
+defprefix:
+  args:
+    - '[prefix]'
+  desc: 'Sets or displays the default command prefix.'
+  params:
+    - desc: 'The new prefix to set. If null or whitespace, the current prefix is displayed instead.'
+      name: prefix
+      optional: true
+      type: string
+die:
+  args:
+    - ''
+  desc: 'Initiates a shutdown of the bot.'
+  params: [ ]
+evaluate:
+  args:
+    - '[code]'
+  desc: 'Evaluates a C# code snippet.'
+  params:
+    - desc: 'The C# code to evaluate.'
+      name: code
+      optional: true
+      type: string
+forwardmessages:
+  args:
+    - ''
+  desc: 'Toggles the forwarding of direct messages to the bot''s owner(s).'
+  params: [ ]
+forwardtoall:
+  args:
+    - ''
+  desc: >-
+    Toggles whether forwarded messages are sent to all of the bot's owners or
+    just the primary owner.
+  params: [ ]
+generatedocs:
+  args:
+    - ''
+  desc: 'Generates command documentation YML files'
+  params: [ ]
+imagesreload:
+  args:
+    - ''
+  desc: 'Initiates the reloading of images used by the bot.'
+  params: [ ]
+instancestatus:
+  args:
+    - number
+  desc: 'Checks the status of a specific bot instance.'
+  params:
+    - &ref_256
+      desc: 'The port number of the instance to check'
+      name: instancePort
+      optional: false
+      type: int
+instancestatus_int:
+  args:
+    - number
+  desc: 'Checks the status of a specific bot instance.'
+  params:
+    - desc: 'The port number of the instance to check'
+      name: instancePort
+      optional: false
+      type: int
+leaveserver:
+  args:
+    - text
+  desc: 'Commands the bot to leave a server.'
+  params:
+    - &ref_269
+      desc: 'The identifier or name of the guild to leave.'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string:
+  args:
+    - text
+  desc: 'Commands the bot to leave a server.'
+  params:
+    - desc: 'The identifier or name of the guild to leave.'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string_1:
+  args:
+    - text
+  desc: 'Commands the bot to leave a server.'
+  params:
+    - desc: 'The identifier or name of the guild to leave.'
+      name: guildStr
+      optional: false
+      type: string
+leaveserver_string_2:
+  args:
+    - text
+  desc: 'Commands the bot to leave a server.'
+  params:
+    - desc: 'The identifier or name of the guild to leave.'
+      name: guildStr
+      optional: false
+      type: string
+listinstances:
+  args:
+    - ''
+  desc: 'Lists all registered bot instances and their status.'
+  params: [ ]
+listplaying:
+  args:
+    - ''
+  desc: 'Lists all statuses currently in the rotation.'
+  params: [ ]
+listservers:
+  args:
+    - ''
+  desc: 'Lists all servers the bot is currently in.'
+  params: [ ]
+redisexec:
+  args:
+    - text
+  desc: 'Executes a Redis command and returns the result.'
+  params:
+    - &ref_385
+      desc: 'The Redis command to execute.'
+      name: command
+      optional: false
+      type: string
+redisexec_string:
+  args:
+    - text
+  desc: 'Executes a Redis command and returns the result.'
+  params:
+    - desc: 'The Redis command to execute.'
+      name: command
+      optional: false
+      type: string
+redisexec_string_1:
+  args:
+    - text
+  desc: 'Executes a Redis command and returns the result.'
+  params:
+    - desc: 'The Redis command to execute.'
+      name: command
+      optional: false
+      type: string
+redisexec_string_2:
+  args:
+    - text
+  desc: 'Executes a Redis command and returns the result.'
+  params:
+    - desc: 'The Redis command to execute.'
+      name: command
+      optional: false
+      type: string
+removeinstance:
+  args:
+    - number
+  desc: 'Removes a bot instance from dashboard management.'
+  params:
+    - desc: 'The port number of the instance to remove'
+      name: instancePort
+      optional: false
+      type: int
+removeplaying:
+  args:
+    - number
+  desc: 'Removes a status from the rotating playing statuses by its index.'
+  params:
+    - &ref_406
+      desc: 'The one-based index of the status to remove. The actual removal will use zero-based indexing.'
+      name: index
+      optional: false
+      type: int
+removeplaying_int:
+  args:
+    - number
+  desc: 'Removes a status from the rotating playing statuses by its index.'
+  params:
+    - desc: 'The one-based index of the status to remove. The actual removal will use zero-based indexing.'
+      name: index
+      optional: false
+      type: int
+removeplaying_int_1:
+  args:
+    - number
+  desc: 'Removes a status from the rotating playing statuses by its index.'
+  params:
+    - desc: 'The one-based index of the status to remove. The actual removal will use zero-based indexing.'
+      name: index
+      optional: false
+      type: int
+removeplaying_int_2:
+  args:
+    - number
+  desc: 'Removes a status from the rotating playing statuses by its index.'
+  params:
+    - desc: 'The one-based index of the status to remove. The actual removal will use zero-based indexing.'
+      name: index
+      optional: false
+      type: int
+restartallinstances:
+  args:
+    - ''
+  desc: 'Restarts all registered bot instances.'
+  params: [ ]
+restartinstance:
+  args:
+    - number
+  desc: 'Restarts a specific bot instance.'
+  params:
+    - desc: The port number of the instance to restart
+      name: instancePort
+      optional: false
+      type: int
+rotateplaying:
+  args:
+    - ''
+  desc: 'Toggles the rotation of playing statuses for the bot.'
+  params: [ ]
+scadd:
+  args:
+    - command
+  desc: Adds a command to run at startup.
+  params:
+    - desc: The command to add to startup.
+      name: command
+      optional: false
+      type: string
+scclear:
+  args:
+    - ''
+  desc: Clears all startup commands.
+  params: [ ]
+sclist:
+  args:
+    - ''
+  desc: Lists all startup commands.
+  params: [ ]
+scrm:
+  args:
+    - index
+  desc: Removes a startup command.
+  params:
+    - desc: The index of the command to remove.
+      name: index
+      optional: false
+      type: int
+send:
+  args:
+    - whereorto text
+  desc: 'Sends a message to a specified channel or user.'
+  params:
+    - &ref_483
+      desc: 'The ID of the channel or user to send the message to.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - &ref_484
+      desc: 'The message to send.'
+      name: msg
+      optional: false
+      type: string
+send_ulong_=_=:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: 'Sends a message to a specified channel or user.'
+  params:
+    - desc: 'The ID of the channel or user to send the message to.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'The ID of the user to send the message to.'
+      name: to
+      optional: true
+      type: ulong
+    - desc: 'The message to send.'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_1:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: 'Sends a message to a specified channel or user.'
+  params:
+    - desc: 'The ID of the channel or user to send the message to.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'The ID of the user to send the message to.'
+      name: to
+      optional: true
+      type: ulong
+    - desc: 'The message to send.'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_2:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: 'Sends a message to a specified channel or user.'
+  params:
+    - desc: 'The ID of the channel or user to send the message to.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'The ID of the user to send the message to.'
+      name: to
+      optional: true
+      type: ulong
+    - desc: 'The message to send.'
+      name: msg
+      optional: true
+      type: string
+send_ulong_=_=_3:
+  args:
+    - '<whereOrTo> [to] [msg]'
+    - whereorto
+  desc: 'Sends a message to a specified channel or user.'
+  params:
+    - desc: 'The ID of the channel or user to send the message to.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'The ID of the user to send the message to.'
+      name: to
+      optional: true
+      type: ulong
+    - desc: 'The message to send.'
+      name: msg
+      optional: true
+      type: string
+send_ulong_string:
+  args:
+    - whereorto text
+  desc: 'Sends a message to a specified channel or user.'
+  params:
+    - desc: 'The ID of the channel or user to send the message to.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'The message to send.'
+      name: msg
+      optional: false
+      type: string
+send_ulong_string_1:
+  args:
+    - whereorto text
+  desc: 'Sends a message to a specified channel or user.'
+  params:
+    - desc: 'The ID of the channel or user to send the message to.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'The message to send.'
+      name: msg
+      optional: false
+      type: string
+send_ulong_string_2:
+  args:
+    - whereorto text
+  desc: 'Sends a message to a specified channel or user.'
+  params:
+    - desc: 'The ID of the channel or user to send the message to.'
+      name: whereOrTo
+      optional: false
+      type: ulong
+    - desc: 'The message to send.'
+      name: msg
+      optional: false
+      type: string
+setavatar:
+  args:
+    - '[img]'
+  desc: 'Sets the bot''s avatar.'
+  params:
+    - desc: 'The URL of the new avatar image. If null, the command may default to removing the current avatar or doing nothing, based on implementation.'
+      name: img
+      optional: true
+      type: string
+setgame:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'Sets the bot''s currently playing game.'
+  params:
+    - desc: 'The type of activity (e.g., Playing, Streaming).'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'The name of the game or activity. If null, might clear the current game.'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'Sets the bot''s currently playing game.'
+  params:
+    - desc: 'The type of activity (e.g., Playing, Streaming).'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'The name of the game or activity. If null, might clear the current game.'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=_1:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'Sets the bot''s currently playing game.'
+  params:
+    - desc: 'The type of activity (e.g., Playing, Streaming).'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'The name of the game or activity. If null, might clear the current game.'
+      name: game
+      optional: true
+      type: string
+setgame_ActivityType_=_2:
+  args:
+    - '<type> [game]'
+    - type
+  desc: 'Sets the bot''s currently playing game.'
+  params:
+    - desc: 'The type of activity (e.g., Playing, Streaming).'
+      name: type
+      optional: false
+      type: activity type
+    - desc: 'The name of the game or activity. If null, might clear the current game.'
+      name: game
+      optional: true
+      type: string
+setname:
+  args:
+    - text
+  desc: 'Changes the bot''s username to the specified new name.'
+  params:
+    - &ref_508
+      desc: 'The new username for the bot.'
+      name: newName
+      optional: false
+      type: string
+setname_string:
+  args:
+    - text
+  desc: 'Changes the bot''s username to the specified new name.'
+  params:
+    - desc: 'The new username for the bot.'
+      name: newName
+      optional: false
+      type: string
+setname_string_1:
+  args:
+    - text
+  desc: 'Changes the bot''s username to the specified new name.'
+  params:
+    - desc: 'The new username for the bot.'
+      name: newName
+      optional: false
+      type: string
+setname_string_2:
+  args:
+    - text
+  desc: 'Changes the bot''s username to the specified new name.'
+  params:
+    - desc: 'The new username for the bot.'
+      name: newName
+      optional: false
+      type: string
+setstatus:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'Sets the bot''s online status.'
+  params:
+    - &ref_526
+      desc: 'The new status to set.'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'Sets the bot''s online status.'
+  params:
+    - desc: 'The new status to set.'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus_1:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'Sets the bot''s online status.'
+  params:
+    - desc: 'The new status to set.'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstatus_SettableUserStatus_2:
+  args:
+    - online|invisible|idle
+    - online
+    - invisible
+    - idle
+  desc: 'Sets the bot''s online status.'
+  params:
+    - desc: 'The new status to set.'
+      name: status
+      optional: false
+      type: SettableUserStatus
+setstream:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'Sets the bot''s streaming status.'
+  params:
+    - desc: 'The URL of the stream.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'The name of the stream. If null, might use a default name or no name.'
+      name: name
+      optional: true
+      type: string
+setstream_string_=:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'Sets the bot''s streaming status.'
+  params:
+    - desc: 'The URL of the stream.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'The name of the stream. If null, might use a default name or no name.'
+      name: name
+      optional: true
+      type: string
+setstream_string_=_1:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'Sets the bot''s streaming status.'
+  params:
+    - desc: 'The URL of the stream.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'The name of the stream. If null, might use a default name or no name.'
+      name: name
+      optional: true
+      type: string
+setstream_string_=_2:
+  args:
+    - '<url> [name]'
+    - text
+  desc: 'Sets the bot''s streaming status.'
+  params:
+    - desc: 'The URL of the stream.'
+      name: url
+      optional: false
+      type: string
+    - desc: 'The name of the stream. If null, might use a default name or no name.'
+      name: name
+      optional: true
+      type: string
+shardstats:
+  args:
+    - ''
+  desc: >-
+    Displays statistics for all shards of the bot, including their statuses,
+    guild counts, and user counts.
+  params: [ ]
+shardstats_noparams:
+  args:
+    - ''
+  desc: >-
+    Displays statistics for all shards of the bot, including their statuses,
+    guild counts, and user counts.
+  params: [ ]
+shardstats_noparams_1:
+  args:
+    - ''
+  desc: >-
+    Displays statistics for all shards of the bot, including their statuses,
+    guild counts, and user counts.
+  params: [ ]
+shardstats_noparams_2:
+  args:
+    - ''
+  desc: >-
+    Displays statistics for all shards of the bot, including their statuses,
+    guild counts, and user counts.
+  params: [ ]
+sqlexec:
+  args:
+    - text
+  desc: 'Executes a raw SQL command against the database.'
+  params:
+    - &ref_555
+      desc: 'The SQL command to execute.'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string:
+  args:
+    - text
+  desc: 'Executes a raw SQL command against the database.'
+  params:
+    - desc: 'The SQL command to execute.'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string_1:
+  args:
+    - text
+  desc: 'Executes a raw SQL command against the database.'
+  params:
+    - desc: 'The SQL command to execute.'
+      name: sql
+      optional: false
+      type: string
+sqlexec_string_2:
+  args:
+    - text
+  desc: 'Executes a raw SQL command against the database.'
+  params:
+    - desc: 'The SQL command to execute.'
+      name: sql
+      optional: false
+      type: string
+startupcommandadd:
+  args:
+    - text
+  desc: 'Adds a new startup command to be executed when the bot starts.'
+  params:
+    - &ref_564
+      desc: 'The text of the command to add, excluding the prefix.'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string:
+  args:
+    - text
+  desc: 'Adds a new startup command to be executed when the bot starts.'
+  params:
+    - desc: 'The text of the command to add, excluding the prefix.'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string_1:
+  args:
+    - text
+  desc: 'Adds a new startup command to be executed when the bot starts.'
+  params:
+    - desc: 'The text of the command to add, excluding the prefix.'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandadd_string_2:
+  args:
+    - text
+  desc: 'Adds a new startup command to be executed when the bot starts.'
+  params:
+    - desc: 'The text of the command to add, excluding the prefix.'
+      name: cmdText
+      optional: false
+      type: string
+startupcommandremove:
+  args:
+    - number
+  desc: 'Removes a startup command based on its index.'
+  params:
+    - desc: 'The one-based index of the startup command to remove.'
+      name: index
+      optional: false
+      type: int
+startupcommandsclear:
+  args:
+    - ''
+  desc: 'Clears all startup commands for the guild.'
+  params: [ ]
+startupcommandslist:
+  args:
+    - 1
+  desc: 'Lists the startup commands configured for the guild.'
+  params:
+    - desc: 'Lists the startup commands configured for the guild.'
+      name: 1
+      optional: false
+      type: '='
+stringsreload:
+  args:
+    - ''
+  desc: 'Initiates the reloading of bot strings (localizations).'
+  params: [ ]
+sudo:
+  args:
+    - '@user text'
+  desc: 'Executes a command as if it were sent by the owner of the guild.'
+  params:
+    - &ref_580
+      desc: 'Executes a command as if it were sent by the owner of the guild.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_581
+      desc: 'The command string to execute, including command name and arguments.'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string:
+  args:
+    - '@user text'
+  desc: 'Executes a command as if it were sent by the owner of the guild.'
+  params:
+    - desc: 'Executes a command as if it were sent by the owner of the guild.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'The command string to execute, including command name and arguments.'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string_1:
+  args:
+    - '@user text'
+  desc: 'Executes a command as if it were sent by the owner of the guild.'
+  params:
+    - desc: 'Executes a command as if it were sent by the owner of the guild.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'The command string to execute, including command name and arguments.'
+      name: args
+      optional: false
+      type: string
+sudo_IGuildUser_string_2:
+  args:
+    - '@user text'
+  desc: 'Executes a command as if it were sent by the owner of the guild.'
+  params:
+    - desc: 'Executes a command as if it were sent by the owner of the guild.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'The command string to execute, including command name and arguments.'
+      name: args
+      optional: false
+      type: string
+sudo_string:
+  args:
+    - text
+  desc: 'Executes a command as if it were sent by the owner of the guild.'
+  params:
+    - desc: 'The command string to execute, including command name and arguments.'
+      name: args
+      optional: false
+      type: string
+sudo_string_1:
+  args:
+    - text
+  desc: 'Executes a command as if it were sent by the owner of the guild.'
+  params:
+    - desc: 'The command string to execute, including command name and arguments.'
+      name: args
+      optional: false
+      type: string
+sudo_string_2:
+  args:
+    - text
+  desc: 'Executes a command as if it were sent by the owner of the guild.'
+  params:
+    - desc: 'The command string to execute, including command name and arguments.'
+      name: args
+      optional: false
+      type: string
+sudo_string_3:
+  args:
+    - text
+  desc: 'Executes a command as if it were sent by the owner of the guild.'
+  params:
+    - desc: 'The command string to execute, including command name and arguments.'
+      name: args
+      optional: false
+      type: string
+update:
+  args:
+    - ''
+  desc: 'Updates the bot to the latest version available on the repository.'
+  params: [ ]
+update_noparams:
+  args:
+    - ''
+  desc: 'Updates the bot to the latest version available on the repository.'
+  params: [ ]
+update_noparams_1:
+  args:
+    - ''
+  desc: 'Updates the bot to the latest version available on the repository.'
+  params: [ ]
+update_noparams_2:
+  args:
+    - ''
+  desc: 'Updates the bot to the latest version available on the repository.'
+  params: [ ]
+updateallinstances:
+  args:
+    - ''
+  desc: 'Updates all registered bot instances.'
+  params: [ ]
+updateinstance:
+  args:
+    - number
+  desc: 'Updates a specific bot instance.'
+  params:
+    - desc: The port number of the instance to update
+      name: instancePort
+      optional: false
+      type: int
+wait:
+  args:
+    - number
+  desc: 'Executes a wait command that delays for a specified number of milliseconds.'
+  params:
+    - &ref_651
+      desc: 'The number of milliseconds to delay.'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int:
+  args:
+    - number
+  desc: 'Executes a wait command that delays for a specified number of milliseconds.'
+  params:
+    - desc: 'The number of milliseconds to delay.'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int_1:
+  args:
+    - number
+  desc: 'Executes a wait command that delays for a specified number of milliseconds.'
+  params:
+    - desc: 'The number of milliseconds to delay.'
+      name: miliseconds
+      optional: false
+      type: int
+wait_int_2:
+  args:
+    - number
+  desc: 'Executes a wait command that delays for a specified number of milliseconds.'
+  params:
+    - desc: 'The number of milliseconds to delay.'
+      name: miliseconds
+      optional: false
+      type: int

@@ -1,0 +1,305 @@
+setupvoicehub:
+  args:
+    - ''
+  desc: 'Sets up a voice channel as a hub for creating custom voice channels.'
+  params: [ ]
+setvoicehub:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Sets a specific voice channel as the hub for creating custom voice channels.'
+  params:
+    - desc: 'Sets a specific voice channel as the hub for creating custom voice channels.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Sets a specific voice channel as the hub for creating custom voice channels.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Sets a specific voice channel as the hub for creating custom voice channels.'
+  params:
+    - desc: 'Sets a specific voice channel as the hub for creating custom voice channels.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Sets a specific voice channel as the hub for creating custom voice channels.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_1:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Sets a specific voice channel as the hub for creating custom voice channels.'
+  params:
+    - desc: 'Sets a specific voice channel as the hub for creating custom voice channels.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Sets a specific voice channel as the hub for creating custom voice channels.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_2:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Sets a specific voice channel as the hub for creating custom voice channels.'
+  params:
+    - desc: 'Sets a specific voice channel as the hub for creating custom voice channels.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Sets a specific voice channel as the hub for creating custom voice channels.'
+      name: category
+      optional: true
+      type: category
+voiceallow:
+  args:
+    - '@user'
+  desc: 'Allows a specific user to join your locked voice channel.'
+  params:
+    - &ref_642
+      desc: 'Allows a specific user to join your locked voice channel.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Allows a specific user to join your locked voice channel.'
+  params:
+    - desc: 'Allows a specific user to join your locked voice channel.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Allows a specific user to join your locked voice channel.'
+  params:
+    - desc: 'Allows a specific user to join your locked voice channel.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Allows a specific user to join your locked voice channel.'
+  params:
+    - desc: 'Allows a specific user to join your locked voice channel.'
+      name: target
+      optional: false
+      type: IGuildUser
+voicebitrate:
+  args:
+    - number
+  desc: 'Sets the bitrate for your custom voice channel.'
+  params:
+    - &ref_643
+      desc: 'Sets the bitrate for your custom voice channel.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int:
+  args:
+    - number
+  desc: 'Sets the bitrate for your custom voice channel.'
+  params:
+    - desc: 'Sets the bitrate for your custom voice channel.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_1:
+  args:
+    - number
+  desc: 'Sets the bitrate for your custom voice channel.'
+  params:
+    - desc: 'Sets the bitrate for your custom voice channel.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_2:
+  args:
+    - number
+  desc: 'Sets the bitrate for your custom voice channel.'
+  params:
+    - desc: 'Sets the bitrate for your custom voice channel.'
+      name: bitrate
+      optional: false
+      type: int
+voicechannels:
+  args:
+    - ''
+  desc: 'Lists active custom voice channels.'
+  params: [ ]
+voiceclaim:
+  args:
+    - ''
+  desc: 'Claims ownership of a custom voice channel if the owner is not present.'
+  params: [ ]
+voiceconfig:
+  args:
+    - '[setting] [value]'
+  desc: 'Configures the custom voice settings.'
+  params:
+    - desc: 'Configures the custom voice settings.'
+      name: setting
+      optional: true
+      type: string
+    - desc: 'Configures the custom voice settings.'
+      name: value
+      optional: true
+      type: string
+voicecontrols:
+  args:
+    - ''
+  desc: 'Shows interactive controls for managing your custom voice channel.'
+  params: [ ]
+voicedeny:
+  args:
+    - '@user'
+  desc: 'Denies a specific user from joining your voice channel.'
+  params:
+    - desc: 'Denies a specific user from joining your voice channel.'
+      name: target
+      optional: false
+      type: IGuildUser
+voicekeepalive:
+  args:
+    - true
+  desc: 'Sets the channel to be kept alive even when empty.'
+  params:
+    - desc: 'Sets the channel to be kept alive even when empty.'
+      name: true
+      optional: false
+      type: '='
+voicelimit:
+  args:
+    - number
+  desc: 'Sets the user limit for your custom voice channel.'
+  params:
+    - &ref_644
+      desc: 'Sets the user limit for your custom voice channel.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int:
+  args:
+    - number
+  desc: 'Sets the user limit for your custom voice channel.'
+  params:
+    - desc: 'Sets the user limit for your custom voice channel.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_1:
+  args:
+    - number
+  desc: 'Sets the user limit for your custom voice channel.'
+  params:
+    - desc: 'Sets the user limit for your custom voice channel.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_2:
+  args:
+    - number
+  desc: 'Sets the user limit for your custom voice channel.'
+  params:
+    - desc: 'Sets the user limit for your custom voice channel.'
+      name: limit
+      optional: false
+      type: int
+voicelock:
+  args:
+    - true
+  desc: 'Locks or unlocks your custom voice channel.'
+  params:
+    - desc: 'Locks or unlocks your custom voice channel.'
+      name: true
+      optional: false
+      type: '='
+voicepreferences:
+  args:
+    - ''
+  desc: 'Sets your voice channel preferences.'
+  params: [ ]
+voiceprefsbitrate:
+  args:
+    - '[bitrate]'
+  desc: 'Sets your preferred bitrate for custom voice channels.'
+  params:
+    - desc: 'Sets your preferred bitrate for custom voice channels.'
+      name: bitrate
+      optional: true
+      type: int
+voiceprefskeepalive:
+  args:
+    - '[keepAlive]'
+  desc: 'Sets your preferred keep-alive status for custom voice channels.'
+  params:
+    - desc: 'Sets your preferred keep-alive status for custom voice channels.'
+      name: keepAlive
+      optional: true
+      type: bool
+voiceprefslimit:
+  args:
+    - '[limit]'
+  desc: 'Sets your preferred user limit for custom voice channels.'
+  params:
+    - desc: 'Sets your preferred user limit for custom voice channels.'
+      name: limit
+      optional: true
+      type: int
+voiceprefslock:
+  args:
+    - '[locked]'
+  desc: 'Sets your preferred lock status for custom voice channels.'
+  params:
+    - desc: 'Sets your preferred lock status for custom voice channels.'
+      name: locked
+      optional: true
+      type: bool
+voiceprefsname:
+  args:
+    - '[format]'
+  desc: 'Sets your preferred name format for custom voice channels.'
+  params:
+    - desc: 'Sets your preferred name format for custom voice channels.'
+      name: format
+      optional: true
+      type: string
+voiceprefsreset:
+  args:
+    - ''
+  desc: 'Resets all your voice channel preferences.'
+  params: [ ]
+voicerename:
+  args:
+    - text
+  desc: 'Renames your custom voice channel.'
+  params:
+    - desc: 'Renames your custom voice channel.'
+      name: name
+      optional: false
+      type: string
+voicetransfer:
+  args:
+    - '@user'
+  desc: 'Transfers ownership of your custom voice channel to another user.'
+  params:
+    - desc: 'Transfers ownership of your custom voice channel to another user.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceunlock:
+  args:
+    - ''
+  desc: 'Unlocks your custom voice channel.'
+  params: [ ]

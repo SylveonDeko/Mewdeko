@@ -1,0 +1,252 @@
+votechannel:
+  args:
+    - channel
+  desc: >-
+    Sets the specified text channel as the vote channel where all vote
+    confirmations will be sent.
+  params:
+    - &ref_646
+      desc: 'The text channel to set as the vote channel.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel:
+  args:
+    - channel
+  desc: >-
+    Sets the specified text channel as the vote channel where all vote
+    confirmations will be sent.
+  params:
+    - desc: 'The text channel to set as the vote channel.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel_1:
+  args:
+    - channel
+  desc: >-
+    Sets the specified text channel as the vote channel where all vote
+    confirmations will be sent.
+  params:
+    - desc: 'The text channel to set as the vote channel.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel_2:
+  args:
+    - channel
+  desc: >-
+    Sets the specified text channel as the vote channel where all vote
+    confirmations will be sent.
+  params:
+    - desc: 'The text channel to set as the vote channel.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votemessage:
+  args:
+    - '[message]'
+  desc: >-
+    Sets a custom message to be sent when a user votes or previews the current
+    vote message.
+  params:
+    - desc: 'The custom message to set for votes. Use "-" to reset to the default message. If null, previews the current vote message.'
+      name: message
+      optional: true
+      type: string
+votepassword:
+  args:
+    - ''
+  desc: >-
+    Initiates a confirmation process for setting a new vote password, cautioning
+    the user about its security.
+  params: [ ]
+voteroleadd:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Adds a role to be granted to users when they vote, with an optional duration
+    for the role to be automatically removed.
+  params:
+    - desc: 'The role to add as a vote reward.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'The duration for which the role will be granted. Null for indefinite.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Adds a role to be granted to users when they vote, with an optional duration
+    for the role to be automatically removed.
+  params:
+    - desc: 'The role to add as a vote reward.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'The duration for which the role will be granted. Null for indefinite.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=_1:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Adds a role to be granted to users when they vote, with an optional duration
+    for the role to be automatically removed.
+  params:
+    - desc: 'The role to add as a vote reward.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'The duration for which the role will be granted. Null for indefinite.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=_2:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Adds a role to be granted to users when they vote, with an optional duration
+    for the role to be automatically removed.
+  params:
+    - desc: 'The role to add as a vote reward.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'The duration for which the role will be granted. Null for indefinite.'
+      name: time
+      optional: true
+      type: duration
+voteroleedit:
+  args:
+    - '@role time'
+  desc: 'Edits the duration for which a vote role is granted to users.'
+  params:
+    - &ref_648
+      desc: 'The role to edit.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_649
+      desc: 'The new duration for the role to be granted.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime:
+  args:
+    - '@role time'
+  desc: 'Edits the duration for which a vote role is granted to users.'
+  params:
+    - desc: 'The role to edit.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'The new duration for the role to be granted.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime_1:
+  args:
+    - '@role time'
+  desc: 'Edits the duration for which a vote role is granted to users.'
+  params:
+    - desc: 'The role to edit.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'The new duration for the role to be granted.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime_2:
+  args:
+    - '@role time'
+  desc: 'Edits the duration for which a vote role is granted to users.'
+  params:
+    - desc: 'The role to edit.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'The new duration for the role to be granted.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleremove:
+  args:
+    - '@role'
+  desc: 'Removes a role from the list of roles to be granted to users when they vote.'
+  params:
+    - &ref_650
+      desc: 'The role to remove from vote rewards.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole:
+  args:
+    - '@role'
+  desc: 'Removes a role from the list of roles to be granted to users when they vote.'
+  params:
+    - desc: 'The role to remove from vote rewards.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole_1:
+  args:
+    - '@role'
+  desc: 'Removes a role from the list of roles to be granted to users when they vote.'
+  params:
+    - desc: 'The role to remove from vote rewards.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole_2:
+  args:
+    - '@role'
+  desc: 'Removes a role from the list of roles to be granted to users when they vote.'
+  params:
+    - desc: 'The role to remove from vote rewards.'
+      name: role
+      optional: false
+      type: IRole
+voterolesclear:
+  args:
+    - ''
+  desc: 'Clears all roles that are granted to users when they vote.'
+  params: [ ]
+voteroleslist:
+  args:
+    - ''
+  desc: 'Lists all roles that are granted to users when they vote.'
+  params: [ ]
+votes:
+  args:
+    - '[@user]'
+  desc: >-
+    Displays the total number of votes cast by a specific user or the command
+    invoker.
+  params:
+    - desc: 'The user whose votes to count. If null, counts votes for the command invoker.'
+      name: user
+      optional: true
+      type: user
+votesleaderboard:
+  args:
+    - false
+  desc: >-
+    Displays a leaderboard of users based on their vote counts, optionally
+    filtering for votes within the current month.
+  params:
+    - desc: >-
+        Displays a leaderboard of users based on their vote counts, optionally
+        filtering for votes within the current month.
+      name: false
+      optional: false
+      type: '='

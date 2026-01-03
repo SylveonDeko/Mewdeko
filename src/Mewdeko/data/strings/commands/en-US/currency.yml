@@ -1,0 +1,669 @@
+baccarat:
+  args:
+    - number text
+  desc: 'Play a game of Baccarat.'
+  params:
+    - desc: The amount to bet.
+      name: betAmount
+      optional: false
+      type: long
+    - desc: The type of bet (player, banker, tie).
+      name: betType
+      optional: true
+      type: string
+bingo:
+  args:
+    - number text
+  desc: 'Play a Bingo game with number calling.'
+  params:
+    - desc: The amount to bet.
+      name: betAmount
+      optional: false
+      type: long
+    - desc: The type of bingo card (small, large).
+      name: cardType
+      optional: true
+      type: string
+blackjack:
+  args:
+    - number
+  desc: 'Starts a new game of Blackjack or joins an existing one.'
+  params:
+    - &ref_113
+      desc: 'The bet amount for the player.'
+      name: amount
+      optional: false
+      type: long
+blackjack_long:
+  args:
+    - number
+  desc: 'Starts a new game of Blackjack or joins an existing one.'
+  params:
+    - desc: 'The bet amount for the player.'
+      name: amount
+      optional: false
+      type: long
+blackjack_long_1:
+  args:
+    - number
+  desc: 'Starts a new game of Blackjack or joins an existing one.'
+  params:
+    - desc: 'The bet amount for the player.'
+      name: amount
+      optional: false
+      type: long
+blackjack_long_2:
+  args:
+    - number
+  desc: 'Starts a new game of Blackjack or joins an existing one.'
+  params:
+    - desc: 'The bet amount for the player.'
+      name: amount
+      optional: false
+      type: long
+cash:
+  args:
+    - ''
+  desc: 'Checks the current balance of the user.'
+  params: [ ]
+challengeleaderboard:
+  args:
+    - ''
+  desc: 'View the daily challenge leaderboard.'
+  params: [ ]
+claimchallenge:
+  args:
+    - ''
+  desc: 'Claim your completed daily challenge reward.'
+  params: [ ]
+coinflip:
+  args:
+    - number text
+  desc: 'Allows the user to flip a coin with a specified bet amount and guess.'
+  params:
+    - &ref_135
+      desc: 'The amount to bet.'
+      name: betAmount
+      optional: false
+      type: long
+    - &ref_136
+      desc: 'The user''s guess ("heads" or "tails").'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string:
+  args:
+    - number text
+  desc: 'Allows the user to flip a coin with a specified bet amount and guess.'
+  params:
+    - desc: 'The amount to bet.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'The user''s guess ("heads" or "tails").'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string_1:
+  args:
+    - number text
+  desc: 'Allows the user to flip a coin with a specified bet amount and guess.'
+  params:
+    - desc: 'The amount to bet.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'The user''s guess ("heads" or "tails").'
+      name: guess
+      optional: false
+      type: string
+coinflip_long_string_2:
+  args:
+    - number text
+  desc: 'Allows the user to flip a coin with a specified bet amount and guess.'
+  params:
+    - desc: 'The amount to bet.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'The user''s guess ("heads" or "tails").'
+      name: guess
+      optional: false
+      type: string
+craps:
+  args:
+    - number text
+  desc: 'Play a game of Craps.'
+  params:
+    - desc: The amount to bet.
+      name: betAmount
+      optional: false
+      type: long
+    - desc: The type of bet (pass, dontpass, field, any).
+      name: betType
+      optional: true
+      type: string
+crash:
+  args:
+    - number number
+  desc: 'Play a Crash game where you bet on a multiplier that can crash at any time.'
+  params:
+    - desc: The amount to bet.
+      name: betAmount
+      optional: false
+      type: long
+    - desc: The multiplier to cash out at (1.1x - 10.0x).
+      name: targetMultiplier
+      optional: true
+      type: double
+dailychallenge:
+  args:
+    - ''
+  desc: 'Check your current daily challenge.'
+  params: [ ]
+dailyreward:
+  args:
+    - ''
+  desc: 'Allows the user to claim their daily reward.'
+  params: [ ]
+diceduel:
+  args:
+    - '@user number'
+  desc: 'Challenge another player to a dice duel.'
+  params:
+    - desc: The user to challenge.
+      name: opponent
+      optional: false
+      type: IUser
+    - desc: The amount each player bets.
+      name: betAmount
+      optional: false
+      type: long
+duckrace:
+  args:
+    - number
+  desc: 'Start a duck race similar to horse racing.'
+  params:
+    - desc: The amount to bet on the duck race.
+      name: betAmount
+      optional: false
+      type: long
+highlow:
+  args:
+    - text
+  desc: >-
+    Allows the user to guess whether the next number is higher or lower than the
+    current number.
+  params:
+    - &ref_247
+      desc: 'The user''s guess ("higher" or "lower").'
+      name: guess
+      optional: false
+      type: string
+highlow_string:
+  args:
+    - text
+  desc: >-
+    Allows the user to guess whether the next number is higher or lower than the
+    current number.
+  params:
+    - desc: 'The user''s guess ("higher" or "lower").'
+      name: guess
+      optional: false
+      type: string
+highlow_string_1:
+  args:
+    - text
+  desc: >-
+    Allows the user to guess whether the next number is higher or lower than the
+    current number.
+  params:
+    - desc: 'The user''s guess ("higher" or "lower").'
+      name: guess
+      optional: false
+      type: string
+highlow_string_2:
+  args:
+    - text
+  desc: >-
+    Allows the user to guess whether the next number is higher or lower than the
+    current number.
+  params:
+    - desc: 'The user''s guess ("higher" or "lower").'
+      name: guess
+      optional: false
+      type: string
+hit:
+  args:
+    - ''
+  desc: 'Hits and draws a new card for the player.'
+  params: [ ]
+horserace:
+  args:
+    - number
+  desc: 'Joins or starts a horse race with a specified bet amount.'
+  params:
+    - &ref_248
+      desc: 'The amount of currency to bet on the race.'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int:
+  args:
+    - number
+  desc: 'Joins or starts a horse race with a specified bet amount.'
+  params:
+    - desc: 'The amount of currency to bet on the race.'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int_1:
+  args:
+    - number
+  desc: 'Joins or starts a horse race with a specified bet amount.'
+  params:
+    - desc: 'The amount of currency to bet on the race.'
+      name: betAmount
+      optional: false
+      type: int
+horserace_int_2:
+  args:
+    - number
+  desc: 'Joins or starts a horse race with a specified bet amount.'
+  params:
+    - desc: 'The amount of currency to bet on the race.'
+      name: betAmount
+      optional: false
+      type: int
+keno:
+  args:
+    - number text
+  desc: 'Play Keno by selecting numbers and seeing how many match the drawn numbers.'
+  params:
+    - desc: The amount to bet.
+      name: betAmount
+      optional: false
+      type: long
+    - desc: Up to 10 numbers between 1-80, separated by spaces.
+      name: numbers
+      optional: false
+      type: string
+lottery:
+  args:
+    - number
+  desc: 'Buy lottery tickets.'
+  params:
+    - desc: Number of tickets to buy (1-10).
+      name: ticketCount
+      optional: true
+      type: int
+memory:
+  args:
+    - number text
+  desc: 'Play a memory game by remembering sequences.'
+  params:
+    - desc: The amount to bet.
+      name: betAmount
+      optional: false
+      type: long
+    - desc: The difficulty level (easy, medium, hard).
+      name: difficulty
+      optional: true
+      type: string
+minesweeper:
+  args:
+    - number text
+  desc: 'Play a simplified Minesweeper game.'
+  params:
+    - desc: The amount to bet.
+      name: betAmount
+      optional: false
+      type: long
+    - desc: Grid size (small, medium, large).
+      name: size
+      optional: true
+      type: string
+modifybalance:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: 'Adds money to a users balance'
+  params:
+    - desc: 'The user to add it to.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'The amount to add, dont go too crazy lol. Can be negative'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'The reason you are doing this to this, person, thing, whatever'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: 'Adds money to a users balance'
+  params:
+    - desc: 'The user to add it to.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'The amount to add, dont go too crazy lol. Can be negative'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'The reason you are doing this to this, person, thing, whatever'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=_1:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: 'Adds money to a users balance'
+  params:
+    - desc: 'The user to add it to.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'The amount to add, dont go too crazy lol. Can be negative'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'The reason you are doing this to this, person, thing, whatever'
+      name: reason
+      optional: true
+      type: string
+modifybalance_IUser_long_=_2:
+  args:
+    - '@user <amount> [reason]'
+    - '@user number'
+  desc: 'Adds money to a users balance'
+  params:
+    - desc: 'The user to add it to.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'The amount to add, dont go too crazy lol. Can be negative'
+      name: amount
+      optional: false
+      type: long
+    - desc: 'The reason you are doing this to this, person, thing, whatever'
+      name: reason
+      optional: true
+      type: string
+plinko:
+  args:
+    - number number
+  desc: 'Play Plinko by dropping a ball down pegs for random multipliers.'
+  params:
+    - desc: The amount to bet.
+      name: betAmount
+      optional: false
+      type: long
+    - desc: Number of peg rows (5-10).
+      name: rows
+      optional: true
+      type: int
+roulette:
+  args:
+    - number text
+  desc: 'Play a game of roulette with a specified bet amount and type.'
+  params:
+    - desc: 'The amount to bet.'
+      name: betAmount
+      optional: false
+      type: long
+    - &ref_469
+      desc: 'The type of bet (e.g., "red", "black", "even", "odd", or a number from 0-36).'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string:
+  args:
+    - number text
+  desc: 'Play a game of roulette with a specified bet amount and type.'
+  params:
+    - desc: 'The amount to bet.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'The type of bet (e.g., "red", "black", "even", "odd", or a number from 0-36).'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string_1:
+  args:
+    - number text
+  desc: 'Play a game of roulette with a specified bet amount and type.'
+  params:
+    - desc: 'The amount to bet.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'The type of bet (e.g., "red", "black", "even", "odd", or a number from 0-36).'
+      name: betType
+      optional: false
+      type: string
+roulette_long_string_2:
+  args:
+    - number text
+  desc: 'Play a game of roulette with a specified bet amount and type.'
+  params:
+    - desc: 'The amount to bet.'
+      name: betAmount
+      optional: false
+      type: long
+    - desc: 'The type of bet (e.g., "red", "black", "even", "odd", or a number from 0-36).'
+      name: betType
+      optional: false
+      type: string
+rps:
+  args:
+    - text 0
+    - text
+  desc: 'Play Rock Paper Scissors Lizard Spock against the bot, with or without betting.'
+  params:
+    - &ref_470
+      desc: 'Your choice (rock, paper, scissors, lizard, or spock).'
+      name: choice
+      optional: false
+      type: string
+    - desc: 'Play Rock Paper Scissors Lizard Spock against the bot, with or without betting.'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=:
+  args:
+    - text 0
+    - text
+  desc: 'Play Rock Paper Scissors Lizard Spock against the bot, with or without betting.'
+  params:
+    - desc: 'Your choice (rock, paper, scissors, lizard, or spock).'
+      name: choice
+      optional: false
+      type: string
+    - desc: 'Play Rock Paper Scissors Lizard Spock against the bot, with or without betting.'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=_1:
+  args:
+    - text 0
+    - text
+  desc: 'Play Rock Paper Scissors Lizard Spock against the bot, with or without betting.'
+  params:
+    - desc: 'Your choice (rock, paper, scissors, lizard, or spock).'
+      name: choice
+      optional: false
+      type: string
+    - desc: 'Play Rock Paper Scissors Lizard Spock against the bot, with or without betting.'
+      name: 0
+      optional: false
+      type: '='
+rps_string_=_2:
+  args:
+    - text 0
+    - text
+  desc: 'Play Rock Paper Scissors Lizard Spock against the bot, with or without betting.'
+  params:
+    - desc: 'Your choice (rock, paper, scissors, lizard, or spock).'
+      name: choice
+      optional: false
+      type: string
+    - desc: 'Play Rock Paper Scissors Lizard Spock against the bot, with or without betting.'
+      name: 0
+      optional: false
+      type: '='
+russianroulette:
+  args:
+    - number number
+  desc: 'Play Russian Roulette.'
+  params:
+    - desc: The amount to bet.
+      name: betAmount
+      optional: false
+      type: long
+    - desc: Number of bullets (1-5).
+      name: bullets
+      optional: true
+      type: int
+scratchcard:
+  args:
+    - text
+  desc: 'Play a scratch card game.'
+  params:
+    - desc: The type of card to buy (bronze, silver, gold, diamond).
+      name: cardType
+      optional: true
+      type: string
+setdaily:
+  args:
+    - number time
+  desc: 'Sets the daily reward amount and cooldown time for the guild.'
+  params:
+    - &ref_499
+      desc: 'The amount of the daily reward.'
+      name: amount
+      optional: false
+      type: int
+    - &ref_500
+      desc: 'The cooldown time for claiming the daily reward.'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime:
+  args:
+    - number time
+  desc: 'Sets the daily reward amount and cooldown time for the guild.'
+  params:
+    - desc: 'The amount of the daily reward.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'The cooldown time for claiming the daily reward.'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'Sets the daily reward amount and cooldown time for the guild.'
+  params:
+    - desc: 'The amount of the daily reward.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'The cooldown time for claiming the daily reward.'
+      name: time
+      optional: false
+      type: StoopidTime
+setdaily_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'Sets the daily reward amount and cooldown time for the guild.'
+  params:
+    - desc: 'The amount of the daily reward.'
+      name: amount
+      optional: false
+      type: int
+    - desc: 'The cooldown time for claiming the daily reward.'
+      name: time
+      optional: false
+      type: StoopidTime
+slot:
+  args:
+    - 10
+  desc: 'Plays a slot machine game with a specified bet amount.'
+  params:
+    - desc: 'Plays a slot machine game with a specified bet amount.'
+      name: 10
+      optional: false
+      type: '='
+spinwheel:
+  args:
+    - 0
+  desc: 'Allows the user to spin the wheel for a chance to win or lose credits.'
+  params:
+    - desc: 'Allows the user to spin the wheel for a chance to win or lose credits.'
+      name: 0
+      optional: false
+      type: '='
+stand:
+  args:
+    - ''
+  desc: 'Stands and ends the player''s turn, handling the dealer''s turn.'
+  params: [ ]
+transactions:
+  args:
+    - '@user'
+  desc: >-
+    Retrieves and displays the transactions for a specified user or the current
+    user.
+  params:
+    - desc: >-
+        The user whose transactions are to be displayed. Defaults to the current
+        user.
+      name: user
+      optional: true
+      type: IUser?
+triviachain:
+  args:
+    - number text
+  desc: >-
+    Play a trivia chain where you answer questions in succession for increasing
+    rewards.
+  params:
+    - desc: The amount to bet.
+      name: betAmount
+      optional: false
+      type: long
+    - desc: The trivia category.
+      name: category
+      optional: true
+      type: string
+war:
+  args:
+    - number
+  desc: 'Play a game of War against the bot.'
+  params:
+    - desc: The amount to bet.
+      name: betAmount
+      optional: false
+      type: long
+wheelfortune:
+  args:
+    - number text
+  desc: 'Play an enhanced Wheel of Fortune with customizable segments.'
+  params:
+    - desc: The amount to bet.
+      name: betAmount
+      optional: false
+      type: long
+    - desc: The type of wheel (classic, risky, balanced).
+      name: wheelType
+      optional: true
+      type: string

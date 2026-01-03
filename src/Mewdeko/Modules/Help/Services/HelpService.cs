@@ -3,7 +3,9 @@ using System.Text;
 using CommandLine;
 using Discord.Commands;
 using Discord.Interactions;
+using Discord.Rest;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.OwnerOnly.Services;
 using Mewdeko.Modules.Permissions.Common;
@@ -19,20 +21,25 @@ namespace Mewdeko.Modules.Help.Services;
 /// <summary>
 ///     A service for handling help commands.
 /// </summary>
-public class HelpService : INService
+public class HelpService : INService, IReadyExecutor
 {
     private readonly BlacklistService blacklistService;
     private readonly Mewdeko bot;
     private readonly BotConfigService bss;
+    private readonly ConcurrentDictionary<ulong, IReadOnlyCollection<RestGuildCommand>> cachedGuildCommands = new();
     private readonly DiscordShardedClient client;
     private readonly CommandService cmds;
     private readonly DiscordPermOverrideService dpos;
     private readonly GeneratedBotStrings genStrings;
     private readonly GuildSettingsService guildSettings;
     private readonly InteractionService interactionService;
+    private readonly ILogger<HelpService> logger;
     private readonly PermissionService nPerms;
     private readonly GlobalPermissionService perms;
     private readonly IBotStrings strings;
+
+    // Cached slash commands - fetched once at startup
+    private IReadOnlyCollection<RestGlobalCommand>? cachedGlobalCommands;
 
 
     /// <summary>
@@ -51,6 +58,7 @@ public class HelpService : INService
     /// <param name="guildSettings">Service to get guild configs</param>
     /// <param name="eventHandler">The event handler Sylveon made because the events in dnet were single threaded.</param>
     /// <param name="genStrings">The class that holds generated locale strings.</param>
+    /// <param name="logger">The logger instance.</param>
     public HelpService(
         IBotStrings strings,
         DiscordPermOverrideService dpos,
@@ -62,7 +70,10 @@ public class HelpService : INService
         GlobalPermissionService perms,
         PermissionService nPerms,
         InteractionService interactionService,
-        GuildSettingsService guildSettings, EventHandler eventHandler, GeneratedBotStrings genStrings)
+        GuildSettingsService guildSettings,
+        EventHandler eventHandler,
+        GeneratedBotStrings genStrings,
+        ILogger<HelpService> logger)
     {
         this.dpos = dpos;
         this.strings = strings;
@@ -71,6 +82,7 @@ public class HelpService : INService
         this.blacklistService = blacklistService;
         this.cmds = cmds;
         this.bss = bss;
+        this.logger = logger;
         eventHandler.Subscribe("MessageReceived", "HelpService", HandlePing);
         eventHandler.Subscribe("JoinedGuild", "HelpService", HandleJoin);
         this.perms = perms;
@@ -78,6 +90,43 @@ public class HelpService : INService
         this.interactionService = interactionService;
         this.guildSettings = guildSettings;
         this.genStrings = genStrings;
+    }
+
+    /// <summary>
+    ///     Caches global slash commands on bot ready. Called by IReadyExecutor.
+    /// </summary>
+    public async Task OnReadyAsync()
+    {
+        try
+        {
+            cachedGlobalCommands = await client.Rest.GetGlobalApplicationCommands().ConfigureAwait(false);
+            logger.LogInformation("Cached {Count} global slash commands", cachedGlobalCommands.Count);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "Failed to cache global slash commands");
+        }
+    }
+
+    /// <summary>
+    ///     Gets cached guild commands, fetching and caching if not already cached.
+    /// </summary>
+    private async Task<IReadOnlyCollection<RestGuildCommand>?> GetGuildCommandsAsync(ulong guildId)
+    {
+        if (cachedGuildCommands.TryGetValue(guildId, out var commands))
+            return commands;
+
+        try
+        {
+            var guildCommands = await client.Rest.GetGuildApplicationCommands(guildId).ConfigureAwait(false);
+            cachedGuildCommands.TryAdd(guildId, guildCommands);
+            return guildCommands;
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "Failed to fetch guild slash commands for {GuildId}", guildId);
+            return null;
+        }
     }
 
     /// <summary>
@@ -345,20 +394,18 @@ public class HelpService : INService
 
         if (potentialCommand is not null)
         {
-            var globalCommands = await client.Rest.GetGlobalApplicationCommands();
-            var guildCommands = await client.Rest.GetGuildApplicationCommands(guild.Id);
-            var globalCommand = globalCommands.FirstOrDefault(x => x.Name == potentialCommand.Module.SlashGroupName);
-            var guildCommand = guildCommands.FirstOrDefault(x => x.Name == potentialCommand.Module.SlashGroupName);
+            // Use cached commands instead of REST calls
+            var globalCommand =
+                cachedGlobalCommands?.FirstOrDefault(x => x.Name == potentialCommand.Module.SlashGroupName);
+            var guildCommands = await GetGuildCommandsAsync(guild.Id).ConfigureAwait(false);
+            var guildCommand = guildCommands?.FirstOrDefault(x => x.Name == potentialCommand.Module.SlashGroupName);
+
             if (globalCommand is not null)
                 em.AddField("Slash Command",
-                    potentialCommand == null
-                        ? "`None`"
-                        : $"</{potentialCommand.Module.SlashGroupName} {potentialCommand.Name}:{globalCommand.Id}>");
+                    $"</{potentialCommand.Module.SlashGroupName} {potentialCommand.Name}:{globalCommand.Id}>");
             else if (guildCommand is not null)
                 em.AddField("Slash Command",
-                    potentialCommand == null
-                        ? "`None`"
-                        : $"</{potentialCommand.Module.SlashGroupName} {potentialCommand.Name}:{guildCommand.Id}>");
+                    $"</{potentialCommand.Module.SlashGroupName} {potentialCommand.Name}:{guildCommand.Id}>");
         }
 
         // Get command strings from YAML documentation

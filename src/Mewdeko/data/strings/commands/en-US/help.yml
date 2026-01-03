@@ -1,0 +1,143 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    Shows commands for a specific module. If null, is an alias for modules which
+    is an alias for help.
+  params:
+    - desc: 'The module to look at'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    Shows commands for a specific module. If null, is an alias for modules which
+    is an alias for help.
+  params:
+    - desc: 'The module to look at'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    Shows commands for a specific module. If null, is an alias for modules which
+    is an alias for help.
+  params:
+    - desc: 'The module to look at'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    Shows commands for a specific module. If null, is an alias for modules which
+    is an alias for help.
+  params:
+    - desc: 'The module to look at'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: 'SHows how to support the bot.'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    Exports all commands to a json file. Used mainly for
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    Exports all commands to a json file. Used mainly for
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    Exports all commands to a json file. Used mainly for
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    Exports all commands to a json file. Used mainly for
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: 'Shows the guide for the bot.'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: Shows help for a specific command.
+  params:
+    - desc: The command to get help for.
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: Shows help information for commands.
+  params:
+    - desc: The command to get help for.
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: 'Shows a list of all modules. Is basically just a help alias at this point.'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: 'Searches for a command by name or description.'
+  params:
+    - &ref_481
+      desc: 'The term to search for'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: 'Searches for a command by name or description.'
+  params:
+    - desc: 'The term to search for'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: 'Searches for a command by name or description.'
+  params:
+    - desc: 'The term to search for'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: 'Searches for a command by name or description.'
+  params:
+    - desc: 'The term to search for'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: 'Shows the source code link for the bot.'
+  params: [ ]

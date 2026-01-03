@@ -1,94 +1,156 @@
 # Contributing to Mewdeko
 
-We love your input! We want to make contributing to this project as easy and transparent as possible, whether it's:
+Thank you for your interest in contributing to Mewdeko. This document outlines the process for contributing to the project.
 
-- Reporting a bug
-- Discussing the current state of the code
-- Submitting a fix
-- Proposing new features
-- Becoming a maintainer
+## Ways to Contribute
 
-## We develop with Github.
+- Reporting bugs
+- Suggesting features
+- Submitting code fixes
+- Improving documentation
+- Reviewing pull requests
 
-We use github to host code, to track issues and feature requests, as well as accept pull requests.
+## Development Workflow
 
-## We use [Github Flow](https://guides.github.com/introduction/flow/index.html).
+### Getting Started
 
-**All changes happen through pull requests.**
-Pull requests are the best way to propose changes to the codebase (we
-use [Github Flow](https://guides.github.com/introduction/flow/index.html)). We actively welcome your pull requests:
+1. Fork the repository on GitHub
+2. Clone your fork locally:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/Mewdeko.git
+   cd Mewdeko
+   ```
+3. Add the upstream repository:
+   ```bash
+   git remote add upstream https://github.com/Sylveon76/Mewdeko.git
+   ```
+4. Create a new branch for your changes:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
 
-1. Fork the repo and create your branch from `main`.
-2. If you've changed APIs, update the documentation.
-3. Ensure the test suite passes.
-4. Make sure your code is properly formatted.
-5. Issue that pull request!
+### Making Changes
 
-### Side-note: You can contribute directly from GitHub, too.
+1. Make your changes in your feature branch
+2. Follow the [code style guidelines](STYLE_GUIDE.md)
+3. Test your changes locally
+4. Commit your changes with clear, descriptive commit messages
 
-If you're not already familiar with it, GitHub has powerful code-editing and submission workflows integrated, for quick
-fixes and changes.
+### Submitting a Pull Request
 
-- Hit the ✏️ "Edit" button on any source file in this repo, and you'll be brought to an in-browser editor through which
-  you can modify the code.
-- Underneath the edit box, you'll see a box to set up a commit.
-- Fill in the description of your changes - what they do, what they impact, any justifications as needed. If you can
-  convey it well in a short description, do so - but if you use the extended description box, *be detailed.*
-- Finally, you will want to start a pull request. This will automatically fork, commit your changes to your fork, and
-  begin your PR submission.
-- You shouldn't have to change anything here if you've already detailed it in the commit. Submit your PR, and we'll look
-  it over!
-- Be sure to allow changes to your PR from contributors. We will be able to fix issues on-the-fly, that way.
+1. Push your branch to your fork:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+2. Open a pull request against the `main` branch of the upstream repository
+3. Fill in the pull request template with relevant information
+4. Wait for review and address any feedback
 
-## Any contributions you make will be under the AGPLv3 License
+### Pull Request Guidelines
 
-In short, when you submit code changes, your submissions are understood to be under the
-same [AGPLv3 License](https://choosealicense.com/licenses/agpl-3.0/) that covers the project.
-In short, this means:
+- Keep pull requests focused on a single change
+- Update documentation if your changes affect user-facing behavior
+- Ensure the build passes before requesting review
+- Allow maintainers to make edits to your pull request
 
-- You MUST provide source code, or a valid link to **YOUR** copy of the repo, **WITH** any changes you make,
-  ***except*** for your personal configuration, credentials and tokens, and databases, of course.
-- Using the Fork feature from Github makes this easy and nearly automatic - *just make sure that you __do not forget__
-  to commit your changes to Github.*
-- Substantial code changes do not count as your personal configuration. If you need to keep secrets, such as API access
-  tokens, please put them in the creds file, and access them from there.
-- If Mewdeko is deployed on a Discord server, a link to **your** source repo MUST be provided on the server in some
-  fashion - ideally, in a rules/join topics channel, as well as in a bot command like `.source` or `.about` for
-  visibility. (We will have a place for that in the configuration.)
+## Reporting Bugs
 
-Feel free to contact the maintainers if that's a concern.
+Report bugs by [opening a new issue](https://github.com/Sylveon76/Mewdeko/issues/new).
 
-## Report bugs using Github's [issues](https://github.com/Sylveon76/Mewdeko/issues)
+A good bug report includes:
 
-We use GitHub issues to track public bugs. Report a bug
-by [opening a new issue](https://github.com/Sylveon76/Mewdeko/issues/new) - it's that easy!
+- A clear, descriptive title
+- Steps to reproduce the issue
+- Expected behavior
+- Actual behavior
+- Environment details (OS, .NET version, etc.)
+- Relevant logs or screenshots
+- Any error messages
 
-## Write bug reports with detail, background, and sample code where applicable.
+Please redact sensitive information (tokens, passwords, personal data) from logs and screenshots before submitting.
 
-Include information about where Mewdeko is running - OS, system specs, versions, and environment where applicable.
-Attach logs, screenshots, and anything else you can provide that indicates the issue clearly and presents a way to
-troubleshoot the issue.
+## Suggesting Features
 
-**Great Bug Reports** tend to have:
+Feature requests are welcome. Open an issue describing:
 
-- A quick summary and/or background
-- Steps to reproduce
-    - Be specific!
-    - Give sample code, logs, system/environment details, etc. if you can.
-- What you expected would happen
-- What actually happens
-- Notes (possibly including why you think this might be happening, or stuff you tried that didn't work)
+- The problem you are trying to solve
+- Your proposed solution
+- Alternative solutions you have considered
+- Any additional context
 
-People *love* thorough bug reports. I'm not even kidding.
+## Code Review Process
 
-Make sure to read through what you're sending us, first! If any sensitive or identifying information is in a log or
-screenshot, please redact it clearly if possible.
+All submissions require review. Maintainers will:
 
-## Use a consistent coding style.
+- Review your code for correctness and style
+- Suggest improvements or request changes
+- Merge approved changes
 
-Mewdeko is not just held together by jelly beans, sticky tape and string. For all our sakes, please ensure that your
-code style is consistent, and matches with ours. [TODO: document this more]
+## Setting Up the Development Environment
+
+### Prerequisites
+
+- .NET 10 SDK
+- PostgreSQL
+- Redis
+- Your preferred IDE (Visual Studio, VS Code, Rider)
+
+### Building
+
+```bash
+dotnet build src/Mewdeko/Mewdeko.csproj
+```
+
+### Running Tests
+
+```bash
+dotnet test
+```
+
+### Code Formatting
+
+The project uses EditorConfig for consistent formatting. Most IDEs will automatically apply these settings. You can also format code manually:
+
+```bash
+dotnet format
+```
+
+## Project Structure
+
+```
+Mewdeko/
+  src/
+    Mewdeko/           # Main bot project
+      Modules/         # Command modules organized by feature
+      Services/        # Background services and utilities
+      Database/        # Database context and entities
+      Extensions/      # Extension methods
+    MewdekoSourceGen/  # Source generators
+```
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the AGPLv3 License.
+By contributing, you agree that your contributions will be licensed under the [GNU Affero General Public License v3.0](LICENSE.md).
+
+### What This Means
+
+- Your code will be open source under AGPLv3
+- Anyone running a modified version must make their source code available
+- You retain copyright of your contributions
+
+### AGPL Compliance for Deployments
+
+If you deploy a modified version of Mewdeko:
+
+- You must provide a link to your source code repository
+- The link should be accessible to users of your bot (e.g., in a command or server channel)
+- Configuration files, credentials, and databases are excluded from this requirement
+
+## Community
+
+- [Discord Server](https://discord.gg/mewdeko) for discussion and support
+- [GitHub Issues](https://github.com/Sylveon76/Mewdeko/issues) for bug reports and feature requests
+
+## Questions
+
+If you have questions about contributing, feel free to ask in the Discord server or open a discussion on GitHub.

@@ -1,0 +1,137 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'Shows detailed Patreon analytics'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'Manually triggers a Patreon announcement.'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Sets or shows the Patreon announcement channel.
+  params:
+    - desc: >-
+        The channel to set for Patreon announcements. If null, shows current
+        channel.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'Shows the current Patreon configuration for this server.'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Sets the day of the month for Patreon announcements.'
+  params:
+    - desc: >-
+        The day of the month (1-28) for announcements. If null, shows current
+        day.
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'Disables Patreon announcements for this server.'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Shows Patreon module information and available placeholders.'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Links a Discord user to a Patreon supporter'
+  params:
+    - desc: The Discord user to link.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: The Patreon user ID to link to.
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Sets a custom message for Patreon announcements.
+  params:
+    - desc: >-
+        The custom message. Use placeholders like %server.name%, %month%, etc.
+        Use "-" to reset to default.
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'Sends recognition messages for new supporters'
+  params:
+    - desc: The channel to send recognition messages to.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Lists Patreon tier-role mappings'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'Toggles automatic role synchronization'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Shows Patreon supporter statistics'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'Lists active Patreon supporters'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'Securely sets up Patreon OAuth integration'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'Syncs roles for all linked supporters'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Maps a Patreon tier to a Discord role'
+  params:
+    - desc: The Patreon tier ID.
+      name: tierId
+      optional: false
+      type: string
+    - desc: The Discord role to map to the tier.
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Toggles Patreon announcements on or off.'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'Shows top Patreon supporters'
+  params:
+    - desc: Number of top supporters to show (1-20).
+      name: count
+      optional: true
+      type: int

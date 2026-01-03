@@ -1,0 +1,501 @@
+deleteuserstatsdata:
+  args:
+    - ''
+  desc: 'Deletes the user''s command statistics data.'
+  params: [ ]
+greetdmoptout:
+  args:
+    - ''
+  desc: >-
+    Allows a user to toggle opting out of greet dms. Only works if the server
+    they are joining uses mewdeko for dm greets.
+  params: [ ]
+profile:
+  args:
+    - '[@user]'
+  desc: 'Shows the user''s profile or another user''s profile if specified.'
+  params:
+    - desc: 'The user whose profile is to be shown. If null, shows the caller''s profile.'
+      name: user
+      optional: true
+      type: user
+profile_=:
+  args:
+    - '[@user]'
+  desc: 'Shows the user''s profile or another user''s profile if specified.'
+  params:
+    - desc: 'The user whose profile is to be shown. If null, shows the caller''s profile.'
+      name: user
+      optional: true
+      type: user
+profile_=_1:
+  args:
+    - '[@user]'
+  desc: 'Shows the user''s profile or another user''s profile if specified.'
+  params:
+    - desc: 'The user whose profile is to be shown. If null, shows the caller''s profile.'
+      name: user
+      optional: true
+      type: user
+profile_=_2:
+  args:
+    - '[@user]'
+  desc: 'Shows the user''s profile or another user''s profile if specified.'
+  params:
+    - desc: 'The user whose profile is to be shown. If null, shows the caller''s profile.'
+      name: user
+      optional: true
+      type: user
+pronouns:
+  args:
+    - '[@user]'
+  desc: >-
+    Displays the pronouns of the specified user or the command caller if no user
+    is specified.
+  params:
+    - desc: 'Optional. The user whose pronouns are to be displayed.'
+      name: user
+      optional: true
+      type: user
+pronounsforceclear:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: >-
+    Force-clears the pronouns for a user by ID, optionally marking them as
+    disabled due to abuse.
+  params:
+    - &ref_356
+      desc: 'The user ID of the user whose pronouns are to be cleared.'
+      name: user
+      optional: true
+      type: IUser
+    - &ref_357
+      desc: 'Whether the pronouns are being disabled due to abuse.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - &ref_358
+      desc: 'The reason for the action.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: >-
+    Force-clears the pronouns for a user by ID, optionally marking them as
+    disabled due to abuse.
+  params:
+    - desc: 'The user ID of the user whose pronouns are to be cleared.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Whether the pronouns are being disabled due to abuse.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'The reason for the action.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string_1:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: >-
+    Force-clears the pronouns for a user by ID, optionally marking them as
+    disabled due to abuse.
+  params:
+    - desc: 'The user ID of the user whose pronouns are to be cleared.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Whether the pronouns are being disabled due to abuse.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'The reason for the action.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string_2:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: >-
+    Force-clears the pronouns for a user by ID, optionally marking them as
+    disabled due to abuse.
+  params:
+    - desc: 'The user ID of the user whose pronouns are to be cleared.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Whether the pronouns are being disabled due to abuse.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'The reason for the action.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string:
+  args:
+    - user true|false text
+  desc: >-
+    Force-clears the pronouns for a user by ID, optionally marking them as
+    disabled due to abuse.
+  params:
+    - &ref_359
+      desc: 'The user ID of the user whose pronouns are to be cleared.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Whether the pronouns are being disabled due to abuse.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'The reason for the action.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_1:
+  args:
+    - user true|false text
+  desc: >-
+    Force-clears the pronouns for a user by ID, optionally marking them as
+    disabled due to abuse.
+  params:
+    - desc: 'The user ID of the user whose pronouns are to be cleared.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Whether the pronouns are being disabled due to abuse.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'The reason for the action.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_2:
+  args:
+    - user true|false text
+  desc: >-
+    Force-clears the pronouns for a user by ID, optionally marking them as
+    disabled due to abuse.
+  params:
+    - desc: 'The user ID of the user whose pronouns are to be cleared.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Whether the pronouns are being disabled due to abuse.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'The reason for the action.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_3:
+  args:
+    - user true|false text
+  desc: >-
+    Force-clears the pronouns for a user by ID, optionally marking them as
+    disabled due to abuse.
+  params:
+    - desc: 'The user ID of the user whose pronouns are to be cleared.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Whether the pronouns are being disabled due to abuse.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'The reason for the action.'
+      name: reason
+      optional: false
+      type: string
+setbio:
+  args:
+    - text
+  desc: 'Sets or updates the biography in the user''s profile.'
+  params:
+    - &ref_490
+      desc: 'The biography text. Must be under 2048 characters.'
+      name: bio
+      optional: false
+      type: string
+setbio_string:
+  args:
+    - text
+  desc: 'Sets or updates the biography in the user''s profile.'
+  params:
+    - desc: 'The biography text. Must be under 2048 characters.'
+      name: bio
+      optional: false
+      type: string
+setbio_string_1:
+  args:
+    - text
+  desc: 'Sets or updates the biography in the user''s profile.'
+  params:
+    - desc: 'The biography text. Must be under 2048 characters.'
+      name: bio
+      optional: false
+      type: string
+setbio_string_2:
+  args:
+    - text
+  desc: 'Sets or updates the biography in the user''s profile.'
+  params:
+    - desc: 'The biography text. Must be under 2048 characters.'
+      name: bio
+      optional: false
+      type: string
+setbirthday:
+  args:
+    - time
+  desc: 'Sets the birthday in the user''s profile.'
+  params:
+    - &ref_491
+      desc: 'The birthday date.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime:
+  args:
+    - time
+  desc: 'Sets the birthday in the user''s profile.'
+  params:
+    - desc: 'The birthday date.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime_1:
+  args:
+    - time
+  desc: 'Sets the birthday in the user''s profile.'
+  params:
+    - desc: 'The birthday date.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime_2:
+  args:
+    - time
+  desc: 'Sets the birthday in the user''s profile.'
+  params:
+    - desc: 'The birthday date.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthdayprivacy:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Sets the birthday privacy mode in the user''s profile.'
+  params:
+    - &ref_492
+      desc: 'The birthday display mode to set.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Sets the birthday privacy mode in the user''s profile.'
+  params:
+    - desc: 'The birthday display mode to set.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum_1:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Sets the birthday privacy mode in the user''s profile.'
+  params:
+    - desc: 'The birthday display mode to set.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum_2:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Sets the birthday privacy mode in the user''s profile.'
+  params:
+    - desc: 'The birthday display mode to set.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setprivacy:
+  args:
+    - privacyenum
+  desc: 'Sets the privacy level of the user''s profile.'
+  params:
+    - &ref_513
+      desc: 'The privacy setting to apply.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum:
+  args:
+    - privacyenum
+  desc: 'Sets the privacy level of the user''s profile.'
+  params:
+    - desc: 'The privacy setting to apply.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum_1:
+  args:
+    - privacyenum
+  desc: 'Sets the privacy level of the user''s profile.'
+  params:
+    - desc: 'The privacy setting to apply.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum_2:
+  args:
+    - privacyenum
+  desc: 'Sets the privacy level of the user''s profile.'
+  params:
+    - desc: 'The privacy setting to apply.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprofilecolor:
+  args:
+    - input
+  desc: 'Sets the profile color based on an SKColor input.'
+  params:
+    - &ref_514
+      desc: 'The SKColor representing the desired profile color.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor:
+  args:
+    - input
+  desc: 'Sets the profile color based on an SKColor input.'
+  params:
+    - desc: 'The SKColor representing the desired profile color.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor_1:
+  args:
+    - input
+  desc: 'Sets the profile color based on an SKColor input.'
+  params:
+    - desc: 'The SKColor representing the desired profile color.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor_2:
+  args:
+    - input
+  desc: 'Sets the profile color based on an SKColor input.'
+  params:
+    - desc: 'The SKColor representing the desired profile color.'
+      name: input
+      optional: false
+      type: SKColor
+setprofileimage:
+  args:
+    - text
+  desc: 'Sets the profile image URL in the user''s profile.'
+  params:
+    - &ref_515
+      desc: 'The URL of the image to set as the profile image.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string:
+  args:
+    - text
+  desc: 'Sets the profile image URL in the user''s profile.'
+  params:
+    - desc: 'The URL of the image to set as the profile image.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string_1:
+  args:
+    - text
+  desc: 'Sets the profile image URL in the user''s profile.'
+  params:
+    - desc: 'The URL of the image to set as the profile image.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string_2:
+  args:
+    - text
+  desc: 'Sets the profile image URL in the user''s profile.'
+  params:
+    - desc: 'The URL of the image to set as the profile image.'
+      name: url
+      optional: false
+      type: string
+setpronouns:
+  args:
+    - '[pronouns]'
+  desc: 'Sets or clears the pronouns for the user.'
+  params:
+    - desc: 'The pronouns to set. If null or empty, clears any existing pronouns.'
+      name: pronouns
+      optional: true
+      type: string
+setswitchfc:
+  args:
+    - '""'
+  desc: 'Sets or clears the Nintendo Switch friend code in the user''s profile.'
+  params:
+    - desc: 'Sets or clears the Nintendo Switch friend code in the user''s profile.'
+      name: '""'
+      optional: false
+      type: '='
+setzodiac:
+  args:
+    - text
+  desc: 'Sets the zodiac sign in the user''s profile.'
+  params:
+    - &ref_539
+      desc: 'The zodiac sign to set.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string:
+  args:
+    - text
+  desc: 'Sets the zodiac sign in the user''s profile.'
+  params:
+    - desc: 'The zodiac sign to set.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string_1:
+  args:
+    - text
+  desc: 'Sets the zodiac sign in the user''s profile.'
+  params:
+    - desc: 'The zodiac sign to set.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string_2:
+  args:
+    - text
+  desc: 'Sets the zodiac sign in the user''s profile.'
+  params:
+    - desc: 'The zodiac sign to set.'
+      name: zodiac
+      optional: false
+      type: string
+userstatsoptout:
+  args:
+    - ''
+  desc: 'Toggles the user''s opt-out status for command statistics collection.'
+  params: [ ]

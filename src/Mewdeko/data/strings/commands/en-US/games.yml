@@ -1,0 +1,580 @@
+acrophobia:
+  args:
+    - text
+  desc: 'Command for starting an Acrophobia game.'
+  params:
+    - &ref_3
+      desc: 'Arguments passed to the command.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]:
+  args:
+    - text
+  desc: 'Command for starting an Acrophobia game.'
+  params:
+    - desc: 'Arguments passed to the command.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]_1:
+  args:
+    - text
+  desc: 'Command for starting an Acrophobia game.'
+  params:
+    - desc: 'Arguments passed to the command.'
+      name: args
+      optional: false
+      type: string[]
+acrophobia_string[]_2:
+  args:
+    - text
+  desc: 'Command for starting an Acrophobia game.'
+  params:
+    - desc: 'Arguments passed to the command.'
+      name: args
+      optional: false
+      type: string[]
+choose_=:
+  args:
+    - '[list]'
+  desc: 'Command to choose randomly from a list of options.'
+  params:
+    - desc: 'The list of options separated by semicolons.'
+      name: list
+      optional: true
+      type: string
+dragon:
+  args:
+    - ''
+  desc: 'Command to toggle the user''s dragon status. Usually used for beta commands.'
+  params: [ ]
+eightball:
+  args:
+    - '[question]'
+  desc: 'Command to consult the magic 8-ball for an answer.'
+  params:
+    - desc: 'The question to ask.'
+      name: question
+      optional: true
+      type: string
+hangman:
+  args:
+    - '"random"'
+  desc: 'Starts a hangman game with the specified type.'
+  params:
+    - &ref_244
+      desc: 'Starts a hangman game with the specified type.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=:
+  args:
+    - '"random"'
+  desc: 'Starts a hangman game with the specified type.'
+  params:
+    - desc: 'Starts a hangman game with the specified type.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=_1:
+  args:
+    - '"random"'
+  desc: 'Starts a hangman game with the specified type.'
+  params:
+    - desc: 'Starts a hangman game with the specified type.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangman_=_2:
+  args:
+    - '"random"'
+  desc: 'Starts a hangman game with the specified type.'
+  params:
+    - desc: 'Starts a hangman game with the specified type.'
+      name: '"random"'
+      optional: false
+      type: '='
+hangmanlist:
+  args:
+    - ''
+  desc: 'Lists the available hangman types in the current guild.'
+  params: [ ]
+hangmanstop_noparams:
+  args:
+    - ''
+  desc: 'Stops the currently running hangman game in the current channel.'
+  params: [ ]
+kaladont:
+  args:
+    - text
+  desc: 'Command for starting a Kaladont game.'
+  params:
+    - &ref_kaladont_1
+      desc: 'Command for starting a Kaladont game.'
+      name: text
+      optional: true
+      type: text
+kaladont_text:
+  args:
+    - text
+  desc: 'Command for starting a Kaladont game.'
+  params:
+    - *ref_kaladont_1
+kaladont_text_1:
+  args:
+    - text
+  desc: 'Command for starting a Kaladont game.'
+  params:
+    - *ref_kaladont_1
+kaladont_text_2:
+  args:
+    - text
+  desc: 'Command for starting a Kaladont game.'
+  params:
+    - *ref_kaladont_1
+kaladontstop:
+  args:
+    - ''
+  desc: 'Command for stopping the current Kaladont game.'
+  params: [ ]
+kaladontsetup:
+  args:
+    - text
+  desc: 'Sets up a persistent Kaladont channel.'
+  params:
+    - &ref_kaladont_setup_1
+      desc: 'Sets up a persistent Kaladont channel.'
+      name: text
+      optional: true
+      type: text
+kaladontsetup_text:
+  args:
+    - text
+  desc: 'Sets up a persistent Kaladont channel.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_1:
+  args:
+    - text
+  desc: 'Sets up a persistent Kaladont channel.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontsetup_text_2:
+  args:
+    - text
+  desc: 'Sets up a persistent Kaladont channel.'
+  params:
+    - *ref_kaladont_setup_1
+kaladontdisable:
+  args:
+    - ''
+  desc: 'Disables the persistent Kaladont channel.'
+  params: [ ]
+linux:
+  args:
+    - text text
+  desc: 'Funni interjecting linux command'
+  params:
+    - &ref_275
+      desc: 'The name to replace "GNU".'
+      name: guhnoo
+      optional: false
+      type: string
+    - &ref_276
+      desc: 'The name to replace "Linux".'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string:
+  args:
+    - text text
+  desc: 'Funni interjecting linux command'
+  params:
+    - desc: 'The name to replace "GNU".'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: 'The name to replace "Linux".'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string_1:
+  args:
+    - text text
+  desc: 'Funni interjecting linux command'
+  params:
+    - desc: 'The name to replace "GNU".'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: 'The name to replace "Linux".'
+      name: loonix
+      optional: false
+      type: string
+linux_string_string_2:
+  args:
+    - text text
+  desc: 'Funni interjecting linux command'
+  params:
+    - desc: 'The name to replace "GNU".'
+      name: guhnoo
+      optional: false
+      type: string
+    - desc: 'The name to replace "Linux".'
+      name: loonix
+      optional: false
+      type: string
+nunchi_noparams_1:
+  args:
+    - ''
+  desc: 'Starts or joins a game of Nunchi.'
+  params: [ ]
+poll:
+  args:
+    - text
+  desc: 'Creates a simple yes/no poll.'
+  params:
+    - &ref_351
+      desc: 'Creates a simple yes/no poll.'
+      name: input
+      optional: false
+      type: string
+poll_PollType_string:
+  args:
+    - type text
+  desc: 'Creates a simple yes/no poll.'
+  params:
+    - &ref_349
+      desc: 'Creates a simple yes/no poll.'
+      name: type
+      optional: false
+      type: PollType
+    - &ref_350
+      desc: 'Creates a simple yes/no poll.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_1:
+  args:
+    - type text
+  desc: 'Creates a simple yes/no poll.'
+  params:
+    - desc: 'Creates a simple yes/no poll.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Creates a simple yes/no poll.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_2:
+  args:
+    - type text
+  desc: 'Creates a simple yes/no poll.'
+  params:
+    - desc: 'Creates a simple yes/no poll.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Creates a simple yes/no poll.'
+      name: arg
+      optional: false
+      type: string
+poll_PollType_string_3:
+  args:
+    - type text
+  desc: 'Creates a simple yes/no poll.'
+  params:
+    - desc: 'Creates a simple yes/no poll.'
+      name: type
+      optional: false
+      type: PollType
+    - desc: 'Creates a simple yes/no poll.'
+      name: arg
+      optional: false
+      type: string
+poll_string:
+  args:
+    - text
+  desc: 'Creates a simple yes/no poll.'
+  params:
+    - desc: 'Creates a simple yes/no poll.'
+      name: input
+      optional: false
+      type: string
+poll_string_1:
+  args:
+    - text
+  desc: 'Creates a simple yes/no poll.'
+  params:
+    - desc: 'Creates a simple yes/no poll.'
+      name: input
+      optional: false
+      type: string
+poll_string_2:
+  args:
+    - text
+  desc: 'Creates a simple yes/no poll.'
+  params:
+    - desc: 'Creates a simple yes/no poll.'
+      name: input
+      optional: false
+      type: string
+polla:
+  args:
+    - input
+  desc: 'Creates an anonymous poll where voter identities are hidden.'
+  params:
+    - desc: Poll question and options separated by semicolons.
+      name: input
+      optional: false
+      type: string
+pollc:
+  args:
+    - input
+  desc: 'Creates a custom poll with multiple options.'
+  params:
+    - desc: Poll question and options separated by semicolons.
+      name: input
+      optional: false
+      type: string
+pollm:
+  args:
+    - input
+  desc: 'Creates a multi-choice poll where users can select multiple options.'
+  params:
+    - desc: Poll question and options separated by semicolons.
+      name: input
+      optional: false
+      type: string
+polltemplate:
+  args:
+    - templateName
+  desc: 'Creates a poll from a template.'
+  params:
+    - desc: The name of the template to use.
+      name: templateName
+      optional: false
+      type: string
+polltemplates:
+  args:
+    - ''
+  desc: 'Lists all poll templates available in the guild.'
+  params: [ ]
+rategirl:
+  args:
+    - ''
+  desc: >-
+    Command that used to exist. Called trans people a slur in NadekoBot. Here as
+    a memory and a fuck you to NadekoBot.
+  params: [ ]
+tictactoe:
+  args:
+    - text
+  desc: 'Starts a game of TicTacToe.'
+  params:
+    - &ref_619
+      desc: 'Options for ttt'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]:
+  args:
+    - text
+  desc: 'Starts a game of TicTacToe.'
+  params:
+    - desc: 'Options for ttt'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]_1:
+  args:
+    - text
+  desc: 'Starts a game of TicTacToe.'
+  params:
+    - desc: 'Options for ttt'
+      name: args
+      optional: false
+      type: string[]
+tictactoe_string[]_2:
+  args:
+    - text
+  desc: 'Starts a game of TicTacToe.'
+  params:
+    - desc: 'Options for ttt'
+      name: args
+      optional: false
+      type: string[]
+tl_noparams:
+  args:
+    - ''
+  desc: 'Shows the current trivia leaderboard.'
+  params: [ ]
+tq:
+  args:
+    - ''
+  desc: 'Stops the current trivia game.'
+  params: [ ]
+trivia:
+  args:
+    - text
+  desc: 'Starts a trivia game.'
+  params:
+    - &ref_629
+      desc: 'Optional arguments for trivia'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]:
+  args:
+    - text
+  desc: 'Starts a trivia game.'
+  params:
+    - desc: 'Optional arguments for trivia'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]_1:
+  args:
+    - text
+  desc: 'Starts a trivia game.'
+  params:
+    - desc: 'Optional arguments for trivia'
+      name: args
+      optional: false
+      type: string[]
+trivia_string[]_2:
+  args:
+    - text
+  desc: 'Starts a trivia game.'
+  params:
+    - desc: 'Optional arguments for trivia'
+      name: args
+      optional: false
+      type: string[]
+typeadd:
+  args:
+    - text
+  desc: 'Adds a new article for the typing game.'
+  params:
+    - &ref_630
+      desc: 'The text of the article to add.'
+      name: text
+      optional: false
+      type: string
+typeadd_string:
+  args:
+    - text
+  desc: 'Adds a new article for the typing game.'
+  params:
+    - desc: 'The text of the article to add.'
+      name: text
+      optional: false
+      type: string
+typeadd_string_1:
+  args:
+    - text
+  desc: 'Adds a new article for the typing game.'
+  params:
+    - desc: 'The text of the article to add.'
+      name: text
+      optional: false
+      type: string
+typeadd_string_2:
+  args:
+    - text
+  desc: 'Adds a new article for the typing game.'
+  params:
+    - desc: 'The text of the article to add.'
+      name: text
+      optional: false
+      type: string
+typedel:
+  args:
+    - number
+  desc: 'Deletes a typing article by its index.'
+  params:
+    - &ref_631
+      desc: 'The index of the article to delete.'
+      name: index
+      optional: false
+      type: int
+typedel_int:
+  args:
+    - number
+  desc: 'Deletes a typing article by its index.'
+  params:
+    - desc: 'The index of the article to delete.'
+      name: index
+      optional: false
+      type: int
+typedel_int_1:
+  args:
+    - number
+  desc: 'Deletes a typing article by its index.'
+  params:
+    - desc: 'The index of the article to delete.'
+      name: index
+      optional: false
+      type: int
+typedel_int_2:
+  args:
+    - number
+  desc: 'Deletes a typing article by its index.'
+  params:
+    - desc: 'The index of the article to delete.'
+      name: index
+      optional: false
+      type: int
+typelist:
+  args:
+    - 1
+  desc: 'Lists the articles available for the typing game.'
+  params:
+    - desc: 'Lists the articles available for the typing game.'
+      name: 1
+      optional: false
+      type: '='
+typestart:
+  args:
+    - text
+  desc: 'Starts a speed typing game.'
+  params:
+    - &ref_632
+      desc: 'Arguments for configuring the game.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]:
+  args:
+    - text
+  desc: 'Starts a speed typing game.'
+  params:
+    - desc: 'Arguments for configuring the game.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]_1:
+  args:
+    - text
+  desc: 'Starts a speed typing game.'
+  params:
+    - desc: 'Arguments for configuring the game.'
+      name: args
+      optional: false
+      type: string[]
+typestart_string[]_2:
+  args:
+    - text
+  desc: 'Starts a speed typing game.'
+  params:
+    - desc: 'Arguments for configuring the game.'
+      name: args
+      optional: false
+      type: string[]
+typestop:
+  args:
+    - ''
+  desc: 'Stops the current speed typing game.'
+  params: [ ]

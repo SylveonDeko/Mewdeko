@@ -1,0 +1,157 @@
+confess:
+  args:
+    - serverid text
+  desc: 'Allows users to confess anonymously.'
+  params:
+    - &ref_139
+      desc: 'The ID of the server.'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: 'The confession message'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: 'Allows users to confess anonymously.'
+  params:
+    - desc: 'The ID of the server.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'The confession message'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: 'Allows users to confess anonymously.'
+  params:
+    - desc: 'The ID of the server.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'The confession message'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: 'Allows users to confess anonymously.'
+  params:
+    - desc: 'The ID of the server.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'The confession message'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: Adds a user to the confession blacklist.
+  params:
+    - desc: The user to blacklist from confessions.
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: Sets the confession channel.
+  params:
+    - desc: The channel to set for confessions.
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: 'Adds or removes a user from the confession blacklist.'
+  params:
+    - &ref_141
+      desc: 'The user to add or remove from the blacklist.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: 'Adds or removes a user from the confession blacklist.'
+  params:
+    - &ref_142
+      desc: 'The user to add or remove from the blacklist.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: 'Adds or removes a user from the confession blacklist.'
+  params:
+    - desc: 'The user to add or remove from the blacklist.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: 'Adds or removes a user from the confession blacklist.'
+  params:
+    - desc: 'The user to add or remove from the blacklist.'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: 'Sets the confession channel for anonymous confessions.'
+  params:
+    - desc: 'The confession channel (optional).'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    Sets the confession log channel for logging confessions. Misuse of this
+    feature will end up in me being 2m away from your house.
+  params:
+    - desc: 'The confession log channel (optional).'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: 'Removes a user from the confession blacklist.'
+  params:
+    - desc: 'The user to remove from the blacklist.'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: Sets the confession log channel.
+  params:
+    - desc: The channel to log confessions to.
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: Removes a user from the confession blacklist.
+  params:
+    - desc: The user to unblacklist from confessions.
+      name: user
+      optional: false
+      type: IUser

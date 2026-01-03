@@ -1,0 +1,326 @@
+gbanner:
+  args:
+    - text
+  desc: 'Sets the default giveaway banner.'
+  params:
+    - &ref_221
+      desc: 'Sets the default giveaway banner.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string:
+  args:
+    - text
+  desc: 'Sets the default giveaway banner.'
+  params:
+    - desc: 'Sets the default giveaway banner.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_1:
+  args:
+    - text
+  desc: 'Sets the default giveaway banner.'
+  params:
+    - desc: 'Sets the default giveaway banner.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_2:
+  args:
+    - text
+  desc: 'Sets the default giveaway banner.'
+  params:
+    - desc: 'Sets the default giveaway banner.'
+      name: banner
+      optional: false
+      type: string
+gdm:
+  args:
+    - ''
+  desc: 'Sets whether to DM the winner of a giveaway.'
+  params: [ ]
+gdmmessage:
+  args:
+    - '[message]'
+  desc: 'Sets the dm message sent to users when they win a giveaway.'
+  params:
+    - desc: 'Sets the dm message sent to users when they win a giveaway.'
+      name: message
+      optional: true
+      type: string
+gembedcolor:
+  args:
+    - text
+  desc: 'Sets the color of the embed for giveaways.'
+  params:
+    - &ref_223
+      desc: 'The color in hex.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string:
+  args:
+    - text
+  desc: 'Sets the color of the embed for giveaways.'
+  params:
+    - desc: 'The color in hex.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_1:
+  args:
+    - text
+  desc: 'Sets the color of the embed for giveaways.'
+  params:
+    - desc: 'The color in hex.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_2:
+  args:
+    - text
+  desc: 'Sets the color of the embed for giveaways.'
+  params:
+    - desc: 'The color in hex.'
+      name: color
+      optional: false
+      type: string
+gemote:
+  args:
+    - emote
+  desc: 'Sets the emote used for giveaways.'
+  params:
+    - &ref_224
+      desc: 'The emote to set it to.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote:
+  args:
+    - emote
+  desc: 'Sets the emote used for giveaways.'
+  params:
+    - desc: 'The emote to set it to.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_1:
+  args:
+    - emote
+  desc: 'Sets the emote used for giveaways.'
+  params:
+    - desc: 'The emote to set it to.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_2:
+  args:
+    - emote
+  desc: 'Sets the emote used for giveaways.'
+  params:
+    - desc: 'The emote to set it to.'
+      name: emote
+      optional: false
+      type: IEmote
+gend:
+  args:
+    - messageid
+  desc: 'Ends a giveaway.'
+  params:
+    - &ref_225
+      desc: 'The messageid of the giveaway to end'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong:
+  args:
+    - messageid
+  desc: 'Ends a giveaway.'
+  params:
+    - desc: 'The messageid of the giveaway to end'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_1:
+  args:
+    - messageid
+  desc: 'Ends a giveaway.'
+  params:
+    - desc: 'The messageid of the giveaway to end'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_2:
+  args:
+    - messageid
+  desc: 'Ends a giveaway.'
+  params:
+    - desc: 'The messageid of the giveaway to end'
+      name: messageid
+      optional: false
+      type: ulong
+glist:
+  args:
+    - ''
+  desc: 'Lists all active giveaways.'
+  params: [ ]
+greroll:
+  args:
+    - messageid
+  desc: 'Rerolls a giveaway.'
+  params:
+    - &ref_237
+      desc: 'The messageid of a giveaway'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong:
+  args:
+    - messageid
+  desc: 'Rerolls a giveaway.'
+  params:
+    - desc: 'The messageid of a giveaway'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_1:
+  args:
+    - messageid
+  desc: 'Rerolls a giveaway.'
+  params:
+    - desc: 'The messageid of a giveaway'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_2:
+  args:
+    - messageid
+  desc: 'Rerolls a giveaway.'
+  params:
+    - desc: 'The messageid of a giveaway'
+      name: messageid
+      optional: false
+      type: ulong
+gstart:
+  args:
+    - chan time number text
+  desc: 'More detailed giveaway starting, lets you set a banner, ping role, and more.'
+  params:
+    - &ref_238
+      desc: 'The channel to start the giveaway in'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - &ref_239
+      desc: 'The amount of time the giveaway should go on'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_240
+      desc: 'The amount of winners'
+      name: winners
+      optional: false
+      type: int
+    - &ref_241
+      desc: 'The item to be given away'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string:
+  args:
+    - chan time number text
+  desc: 'More detailed giveaway starting, lets you set a banner, ping role, and more.'
+  params:
+    - desc: 'The channel to start the giveaway in'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'The amount of time the giveaway should go on'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'The amount of winners'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'The item to be given away'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_1:
+  args:
+    - chan time number text
+  desc: 'More detailed giveaway starting, lets you set a banner, ping role, and more.'
+  params:
+    - desc: 'The channel to start the giveaway in'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'The amount of time the giveaway should go on'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'The amount of winners'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'The item to be given away'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_2:
+  args:
+    - chan time number text
+  desc: 'More detailed giveaway starting, lets you set a banner, ping role, and more.'
+  params:
+    - desc: 'The channel to start the giveaway in'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'The amount of time the giveaway should go on'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'The amount of winners'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'The item to be given away'
+      name: what
+      optional: false
+      type: string
+gstart_noparams:
+  args:
+    - ''
+  desc: 'More detailed giveaway starting, lets you set a banner, ping role, and more.'
+  params: [ ]
+gstart_noparams_1:
+  args:
+    - ''
+  desc: 'More detailed giveaway starting, lets you set a banner, ping role, and more.'
+  params: [ ]
+gstart_noparams_2:
+  args:
+    - ''
+  desc: 'More detailed giveaway starting, lets you set a banner, ping role, and more.'
+  params: [ ]
+gstart_noparams_3:
+  args:
+    - ''
+  desc: 'More detailed giveaway starting, lets you set a banner, ping role, and more.'
+  params: [ ]
+gstats:
+  args:
+    - ''
+  desc: 'Shows the stats for giveaways.'
+  params: [ ]
+gwinembedcolor:
+  args:
+    - text
+  desc: 'Sets the color for the winning embed.'
+  params:
+    - desc: 'The color in hex.'
+      name: color
+      optional: false
+      type: string

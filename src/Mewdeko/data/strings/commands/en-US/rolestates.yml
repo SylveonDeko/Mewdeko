@@ -1,0 +1,472 @@
+addrolestorolestate:
+  args:
+    - '@user @role'
+  desc: 'Adds roles to a user''s role state.'
+  params:
+    - &ref_26
+      desc: 'The user whose role state should be modified.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_25
+      desc: 'The roles to be added to the user''s role state.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Adds roles to a user''s role state.'
+  params:
+    - &ref_27
+      desc: 'The user whose role state should be modified.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'The roles to be added to the user''s role state.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Adds roles to a user''s role state.'
+  params:
+    - desc: 'The user whose role state should be modified.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'The roles to be added to the user''s role state.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Adds roles to a user''s role state.'
+  params:
+    - desc: 'The user whose role state should be modified.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'The roles to be added to the user''s role state.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteuserrolestate:
+  args:
+    - '@user'
+  desc: 'Deletes the role state for a specific user.'
+  params:
+    - &ref_191
+      desc: 'The user whose role state should be deleted.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Deletes the role state for a specific user.'
+  params:
+    - desc: 'The user whose role state should be deleted.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Deletes the role state for a specific user.'
+  params:
+    - desc: 'The user whose role state should be deleted.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Deletes the role state for a specific user.'
+  params:
+    - desc: 'The user whose role state should be deleted.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IUser:
+  args:
+    - '@user'
+  desc: 'Deletes the role state for a specific user.'
+  params:
+    - desc: 'The user whose role state should be deleted.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_1:
+  args:
+    - '@user'
+  desc: 'Deletes the role state for a specific user.'
+  params:
+    - desc: 'The user whose role state should be deleted.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_2:
+  args:
+    - '@user'
+  desc: 'Deletes the role state for a specific user.'
+  params:
+    - desc: 'The user whose role state should be deleted.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_3:
+  args:
+    - '@user'
+  desc: 'Deletes the role state for a specific user.'
+  params:
+    - desc: 'The user whose role state should be deleted.'
+      name: user
+      optional: false
+      type: IUser
+removerolesfromrolestate:
+  args:
+    - '@user @role'
+  desc: 'Removes roles from a user''s role state.'
+  params:
+    - desc: 'The user whose role state should be modified.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_414
+      desc: 'The roles to be removed from the user''s role state.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Removes roles from a user''s role state.'
+  params:
+    - desc: 'The user whose role state should be modified.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'The roles to be removed from the user''s role state.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Removes roles from a user''s role state.'
+  params:
+    - desc: 'The user whose role state should be modified.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'The roles to be removed from the user''s role state.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Removes roles from a user''s role state.'
+  params:
+    - desc: 'The user whose role state should be modified.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'The roles to be removed from the user''s role state.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole:
+  args:
+    - '@role'
+  desc: 'Adds roles to the deny list for the role states feature.'
+  params:
+    - &ref_463
+      desc: 'The roles to be added to the deny list.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]:
+  args:
+    - '@role'
+  desc: 'Adds roles to the deny list for the role states feature.'
+  params:
+    - desc: 'The roles to be added to the deny list.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Adds roles to the deny list for the role states feature.'
+  params:
+    - desc: 'The roles to be added to the deny list.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Adds roles to the deny list for the role states feature.'
+  params:
+    - desc: 'The roles to be added to the deny list.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyuser:
+  args:
+    - '@user'
+  desc: 'Adds users to the deny list for the role states feature.'
+  params:
+    - &ref_464
+      desc: 'The users to be added to the deny list.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Adds users to the deny list for the role states feature.'
+  params:
+    - desc: 'The users to be added to the deny list.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Adds users to the deny list for the role states feature.'
+  params:
+    - desc: 'The users to be added to the deny list.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Adds users to the deny list for the role states feature.'
+  params:
+    - desc: 'The users to be added to the deny list.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremoveadduser:
+  args:
+    - user
+  desc: Removes or denies a user from role states.
+  params:
+    - desc: The user to remove/deny from role states.
+      name: user
+      optional: false
+      type: IUser
+rolestatesremovedenyrole:
+  args:
+    - '@role'
+  desc: 'Removes roles from the deny list for the role states feature.'
+  params:
+    - &ref_465
+      desc: 'The roles to be removed from the deny list.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]:
+  args:
+    - '@role'
+  desc: 'Removes roles from the deny list for the role states feature.'
+  params:
+    - desc: 'The roles to be removed from the deny list.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Removes roles from the deny list for the role states feature.'
+  params:
+    - desc: 'The roles to be removed from the deny list.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Removes roles from the deny list for the role states feature.'
+  params:
+    - desc: 'The roles to be removed from the deny list.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyuser:
+  args:
+    - '@user'
+  desc: 'Removes users from the deny list for the role states feature.'
+  params:
+    - &ref_466
+      desc: 'The users to be removed from the deny list.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Removes users from the deny list for the role states feature.'
+  params:
+    - desc: 'The users to be removed from the deny list.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Removes users from the deny list for the role states feature.'
+  params:
+    - desc: 'The users to be removed from the deny list.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Removes users from the deny list for the role states feature.'
+  params:
+    - desc: 'The users to be removed from the deny list.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+saveallrolestates:
+  args:
+    - ''
+  desc: 'Saves role states for all users in the server.'
+  params: [ ]
+setuserrolestate:
+  args:
+    - '@user @role'
+  desc: 'Sets the role state for a specific user.'
+  params:
+    - &ref_529
+      desc: 'The user whose role state should be set.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_530
+      desc: 'The roles to be included in the user''s role state.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Sets the role state for a specific user.'
+  params:
+    - &ref_531
+      desc: 'The user whose role state should be set.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'The roles to be included in the user''s role state.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Sets the role state for a specific user.'
+  params:
+    - desc: 'The user whose role state should be set.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'The roles to be included in the user''s role state.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Sets the role state for a specific user.'
+  params:
+    - desc: 'The user whose role state should be set.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'The roles to be included in the user''s role state.'
+      name: roles
+      optional: false
+      type: IRole[]
+togglerolestates:
+  args:
+    - ''
+  desc: 'Toggles the role states feature on or off.'
+  params: [ ]
+togglerolestatesclearonban:
+  args:
+    - ''
+  desc: 'Toggles whether role states should be cleared when a user is banned.'
+  params: [ ]
+togglerolestatesignorebots:
+  args:
+    - ''
+  desc: 'Toggles whether bots should be ignored by the role states feature.'
+  params: [ ]
+togglerolestatesskipautoassign:
+  args:
+    - ''
+  desc: >-
+    Toggles whether auto-assign roles should be skipped for users with saved role
+    states.
+  params: [ ]
+transferrolestates:
+  args:
+    - serverid
+  desc: 'Transfers role states from the current server to another server.'
+  params:
+    - &ref_627
+      desc: 'The ID of the target server.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong:
+  args:
+    - serverid
+  desc: 'Transfers role states from the current server to another server.'
+  params:
+    - desc: 'The ID of the target server.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong_1:
+  args:
+    - serverid
+  desc: 'Transfers role states from the current server to another server.'
+  params:
+    - desc: 'The ID of the target server.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong_2:
+  args:
+    - serverid
+  desc: 'Transfers role states from the current server to another server.'
+  params:
+    - desc: 'The ID of the target server.'
+      name: serverId
+      optional: false
+      type: ulong
+viewrolestates:
+  args:
+    - ''
+  desc: Views all user role states in the server.
+  params: [ ]
+viewrolestatessettings:
+  args:
+    - ''
+  desc: 'Displays the current settings for the role states feature.'
+  params: [ ]
+viewuserrolestates:
+  args:
+    - ''
+  desc: 'Displays the role states for all users.'
+  params: [ ]

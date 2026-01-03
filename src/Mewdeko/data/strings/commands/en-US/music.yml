@@ -1,0 +1,539 @@
+activefilters:
+  args:
+    - ''
+  desc: 'Displays all currently active audio filters.'
+  params: [ ]
+autoplay:
+  args:
+    - number
+  desc: >-
+    Sets the autoplay amount in the guild. Uses spotify api so client secret and
+    id must be valid.
+  params:
+    - &ref_96
+      desc: 'The amount of tracks to autoplay. Max of 5'
+      name: amount
+      optional: false
+      type: int
+autoplay_int:
+  args:
+    - number
+  desc: >-
+    Sets the autoplay amount in the guild. Uses spotify api so client secret and
+    id must be valid.
+  params:
+    - desc: 'The amount of tracks to autoplay. Max of 5'
+      name: amount
+      optional: false
+      type: int
+bass:
+  args:
+    - 0
+  desc: 'Sets the bass boost level for the current track.'
+  params:
+    - desc: 'Sets the bass boost level for the current track.'
+      name: 0
+      optional: false
+      type: '='
+clearqueue:
+  args:
+    - ''
+  desc: 'Clears the music queue.'
+  params: [ ]
+deleteplaylist:
+  args:
+    - text
+  desc: 'Removes a saved playlist.'
+  params:
+    - &ref_187
+      desc: 'The name of the playlist to remove.'
+      name: name
+      optional: false
+      type: string
+deleteplaylist_string:
+  args:
+    - text
+  desc: 'Removes a saved playlist.'
+  params:
+    - desc: 'The name of the playlist to remove.'
+      name: name
+      optional: false
+      type: string
+distortion:
+  args:
+    - true
+  desc: 'Applies a distortion effect to the audio.'
+  params:
+    - desc: 'Applies a distortion effect to the audio.'
+      name: true
+      optional: false
+      type: '='
+eightd:
+  args:
+    - true
+  desc: 'Applies an 8D audio effect that rotates the audio around the listener.'
+  params:
+    - desc: 'Applies an 8D audio effect that rotates the audio around the listener.'
+      name: true
+      optional: false
+      type: '='
+join:
+  args:
+    - ''
+  desc: 'Retrieves the music player an attempts to join the voice channel.'
+  params: [ ]
+karaoke:
+  args:
+    - true
+  desc: >-
+    Applies or removes a karaoke filter that attempts to remove vocals from the
+    track.
+  params:
+    - desc: >-
+        Applies or removes a karaoke filter that attempts to remove vocals from the
+        track.
+      name: true
+      optional: false
+      type: '='
+karaoke_=:
+  args:
+    - true
+  desc: >-
+    Applies or removes a karaoke filter that attempts to remove vocals from the
+    track.
+  params:
+    - desc: >-
+        Applies or removes a karaoke filter that attempts to remove vocals from the
+        track.
+      name: true
+      optional: false
+      type: '='
+karaoke_=_1:
+  args:
+    - true
+  desc: >-
+    Applies or removes a karaoke filter that attempts to remove vocals from the
+    track.
+  params:
+    - desc: >-
+        Applies or removes a karaoke filter that attempts to remove vocals from the
+        track.
+      name: true
+      optional: false
+      type: '='
+karaoke_=_2:
+  args:
+    - true
+  desc: >-
+    Applies or removes a karaoke filter that attempts to remove vocals from the
+    track.
+  params:
+    - desc: >-
+        Applies or removes a karaoke filter that attempts to remove vocals from the
+        track.
+      name: true
+      optional: false
+      type: '='
+leave:
+  args:
+    - ''
+  desc: 'Disconnects the bot from the voice channel.'
+  params: [ ]
+loadplaylist:
+  args:
+    - text false
+    - text
+  desc: 'Loads a previously saved playlist into the queue.'
+  params:
+    - &ref_280
+      desc: 'The name of the playlist to load.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Loads a previously saved playlist into the queue.'
+      name: false
+      optional: false
+      type: '='
+loadplaylist_string_=:
+  args:
+    - text false
+    - text
+  desc: 'Loads a previously saved playlist into the queue.'
+  params:
+    - desc: 'The name of the playlist to load.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Loads a previously saved playlist into the queue.'
+      name: false
+      optional: false
+      type: '='
+loop:
+  args:
+    - repeattype
+  desc: 'Sets if the bot should loop and how.'
+  params:
+    - &ref_286
+      desc: 'The repeat type.'
+      name: repeatType
+      optional: false
+      type: PlayerRepeatType
+loop_PlayerRepeatType:
+  args:
+    - repeattype
+  desc: 'Sets if the bot should loop and how.'
+  params:
+    - desc: 'The repeat type.'
+      name: repeatType
+      optional: false
+      type: PlayerRepeatType
+movesong:
+  args:
+    - number number
+  desc: 'Moves a song in the queue to a new position.'
+  params:
+    - &ref_299
+      desc: 'The current position of the song.'
+      name: from
+      optional: false
+      type: int
+    - &ref_300
+      desc: 'The new position of the song.'
+      name: to
+      optional: false
+      type: int
+movesong_int_int:
+  args:
+    - number number
+  desc: 'Moves a song in the queue to a new position.'
+  params:
+    - desc: 'The current position of the song.'
+      name: from
+      optional: false
+      type: int
+    - desc: 'The new position of the song.'
+      name: to
+      optional: false
+      type: int
+musicsettings:
+  args:
+    - ''
+  desc: 'Gets the guilds current settings for music.'
+  params: [ ]
+nightcore:
+  args:
+    - true
+  desc: 'Toggles the nightcore effect for the current track.'
+  params:
+    - desc: 'Toggles the nightcore effect for the current track.'
+      name: true
+      optional: false
+      type: '='
+nowplaying:
+  args:
+    - ''
+  desc: 'Gets the now playing track, if any.'
+  params: [ ]
+pause:
+  args:
+    - ''
+  desc: 'Pauses or unpauses the player based on the current state.'
+  params: [ ]
+play:
+  args:
+    - number
+  desc: >-
+    Plays music from various sources including YouTube, Spotify, and direct
+    searches. Supports tracks, playlists, and albums from supported platforms.
+  params:
+    - &ref_346
+      desc: >-
+        Plays music from various sources including YouTube, Spotify, and direct
+        searches. Supports tracks, playlists, and albums from supported platforms.
+      name: queueNumber
+      optional: false
+      type: int
+play_int:
+  args:
+    - number
+  desc: >-
+    Plays music from various sources including YouTube, Spotify, and direct
+    searches. Supports tracks, playlists, and albums from supported platforms.
+  params:
+    - desc: >-
+        Plays music from various sources including YouTube, Spotify, and direct
+        searches. Supports tracks, playlists, and albums from supported platforms.
+      name: queueNumber
+      optional: false
+      type: int
+play_string:
+  args:
+    - text
+  desc: >-
+    Plays music from various sources including YouTube, Spotify, and direct
+    searches. Supports tracks, playlists, and albums from supported platforms.
+  params:
+    - &ref_347
+      desc: 'URL or search query for the music to play'
+      name: query
+      optional: false
+      type: string
+play_string_1:
+  args:
+    - text
+  desc: >-
+    Plays music from various sources including YouTube, Spotify, and direct
+    searches. Supports tracks, playlists, and albums from supported platforms.
+  params:
+    - desc: 'URL or search query for the music to play'
+      name: query
+      optional: false
+      type: string
+playlists:
+  args:
+    - ''
+  desc: 'Lists all saved playlists for the guild.'
+  params: [ ]
+queue:
+  args:
+    - ''
+  desc: 'The music queue.'
+  params: [ ]
+resetfilters:
+  args:
+    - ''
+  desc: 'Removes all active audio filters from the current track.'
+  params: [ ]
+saveplaylist:
+  args:
+    - text
+  desc: 'Saves the current queue as a named playlist.'
+  params:
+    - &ref_477
+      desc: 'The name to save the playlist as.'
+      name: name
+      optional: false
+      type: string
+saveplaylist_string:
+  args:
+    - text
+  desc: 'Saves the current queue as a named playlist.'
+  params:
+    - desc: 'The name to save the playlist as.'
+      name: name
+      optional: false
+      type: string
+search:
+  args:
+    - text
+  desc: 'Searches for tracks without automatically playing them.'
+  params:
+    - &ref_480
+      desc: 'The search query'
+      name: query
+      optional: false
+      type: string
+search_string:
+  args:
+    - text
+  desc: 'Searches for tracks without automatically playing them.'
+  params:
+    - desc: 'The search query'
+      name: query
+      optional: false
+      type: string
+seek:
+  args:
+    - text
+  desc: 'Seeks to a specific position in the current track.'
+  params:
+    - &ref_482
+      desc: 'Time to seek to in format mm:ss'
+      name: timeSpan
+      optional: false
+      type: string
+seek_string:
+  args:
+    - text
+  desc: 'Seeks to a specific position in the current track.'
+  params:
+    - desc: 'Time to seek to in format mm:ss'
+      name: timeSpan
+      optional: false
+      type: string
+setdjrole:
+  args:
+    - '[@role]'
+  desc: 'Sets the DJ role for music commands that require elevated permissions.'
+  params:
+    - desc: 'The role to set as DJ. If null, removes the DJ role.'
+      name: role
+      optional: true
+      type: role
+setmusicchannel:
+  args:
+    - '[@channel]'
+  desc: 'Sets the channel where music events will be sent.'
+  params:
+    - desc: 'The channel where music events will be sent.'
+      name: channel
+      optional: true
+      type: channel
+shuffle:
+  args:
+    - ''
+  desc: 'Shuffles the current music queue.'
+  params: [ ]
+skip:
+  args:
+    - ''
+  desc: 'Skips to the next track.'
+  params: [ ]
+songremove:
+  args:
+    - number
+  desc: >-
+    Removes the selected track from the queue. If the selected track is the
+    current track, it will be skipped. If next track is not available, the player
+    will stop.
+  params:
+    - &ref_554
+      desc: 'The queue number to remove.'
+      name: queueNumber
+      optional: false
+      type: int
+songremove_int:
+  args:
+    - number
+  desc: >-
+    Removes the selected track from the queue. If the selected track is the
+    current track, it will be skipped. If next track is not available, the player
+    will stop.
+  params:
+    - desc: 'The queue number to remove.'
+      name: queueNumber
+      optional: false
+      type: int
+stereowiden:
+  args:
+    - true
+  desc: 'Applies a stereo widening effect to enhance the spatial soundstage.'
+  params:
+    - desc: 'Applies a stereo widening effect to enhance the spatial soundstage.'
+      name: true
+      optional: false
+      type: '='
+tremolo:
+  args:
+    - true
+  desc: 'Applies or removes a tremolo filter that creates a wavering effect in volume.'
+  params:
+    - desc: 'Applies or removes a tremolo filter that creates a wavering effect in volume.'
+      name: true
+      optional: false
+      type: '='
+tremolo_=:
+  args:
+    - true
+  desc: 'Applies or removes a tremolo filter that creates a wavering effect in volume.'
+  params:
+    - desc: 'Applies or removes a tremolo filter that creates a wavering effect in volume.'
+      name: true
+      optional: false
+      type: '='
+tremolo_=_1:
+  args:
+    - true
+  desc: 'Applies or removes a tremolo filter that creates a wavering effect in volume.'
+  params:
+    - desc: 'Applies or removes a tremolo filter that creates a wavering effect in volume.'
+      name: true
+      optional: false
+      type: '='
+tremolo_=_2:
+  args:
+    - true
+  desc: 'Applies or removes a tremolo filter that creates a wavering effect in volume.'
+  params:
+    - desc: 'Applies or removes a tremolo filter that creates a wavering effect in volume.'
+      name: true
+      optional: false
+      type: '='
+vaporwave:
+  args:
+    - true
+  desc: 'Toggles the vaporwave effect for the current track.'
+  params:
+    - desc: 'Toggles the vaporwave effect for the current track.'
+      name: true
+      optional: false
+      type: '='
+vibrato:
+  args:
+    - true
+  desc: 'Applies or removes a vibrato filter that creates a wavering effect in pitch.'
+  params:
+    - desc: 'Applies or removes a vibrato filter that creates a wavering effect in pitch.'
+      name: true
+      optional: false
+      type: '='
+volume:
+  args:
+    - number
+  desc: 'Sets the players volume'
+  params:
+    - &ref_645
+      desc: 'The volume to set'
+      name: volume
+      optional: false
+      type: int
+volume_int:
+  args:
+    - number
+  desc: 'Sets the players volume'
+  params:
+    - desc: 'The volume to set'
+      name: volume
+      optional: false
+      type: int
+voteskip:
+  args:
+    - ''
+  desc: 'Initiates or participates in a vote to skip the current track.'
+  params: [ ]
+lastfmlink:
+  args: [ ]
+  desc: 'Links the user''s Last.fm account for scrobbling.'
+  params: [ ]
+lastfmlink_noparams:
+  args:
+    - ''
+  desc: 'Links the user''s Last.fm account for scrobbling.'
+  params: [ ]
+lastfmunlink:
+  args: [ ]
+  desc: 'Unlinks the user''s Last.fm account.'
+  params: [ ]
+lastfmunlink_noparams:
+  args:
+    - ''
+  desc: 'Unlinks the user''s Last.fm account.'
+  params: [ ]
+lastfmtoggle:
+  args: [ ]
+  desc: 'Toggles Last.fm scrobbling on or off.'
+  params: [ ]
+lastfmtoggle_noparams:
+  args:
+    - ''
+  desc: 'Toggles Last.fm scrobbling on or off.'
+  params: [ ]
+lastfmstatus:
+  args: [ ]
+  desc: 'Shows the user''s Last.fm account status.'
+  params: [ ]
+lastfmstatus_noparams:
+  args:
+    - ''
+  desc: 'Shows the user''s Last.fm account status.'
+  params: [ ]

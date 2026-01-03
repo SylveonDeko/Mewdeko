@@ -1,0 +1,544 @@
+countingban:
+  args:
+    - user channel duration reason
+  desc: 'Bans a user from counting in a specific channel.'
+  params:
+    - desc: The user to ban from counting.
+      name: user
+      optional: false
+      type: guild user
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+    - desc: Duration of the ban (e.g., 1h, 1d). Leave empty for permanent.
+      name: duration
+      optional: true
+      type: stoopid time
+    - desc: The reason for the ban.
+      name: reason
+      optional: true
+      type: string
+countingconfig:
+  args:
+    - channel
+  desc: 'Configures settings for a counting channel.'
+  params:
+    - desc: The channel to show config for. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+countingcooldown:
+  args:
+    - channel seconds
+  desc: 'Sets the cooldown between user counts.'
+  params:
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+    - desc: Cooldown in seconds (0-300).
+      name: seconds
+      optional: true
+      type: int
+countingdisable:
+  args:
+    - channel purgeData reason
+  desc: 'Disables counting in a channel and optionally purges all data.'
+  params:
+    - desc: The channel to disable counting in. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+    - desc: Whether to delete all counting data for this channel. Defaults to false.
+      name: purgeData
+      optional: true
+      type: bool
+    - desc: The reason for disabling counting.
+      name: reason
+      optional: true
+      type: string
+countingfailurechannel:
+  args:
+    - countingChannel failureChannel
+  desc: 'Sets the channel where counting failures are logged.'
+  params:
+    - desc: The counting channel.
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: The channel for failure logs. Use null to disable.
+      name: failureChannel
+      optional: true
+      type: text channel
+countingfailuremessage:
+  args:
+    - channel embed
+  desc: 'Sets a custom message for failed counts.'
+  params:
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+    - desc: The message template. Use "-" to reset to default.
+      name: embed
+      optional: true
+      type: string
+countingfailurethreshold:
+  args:
+    - channel threshold
+  desc: 'Sets the failure threshold before consequences.'
+  params:
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+    - desc: Number of failures before action (1-10).
+      name: threshold
+      optional: true
+      type: int
+countingleaderboard:
+  args:
+    - type channel
+  desc: 'Shows the leaderboard for a counting channel.'
+  params:
+    - desc: The type of leaderboard (contributions, streak, accuracy, totalnumbers).
+      name: type
+      optional: true
+      type: string
+    - desc: The channel to show leaderboard for. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+countinglist:
+  args:
+    - ''
+  desc: 'Lists all active counting channels in the server.'
+  params: [ ]
+countingmilestonechannel:
+  args:
+    - countingChannel milestoneChannel
+  desc: 'Sets the channel where milestone achievements are announced.'
+  params:
+    - desc: The counting channel.
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: The channel for milestone announcements. Use null to disable.
+      name: milestoneChannel
+      optional: true
+      type: text channel
+countingmilestonemessage:
+  args:
+    - channel embed
+  desc: 'Sets a custom message for milestone achievements.'
+  params:
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+    - desc: The message template. Use "-" to reset to default.
+      name: embed
+      optional: true
+      type: string
+countingmilestones:
+  args:
+    - channel milestones
+  desc: 'Sets custom milestone numbers.'
+  params:
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+    - desc: Comma-separated milestone numbers (e.g., 50,100,250,500,1000).
+      name: milestones
+      optional: true
+      type: string
+countingreset:
+  args:
+    - channel newNumber reason
+  desc: 'Resets the counting in a channel to a specific number.'
+  params:
+    - desc: The channel to reset. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+    - desc: The number to reset to. Default is 0.
+      name: newNumber
+      optional: true
+      type: long
+    - desc: The reason for the reset.
+      name: reason
+      optional: true
+      type: string
+countingrestore:
+  args:
+    - saveId channel
+  desc: 'Restores counting from a previous save point.'
+  params:
+    - desc: The ID of the save point to restore from.
+      name: saveId
+      optional: false
+      type: int
+    - desc: The channel to restore. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+countingsave:
+  args:
+    - channel reason
+  desc: 'Creates a save point for the current counting progress.'
+  params:
+    - desc: The channel to save. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+    - desc: The reason for creating the save point.
+      name: reason
+      optional: true
+      type: string
+countingsetup:
+  args:
+    - channel startNumber increment
+  desc: 'Sets up counting in the current channel or a specified channel.'
+  params:
+    - desc: The channel to set up counting in. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+    - desc: The number to start counting from. Default is 1.
+      name: startNumber
+      optional: true
+      type: long
+    - desc: The increment for each count. Default is 1.
+      name: increment
+      optional: true
+      type: int
+countingstats:
+  args:
+    - user channel
+  desc: 'Shows counting statistics for a user or channel.'
+  params:
+    - desc: The user to show stats for. Defaults to you.
+      name: user
+      optional: true
+      type: user
+    - desc: The channel to check stats in. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+countingstatus:
+  args:
+    - channel
+  desc: 'Shows the current status of counting in a channel.'
+  params:
+    - desc: The channel to check. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+countingsuccessmessage:
+  args:
+    - channel embed
+  desc: 'Sets a custom message for successful counts.'
+  params:
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+    - desc: The message template. Use "-" to reset to default.
+      name: embed
+      optional: true
+      type: string
+countingtimeout:
+  args:
+    - user duration channel reason
+  desc: 'Temporarily timeouts a user from counting.'
+  params:
+    - desc: The user to timeout from counting.
+      name: user
+      optional: false
+      type: guild user
+    - desc: Duration of the timeout (e.g., 30m, 2h).
+      name: duration
+      optional: false
+      type: stoopid time
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+    - desc: The reason for the timeout.
+      name: reason
+      optional: true
+      type: string
+countingunban:
+  args:
+    - user channel reason
+  desc: 'Unbans a user from counting in a specific channel.'
+  params:
+    - desc: The user to unban from counting.
+      name: user
+      optional: false
+      type: guild user
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+    - desc: The reason for the unban.
+      name: reason
+      optional: true
+      type: string
+countmodbanned:
+  args:
+    - channel roles...
+  desc: 'Sets roles banned from counting.'
+  params:
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+    - desc: Roles banned from counting.
+      name: roles
+      optional: true
+      type: role
+countmodclear:
+  args:
+    - user channel
+  desc: 'Clears wrong counts for a user in a counting channel.'
+  params:
+    - desc: The user to clear wrong counts for.
+      name: user
+      optional: false
+      type: user
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+countmodclearall:
+  args:
+    - channel
+  desc: 'Clears wrong counts for all users in a counting channel.'
+  params:
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+countmoddefaults:
+  args:
+    - enabled threshold windowHours punishment durationMinutes punishmentRole
+  desc: 'Sets guild-wide default moderation settings.'
+  params:
+    - desc: Whether moderation is enabled by default.
+      name: enabled
+      optional: false
+      type: bool
+    - desc: Default wrong count threshold before punishment.
+      name: threshold
+      optional: true
+      type: int
+    - desc: Default time window in hours for tracking wrong counts.
+      name: windowHours
+      optional: true
+      type: int
+    - desc: Default punishment action to apply.
+      name: punishment
+      optional: true
+      type: punishment action
+    - desc: Default duration for timed punishments in minutes.
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: Default role for AddRole punishment type.
+      name: punishmentRole
+      optional: true
+      type: role
+countmodedits:
+  args:
+    - punish delete channel
+  desc: 'Configures message edit protection for a counting channel.'
+  params:
+    - desc: Whether to punish message edits as violations.
+      name: punish
+      optional: false
+      type: bool
+    - desc: Whether to delete edited messages.
+      name: delete
+      optional: true
+      type: bool
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+countmodenable:
+  args:
+    - enabled channel
+  desc: 'Enables or disables moderation for a specific counting channel.'
+  params:
+    - desc: Whether to enable or disable moderation.
+      name: enabled
+      optional: false
+      type: bool
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+countmodignore:
+  args:
+    - deleteMessages channel roles...
+  desc: 'Sets roles to ignore from counting.'
+  params:
+    - desc: Whether to delete messages from ignored roles.
+      name: deleteMessages
+      optional: false
+      type: bool
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+    - desc: Roles to ignore from counting.
+      name: roles
+      optional: true
+      type: role
+countmodnonnumbers:
+  args:
+    - punish delete channel
+  desc: 'Configures non-number message handling for a counting channel.'
+  params:
+    - desc: Whether to punish non-number messages as violations.
+      name: punish
+      optional: false
+      type: bool
+    - desc: Whether to delete non-number messages.
+      name: delete
+      optional: true
+      type: bool
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+countmodpunish:
+  args:
+    - count punishment durationMinutes role channel
+  desc: 'Sets a tiered punishment for a specific wrong count number.'
+  params:
+    - desc: The wrong count number that triggers this punishment.
+      name: count
+      optional: false
+      type: int
+    - desc: The punishment action to apply.
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: Duration for timed punishments in minutes.
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: Role for AddRole punishment type.
+      name: role
+      optional: true
+      type: role
+    - desc: The counting channel (NULL for guild defaults).
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishlist:
+  args:
+    - channel
+  desc: 'Lists all tiered punishments for the guild or specific channel.'
+  params:
+    - desc: The counting channel (NULL for guild defaults).
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishment:
+  args:
+    - punishment durationMinutes role channel
+  desc: 'Sets the punishment for wrong counts.'
+  params:
+    - desc: The punishment action to apply.
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: Duration for timed punishments in minutes.
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: Role for AddRole punishment type.
+      name: role
+      optional: true
+      type: role
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+countmodrequired:
+  args:
+    - channel roles...
+  desc: 'Sets roles required for counting.'
+  params:
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+    - desc: Roles required to count.
+      name: roles
+      optional: true
+      type: role
+countmodreset:
+  args:
+    - channel
+  desc: 'Resets a channel to use guild defaults.'
+  params:
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+countmodshow:
+  args:
+    - channel
+  desc: >-
+    Shows the current moderation configuration for the counting channel or guild
+    defaults.
+  params:
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+countmodthreshold:
+  args:
+    - threshold channel
+  desc: 'Sets the wrong count threshold for a counting channel.'
+  params:
+    - desc: Number of wrong counts before punishment (1-100).
+      name: threshold
+      optional: false
+      type: int
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
+countmodunpunish:
+  args:
+    - count channel
+  desc: 'Removes a tiered punishment for a specific wrong count number.'
+  params:
+    - desc: The wrong count number to remove punishment for.
+      name: count
+      optional: false
+      type: int
+    - desc: The counting channel (NULL for guild defaults).
+      name: channel
+      optional: true
+      type: text channel
+countmodwindow:
+  args:
+    - hours channel
+  desc: 'Sets the time window for tracking wrong counts.'
+  params:
+    - desc: Time window in hours (1-168).
+      name: hours
+      optional: false
+      type: int
+    - desc: The counting channel. Defaults to current channel.
+      name: channel
+      optional: true
+      type: text channel
