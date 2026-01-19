@@ -222,7 +222,7 @@ public class FeedsService : INService
                 LastUpdate: item.PublishingDate?.ToUniversalTime() ??
                             (item.SpecificItem as AtomFeedItem)?.UpdatedDate?.ToUniversalTime()))
             .Where(data => data.LastUpdate is not null)
-            .Select(data => (data.Item, LastUpdate: (DateTime)data.LastUpdate)).LastOrDefault();
+            .Select(data => (data.Item, LastUpdate: (DateTime)data.LastUpdate)).FirstOrDefault();
 
         var repbuilder = new ReplacementBuilder()
             .WithOverride("%title%", () => feedItem.Title ?? "Unkown")
