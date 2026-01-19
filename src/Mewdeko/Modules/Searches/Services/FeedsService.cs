@@ -70,7 +70,8 @@ public class FeedsService : INService
                 try
                 {
                     var feed = await FeedReader.ReadAsync(rssUrl, default, true,
-                        "Mozilla/5.0 (compatible; MewdekoBot/1.0; +https://mewdeko.tech)").ConfigureAwait(false);
+                            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+                        .ConfigureAwait(false);
 
                     var items = feed
                         .Items
@@ -216,7 +217,7 @@ public class FeedsService : INService
     public async Task TestRss(FeedSub sub, ITextChannel channel)
     {
         var feed = await FeedReader.ReadAsync(sub.Url, default, true,
-            "Mozilla/5.0 (compatible; MewdekoBot/1.0; +https://mewdeko.tech)");
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
         var (feedItem, _) = feed.Items
             .Select(item => (Item: item,
                 LastUpdate: item.PublishingDate?.ToUniversalTime() ??
