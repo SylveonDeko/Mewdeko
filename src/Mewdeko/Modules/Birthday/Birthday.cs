@@ -92,44 +92,39 @@ public class Birthday : MewdekoModuleBase<BirthdayService>
             return;
         }
 
-        var birthdayUsers = await Service.GetBirthdayUsersForDateAsync(ctx.Guild.Id, DateTime.UtcNow.Date);
+        var today = DateTime.UtcNow.Date;
+        var birthdaysByDate = await Service.GetBirthdayUsersInRangeAsync(ctx.Guild.Id, today, days);
 
-        if (!birthdayUsers.Any())
+        if (!birthdaysByDate.Any())
         {
             await ctx.Channel.SendErrorAsync(Strings.BirthdayNoUpcoming(ctx.Guild.Id, days), Config);
             return;
         }
 
         var embed = new EmbedBuilder()
-            .WithTitle($"🎂 Upcoming Birthdays ({days} days)")
+            .WithTitle($":birthday: Upcoming Birthdays ({days} days)")
             .WithColor(Mewdeko.OkColor);
 
-        var today = DateTime.UtcNow.Date;
         var description = "";
 
         for (var i = 0; i < days; i++)
         {
             var checkDate = today.AddDays(i);
-            var dayBirthdays = await Service.GetBirthdayUsersForDateAsync(ctx.Guild.Id, checkDate);
 
-            if (dayBirthdays.Any())
+            if (!birthdaysByDate.TryGetValue(checkDate, out var dayBirthdays)) continue;
+            var dayText = i == 0 ? "Today" : i == 1 ? "Tomorrow" : checkDate.ToString("MMM dd");
+            description += $"\n**{dayText}**\n";
+
+            foreach (var birthdayUser in dayBirthdays)
             {
-                var dayText = i == 0 ? "Today" : i == 1 ? "Tomorrow" : checkDate.ToString("MMM dd");
-                description += $"\n**{dayText}**\n";
-
-                foreach (var birthdayUser in dayBirthdays)
-                {
-                    var guildUser = await ctx.Guild.GetUserAsync(birthdayUser.UserId);
-                    if (guildUser != null)
-                    {
-                        var age = birthdayUser.Birthday.HasValue &&
-                                  birthdayUser.BirthdayDisplayMode != (int)BirthdayDisplayModeEnum.MonthAndDate &&
-                                  birthdayUser.BirthdayDisplayMode != (int)BirthdayDisplayModeEnum.MonthOnly
-                            ? $" (turning {DateTime.UtcNow.Year - birthdayUser.Birthday.Value.Year})"
-                            : "";
-                        description += $"🎉 {guildUser.Mention}{age}\n";
-                    }
-                }
+                var guildUser = await ctx.Guild.GetUserAsync(birthdayUser.UserId);
+                if (guildUser == null) continue;
+                var age = birthdayUser.Birthday.HasValue &&
+                          birthdayUser.BirthdayDisplayMode != (int)BirthdayDisplayModeEnum.MonthAndDate &&
+                          birthdayUser.BirthdayDisplayMode != (int)BirthdayDisplayModeEnum.MonthOnly
+                    ? $" (turning {DateTime.UtcNow.Year - birthdayUser.Birthday.Value.Year})"
+                    : "";
+                description += $"{Config.SuccessEmote} {guildUser.Mention}{age}\n";
             }
         }
 

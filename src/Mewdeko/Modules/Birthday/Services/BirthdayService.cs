@@ -307,6 +307,52 @@ public class BirthdayService : INService, IDisposable
             .ToListAsync();
     }
 
+
+    /// <summary>
+    ///     Gets users with birthdays within a date range for a guild.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="startDate">The start date for the range.</param>
+    /// <param name="days">The number of days to include in the range.</param>
+    /// <returns>Dictionary mapping dates to lists of users with birthdays on those dates.</returns>
+    public async Task<Dictionary<DateTime, List<DiscordUser>>> GetBirthdayUsersInRangeAsync(ulong guildId,
+        DateTime startDate, int days)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var guild = client.GetGuild(guildId);
+        if (guild == null) return [];
+
+        var guildUserIds = guild.Users.Select(u => u.Id).ToHashSet();
+
+        // Get all users in the range
+        var users = await db.DiscordUsers
+            .Where(u => guildUserIds.Contains(u.UserId) &&
+                        u.Birthday.HasValue &&
+                        u.BirthdayAnnouncementsEnabled &&
+                        u.ProfilePrivacy != (int)ProfilePrivacyEnum.Private &&
+                        u.BirthdayDisplayMode != (int)BirthdayDisplayModeEnum.Disabled)
+            .ToListAsync();
+
+        // Group by date within the range
+        var result = new Dictionary<DateTime, List<DiscordUser>>();
+        for (var i = 0; i < days; i++)
+        {
+            var checkDate = startDate.AddDays(i);
+            var usersForDate = users
+                .Where(u => u.Birthday.HasValue && u.Birthday.Value.Month == checkDate.Month &&
+                            u.Birthday.Value.Day == checkDate.Day)
+                .ToList();
+
+            if (usersForDate.Any())
+            {
+                result[checkDate] = usersForDate;
+            }
+        }
+
+        return result;
+    }
+
     #endregion
 
     #region Background Processing
