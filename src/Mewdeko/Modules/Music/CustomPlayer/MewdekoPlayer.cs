@@ -583,9 +583,15 @@ public sealed class MewdekoPlayer : LavalinkPlayer
 
             var lastfmClient = new LastfmClient(creds.LastFmApiKey, creds.LastFmApiSecret);
 
+            var artName = artistName;
+            if (artistName.Contains(" - Topic"))
+            {
+                artName = artistName.Split(" - Topic")[0];
+            }
+
             // Get similar tracks from Last.fm
             var similarTracksResponse =
-                await lastfmClient.Track.GetSimilarAsync(trackTitle, artistName, limit: autoPlay * 2);
+                await lastfmClient.Track.GetSimilarAsync(trackTitle, artName, limit: autoPlay * 2);
             if (!similarTracksResponse.Success || !similarTracksResponse.Content.Any())
             {
                 logger.LogWarning($"No similar tracks found for {trackTitle} by {artistName}");

@@ -1136,16 +1136,28 @@ public class SlashMusic(
                 // Show loading message for long albums
                 if (album.Tracks.Total > 10)
                 {
+                    var loadingComponents = new ComponentBuilderV2()
+                        .WithContainer([
+                            new TextDisplayBuilder($"# {Strings.MusicAlbumTitle(ctx.Guild.Id, album.Name)}")
+                        ], Mewdeko.OkColor)
+                        .WithSeparator()
+                        .WithSection([
+                                new TextDisplayBuilder(Strings.LoadingAlbum(ctx.Guild.Id, Config.LoadingEmote,
+                                    album.Tracks.Total,
+                                    album.Artists.FirstOrDefault()?.Name ?? "Unknown"))
+                            ],
+                            album.Images.FirstOrDefault()?.Url != null
+                                ? new ThumbnailBuilder(album.Images.FirstOrDefault().Url)
+                                : null)
+                        .WithSeparator()
+                        .WithContainer(new TextDisplayBuilder(
+                            $"ℹ️ {Strings.MusicProcessingTracks(ctx.Guild.Id, tracks.Count, album.Tracks.Total)}"));
+
                     await ModifyOriginalResponseAsync(x =>
                     {
-                        x.Embed = new EmbedBuilder()
-                            .WithTitle(Strings.MusicAlbumTitle(ctx.Guild.Id, album.Name))
-                            .WithDescription(
-                                $"Loading {album.Tracks.Total} tracks...\n{album.Artists.FirstOrDefault()?.Name ?? "Unknown"}")
-                            .WithColor(new Color(30, 215, 96))
-                            .WithThumbnailUrl(album.Images.FirstOrDefault()?.Url)
-                            .WithFooter(Strings.MusicProcessingTracks(ctx.Guild.Id, tracks.Count, album.Tracks.Total))
-                            .Build();
+                        x.Embed = null;
+                        x.Components = loadingComponents.Build();
+                        x.Flags = MessageFlags.ComponentsV2;
                     });
                 }
 
@@ -1168,26 +1180,60 @@ public class SlashMusic(
                         await cache.SetCurrentTrack(Context.Guild.Id, mewdekoTrack);
                         await player.PlayAsync(ytTrack);
 
-                        // Update embed to show now playing
-                        await ModifyOriginalResponseAsync(x =>
+                        // Update components to show now playing
+                        if (album.Tracks.Total > 10)
                         {
-                            x.Embed = x.Embed.GetValueOrDefault().ToEmbedBuilder()
-                                .WithDescription(
-                                    $"Loading {album.Tracks.Total} tracks...\n{album.Artists.FirstOrDefault()?.Name ?? "Unknown"}\n\n" +
-                                    $"▶️ Now Playing: {ytTrack.Title}")
-                                .Build();
-                        });
+                            var updatedComponents = new ComponentBuilderV2()
+                                .WithContainer([
+                                    new TextDisplayBuilder($"# {Strings.MusicAlbumTitle(ctx.Guild.Id, album.Name)}")
+                                ], Mewdeko.OkColor)
+                                .WithSeparator()
+                                .WithSection([
+                                        new TextDisplayBuilder(Strings.LoadingPlaylistWithTrack(ctx.Guild.Id,
+                                            album.Tracks.Total,
+                                            album.Artists.FirstOrDefault()?.Name ?? "Unknown", ytTrack.Title))
+                                    ],
+                                    album.Images.FirstOrDefault()?.Url != null
+                                        ? new ThumbnailBuilder(album.Images.FirstOrDefault().Url)
+                                        : null)
+                                .WithSeparator()
+                                .WithContainer(new TextDisplayBuilder(
+                                    $"ℹ️ {Strings.MusicProcessingTracks(ctx.Guild.Id, tracks.Count, album.Tracks.Total)}"));
+
+                            await ModifyOriginalResponseAsync(x =>
+                            {
+                                x.Embed = null;
+                                x.Components = updatedComponents.Build();
+                                x.Flags = MessageFlags.ComponentsV2;
+                            });
+                        }
                     }
 
                     // Update loading message every 5 tracks
                     if (album.Tracks.Total > 10 && tracks.Count % 5 == 0)
                     {
+                        var updatedComponents = new ComponentBuilderV2()
+                            .WithContainer([
+                                new TextDisplayBuilder($"# {Strings.MusicAlbumTitle(ctx.Guild.Id, album.Name)}")
+                            ], Mewdeko.OkColor)
+                            .WithSeparator()
+                            .WithSection([
+                                    new TextDisplayBuilder(Strings.LoadingAlbum(ctx.Guild.Id, Config.LoadingEmote,
+                                        album.Tracks.Total,
+                                        album.Artists.FirstOrDefault()?.Name ?? "Unknown"))
+                                ],
+                                album.Images.FirstOrDefault()?.Url != null
+                                    ? new ThumbnailBuilder(album.Images.FirstOrDefault().Url)
+                                    : null)
+                            .WithSeparator()
+                            .WithContainer(new TextDisplayBuilder(
+                                $"ℹ️ {Strings.MusicProcessingTracks(ctx.Guild.Id, tracks.Count, album.Tracks.Total)}"));
+
                         await ModifyOriginalResponseAsync(x =>
                         {
-                            x.Embed = x.Embed.GetValueOrDefault().ToEmbedBuilder()
-                                .WithFooter(Strings.MusicProcessingTracks(ctx.Guild.Id, tracks.Count,
-                                    album.Tracks.Total))
-                                .Build();
+                            x.Embed = null;
+                            x.Components = updatedComponents.Build();
+                            x.Flags = MessageFlags.ComponentsV2;
                         });
                     }
                 }
@@ -1200,18 +1246,27 @@ public class SlashMusic(
                 // Show loading message for long playlists
                 if (playlist.Tracks.Total > 10)
                 {
+                    var loadingComponents = new ComponentBuilderV2()
+                        .WithContainer([
+                            new TextDisplayBuilder($"# {playlist.Name}")
+                        ], Mewdeko.OkColor)
+                        .WithSeparator()
+                        .WithSection([
+                                new TextDisplayBuilder(Strings.LoadingPlaylist(ctx.Guild.Id, playlist.Tracks.Total,
+                                    playlist.Owner.DisplayName))
+                            ],
+                            playlist.Images.FirstOrDefault()?.Url != null
+                                ? new ThumbnailBuilder(playlist.Images.FirstOrDefault().Url)
+                                : null)
+                        .WithSeparator()
+                        .WithContainer(new TextDisplayBuilder(
+                            $"ℹ️ {Strings.MusicProcessingTracks(ctx.Guild.Id, tracks.Count, playlist.Tracks.Total)}"));
+
                     await ModifyOriginalResponseAsync(x =>
                     {
-                        x.Embed = new EmbedBuilder()
-                            .WithTitle($"{playlist.Name}")
-                            .WithDescription(
-                                Strings.LoadingPlaylist(ctx.Guild.Id, playlist.Tracks.Total,
-                                    playlist.Owner.DisplayName))
-                            .WithColor(new Color(30, 215, 96))
-                            .WithThumbnailUrl(playlist.Images.FirstOrDefault()?.Url)
-                            .WithFooter(
-                                Strings.MusicProcessingTracks(ctx.Guild.Id, tracks.Count, playlist.Tracks.Total))
-                            .Build();
+                        x.Embed = null;
+                        x.Components = loadingComponents.Build();
+                        x.Flags = MessageFlags.ComponentsV2;
                     });
                 }
 
@@ -1236,26 +1291,59 @@ public class SlashMusic(
                         await cache.SetCurrentTrack(Context.Guild.Id, mewdekoTrack);
                         await player.PlayAsync(ytTrack);
 
-                        // Update embed to show now playing
-                        await ModifyOriginalResponseAsync(x =>
+                        // Update components to show now playing
+                        if (playlist.Tracks.Total > 10)
                         {
-                            x.Embed = x.Embed.GetValueOrDefault().ToEmbedBuilder()
-                                .WithDescription(
-                                    Strings.LoadingPlaylistWithTrack(ctx.Guild.Id, playlist.Tracks.Total,
-                                        playlist.Owner.DisplayName, ytTrack.Title))
-                                .Build();
-                        });
+                            var updatedComponents = new ComponentBuilderV2()
+                                .WithContainer([
+                                    new TextDisplayBuilder($"# {playlist.Name}")
+                                ], Mewdeko.OkColor)
+                                .WithSeparator()
+                                .WithSection([
+                                        new TextDisplayBuilder(Strings.LoadingPlaylistWithTrack(ctx.Guild.Id,
+                                            playlist.Tracks.Total,
+                                            playlist.Owner.DisplayName, ytTrack.Title))
+                                    ],
+                                    playlist.Images.FirstOrDefault()?.Url != null
+                                        ? new ThumbnailBuilder(playlist.Images.FirstOrDefault().Url)
+                                        : null)
+                                .WithSeparator()
+                                .WithContainer(new TextDisplayBuilder(
+                                    $"ℹ️ {Strings.MusicProcessingTracks(ctx.Guild.Id, tracks.Count, playlist.Tracks.Total)}"));
+
+                            await ModifyOriginalResponseAsync(x =>
+                            {
+                                x.Embed = null;
+                                x.Components = updatedComponents.Build();
+                                x.Flags = MessageFlags.ComponentsV2;
+                            });
+                        }
                     }
 
                     // Update loading message every 5 tracks
                     if (playlist.Tracks.Total > 10 && tracks.Count % 5 == 0)
                     {
+                        var updatedComponents = new ComponentBuilderV2()
+                            .WithContainer([
+                                new TextDisplayBuilder($"# {playlist.Name}")
+                            ], Mewdeko.OkColor)
+                            .WithSeparator()
+                            .WithSection([
+                                    new TextDisplayBuilder(Strings.LoadingPlaylist(ctx.Guild.Id, playlist.Tracks.Total,
+                                        playlist.Owner.DisplayName))
+                                ],
+                                playlist.Images.FirstOrDefault()?.Url != null
+                                    ? new ThumbnailBuilder(playlist.Images.FirstOrDefault().Url)
+                                    : null)
+                            .WithSeparator()
+                            .WithContainer(new TextDisplayBuilder(
+                                $"ℹ️ {Strings.MusicProcessingTracks(ctx.Guild.Id, tracks.Count, playlist.Tracks.Total)}"));
+
                         await ModifyOriginalResponseAsync(x =>
                         {
-                            x.Embed = x.Embed.GetValueOrDefault().ToEmbedBuilder()
-                                .WithFooter(Strings.MusicProcessingTracks(ctx.Guild.Id, tracks.Count,
-                                    playlist.Tracks.Total))
-                                .Build();
+                            x.Embed = null;
+                            x.Components = updatedComponents.Build();
+                            x.Flags = MessageFlags.ComponentsV2;
                         });
                     }
                 }
