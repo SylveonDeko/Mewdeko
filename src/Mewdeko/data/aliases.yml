@@ -3071,6 +3071,64 @@ trivia:
 triviachain:
   - triviachain
   - tc
+ttsenable:
+  - ttsenable
+  - tts
+  - ttson
+ttslink:
+  - ttslink
+  - ttschannel
+ttsannounce:
+  - ttsannounce
+  - ttsjoinleave
+ttsjoinformat:
+  - ttsjoinformat
+  - ttsjoin
+ttsleaveformat:
+  - ttsleaveformat
+  - ttsleave
+ttsvolume:
+  - ttsvolume
+  - ttsvol
+ttsspeed:
+  - ttsspeed
+ttsdefaultvoice:
+  - ttsdefaultvoice
+  - ttsdefvoice
+ttsvoice:
+  - ttsvoice
+  - myvoice
+ttsvoices:
+  - ttsvoices
+  - ttsvoicelist
+  - ttsvoicesearch
+ttsblock:
+  - ttsblock
+  - ttsban
+ttsblocklist:
+  - ttsblocklist
+  - ttsbanlist
+  - ttsblocked
+ttsrole:
+  - ttsrole
+ttsreplycontext:
+  - ttsreplycontext
+  - ttsreply
+ttsattachmentnarration:
+  - ttsattachmentnarration
+  - ttsattach
+ttsconsecutivegrouping:
+  - ttsconsecutivegrouping
+  - ttsgroup
+ttsmaxqueue:
+  - ttsmaxqueue
+  - ttsqueue
+ttssettings:
+  - ttssettings
+  - ttsinfo
+ttsremove:
+  - ttsremove
+  - ttsoff
 typeadd:
   - typeadd
 typedel:

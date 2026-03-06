@@ -14,6 +14,7 @@ using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.Configs;
 using Mewdeko.Modules.Music.Common;
+using Mewdeko.Modules.Music.Services;
 using Mewdeko.Services.Strings;
 using Microsoft.Extensions.DependencyInjection;
 using SpotifyAPI.Web;
@@ -45,6 +46,7 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     private readonly PlayerStateTracker stateTracker;
 
     private readonly GeneratedBotStrings Strings;
+    private readonly TtsService? ttsService;
     private bool isAprilFoolsJokeRunning;
     private DateTime? trackStartTime;
 
@@ -65,6 +67,7 @@ public sealed class MewdekoPlayer : LavalinkPlayer
         Strings = properties.ServiceProvider.GetRequiredService<GeneratedBotStrings>();
         logger = properties.ServiceProvider.GetRequiredService<ILogger<MewdekoPlayer>>();
         stateTracker = new PlayerStateTracker(this, cache);
+        ttsService = properties.ServiceProvider.GetService<TtsService>();
     }
 
 
@@ -77,6 +80,12 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     protected override async ValueTask NotifyTrackEndedAsync(ITrackQueueItem item, TrackEndReason reason,
         CancellationToken token = default)
     {
+        if (item.Track?.SourceName == "flowery-tts")
+        {
+            ttsService?.SignalTtsCompleted(GuildId);
+            return;
+        }
+
         if (stateTracker != null && State is PlayerState.Playing or PlayerState.Paused)
             await stateTracker.ForceUpdate();
 
@@ -170,6 +179,9 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     protected override async ValueTask NotifyTrackStartedAsync(ITrackQueueItem track,
         CancellationToken cancellationToken = default)
     {
+        if (track.Track?.SourceName == "flowery-tts")
+            return;
+
         trackStartTime = DateTime.UtcNow;
         await stateTracker.ForceUpdate();
         var queue = await cache.GetMusicQueue(GuildId);
@@ -281,6 +293,138 @@ public sealed class MewdekoPlayer : LavalinkPlayer
 
         await cache.SetMusicPlayerSettings(guildId, settings);
         return settings;
+    }
+
+    /// <summary>
+    ///     Gets the guild-wide TTS settings from MusicPlayerSettings.
+    /// </summary>
+    public async Task<MusicPlayerSetting> GetTtsGuildSettings()
+    {
+        return await GetMusicSettings();
+    }
+
+    /// <summary>
+    ///     Updates a single guild-wide TTS setting field via an action.
+    /// </summary>
+    public async Task UpdateTtsGuildSettingAsync(Action<MusicPlayerSetting> update)
+    {
+        var settings = await GetMusicSettings();
+        update(settings);
+        await using var db = await dbFactory.CreateConnectionAsync();
+        await db.UpdateAsync(settings);
+        await cache.SetMusicPlayerSettings(GuildId, settings);
+    }
+
+    /// <summary>
+    ///     Gets the TTS voice channel setting for a specific VC, or null if not configured.
+    /// </summary>
+    public async Task<TtsVoiceChannelSetting?> GetTtsVcSettingAsync(ulong voiceChannelId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        return await db.GetTable<TtsVoiceChannelSetting>()
+            .FirstOrDefaultAsync(x => x.GuildId == GuildId && x.VoiceChannelId == voiceChannelId);
+    }
+
+    /// <summary>
+    ///     Gets all TTS-enabled voice channel settings for this guild.
+    /// </summary>
+    public async Task<List<TtsVoiceChannelSetting>> GetAllTtsVcSettingsAsync()
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        return await db.GetTable<TtsVoiceChannelSetting>()
+            .Where(x => x.GuildId == GuildId)
+            .ToListAsync();
+    }
+
+    /// <summary>
+    ///     Creates or updates TTS settings for a voice channel.
+    /// </summary>
+    public async Task UpsertTtsVcSettingAsync(TtsVoiceChannelSetting setting)
+    {
+        setting.GuildId = GuildId;
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var existing = await db.GetTable<TtsVoiceChannelSetting>()
+            .FirstOrDefaultAsync(x => x.GuildId == GuildId && x.VoiceChannelId == setting.VoiceChannelId);
+
+        if (existing is not null)
+        {
+            setting.Id = existing.Id;
+            await db.UpdateAsync(setting);
+        }
+        else
+        {
+            await db.InsertAsync(setting);
+        }
+    }
+
+    /// <summary>
+    ///     Removes TTS settings for a voice channel.
+    /// </summary>
+    public async Task RemoveTtsVcSettingAsync(ulong voiceChannelId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        await db.GetTable<TtsVoiceChannelSetting>()
+            .DeleteAsync(x => x.GuildId == GuildId && x.VoiceChannelId == voiceChannelId);
+    }
+
+    /// <summary>
+    ///     Gets or creates TTS user settings for a user in this guild.
+    /// </summary>
+    public async Task<TtsUserSetting> GetTtsUserSettingAsync(ulong userId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var setting = await db.GetTable<TtsUserSetting>()
+            .FirstOrDefaultAsync(x => x.GuildId == GuildId && x.UserId == userId);
+        return setting ?? new TtsUserSetting
+        {
+            GuildId = GuildId, UserId = userId
+        };
+    }
+
+    /// <summary>
+    ///     Upserts a TTS user setting (voice or block status).
+    /// </summary>
+    public async Task UpsertTtsUserSettingAsync(ulong userId, Action<TtsUserSetting> update)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var existing = await db.GetTable<TtsUserSetting>()
+            .FirstOrDefaultAsync(x => x.GuildId == GuildId && x.UserId == userId);
+
+        if (existing is not null)
+        {
+            update(existing);
+            await db.UpdateAsync(existing);
+        }
+        else
+        {
+            var setting = new TtsUserSetting
+            {
+                GuildId = GuildId, UserId = userId
+            };
+            update(setting);
+            await db.InsertAsync(setting);
+        }
+    }
+
+    /// <summary>
+    ///     Checks if a user is blocked from TTS in this guild.
+    /// </summary>
+    public async Task<bool> IsTtsUserBlockedAsync(ulong userId)
+    {
+        var setting = await GetTtsUserSettingAsync(userId);
+        return setting.IsBlocked;
+    }
+
+    /// <summary>
+    ///     Gets the effective TTS voice for a user (user override > guild default > null).
+    /// </summary>
+    public async Task<string?> GetEffectiveTtsVoiceAsync(ulong userId)
+    {
+        var userSetting = await GetTtsUserSettingAsync(userId);
+        if (!string.IsNullOrWhiteSpace(userSetting.Voice))
+            return userSetting.Voice;
+        var settings = await GetMusicSettings();
+        return settings.TtsDefaultVoice;
     }
 
     /// <summary>

@@ -537,3 +537,255 @@ lastfmstatus_noparams:
     - ''
   desc: 'Shows the user''s Last.fm account status.'
   params: [ ]
+ttsenable:
+  args:
+    - ''
+  desc: 'Toggles TTS for the voice channel you are currently in.'
+  params: [ ]
+ttslink:
+  args:
+    - '[#channel]'
+    - ''
+  desc: 'Links a text channel to the current voice channel for TTS. Messages in the linked channel will be read aloud. Use without arguments to unlink.'
+  params:
+    - desc: 'The text channel to link. Omit to unlink.'
+      name: channel
+      optional: true
+      type: channel
+ttslink_ITextChannel:
+  args:
+    - '[#channel]'
+    - ''
+  desc: 'Links a text channel to the current voice channel for TTS. Messages in the linked channel will be read aloud. Use without arguments to unlink.'
+  params:
+    - desc: 'The text channel to link. Omit to unlink.'
+      name: channel
+      optional: true
+      type: channel
+ttsannounce:
+  args:
+    - ''
+  desc: 'Toggles join/leave announcements for the current voice channel.'
+  params: [ ]
+ttsjoinformat:
+  args:
+    - '%user.name% has entered the chat'
+    - ''
+  desc: 'Sets the join announcement format. Supports placeholders like %user.name%, %user.mention%, %server.name%. Use without arguments to reset.'
+  params:
+    - desc: 'The join format string. Omit to reset to default.'
+      name: format
+      optional: true
+      type: string
+ttsjoinformat_string:
+  args:
+    - '%user.name% has entered the chat'
+    - ''
+  desc: 'Sets the join announcement format. Supports placeholders like %user.name%, %user.mention%, %server.name%. Use without arguments to reset.'
+  params:
+    - desc: 'The join format string. Omit to reset to default.'
+      name: format
+      optional: true
+      type: string
+ttsleaveformat:
+  args:
+    - '%user.name% has left the chat'
+    - ''
+  desc: 'Sets the leave announcement format. Supports placeholders like %user.name%, %user.mention%, %server.name%. Use without arguments to reset.'
+  params:
+    - desc: 'The leave format string. Omit to reset to default.'
+      name: format
+      optional: true
+      type: string
+ttsleaveformat_string:
+  args:
+    - '%user.name% has left the chat'
+    - ''
+  desc: 'Sets the leave announcement format. Supports placeholders like %user.name%, %user.mention%, %server.name%. Use without arguments to reset.'
+  params:
+    - desc: 'The leave format string. Omit to reset to default.'
+      name: format
+      optional: true
+      type: string
+ttsvolume:
+  args:
+    - '75'
+  desc: 'Sets the TTS volume (0-100). Separate from music volume.'
+  params:
+    - desc: 'Volume level from 0 to 100.'
+      name: volume
+      optional: false
+      type: int
+ttsvolume_int:
+  args:
+    - '75'
+  desc: 'Sets the TTS volume (0-100). Separate from music volume.'
+  params:
+    - desc: 'Volume level from 0 to 100.'
+      name: volume
+      optional: false
+      type: int
+ttsspeed:
+  args:
+    - '1.5'
+  desc: 'Sets the TTS playback speed (0.5-2.0).'
+  params:
+    - desc: 'Speed multiplier from 0.5 to 2.0.'
+      name: speed
+      optional: false
+      type: float
+ttsspeed_float:
+  args:
+    - '1.5'
+  desc: 'Sets the TTS playback speed (0.5-2.0).'
+  params:
+    - desc: 'Speed multiplier from 0.5 to 2.0.'
+      name: speed
+      optional: false
+      type: float
+ttsdefaultvoice:
+  args:
+    - 'Brian'
+    - ''
+  desc: 'Sets the default TTS voice for the guild. Use without arguments to reset to system default.'
+  params:
+    - desc: 'The voice name. Omit to reset.'
+      name: voice
+      optional: true
+      type: string
+ttsdefaultvoice_string:
+  args:
+    - 'Brian'
+    - ''
+  desc: 'Sets the default TTS voice for the guild. Use without arguments to reset to system default.'
+  params:
+    - desc: 'The voice name. Omit to reset.'
+      name: voice
+      optional: true
+      type: string
+ttsvoice:
+  args:
+    - 'Brian'
+    - ''
+  desc: 'Sets your personal TTS voice for this server. Use without arguments to reset to the server default.'
+  params:
+    - desc: 'The voice name. Omit to reset.'
+      name: voice
+      optional: true
+      type: string
+ttsvoice_string:
+  args:
+    - 'Brian'
+    - ''
+  desc: 'Sets your personal TTS voice for this server. Use without arguments to reset to the server default.'
+  params:
+    - desc: 'The voice name. Omit to reset.'
+      name: voice
+      optional: true
+      type: string
+ttsvoices:
+  args:
+    - 'english'
+    - 'Brian'
+  desc: 'Searches available TTS voices by name, language, gender, or source. Results are paginated.'
+  params:
+    - desc: 'Search term (voice name, language, gender, or source).'
+      name: search
+      optional: false
+      type: string
+ttsvoices_string:
+  args:
+    - 'english'
+    - 'Brian'
+  desc: 'Searches available TTS voices by name, language, gender, or source. Results are paginated.'
+  params:
+    - desc: 'Search term (voice name, language, gender, or source).'
+      name: search
+      optional: false
+      type: string
+ttsblock:
+  args:
+    - '@user'
+  desc: 'Blocks or unblocks a user from using TTS in this server. Toggles the block state.'
+  params:
+    - desc: 'The user to block or unblock.'
+      name: user
+      optional: false
+      type: user
+ttsblock_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Blocks or unblocks a user from using TTS in this server. Toggles the block state.'
+  params:
+    - desc: 'The user to block or unblock.'
+      name: user
+      optional: false
+      type: user
+ttsblocklist:
+  args:
+    - ''
+  desc: 'Lists all users blocked from TTS in this server.'
+  params: [ ]
+ttsrole:
+  args:
+    - '@role'
+    - ''
+  desc: 'Sets the role required to use TTS. Use without arguments to remove the restriction.'
+  params:
+    - desc: 'The role to require. Omit to remove restriction.'
+      name: role
+      optional: true
+      type: role
+ttsrole_IRole:
+  args:
+    - '@role'
+    - ''
+  desc: 'Sets the role required to use TTS. Use without arguments to remove the restriction.'
+  params:
+    - desc: 'The role to require. Omit to remove restriction.'
+      name: role
+      optional: true
+      type: role
+ttsreplycontext:
+  args:
+    - ''
+  desc: 'Toggles whether TTS reads reply context (e.g. "replying to User").'
+  params: [ ]
+ttsattachmentnarration:
+  args:
+    - ''
+  desc: 'Toggles whether TTS narrates attachments (e.g. "sent an image").'
+  params: [ ]
+ttsconsecutivegrouping:
+  args:
+    - ''
+  desc: 'Toggles whether consecutive messages from the same user skip the name prefix.'
+  params: [ ]
+ttsmaxqueue:
+  args:
+    - '20'
+  desc: 'Sets the maximum TTS queue size (1-50).'
+  params:
+    - desc: 'Maximum queue size from 1 to 50.'
+      name: size
+      optional: false
+      type: int
+ttsmaxqueue_int:
+  args:
+    - '20'
+  desc: 'Sets the maximum TTS queue size (1-50).'
+  params:
+    - desc: 'Maximum queue size from 1 to 50.'
+      name: size
+      optional: false
+      type: int
+ttssettings:
+  args:
+    - ''
+  desc: 'Shows the current TTS settings for this guild and voice channel.'
+  params: [ ]
+ttsremove:
+  args:
+    - ''
+  desc: 'Removes all TTS settings for the current voice channel.'
+  params: [ ]

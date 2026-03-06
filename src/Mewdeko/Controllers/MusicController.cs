@@ -1,9 +1,12 @@
-﻿using System.Text.Json;
+﻿using System.Net.Http;
+using System.Text.Json;
 using DataModel;
 using Lavalink4NET;
 using Lavalink4NET.Filters;
 using Lavalink4NET.Players;
 using Lavalink4NET.Rest.Entities.Tracks;
+using LinqToDB;
+using LinqToDB.Async;
 using Mewdeko.Controllers.Common.Music;
 using Mewdeko.Modules.Music.Common;
 using Mewdeko.Modules.Music.CustomPlayer;
@@ -23,6 +26,7 @@ public class MusicController : Controller
     private readonly IAudioService audioService;
     private readonly IDataCache cache;
     private readonly DiscordShardedClient client;
+    private readonly IDataConnectionFactory dbFactory;
     private readonly MusicEventManager eventManager;
     private readonly ILogger<MusicController> logger;
 
@@ -32,17 +36,20 @@ public class MusicController : Controller
     /// <param name="audioService">The audio service for managing music playback operations</param>
     /// <param name="cache">The data cache for storing and retrieving music-related information</param>
     /// <param name="client">The Discord client for accessing guild and user information</param>
+    /// <param name="dbFactory">The database connection factory</param>
     /// <param name="eventManager">The event manager for music events</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     public MusicController(
         IAudioService audioService,
         IDataCache cache,
         DiscordShardedClient client,
+        IDataConnectionFactory dbFactory,
         MusicEventManager eventManager, ILogger<MusicController> logger)
     {
         this.audioService = audioService;
         this.cache = cache;
         this.client = client;
+        this.dbFactory = dbFactory;
         this.eventManager = eventManager;
         this.logger = logger;
     }
@@ -842,6 +849,285 @@ public class MusicController : Controller
     }
 
     /// <summary>
+    ///     Gets all TTS settings for the guild including guild-wide and per-VC settings
+    /// </summary>
+    /// <param name="guildId">The Discord guild ID</param>
+    /// <returns>The TTS settings</returns>
+    [HttpGet("tts")]
+    [Authorize("ApiKeyPolicy")]
+    public async Task<IActionResult> GetTtsSettings(ulong guildId)
+    {
+        var settings = await GetOrCreateMusicSettings(guildId);
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var vcSettings = await db.GetTable<TtsVoiceChannelSetting>()
+            .Where(x => x.GuildId == guildId)
+            .ToListAsync();
+
+        return Ok(new
+        {
+            settings.TtsVolume,
+            settings.TtsSpeed,
+            settings.TtsDefaultVoice,
+            settings.TtsReplyContext,
+            settings.TtsAttachmentNarration,
+            settings.TtsConsecutiveGrouping,
+            settings.TtsMaxQueueSize,
+            settings.TtsRoleId,
+            VoiceChannels = vcSettings.Select(vc => new
+            {
+                vc.VoiceChannelId,
+                vc.Enabled,
+                vc.LinkedTextChannelId,
+                vc.AnnounceJoinLeave,
+                vc.JoinFormat,
+                vc.LeaveFormat
+            })
+        });
+    }
+
+    /// <summary>
+    ///     Updates guild-wide TTS settings
+    /// </summary>
+    /// <param name="guildId">The Discord guild ID</param>
+    /// <param name="request">The TTS settings to update</param>
+    /// <returns>The updated settings</returns>
+    [HttpPost("tts/settings")]
+    [Authorize("ApiKeyPolicy")]
+    public async Task<IActionResult> UpdateTtsSettings(ulong guildId, [FromBody] TtsGuildSettingsRequest request)
+    {
+        var settings = await GetOrCreateMusicSettings(guildId);
+
+        if (request.Volume.HasValue) settings.TtsVolume = request.Volume.Value;
+        if (request.Speed.HasValue) settings.TtsSpeed = request.Speed.Value;
+        if (request.DefaultVoice != null)
+            settings.TtsDefaultVoice = request.DefaultVoice == "" ? null : request.DefaultVoice;
+        if (request.ReplyContext.HasValue) settings.TtsReplyContext = request.ReplyContext.Value;
+        if (request.AttachmentNarration.HasValue) settings.TtsAttachmentNarration = request.AttachmentNarration.Value;
+        if (request.ConsecutiveGrouping.HasValue) settings.TtsConsecutiveGrouping = request.ConsecutiveGrouping.Value;
+        if (request.MaxQueueSize.HasValue) settings.TtsMaxQueueSize = request.MaxQueueSize.Value;
+        if (request.RoleId != null) settings.TtsRoleId = request.RoleId == 0 ? null : request.RoleId;
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        await db.UpdateAsync(settings);
+        await cache.SetMusicPlayerSettings(guildId, settings);
+
+        return Ok(new
+        {
+            Message = "TTS settings updated"
+        });
+    }
+
+    /// <summary>
+    ///     Creates or updates TTS settings for a voice channel
+    /// </summary>
+    /// <param name="guildId">The Discord guild ID</param>
+    /// <param name="request">The voice channel TTS settings</param>
+    /// <returns>The updated VC settings</returns>
+    [HttpPost("tts/vc")]
+    [Authorize("ApiKeyPolicy")]
+    public async Task<IActionResult> UpsertTtsVcSetting(ulong guildId, [FromBody] TtsVcSettingRequest request)
+    {
+        var setting = new TtsVoiceChannelSetting
+        {
+            GuildId = guildId,
+            VoiceChannelId = request.VoiceChannelId,
+            Enabled = request.Enabled,
+            LinkedTextChannelId = request.LinkedTextChannelId,
+            AnnounceJoinLeave = request.AnnounceJoinLeave,
+            JoinFormat = request.JoinFormat,
+            LeaveFormat = request.LeaveFormat
+        };
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var existing = await db.GetTable<TtsVoiceChannelSetting>()
+            .FirstOrDefaultAsync(x => x.GuildId == guildId && x.VoiceChannelId == request.VoiceChannelId);
+
+        if (existing is not null)
+        {
+            setting.Id = existing.Id;
+            await db.UpdateAsync(setting);
+        }
+        else
+        {
+            await db.InsertAsync(setting);
+        }
+
+        return Ok(new
+        {
+            Message = "Voice channel TTS settings updated"
+        });
+    }
+
+    /// <summary>
+    ///     Removes TTS settings for a voice channel
+    /// </summary>
+    /// <param name="guildId">The Discord guild ID</param>
+    /// <param name="voiceChannelId">The voice channel ID</param>
+    /// <returns>OK result when settings are removed</returns>
+    [HttpDelete("tts/vc/{voiceChannelId}")]
+    [Authorize("ApiKeyPolicy")]
+    public async Task<IActionResult> RemoveTtsVcSetting(ulong guildId, ulong voiceChannelId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        await db.GetTable<TtsVoiceChannelSetting>()
+            .DeleteAsync(x => x.GuildId == guildId && x.VoiceChannelId == voiceChannelId);
+
+        return Ok(new
+        {
+            Message = "Voice channel TTS settings removed"
+        });
+    }
+
+    /// <summary>
+    ///     Sets a user's TTS voice for this guild
+    /// </summary>
+    /// <param name="guildId">The Discord guild ID</param>
+    /// <param name="userId">The user ID</param>
+    /// <param name="request">The voice name, or null to reset</param>
+    /// <returns>The updated user voice</returns>
+    [HttpPost("tts/user/{userId}/voice")]
+    [Authorize("ApiKeyPolicy")]
+    public async Task<IActionResult> SetTtsUserVoice(ulong guildId, ulong userId, [FromBody] TtsVoiceRequest request)
+    {
+        await UpsertTtsUserSettingAsync(guildId, userId, s => s.Voice = request.Voice);
+
+        return Ok(new
+        {
+            UserId = userId, request.Voice
+        });
+    }
+
+    /// <summary>
+    ///     Blocks or unblocks a user from TTS
+    /// </summary>
+    /// <param name="guildId">The Discord guild ID</param>
+    /// <param name="userId">The user ID</param>
+    /// <param name="blocked">Whether to block or unblock</param>
+    /// <returns>The updated block status</returns>
+    [HttpPost("tts/user/{userId}/block/{blocked}")]
+    [Authorize("ApiKeyPolicy")]
+    public async Task<IActionResult> SetTtsUserBlocked(ulong guildId, ulong userId, bool blocked)
+    {
+        await UpsertTtsUserSettingAsync(guildId, userId, s => s.IsBlocked = blocked);
+
+        return Ok(new
+        {
+            UserId = userId, IsBlocked = blocked
+        });
+    }
+
+    /// <summary>
+    ///     Gets a user's TTS settings for this guild
+    /// </summary>
+    /// <param name="guildId">The Discord guild ID</param>
+    /// <param name="userId">The user ID</param>
+    /// <returns>The user's TTS settings</returns>
+    [HttpGet("tts/user/{userId}")]
+    [Authorize("ApiKeyPolicy")]
+    public async Task<IActionResult> GetTtsUserSetting(ulong guildId, ulong userId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var setting = await db.GetTable<TtsUserSetting>()
+                          .FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == userId)
+                      ?? new TtsUserSetting
+                      {
+                          GuildId = guildId, UserId = userId
+                      };
+
+        return Ok(new
+        {
+            setting.UserId, setting.Voice, setting.IsBlocked
+        });
+    }
+
+    /// <summary>
+    ///     Gets all blocked TTS users for this guild
+    /// </summary>
+    /// <param name="guildId">The Discord guild ID</param>
+    /// <returns>List of blocked users</returns>
+    [HttpGet("tts/blocked")]
+    [Authorize("ApiKeyPolicy")]
+    public async Task<IActionResult> GetTtsBlockedUsers(ulong guildId)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild == null)
+            return NotFound("Guild not found");
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var blockedUsers = await db.GetTable<TtsUserSetting>()
+            .Where(x => x.GuildId == guildId && x.IsBlocked)
+            .ToListAsync();
+
+        return Ok(blockedUsers.Select(u => new
+        {
+            u.UserId, u.Voice, u.IsBlocked
+        }));
+    }
+
+    /// <summary>
+    ///     Searches available TTS voices from Flowery TTS API
+    /// </summary>
+    /// <param name="guildId">The Discord guild ID</param>
+    /// <param name="search">The search query (name, language, gender, or source)</param>
+    /// <returns>Matching voices</returns>
+    [HttpGet("tts/voices")]
+    [Authorize("ApiKeyPolicy")]
+    public async Task<IActionResult> SearchTtsVoices(ulong guildId, [FromQuery] string search)
+    {
+        if (string.IsNullOrWhiteSpace(search))
+            return BadRequest("Search query is required");
+
+        try
+        {
+            using var http = new HttpClient();
+            http.DefaultRequestHeaders.UserAgent.ParseAdd("Mewdeko/1.0");
+            var json = await http.GetStringAsync("https://api.flowery.pw/v1/tts/voices");
+            var response = JsonSerializer.Deserialize<JsonElement>(json);
+
+            if (!response.TryGetProperty("voices", out var voicesArray))
+                return Ok(Array.Empty<object>());
+
+            var results = new List<object>();
+            foreach (var v in voicesArray.EnumerateArray())
+            {
+                var name = v.GetProperty("name").GetString() ?? "";
+                var gender = v.TryGetProperty("gender", out var g) ? g.GetString() : null;
+                var source = v.TryGetProperty("source", out var s) ? s.GetString() : null;
+                var langName = v.TryGetProperty("language", out var l) && l.TryGetProperty("name", out var ln)
+                    ? ln.GetString()
+                    : null;
+                var langCode = l.TryGetProperty("code", out var lc) ? lc.GetString() : null;
+
+                if (source == "SAM")
+                    continue;
+
+                if (name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    (gender?.Contains(search, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (langName?.Contains(search, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (langCode?.Contains(search, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (source?.Contains(search, StringComparison.OrdinalIgnoreCase) ?? false))
+                {
+                    results.Add(new
+                    {
+                        Name = name,
+                        Gender = gender,
+                        Source = source,
+                        Language = langName,
+                        LanguageCode = langCode
+                    });
+                }
+            }
+
+            return Ok(results);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error searching TTS voices");
+            return StatusCode(500, "Failed to fetch voices from Flowery TTS API");
+        }
+    }
+
+    /// <summary>
     ///     Gets or sets filters
     /// </summary>
     /// <param name="guildId">The Discord guild ID</param>
@@ -950,5 +1236,50 @@ public class MusicController : Controller
         {
             Filter = filterName, Enabled = enable
         });
+    }
+
+    private async Task<MusicPlayerSetting> GetOrCreateMusicSettings(ulong guildId)
+    {
+        var settings = await cache.GetMusicPlayerSettings(guildId);
+        if (settings is not null)
+            return settings;
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        settings = await db.MusicPlayerSettings
+            .FirstOrDefaultAsync(x => x.GuildId == guildId);
+
+        if (settings is null)
+        {
+            settings = new MusicPlayerSetting
+            {
+                GuildId = guildId
+            };
+            await db.InsertAsync(settings);
+        }
+
+        await cache.SetMusicPlayerSettings(guildId, settings);
+        return settings;
+    }
+
+    private async Task UpsertTtsUserSettingAsync(ulong guildId, ulong userId, Action<TtsUserSetting> update)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var existing = await db.GetTable<TtsUserSetting>()
+            .FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == userId);
+
+        if (existing is not null)
+        {
+            update(existing);
+            await db.UpdateAsync(existing);
+        }
+        else
+        {
+            var setting = new TtsUserSetting
+            {
+                GuildId = guildId, UserId = userId
+            };
+            update(setting);
+            await db.InsertAsync(setting);
+        }
     }
 }

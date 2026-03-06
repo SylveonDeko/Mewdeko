@@ -154,6 +154,8 @@ namespace DataModel
 		public ITable<TicketTag>                 TicketTags                 => this.GetTable<TicketTag>();
 		public ITable<Ticket>                    Tickets                    => this.GetTable<Ticket>();
 		public ITable<TransactionHistory>        TransactionHistories       => this.GetTable<TransactionHistory>();
+		public ITable<TtsUserSetting>            TtsUserSettings            => this.GetTable<TtsUserSetting>();
+		public ITable<TtsVoiceChannelSetting>    TtsVoiceChannelSettings    => this.GetTable<TtsVoiceChannelSetting>();
 		public ITable<UnbanTimer>                UnbanTimers                => this.GetTable<UnbanTimer>();
 		public ITable<UnmuteTimer>               UnmuteTimers               => this.GetTable<UnmuteTimer>();
 		public ITable<UnroleTimer>               UnroleTimers               => this.GetTable<UnroleTimer>();
