@@ -131,7 +131,10 @@ public class RepeatersController : Controller
                 MaxAge = repeater.Repeater.MaxAge,
                 MaxTriggers = repeater.Repeater.MaxTriggers,
                 ThreadAutoSticky = repeater.Repeater.ThreadAutoSticky,
+                ThreadOnlyMode = repeater.Repeater.ThreadOnlyMode,
+                SuppressNotifications = repeater.Repeater.SuppressNotifications,
                 ForumTagConditions = repeater.Repeater.ForumTagConditions,
+                ThreadStickyMessages = repeater.Repeater.ThreadStickyMessages,
                 DisplayCount = repeater.Repeater.DisplayCount,
                 LastDisplayed = repeater.Repeater.LastDisplayed,
                 DateAdded = repeater.Repeater.DateAdded,
@@ -398,6 +401,43 @@ public class RepeatersController : Controller
                     request.TimeConditions));
             }
 
+            if (request.ConversationThreshold.HasValue)
+            {
+                updateTasks.Add(repeaterService.UpdateRepeaterConversationThresholdAsync(guildId, repeaterId,
+                    request.ConversationThreshold.Value));
+            }
+
+            if (request.MaxAge != null || request.MaxTriggers.HasValue)
+            {
+                updateTasks.Add(repeaterService.UpdateRepeaterExpiryAsync(guildId, repeaterId,
+                    request.MaxAge, request.MaxTriggers));
+            }
+
+            if (request.ThreadAutoSticky.HasValue)
+            {
+                // Only toggle if the value differs from current
+                if (request.ThreadAutoSticky.Value != repeater.Repeater.ThreadAutoSticky)
+                    updateTasks.Add(repeaterService.ToggleRepeaterThreadAutoStickyAsync(guildId, repeaterId));
+            }
+
+            if (request.ThreadOnlyMode.HasValue)
+            {
+                if (request.ThreadOnlyMode.Value != repeater.Repeater.ThreadOnlyMode)
+                    updateTasks.Add(repeaterService.ToggleRepeaterThreadOnlyModeAsync(guildId, repeaterId));
+            }
+
+            if (request.ForumTagConditions != null)
+            {
+                updateTasks.Add(repeaterService.UpdateRepeaterForumTagConditionsAsync(guildId, repeaterId,
+                    request.ForumTagConditions));
+            }
+
+            if (request.SuppressNotifications.HasValue)
+            {
+                if (request.SuppressNotifications.Value != repeater.Repeater.SuppressNotifications)
+                    updateTasks.Add(repeaterService.ToggleRepeaterSuppressNotificationsAsync(guildId, repeaterId));
+            }
+
             // Wait for all updates to complete
             var results = await Task.WhenAll(updateTasks);
             if (results.Any(r => !r))
@@ -649,6 +689,11 @@ public class RepeatersController : Controller
         if (request.ThreadOnlyMode)
         {
             updateTasks.Add(repeaterService.ToggleRepeaterThreadOnlyModeAsync(guildId, repeaterId));
+        }
+
+        if (request.SuppressNotifications)
+        {
+            updateTasks.Add(repeaterService.ToggleRepeaterSuppressNotificationsAsync(guildId, repeaterId));
         }
 
         if (!string.IsNullOrWhiteSpace(request.ForumTagConditions))

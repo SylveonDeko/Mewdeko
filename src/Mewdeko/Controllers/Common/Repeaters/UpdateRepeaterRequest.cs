@@ -101,4 +101,9 @@ public class UpdateRepeaterRequest
     ///     Forum tag conditions JSON (null to keep existing)
     /// </summary>
     public string? ForumTagConditions { get; set; }
+
+    /// <summary>
+    ///     Whether to suppress notifications (null to keep existing)
+    /// </summary>
+    public bool? SuppressNotifications { get; set; }
 }

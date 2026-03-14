@@ -101,4 +101,9 @@ public class CreateRepeaterRequest
     ///     JSON string of forum tag conditions
     /// </summary>
     public string? ForumTagConditions { get; set; }
+
+    /// <summary>
+    ///     Whether to suppress notifications when sending messages
+    /// </summary>
+    public bool SuppressNotifications { get; set; } = false;
 }
