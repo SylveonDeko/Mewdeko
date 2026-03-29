@@ -3453,3 +3453,31 @@ yomama:
 youtube:
   - youtube
   - yt
+mcstatus:
+  - mcstatus
+  - mcs
+mcadd:
+  - mcadd
+mcremove:
+  - mcremove
+  - mcrm
+mclist:
+  - mclist
+  - mcl
+mcdefault:
+  - mcdefault
+  - mcdef
+mcwatch:
+  - mcwatch
+  - mcw
+mcwatchmode:
+  - mcwatchmode
+  - mcwm
+mcembed:
+  - mcembed
+  - mce
+mcplayer:
+  - mcplayer
+  - mcp
+mcskin:
+  - mcskin

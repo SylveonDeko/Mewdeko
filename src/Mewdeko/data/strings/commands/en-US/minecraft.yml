@@ -1,0 +1,102 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'Checks the status of a Minecraft server. Use a registered server name, a direct address, or leave blank for the default server.'
+  params:
+    - desc: 'The registered server name or direct address (e.g. play.example.com:25565).'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: 'Adds a Minecraft server to the guild. Prefix address with bedrock: for Bedrock servers.'
+  params:
+    - desc: 'A label for the server.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'The server address, optionally with port (e.g. play.example.com:25565 or bedrock:play.example.com).'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: 'Removes a Minecraft server from the guild.'
+  params:
+    - desc: 'The name of the server to remove.'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: 'Lists all registered Minecraft servers for this guild.'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: 'Sets a server as the default for status commands.'
+  params:
+    - desc: 'The name of the server to set as default.'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: 'Sets a channel to receive periodic status updates for a server. Omit the channel to disable.'
+  params:
+    - desc: 'The name of the server to watch.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'The channel to post updates in.'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: 'Sets how server status is displayed: embed (edit in place), channel topic, or both.'
+  params:
+    - desc: 'The name of the server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'The watch mode: Embed, ChannelTopic, or Both.'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: 'Sets a custom embed template for a watched server. Use "-" to reset. Placeholders: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
+  params:
+    - desc: 'The name of the server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'The embed template JSON, or "-" to reset to default.'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: 'Looks up a Minecraft player by username and displays their profile and skin.'
+  params:
+    - desc: 'The Minecraft username to look up.'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'Displays a Minecraft player''s skin render.'
+  params:
+    - desc: 'The Minecraft username.'
+      name: username
+      optional: false
+      type: string
