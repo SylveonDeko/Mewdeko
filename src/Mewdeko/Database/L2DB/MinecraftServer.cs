@@ -53,6 +53,21 @@ public class MinecraftServer
     [Column("LastStatusJson")]
     public string? LastStatusJson { get; set; } // text
 
+    [Column("CustomOnlineMessage")]
+    public string? CustomOnlineMessage { get; set; } // text
+
+    [Column("CustomOfflineMessage")]
+    public string? CustomOfflineMessage { get; set; } // text
+
+    [Column("RconPort")]
+    public int RconPort { get; set; } // integer
+
+    [Column("RconPassword")]
+    public string? RconPassword { get; set; } // text
+
+    [Column("RconEnabled")]
+    public bool RconEnabled { get; set; } // boolean
+
     [Column("DateAdded")]
     public DateTime? DateAdded { get; set; } // timestamp (6) without time zone
 }

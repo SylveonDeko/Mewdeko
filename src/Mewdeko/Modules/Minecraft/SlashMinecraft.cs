@@ -23,6 +23,13 @@ public class SlashMinecraft : MewdekoSlashModuleBase<MinecraftService>
     {
         await DeferAsync().ConfigureAwait(false);
 
+        if (!await Service.CheckQueryRateLimitAsync(ctx.Guild.Id))
+        {
+            await FollowupAsync(embed: new EmbedBuilder().WithErrorColor()
+                .WithDescription(Strings.McRateLimited(ctx.Guild.Id)).Build()).ConfigureAwait(false);
+            return;
+        }
+
         var server = await Service.GetServerAsync(ctx.Guild.Id, serverName);
 
         if (server == null && !string.IsNullOrWhiteSpace(serverName) && serverName.Contains('.'))
@@ -30,6 +37,14 @@ public class SlashMinecraft : MewdekoSlashModuleBase<MinecraftService>
             var parts = serverName.Split(':');
             var address = parts[0];
             var port = parts.Length > 1 && int.TryParse(parts[1], out var p) ? p : 25565;
+
+            if (!Service.IsAddressSafe(address))
+            {
+                await FollowupAsync(embed: new EmbedBuilder().WithErrorColor()
+                    .WithDescription(Strings.McAddressBlocked(ctx.Guild.Id)).Build()).ConfigureAwait(false);
+                return;
+            }
+
             var status = await Service.QueryJavaServerAsync(address, port);
             if (status == null)
             {
@@ -77,7 +92,7 @@ public class SlashMinecraft : MewdekoSlashModuleBase<MinecraftService>
     [SlashUserPerm(GuildPermission.ManageGuild)]
     [CheckPermissions]
     public async Task McAdd(string name, string address,
-        [Choice("Java", 0)] [Choice("Bedrock", 1)]
+        [Choice("Java", 0)] [Choice("Bedrock", 1)] [Choice("Geyser (Java + Bedrock)", 2)]
         int type = 0)
     {
         var serverType = (McServerType)type;
@@ -290,5 +305,56 @@ public class SlashMinecraft : MewdekoSlashModuleBase<MinecraftService>
             .WithImageUrl(profile.SkinUrl);
 
         await FollowupAsync(embed: eb.Build()).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Sends an RCON command to a registered Minecraft server.
+    /// </summary>
+    /// <param name="serverName">The name of the server.</param>
+    /// <param name="command">The command to execute.</param>
+    [SlashCommand("rcon", "Send an RCON command to a Minecraft server")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
+    public async Task McRcon(string serverName, string command)
+    {
+        await DeferAsync(true).ConfigureAwait(false);
+
+        var (success, response, _) = await Service.SendRconCommandAsync(ctx.Guild.Id, serverName, command);
+        if (success)
+            await FollowupAsync($"```\n{response}\n```", ephemeral: true).ConfigureAwait(false);
+        else
+            await FollowupAsync(embed: new EmbedBuilder().WithErrorColor()
+                .WithDescription(response).Build(), ephemeral: true).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Manages the whitelist on a registered Minecraft server via RCON.
+    /// </summary>
+    /// <param name="serverName">The server name.</param>
+    /// <param name="action">The whitelist action.</param>
+    /// <param name="playerName">The player name (for add/remove).</param>
+    [SlashCommand("whitelist", "Manage the whitelist on a Minecraft server")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
+    [CheckPermissions]
+    public async Task McWhitelist(string serverName,
+        [Choice("Add", "add")]
+        [Choice("Remove", "remove")]
+        [Choice("List", "list")]
+        [Choice("Enable", "on")]
+        [Choice("Disable", "off")]
+        [Choice("Reload", "reload")]
+        string action,
+        string? playerName = null)
+    {
+        await DeferAsync().ConfigureAwait(false);
+
+        var (success, response) = await Service.WhitelistCommandAsync(ctx.Guild.Id, serverName, action, playerName);
+        if (success)
+            await FollowupAsync($"```\n{response}\n```").ConfigureAwait(false);
+        else
+            await FollowupAsync(embed: new EmbedBuilder().WithErrorColor()
+                .WithDescription(response).Build()).ConfigureAwait(false);
     }
 }

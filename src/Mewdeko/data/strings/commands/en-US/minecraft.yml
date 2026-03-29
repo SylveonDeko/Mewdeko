@@ -100,3 +100,33 @@ mcskin:
       name: username
       optional: false
       type: string
+mcrcon:
+  args:
+    - name command
+  desc: 'Sends an RCON command to a registered Minecraft server. RCON must be configured via the dashboard.'
+  params:
+    - desc: 'The name of the server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'The command to execute on the server.'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'Manages the whitelist on a Minecraft server via RCON. Requires RCON to be configured.'
+  params:
+    - desc: 'The name of the server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'The action: add, remove, list, on, off, reload.'
+      name: action
+      optional: false
+      type: string
+    - desc: 'The player name (for add/remove).'
+      name: playerName
+      optional: true
+      type: string

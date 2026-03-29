@@ -16,7 +16,12 @@ public enum McServerType
     /// <summary>
     ///     Bedrock Edition server.
     /// </summary>
-    Bedrock = 1
+    Bedrock = 1,
+
+    /// <summary>
+    ///     Geyser/hybrid server (Java + Bedrock). Queries Java port primarily, Bedrock port for Bedrock-specific data.
+    /// </summary>
+    Geyser = 2
 }
 
 /// <summary>
@@ -71,6 +76,11 @@ public class McServerStatus
     public List<string> PlayerList { get; set; } = [];
 
     /// <summary>
+    ///     Gets or sets a mapping of player names to UUIDs (when available from SLP).
+    /// </summary>
+    public Dictionary<string, string> PlayerUuids { get; set; } = new();
+
+    /// <summary>
     ///     Gets or sets the server version string.
     /// </summary>
     public string Version { get; set; } = "";
@@ -109,6 +119,11 @@ public class McServerStatus
     ///     Gets or sets whether the data was retrieved via the Query protocol.
     /// </summary>
     public bool IsQueryResponse { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether this is a Geyser/hybrid server.
+    /// </summary>
+    public bool IsGeyser { get; set; }
 }
 
 /// <summary>

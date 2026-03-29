@@ -79,18 +79,23 @@ public class StatusRolesService : INService
         if (args is not SocketGuildUser user)
             return;
 
-        // Check if user is offline/invisible - if so, ignore completely
         var isOffline = args3?.Status == UserStatus.Offline || args3?.Status == UserStatus.Invisible;
         if (isOffline)
             return;
 
-        // User is online - get their current custom status
         var status = args3.Activities?.FirstOrDefault() as CustomStatusGame;
         var currentState = status?.State;
         var currentEncodedStatus = currentState?.ToBase64();
 
-        // Check what we have cached as their last known status
-        var cachedStatus = await cache.GetOrDefaultAsync<string>($"userStatus_{user.Id}");
+        string cachedStatus;
+        try
+        {
+            cachedStatus = await cache.GetOrDefaultAsync<string>($"userStatus_{user.Id}");
+        }
+        catch (ObjectDisposedException)
+        {
+            return;
+        }
 
         // If status hasn't changed from our cache, don't process
         if (cachedStatus == currentEncodedStatus)

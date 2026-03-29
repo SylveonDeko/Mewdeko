@@ -238,6 +238,7 @@ public class MinecraftController(
                 IsOnline = false
             });
 
+        await minecraftService.RecordSnapshotAsync(server, status);
         return Ok(MapStatusToResponse(status));
     }
 
@@ -253,6 +254,9 @@ public class MinecraftController(
         var parts = address.Split(':');
         var host = parts[0];
         var port = parts.Length > 1 && int.TryParse(parts[1], out var p) ? p : 25565;
+
+        if (!minecraftService.IsAddressSafe(host))
+            return BadRequest("That address is not allowed. Private, reserved, and local addresses are blocked.");
 
         var status = await minecraftService.QueryJavaServerAsync(host, port);
         if (status == null)
@@ -315,6 +319,74 @@ public class MinecraftController(
         }));
     }
 
+    /// <summary>
+    ///     Configures RCON settings for a server (enable, port, password).
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <summary>
+    ///     Sets the custom online alert message for a server.
+    /// </summary>
+    [HttpPut("servers/{name}/online-message")]
+    public async Task<IActionResult> SetOnlineMessage(ulong guildId, string name,
+        [FromBody] SetCustomEmbedRequest request)
+    {
+        var server = await minecraftService.SetCustomOnlineMessageAsync(guildId, name, request.Template);
+        if (server == null)
+            return NotFound("Server not found");
+        return Ok(MapToResponse(server));
+    }
+
+    /// <summary>
+    ///     Sets the custom offline alert message for a server.
+    /// </summary>
+    [HttpPut("servers/{name}/offline-message")]
+    public async Task<IActionResult> SetOfflineMessage(ulong guildId, string name,
+        [FromBody] SetCustomEmbedRequest request)
+    {
+        var server = await minecraftService.SetCustomOfflineMessageAsync(guildId, name, request.Template);
+        if (server == null)
+            return NotFound("Server not found");
+        return Ok(MapToResponse(server));
+    }
+
+    /// <param name="name">The server name.</param>
+    /// <param name="request">The RCON configuration.</param>
+    /// <returns>The updated server.</returns>
+    [HttpPut("servers/{name}/rcon")]
+    public async Task<IActionResult> SetRconConfig(ulong guildId, string name,
+        [FromBody] SetRconConfigRequest request)
+    {
+        var server =
+            await minecraftService.SetRconConfigAsync(guildId, name, request.Enabled, request.Port, request.Password);
+        if (server == null)
+            return NotFound("Server not found");
+
+        return Ok(MapToResponse(server));
+    }
+
+    /// <summary>
+    ///     Sends an RCON command to a server and returns the response.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="name">The server name.</param>
+    /// <param name="request">The command to execute.</param>
+    /// <returns>The command response.</returns>
+    [HttpPost("servers/{name}/rcon")]
+    public async Task<IActionResult> SendRconCommand(ulong guildId, string name,
+        [FromBody] RconCommandRequest request)
+    {
+        if (string.IsNullOrWhiteSpace(request.Command))
+            return BadRequest("Command is required");
+
+        var (success, response, rawResponse) =
+            await minecraftService.SendRconCommandAsync(guildId, name, request.Command);
+
+        return Ok(new
+        {
+            success, response, rawResponse
+        });
+    }
+
     private static MinecraftServerResponse MapToResponse(MinecraftServer server)
     {
         return new MinecraftServerResponse
@@ -331,7 +403,12 @@ public class MinecraftController(
             WatchInterval = server.WatchInterval,
             WatchMode = server.WatchMode,
             CustomEmbedTemplate = server.CustomEmbedTemplate,
+            CustomOnlineMessage = server.CustomOnlineMessage,
+            CustomOfflineMessage = server.CustomOfflineMessage,
             LastOnline = server.LastOnline,
+            RconEnabled = server.RconEnabled,
+            RconPort = server.RconPort,
+            HasRconPassword = !string.IsNullOrWhiteSpace(server.RconPassword),
             DateAdded = server.DateAdded
         };
     }
@@ -345,6 +422,7 @@ public class MinecraftController(
             PlayersOnline = status.PlayersOnline,
             PlayersMax = status.PlayersMax,
             PlayerList = status.PlayerList,
+            PlayerUuids = status.PlayerUuids,
             Version = status.Version,
             Latency = status.Latency,
             Map = status.Map,

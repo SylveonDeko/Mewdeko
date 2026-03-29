@@ -81,11 +81,18 @@ public class PatreonService : BackgroundService, INService, IReadyExecutor
                 // Check every hour
                 await Task.Delay(TimeSpan.FromHours(1), stoppingToken);
             }
+            catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+            {
+                break;
+            }
+            catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+            {
+                break;
+            }
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error in PatreonService background task");
 
-                // Wait 5 minutes before retrying on error
                 await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
             }
         }

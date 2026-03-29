@@ -445,10 +445,16 @@ public class Mewdeko : IDisposable
                 Client.LeftGuild -= Client_LeftGuild;
             }
 
-            var commandService = Services.GetService<CommandService>();
-            if (commandService != null)
+            try
             {
-                commandService.Log -= LogCommandsService;
+                var commandService = Services.GetService<CommandService>();
+                if (commandService != null)
+                {
+                    commandService.Log -= LogCommandsService;
+                }
+            }
+            catch (ObjectDisposedException)
+            {
             }
         }
 

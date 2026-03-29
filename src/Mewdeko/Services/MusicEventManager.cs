@@ -6,6 +6,7 @@ using Lavalink4NET;
 using Lavalink4NET.Events.Players;
 using Lavalink4NET.Players;
 using Mewdeko.Modules.Music.CustomPlayer;
+using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Http;
 
 namespace Mewdeko.Services;
@@ -85,44 +86,39 @@ public class MusicEventManager : INService, IDisposable
     public async Task HandleWebSocketConnection(ulong guildId, ulong userId, WebSocket webSocket, HttpContext context)
     {
         var connectionId = Guid.NewGuid().ToString();
+        var ct = context.RequestAborted;
 
         try
         {
-            // Register this connection with userId
             RegisterWebSocketConnection(guildId, connectionId, webSocket, userId);
 
-            // Send initial player status
             await SendInitialStatus(guildId, userId, webSocket);
 
-            // Ensure position updates are active for this guild
             EnsurePositionUpdatesActive(guildId);
 
-            // Handle messages from client
             var buffer = new byte[1024 * 4];
-            var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), ct);
 
-            // Keep connection alive until closed
             while (!result.CloseStatus.HasValue)
             {
-                // Process any messages (could implement commands here)
                 if (result.MessageType == WebSocketMessageType.Text && result.Count > 0)
                 {
                     var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
-                    // Could handle commands here
                 }
 
-                // Get next message
-                result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), ct);
             }
 
-            // Clean close
             await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
+        }
+        catch (OperationCanceledException)
+        {
         }
         catch (WebSocketException ex)
         {
             logger.LogDebug(ex, "WebSocket closed: {ConnectionId}", connectionId);
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not ConnectionAbortedException)
         {
             logger.LogError(ex, "Error in WebSocket connection for guild {GuildId}", guildId);
 

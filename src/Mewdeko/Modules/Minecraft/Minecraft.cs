@@ -20,6 +20,12 @@ public class Minecraft : MewdekoModuleBase<MinecraftService>
     [RequireContext(ContextType.Guild)]
     public async Task McStatus([Remainder] string? serverName = null)
     {
+        if (!await Service.CheckQueryRateLimitAsync(ctx.Guild.Id))
+        {
+            await ErrorAsync(Strings.McRateLimited(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
         var server = await Service.GetServerAsync(ctx.Guild.Id, serverName);
 
         if (server == null && !string.IsNullOrWhiteSpace(serverName) && serverName.Contains('.'))
@@ -27,6 +33,13 @@ public class Minecraft : MewdekoModuleBase<MinecraftService>
             var parts = serverName.Split(':');
             var address = parts[0];
             var port = parts.Length > 1 && int.TryParse(parts[1], out var p) ? p : 25565;
+
+            if (!Service.IsAddressSafe(address))
+            {
+                await ErrorAsync(Strings.McAddressBlocked(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
             var status = await Service.QueryJavaServerAsync(address, port);
             if (status == null)
             {
@@ -280,5 +293,71 @@ public class Minecraft : MewdekoModuleBase<MinecraftService>
             .WithImageUrl(profile.SkinUrl);
 
         await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Sends an RCON command to a registered Minecraft server.
+    /// </summary>
+    /// <param name="serverName">The name of the server.</param>
+    /// <param name="command">The command to execute.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task McRcon(string serverName, [Remainder] string command)
+    {
+        var (success, response, _) = await Service.SendRconCommandAsync(ctx.Guild.Id, serverName, command);
+        if (success)
+            await ConfirmAsync($"```\n{response}\n```").ConfigureAwait(false);
+        else
+            await ErrorAsync(response).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Manages the whitelist on a registered Minecraft server via RCON.
+    /// </summary>
+    /// <param name="serverName">The server name.</param>
+    /// <param name="action">The action: add, remove, list, on, off, reload.</param>
+    /// <param name="playerName">The player name (for add/remove).</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public async Task McWhitelist(string serverName, string action, [Remainder] string? playerName = null)
+    {
+        var (success, response) = await Service.WhitelistCommandAsync(ctx.Guild.Id, serverName, action, playerName);
+
+        if (!success)
+        {
+            await ErrorAsync(response).ConfigureAwait(false);
+            return;
+        }
+
+        if (action.Equals("list", StringComparison.OrdinalIgnoreCase) && !string.IsNullOrWhiteSpace(response))
+        {
+            var players = response.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Where(p => !p.StartsWith("There are"))
+                .ToList();
+
+            if (players.Count > 0)
+            {
+                var eb = new EmbedBuilder().WithOkColor()
+                    .WithTitle(Strings.McWhitelistTitle(ctx.Guild.Id, serverName));
+
+                var descriptions = new List<string>();
+                foreach (var player in players)
+                {
+                    var avatarUrl = $"https://crafatar.com/avatars/{player}?size=16&overlay";
+                    descriptions.Add(player);
+                }
+
+                eb.WithDescription(string.Join("\n", descriptions));
+                eb.WithFooter($"{players.Count} player(s)");
+                await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+                return;
+            }
+        }
+
+        await ConfirmAsync($"```\n{response}\n```").ConfigureAwait(false);
     }
 }

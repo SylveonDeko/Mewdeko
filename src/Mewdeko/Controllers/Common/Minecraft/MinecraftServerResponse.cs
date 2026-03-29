@@ -71,6 +71,31 @@ public class MinecraftServerResponse
     public bool? LastOnline { get; set; }
 
     /// <summary>
+    ///     The custom online alert message template.
+    /// </summary>
+    public string? CustomOnlineMessage { get; set; }
+
+    /// <summary>
+    ///     The custom offline alert message template.
+    /// </summary>
+    public string? CustomOfflineMessage { get; set; }
+
+    /// <summary>
+    ///     Whether RCON is enabled.
+    /// </summary>
+    public bool RconEnabled { get; set; }
+
+    /// <summary>
+    ///     The RCON port.
+    /// </summary>
+    public int RconPort { get; set; }
+
+    /// <summary>
+    ///     Whether a RCON password is configured (never exposes the actual password).
+    /// </summary>
+    public bool HasRconPassword { get; set; }
+
+    /// <summary>
     ///     When the server was added.
     /// </summary>
     public DateTime? DateAdded { get; set; }

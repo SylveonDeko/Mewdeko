@@ -223,6 +223,18 @@ public sealed class BotConfig
     [Comment(
         "Notify the owner of the bot when the bot gets quarantined. Only dms first owner if ForwardMessages is enabled.")]
     public bool QuarantineNotification { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether private/reserved IP addresses are allowed for Minecraft server queries.
+    ///     Enable this if you are self-hosting and need to query servers on your local network.
+    /// </summary>
+    [Comment("""
+             Whether to allow private/reserved IP addresses (127.x, 10.x, 192.168.x, etc.)
+             for Minecraft server queries. Only enable this if you are self-hosting
+             and need to query servers on your local network.
+             Default is false for security (SSRF prevention).
+             """)]
+    public bool AllowPrivateMinecraftAddresses { get; set; }
 }
 
 /// <summary>

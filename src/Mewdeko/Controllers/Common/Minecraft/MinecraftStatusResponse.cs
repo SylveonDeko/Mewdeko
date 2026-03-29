@@ -31,6 +31,11 @@ public class MinecraftStatusResponse
     public List<string> PlayerList { get; set; } = [];
 
     /// <summary>
+    ///     Mapping of player names to UUIDs (when available).
+    /// </summary>
+    public Dictionary<string, string> PlayerUuids { get; set; } = new();
+
+    /// <summary>
     ///     The server version string.
     /// </summary>
     public string Version { get; set; } = "";

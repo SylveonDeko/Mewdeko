@@ -1,4 +1,5 @@
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
@@ -11,6 +12,7 @@ using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Minecraft.Common;
+using Mewdeko.Services.Settings;
 using Mewdeko.Services.Strings;
 using Microsoft.Extensions.Caching.Memory;
 using ZiggyCreatures.Caching.Fusion;
@@ -26,6 +28,7 @@ namespace Mewdeko.Modules.Minecraft.Services;
 /// <param name="cache">The memory cache instance.</param>
 /// <param name="fusionCache">The distributed fusion cache for status data.</param>
 /// <param name="httpFactory">The HTTP client factory.</param>
+/// <param name="botConfig">The bot configuration service.</param>
 /// <param name="strings">The localization service.</param>
 /// <param name="logger">The logger instance.</param>
 public class MinecraftService(
@@ -34,6 +37,7 @@ public class MinecraftService(
     IMemoryCache cache,
     IFusionCache fusionCache,
     IHttpClientFactory httpFactory,
+    BotConfigService botConfig,
     GeneratedBotStrings strings,
     ILogger<MinecraftService> logger)
     : INService, IReadyExecutor, IDisposable
@@ -41,6 +45,8 @@ public class MinecraftService(
     private const string ServersCacheKey = "mc_servers_{0}";
     private const string StatusCacheKey = "mc_status_{0}";
     private const string SnapshotsCacheKey = "mc_snapshots_{0}_{1}";
+    private const string QueryRateLimitKey = "mc_ratelimit_{0}";
+    private const int MaxQueriesPerMinute = 10;
     private readonly ConcurrentDictionary<int, Timer> watchTimers = new();
     private bool isDisposed;
 
@@ -98,6 +104,83 @@ public class MinecraftService(
         {
             logger.LogError(ex, "Error initializing Minecraft service");
         }
+    }
+
+    /// <summary>
+    ///     Validates that a server address is not a private/reserved IP range (SSRF prevention).
+    ///     Respects the AllowPrivateMinecraftAddresses bot config setting.
+    /// </summary>
+    /// <param name="address">The address to validate.</param>
+    /// <returns>True if the address is safe to connect to.</returns>
+    public bool IsAddressSafe(string address)
+    {
+        if (string.IsNullOrWhiteSpace(address))
+            return false;
+
+        if (botConfig.Data.AllowPrivateMinecraftAddresses)
+            return true;
+
+        if (IPAddress.TryParse(address, out var ip))
+            return !IsPrivateOrReserved(ip);
+
+        var lower = address.ToLowerInvariant();
+        if (lower is "localhost" or "host.docker.internal" or "kubernetes.default")
+            return false;
+        if (lower.EndsWith(".local") || lower.EndsWith(".internal"))
+            return false;
+
+        try
+        {
+            var addresses = Dns.GetHostAddresses(address);
+            return addresses.Length > 0 && addresses.All(a => !IsPrivateOrReserved(a));
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    ///     Checks rate limiting for server queries per guild.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <returns>True if the query is allowed, false if rate limited.</returns>
+    public async Task<bool> CheckQueryRateLimitAsync(ulong guildId)
+    {
+        var cacheKey = string.Format(QueryRateLimitKey, guildId);
+        var count = await fusionCache.GetOrDefaultAsync<int>(cacheKey);
+        if (count >= MaxQueriesPerMinute)
+            return false;
+
+        await fusionCache.SetAsync(cacheKey, count + 1, TimeSpan.FromMinutes(1));
+        return true;
+    }
+
+    private static bool IsPrivateOrReserved(IPAddress ip)
+    {
+        var bytes = ip.GetAddressBytes();
+
+        if (ip.AddressFamily == AddressFamily.InterNetwork && bytes.Length == 4)
+        {
+            if (bytes[0] == 10) return true;
+            if (bytes[0] == 172 && bytes[1] >= 16 && bytes[1] <= 31) return true;
+            if (bytes[0] == 192 && bytes[1] == 168) return true;
+            if (bytes[0] == 127) return true;
+            if (bytes[0] == 0) return true;
+            if (bytes[0] == 169 && bytes[1] == 254) return true;
+            if (bytes[0] == 100 && bytes[1] >= 64 && bytes[1] <= 127) return true;
+            if (bytes[0] == 198 && bytes[1] == 18) return true;
+            if (bytes[0] >= 224) return true;
+        }
+
+        if (ip.AddressFamily == AddressFamily.InterNetworkV6)
+        {
+            if (IPAddress.IsLoopback(ip)) return true;
+            if (ip.IsIPv6LinkLocal || ip.IsIPv6SiteLocal) return true;
+            if (bytes[0] == 0xfc || bytes[0] == 0xfd) return true;
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -173,6 +256,9 @@ public class MinecraftService(
                 PlayersOnline = status.Players?.Online ?? 0,
                 PlayersMax = status.Players?.Max ?? 0,
                 PlayerList = status.Players?.Sample?.Select(p => p.Name).ToList() ?? [],
+                PlayerUuids = status.Players?.Sample?
+                    .Where(p => !string.IsNullOrEmpty(p.Id) && p.Id != "00000000-0000-0000-0000-000000000000")
+                    .ToDictionary(p => p.Name, p => p.Id.Replace("-", "")) ?? new Dictionary<string, string>(),
                 Version = status.Version?.Name ?? "Unknown",
                 Favicon = status.Favicon,
                 Latency = latency
@@ -311,9 +397,17 @@ public class MinecraftService(
         var queryPort = server.QueryPort > 0 ? server.QueryPort : server.Port;
         var queryResult = await QueryFullStatusAsync(server.Address, queryPort);
         if (queryResult is { IsOnline: true })
+        {
+            if (server.ServerType == (int)McServerType.Geyser)
+                queryResult.IsGeyser = true;
             return queryResult;
+        }
 
-        return await QueryJavaServerAsync(server.Address, server.Port);
+        var javaResult = await QueryJavaServerAsync(server.Address, server.Port);
+        if (javaResult is { IsOnline: true } && server.ServerType == (int)McServerType.Geyser)
+            javaResult.IsGeyser = true;
+
+        return javaResult;
     }
 
     /// <summary>
@@ -356,6 +450,10 @@ public class MinecraftService(
     public async Task<MinecraftServer> AddServerAsync(ulong guildId, string name, string address, int port,
         McServerType serverType)
     {
+        if (!IsAddressSafe(address))
+            throw new InvalidOperationException(
+                "That address is not allowed. Private, reserved, and local addresses are blocked.");
+
         await using var db = await dbFactory.CreateConnectionAsync();
 
         var existing = await db.MinecraftServers
@@ -709,7 +807,184 @@ public class MinecraftService(
         if (string.IsNullOrWhiteSpace(server.CustomEmbedTemplate))
             return null;
 
-        var replacer = new ReplacementBuilder()
+        var replacer = BuildMcReplacer(server, status, guild).Build();
+        var parsed = replacer.Replace(server.CustomEmbedTemplate);
+
+        if (SmartEmbed.TryParse(parsed, guild.Id, out var embeds, out var plainText, out var components))
+            return (embeds, plainText, components);
+
+        return null;
+    }
+
+    /// <summary>
+    ///     Cleans Minecraft formatting codes from a MOTD string.
+    /// </summary>
+    /// <summary>
+    ///     Sends an RCON command to a server.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="serverName">The server name.</param>
+    /// <param name="command">The command to execute.</param>
+    /// <returns>The server's response, or an error message.</returns>
+    public async Task<(bool Success, string Response, string? RawResponse)> SendRconCommandAsync(ulong guildId,
+        string serverName, string command)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var server = await db.MinecraftServers
+            .FirstOrDefaultAsync(s => s.GuildId == guildId && s.Name == serverName.ToLowerInvariant());
+
+        if (server == null)
+            return (false, "Server not found.", null);
+
+        if (!server.RconEnabled || string.IsNullOrWhiteSpace(server.RconPassword))
+            return (false, "RCON is not configured for this server.", null);
+
+        var rconPort = server.RconPort > 0 ? server.RconPort : 25575;
+
+        try
+        {
+            using var rcon = await RconClient.ConnectAsync(server.Address, rconPort, server.RconPassword);
+            var raw = await rcon.SendCommandAsync(command);
+            var cleaned = CleanFormatting(raw);
+            var display = string.IsNullOrWhiteSpace(cleaned) ? "Command executed (no output)." : cleaned;
+            return (true, display, raw);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return (false, ex.Message, null);
+        }
+        catch (Exception ex)
+        {
+            logger.LogDebug(ex, "RCON command failed for {ServerName}", serverName);
+            return (false, "Failed to connect to RCON. Check the server is running and RCON is enabled.", null);
+        }
+    }
+
+    /// <summary>
+    ///     Configures RCON settings for a server. Only available via API/dashboard.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="serverName">The server name.</param>
+    /// <param name="enabled">Whether RCON is enabled.</param>
+    /// <param name="port">The RCON port.</param>
+    /// <param name="password">The RCON password.</param>
+    /// <returns>The updated server, or null if not found.</returns>
+    public async Task<MinecraftServer?> SetRconConfigAsync(ulong guildId, string serverName, bool enabled, int port,
+        string? password)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var server = await db.MinecraftServers
+            .FirstOrDefaultAsync(s => s.GuildId == guildId && s.Name == serverName.ToLowerInvariant());
+
+        if (server == null) return null;
+
+        server.RconEnabled = enabled;
+        server.RconPort = port;
+        if (password != null)
+            server.RconPassword = password;
+
+        await db.UpdateAsync(server);
+        InvalidateCache(guildId);
+        return server;
+    }
+
+    /// <param name="motd">The raw MOTD string.</param>
+    /// <returns>The cleaned string.</returns>
+    /// <summary>
+    ///     Sets the custom online alert message for a server.
+    /// </summary>
+    public async Task<MinecraftServer?> SetCustomOnlineMessageAsync(ulong guildId, string serverName, string? message)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var server = await db.MinecraftServers
+            .FirstOrDefaultAsync(s => s.GuildId == guildId && s.Name == serverName.ToLowerInvariant());
+        if (server == null) return null;
+
+        server.CustomOnlineMessage = message;
+        await db.UpdateAsync(server);
+        InvalidateCache(guildId);
+        return server;
+    }
+
+    /// <summary>
+    ///     Sets the custom offline alert message for a server.
+    /// </summary>
+    public async Task<MinecraftServer?> SetCustomOfflineMessageAsync(ulong guildId, string serverName, string? message)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var server = await db.MinecraftServers
+            .FirstOrDefaultAsync(s => s.GuildId == guildId && s.Name == serverName.ToLowerInvariant());
+        if (server == null) return null;
+
+        server.CustomOfflineMessage = message;
+        await db.UpdateAsync(server);
+        InvalidateCache(guildId);
+        return server;
+    }
+
+    /// <summary>
+    ///     Sends a whitelist RCON command and returns the response.
+    /// </summary>
+    public async Task<(bool Success, string Response)> WhitelistCommandAsync(ulong guildId, string serverName,
+        string action, string? playerName = null)
+    {
+        var command = action.ToLowerInvariant() switch
+        {
+            "add" when !string.IsNullOrWhiteSpace(playerName) => $"whitelist add {playerName}",
+            "remove" when !string.IsNullOrWhiteSpace(playerName) => $"whitelist remove {playerName}",
+            "list" => "whitelist list",
+            "on" => "whitelist on",
+            "off" => "whitelist off",
+            "reload" => "whitelist reload",
+            _ => null
+        };
+
+        if (command == null)
+            return (false, "Invalid whitelist action. Use: add, remove, list, on, off, reload.");
+
+        var (success, response, _) = await SendRconCommandAsync(guildId, serverName, command);
+        return (success, response);
+    }
+
+    private async Task SendAlertMessageAsync(ITextChannel channel, MinecraftServer server, McServerStatus status,
+        IGuild guild, bool isOnline)
+    {
+        var customMessage = isOnline ? server.CustomOnlineMessage : server.CustomOfflineMessage;
+
+        if (!string.IsNullOrWhiteSpace(customMessage))
+        {
+            var replacer = BuildMcReplacer(server, status, guild).Build();
+            var parsed = replacer.Replace(customMessage);
+
+            if (SmartEmbed.TryParse(parsed, guild.Id, out var embeds, out var plainText, out var components))
+            {
+                await channel.SendMessageAsync(
+                    plainText,
+                    embeds: embeds,
+                    components: components?.Build());
+                return;
+            }
+
+            await channel.SendMessageAsync(parsed);
+            return;
+        }
+
+        var eb = new EmbedBuilder()
+            .WithDescription(isOnline
+                ? strings.McServerCameOnline(guild.Id, server.Name)
+                : strings.McServerWentOffline(guild.Id, server.Name));
+
+        if (isOnline)
+            eb.WithOkColor();
+        else
+            eb.WithErrorColor();
+
+        await channel.SendMessageAsync(embed: eb.Build());
+    }
+
+    private ReplacementBuilder BuildMcReplacer(MinecraftServer server, McServerStatus status, IGuild guild)
+    {
+        return new ReplacementBuilder()
             .WithOverride("%mc.server.name%", () => server.Name)
             .WithOverride("%mc.server.address%", () => server.Address)
             .WithOverride("%mc.server.port%", () => server.Port.ToString())
@@ -729,24 +1004,26 @@ public class MinecraftService(
             .WithOverride("%mc.plugins%", () =>
                 status.Plugins.Count > 0 ? string.Join(", ", status.Plugins.Take(15)) : "None")
             .WithOverride("%mc.query%", () => status.IsQueryResponse ? "Yes" : "No")
-            .Build();
-
-        var parsed = replacer.Replace(server.CustomEmbedTemplate);
-
-        if (SmartEmbed.TryParse(parsed, guild.Id, out var embeds, out var plainText, out var components))
-            return (embeds, plainText, components);
-
-        return null;
+            .WithOverride("%mc.geyser%", () => status.IsGeyser ? "Yes" : "No");
     }
 
     /// <summary>
     ///     Cleans Minecraft formatting codes from a MOTD string.
     /// </summary>
-    /// <param name="motd">The raw MOTD string.</param>
-    /// <returns>The cleaned string.</returns>
     public static string CleanMotd(string motd)
     {
-        return Regex.Replace(motd, @"§[0-9a-fk-or]", "");
+        return CleanFormatting(motd);
+    }
+
+    /// <summary>
+    ///     Strips all Minecraft formatting codes including §x hex color sequences.
+    /// </summary>
+    /// <param name="text">The raw text.</param>
+    /// <returns>The cleaned string.</returns>
+    public static string CleanFormatting(string text)
+    {
+        var cleaned = Regex.Replace(text, @"§x(§[0-9a-fA-F]){6}", "");
+        return Regex.Replace(cleaned, @"§[0-9a-fk-orA-FK-OR]", "");
     }
 
     private void StartWatchTimer(MinecraftServer server)
@@ -794,21 +1071,9 @@ public class MinecraftService(
                 await UpdateWatchTopicAsync(server, status, guild, channel);
 
             if (wasOnline.HasValue && wasOnline.Value && !status.IsOnline)
-            {
-                await channel.SendMessageAsync(
-                    embed: new EmbedBuilder()
-                        .WithErrorColor()
-                        .WithDescription(strings.McServerWentOffline(guild.Id, server.Name))
-                        .Build());
-            }
+                await SendAlertMessageAsync(channel, server, status, guild, false);
             else if (wasOnline.HasValue && !wasOnline.Value && status.IsOnline)
-            {
-                await channel.SendMessageAsync(
-                    embed: new EmbedBuilder()
-                        .WithOkColor()
-                        .WithDescription(strings.McServerCameOnline(guild.Id, server.Name))
-                        .Build());
-            }
+                await SendAlertMessageAsync(channel, server, status, guild, true);
         }
         catch (Exception ex)
         {
@@ -900,8 +1165,12 @@ public class MinecraftService(
         }
     }
 
-    private static McServerStatus ParseFullStatResponse(byte[] data, int latency)
+    private McServerStatus ParseFullStatResponse(byte[] data, int latency)
     {
+        logger.LogInformation("Query full stat response ({Length} bytes): {Hex}",
+            data.Length, Convert.ToHexString(data));
+        logger.LogInformation("Query full stat response (ASCII): {Ascii}",
+            Encoding.ASCII.GetString(data.Select(b => b is >= 32 and <= 126 ? b : (byte)'.').ToArray()));
         var status = new McServerStatus
         {
             IsOnline = true, Latency = latency, IsQueryResponse = true
@@ -953,24 +1222,37 @@ public class MinecraftService(
         if (kvPairs.TryGetValue("software", out var software) && status.Software == null)
             status.Software = software;
 
-        while (offset < data.Length - 2)
+        byte[] playerMarker = [0x00, 0x01, 0x70, 0x6C, 0x61, 0x79, 0x65, 0x72, 0x5F, 0x00, 0x00];
+        var markerIndex = -1;
+        for (var i = offset; i <= data.Length - playerMarker.Length; i++)
         {
-            if (data[offset] == 0x01 && Encoding.ASCII
-                    .GetString(data, offset + 1, Math.Min(10, data.Length - offset - 1)).StartsWith("player_\0\0"))
+            var found = true;
+            for (var j = 0; j < playerMarker.Length; j++)
             {
-                offset += 12;
-                break;
+                if (data[i + j] != playerMarker[j])
+                {
+                    found = false;
+                    break;
+                }
             }
 
-            offset++;
+            if (found)
+            {
+                markerIndex = i + playerMarker.Length;
+                break;
+            }
         }
 
-        while (offset < data.Length)
+        if (markerIndex >= 0)
         {
-            var playerName = ReadNullTerminatedString(data, ref offset);
-            if (string.IsNullOrEmpty(playerName))
-                break;
-            status.PlayerList.Add(playerName);
+            offset = markerIndex;
+            while (offset < data.Length)
+            {
+                var playerName = ReadNullTerminatedString(data, ref offset);
+                if (string.IsNullOrEmpty(playerName))
+                    break;
+                status.PlayerList.Add(playerName);
+            }
         }
 
         return status;
