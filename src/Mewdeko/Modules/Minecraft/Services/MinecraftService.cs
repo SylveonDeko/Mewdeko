@@ -546,6 +546,27 @@ public class MinecraftService(
     /// <param name="guildId">The guild ID.</param>
     /// <param name="name">The server name, or null to get the default.</param>
     /// <returns>The server entry, or null if not found.</returns>
+    /// <summary>
+    ///     Gets a server by its database ID, using cache with 2 minute TTL.
+    /// </summary>
+    /// <param name="serverId">The server database ID.</param>
+    /// <returns>The server entry, or null if not found.</returns>
+    public async Task<MinecraftServer?> GetServerByIdAsync(int serverId)
+    {
+        var cacheKey = $"mc_server_id_{serverId}";
+        var cached = await fusionCache.GetOrDefaultAsync<MinecraftServer>(cacheKey);
+        if (cached != null) return cached;
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var server = await db.MinecraftServers.FirstOrDefaultAsync(s => s.Id == serverId);
+        if (server != null)
+            await fusionCache.SetAsync(cacheKey, server, TimeSpan.FromMinutes(2));
+        return server;
+    }
+
+    /// <summary>
+    ///     Gets the default server for a guild, or a specific server by name.
+    /// </summary>
     public async Task<MinecraftServer?> GetServerAsync(ulong guildId, string? name = null)
     {
         await using var db = await dbFactory.CreateConnectionAsync();
@@ -1324,9 +1345,14 @@ public class MinecraftService(
         return result;
     }
 
-    private void InvalidateCache(ulong guildId)
+    /// <summary>
+    ///     Invalidates all caches for a guild's Minecraft servers.
+    /// </summary>
+    public void InvalidateCache(ulong guildId, int serverId = 0)
     {
         cache.Remove(string.Format(ServersCacheKey, guildId));
+        if (serverId > 0)
+            fusionCache.Remove($"mc_server_id_{serverId}");
     }
 
     private static byte[] BuildHandshakePacket(string address, int port)

@@ -137,6 +137,7 @@ public class MinecraftController(
         }
 
         await db.UpdateAsync(server);
+        minecraftService.InvalidateCache(guildId, server.Id);
         return Ok(MapToResponse(server));
     }
 
@@ -389,6 +390,7 @@ public class MinecraftController(
 
         server.EventTemplates = request.Template;
         await db.UpdateAsync(server);
+        minecraftService.InvalidateCache(guildId, server.Id);
         return Ok(MapToResponse(server));
     }
 

@@ -163,12 +163,14 @@ public class MinecraftBridgeService(
         return connections.TryGetValue(serverId, out var conn) && conn.Socket.State == WebSocketState.Open;
     }
 
-    private async Task ProcessIncomingMessageAsync(MinecraftServer server, string json)
+    private async Task ProcessIncomingMessageAsync(MinecraftServer staleServer, string json)
     {
         try
         {
             var baseMsg = JsonSerializer.Deserialize<BridgeMessage>(json, JsonOptions);
             if (baseMsg == null) return;
+
+            var server = await minecraftService.GetServerByIdAsync(staleServer.Id) ?? staleServer;
 
             var guild = client.GetGuild(server.GuildId);
             if (guild == null) return;
@@ -327,7 +329,7 @@ public class MinecraftBridgeService(
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error processing plugin message from {ServerName}", server.Name);
+            logger.LogError(ex, "Error processing plugin message from {ServerName}", staleServer.Name);
         }
     }
 
