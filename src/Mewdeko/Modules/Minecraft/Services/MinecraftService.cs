@@ -428,8 +428,8 @@ public class MinecraftService(
             {
                 Username = profile.Name,
                 Uuid = profile.Id,
-                SkinUrl = $"https://crafatar.com/renders/body/{profile.Id}?overlay",
-                AvatarUrl = $"https://crafatar.com/avatars/{profile.Id}?overlay"
+                SkinUrl = $"https://minotar.net/armor/body/{profile.Name}/256",
+                AvatarUrl = $"https://minotar.net/avatar/{profile.Name}/128"
             };
         }
         catch
@@ -888,6 +888,62 @@ public class MinecraftService(
         return server;
     }
 
+    /// <summary>
+    ///     Generates a new plugin API key for a server. Replaces any existing key.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="serverName">The server name.</param>
+    /// <returns>The new API key, or null if server not found.</returns>
+    public async Task<string?> GeneratePluginApiKeyAsync(ulong guildId, string serverName)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var server = await db.MinecraftServers
+            .FirstOrDefaultAsync(s => s.GuildId == guildId && s.Name == serverName.ToLowerInvariant());
+
+        if (server == null) return null;
+
+        var key = $"mcp_{Guid.NewGuid():N}";
+        server.PluginApiKey = key;
+        await db.UpdateAsync(server);
+        InvalidateCache(guildId);
+        return key;
+    }
+
+    /// <summary>
+    ///     Revokes the plugin API key for a server.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="serverName">The server name.</param>
+    /// <returns>True if successful.</returns>
+    public async Task<bool> RevokePluginApiKeyAsync(ulong guildId, string serverName)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var server = await db.MinecraftServers
+            .FirstOrDefaultAsync(s => s.GuildId == guildId && s.Name == serverName.ToLowerInvariant());
+
+        if (server == null) return false;
+
+        server.PluginApiKey = null;
+        await db.UpdateAsync(server);
+        InvalidateCache(guildId);
+        return true;
+    }
+
+    /// <summary>
+    ///     Validates a plugin API key and returns the associated server if valid.
+    /// </summary>
+    /// <param name="apiKey">The API key to validate.</param>
+    /// <returns>The server entry if the key is valid, null otherwise.</returns>
+    public async Task<MinecraftServer?> ValidatePluginApiKeyAsync(string apiKey)
+    {
+        if (string.IsNullOrWhiteSpace(apiKey))
+            return null;
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        return await db.MinecraftServers
+            .FirstOrDefaultAsync(s => s.PluginApiKey == apiKey);
+    }
+
     /// <param name="motd">The raw MOTD string.</param>
     /// <returns>The cleaned string.</returns>
     /// <summary>
@@ -1222,9 +1278,9 @@ public class MinecraftService(
         if (kvPairs.TryGetValue("software", out var software) && status.Software == null)
             status.Software = software;
 
-        byte[] playerMarker = [0x00, 0x01, 0x70, 0x6C, 0x61, 0x79, 0x65, 0x72, 0x5F, 0x00, 0x00];
+        byte[] playerMarker = [0x01, 0x70, 0x6C, 0x61, 0x79, 0x65, 0x72, 0x5F, 0x00, 0x00];
         var markerIndex = -1;
-        for (var i = offset; i <= data.Length - playerMarker.Length; i++)
+        for (var i = 0; i <= data.Length - playerMarker.Length; i++)
         {
             var found = true;
             for (var j = 0; j < playerMarker.Length; j++)

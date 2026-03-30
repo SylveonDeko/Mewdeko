@@ -96,6 +96,11 @@ public class MinecraftServerResponse
     public bool HasRconPassword { get; set; }
 
     /// <summary>
+    ///     Whether a plugin API key is configured.
+    /// </summary>
+    public bool HasPluginKey { get; set; }
+
+    /// <summary>
     ///     When the server was added.
     /// </summary>
     public DateTime? DateAdded { get; set; }

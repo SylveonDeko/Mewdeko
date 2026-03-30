@@ -68,6 +68,9 @@ public class MinecraftServer
     [Column("RconEnabled")]
     public bool RconEnabled { get; set; } // boolean
 
+    [Column("PluginApiKey")]
+    public string? PluginApiKey { get; set; } // text
+
     [Column("DateAdded")]
     public DateTime? DateAdded { get; set; } // timestamp (6) without time zone
 }

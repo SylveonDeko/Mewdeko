@@ -17,6 +17,7 @@ namespace Mewdeko.Controllers;
 [Authorize("ApiKeyPolicy")]
 public class MinecraftController(
     MinecraftService minecraftService,
+    MinecraftBridgeService bridgeService,
     IDataConnectionFactory dbFactory,
     DiscordShardedClient client,
     ILogger<MinecraftController> logger) : Controller
@@ -365,6 +366,38 @@ public class MinecraftController(
     }
 
     /// <summary>
+    ///     Generates a new plugin API key for a server. Used for the companion MC plugin.
+    /// </summary>
+    [HttpPost("servers/{name}/plugin-key")]
+    public async Task<IActionResult> GeneratePluginKey(ulong guildId, string name)
+    {
+        var key = await minecraftService.GeneratePluginApiKeyAsync(guildId, name);
+        if (key == null)
+            return NotFound("Server not found");
+
+        return Ok(new
+        {
+            key
+        });
+    }
+
+    /// <summary>
+    ///     Revokes the plugin API key for a server.
+    /// </summary>
+    [HttpDelete("servers/{name}/plugin-key")]
+    public async Task<IActionResult> RevokePluginKey(ulong guildId, string name)
+    {
+        var success = await minecraftService.RevokePluginApiKeyAsync(guildId, name);
+        if (!success)
+            return NotFound("Server not found");
+
+        return Ok(new
+        {
+            success = true
+        });
+    }
+
+    /// <summary>
     ///     Sends an RCON command to a server and returns the response.
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
@@ -409,6 +442,7 @@ public class MinecraftController(
             RconEnabled = server.RconEnabled,
             RconPort = server.RconPort,
             HasRconPassword = !string.IsNullOrWhiteSpace(server.RconPassword),
+            HasPluginKey = !string.IsNullOrWhiteSpace(server.PluginApiKey),
             DateAdded = server.DateAdded
         };
     }
