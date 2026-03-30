@@ -118,6 +118,15 @@ public class MinecraftController(
         if (request.QueryPort.HasValue)
             server.QueryPort = request.QueryPort.Value;
 
+        if (request.ChatChannelId.HasValue)
+            server.ChatChannelId = request.ChatChannelId.Value == 0 ? null : request.ChatChannelId;
+        if (request.JoinLeaveChannelId.HasValue)
+            server.JoinLeaveChannelId = request.JoinLeaveChannelId.Value == 0 ? null : request.JoinLeaveChannelId;
+        if (request.DeathChannelId.HasValue)
+            server.DeathChannelId = request.DeathChannelId.Value == 0 ? null : request.DeathChannelId;
+        if (request.AdvancementChannelId.HasValue)
+            server.AdvancementChannelId = request.AdvancementChannelId.Value == 0 ? null : request.AdvancementChannelId;
+
         if (request.IsDefault == true)
         {
             await db.MinecraftServers
@@ -366,6 +375,24 @@ public class MinecraftController(
     }
 
     /// <summary>
+    ///     Updates the event templates for a server's bridge messages.
+    /// </summary>
+    [HttpPut("servers/{name}/event-templates")]
+    public async Task<IActionResult> SetEventTemplates(ulong guildId, string name,
+        [FromBody] SetCustomEmbedRequest request)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var server = await db.MinecraftServers
+            .FirstOrDefaultAsync(s => s.GuildId == guildId && s.Name == name.ToLowerInvariant());
+        if (server == null)
+            return NotFound("Server not found");
+
+        server.EventTemplates = request.Template;
+        await db.UpdateAsync(server);
+        return Ok(MapToResponse(server));
+    }
+
+    /// <summary>
     ///     Generates a new plugin API key for a server. Used for the companion MC plugin.
     /// </summary>
     [HttpPost("servers/{name}/plugin-key")]
@@ -436,12 +463,17 @@ public class MinecraftController(
             WatchInterval = server.WatchInterval,
             WatchMode = server.WatchMode,
             CustomEmbedTemplate = server.CustomEmbedTemplate,
+            ChatChannelId = server.ChatChannelId,
+            JoinLeaveChannelId = server.JoinLeaveChannelId,
+            DeathChannelId = server.DeathChannelId,
+            AdvancementChannelId = server.AdvancementChannelId,
             CustomOnlineMessage = server.CustomOnlineMessage,
             CustomOfflineMessage = server.CustomOfflineMessage,
             LastOnline = server.LastOnline,
             RconEnabled = server.RconEnabled,
             RconPort = server.RconPort,
             HasRconPassword = !string.IsNullOrWhiteSpace(server.RconPassword),
+            EventTemplates = server.EventTemplates,
             HasPluginKey = !string.IsNullOrWhiteSpace(server.PluginApiKey),
             DateAdded = server.DateAdded
         };

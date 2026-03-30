@@ -53,6 +53,18 @@ public class MinecraftServer
     [Column("LastStatusJson")]
     public string? LastStatusJson { get; set; } // text
 
+    [Column("ChatChannelId")]
+    public ulong? ChatChannelId { get; set; } // numeric(20,0)
+
+    [Column("JoinLeaveChannelId")]
+    public ulong? JoinLeaveChannelId { get; set; } // numeric(20,0)
+
+    [Column("DeathChannelId")]
+    public ulong? DeathChannelId { get; set; } // numeric(20,0)
+
+    [Column("AdvancementChannelId")]
+    public ulong? AdvancementChannelId { get; set; } // numeric(20,0)
+
     [Column("CustomOnlineMessage")]
     public string? CustomOnlineMessage { get; set; } // text
 
@@ -67,6 +79,9 @@ public class MinecraftServer
 
     [Column("RconEnabled")]
     public bool RconEnabled { get; set; } // boolean
+
+    [Column("EventTemplates")]
+    public string? EventTemplates { get; set; } // text (JSON)
 
     [Column("PluginApiKey")]
     public string? PluginApiKey { get; set; } // text

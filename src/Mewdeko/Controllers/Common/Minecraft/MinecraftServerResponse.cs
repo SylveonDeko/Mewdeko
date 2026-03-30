@@ -71,6 +71,26 @@ public class MinecraftServerResponse
     public bool? LastOnline { get; set; }
 
     /// <summary>
+    ///     The channel for chat bridge messages.
+    /// </summary>
+    public ulong? ChatChannelId { get; set; }
+
+    /// <summary>
+    ///     The channel for join/leave events.
+    /// </summary>
+    public ulong? JoinLeaveChannelId { get; set; }
+
+    /// <summary>
+    ///     The channel for death messages.
+    /// </summary>
+    public ulong? DeathChannelId { get; set; }
+
+    /// <summary>
+    ///     The channel for advancement messages.
+    /// </summary>
+    public ulong? AdvancementChannelId { get; set; }
+
+    /// <summary>
     ///     The custom online alert message template.
     /// </summary>
     public string? CustomOnlineMessage { get; set; }
@@ -94,6 +114,11 @@ public class MinecraftServerResponse
     ///     Whether a RCON password is configured (never exposes the actual password).
     /// </summary>
     public bool HasRconPassword { get; set; }
+
+    /// <summary>
+    ///     The event templates JSON for customizing bridge event messages.
+    /// </summary>
+    public string? EventTemplates { get; set; }
 
     /// <summary>
     ///     Whether a plugin API key is configured.

@@ -29,4 +29,24 @@ public class UpdateMinecraftServerRequest
     ///     Whether this is the default server.
     /// </summary>
     public bool? IsDefault { get; set; }
+
+    /// <summary>
+    ///     The channel for chat bridge messages.
+    /// </summary>
+    public ulong? ChatChannelId { get; set; }
+
+    /// <summary>
+    ///     The channel for join/leave events.
+    /// </summary>
+    public ulong? JoinLeaveChannelId { get; set; }
+
+    /// <summary>
+    ///     The channel for death messages.
+    /// </summary>
+    public ulong? DeathChannelId { get; set; }
+
+    /// <summary>
+    ///     The channel for advancement messages.
+    /// </summary>
+    public ulong? AdvancementChannelId { get; set; }
 }

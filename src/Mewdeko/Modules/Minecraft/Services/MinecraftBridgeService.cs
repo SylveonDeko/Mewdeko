@@ -6,6 +6,7 @@ using DataModel;
 using Mewdeko.Modules.Minecraft.Common;
 using Mewdeko.Services.Strings;
 using Microsoft.AspNetCore.Http;
+using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.Minecraft.Services;
 
@@ -103,7 +104,8 @@ public class MinecraftBridgeService(
     /// <param name="user">The Discord user's display name.</param>
     /// <param name="message">The message content.</param>
     /// <param name="channel">The Discord channel name.</param>
-    public async Task SendChatToServerAsync(int serverId, string user, string message, string channel)
+    public async Task SendChatToServerAsync(int serverId, string user, string message, string channel,
+        McEventTemplates? templates = null)
     {
         if (!connections.TryGetValue(serverId, out var conn)) return;
 
@@ -111,6 +113,14 @@ public class MinecraftBridgeService(
         {
             Type = "chat", User = user, Message = message, Channel = channel
         };
+
+        if (!string.IsNullOrWhiteSpace(templates?.ChatIngame))
+        {
+            msg.FormattedMessage = templates.ChatIngame
+                .Replace("%user%", user)
+                .Replace("%message%", message)
+                .Replace("%channel%", channel);
+        }
 
         await SendMessageAsync(conn.Socket, msg, CancellationToken.None);
     }
@@ -163,69 +173,119 @@ public class MinecraftBridgeService(
             var guild = client.GetGuild(server.GuildId);
             if (guild == null) return;
 
-            var watchChannel = server.WatchChannelId.HasValue
-                ? guild.GetTextChannel(server.WatchChannelId.Value)
-                : null;
+            ITextChannel? GetChannel(ulong? channelId)
+            {
+                return channelId.HasValue ? guild.GetTextChannel(channelId.Value) : null;
+            }
+
+            var watchChannel = GetChannel(server.WatchChannelId);
+            var chatChannel = GetChannel(server.ChatChannelId) ?? watchChannel;
+            var joinLeaveChannel = GetChannel(server.JoinLeaveChannelId) ?? watchChannel;
+            var deathChannel = GetChannel(server.DeathChannelId) ?? watchChannel;
+            var advancementChannel = GetChannel(server.AdvancementChannelId) ?? watchChannel;
+
+            McEventTemplates? templates = null;
+            if (!string.IsNullOrWhiteSpace(server.EventTemplates))
+            {
+                try { templates = JsonSerializer.Deserialize<McEventTemplates>(server.EventTemplates, JsonOptions); }
+                catch { }
+            }
 
             switch (baseMsg.Type)
             {
                 case "player_join":
                     var joinMsg = JsonSerializer.Deserialize<PlayerJoinMessage>(json, JsonOptions);
-                    if (joinMsg != null && watchChannel != null)
+                    if (joinMsg != null && joinLeaveChannel != null)
                     {
-                        var eb = new EmbedBuilder()
-                            .WithOkColor()
-                            .WithAuthor(joinMsg.Player, $"https://minotar.net/avatar/{joinMsg.Player}/32")
-                            .WithDescription($"**{joinMsg.Player}** joined the server");
-                        await watchChannel.SendMessageAsync(embed: eb.Build());
+                        await SendEventToChannelAsync(joinLeaveChannel, guild, templates?.JoinDiscord,
+                            new Dictionary<string, string>
+                            {
+                                ["%mc.player%"] = joinMsg.Player,
+                                ["%mc.uuid%"] = joinMsg.Uuid,
+                                ["%mc.avatar%"] = $"https://minotar.net/avatar/{joinMsg.Player}/32"
+                            },
+                            () => new EmbedBuilder()
+                                .WithOkColor()
+                                .WithAuthor(Sanitize(joinMsg.Player), $"https://minotar.net/avatar/{joinMsg.Player}/32")
+                                .WithDescription($"**{Sanitize(joinMsg.Player)}** joined the server")
+                                .Build());
                     }
 
                     break;
 
                 case "player_leave":
                     var leaveMsg = JsonSerializer.Deserialize<PlayerLeaveMessage>(json, JsonOptions);
-                    if (leaveMsg != null && watchChannel != null)
+                    if (leaveMsg != null && joinLeaveChannel != null)
                     {
-                        var eb = new EmbedBuilder()
-                            .WithErrorColor()
-                            .WithAuthor(leaveMsg.Player, $"https://minotar.net/avatar/{leaveMsg.Player}/32")
-                            .WithDescription($"**{leaveMsg.Player}** left the server");
-                        await watchChannel.SendMessageAsync(embed: eb.Build());
+                        await SendEventToChannelAsync(joinLeaveChannel, guild, templates?.LeaveDiscord,
+                            new Dictionary<string, string>
+                            {
+                                ["%mc.player%"] = leaveMsg.Player,
+                                ["%mc.uuid%"] = leaveMsg.Uuid,
+                                ["%mc.avatar%"] = $"https://minotar.net/avatar/{leaveMsg.Player}/32"
+                            },
+                            () => new EmbedBuilder()
+                                .WithErrorColor()
+                                .WithAuthor(Sanitize(leaveMsg.Player),
+                                    $"https://minotar.net/avatar/{leaveMsg.Player}/32")
+                                .WithDescription($"**{Sanitize(leaveMsg.Player)}** left the server")
+                                .Build());
                     }
 
                     break;
 
                 case "chat":
                     var chatMsg = JsonSerializer.Deserialize<ChatMessage>(json, JsonOptions);
-                    if (chatMsg != null && watchChannel != null)
+                    if (chatMsg != null && chatChannel != null)
                     {
-                        await watchChannel.SendMessageAsync(
-                            $"**{chatMsg.Player}**: {chatMsg.Message}",
-                            allowedMentions: AllowedMentions.None);
+                        await SendEventToChannelAsync(chatChannel, guild, templates?.ChatDiscord,
+                            new Dictionary<string, string>
+                            {
+                                ["%mc.player%"] = chatMsg.Player,
+                                ["%mc.message%"] = chatMsg.Message,
+                                ["%mc.avatar%"] = $"https://minotar.net/avatar/{chatMsg.Player}/32"
+                            },
+                            () => null,
+                            $"**{Sanitize(chatMsg.Player)}**: {Sanitize(chatMsg.Message)}");
                     }
 
                     break;
 
                 case "death":
                     var deathMsg = JsonSerializer.Deserialize<DeathMessage>(json, JsonOptions);
-                    if (deathMsg != null && watchChannel != null)
+                    if (deathMsg != null && deathChannel != null)
                     {
-                        var eb = new EmbedBuilder()
-                            .WithColor(new Color(128, 128, 128))
-                            .WithDescription($":skull: {deathMsg.Message}");
-                        await watchChannel.SendMessageAsync(embed: eb.Build());
+                        await SendEventToChannelAsync(deathChannel, guild, templates?.DeathDiscord,
+                            new Dictionary<string, string>
+                            {
+                                ["%mc.player%"] = deathMsg.Player,
+                                ["%mc.death.message%"] = deathMsg.Message,
+                                ["%mc.avatar%"] = $"https://minotar.net/avatar/{deathMsg.Player}/32"
+                            },
+                            () => new EmbedBuilder()
+                                .WithColor(new Color(128, 128, 128))
+                                .WithDescription($":skull: {Sanitize(deathMsg.Message)}")
+                                .Build());
                     }
 
                     break;
 
                 case "advancement":
                     var advMsg = JsonSerializer.Deserialize<AdvancementMessage>(json, JsonOptions);
-                    if (advMsg != null && watchChannel != null)
+                    if (advMsg != null && advancementChannel != null)
                     {
-                        var eb = new EmbedBuilder()
-                            .WithOkColor()
-                            .WithDescription($":trophy: **{advMsg.Player}** earned **{advMsg.Advancement}**");
-                        await watchChannel.SendMessageAsync(embed: eb.Build());
+                        await SendEventToChannelAsync(advancementChannel, guild, templates?.AdvancementDiscord,
+                            new Dictionary<string, string>
+                            {
+                                ["%mc.player%"] = advMsg.Player,
+                                ["%mc.advancement%"] = advMsg.Advancement,
+                                ["%mc.avatar%"] = $"https://minotar.net/avatar/{advMsg.Player}/32"
+                            },
+                            () => new EmbedBuilder()
+                                .WithOkColor()
+                                .WithDescription(
+                                    $":trophy: **{Sanitize(advMsg.Player)}** earned **{Sanitize(advMsg.Advancement)}**")
+                                .Build());
                     }
 
                     break;
@@ -269,6 +329,51 @@ public class MinecraftBridgeService(
         {
             logger.LogError(ex, "Error processing plugin message from {ServerName}", server.Name);
         }
+    }
+
+    private async Task SendEventToChannelAsync(
+        ITextChannel channel,
+        IGuild guild,
+        string? template,
+        Dictionary<string, string> placeholders,
+        Func<Embed?> defaultEmbed,
+        string? defaultText = null)
+    {
+        if (!string.IsNullOrWhiteSpace(template))
+        {
+            var replacer = new ReplacementBuilder();
+            foreach (var (key, value) in placeholders)
+                replacer.WithOverride(key, () => Sanitize(value));
+            var built = replacer.Build();
+            var parsed = built.Replace(template);
+
+            if (SmartEmbed.TryParse(parsed, guild.Id, out var embeds, out var plainText, out var components))
+            {
+                await channel.SendMessageAsync(
+                    plainText,
+                    embeds: embeds,
+                    components: components?.Build(),
+                    allowedMentions: AllowedMentions.None);
+                return;
+            }
+
+            await channel.SendMessageAsync(Sanitize(parsed), allowedMentions: AllowedMentions.None);
+            return;
+        }
+
+        var embed = defaultEmbed();
+        if (embed != null)
+            await channel.SendMessageAsync(embed: embed, allowedMentions: AllowedMentions.None);
+        else if (defaultText != null)
+            await channel.SendMessageAsync(defaultText, allowedMentions: AllowedMentions.None);
+    }
+
+    private static string Sanitize(string input)
+    {
+        return input
+            .Replace("@everyone", "@\u200beveryone")
+            .Replace("@here", "@\u200bhere")
+            .Replace("<@", "<\u200b@");
     }
 
     private static async Task SendMessageAsync(WebSocket socket, object message, CancellationToken ct)

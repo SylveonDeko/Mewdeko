@@ -216,6 +216,13 @@ public class DiscordChatMessage : BridgeMessage
     /// </summary>
     [JsonPropertyName("channel")]
     public string Channel { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the pre-formatted message for in-game display.
+    ///     If set, the plugin uses this instead of its default formatting.
+    /// </summary>
+    [JsonPropertyName("formattedMessage")]
+    public string? FormattedMessage { get; set; }
 }
 
 /// <summary>
