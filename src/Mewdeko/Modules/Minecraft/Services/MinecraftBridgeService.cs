@@ -17,19 +17,76 @@ namespace Mewdeko.Modules.Minecraft.Services;
 /// <param name="minecraftService">The Minecraft service for server lookups and status recording.</param>
 /// <param name="client">The Discord client.</param>
 /// <param name="strings">The localization service.</param>
+/// <param name="eventHandler">The event handler for subscribing to Discord events.</param>
 /// <param name="logger">The logger instance.</param>
-public class MinecraftBridgeService(
-    MinecraftService minecraftService,
-    DiscordShardedClient client,
-    GeneratedBotStrings strings,
-    ILogger<MinecraftBridgeService> logger) : INService
+public class MinecraftBridgeService : INService
 {
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase, PropertyNameCaseInsensitive = true
     };
 
+    private readonly DiscordShardedClient client;
     private readonly ConcurrentDictionary<int, BridgeConnection> connections = new();
+    private readonly ILogger<MinecraftBridgeService> logger;
+
+    private readonly MinecraftService minecraftService;
+    private readonly GeneratedBotStrings strings;
+
+    /// <summary>
+    ///     Creates a new bridge service and subscribes to Discord message events.
+    /// </summary>
+    public MinecraftBridgeService(
+        MinecraftService minecraftService,
+        DiscordShardedClient client,
+        EventHandler eventHandler,
+        GeneratedBotStrings strings,
+        ILogger<MinecraftBridgeService> logger)
+    {
+        this.minecraftService = minecraftService;
+        this.client = client;
+        this.strings = strings;
+        this.logger = logger;
+
+        eventHandler.Subscribe("MessageReceived", "MinecraftBridgeService", OnDiscordMessageReceived);
+    }
+
+    private async Task OnDiscordMessageReceived(SocketMessage socketMessage)
+    {
+        if (socketMessage is not SocketUserMessage { Author.IsBot: false } msg)
+            return;
+
+        if (msg.Channel is not SocketTextChannel textChannel)
+            return;
+
+        var guildId = textChannel.Guild.Id;
+        var channelId = textChannel.Id;
+
+        foreach (var conn in connections.Values)
+        {
+            if (conn.Socket.State != WebSocketState.Open)
+                continue;
+
+            var server = await minecraftService.GetServerByIdAsync(conn.ServerId);
+            if (server == null || server.GuildId != guildId)
+                continue;
+
+            var chatCh = server.ChatChannelId ?? server.WatchChannelId;
+            if (chatCh == null || chatCh != channelId)
+                continue;
+
+            McEventTemplates? templates = null;
+            if (!string.IsNullOrWhiteSpace(server.EventTemplates))
+            {
+                try { templates = JsonSerializer.Deserialize<McEventTemplates>(server.EventTemplates, JsonOptions); }
+                catch { }
+            }
+
+            var displayName = (msg.Author as SocketGuildUser)?.DisplayName ??
+                              msg.Author.GlobalName ?? msg.Author.Username;
+            await SendChatToServerAsync(conn.ServerId, displayName, msg.CleanContent, textChannel.Name, templates);
+        }
+    }
 
     /// <summary>
     ///     Handles an incoming WebSocket connection from a companion plugin.
