@@ -1,0 +1,95 @@
+statchannelcreate:
+  args:
+    - 'TotalMembers [template]'
+  desc: 'Creates a new locked voice channel displaying a server stat. The bot will create and manage the channel.'
+  params:
+    - desc: 'The stat type to display.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'The display template. Use %count% for the value.'
+      name: template
+      optional: true
+      type: string
+statchanneladd:
+  args:
+    - '#voice-channel TotalMembers [template]'
+  desc: 'Adds a voice channel as a stat channel. Types: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
+  params:
+    - desc: 'The voice channel to use.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'The stat type to display.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'The display template. Use %count% for the value.'
+      name: template
+      optional: true
+      type: string
+statchannelrole:
+  args:
+    - '#voice-channel @role [template]'
+  desc: 'Adds a stat channel showing how many members have a specific role.'
+  params:
+    - desc: 'The voice channel to use.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'The role to count members for.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'The display template. Use %count% and %role.name%.'
+      name: template
+      optional: true
+      type: string
+statchannelcountdown:
+  args:
+    - '#voice-channel 2026-12-31 [template]'
+  desc: 'Adds a countdown stat channel. Use %days% and %hours% placeholders.'
+  params:
+    - desc: 'The voice channel to use.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'The target date for the countdown.'
+      name: date
+      optional: false
+      type: DateTime
+    - desc: 'The display template. Use %days% and %hours%.'
+      name: template
+      optional: true
+      type: string
+statchannelgoal:
+  args:
+    - '#voice-channel 1000 [template]'
+  desc: 'Adds a member goal stat channel. Use %count%, %goal%, and %goal.percent%.'
+  params:
+    - desc: 'The voice channel to use.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'The target member count.'
+      name: goal
+      optional: false
+      type: int
+    - desc: 'The display template. Use %count%, %goal%, %goal.percent%.'
+      name: template
+      optional: true
+      type: string
+statchannelremove:
+  args:
+    - '#voice-channel'
+  desc: 'Removes a stat channel.'
+  params:
+    - desc: 'The voice channel to remove.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+statchannellist:
+  args:
+    - ''
+  desc: 'Lists all stat channels for this server.'
+  params: [ ]

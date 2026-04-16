@@ -3450,6 +3450,27 @@ yandere:
 yomama:
   - yomama
   - ym
+statchannelcreate:
+  - statchannelcreate
+  - scnew
+statchanneladd:
+  - statchanneladd
+  - sca
+statchannelrole:
+  - statchannelrole
+  - scr
+statchannelcountdown:
+  - statchannelcountdown
+  - scc
+statchannelgoal:
+  - statchannelgoal
+  - scg
+statchannelremove:
+  - statchannelremove
+  - scrm
+statchannellist:
+  - statchannellist
+  - scl
 youtube:
   - youtube
   - yt

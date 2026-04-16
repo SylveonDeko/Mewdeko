@@ -32,6 +32,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi;
 using NekosBestApiNet;
+using Prometheus;
 using Serilog;
 using ZiggyCreatures.Caching.Fusion;
 using RunMode = Discord.Commands.RunMode;
@@ -62,6 +63,16 @@ public class Program
 
         // Load credentials first to check if setup was already completed
         var credentials = new BotCredentials();
+
+        // Start Prometheus metrics server as early as possible to capture startup metrics
+        KestrelMetricServer metricServer = null;
+        if (!credentials.IsApiEnabled)
+        {
+            var metricsPort = credentials.ApiPort + 1000;
+            metricServer = new KestrelMetricServer(metricsPort);
+            metricServer.Start();
+            log.Information("Prometheus metrics available on http://0.0.0.0:{MetricsPort}/metrics", metricsPort);
+        }
 
         // Check and install dependencies (pass setup status to avoid prompting if already done)
         DependencyInstaller.CheckAndInstallDependencies(credentials.PsqlConnectionString, credentials.IsMasterInstance,
@@ -286,8 +297,10 @@ public class Program
             {
                 KeepAliveInterval = TimeSpan.FromSeconds(120)
             });
+            app.UseHttpMetrics();
             app.UseAuthorization();
             app.MapControllers();
+            app.MapMetrics();
 
             foreach (var address in app.Urls) log.Information("API Listening on {Address}", address);
             await app.RunAsync();

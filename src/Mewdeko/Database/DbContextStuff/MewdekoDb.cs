@@ -1350,4 +1350,15 @@ public class MewdekoDb : DataConnection
             return this.GetTable<MinecraftServerSnapshot>();
         }
     }
+
+    /// <summary>
+    ///     Gets the stat channels table.
+    /// </summary>
+    public ITable<StatChannel> StatChannels
+    {
+        get
+        {
+            return this.GetTable<StatChannel>();
+        }
+    }
 }
