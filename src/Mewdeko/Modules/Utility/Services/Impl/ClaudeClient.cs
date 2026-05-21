@@ -187,9 +187,11 @@ public class ClaudeClient : IAiClient
                     string eventType = null;
                     string data = null;
 
-                    while (!reader.EndOfStream && !cancellationToken.IsCancellationRequested)
+                    while (!cancellationToken.IsCancellationRequested)
                     {
                         var line = await reader.ReadLineAsync(cancellationToken);
+                        if (line is null)
+                            break;
                         if (string.IsNullOrEmpty(line))
                         {
                             // Empty line marks the end of an event

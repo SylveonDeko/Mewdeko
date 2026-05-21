@@ -689,7 +689,7 @@ public partial class TicketsSlash
 
                     foreach (var issue in issues.Take(10))
                     {
-                        errorEmbed.Description += $"\n{issue}";
+                        errorEmbed.Description += $"\n{Config.ErrorEmote} {issue}";
                     }
 
                     await FollowupAsync(embed: errorEmbed.Build(), ephemeral: true);
@@ -761,7 +761,7 @@ public partial class TicketsSlash
 
                     foreach (var issue in issues.Take(10))
                     {
-                        errorEmbed.Description += $"\n{issue}";
+                        errorEmbed.Description += $"\n{Config.ErrorEmote} {issue}";
                     }
 
                     await FollowupAsync(embed: errorEmbed.Build(), ephemeral: true);

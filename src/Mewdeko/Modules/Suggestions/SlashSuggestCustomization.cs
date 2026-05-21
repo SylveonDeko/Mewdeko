@@ -287,7 +287,7 @@ public partial class SlashSuggestions
             if (channel is null)
                 await ctx.Interaction.SendConfirmAsync(Strings.ConsiderChannelDisabled(ctx.Guild.Id));
             else
-                await ctx.Interaction.SendConfirmAsync(Strings.ChannelSetTo(ctx.Guild.Id, channel.Mention))
+                await ctx.Interaction.SendConfirmAsync(Strings.StatusRoleChannelSet(ctx.Guild.Id, channel.Mention))
                     .ConfigureAwait(false);
         }
 

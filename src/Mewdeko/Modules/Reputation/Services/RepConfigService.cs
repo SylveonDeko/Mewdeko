@@ -519,7 +519,7 @@ public class RepConfigService : INService
     {
         if (!Enum.TryParse<ConfigCategory>(category, true, out var configCategory))
         {
-            await ctx.Interaction.RespondAsync("Invalid category selected.", ephemeral: true);
+            await ctx.Interaction.RespondAsync(strings.RepConfigInvalidCategory(ctx.Guild.Id), ephemeral: true);
             return;
         }
 
@@ -533,7 +533,7 @@ public class RepConfigService : INService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task HandleSaveAsync(IInteractionContext ctx)
     {
-        await ctx.Interaction.RespondAsync("Configuration saved successfully!", ephemeral: true);
+        await ctx.Interaction.RespondAsync(strings.RepConfigSaved(ctx.Guild.Id), ephemeral: true);
     }
 
     /// <summary>
@@ -565,7 +565,7 @@ public class RepConfigService : INService
 
         await db.UpdateAsync(repConfig);
 
-        await ctx.Interaction.RespondAsync("Configuration reset to defaults!", ephemeral: true);
+        await ctx.Interaction.RespondAsync(strings.RepConfigReset(ctx.Guild.Id), ephemeral: true);
     }
 
     /// <summary>
@@ -640,7 +640,7 @@ public class RepConfigService : INService
                 currentCategory = ConfigCategory.Advanced;
                 break;
             default:
-                await ctx.Interaction.RespondAsync("Unknown setting to toggle.", ephemeral: true);
+                await ctx.Interaction.RespondAsync(strings.RepConfigUnknownSetting(ctx.Guild.Id), ephemeral: true);
                 return;
         }
 
@@ -735,7 +735,7 @@ public class RepConfigService : INService
     {
         if (!int.TryParse(value, out var intValue) || intValue < 0)
         {
-            await ctx.Interaction.RespondAsync("Invalid value. Please enter a positive number.", ephemeral: true);
+            await ctx.Interaction.RespondAsync(strings.RepConfigInvalidPositiveNumber(ctx.Guild.Id), ephemeral: true);
             return;
         }
 

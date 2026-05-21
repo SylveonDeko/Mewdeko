@@ -14,11 +14,6 @@ namespace Mewdeko.Modules.Minecraft.Services;
 ///     Manages WebSocket connections from companion Minecraft plugins,
 ///     routing events between MC servers and Discord channels.
 /// </summary>
-/// <param name="minecraftService">The Minecraft service for server lookups and status recording.</param>
-/// <param name="client">The Discord client.</param>
-/// <param name="strings">The localization service.</param>
-/// <param name="eventHandler">The event handler for subscribing to Discord events.</param>
-/// <param name="logger">The logger instance.</param>
 public class MinecraftBridgeService : INService
 {
     private static readonly JsonSerializerOptions JsonOptions = new()
@@ -161,6 +156,7 @@ public class MinecraftBridgeService : INService
     /// <param name="user">The Discord user's display name.</param>
     /// <param name="message">The message content.</param>
     /// <param name="channel">The Discord channel name.</param>
+    /// <param name="templates">Optional event template overrides.</param>
     public async Task SendChatToServerAsync(int serverId, string user, string message, string channel,
         McEventTemplates? templates = null)
     {

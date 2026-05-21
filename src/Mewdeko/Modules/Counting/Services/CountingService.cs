@@ -968,8 +968,7 @@ public class CountingService : INService, IReadyExecutor
                     {
                         var embed = new EmbedBuilder()
                             .WithErrorColor()
-                            .WithDescription(
-                                "Unfortunately you have the bot blocked so you may not participate in this game.")
+                            .WithDescription(strings.CountingUserBotBlocked(textChannel.GuildId))
                             .Build();
 
                         var warningMessage = await textChannel.SendMessageAsync(embed: embed);

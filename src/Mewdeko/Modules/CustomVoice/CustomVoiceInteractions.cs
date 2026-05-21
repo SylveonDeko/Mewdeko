@@ -142,7 +142,7 @@ public class CustomVoiceInteractions : MewdekoSlashModuleBase<CustomVoiceService
     private async Task HandleRename(ulong channelId)
     {
         var modal = new ModalBuilder()
-            .WithTitle("Rename Voice Channel")
+            .WithTitle(Strings.CustomVoiceModalRenameTitle(Context.Guild.Id))
             .WithCustomId($"voice:rename:modal:{channelId}")
             .AddTextInput("New Channel Name", "name", TextInputStyle.Short, "Enter new name", 1, 100, true)
             .Build();
@@ -153,7 +153,7 @@ public class CustomVoiceInteractions : MewdekoSlashModuleBase<CustomVoiceService
     private async Task HandleUserLimit(ulong channelId)
     {
         var modal = new ModalBuilder()
-            .WithTitle("Set User Limit")
+            .WithTitle(Strings.CustomVoiceModalUserLimitTitle(Context.Guild.Id))
             .WithCustomId($"voice:limit:modal:{channelId}")
             .AddTextInput("User Limit", "limit", TextInputStyle.Short, "0 for unlimited", 1, 3, true)
             .Build();
@@ -165,7 +165,7 @@ public class CustomVoiceInteractions : MewdekoSlashModuleBase<CustomVoiceService
     {
         var config = await Service.GetOrCreateConfigAsync(Context.Guild.Id);
         var modal = new ModalBuilder()
-            .WithTitle("Set Bitrate")
+            .WithTitle(Strings.CustomVoiceModalBitrateTitle(Context.Guild.Id))
             .WithCustomId($"voice:bitrate:modal:{channelId}")
             .AddTextInput("Bitrate (kbps)", "bitrate", TextInputStyle.Short,
                 $"Max: {config.MaxBitrate} kbps", 1, 6, true)

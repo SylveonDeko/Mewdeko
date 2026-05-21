@@ -789,7 +789,7 @@ public partial class Administration
             var embed = new EmbedBuilder()
                 .WithOkColor()
                 .WithTitle(Strings.PatternListTitle(ctx.Guild.Id))
-                .WithDescription($"**Action:** {patternStats.Action}\n**Triggered:** {patternStats.Counter} times");
+                .WithDescription(Strings.PatternListDesc(ctx.Guild.Id, patternStats.Action, patternStats.Counter));
 
             foreach (var pattern in patterns.Take(10)) // Limit to 10 patterns to avoid embed limits
             {
@@ -802,7 +802,7 @@ public partial class Administration
 
             if (patterns.Count > 10)
             {
-                embed.WithFooter($"Showing first 10 of {patterns.Count} patterns");
+                embed.WithFooter(Strings.PatternListFooter(ctx.Guild.Id, patterns.Count));
             }
 
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
@@ -946,7 +946,7 @@ public partial class Administration
             var embed = new EmbedBuilder()
                 .WithOkColor()
                 .WithTitle(Strings.PatternConfigTitle(ctx.Guild.Id))
-                .WithDescription($"**Action:** {settings.Action}\n**Minimum Score:** {settings.MinimumScore}")
+                .WithDescription(Strings.PatternConfigDesc(ctx.Guild.Id, settings.Action, settings.MinimumScore))
                 .AddField("Account Age Check",
                     $"**Enabled:** {settings.CheckAccountAge}\n**Max Age:** {settings.MaxAccountAgeMonths} months",
                     true)

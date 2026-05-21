@@ -4,6 +4,7 @@ using Discord.Net;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Database.Enums;
+using Mewdeko.Services.Strings;
 
 namespace Mewdeko.Modules.Forms.Services;
 
@@ -15,6 +16,7 @@ public class FormsService : INService
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<FormsService> logger;
+    private readonly GeneratedBotStrings strings;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="FormsService" /> class.
@@ -22,14 +24,17 @@ public class FormsService : INService
     /// <param name="client">The Discord client instance.</param>
     /// <param name="dbFactory">Provider for database connections.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="strings">The localization strings provider.</param>
     public FormsService(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
-        ILogger<FormsService> logger)
+        ILogger<FormsService> logger,
+        GeneratedBotStrings strings)
     {
         this.client = client;
         this.dbFactory = dbFactory;
         this.logger = logger;
+        this.strings = strings;
     }
 
     #region Discord Integration
@@ -64,10 +69,10 @@ public class FormsService : INService
             }
 
             var embed = new EmbedBuilder()
-                .WithTitle($"📝 New Form Submission: {form.Name}")
+                .WithTitle(strings.FormSubmissionTitle(form.GuildId, form.Name))
                 .WithDescription(form.Description)
                 .WithColor(Color.Blue)
-                .WithFooter($"Response ID: #{response.Id} | Form ID: #{form.Id}")
+                .WithFooter(strings.FormSubmissionFooter(form.GuildId, response.Id, form.Id))
                 .WithTimestamp(response.SubmittedAt);
 
             // Only add user field if NOT anonymous

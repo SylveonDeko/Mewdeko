@@ -460,17 +460,34 @@ public class ReflectionCommandValidationTests
         var aliasesYaml = File.ReadAllText(aliasesPath);
         aliasesData = new Deserializer().Deserialize<Dictionary<string, string[]>>(aliasesYaml);
 
-        // Load commands.en-US.yml
-        var commandStringsPath = Path.Combine(projectRoot, "data", "strings", "commands", "commands.en-US.yml");
-        var commandStringsYaml = File.ReadAllText(commandStringsPath);
-        commandStringsData = new Deserializer().Deserialize<Dictionary<string, object>>(commandStringsYaml);
-
-        // Load responses.en-US.json
-        var responsesPath = Path.Combine(projectRoot, "data", "strings", "responses", "responses.en-US.json");
-        if (File.Exists(responsesPath))
+        // Load all per-module command YAML files from data/strings/commands/en-US/
+        var commandStringsDir = Path.Combine(projectRoot, "data", "strings", "commands", "en-US");
+        commandStringsData = new Dictionary<string, object>();
+        var deserializer = new Deserializer();
+        foreach (var yamlFile in Directory.EnumerateFiles(commandStringsDir, "*.yml", SearchOption.TopDirectoryOnly))
         {
-            var responsesJson = File.ReadAllText(responsesPath);
-            responseStringsData = JsonSerializer.Deserialize<Dictionary<string, object>>(responsesJson);
+            var yaml = File.ReadAllText(yamlFile);
+            if (string.IsNullOrWhiteSpace(yaml)) continue;
+            var parsed = deserializer.Deserialize<Dictionary<string, object>>(yaml);
+            if (parsed == null) continue;
+            foreach (var kvp in parsed)
+                commandStringsData[kvp.Key] = kvp.Value;
+        }
+
+        // Load responses from per-module split files in data/strings/responses/en-US/
+        var responsesDir = Path.Combine(projectRoot, "data", "strings", "responses", "en-US");
+        if (Directory.Exists(responsesDir))
+        {
+            responseStringsData = new Dictionary<string, object>();
+            foreach (var file in Directory.EnumerateFiles(responsesDir, "*.json", SearchOption.TopDirectoryOnly))
+            {
+                var moduleJson = File.ReadAllText(file);
+                if (string.IsNullOrWhiteSpace(moduleJson)) continue;
+                var moduleDict = JsonSerializer.Deserialize<Dictionary<string, object>>(moduleJson);
+                if (moduleDict == null) continue;
+                foreach (var kvp in moduleDict)
+                    responseStringsData[kvp.Key] = kvp.Value;
+            }
         }
 
         // Load GeneratedBotStrings type via reflection

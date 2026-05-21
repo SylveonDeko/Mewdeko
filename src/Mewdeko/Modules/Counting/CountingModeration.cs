@@ -26,12 +26,12 @@ public class CountingModeration : MewdekoModuleBase<CountingModerationService>
         var guildDefaults = await Service.GetGuildDefaultsAsync(ctx.Guild.Id);
 
         var embed = new EmbedBuilder()
-            .WithTitle($"Counting Moderation Config - #{channel.Name}")
+            .WithTitle(Strings.CountingModerationShowTitle(ctx.Guild.Id, channel.Name))
             .WithColor(Mewdeko.OkColor);
 
         if (config == null)
         {
-            embed.WithDescription("No moderation configuration found for this channel.");
+            embed.WithDescription(Strings.CountingModerationShowNoConfig(ctx.Guild.Id));
         }
         else
         {
@@ -90,8 +90,8 @@ public class CountingModeration : MewdekoModuleBase<CountingModerationService>
         if (success)
         {
             var embed = new EmbedBuilder()
-                .WithTitle("Guild Defaults Updated")
-                .WithDescription($"Set counting moderation defaults for {ctx.Guild.Name}")
+                .WithTitle(Strings.CountingModerationGuildDefaultsTitle(ctx.Guild.Id))
+                .WithDescription(Strings.CountingModerationGuildDefaultsDesc(ctx.Guild.Id, ctx.Guild.Name))
                 .WithColor(Mewdeko.OkColor)
                 .AddField("Enabled", enabled ? "✅ Yes" : "❌ No", true)
                 .AddField("Wrong Count Threshold", threshold.ToString(), true)
@@ -241,8 +241,8 @@ public class CountingModeration : MewdekoModuleBase<CountingModerationService>
         if (success)
         {
             var embed = new EmbedBuilder()
-                .WithTitle("Punishment Updated")
-                .WithDescription($"Set punishment for {channel.Mention}")
+                .WithTitle(Strings.CountingModerationPunishmentUpdatedTitle(ctx.Guild.Id))
+                .WithDescription(Strings.CountingModerationPunishmentUpdatedDesc(ctx.Guild.Id, channel.Mention))
                 .WithColor(Mewdeko.OkColor)
                 .AddField("Punishment", punishment.ToString(), true)
                 .AddField("Duration", durationMinutes > 0 ? $"{durationMinutes} minutes" : "Permanent", true);
@@ -281,8 +281,8 @@ public class CountingModeration : MewdekoModuleBase<CountingModerationService>
         if (success)
         {
             var embed = new EmbedBuilder()
-                .WithTitle("Ignore Roles Updated")
-                .WithDescription($"Updated ignore settings for {channel.Mention}")
+                .WithTitle(Strings.CountingModerationIgnoreRolesUpdatedTitle(ctx.Guild.Id))
+                .WithDescription(Strings.CountingModerationIgnoreRolesUpdatedDesc(ctx.Guild.Id, channel.Mention))
                 .WithColor(Mewdeko.OkColor)
                 .AddField("Delete Messages", deleteMessages ? "✅ Yes" : "❌ No", true);
 
@@ -319,8 +319,8 @@ public class CountingModeration : MewdekoModuleBase<CountingModerationService>
         if (success)
         {
             var embed = new EmbedBuilder()
-                .WithTitle("Required Roles Updated")
-                .WithDescription($"Updated required roles for {channel.Mention}")
+                .WithTitle(Strings.CountingModerationRequiredRolesUpdatedTitle(ctx.Guild.Id))
+                .WithDescription(Strings.CountingModerationRequiredRolesUpdatedDesc(ctx.Guild.Id, channel.Mention))
                 .WithColor(Mewdeko.OkColor);
 
             if (roles.Any())
@@ -359,8 +359,8 @@ public class CountingModeration : MewdekoModuleBase<CountingModerationService>
         if (success)
         {
             var embed = new EmbedBuilder()
-                .WithTitle("Banned Roles Updated")
-                .WithDescription($"Updated banned roles for {channel.Mention}")
+                .WithTitle(Strings.CountingModerationBannedRolesUpdatedTitle(ctx.Guild.Id))
+                .WithDescription(Strings.CountingModerationBannedRolesUpdatedDesc(ctx.Guild.Id, channel.Mention))
                 .WithColor(Mewdeko.OkColor);
 
             if (roles.Any())

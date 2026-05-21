@@ -382,13 +382,13 @@ public class XpRewardManager : INService
                 var userMention = pingsDisabled ? user.Username.EscapeWeirdStuff() : user.Mention;
 
                 var embed = new EmbedBuilder()
-                    .WithTitle("Level Up!")
-                    .WithDescription($"Congratulations {userMention}!\nYou've reached **Level {level}**")
+                    .WithTitle(Strings.XpLevelUpTitle(user.Guild.Id))
+                    .WithDescription(Strings.XpLevelUpDesc(user.Guild.Id, userMention, level))
                     .WithColor(new Color(0x5865F2))
                     .WithThumbnailUrl(user.GetAvatarUrl(size: 128) ?? user.GetDefaultAvatarUrl())
-                    .AddField("Total XP", totalXp.ToString("N0"), true)
-                    .AddField("Server Rank", $"#{rank}", true)
-                    .AddField("New Level", level.ToString(), true)
+                    .AddField(Strings.XpLevelUpTotalXp(user.Guild.Id), totalXp.ToString("N0"), true)
+                    .AddField(Strings.XpLevelUpServerRank(user.Guild.Id), $"#{rank}", true)
+                    .AddField(Strings.XpLevelUpNewLevel(user.Guild.Id), level.ToString(), true)
                     .WithFooter($"{user.Guild.Name}", user.Guild.IconUrl)
                     .WithCurrentTimestamp()
                     .Build();
@@ -427,13 +427,13 @@ public class XpRewardManager : INService
             var userMention = pingsDisabled ? user.Username.EscapeWeirdStuff() : user.Mention;
 
             var embed = new EmbedBuilder()
-                .WithTitle("Level Up!")
-                .WithDescription($"Congratulations {userMention}!\nYou've reached **Level {level}**")
+                .WithTitle(Strings.XpLevelUpTitle(guild.Id))
+                .WithDescription(Strings.XpLevelUpDesc(guild.Id, userMention, level))
                 .WithColor(new Color(0x5865F2))
                 .WithThumbnailUrl(user.GetAvatarUrl(size: 128) ?? user.GetDefaultAvatarUrl())
-                .AddField("Total XP", totalXp.ToString("N0"), true)
-                .AddField("Server Rank", $"#{rank}", true)
-                .AddField("New Level", level.ToString(), true)
+                .AddField(Strings.XpLevelUpTotalXp(guild.Id), totalXp.ToString("N0"), true)
+                .AddField(Strings.XpLevelUpServerRank(guild.Id), $"#{rank}", true)
+                .AddField(Strings.XpLevelUpNewLevel(guild.Id), level.ToString(), true)
                 .WithFooter($"{guild.Name}", guild.IconUrl)
                 .WithCurrentTimestamp()
                 .Build();
@@ -459,11 +459,10 @@ public class XpRewardManager : INService
         try
         {
             var embed = new EmbedBuilder()
-                .WithTitle("💡 Level-Up Notifications")
-                .WithDescription(
-                    "You can disable level-up pings or DMs at any time using the command: ```.leveluppings false```")
+                .WithTitle(Strings.XpFirstTimeInfoTitle(guild.Id))
+                .WithDescription(Strings.XpFirstTimeInfoDesc(guild.Id))
                 .WithColor(new Color(0x3498DB))
-                .WithFooter("This message only appears once")
+                .WithFooter(Strings.XpFirstTimeInfoFooter(guild.Id))
                 .Build();
 
             if (notificationType == XpNotificationType.Dm)

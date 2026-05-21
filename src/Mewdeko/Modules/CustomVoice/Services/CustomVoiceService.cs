@@ -748,9 +748,9 @@ public class CustomVoiceService : INService, IUnloadableService
                 // Send a welcome message with control buttons to the text channel
                 var embed = new EmbedBuilder()
                     .WithOkColor()
-                    .WithTitle("Voice Channel Controls")
+                    .WithTitle(strings.CustomVoiceDefaultControlsTitle(voiceChannel.Guild.Id))
                     .WithDescription(strings.CustomVoiceDescription(voiceChannel.Guild.Id) ??
-                                     "This is your custom voice channel. Use the buttons below to manage it.")
+                                     strings.CustomVoiceDefaultDescription(voiceChannel.Guild.Id))
                     .Build();
 
                 var components = BuildVoiceControlButtons(voiceChannel.Id, customChannel, config);

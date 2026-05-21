@@ -747,7 +747,7 @@ public partial class Tickets(ILogger<Tickets> logger) : MewdekoModuleBase<Ticket
         var stats = await Service.GetUserStatistics(ctx.Guild.Id, user.Id);
 
         var eb = new EmbedBuilder()
-            .WithTitle(Strings.UserTicketStats(ctx.Guild.Id, user.Username))
+            .WithTitle(Strings.TicketUserStats(ctx.Guild.Id, user.Username))
             .AddField(Strings.TotalTickets(ctx.Guild.Id), stats.TotalTickets, true)
             .AddField(Strings.OpenTickets(ctx.Guild.Id), stats.OpenTickets, true)
             .AddField(Strings.ClosedTickets(ctx.Guild.Id), stats.ClosedTickets, true);

@@ -541,12 +541,6 @@ public class MinecraftService(
     }
 
     /// <summary>
-    ///     Gets the default server for a guild, or a specific server by name.
-    /// </summary>
-    /// <param name="guildId">The guild ID.</param>
-    /// <param name="name">The server name, or null to get the default.</param>
-    /// <returns>The server entry, or null if not found.</returns>
-    /// <summary>
     ///     Gets a server by its database ID, using cache with 2 minute TTL.
     /// </summary>
     /// <param name="serverId">The server database ID.</param>
@@ -775,7 +769,7 @@ public class MinecraftService(
         {
             var eb = new EmbedBuilder()
                 .WithOkColor()
-                .WithTitle($"{server.Name} — {server.Address}:{server.Port}")
+                .WithTitle(strings.McServerStatusTitle(guildId, server.Name, server.Address, server.Port))
                 .AddField(strings.McVersion(guildId), status.Version, true)
                 .AddField(strings.McPlayers(guildId), $"{status.PlayersOnline}/{status.PlayersMax}", true)
                 .AddField(strings.McLatency(guildId), $"{status.Latency}ms", true)
@@ -808,7 +802,7 @@ public class MinecraftService(
 
         return new EmbedBuilder()
             .WithErrorColor()
-            .WithTitle($"{server.Name} — {server.Address}:{server.Port}")
+            .WithTitle(strings.McServerStatusTitle(guildId, server.Name, server.Address, server.Port))
             .WithDescription(strings.McServerOffline(guildId))
             .WithFooter(strings.McLastChecked(guildId))
             .WithCurrentTimestamp()
@@ -965,11 +959,13 @@ public class MinecraftService(
             .FirstOrDefaultAsync(s => s.PluginApiKey == apiKey);
     }
 
-    /// <param name="motd">The raw MOTD string.</param>
-    /// <returns>The cleaned string.</returns>
     /// <summary>
     ///     Sets the custom online alert message for a server.
     /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="serverName">The server name.</param>
+    /// <param name="message">The custom message template, or null to clear.</param>
+    /// <returns>The updated server, or null if not found.</returns>
     public async Task<MinecraftServer?> SetCustomOnlineMessageAsync(ulong guildId, string serverName, string? message)
     {
         await using var db = await dbFactory.CreateConnectionAsync();
@@ -1181,20 +1177,24 @@ public class MinecraftService(
         {
             try
             {
-                if (await channel.GetMessageAsync(server.WatchMessageId.Value) is IUserMessage msg)
+                await channel.ModifyMessageAsync(server.WatchMessageId.Value, m =>
                 {
-                    await msg.ModifyAsync(m =>
-                    {
-                        m.Embed = embed;
-                        m.Content = plainText ?? Optional<string>.Unspecified;
-                        m.Components = components?.Build() ?? new ComponentBuilder().Build();
-                    });
-                    return;
-                }
+                    m.Embed = embed;
+                    m.Content = plainText ?? Optional<string>.Unspecified;
+                    m.Components = components?.Build() ?? new ComponentBuilder().Build();
+                });
+                return;
             }
-            catch
+            catch (Discord.Net.HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.NotFound
+                                                       || ex.HttpCode == System.Net.HttpStatusCode.Forbidden)
             {
-                // Message was deleted or inaccessible, send a new one
+                // Message was actually deleted or we lost access — fall through and post a new one
+            }
+            catch (Exception ex)
+            {
+                logger.LogDebug(ex, "Failed to edit watch message {MessageId} for server {ServerId}, will retry next tick",
+                    server.WatchMessageId.Value, server.Id);
+                return;
             }
         }
 

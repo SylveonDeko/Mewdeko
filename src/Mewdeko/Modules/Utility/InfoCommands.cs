@@ -62,14 +62,14 @@ public partial class Utility
                 .AddField("Users in role",
                     (await ctx.Guild.GetUsersAsync().ConfigureAwait(false)).Count(x => x.RoleIds.Contains(role.Id)))
                 .AddField("Is Mentionable", role.IsMentionable)
-                .AddField("Is Hoisted", role.IsHoisted).AddField("Color", role.Color.RawValue)
+                .AddField("Is Hoisted", role.IsHoisted).AddField("Color", role.Colors.PrimaryColor.RawValue)
                 .AddField("Is Managed", role.IsManaged)
                 .AddField("Permissions", string.Join(",", role.Permissions))
                 .AddField("Creation Date", TimestampTag.FromDateTimeOffset(role.CreatedAt))
                 .AddField("Position", role.Position)
                 .AddField("ID", role.Id)
                 .WithThumbnailUrl(role.GetIconUrl())
-                .WithColor(role.Color);
+                .WithColor(role.Colors.PrimaryColor);
             await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         }
 

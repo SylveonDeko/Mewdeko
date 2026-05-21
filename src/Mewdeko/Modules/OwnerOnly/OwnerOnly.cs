@@ -46,6 +46,7 @@ namespace Mewdeko.Modules.OwnerOnly;
 /// <param name="httpClient">HTTP client for making web requests.</param>
 /// <param name="localization">Service for handling localization and translations.</param>
 /// <param name="logger">The logger instance for structured logging.</param>
+/// <param name="creds">Bot credentials and configuration secrets.</param>
 [OwnerOnly]
 public class OwnerOnly(
     DiscordShardedClient client,

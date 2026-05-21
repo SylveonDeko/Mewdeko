@@ -134,7 +134,7 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
 
         await Service.SetStatusChannel(potentialStatusRole, channel.Id);
         await ctx.Interaction.SendConfirmAsync(
-            Strings.ChannelSetTo(ctx.Guild.Id, channel.Mention));
+            Strings.StatusRoleChannelSet(ctx.Guild.Id, channel.Mention));
     }
 
     /// <summary>

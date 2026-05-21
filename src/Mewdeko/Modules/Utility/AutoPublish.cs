@@ -27,7 +27,7 @@ public partial class Utility
         {
             if (channel is not INewsChannel chan)
             {
-                await ReplyErrorAsync(Strings.ChannelNotNewsChannel(ctx.Guild.Id));
+                await ReplyErrorAsync(Strings.AutopublishChannelNotNews(ctx.Guild.Id));
                 return;
             }
 
@@ -58,13 +58,13 @@ public partial class Utility
         {
             if (await Service.CheckIfExists(channel.Id))
             {
-                await ReplyErrorAsync(Strings.ChannelNotAutoPublish(ctx.Guild.Id));
+                await ReplyErrorAsync(Strings.AutopublishChannelNotSetup(ctx.Guild.Id));
                 return;
             }
 
             if (channel is not INewsChannel chan)
             {
-                await ReplyErrorAsync(Strings.ChannelNotNewsChannel(ctx.Guild.Id));
+                await ReplyErrorAsync(Strings.AutopublishChannelNotNews(ctx.Guild.Id));
                 return;
             }
 
@@ -76,9 +76,9 @@ public partial class Utility
 
             var added = await Service.AddUserToBlacklist(channel.Id, user.Id);
             if (!added)
-                await ReplyErrorAsync(Strings.UserAlreadyBlacklistedAutopub(ctx.Guild.Id, user.Mention));
+                await ReplyErrorAsync(Strings.AutopublishUserAlreadyBlacklisted(ctx.Guild.Id, user.Mention));
             else
-                await ReplyConfirmAsync(Strings.UserPublishBlacklisted(ctx.Guild.Id, user.Mention, channel.Mention));
+                await ReplyConfirmAsync(Strings.AutopublishUserBlacklisted(ctx.Guild.Id, user.Mention, channel.Mention));
         }
 
         /// <summary>
@@ -95,13 +95,13 @@ public partial class Utility
         {
             if (await Service.CheckIfExists(channel.Id))
             {
-                await ReplyErrorAsync(Strings.ChannelNotAutoPublish(ctx.Guild.Id));
+                await ReplyErrorAsync(Strings.AutopublishChannelNotSetup(ctx.Guild.Id));
                 return;
             }
 
             if (channel is not INewsChannel chan)
             {
-                await ReplyErrorAsync(Strings.ChannelNotNewsChannel(ctx.Guild.Id));
+                await ReplyErrorAsync(Strings.AutopublishChannelNotNews(ctx.Guild.Id));
                 return;
             }
 
@@ -138,16 +138,16 @@ public partial class Utility
         {
             if (await Service.CheckIfExists(channel.Id))
             {
-                await ReplyErrorAsync(Strings.ChannelNotAutoPublish(ctx.Guild.Id));
+                await ReplyErrorAsync(Strings.AutopublishChannelNotSetup(ctx.Guild.Id));
                 return;
             }
 
             var removed = await Service.RemoveUserFromBlacklist(channel.Id, user.Id);
 
             if (!removed)
-                await ReplyErrorAsync(Strings.UserNotBlacklistedAutopub(ctx.Guild.Id, user.Mention));
+                await ReplyErrorAsync(Strings.AutopublishUserNotBlacklisted(ctx.Guild.Id, user.Mention));
             else
-                await ReplyConfirmAsync(Strings.UserPublishUnblacklisted(ctx.Guild.Id, user.Mention, channel.Mention));
+                await ReplyConfirmAsync(Strings.AutopublishUserUnblacklisted(ctx.Guild.Id, user.Mention, channel.Mention));
         }
 
         /// <summary>
@@ -164,7 +164,7 @@ public partial class Utility
         {
             if (await Service.CheckIfExists(channel.Id))
             {
-                await ReplyErrorAsync(Strings.ChannelNotAutoPublish(ctx.Guild.Id));
+                await ReplyErrorAsync(Strings.AutopublishChannelNotSetup(ctx.Guild.Id));
                 return;
             }
 
@@ -173,7 +173,7 @@ public partial class Utility
             if (!removed)
                 await ReplyErrorAsync(Strings.WordNotBlacklistedAutopub(ctx.Guild.Id, word));
             else
-                await ReplyConfirmAsync(Strings.UserPublishUnblacklisted(ctx.Guild.Id, word, channel.Mention));
+                await ReplyConfirmAsync(Strings.AutopublishUserUnblacklisted(ctx.Guild.Id, word, channel.Mention));
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ public partial class Utility
         {
             if (channel is not INewsChannel)
             {
-                await ReplyErrorAsync(Strings.ChannelNotNewsChannel(ctx.Guild.Id));
+                await ReplyErrorAsync(Strings.AutopublishChannelNotNews(ctx.Guild.Id));
                 return;
             }
 

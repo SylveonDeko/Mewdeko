@@ -202,7 +202,7 @@ public class SlashRoleStates(BotConfigService bss, InteractiveService interactiv
                 await Task.CompletedTask.ConfigureAwait(false);
 
                 var eb = new PageBuilder()
-                    .WithTitle(Strings.UserRoleStates(ctx.Guild.Id))
+                    .WithTitle(Strings.RoleStatesUserField(ctx.Guild.Id))
                     .WithOkColor();
 
                 var roleStatesToShow = userRoleStates.Skip(5 * page).Take(3).ToList();

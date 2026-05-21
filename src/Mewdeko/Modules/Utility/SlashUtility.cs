@@ -280,11 +280,11 @@ public partial class SlashUtility(
         var eb = new EmbedBuilder().WithTitle(role.Name).AddField("Users in role",
                 (await ctx.Guild.GetUsersAsync().ConfigureAwait(false)).Count(x => x.RoleIds.Contains(role.Id)))
             .AddField("Is Mentionable", role.IsMentionable).AddField("Is Hoisted", role.IsHoisted)
-            .AddField("Color", role.Color.RawValue)
+            .AddField("Color", role.Colors.PrimaryColor.RawValue)
             .AddField("Is Managed", role.IsManaged).AddField("Permissions", string.Join(",", role.Permissions))
             .AddField("Creation Date", TimestampTag.FromDateTimeOffset(role.CreatedAt))
             .AddField("Position", role.Position).AddField("ID", role.Id)
-            .WithThumbnailUrl(role.GetIconUrl()).WithColor(role.Color);
+            .WithThumbnailUrl(role.GetIconUrl()).WithColor(role.Colors.PrimaryColor);
 
         await ctx.Interaction.RespondAsync(embed: eb.Build()).ConfigureAwait(false);
     }

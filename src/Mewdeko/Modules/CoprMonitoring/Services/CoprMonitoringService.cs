@@ -11,6 +11,7 @@ using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.CoprMonitoring.Common;
 using Mewdeko.Services.Settings;
+using Mewdeko.Services.Strings;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using AmqpConnection = RabbitMQ.Client.IConnection;
@@ -27,6 +28,7 @@ public class CoprMonitoringService : INService, IReadyExecutor, IDisposable
     private readonly BotConfigService config;
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<CoprMonitoringService> logger;
+    private readonly GeneratedBotStrings strings;
 
     // In-memory cache: Key = (owner, project), Value = List of monitors for that project
     private readonly ConcurrentDictionary<(string Owner, string Project), List<CoprMonitor>> monitors = new();
@@ -44,16 +46,19 @@ public class CoprMonitoringService : INService, IReadyExecutor, IDisposable
     /// <param name="client">The Discord sharded client.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="config">The bot configuration service.</param>
+    /// <param name="strings">The localization strings provider.</param>
     public CoprMonitoringService(
         IDataConnectionFactory dbFactory,
         DiscordShardedClient client,
         ILogger<CoprMonitoringService> logger,
-        BotConfigService config)
+        BotConfigService config,
+        GeneratedBotStrings strings)
     {
         this.dbFactory = dbFactory;
         this.client = client;
         this.logger = logger;
         this.config = config;
+        this.strings = strings;
     }
 
     /// <summary>
@@ -856,11 +861,9 @@ public class CoprMonitoringService : INService, IReadyExecutor, IDisposable
             $"https://copr.fedorainfracloud.org/coprs/{buildData.Owner}/{buildData.Project}/build/{buildData.Build}/";
 
         var embed = new EmbedBuilder()
-            .WithTitle($"COPR Build {statusText}")
-            .WithDescription($"**Project:** {buildData.Owner}/{buildData.Project}\n" +
-                             $"**Package:** {buildData.Package}\n" +
-                             $"**Build ID:** {buildData.Build}\n" +
-                             $"**Chroot:** {buildData.Chroot}")
+            .WithTitle(strings.CoprBuildTitle(channel.GuildId, statusText))
+            .WithDescription(strings.CoprBuildDefaultDesc(channel.GuildId, buildData.Owner, buildData.Project,
+                buildData.Package, buildData.Build, buildData.Chroot))
             .WithUrl(buildUrl)
             .WithColor(GetColorForStatus(status))
             .WithTimestamp(DateTimeOffset.UtcNow)

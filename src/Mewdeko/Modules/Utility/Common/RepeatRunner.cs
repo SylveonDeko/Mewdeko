@@ -21,7 +21,6 @@ public class RepeatRunner : IDisposable
     private bool disposed;
     private TimeSpan initialInterval;
     private DateTime lastActivityCheck = DateTime.UtcNow;
-    private int messageCountSinceLastTrigger;
     private Timer? timer;
 
     /// <summary>
@@ -529,7 +528,6 @@ public class RepeatRunner : IDisposable
     public void Reset()
     {
         Stop(); // This clears any existing timer
-        messageCountSinceLastTrigger = 0;
         lastActivityCheck = DateTime.UtcNow;
         Run(); // Set up new timer/mode based on current TriggerMode
     }

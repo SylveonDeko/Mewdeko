@@ -624,8 +624,7 @@ public class StreamNotificationService : IReadyExecutor, INService
             {
                 var processedMessage = replacer.Replace(streamerMessage);
 
-                // Try to parse as SmartEmbed (JSON)
-                if (SmartEmbed.TryParse(processedMessage, followedStream.GuildId, out var embed, out var plainText,
+                if (SmartEmbed.TryParse(processedMessage ?? string.Empty, followedStream.GuildId, out var embed, out var plainText,
                         out var components))
                 {
                     // Valid JSON - use SmartEmbed
@@ -645,7 +644,7 @@ public class StreamNotificationService : IReadyExecutor, INService
             {
                 var processedTemplate = replacer.Replace(guildTemplate);
 
-                if (SmartEmbed.TryParse(processedTemplate, followedStream.GuildId, out var embed, out var plainText,
+                if (SmartEmbed.TryParse(processedTemplate ?? string.Empty, followedStream.GuildId, out var embed, out var plainText,
                         out var components))
                 {
                     await textChannel.SendMessageAsync(plainText, embeds: embed, components: components?.Build());

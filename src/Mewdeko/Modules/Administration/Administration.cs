@@ -15,7 +15,8 @@ namespace Mewdeko.Modules.Administration;
 /// </summary>
 /// <param name="serv">The interactivity service by Fergun.Interactive</param>
 /// <param name="logger">The logger instance for structured logging.</param>
-public partial class Administration(InteractiveService serv, ILogger<Administration> logger)
+/// <param name="guildSettings">Guild settings service for prefix lookups.</param>
+public partial class Administration(InteractiveService serv, ILogger<Administration> logger, GuildSettingsService guildSettings)
     : MewdekoModuleBase<AdministrationService>
 {
     /// <summary>
@@ -607,7 +608,7 @@ public partial class Administration(InteractiveService serv, ILogger<Administrat
                 var toprune = await ctx.Guild.PruneUsersAsync(time.Time.Days, true);
                 if (toprune == 0)
                 {
-                    await ErrorAsync(Strings.PruneNoMembersUpsell(ctx.Guild.Id)).ConfigureAwait(false);
+                    await ErrorAsync(Strings.PruneNoMembersUpsell(ctx.Guild.Id, await guildSettings.GetPrefix(ctx.Guild))).ConfigureAwait(false);
                     return;
                 }
 
@@ -617,7 +618,7 @@ public partial class Administration(InteractiveService serv, ILogger<Administrat
                 };
                 if (!await PromptUserConfirmAsync(eb, ctx.User.Id).ConfigureAwait(false))
                 {
-                    await ConfirmAsync(Strings.PruneCanceledMemberUpsell(ctx.Guild.Id)).ConfigureAwait(false);
+                    await ConfirmAsync(Strings.PruneCanceledMemberUpsell(ctx.Guild.Id, await guildSettings.GetPrefix(ctx.Guild))).ConfigureAwait(false);
                 }
                 else
                 {

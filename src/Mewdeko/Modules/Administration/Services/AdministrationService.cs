@@ -30,6 +30,7 @@ public class AdministrationService : INService
     /// <param name="bot">The bot instance.</param>
     /// <param name="httpClientFactory">The HTTP client factory for making REST requests.</param>
     /// <param name="credentials">The bot credentials for authorization.</param>
+    /// <param name="shardedClient">The Discord sharded client.</param>
     public AdministrationService(CommandHandler cmdHandler,
         GuildSettingsService guildSettings, Mewdeko bot, IDataConnectionFactory dbFactory,
         IHttpClientFactory httpClientFactory, IBotCredentials credentials, DiscordShardedClient shardedClient)

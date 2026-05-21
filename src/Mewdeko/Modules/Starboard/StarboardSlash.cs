@@ -487,7 +487,7 @@ public class StarboardSlash(GuildSettingsService guildSettings, InteractiveServi
 
         var eb = new EmbedBuilder()
             .WithOkColor()
-            .WithTitle(Strings.UserStarboardStatistics(ctx.Guild.Id, user.Username))
+            .WithTitle(Strings.StarboardUserStatistics(ctx.Guild.Id, user.Username))
             .WithThumbnailUrl(user.GetAvatarUrl())
             .AddField(Strings.MessagesStarred(ctx.Guild.Id), stats.MessagesStarred, true)
             .AddField(Strings.StarsReceived(ctx.Guild.Id), stats.StarsReceived, true)

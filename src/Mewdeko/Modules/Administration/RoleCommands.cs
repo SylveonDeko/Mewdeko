@@ -725,7 +725,7 @@ public partial class Administration
         [Priority(1)]
         public async Task RoleColor([Remainder] IRole role)
         {
-            await ctx.Channel.SendConfirmAsync(Strings.Rolecolor(ctx.Guild.Id), role.Color.RawValue.ToString("x6"))
+            await ctx.Channel.SendConfirmAsync(Strings.Rolecolor(ctx.Guild.Id), role.Colors.PrimaryColor.RawValue.ToString("x6"))
                 .ConfigureAwait(false);
         }
 

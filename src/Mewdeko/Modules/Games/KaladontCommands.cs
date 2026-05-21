@@ -345,7 +345,7 @@ public partial class Games
                     string.Join(" → ", game.RecentWords.TakeLast(5).Select(w => Format.Code(w))));
             }
 
-            embed.WithFooter($"⏱️ {game.Opts.TurnTime}s remaining");
+            embed.WithFooter(Strings.KaladontTurnRemaining(ctx.Guild.Id, game.Opts.TurnTime));
 
             return ctx.Channel.EmbedAsync(embed);
         }
@@ -418,7 +418,7 @@ public partial class Games
             else
             {
                 embed.WithErrorColor()
-                    .WithDescription("Game ended with no winner.");
+                    .WithDescription(Strings.KaladontNoWinner(ctx.Guild.Id));
             }
 
             return ctx.Channel.EmbedAsync(embed);

@@ -21,7 +21,7 @@ public static class ConfigurationValidator
 
         // Validate required fields
         if (!basicSettings.ContainsKey("label") || string.IsNullOrEmpty(basicSettings["label"]))
-            issues.Add("❌ Button label is required");
+            issues.Add("Button label is required");
 
         if (basicSettings.TryGetValue("style", out var setting))
         {
@@ -30,7 +30,7 @@ public static class ConfigurationValidator
                 {
                     "primary", "secondary", "success", "danger"
                 }.Contains(style))
-                issues.Add("❌ Button style must be: primary, secondary, success, or danger");
+                issues.Add("Button style must be: primary, secondary, success, or danger");
         }
 
         // Validate modal configuration
@@ -44,13 +44,13 @@ public static class ConfigurationValidator
         if (behaviorSettings.TryGetValue("auto_close_hours", out var behaviorSetting))
         {
             if (!int.TryParse(behaviorSetting, out var hours) || hours < 1 || hours > 168)
-                issues.Add("❌ Auto-close hours must be between 1 and 168 (1 week)");
+                issues.Add("Auto-close hours must be between 1 and 168 (1 week)");
         }
 
         if (behaviorSettings.TryGetValue("response_time_minutes", out var setting1))
         {
             if (!int.TryParse(setting1, out var minutes) || minutes < 1)
-                issues.Add("❌ Response time must be at least 1 minute");
+                issues.Add("Response time must be at least 1 minute");
         }
 
         return issues;
@@ -68,18 +68,18 @@ public static class ConfigurationValidator
         var fieldCount = lines.Count(l => l.StartsWith("- "));
 
         if (fieldCount > 5)
-            issues.Add("❌ Modal can have maximum 5 fields");
+            issues.Add("Modal can have maximum 5 fields");
 
         foreach (var line in lines.Where(l => l.StartsWith("- ")))
         {
             var fieldParts = line[2..].Split('|');
             if (fieldParts.Length < 2)
-                issues.Add($"❌ Invalid field format: {line}. Use: Label|Type|Required");
+                issues.Add($"Invalid field format: {line}. Use: Label|Type|Required");
             else if (!new[]
                      {
                          "short", "long"
                      }.Contains(fieldParts[1].ToLower()))
-                issues.Add($"❌ Field type must be 'short' or 'long': {fieldParts[1]}");
+                issues.Add($"Field type must be 'short' or 'long': {fieldParts[1]}");
         }
 
         return issues;
@@ -98,10 +98,10 @@ public static class ConfigurationValidator
         switch (lines.Length)
         {
             case 0:
-                issues.Add("❌ Select menu must have at least one option");
+                issues.Add("Select menu must have at least one option");
                 break;
             case > 25:
-                issues.Add("❌ Select menu can have maximum 25 options");
+                issues.Add("Select menu can have maximum 25 options");
                 break;
         }
 
@@ -109,11 +109,11 @@ public static class ConfigurationValidator
         {
             var parts = line.Split('|');
             if (parts.Length < 2)
-                issues.Add($"❌ Invalid option format: {line}. Use: Label|Emoji|Description");
+                issues.Add($"Invalid option format: {line}. Use: Label|Emoji|Description");
             else if (parts[0].Length > 100)
-                issues.Add($"❌ Option label too long (max 100 chars): {parts[0]}");
+                issues.Add($"Option label too long (max 100 chars): {parts[0]}");
             else if (parts.Length > 2 && parts[2].Length > 100)
-                issues.Add($"❌ Option description too long (max 100 chars): {parts[2]}");
+                issues.Add($"Option description too long (max 100 chars): {parts[2]}");
         }
 
         return issues;
