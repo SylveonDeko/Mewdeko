@@ -120,6 +120,16 @@ public interface IBotCredentials
     public string LastFmApiSecret { get; }
 
     /// <summary>
+    ///     Rule34 API key, obtained from https://rule34.xxx/index.php?page=account&amp;s=options
+    /// </summary>
+    public string Rule34ApiKey { get; }
+
+    /// <summary>
+    ///     Rule34 user ID associated with the API key.
+    /// </summary>
+    public string Rule34UserId { get; }
+
+    /// <summary>
     ///     Gets the dashboard URL for OAuth redirects
     /// </summary>
     public string DashboardUrl { get; }

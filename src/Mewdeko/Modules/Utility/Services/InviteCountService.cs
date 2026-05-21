@@ -51,9 +51,11 @@ public class InviteCountService : INService, IReadyExecutor
         var guildIds = client.Guilds.Select(g => g.Id).ToHashSet();
         await using var uow = await dbFactory.CreateConnectionAsync();
 
-        var allSettings = await uow.InviteCountSettings
-            .Where(s => guildIds.Contains(s.GuildId))
-            .ToDictionaryAsync(s => s.GuildId);
+        var allSettings = (await uow.InviteCountSettings
+                .Where(s => guildIds.Contains(s.GuildId))
+                .ToListAsync())
+            .GroupBy(s => s.GuildId)
+            .ToDictionary(g => g.Key, g => g.First());
 
         // Initialize settings for all guilds (small data, needed for quick lookups)
         foreach (var guildId in guildIds)

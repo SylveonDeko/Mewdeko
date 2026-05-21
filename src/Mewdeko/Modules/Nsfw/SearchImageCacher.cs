@@ -21,6 +21,7 @@ public class SearchImageCacher : INService
     };
 
     private readonly IMemoryCache cache;
+    private readonly IBotCredentials creds;
     private readonly IHttpClientFactory httpFactory;
     private readonly ILogger<SearchImageCacher> logger;
 
@@ -36,12 +37,15 @@ public class SearchImageCacher : INService
     /// <param name="httpFactory">The factory to create HttpClient instances.</param>
     /// <param name="cache">The memory cache implementation for caching search results.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
-    public SearchImageCacher(IHttpClientFactory httpFactory, IMemoryCache cache, ILogger<SearchImageCacher> logger)
+    /// <param name="creds">The bot credentials, used for booru API keys.</param>
+    public SearchImageCacher(IHttpClientFactory httpFactory, IMemoryCache cache, ILogger<SearchImageCacher> logger,
+        IBotCredentials creds)
     {
         this.httpFactory = httpFactory;
         rng = new MewdekoRandom();
         this.cache = cache;
         this.logger = logger;
+        this.creds = creds;
 
         // initialize new cache with empty values
         foreach (var type in Enum.GetValues<Booru>())
@@ -314,7 +318,7 @@ public class SearchImageCacher : INService
             Booru.E621 => new E621ImageDownloader(httpFactory),
             Booru.Derpibooru => new DerpibooruImageDownloader(httpFactory),
             Booru.Gelbooru => new GelbooruImageDownloader(httpFactory),
-            Booru.Rule34 => new Rule34ImageDownloader(httpFactory),
+            Booru.Rule34 => new Rule34ImageDownloader(httpFactory, creds.Rule34ApiKey, creds.Rule34UserId),
             Booru.Sankaku => new SankakuImageDownloader(httpFactory),
             Booru.Realbooru => new RealbooruImageDownloader(httpFactory),
             _ => throw new NotImplementedException($"{booru} downloader not implemented.")

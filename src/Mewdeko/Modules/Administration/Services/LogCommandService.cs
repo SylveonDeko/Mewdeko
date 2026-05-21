@@ -308,7 +308,7 @@ public class LogCommandService(
                     new TextDisplayBuilder(
                         strings.NameField(args.Guild.Id, args.Name) +
                         strings.IdField(args.Guild.Id, args.Id) +
-                        strings.ColorField(args.Guild.Id, args.Color) +
+                        strings.ColorField(args.Guild.Id, args.Colors.PrimaryColor) +
                         strings.HoistedField(args.Guild.Id, args.IsHoisted) +
                         strings.MentionableField(args.Guild.Id, args.IsMentionable) +
                         strings.PositionField(args.Guild.Id, args.Position) +
@@ -620,13 +620,13 @@ public class LogCommandService(
                     new TextDisplayBuilder(strings.RoleNameChange(args.Guild.Id, arsg2.Name, args.Name, updatedByStr))
                 ], Mewdeko.OkColor);
             }
-            else if (args.Color != arsg2.Color)
+            else if (args.Colors.PrimaryColor != arsg2.Colors.PrimaryColor)
             {
                 components.WithContainer([
                     new TextDisplayBuilder($"# {strings.RoleColorUpdated(args.Guild.Id)}"),
-                    new TextDisplayBuilder(strings.RoleColorChange(args.Guild.Id, roleStr, arsg2.Color, args.Color,
+                    new TextDisplayBuilder(strings.RoleColorChange(args.Guild.Id, roleStr, arsg2.Colors.PrimaryColor, args.Colors.PrimaryColor,
                         updatedByStr))
-                ], arsg2.Color);
+                ], arsg2.Colors.PrimaryColor);
             }
             else if (args.IsHoisted != arsg2.IsHoisted)
             {
@@ -1551,6 +1551,7 @@ public class LogCommandService(
     /// <param name="user">The user that was unbanned.</param>
     /// <param name="guild">The guild the user was unbanned from.</param>
     /// <param name="unbannedBy">The user that unbanned the user.</param>
+    /// <param name="reason">The reason for the unban, if provided.</param>
     private async Task OnUserUnbanned(IUser user, SocketGuild guild, SocketUser unbannedBy, string reason)
     {
         if (GuildLogSettings.TryGetValue(guild.Id, out var logSetting))
@@ -2608,14 +2609,15 @@ public class LogCommandService(
         SocketReaction reaction)
     {
         if (!channel.HasValue || channel.Value is not SocketTextChannel guildChannel) return Task.CompletedTask;
-        if (reaction.User.Value?.IsBot == true) return Task.CompletedTask;
+        var reactionUser = reaction.User.GetValueOrDefault();
+        if (reactionUser?.IsBot == true) return Task.CompletedTask;
 
         // Check if channel is ignored
         if (IsChannelIgnored(guildChannel.Guild.Id, guildChannel.Id))
             return Task.CompletedTask;
 
         AddReactionToBatch(message.Id, guildChannel.Id, guildChannel.Guild.Id, guildChannel.Name,
-            reaction.User.Value?.Id ?? 0, reaction.Emote, true);
+            reactionUser?.Id ?? 0, reaction.Emote, true);
         return Task.CompletedTask;
     }
 
@@ -2629,14 +2631,15 @@ public class LogCommandService(
         SocketReaction reaction)
     {
         if (!channel.HasValue || channel.Value is not SocketTextChannel guildChannel) return Task.CompletedTask;
-        if (reaction.User.Value?.IsBot == true) return Task.CompletedTask;
+        var reactionUser = reaction.User.GetValueOrDefault();
+        if (reactionUser?.IsBot == true) return Task.CompletedTask;
 
         // Check if channel is ignored
         if (IsChannelIgnored(guildChannel.Guild.Id, guildChannel.Id))
             return Task.CompletedTask;
 
         AddReactionToBatch(message.Id, guildChannel.Id, guildChannel.Guild.Id, guildChannel.Name,
-            reaction.User.Value?.Id ?? 0, reaction.Emote, false);
+            reactionUser?.Id ?? 0, reaction.Emote, false);
         return Task.CompletedTask;
     }
 

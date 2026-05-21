@@ -103,7 +103,9 @@ public sealed class MewdekoPlayer : LavalinkPlayer
         var musicChannel = await GetMusicChannel();
         var queue = await cache.GetMusicQueue(GuildId);
         var currentTrack = await cache.GetCurrentTrack(GuildId);
-        var nextTrack = queue.FirstOrDefault(x => x.Index == currentTrack.Index + 1);
+        var nextTrack = currentTrack == null
+            ? null
+            : queue.FirstOrDefault(x => x.Index == currentTrack.Index + 1);
         switch (reason)
         {
             case TrackEndReason.Finished:
@@ -155,10 +157,18 @@ public sealed class MewdekoPlayer : LavalinkPlayer
                     .WithContainer(new TextDisplayBuilder(Strings.TrackLoadFailed(GuildId, item.Track.Title)));
                 await musicChannel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
                     allowedMentions: AllowedMentions.None);
-                await PlayAsync(nextTrack.Track, cancellationToken: token);
-                await cache.SetCurrentTrack(GuildId, nextTrack);
-                queue.Remove(currentTrack);
-                await cache.SetMusicQueue(GuildId, queue);
+                if (nextTrack is not null)
+                {
+                    await PlayAsync(nextTrack.Track, cancellationToken: token);
+                    await cache.SetCurrentTrack(GuildId, nextTrack);
+                }
+
+                if (currentTrack is not null)
+                {
+                    queue.Remove(currentTrack);
+                    await cache.SetMusicQueue(GuildId, queue);
+                }
+
                 break;
             case TrackEndReason.Stopped:
                 return;

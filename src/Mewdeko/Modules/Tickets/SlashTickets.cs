@@ -342,18 +342,19 @@ public partial class TicketsSlash : MewdekoSlashModuleBase<TicketService>
     [ComponentInteraction("ticket_close", true)]
     public async Task HandleTicketClose()
     {
+        await DeferAsync(true);
         try
         {
             var success = await Service.CloseTicket(ctx.Guild, ctx.Channel.Id);
             if (success)
-                await RespondAsync("Ticket closed successfully!", ephemeral: true);
+                await FollowupAsync("Ticket closed successfully!", ephemeral: true);
             else
-                await RespondAsync("Failed to close ticket. It may already be closed.", ephemeral: true);
+                await FollowupAsync("Failed to close ticket. It may already be closed.", ephemeral: true);
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Error closing ticket in channel {ChannelId}", ctx.Channel.Id);
-            await RespondAsync("An error occurred while closing the ticket.", ephemeral: true);
+            await FollowupAsync("An error occurred while closing the ticket.", ephemeral: true);
         }
     }
 

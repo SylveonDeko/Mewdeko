@@ -171,6 +171,8 @@ public class RoleGreetService : INService
     private async Task DoRoleGreet(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser socketGuildUser)
     {
         var user = await cacheable.GetOrDownloadAsync().ConfigureAwait(false);
+        if (user == null)
+            return;
         if (user.Roles.SequenceEqual(socketGuildUser.Roles))
         {
             if (user.Roles.Count > socketGuildUser.Roles.Count)

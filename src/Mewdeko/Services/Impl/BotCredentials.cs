@@ -206,6 +206,16 @@ public class BotCredentials : IBotCredentials
     /// </summary>
     public string LastFmApiSecret { get; set; }
 
+    /// <summary>
+    ///     Gets or sets the Rule34 API key.
+    /// </summary>
+    public string Rule34ApiKey { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the Rule34 user ID.
+    /// </summary>
+    public string Rule34UserId { get; set; }
+
 
     /// <summary>
     ///     Gets or sets the Patreon client ID.
@@ -502,6 +512,8 @@ public class BotCredentials : IBotCredentials
             ApiPort = int.TryParse(data[nameof(ApiPort)], out var port) ? port : 5001;
             LastFmApiKey = data[nameof(LastFmApiKey)];
             LastFmApiSecret = data[nameof(LastFmApiSecret)];
+            Rule34ApiKey = data[nameof(Rule34ApiKey)];
+            Rule34UserId = data[nameof(Rule34UserId)];
             PatreonClientId = data[nameof(PatreonClientId)];
             PatreonClientSecret = data[nameof(PatreonClientSecret)];
             PatreonBaseUrl = data[nameof(PatreonBaseUrl)];
@@ -666,6 +678,8 @@ public class BotCredentials : IBotCredentials
         public string RedisConnections { get; } = "127.0.0.1:6379";
         public string LastFmApiKey { get; } = "";
         public string LastFmApiSecret { get; } = "";
+        public string Rule34ApiKey { get; } = "";
+        public string Rule34UserId { get; } = "";
         public string PatreonClientId { get; } = "";
         public string PatreonClientSecret { get; } = "";
         public string PatreonBaseUrl { get; } = "https://yourdomain.com";

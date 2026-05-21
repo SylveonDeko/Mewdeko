@@ -143,6 +143,9 @@ public class RoleMonitorService : INService, IReadyExecutor
         if (entry.Data is not SocketMemberRoleAuditLogData roleUpdate)
             return;
 
+        if (entry.User == null)
+            return;
+
         var userId = roleUpdate.Target.Id;
         var user = await guild.GetUserAsync(userId);
 
@@ -171,11 +174,14 @@ public class RoleMonitorService : INService, IReadyExecutor
         if (entry.Data is not SocketRoleUpdateAuditLogData roleUpdate)
             return;
 
+        if (entry.User == null)
+            return;
+
         var roleId = roleUpdate.RoleId;
         var role = guild.GetRole(roleId);
         var user = await guild.GetUserAsync(entry.User.Id);
 
-        if (role == null)
+        if (role == null || user == null)
             return;
 
         if (await IsRoleWhitelistedAsync(guild.Id, user.RoleIds))
@@ -187,7 +193,9 @@ public class RoleMonitorService : INService, IReadyExecutor
         var beforePermissions = roleUpdate.Before.Permissions;
         var afterPermissions = roleUpdate.After.Permissions;
 
-        // Get individual permissions that were added
+        if (!beforePermissions.HasValue || !afterPermissions.HasValue)
+            return;
+
         var addedPermissions = Enum.GetValues<GuildPermission>()
             .Where(p => afterPermissions.Value.Has(p) && !beforePermissions.Value.Has(p));
 

@@ -1158,6 +1158,7 @@ public class TicketService : INService
     ///     Archives a ticket using existing schema
     /// </summary>
     /// <param name="ticket">The ticket to archive</param>
+    /// <param name="skipTranscript">If true, archival skips generating a transcript.</param>
     public async Task ArchiveTicketAsync(Ticket ticket, bool skipTranscript = false)
     {
         await using var ctx = await dbFactory.CreateConnectionAsync();
@@ -1281,8 +1282,13 @@ public class TicketService : INService
         try
         {
             IGuild guild = client.GetGuild(panel.GuildId);
-            var channel = await guild.GetChannelAsync(panel.ChannelId) as ITextChannel;
-            var message = await channel?.GetMessageAsync(panel.MessageId);
+            if (guild == null)
+                return;
+
+            if (await guild.GetChannelAsync(panel.ChannelId) is not ITextChannel channel)
+                return;
+
+            var message = await channel.GetMessageAsync(panel.MessageId);
 
             if (message is not IUserMessage userMessage)
                 return;
@@ -1949,7 +1955,15 @@ public class TicketService : INService
             if (menu == null)
                 return false;
 
-            // Delete all options first (due to foreign key constraints)
+            var optionIds = menu.SelectMenuOptions?.Select(o => o.Id).ToList() ?? new List<int>();
+            if (optionIds.Any())
+            {
+                await ctx.Tickets
+                    .Where(t => t.SelectOptionId.HasValue && optionIds.Contains(t.SelectOptionId.Value))
+                    .Set(t => t.SelectOptionId, (int?)null)
+                    .UpdateAsync();
+            }
+
             await ctx.SelectMenuOptions
                 .Where(o => o.SelectMenuId == menuId)
                 .DeleteAsync();
@@ -1993,7 +2007,11 @@ public class TicketService : INService
             if (option == null)
                 return false;
 
-            // Delete the option
+            await ctx.Tickets
+                .Where(t => t.SelectOptionId == optionId)
+                .Set(t => t.SelectOptionId, (int?)null)
+                .UpdateAsync();
+
             await ctx.SelectMenuOptions
                 .Where(o => o.Id == optionId)
                 .DeleteAsync();
@@ -2393,11 +2411,6 @@ public class TicketService : INService
     }
 
 
-    /// <summary>
-    ///     Retrieves tickets by their IDs.
-    /// </summary>
-    /// <param name="ticketIds">The IDs of the tickets to retrieve.</param>
-    /// <returns>A list of tickets matching the specified IDs.</returns>
     /// <summary>
     ///     Gets all tickets for a guild
     /// </summary>
@@ -2865,7 +2878,7 @@ public class TicketService : INService
                 .OrderByDescending(role => role.Position)
                 .FirstOrDefault();
 
-            var colorHex = highestRole?.Color.RawValue is uint color ? $"#{color:X6}" : "#7289da";
+            var colorHex = highestRole?.Colors.PrimaryColor.RawValue is uint color ? $"#{color:X6}" : "#7289da";
             userColorCache[user.Id] = colorHex;
             return colorHex;
         }
@@ -4401,8 +4414,8 @@ public class TicketService : INService
                 if (logChannel != null)
                 {
                     var embed = new EmbedBuilder()
-                        .WithTitle(strings.UserBlacklistedTitle(guild.Id))
-                        .WithDescription(strings.UserBlacklistedDesc(guild.Id, userId))
+                        .WithTitle(strings.TicketBlacklistUserTitle(guild.Id))
+                        .WithDescription(strings.TicketBlacklistUserDesc(guild.Id, userId))
                         .AddField("Reason", reason ?? "No reason provided")
                         .WithColor(Color.Red)
                         .WithCurrentTimestamp()
@@ -4450,8 +4463,8 @@ public class TicketService : INService
                 if (logChannel != null)
                 {
                     var embed = new EmbedBuilder()
-                        .WithTitle(strings.UserUnblacklistedTitle(guild.Id))
-                        .WithDescription(strings.UserUnblacklistedFromTickets(guild.Id, userId))
+                        .WithTitle(strings.TicketUnblacklistUserTitle(guild.Id))
+                        .WithDescription(strings.TicketUserUnblacklisted(guild.Id, userId))
                         .WithColor(Color.Green)
                         .WithCurrentTimestamp()
                         .Build();

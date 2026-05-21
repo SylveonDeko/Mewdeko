@@ -244,7 +244,7 @@ public class SlashMusic(
             logger.LogError(ex, "Error in Play command with query: {Query}", query);
             var components = new ComponentBuilderV2()
                 .WithContainer([
-                    new TextDisplayBuilder("# ❌ Music Error")
+                    new TextDisplayBuilder($"# {Config.ErrorEmote} {Strings.MusicErrorTitle(Context.Guild.Id)}")
                 ], Mewdeko.ErrorColor)
                 .WithSeparator()
                 .WithContainer(new TextDisplayBuilder(Strings.MusicGenericError(Context.Guild.Id)));
@@ -1008,7 +1008,7 @@ public class SlashMusic(
                 {
                     var components = new ComponentBuilderV2()
                         .WithContainer([
-                            new TextDisplayBuilder("# 🎵 Spotify Error")
+                            new TextDisplayBuilder($"# {Config.ErrorEmote} {Strings.MusicSpotifyErrorTitle(Context.Guild.Id)}")
                         ], Mewdeko.ErrorColor)
                         .WithSeparator()
                         .WithContainer(new TextDisplayBuilder(Strings.MusicSpotifyProcessingError(Context.Guild.Id)));
@@ -1244,7 +1244,7 @@ public class SlashMusic(
                 var playlist = await spotify.Playlists.Get(id);
 
                 // Show loading message for long playlists
-                if (playlist.Tracks.Total > 10)
+                if (playlist.Items.Total > 10)
                 {
                     var loadingComponents = new ComponentBuilderV2()
                         .WithContainer([
@@ -1252,7 +1252,7 @@ public class SlashMusic(
                         ], Mewdeko.OkColor)
                         .WithSeparator()
                         .WithSection([
-                                new TextDisplayBuilder(Strings.LoadingPlaylist(ctx.Guild.Id, playlist.Tracks.Total,
+                                new TextDisplayBuilder(Strings.LoadingPlaylist(ctx.Guild.Id, playlist.Items.Total,
                                     playlist.Owner.DisplayName))
                             ],
                             playlist.Images.FirstOrDefault()?.Url != null
@@ -1260,7 +1260,7 @@ public class SlashMusic(
                                 : null)
                         .WithSeparator()
                         .WithContainer(new TextDisplayBuilder(
-                            $"ℹ️ {Strings.MusicProcessingTracks(ctx.Guild.Id, tracks.Count, playlist.Tracks.Total)}"));
+                            $"ℹ️ {Strings.MusicProcessingTracks(ctx.Guild.Id, tracks.Count, playlist.Items.Total)}"));
 
                     await ModifyOriginalResponseAsync(x =>
                     {
@@ -1270,7 +1270,7 @@ public class SlashMusic(
                     });
                 }
 
-                foreach (var item in playlist.Tracks.Items)
+                foreach (var item in playlist.Items.Items)
                 {
                     if (item.Track is not FullTrack track) continue;
 
@@ -1292,7 +1292,7 @@ public class SlashMusic(
                         await player.PlayAsync(ytTrack);
 
                         // Update components to show now playing
-                        if (playlist.Tracks.Total > 10)
+                        if (playlist.Items.Total > 10)
                         {
                             var updatedComponents = new ComponentBuilderV2()
                                 .WithContainer([
@@ -1301,7 +1301,7 @@ public class SlashMusic(
                                 .WithSeparator()
                                 .WithSection([
                                         new TextDisplayBuilder(Strings.LoadingPlaylistWithTrack(ctx.Guild.Id,
-                                            playlist.Tracks.Total,
+                                            playlist.Items.Total,
                                             playlist.Owner.DisplayName, ytTrack.Title))
                                     ],
                                     playlist.Images.FirstOrDefault()?.Url != null
@@ -1309,7 +1309,7 @@ public class SlashMusic(
                                         : null)
                                 .WithSeparator()
                                 .WithContainer(new TextDisplayBuilder(
-                                    $"ℹ️ {Strings.MusicProcessingTracks(ctx.Guild.Id, tracks.Count, playlist.Tracks.Total)}"));
+                                    $"ℹ️ {Strings.MusicProcessingTracks(ctx.Guild.Id, tracks.Count, playlist.Items.Total)}"));
 
                             await ModifyOriginalResponseAsync(x =>
                             {
@@ -1321,7 +1321,7 @@ public class SlashMusic(
                     }
 
                     // Update loading message every 5 tracks
-                    if (playlist.Tracks.Total > 10 && tracks.Count % 5 == 0)
+                    if (playlist.Items.Total > 10 && tracks.Count % 5 == 0)
                     {
                         var updatedComponents = new ComponentBuilderV2()
                             .WithContainer([
@@ -1329,7 +1329,7 @@ public class SlashMusic(
                             ], Mewdeko.OkColor)
                             .WithSeparator()
                             .WithSection([
-                                    new TextDisplayBuilder(Strings.LoadingPlaylist(ctx.Guild.Id, playlist.Tracks.Total,
+                                    new TextDisplayBuilder(Strings.LoadingPlaylist(ctx.Guild.Id, playlist.Items.Total,
                                         playlist.Owner.DisplayName))
                                 ],
                                 playlist.Images.FirstOrDefault()?.Url != null
@@ -1337,7 +1337,7 @@ public class SlashMusic(
                                     : null)
                             .WithSeparator()
                             .WithContainer(new TextDisplayBuilder(
-                                $"ℹ️ {Strings.MusicProcessingTracks(ctx.Guild.Id, tracks.Count, playlist.Tracks.Total)}"));
+                                $"ℹ️ {Strings.MusicProcessingTracks(ctx.Guild.Id, tracks.Count, playlist.Items.Total)}"));
 
                         await ModifyOriginalResponseAsync(x =>
                         {
@@ -1644,9 +1644,13 @@ public class SlashMusic(
                     retrieveOptions)
                 .ConfigureAwait(false);
 
-            await result.Player.SetVolumeAsync(await result.Player.GetVolume() / 100f).ConfigureAwait(false);
+            if (result.IsSuccess && result.Player is not null)
+            {
+                await result.Player.SetVolumeAsync(await result.Player.GetVolume() / 100f).ConfigureAwait(false);
+                return (result.Player, null);
+            }
 
-            if (result.IsSuccess) return (result.Player, null);
+
             var errorMessage = result.Status switch
             {
                 PlayerRetrieveStatus.UserNotInVoiceChannel => Strings.MusicNotInChannel(ctx.Guild.Id),
