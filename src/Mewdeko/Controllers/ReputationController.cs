@@ -15,7 +15,8 @@ namespace Mewdeko.Controllers;
 public class ReputationController(
     RepService service,
     DiscordShardedClient client,
-    IDataConnectionFactory dbFactory)
+    IDataConnectionFactory dbFactory,
+    IDashboardAuditContext auditContext)
     : Controller
 {
     /// <summary>
@@ -295,6 +296,7 @@ public class ReputationController(
         if (request.RepRequired < 0)
             return BadRequest("Reputation required must be positive");
 
+        auditContext.RecordBefore(await service.GetRoleRewardsAsync(guildId));
         var success = await service.AddOrUpdateRoleRewardAsync(
             guildId,
             request.RoleId,
@@ -307,6 +309,7 @@ public class ReputationController(
         if (!success)
             return BadRequest("Failed to add or update role reward");
 
+        auditContext.RecordAfter(await service.GetRoleRewardsAsync(guildId));
         return Ok();
     }
 
@@ -319,6 +322,7 @@ public class ReputationController(
     [HttpDelete("roleRewards/{roleId}")]
     public async Task<IActionResult> RemoveRoleReward(ulong guildId, ulong roleId)
     {
+        auditContext.RecordBefore(await service.GetRoleRewardsAsync(guildId));
         var success = await service.RemoveRoleRewardAsync(guildId, roleId);
 
         if (!success)

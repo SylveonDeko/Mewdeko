@@ -15,7 +15,10 @@ namespace Mewdeko.Controllers;
 [ApiController]
 [Route("botapi/[controller]/{guildId}")]
 [Authorize("ApiKeyPolicy")]
-public class ChatController(DiscordShardedClient client, ChatLogService chatLogService) : Controller
+public class ChatController(
+    DiscordShardedClient client,
+    ChatLogService chatLogService,
+    IDashboardAuditContext auditContext) : Controller
 {
     /// <summary>
     ///     Gets chat messages from a channel within a specified time range
@@ -203,6 +206,7 @@ public class ChatController(DiscordShardedClient client, ChatLogService chatLogS
         if (log.GuildId != guildId)
             return Forbid("This log does not belong to the specified guild");
 
+        auditContext.RecordBefore(log);
         await chatLogService.UpdateChatLogNameAsync(logId, request.Name);
         return Ok();
     }
@@ -221,6 +225,7 @@ public class ChatController(DiscordShardedClient client, ChatLogService chatLogS
         if (log.GuildId != guildId)
             return Forbid("This log does not belong to the specified guild");
 
+        auditContext.RecordBefore(log);
         await chatLogService.DeleteChatLogAsync(logId);
         return Ok();
     }

@@ -34,7 +34,8 @@ public class MeController(
     InviteCountService inviteCountService,
     MessageCountService messageCountService,
     DiscordShardedClient client,
-    IDataConnectionFactory dbFactory) : Controller
+    IDataConnectionFactory dbFactory,
+    IDashboardAuditContext auditContext) : Controller
 {
     /// <summary>
     ///     Validates that the user is a member of the specified guild
@@ -129,6 +130,7 @@ public class MeController(
         if (highlight == null)
             return NotFound("Highlight not found");
 
+        auditContext.RecordBefore(highlight);
         await highlightsService.RemoveHighlight(highlight);
         return Ok();
     }
@@ -215,7 +217,9 @@ public class MeController(
             return BadRequest($"Message exceeds maximum length of {maxLength} characters");
 
         var message = string.IsNullOrEmpty(request.Message) ? "" : request.Message;
+        auditContext.RecordBefore(await afkService.GetAfk(guildId, userId));
         await afkService.AfkSet(guildId, userId, message, request.IsTimed, request.Until ?? DateTime.UtcNow);
+        auditContext.RecordAfter(await afkService.GetAfk(guildId, userId));
 
         return Ok();
     }
@@ -232,6 +236,7 @@ public class MeController(
         if (!await ValidateUserMembership(guildId, userId))
             return StatusCode(403, "User is not a member of this guild");
 
+        auditContext.RecordBefore(await afkService.GetAfk(guildId, userId));
         await afkService.AfkSet(guildId, userId, "");
         return Ok();
     }
@@ -433,6 +438,7 @@ public class MeController(
         if (request.Pronouns != null)
             dbUser.Pronouns = request.Pronouns;
 
+        auditContext.RecordAfter(dbUser);
         await db.UpdateAsync(dbUser);
 
         return Ok();

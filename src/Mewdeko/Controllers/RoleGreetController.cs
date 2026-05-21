@@ -15,16 +15,22 @@ public class RoleGreetController : Controller
 {
     private readonly DiscordShardedClient client;
     private readonly RoleGreetService roleGreetService;
+    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     ///     Initializes a new instance of the RoleGreetController
     /// </summary>
     /// <param name="roleGreetService">The rolegreetservice service.</param>
     /// <param name="client">The Discord client instance.</param>
-    public RoleGreetController(RoleGreetService roleGreetService, DiscordShardedClient client)
+    /// <param name="auditContext">Records before/after state for the dashboard audit log.</param>
+    public RoleGreetController(
+        RoleGreetService roleGreetService,
+        DiscordShardedClient client,
+        IDashboardAuditContext auditContext)
     {
         this.roleGreetService = roleGreetService;
         this.client = client;
+        this.auditContext = auditContext;
     }
 
     /// <summary>
@@ -71,6 +77,7 @@ public class RoleGreetController : Controller
         if (greet == null)
             return NotFound("Role greet not found");
 
+        auditContext.RecordBefore(greet);
         await roleGreetService.ChangeMgMessage(greet, message);
         return Ok();
     }
@@ -86,6 +93,7 @@ public class RoleGreetController : Controller
         if (greet == null)
             return NotFound("Role greet not found");
 
+        auditContext.RecordBefore(greet);
         await roleGreetService.ChangeRgDelete(greet, seconds);
         return Ok();
     }
@@ -101,6 +109,8 @@ public class RoleGreetController : Controller
         var greet = greets.ElementAtOrDefault(greetId - 1);
         if (greet == null)
             return NotFound("Role greet not found");
+
+        auditContext.RecordBefore(greet);
 
         if (request.WebhookUrl == null)
         {
@@ -123,6 +133,7 @@ public class RoleGreetController : Controller
         if (greet == null)
             return NotFound("Role greet not found");
 
+        auditContext.RecordBefore(greet);
         await roleGreetService.ChangeRgGb(greet, enabled);
         return Ok();
     }
@@ -138,6 +149,7 @@ public class RoleGreetController : Controller
         if (greet == null)
             return NotFound("Role greet not found");
 
+        auditContext.RecordBefore(greet);
         await roleGreetService.RoleGreetDisable(greet, disabled);
         return Ok();
     }

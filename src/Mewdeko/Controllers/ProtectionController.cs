@@ -11,7 +11,9 @@ namespace Mewdeko.Controllers;
 [ApiController]
 [Route("botapi/[controller]/{guildId}")]
 [Authorize("ApiKeyPolicy")]
-public class ProtectionController(ProtectionService protectionService) : Controller
+public class ProtectionController(
+    ProtectionService protectionService,
+    IDashboardAuditContext auditContext) : Controller
 {
     /// <summary>
     ///     Gets comprehensive protection status for all protection types
@@ -128,6 +130,7 @@ public class ProtectionController(ProtectionService protectionService) : Control
     [HttpPut("anti-raid")]
     public async Task<IActionResult> ConfigureAntiRaid(ulong guildId, [FromBody] AntiRaidConfigRequest request)
     {
+        auditContext.RecordBefore(protectionService.GetAntiStats(guildId));
         if (request.Enabled)
         {
             var result = await protectionService.StartAntiRaidAsync(
@@ -161,6 +164,7 @@ public class ProtectionController(ProtectionService protectionService) : Control
     [HttpPut("anti-spam")]
     public async Task<IActionResult> ConfigureAntiSpam(ulong guildId, [FromBody] AntiSpamConfigRequest request)
     {
+        auditContext.RecordBefore(protectionService.GetAntiStats(guildId));
         if (request.Enabled)
         {
             await protectionService.StartAntiSpamAsync(
@@ -191,6 +195,7 @@ public class ProtectionController(ProtectionService protectionService) : Control
     [HttpPost("anti-spam/ignored-channels/{channelId}")]
     public async Task<IActionResult> ToggleAntiSpamIgnoredChannel(ulong guildId, ulong channelId)
     {
+        auditContext.RecordBefore(protectionService.GetAntiStats(guildId));
         var added = await protectionService.AntiSpamIgnoreAsync(guildId, channelId);
 
         return Ok(new
@@ -206,6 +211,7 @@ public class ProtectionController(ProtectionService protectionService) : Control
     [HttpPut("anti-alt")]
     public async Task<IActionResult> ConfigureAntiAlt(ulong guildId, [FromBody] AntiAltConfigRequest request)
     {
+        auditContext.RecordBefore(protectionService.GetAntiStats(guildId));
         if (request.Enabled)
         {
             await protectionService.StartAntiAltAsync(
@@ -237,6 +243,7 @@ public class ProtectionController(ProtectionService protectionService) : Control
     public async Task<IActionResult> ConfigureAntiMassMention(ulong guildId,
         [FromBody] AntiMassMentionConfigRequest request)
     {
+        auditContext.RecordBefore(protectionService.GetAntiStats(guildId));
         if (request.Enabled)
         {
             await protectionService.StartAntiMassMentionAsync(
@@ -324,6 +331,7 @@ public class ProtectionController(ProtectionService protectionService) : Control
     [HttpPut("anti-pattern")]
     public async Task<IActionResult> ConfigureAntiPattern(ulong guildId, [FromBody] AntiPatternConfigRequest request)
     {
+        auditContext.RecordBefore(protectionService.GetAntiStats(guildId));
         if (request.Enabled)
         {
             var result = await protectionService.StartAntiPatternAsync(
@@ -363,6 +371,7 @@ public class ProtectionController(ProtectionService protectionService) : Control
     [HttpPost("anti-pattern/patterns")]
     public async Task<IActionResult> AddPattern(ulong guildId, [FromBody] AddPatternRequest request)
     {
+        auditContext.RecordBefore(protectionService.GetAntiStats(guildId));
         var success = await protectionService.AddPatternAsync(
             guildId,
             request.Pattern,
@@ -382,6 +391,7 @@ public class ProtectionController(ProtectionService protectionService) : Control
     [HttpDelete("anti-pattern/patterns/{patternId}")]
     public async Task<IActionResult> RemovePattern(ulong guildId, int patternId)
     {
+        auditContext.RecordBefore(protectionService.GetAntiStats(guildId));
         var success = await protectionService.RemovePatternAsync(guildId, patternId);
         return Ok(new
         {
@@ -396,6 +406,7 @@ public class ProtectionController(ProtectionService protectionService) : Control
     public async Task<IActionResult> UpdateAntiPatternConfig(ulong guildId,
         [FromBody] UpdateAntiPatternConfigRequest request)
     {
+        auditContext.RecordBefore(protectionService.GetAntiStats(guildId));
         var success = await protectionService.UpdateAntiPatternConfigAsync(
             guildId,
             request.CheckAccountAge,

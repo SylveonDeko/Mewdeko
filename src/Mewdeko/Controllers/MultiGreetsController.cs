@@ -18,16 +18,22 @@ public class MultiGreetController : Controller
 {
     private readonly DiscordShardedClient client;
     private readonly MultiGreetService multiGreetService;
+    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     ///     Initializes a new instance of the MultiGreetController
     /// </summary>
     /// <param name="multiGreetService">Service for managing MultiGreet operations</param>
     /// <param name="client">Discord client instance</param>
-    public MultiGreetController(MultiGreetService multiGreetService, DiscordShardedClient client)
+    /// <param name="auditContext">Records before/after state for the dashboard audit log.</param>
+    public MultiGreetController(
+        MultiGreetService multiGreetService,
+        DiscordShardedClient client,
+        IDashboardAuditContext auditContext)
     {
         this.multiGreetService = multiGreetService;
         this.client = client;
+        this.auditContext = auditContext;
     }
 
     /// <summary>
@@ -99,6 +105,7 @@ public class MultiGreetController : Controller
         if (greet == null)
             return NotFound();
 
+        auditContext.RecordBefore(greet);
         await multiGreetService.RemoveMultiGreetInternal(greet);
         return Ok();
     }
@@ -123,6 +130,7 @@ public class MultiGreetController : Controller
         if (greet == null)
             return NotFound();
 
+        auditContext.RecordBefore(greet);
         await multiGreetService.ChangeMgMessage(greet, message);
         return Ok();
     }
@@ -146,6 +154,7 @@ public class MultiGreetController : Controller
         if (greet == null)
             return NotFound();
 
+        auditContext.RecordBefore(greet);
         var stoopidTime = StoopidTime.FromInput(time);
         await multiGreetService.ChangeMgDelete(greet, (int)stoopidTime.Time.TotalSeconds);
         return Ok();
@@ -171,6 +180,7 @@ public class MultiGreetController : Controller
         if (greet == null)
             return NotFound();
 
+        auditContext.RecordBefore(greet);
         await multiGreetService.ChangeMgGb(greet, enabled);
         return Ok();
     }
@@ -193,6 +203,8 @@ public class MultiGreetController : Controller
 
         if (greet == null)
             return NotFound();
+
+        auditContext.RecordBefore(greet);
 
         IGuild guild = client.GetGuild(guildId);
         var channel = await guild.GetTextChannelAsync(greet.ChannelId);
@@ -235,6 +247,7 @@ public class MultiGreetController : Controller
         if (greet == null)
             return NotFound();
 
+        auditContext.RecordBefore(greet);
         await multiGreetService.MultiGreetDisable(greet, disabled);
         return Ok();
     }
@@ -253,7 +266,9 @@ public class MultiGreetController : Controller
             return BadRequest("Invalid greet type");
 
         var guild = client.GetGuild(guildId);
+        auditContext.RecordBefore(await multiGreetService.GetMultiGreetType(guildId));
         await multiGreetService.SetMultiGreetType(guild, type);
+        auditContext.RecordAfter(type);
         return Ok();
     }
 

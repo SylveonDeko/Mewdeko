@@ -15,7 +15,8 @@ namespace Mewdeko.Controllers;
 public class FeedsController(
     FeedsService service,
     DiscordShardedClient client,
-    IDataConnectionFactory dbFactory)
+    IDataConnectionFactory dbFactory,
+    IDashboardAuditContext auditContext)
     : Controller
 {
     /// <summary>
@@ -72,11 +73,13 @@ public class FeedsController(
     [HttpPut("{index:int}/message")]
     public async Task<IActionResult> SetFeedMessage(ulong guildId, int index, [FromBody] string message)
     {
+        auditContext.RecordBefore((await service.GetFeeds(guildId)).ElementAtOrDefault(index));
         var success = await service.AddFeedMessage(guildId, index, message);
 
         if (!success)
             return NotFound("Feed not found at the specified index");
 
+        auditContext.RecordAfter((await service.GetFeeds(guildId)).ElementAtOrDefault(index));
         return Ok();
     }
 
@@ -89,6 +92,7 @@ public class FeedsController(
     [HttpDelete("{index:int}")]
     public async Task<IActionResult> RemoveFeed(ulong guildId, int index)
     {
+        auditContext.RecordBefore((await service.GetFeeds(guildId)).ElementAtOrDefault(index));
         var success = await service.RemoveFeed(guildId, index);
 
         if (!success)

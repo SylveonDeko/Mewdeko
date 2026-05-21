@@ -21,6 +21,7 @@ namespace Mewdeko.Controllers;
 /// <param name="dpoService">Service for managing Discord permission overrides</param>
 /// <param name="cmdServ">Discord command service for command execution and information</param>
 /// <param name="dbFactory">Provider for database contexts</param>
+/// <param name="auditContext">Records before/after state for the dashboard audit log.</param>
 /// <param name="logger">The logger instance for structured logging.</param>
 [ApiController]
 [Route("botapi/[controller]")]
@@ -30,6 +31,7 @@ public class PermissionsController(
     DiscordPermOverrideService dpoService,
     CommandService cmdServ,
     IDataConnectionFactory dbFactory,
+    IDashboardAuditContext auditContext,
     ILogger<PermissionsController> logger
 ) : Controller
 {
@@ -58,7 +60,9 @@ public class PermissionsController(
         if (!com.IsSuccess)
             return BadRequest(com);
         var perms = (GuildPermission)request.Permissions;
+        auditContext.RecordBefore(await dpoService.GetAllOverrides(guildId));
         var over = await dpoService.AddOverride(guildId, request.Command, perms);
+        auditContext.RecordAfter(await dpoService.GetAllOverrides(guildId));
         return Ok(over);
     }
 
@@ -74,7 +78,9 @@ public class PermissionsController(
         var com = cmdServ.Search(commandName);
         if (!com.IsSuccess)
             return BadRequest(com);
+        auditContext.RecordBefore(await dpoService.GetAllOverrides(guildId));
         await dpoService.RemoveOverride(guildId, commandName);
+        auditContext.RecordAfter(await dpoService.GetAllOverrides(guildId));
         return Ok();
     }
 
@@ -99,7 +105,9 @@ public class PermissionsController(
     [HttpPost("regular/{guildId}")]
     public async Task<IActionResult> AddPermission(ulong guildId, [FromBody] Permission1 permission)
     {
+        auditContext.RecordBefore(await permissionService.GetCacheFor(guildId));
         await permissionService.AddPermissions(guildId, permission);
+        auditContext.RecordAfter(await permissionService.GetCacheFor(guildId));
         return Ok();
     }
 
@@ -112,7 +120,9 @@ public class PermissionsController(
     [HttpDelete("regular/{guildId}/{index}")]
     public async Task<IActionResult> RemovePermission(ulong guildId, int index)
     {
+        auditContext.RecordBefore(await permissionService.GetCacheFor(guildId));
         await permissionService.RemovePerm(guildId, index);
+        auditContext.RecordAfter(await permissionService.GetCacheFor(guildId));
         return Ok();
     }
 
@@ -125,7 +135,9 @@ public class PermissionsController(
     [HttpPost("regular/{guildId}/move")]
     public async Task<IActionResult> MovePermission(ulong guildId, [FromBody] MovePermRequest request)
     {
+        auditContext.RecordBefore(await permissionService.GetCacheFor(guildId));
         await permissionService.UnsafeMovePerm(guildId, request.From, request.To);
+        auditContext.RecordAfter(await permissionService.GetCacheFor(guildId));
         return Ok();
     }
 
@@ -137,6 +149,7 @@ public class PermissionsController(
     [HttpPost("regular/{guildId}/reset")]
     public async Task<IActionResult> ResetPermissions(ulong guildId)
     {
+        auditContext.RecordBefore(await permissionService.GetCacheFor(guildId));
         await permissionService.Reset(guildId);
         return Ok();
     }
@@ -161,12 +174,14 @@ public class PermissionsController(
         if (config == null)
             return NotFound("Guild configuration not found");
 
-        // Update the verbose permissions setting
+        auditContext.RecordBefore(config.VerbosePermissions);
+
         await db.GuildConfigs
             .Where(gc => gc.GuildId == guildId)
             .Set(gc => gc.VerbosePermissions, verbose)
             .UpdateAsync();
 
+        auditContext.RecordAfter(verbose);
         return Ok();
     }
 

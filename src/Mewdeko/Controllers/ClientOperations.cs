@@ -390,9 +390,8 @@ public class ClientOperations(DiscordShardedClient client) : Controller
 
             return Ok(forumInfo);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            // Return basic forum info if thread fetching fails
             var basicInfo = new ForumChannelInfo
             {
                 Id = forum.Id,

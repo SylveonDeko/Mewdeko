@@ -11,6 +11,7 @@ using Lavalink4NET.Extensions;
 using MartineApiNet;
 using Mewdeko.AuthHandlers;
 using Mewdeko.Common.Configs;
+using Mewdeko.Controllers.Common.AuditLog;
 using Mewdeko.Common.Constraints;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
@@ -24,12 +25,14 @@ using Mewdeko.Services.Impl;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.Strings;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using NekosBestApiNet;
 using Prometheus;
@@ -152,7 +155,12 @@ public class Program
             builder.Services.AddTransient<IApiKeyValidation, ApiKeyValidation>();
             builder.Services.AddAuthorization();
 
-            builder.Services.AddControllers()
+            builder.Services.AddScoped<IDashboardAuditContext, DashboardAuditContext>();
+
+            builder.Services.AddControllers(options =>
+                {
+                    options.Filters.Add<AuditLogFilter>();
+                })
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
@@ -189,9 +197,39 @@ public class Program
             });
             auth.AddScheme<AuthenticationSchemeOptions, ApiKeyAuthHandler>("ApiKey", null);
 
+            var jwtSecret = string.IsNullOrWhiteSpace(credentials.JwtSecret) ? null : credentials.JwtSecret;
+            if (jwtSecret is null)
+            {
+                log.Warning(
+                    "JwtSecret is not configured; dashboard user JWT auth will reject all tokens. " +
+                    "Set the same JwtSecret across every bot instance and the dashboard.");
+            }
+
+            auth.AddJwtBearer(DashJwtConstants.SchemeName, options =>
+            {
+                options.MapInboundClaims = false;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = DashJwtConstants.Issuer,
+                    ValidateAudience = true,
+                    ValidAudience = DashJwtConstants.Audience,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(jwtSecret ?? Guid.NewGuid().ToString("N"))),
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.FromSeconds(30),
+                    NameClaimType = DashJwtConstants.UserIdClaim
+                };
+            });
+
             builder.Services.AddAuthorizationBuilder()
                 .AddPolicy("ApiKeyPolicy",
                     policy => policy.RequireAuthenticatedUser().AddAuthenticationSchemes("ApiKey"))
+                .AddPolicy(DashJwtConstants.PolicyName,
+                    policy => policy.RequireAuthenticatedUser()
+                        .AddAuthenticationSchemes(DashJwtConstants.SchemeName)
+                        .RequireClaim(DashJwtConstants.ScopeClaim, DashJwtConstants.BackendScope))
                 .AddPolicy("TopggPolicy",
                     policy => policy.RequireClaim(AuthHandler.TopggClaim)
                         .AddAuthenticationSchemes(AuthHandler.SchemeName));

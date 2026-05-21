@@ -14,7 +14,8 @@ namespace Mewdeko.Controllers;
 public class VotesController(
     VoteService service,
     DiscordShardedClient client,
-    IDataConnectionFactory dbFactory)
+    IDataConnectionFactory dbFactory,
+    IDashboardAuditContext auditContext)
     : Controller
 {
     /// <summary>
@@ -39,9 +40,11 @@ public class VotesController(
     [HttpPost("roles/{roleId}")]
     public async Task<IActionResult> AddVoteRole(ulong guildId, ulong roleId, [FromBody] int seconds = 0)
     {
+        auditContext.RecordBefore(await service.GetVoteRoles(guildId));
         var (success, error) = await service.AddVoteRole(guildId, roleId, seconds);
         if (!success)
             return BadRequest(error);
+        auditContext.RecordAfter(await service.GetVoteRoles(guildId));
         return Ok();
     }
 
@@ -54,9 +57,11 @@ public class VotesController(
     [HttpDelete("roles/{roleId}")]
     public async Task<IActionResult> RemoveVoteRole(ulong guildId, ulong roleId)
     {
+        auditContext.RecordBefore(await service.GetVoteRoles(guildId));
         var (success, error) = await service.RemoveVoteRole(guildId, roleId);
         if (!success)
             return BadRequest(error);
+        auditContext.RecordAfter(await service.GetVoteRoles(guildId));
         return Ok();
     }
 
@@ -70,9 +75,11 @@ public class VotesController(
     [HttpPatch("roles/{roleId}")]
     public async Task<IActionResult> UpdateVoteRoleTimer(ulong guildId, ulong roleId, [FromBody] int seconds)
     {
+        auditContext.RecordBefore(await service.GetVoteRoles(guildId));
         var (success, error) = await service.UpdateTimer(guildId, roleId, seconds);
         if (!success)
             return BadRequest(error);
+        auditContext.RecordAfter(await service.GetVoteRoles(guildId));
         return Ok();
     }
 
@@ -84,6 +91,7 @@ public class VotesController(
     [HttpDelete("roles")]
     public async Task<IActionResult> ClearVoteRoles(ulong guildId)
     {
+        auditContext.RecordBefore(await service.GetVoteRoles(guildId));
         var (success, error) = await service.ClearVoteRoles(guildId);
         if (!success)
             return BadRequest(error);
@@ -111,7 +119,9 @@ public class VotesController(
     [HttpPost("message")]
     public async Task<IActionResult> SetVoteMessage(ulong guildId, [FromBody] string message)
     {
+        auditContext.RecordBefore(await service.GetVoteMessage(guildId));
         await service.SetVoteMessage(guildId, message);
+        auditContext.RecordAfter(message);
         return Ok();
     }
 

@@ -19,6 +19,7 @@ public class BirthdayController : Controller
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<BirthdayController> logger;
+    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="BirthdayController" /> class.
@@ -27,16 +28,19 @@ public class BirthdayController : Controller
     /// <param name="client">The Discord sharded client instance.</param>
     /// <param name="dbFactory">The factory for creating database connections.</param>
     /// <param name="logger">The logger instance.</param>
+    /// <param name="auditContext">Records before/after state for the dashboard audit log.</param>
     public BirthdayController(
         BirthdayService birthdayService,
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
-        ILogger<BirthdayController> logger)
+        ILogger<BirthdayController> logger,
+        IDashboardAuditContext auditContext)
     {
         this.birthdayService = birthdayService;
         this.client = client;
         this.dbFactory = dbFactory;
         this.logger = logger;
+        this.auditContext = auditContext;
     }
 
     /// <summary>
@@ -123,6 +127,8 @@ public class BirthdayController : Controller
                     return BadRequest("Invalid timezone provided.");
             }
 
+            auditContext.RecordBefore(await birthdayService.GetBirthdayConfigAsync(guildId));
+
             await birthdayService.UpdateBirthdayConfigAsync(guildId, config =>
             {
                 if (request.BirthdayChannelId.HasValue)
@@ -139,6 +145,7 @@ public class BirthdayController : Controller
                     config.DefaultTimezone = request.DefaultTimezone;
             });
 
+            auditContext.RecordAfter(await birthdayService.GetBirthdayConfigAsync(guildId));
             return Ok();
         }
         catch (Exception ex)
@@ -161,6 +168,8 @@ public class BirthdayController : Controller
             var guild = client.GetGuild(guildId);
             if (guild is null)
                 return NotFound("Guild not found.");
+
+            auditContext.RecordBefore(await birthdayService.GetBirthdayConfigAsync(guildId));
 
             await birthdayService.UpdateBirthdayConfigAsync(guildId, config =>
             {
@@ -396,7 +405,9 @@ public class BirthdayController : Controller
             if (guild is null)
                 return NotFound("Guild not found.");
 
+            auditContext.RecordBefore(await birthdayService.GetBirthdayConfigAsync(guildId));
             await birthdayService.EnableBirthdayFeatureAsync(guildId, feature);
+            auditContext.RecordAfter(await birthdayService.GetBirthdayConfigAsync(guildId));
             return Ok();
         }
         catch (Exception ex)
@@ -421,7 +432,9 @@ public class BirthdayController : Controller
             if (guild is null)
                 return NotFound("Guild not found.");
 
+            auditContext.RecordBefore(await birthdayService.GetBirthdayConfigAsync(guildId));
             await birthdayService.DisableBirthdayFeatureAsync(guildId, feature);
+            auditContext.RecordAfter(await birthdayService.GetBirthdayConfigAsync(guildId));
             return Ok();
         }
         catch (Exception ex)

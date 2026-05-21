@@ -12,7 +12,7 @@ namespace Mewdeko.Controllers;
 [Authorize("ApiKeyPolicy")]
 public class StatusRolesController(
     StatusRolesService service,
-    DiscordShardedClient client)
+    IDashboardAuditContext auditContext)
     : Controller
 {
     /// <summary>
@@ -55,6 +55,7 @@ public class StatusRolesController(
     [HttpDelete("{id}")]
     public async Task<IActionResult> RemoveStatusRole(ulong guildId, int id)
     {
+        auditContext.RecordBefore((await service.GetStatusRoleConfig(guildId)).FirstOrDefault(x => x.Id == id));
         await service.RemoveStatusRoleConfig(id);
         return Ok();
     }
@@ -75,6 +76,7 @@ public class StatusRolesController(
         if (statusRole == null)
             return NotFound("Status role configuration not found");
 
+        auditContext.RecordBefore(statusRole);
         var success = await service.SetAddRoles(statusRole, roleIds);
         if (!success)
             return BadRequest("Failed to update add roles");
@@ -98,6 +100,7 @@ public class StatusRolesController(
         if (statusRole == null)
             return NotFound("Status role configuration not found");
 
+        auditContext.RecordBefore(statusRole);
         var success = await service.SetRemoveRoles(statusRole, roleIds);
         if (!success)
             return BadRequest("Failed to update remove roles");
@@ -121,6 +124,7 @@ public class StatusRolesController(
         if (statusRole == null)
             return NotFound("Status role configuration not found");
 
+        auditContext.RecordBefore(statusRole);
         var success = await service.SetStatusChannel(statusRole, channelId);
         if (!success)
             return BadRequest("Failed to update status channel");
@@ -144,6 +148,7 @@ public class StatusRolesController(
         if (statusRole == null)
             return NotFound("Status role configuration not found");
 
+        auditContext.RecordBefore(statusRole);
         var success = await service.SetStatusEmbed(statusRole, embedText);
         if (!success)
             return BadRequest("Failed to update status embed");
@@ -166,6 +171,7 @@ public class StatusRolesController(
         if (statusRole == null)
             return NotFound("Status role configuration not found");
 
+        auditContext.RecordBefore(statusRole);
         var success = await service.ToggleRemoveAdded(statusRole);
         if (!success)
             return BadRequest("Failed to toggle remove added setting");
@@ -191,6 +197,7 @@ public class StatusRolesController(
         if (statusRole == null)
             return NotFound("Status role configuration not found");
 
+        auditContext.RecordBefore(statusRole);
         var success = await service.ToggleAddRemoved(statusRole);
         if (!success)
             return BadRequest("Failed to toggle readd removed setting");

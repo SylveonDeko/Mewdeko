@@ -18,6 +18,7 @@ public class TicketController : Controller
     private readonly DiscordShardedClient client;
     private readonly ILogger<TicketController> logger;
     private readonly TicketService ticketService;
+    private readonly IDashboardAuditContext auditContext;
 
 
     /// <summary>
@@ -26,11 +27,14 @@ public class TicketController : Controller
     /// <param name="ticketService">Service for managing ticket operations</param>
     /// <param name="client">Discord client instance</param>
     /// <param name="logger">The logger instance for structured logging.</param>
-    public TicketController(TicketService ticketService, DiscordShardedClient client, ILogger<TicketController> logger)
+    /// <param name="auditContext">Records before/after state for the dashboard audit log.</param>
+    public TicketController(TicketService ticketService, DiscordShardedClient client,
+        ILogger<TicketController> logger, IDashboardAuditContext auditContext)
     {
         this.ticketService = ticketService;
         this.client = client;
         this.logger = logger;
+        this.auditContext = auditContext;
     }
 
     #region Panel Management
@@ -140,6 +144,11 @@ public class TicketController : Controller
             IGuild guild = client.GetGuild(guildId);
             if (guild == null)
                 return NotFound("Guild not found");
+
+            auditContext.RecordBefore(new
+            {
+                PanelId = panelId, GuildId = guildId, Force = force
+            });
 
             var (success, error, activeTickets, deletedTickets) =
                 await ticketService.DeletePanelAsync(panelId, guild, force);
@@ -640,6 +649,8 @@ public class TicketController : Controller
             var button = await ticketService.GetButtonAsync(buttonId);
             if (button == null || button.Panel.GuildId != guildId)
                 return NotFound("Button not found");
+
+            auditContext.RecordBefore(button);
 
             IGuild guild = client.GetGuild(guildId);
             var success = await ticketService.DeleteButtonAsync(guild, buttonId);
@@ -1167,6 +1178,10 @@ public class TicketController : Controller
             if (staff == null)
                 return NotFound("Staff member not found");
 
+            auditContext.RecordBefore(new
+            {
+                GuildId = guildId, ChannelId = channelId, StaffId = request.StaffId
+            });
             var success = await ticketService.ClaimTicket(guild, channelId, staff);
 
             if (success)
@@ -1231,6 +1246,10 @@ public class TicketController : Controller
             if (guild == null)
                 return NotFound("Guild not found");
 
+            auditContext.RecordBefore(new
+            {
+                GuildId = guildId, ChannelId = channelId, ForceArchive = forceArchive
+            });
             var success = await ticketService.CloseTicket(guild, channelId, forceArchive);
 
             if (success)
@@ -1259,6 +1278,7 @@ public class TicketController : Controller
             if (ticket == null || ticket.GuildId != guildId)
                 return NotFound("Ticket not found");
 
+            auditContext.RecordBefore(ticket);
             await ticketService.ArchiveTicketAsync(ticket);
             return Ok();
         }

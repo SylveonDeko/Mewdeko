@@ -15,7 +15,8 @@ namespace Mewdeko.Controllers;
 public class HighlightsController(
     HighlightsService service,
     DiscordShardedClient client,
-    IDataConnectionFactory dbFactory)
+    IDataConnectionFactory dbFactory,
+    IDashboardAuditContext auditContext)
     : Controller
 {
     /// <summary>
@@ -173,6 +174,7 @@ public class HighlightsController(
         if (highlight == null)
             return NotFound("Highlight not found");
 
+        auditContext.RecordBefore(highlight);
         await service.RemoveHighlight(highlight);
         return Ok();
     }
@@ -187,6 +189,10 @@ public class HighlightsController(
     public async Task<IActionResult> RemoveUserHighlights(ulong guildId, ulong userId)
     {
         await using var db = await dbFactory.CreateConnectionAsync();
+
+        auditContext.RecordBefore(await db.Highlights
+            .Where(h => h.GuildId == guildId && h.UserId == userId)
+            .ToListAsync());
 
         var count = await db.Highlights
             .Where(h => h.GuildId == guildId && h.UserId == userId)

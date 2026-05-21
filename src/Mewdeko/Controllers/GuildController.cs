@@ -15,6 +15,7 @@ public class GuildController : ControllerBase
     private readonly AdministrationService adminService;
     private readonly DiscordShardedClient client;
     private readonly ILogger<GuildController> logger;
+    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     ///     Initializes a new instance of the GuildController class
@@ -22,12 +23,14 @@ public class GuildController : ControllerBase
     /// <param name="client">The Discord sharded client</param>
     /// <param name="logger">The logger instance</param>
     /// <param name="adminService">The administration service</param>
+    /// <param name="auditContext">Records before/after state for the dashboard audit log.</param>
     public GuildController(DiscordShardedClient client, ILogger<GuildController> logger,
-        AdministrationService adminService)
+        AdministrationService adminService, IDashboardAuditContext auditContext)
     {
         this.client = client;
         this.logger = logger;
         this.adminService = adminService;
+        this.auditContext = auditContext;
     }
 
     /// <summary>
@@ -134,7 +137,9 @@ public class GuildController : ControllerBase
                 return BadRequest("At least one field (AvatarUrl, BannerUrl, or Bio) must be provided");
             }
 
+            auditContext.RecordBefore(await adminService.GetGuildProfile(guildId));
             await adminService.SetGuildProfile(guildId, request.AvatarUrl, request.BannerUrl, request.Bio);
+            auditContext.RecordAfter(await adminService.GetGuildProfile(guildId));
 
             return Ok(new
             {

@@ -15,7 +15,10 @@ namespace Mewdeko.Controllers;
 [ApiController]
 [Route("botapi/[controller]/{guildId}")]
 [Authorize("ApiKeyPolicy")]
-public class FilterController(FilterService filterService, IDataConnectionFactory dbFactory) : Controller
+public class FilterController(
+    FilterService filterService,
+    IDataConnectionFactory dbFactory,
+    IDashboardAuditContext auditContext) : Controller
 {
     /// <summary>
     ///     Gets all filter settings for a guild
@@ -86,11 +89,21 @@ public class FilterController(FilterService filterService, IDataConnectionFactor
             await db.InsertAsync(guildConfig);
         }
 
+        auditContext.RecordBefore(new
+        {
+            guildConfig.FilterWords, guildConfig.FilterInvites, guildConfig.FilterLinks
+        });
+
         guildConfig.FilterWords = request.FilterWords;
         guildConfig.FilterInvites = request.FilterInvites;
         guildConfig.FilterLinks = request.FilterLinks;
 
         await db.UpdateAsync(guildConfig);
+
+        auditContext.RecordAfter(new
+        {
+            guildConfig.FilterWords, guildConfig.FilterInvites, guildConfig.FilterLinks
+        });
 
         return Ok(new
         {

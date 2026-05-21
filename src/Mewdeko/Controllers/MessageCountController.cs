@@ -10,7 +10,10 @@ namespace Mewdeko.Controllers;
 [ApiController]
 [Route("botapi/[controller]/{guildId}")]
 [Authorize("ApiKeyPolicy")]
-public class MessageCountController(DiscordShardedClient client, MessageCountService messageCountService) : Controller
+public class MessageCountController(
+    DiscordShardedClient client,
+    MessageCountService messageCountService,
+    IDashboardAuditContext auditContext) : Controller
 {
     /// <summary>
     ///     Gets daily message statistics for the guild
@@ -234,6 +237,8 @@ public class MessageCountController(DiscordShardedClient client, MessageCountSer
         try
         {
             var enabled = await messageCountService.ToggleGuildMessageCount(guildId);
+            auditContext.RecordBefore(!enabled);
+            auditContext.RecordAfter(enabled);
             return Ok(new
             {
                 enabled, message = enabled ? "Message counting enabled" : "Message counting disabled"

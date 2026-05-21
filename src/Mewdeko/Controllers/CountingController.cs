@@ -23,6 +23,7 @@ public class CountingController : Controller
     private readonly ILogger<CountingController> logger;
     private readonly CountingModerationService moderationService;
     private readonly CountingStatsService statsService;
+    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     /// Initializes a new instance of the CountingController.
@@ -33,13 +34,15 @@ public class CountingController : Controller
     /// <param name="client">The Discord client</param>
     /// <param name="logger">The logger instance</param>
     /// <param name="dbFactory">The database connection factory</param>
+    /// <param name="auditContext">Records before/after state for the dashboard audit log.</param>
     public CountingController(
         CountingService countingService,
         CountingStatsService statsService,
         CountingModerationService moderationService,
         DiscordShardedClient client,
         ILogger<CountingController> logger,
-        IDataConnectionFactory dbFactory)
+        IDataConnectionFactory dbFactory,
+        IDashboardAuditContext auditContext)
     {
         this.countingService = countingService;
         this.statsService = statsService;
@@ -47,6 +50,7 @@ public class CountingController : Controller
         this.client = client;
         this.logger = logger;
         this.dbFactory = dbFactory;
+        this.auditContext = auditContext;
     }
 
     #region Utility
@@ -288,6 +292,7 @@ public class CountingController : Controller
             if (user == null)
                 return NotFound("User not found");
 
+            auditContext.RecordBefore(countingChannel);
             var success = await countingService.DisableCountingChannelAsync(channelId, userId, reason);
 
             if (success)
@@ -375,7 +380,8 @@ public class CountingController : Controller
             if (config == null)
                 return NotFound("Counting configuration not found");
 
-            // Apply updates to the config object
+            auditContext.RecordBefore(config);
+
             if (request.AllowRepeatedUsers.HasValue) config.AllowRepeatedUsers = request.AllowRepeatedUsers.Value;
             if (request.Cooldown.HasValue) config.Cooldown = request.Cooldown.Value;
             if (request.RequiredRoles != null) config.RequiredRoles = request.RequiredRoles;
@@ -393,7 +399,11 @@ public class CountingController : Controller
             var success = await countingService.UpdateCountingConfigAsync(channelId, config);
 
             if (success)
+            {
+                auditContext.RecordAfter(config);
                 return Ok("Configuration updated successfully");
+            }
+
             else
                 return BadRequest("Failed to update configuration");
         }

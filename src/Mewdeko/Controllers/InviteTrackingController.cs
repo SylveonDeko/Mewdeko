@@ -14,16 +14,22 @@ public class InviteTrackingController : Controller
 {
     private readonly DiscordShardedClient client;
     private readonly InviteCountService inviteService;
+    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     ///     Initializes a new instance of the InviteTrackingController
     /// </summary>
     /// <param name="inviteService">The inviteservice service.</param>
     /// <param name="client">The Discord client instance.</param>
-    public InviteTrackingController(InviteCountService inviteService, DiscordShardedClient client)
+    /// <param name="auditContext">Records before/after state for the dashboard audit log.</param>
+    public InviteTrackingController(
+        InviteCountService inviteService,
+        DiscordShardedClient client,
+        IDashboardAuditContext auditContext)
     {
         this.inviteService = inviteService;
         this.client = client;
+        this.auditContext = auditContext;
     }
 
     /// <summary>
@@ -42,7 +48,9 @@ public class InviteTrackingController : Controller
     [HttpPost("toggle")]
     public async Task<IActionResult> ToggleInviteTracking(ulong guildId, [FromBody] bool enabled)
     {
+        auditContext.RecordBefore(await inviteService.GetInviteCountSettingsAsync(guildId));
         var result = await inviteService.SetInviteTrackingEnabledAsync(guildId, enabled);
+        auditContext.RecordAfter(await inviteService.GetInviteCountSettingsAsync(guildId));
         return Ok(result);
     }
 
@@ -52,7 +60,9 @@ public class InviteTrackingController : Controller
     [HttpPost("remove-on-leave")]
     public async Task<IActionResult> SetRemoveOnLeave(ulong guildId, [FromBody] bool removeOnLeave)
     {
+        auditContext.RecordBefore(await inviteService.GetInviteCountSettingsAsync(guildId));
         var result = await inviteService.SetRemoveInviteOnLeaveAsync(guildId, removeOnLeave);
+        auditContext.RecordAfter(await inviteService.GetInviteCountSettingsAsync(guildId));
         return Ok(result);
     }
 
@@ -63,7 +73,9 @@ public class InviteTrackingController : Controller
     public async Task<IActionResult> SetMinAccountAge(ulong guildId, [FromBody] string minAge)
     {
         var timeSpan = TimeSpan.Parse(minAge);
+        auditContext.RecordBefore(await inviteService.GetInviteCountSettingsAsync(guildId));
         var result = await inviteService.SetMinAccountAgeAsync(guildId, timeSpan);
+        auditContext.RecordAfter(await inviteService.GetInviteCountSettingsAsync(guildId));
         return Ok(result.ToString());
     }
 

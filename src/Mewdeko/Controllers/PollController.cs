@@ -26,6 +26,7 @@ public class PollController : Controller
     private readonly PollService pollService;
     private readonly PollSchedulerService schedulerService;
     private readonly PollTemplateService templateService;
+    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     /// Initializes a new instance of the PollController class.
@@ -35,14 +36,17 @@ public class PollController : Controller
     /// <param name="schedulerService">The poll scheduler service.</param>
     /// <param name="client">The Discord client.</param>
     /// <param name="logger">The logger instance.</param>
+    /// <param name="auditContext">Records before/after state for the dashboard audit log.</param>
     public PollController(PollService pollService, PollTemplateService templateService,
-        PollSchedulerService schedulerService, DiscordShardedClient client, ILogger<PollController> logger)
+        PollSchedulerService schedulerService, DiscordShardedClient client, ILogger<PollController> logger,
+        IDashboardAuditContext auditContext)
     {
         this.pollService = pollService;
         this.templateService = templateService;
         this.schedulerService = schedulerService;
         this.client = client;
         this.logger = logger;
+        this.auditContext = auditContext;
     }
 
     /// <summary>
@@ -206,6 +210,8 @@ public class PollController : Controller
                     return Forbid("You don't have permission to update this poll");
             }
 
+            auditContext.RecordBefore(poll);
+
             // Update poll settings
             var updateSuccess = await pollService.UpdatePollAsync(poll.Id, request);
             if (!updateSuccess)
@@ -213,6 +219,7 @@ public class PollController : Controller
 
             // Get updated poll data
             poll = await pollService.GetPollAsync(pollId);
+            auditContext.RecordAfter(poll);
             var guild2 = client.GetGuild(guildId);
             var channel = guild2?.GetTextChannel(poll.ChannelId);
             var creator = await client.GetUserAsync(poll.CreatorId, CacheMode.AllowDownload, RequestOptions.Default);
@@ -244,6 +251,7 @@ public class PollController : Controller
             if (poll == null || poll.GuildId != guildId)
                 return NotFound("Poll not found");
 
+            auditContext.RecordBefore(poll);
             var success = await pollService.ClosePollAsync(pollId, request.UserId);
             if (!success)
                 return BadRequest("Failed to close poll");
@@ -279,6 +287,7 @@ public class PollController : Controller
             if (poll == null || poll.GuildId != guildId)
                 return NotFound("Poll not found");
 
+            auditContext.RecordBefore(poll);
             var success = await pollService.DeletePollAsync(pollId, userId);
             if (!success)
                 return BadRequest("Failed to delete poll");

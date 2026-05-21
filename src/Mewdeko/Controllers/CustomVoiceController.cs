@@ -14,7 +14,9 @@ namespace Mewdeko.Controllers;
 [ApiController]
 [Route("botapi/[controller]/{guildId}")]
 [Authorize("ApiKeyPolicy")]
-public class CustomVoiceController(IDataConnectionFactory dbFactory) : Controller
+public class CustomVoiceController(
+    IDataConnectionFactory dbFactory,
+    IDashboardAuditContext auditContext) : Controller
 {
     /// <summary>
     ///     Gets the custom voice configuration for a guild
@@ -72,7 +74,8 @@ public class CustomVoiceController(IDataConnectionFactory dbFactory) : Controlle
             GuildId = guildId, DateAdded = DateTime.UtcNow
         };
 
-        // Update all configurable properties
+        auditContext.RecordBefore(config.Id == 0 ? null : config);
+
         config.HubVoiceChannelId = request.HubVoiceChannelId;
         config.ChannelCategoryId = request.ChannelCategoryId;
         config.DefaultNameFormat = request.DefaultNameFormat ?? "{username}'s Channel";
@@ -101,6 +104,7 @@ public class CustomVoiceController(IDataConnectionFactory dbFactory) : Controlle
             await db.UpdateAsync(config);
         }
 
+        auditContext.RecordAfter(config);
         return Ok(new
         {
             success = true, message = "Custom voice configuration updated successfully"
@@ -115,6 +119,7 @@ public class CustomVoiceController(IDataConnectionFactory dbFactory) : Controlle
     {
         await using var db = await dbFactory.CreateConnectionAsync();
 
+        auditContext.RecordBefore(await db.CustomVoiceConfigs.FirstOrDefaultAsync(c => c.GuildId == guildId));
         await db.CustomVoiceConfigs.Where(c => c.GuildId == guildId).DeleteAsync();
 
         return Ok(new
@@ -216,7 +221,8 @@ public class CustomVoiceController(IDataConnectionFactory dbFactory) : Controlle
             });
         }
 
-        // Update channel properties
+        auditContext.RecordBefore(channel);
+
         if (request.IsLocked.HasValue)
             channel.IsLocked = request.IsLocked.Value;
 
@@ -233,6 +239,7 @@ public class CustomVoiceController(IDataConnectionFactory dbFactory) : Controlle
 
         await db.UpdateAsync(channel);
 
+        auditContext.RecordAfter(channel);
         return Ok(new
         {
             success = true, message = "Channel updated successfully"
@@ -246,6 +253,9 @@ public class CustomVoiceController(IDataConnectionFactory dbFactory) : Controlle
     public async Task<IActionResult> DeleteChannel(ulong guildId, ulong channelId)
     {
         await using var db = await dbFactory.CreateConnectionAsync();
+
+        auditContext.RecordBefore(await db.CustomVoiceChannels
+            .FirstOrDefaultAsync(c => c.GuildId == guildId && c.ChannelId == channelId));
 
         var deleted = await db.CustomVoiceChannels
             .Where(c => c.GuildId == guildId && c.ChannelId == channelId)

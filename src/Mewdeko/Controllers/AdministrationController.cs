@@ -44,6 +44,7 @@ public class AdministrationController(
     CommandService commandService,
     IDataConnectionFactory dbFactory,
     UserPunishService userPunishService,
+    IDashboardAuditContext auditContext,
     DiscordShardedClient client) : Controller
 {
     /// <summary>
@@ -67,7 +68,9 @@ public class AdministrationController(
     [HttpPost("auto-assign-roles/normal")]
     public async Task<IActionResult> SetAutoAssignRoles(ulong guildId, [FromBody] List<ulong> roleIds)
     {
+        auditContext.RecordBefore((await autoAssignRoleService.TryGetNormalRoles(guildId)).ToList());
         await autoAssignRoleService.SetAarRolesAsync(guildId, roleIds);
+        auditContext.RecordAfter(roleIds);
         return Ok();
     }
 
@@ -77,7 +80,9 @@ public class AdministrationController(
     [HttpPost("auto-assign-roles/bots")]
     public async Task<IActionResult> SetBotAutoAssignRoles(ulong guildId, [FromBody] List<ulong> roleIds)
     {
+        auditContext.RecordBefore((await autoAssignRoleService.TryGetBotRoles(guildId)).ToList());
         await autoAssignRoleService.SetAabrRolesAsync(guildId, roleIds);
+        auditContext.RecordAfter(roleIds);
         return Ok();
     }
 

@@ -71,6 +71,11 @@ public class MewdekoDb : DataConnection
     public ITable<ChatLog> ChatLogs => this.GetTable<ChatLog>();
 
     /// <summary>
+    ///     Gets the dashboard audit log table.
+    /// </summary>
+    public ITable<DashboardAuditLog> DashboardAuditLogs => this.GetTable<DashboardAuditLog>();
+
+    /// <summary>
     ///     Gets the ticket cases table.
     /// </summary>
     public ITable<TicketCase> TicketCases => this.GetTable<TicketCase>();

@@ -15,16 +15,22 @@ public class RoleStatesController : Controller
 {
     private readonly DiscordShardedClient client;
     private readonly RoleStatesService roleStatesService;
+    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     ///     Initializes a new instance of the RoleStatesController
     /// </summary>
     /// <param name="roleStatesService">The rolestatesservice service.</param>
     /// <param name="client">The Discord client instance.</param>
-    public RoleStatesController(RoleStatesService roleStatesService, DiscordShardedClient client)
+    /// <param name="auditContext">Records before/after state for the dashboard audit log.</param>
+    public RoleStatesController(
+        RoleStatesService roleStatesService,
+        DiscordShardedClient client,
+        IDashboardAuditContext auditContext)
     {
         this.roleStatesService = roleStatesService;
         this.client = client;
+        this.auditContext = auditContext;
     }
 
     /// <summary>
@@ -43,7 +49,9 @@ public class RoleStatesController : Controller
     [HttpPost("toggle")]
     public async Task<IActionResult> ToggleRoleStates(ulong guildId)
     {
+        auditContext.RecordBefore(await roleStatesService.GetRoleStateSettings(guildId));
         var result = await roleStatesService.ToggleRoleStates(guildId);
+        auditContext.RecordAfter(await roleStatesService.GetRoleStateSettings(guildId));
         return Ok(result);
     }
 
@@ -76,10 +84,12 @@ public class RoleStatesController : Controller
     [HttpPost("user/{userId}/roles")]
     public async Task<IActionResult> AddRolesToUser(ulong guildId, ulong userId, [FromBody] List<ulong> roleIds)
     {
+        auditContext.RecordBefore(await roleStatesService.GetUserRoleState(guildId, userId));
         var (success, message) = await roleStatesService.AddRolesToUserRoleState(guildId, userId, roleIds);
         if (!success)
             return BadRequest(message);
 
+        auditContext.RecordAfter(await roleStatesService.GetUserRoleState(guildId, userId));
         return Ok();
     }
 
@@ -89,10 +99,12 @@ public class RoleStatesController : Controller
     [HttpDelete("user/{userId}/roles")]
     public async Task<IActionResult> RemoveRolesFromUser(ulong guildId, ulong userId, [FromBody] List<ulong> roleIds)
     {
+        auditContext.RecordBefore(await roleStatesService.GetUserRoleState(guildId, userId));
         var (success, message) = await roleStatesService.RemoveRolesFromUserRoleState(guildId, userId, roleIds);
         if (!success)
             return BadRequest(message);
 
+        auditContext.RecordAfter(await roleStatesService.GetUserRoleState(guildId, userId));
         return Ok();
     }
 
@@ -102,6 +114,7 @@ public class RoleStatesController : Controller
     [HttpDelete("user/{userId}")]
     public async Task<IActionResult> DeleteUserRoleState(ulong guildId, ulong userId)
     {
+        auditContext.RecordBefore(await roleStatesService.GetUserRoleState(guildId, userId));
         var success = await roleStatesService.DeleteUserRoleState(userId, guildId);
         if (!success)
             return NotFound("No role state found for user");
@@ -123,10 +136,12 @@ public class RoleStatesController : Controller
         if (targetUser == null)
             return NotFound("Target user not found");
 
+        auditContext.RecordBefore(await roleStatesService.GetUserRoleState(guildId, targetUserId));
         var success = await roleStatesService.ApplyUserRoleStateToAnotherUser(sourceUserId, targetUser, guildId);
         if (!success)
             return BadRequest("Failed to apply role state");
 
+        auditContext.RecordAfter(await roleStatesService.GetUserRoleState(guildId, targetUserId));
         return Ok();
     }
 
@@ -144,7 +159,9 @@ public class RoleStatesController : Controller
         if (user == null)
             return NotFound("User not found");
 
+        auditContext.RecordBefore(await roleStatesService.GetUserRoleState(guildId, userId));
         await roleStatesService.SetRoleStateManually(user, guildId, roleIds);
+        auditContext.RecordAfter(await roleStatesService.GetUserRoleState(guildId, userId));
         return Ok();
     }
 
@@ -158,7 +175,9 @@ public class RoleStatesController : Controller
         if (settings == null)
             return NotFound("Role state settings not found");
 
+        auditContext.RecordBefore(settings);
         var result = await roleStatesService.ToggleClearOnBan(settings);
+        auditContext.RecordAfter(await roleStatesService.GetRoleStateSettings(guildId));
         return Ok(result);
     }
 
@@ -172,7 +191,9 @@ public class RoleStatesController : Controller
         if (settings == null)
             return NotFound("Role state settings not found");
 
+        auditContext.RecordBefore(settings);
         var result = await roleStatesService.ToggleIgnoreBots(settings);
+        auditContext.RecordAfter(await roleStatesService.GetRoleStateSettings(guildId));
         return Ok(result);
     }
 
@@ -185,7 +206,9 @@ public class RoleStatesController : Controller
         if (settings.GuildId != guildId)
             return BadRequest("Guild ID mismatch");
 
+        auditContext.RecordBefore(await roleStatesService.GetRoleStateSettings(guildId));
         await roleStatesService.UpdateRoleStateSettings(settings);
+        auditContext.RecordAfter(settings);
         return Ok();
     }
 

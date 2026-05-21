@@ -12,7 +12,8 @@ namespace Mewdeko.Controllers;
 [Route("botapi/[controller]/{guildId}")]
 [Authorize("ApiKeyPolicy")]
 public class TodoController(
-    TodoService todoService)
+    TodoService todoService,
+    IDashboardAuditContext auditContext)
     : Controller
 {
     /// <summary>
@@ -144,6 +145,7 @@ public class TodoController(
     [HttpDelete("lists/{listId}/{userId}")]
     public async Task<IActionResult> DeleteTodoList(ulong guildId, int listId, ulong userId)
     {
+        auditContext.RecordBefore(await todoService.GetTodoListAsync(listId, userId, guildId));
         var success = await todoService.DeleteTodoListAsync(listId, userId);
         if (!success)
             return BadRequest("Failed to delete todo list");

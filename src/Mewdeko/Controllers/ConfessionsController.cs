@@ -16,7 +16,8 @@ public class ConfessionsController(
     ConfessionService service,
     GuildSettingsService guildSettings,
     DiscordShardedClient client,
-    IDataConnectionFactory dbFactory)
+    IDataConnectionFactory dbFactory,
+    IDashboardAuditContext auditContext)
     : Controller
 {
     /// <summary>
@@ -100,7 +101,9 @@ public class ConfessionsController(
         if (guild == null)
             return NotFound("Guild not found");
 
+        auditContext.RecordBefore((await guildSettings.GetGuildConfig(guildId)).ConfessionChannel);
         await service.SetConfessionChannel(guild, channelId);
+        auditContext.RecordAfter(channelId);
         return Ok();
     }
 
@@ -129,7 +132,9 @@ public class ConfessionsController(
         if (guild == null)
             return NotFound("Guild not found");
 
+        auditContext.RecordBefore((await guildSettings.GetGuildConfig(guildId)).ConfessionLogChannel);
         await service.SetConfessionLogChannel(guild, channelId);
+        auditContext.RecordAfter(channelId);
         return Ok();
     }
 
@@ -155,11 +160,13 @@ public class ConfessionsController(
     [HttpPost("blacklist/{roleId}")]
     public async Task<IActionResult> ToggleConfessionBlacklist(ulong guildId, ulong roleId)
     {
+        auditContext.RecordBefore((await guildSettings.GetGuildConfig(guildId)).GetConfessionBlacklists());
         await service.ToggleUserBlacklistAsync(guildId, roleId);
 
         var config = await guildSettings.GetGuildConfig(guildId);
         var blacklist = config.GetConfessionBlacklists();
         var isBlacklisted = blacklist.Contains(roleId);
+        auditContext.RecordAfter(blacklist);
 
         return Ok(new
         {
@@ -225,6 +232,7 @@ public class ConfessionsController(
         if (confession == null)
             return NotFound("Confession not found");
 
+        auditContext.RecordBefore(confession);
         await db.DeleteAsync(confession);
 
         // Try to delete the message if it still exists

@@ -21,6 +21,7 @@ public class RepeatersController : Controller
     private readonly MessageRepeaterService repeaterService;
     private readonly StickyConditionService? stickyConditionService;
     private readonly GuildTimezoneService? timezoneService;
+    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     ///     Initializes a new instance of the RepeatersController.
@@ -29,6 +30,7 @@ public class RepeatersController : Controller
         MessageRepeaterService repeaterService,
         DiscordShardedClient client,
         ILogger<RepeatersController> logger,
+        IDashboardAuditContext auditContext,
         MessageCountService? messageCountService = null,
         StickyConditionService? stickyConditionService = null,
         GuildTimezoneService? timezoneService = null)
@@ -36,6 +38,7 @@ public class RepeatersController : Controller
         this.repeaterService = repeaterService;
         this.client = client;
         this.logger = logger;
+        this.auditContext = auditContext;
         this.messageCountService = messageCountService;
         this.stickyConditionService = stickyConditionService;
         this.timezoneService = timezoneService;
@@ -265,6 +268,8 @@ public class RepeatersController : Controller
             // Update additional sticky properties
             await UpdateRepeaterProperties(guildId, runner.Repeater.Id, request, timeConditionsJson);
 
+            auditContext.RecordAfter(runner.Repeater);
+
             var responseTimezone = timezoneService?.GetTimeZoneOrDefault(guildId);
             var response = new RepeaterResponse
             {
@@ -326,6 +331,8 @@ public class RepeatersController : Controller
 
             if (repeater == null)
                 return NotFound("Repeater not found");
+
+            auditContext.RecordBefore(repeater.Repeater);
 
             // Validate activity-based modes if changing trigger mode
             if (request.TriggerMode.HasValue && messageCountService != null)
@@ -469,6 +476,7 @@ public class RepeatersController : Controller
             if (repeater == null)
                 return NotFound("Repeater not found");
 
+            auditContext.RecordBefore(repeater.Repeater);
             await repeaterService.RemoveRepeater(repeater.Repeater);
 
             return Ok(new
@@ -497,6 +505,7 @@ public class RepeatersController : Controller
             if (repeater == null)
                 return NotFound("Repeater not found");
 
+            auditContext.RecordBefore(repeater.Repeater);
             repeater.Reset();
             await repeater.Trigger();
 
@@ -574,6 +583,14 @@ public class RepeatersController : Controller
         {
             var results = new List<object>();
             var repeaters = repeaterService.GetGuildRepeaters(guildId);
+
+            auditContext.RecordBefore(repeaters
+                .Where(r => repeaterIds.Contains(r.Repeater.Id))
+                .Select(r => new
+                {
+                    r.Repeater.Id, r.Repeater.IsEnabled
+                })
+                .ToList());
 
             foreach (var repeaterId in repeaterIds)
             {

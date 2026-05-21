@@ -21,7 +21,8 @@ public class XpController(
     IDataConnectionFactory dbFactory,
     ILogger<XpController> logger,
     IServiceProvider serviceProvider,
-    XpRewardManager xpRewardManager) : Controller
+    XpRewardManager xpRewardManager,
+    IDashboardAuditContext auditContext) : Controller
 {
     /// <summary>
     ///     Gets the XP settings for a guild
@@ -49,6 +50,7 @@ public class XpController(
 
         var currentSettings = await xp.GetGuildXpSettingsAsync(guildId);
         var curveTypeChanged = currentSettings.XpCurveType != settings.XpCurveType;
+        auditContext.RecordBefore(currentSettings);
 
         var updatedSettings = await xp.UpdateGuildXpSettingsAsync(guildId, s =>
         {
@@ -77,6 +79,7 @@ public class XpController(
             });
         }
 
+        auditContext.RecordAfter(updatedSettings);
         return Ok(updatedSettings);
     }
 
@@ -127,7 +130,9 @@ public class XpController(
         if (amount <= 0)
             return BadRequest("Amount must be positive");
 
+        auditContext.RecordBefore(await xp.GetUserXpStatsAsync(guildId, userId));
         await xp.AddXpAsync(guildId, userId, amount);
+        auditContext.RecordAfter(await xp.GetUserXpStatsAsync(guildId, userId));
         return Ok();
     }
 
@@ -141,6 +146,7 @@ public class XpController(
     [HttpPost("user/{userId}/reset")]
     public async Task<IActionResult> ResetUserXp(ulong guildId, ulong userId, [FromBody] bool resetBonusXp = false)
     {
+        auditContext.RecordBefore(await xp.GetUserXpStatsAsync(guildId, userId));
         await xp.ResetUserXpAsync(guildId, userId, resetBonusXp);
         return Ok();
     }
@@ -158,7 +164,9 @@ public class XpController(
         if (amount < 0)
             return BadRequest("Amount cannot be negative");
 
+        auditContext.RecordBefore(await xp.GetUserXpStatsAsync(guildId, userId));
         await xp.SetUserXpAsync(guildId, userId, amount);
+        auditContext.RecordAfter(await xp.GetUserXpStatsAsync(guildId, userId));
         return Ok();
     }
 
@@ -269,7 +277,9 @@ public class XpController(
         if (reward.Level < 1)
             return BadRequest("Level must be at least a positive integer");
 
+        auditContext.RecordBefore(await xp.GetRoleRewardsAsync(guildId));
         await xpRewardManager.SetRoleRewardAsync(guildId, reward.Level, reward.RoleId);
+        auditContext.RecordAfter(await xp.GetRoleRewardsAsync(guildId));
         return Ok();
     }
 
@@ -290,7 +300,9 @@ public class XpController(
         if (!exists)
             return NotFound();
 
-        // Delete directly without loading the entity first
+        auditContext.RecordBefore(await db.XpRoleRewards
+            .FirstOrDefaultAsync(r => r.Id == rewardId && r.GuildId == guildId));
+
         await db.XpRoleRewards
             .Where(r => r.Id == rewardId && r.GuildId == guildId)
             .DeleteAsync();
@@ -325,7 +337,9 @@ public class XpController(
         if (reward.Amount <= 0)
             return BadRequest("Amount must be positive");
 
+        auditContext.RecordBefore(await xp.GetCurrencyRewardsAsync(guildId));
         await xpRewardManager.SetCurrencyRewardAsync(guildId, reward.Level, reward.Amount);
+        auditContext.RecordAfter(await xp.GetCurrencyRewardsAsync(guildId));
         return Ok();
     }
 
@@ -346,7 +360,9 @@ public class XpController(
         if (!exists)
             return NotFound();
 
-        // Delete directly without loading the entity first
+        auditContext.RecordBefore(await db.XpCurrencyRewards
+            .FirstOrDefaultAsync(r => r.Id == rewardId && r.GuildId == guildId));
+
         await db.XpCurrencyRewards
             .Where(r => r.Id == rewardId && r.GuildId == guildId)
             .DeleteAsync();
@@ -468,6 +484,8 @@ public class XpController(
         if (existingTemplate == null)
             return NotFound();
 
+        auditContext.RecordBefore(existingTemplate);
+
         try
         {
             // Update main template properties
@@ -575,6 +593,7 @@ public class XpController(
             // Update the main template
             await db.UpdateAsync(existingTemplate);
 
+            auditContext.RecordAfter(existingTemplate);
             return Ok();
         }
         catch (Exception ex)

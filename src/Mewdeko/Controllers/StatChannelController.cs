@@ -14,7 +14,7 @@ namespace Mewdeko.Controllers;
 public class StatChannelController(
     StatChannelService statChannelService,
     DiscordShardedClient client,
-    ILogger<StatChannelController> logger) : Controller
+    IDashboardAuditContext auditContext) : Controller
 {
     /// <summary>
     ///     Gets all stat channels for a guild.
@@ -96,10 +96,13 @@ public class StatChannelController(
     public async Task<IActionResult> UpdateStatChannel(ulong guildId, ulong channelId,
         [FromBody] UpdateStatChannelRequest request)
     {
+        auditContext.RecordBefore(
+            (await statChannelService.GetStatChannelsAsync(guildId)).FirstOrDefault(c => c.ChannelId == channelId));
         var sc = await statChannelService.UpdateTemplateAsync(guildId, channelId, request.Template);
         if (sc == null)
             return NotFound("Stat channel not found");
 
+        auditContext.RecordAfter(sc);
         return Ok(new
         {
             sc.Id, sc.ChannelId, sc.StatType, sc.Template
@@ -112,6 +115,8 @@ public class StatChannelController(
     [HttpDelete("{channelId}")]
     public async Task<IActionResult> RemoveStatChannel(ulong guildId, ulong channelId)
     {
+        auditContext.RecordBefore(
+            (await statChannelService.GetStatChannelsAsync(guildId)).FirstOrDefault(c => c.ChannelId == channelId));
         var removed = await statChannelService.RemoveStatChannelAsync(guildId, channelId);
         if (!removed)
             return NotFound("Stat channel not found");

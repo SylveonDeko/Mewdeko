@@ -15,7 +15,8 @@ namespace Mewdeko.Controllers;
 public class StreamNotificationsController(
     StreamNotificationService service,
     DiscordShardedClient client,
-    IDataConnectionFactory dbFactory)
+    IDataConnectionFactory dbFactory,
+    IDashboardAuditContext auditContext)
     : Controller
 {
     /// <summary>
@@ -99,6 +100,11 @@ public class StreamNotificationsController(
     [HttpDelete]
     public async Task<IActionResult> ClearAllStreams(ulong guildId)
     {
+        await using (var db = await dbFactory.CreateConnectionAsync())
+        {
+            auditContext.RecordBefore(await db.FollowedStreams.Where(x => x.GuildId == guildId).ToListAsync());
+        }
+
         var count = await service.ClearAllStreams(guildId);
         return Ok(new
         {
@@ -163,7 +169,9 @@ public class StreamNotificationsController(
     [HttpPost("customMessage")]
     public async Task<IActionResult> SetCustomStreamMessage(ulong guildId, [FromBody] string message)
     {
+        auditContext.RecordBefore(await service.GetCustomStreamMessageAsync(guildId));
         await service.SetCustomStreamMessageAsync(guildId, message);
+        auditContext.RecordAfter(message);
         return Ok();
     }
 
@@ -189,6 +197,8 @@ public class StreamNotificationsController(
     public async Task<IActionResult> ToggleOfflineNotifications(ulong guildId)
     {
         var newStatus = await service.ToggleStreamOffline(guildId);
+        auditContext.RecordBefore(!newStatus);
+        auditContext.RecordAfter(newStatus);
         return Ok(new
         {
             offlineNotificationsEnabled = newStatus

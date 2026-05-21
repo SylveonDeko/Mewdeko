@@ -3,6 +3,7 @@ using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
 using LinqToDB.Data;
+using Mewdeko.Controllers.Common.AuditLog;
 using Mewdeko.Controllers.Common.Wizard;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,7 @@ public class WizardController : Controller
     private readonly GuildSettingsService guildSettings;
     private readonly ILogger<WizardController> logger;
     private readonly WizardDecisionService wizardService;
+    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     ///     Initializes a new instance of the WizardController
@@ -33,13 +35,15 @@ public class WizardController : Controller
         IDataConnectionFactory dbFactory,
         DiscordShardedClient client,
         ILogger<WizardController> logger,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings,
+        IDashboardAuditContext auditContext)
     {
         this.wizardService = wizardService;
         this.dbFactory = dbFactory;
         this.client = client;
         this.logger = logger;
         this.guildSettings = guildSettings;
+        this.auditContext = auditContext;
     }
 
     /// <summary>
@@ -49,6 +53,7 @@ public class WizardController : Controller
     /// <param name="guildId">Discord guild ID</param>
     /// <returns>Decision on whether to show wizard</returns>
     [HttpGet("should-show/{userId:long}/{guildId:long}")]
+    [SkipAudit]
     public async Task<ActionResult<WizardDecisionResponse>> ShouldShowWizard(ulong userId, ulong guildId)
     {
         try
@@ -131,6 +136,8 @@ public class WizardController : Controller
                 return BadRequest("Only master instance can update wizard state");
             }
 
+            auditContext.RecordBefore(await wizardService.GetGuildWizardStateAsync(guildId));
+
             if (request.MarkCompleted)
             {
                 await wizardService.MarkWizardCompletedAsync(request.UserId, guildId, request.ConfiguredFeatures);
@@ -141,6 +148,7 @@ public class WizardController : Controller
                 await wizardService.SkipWizardAsync(guildId, request.UserId);
             }
 
+            auditContext.RecordAfter(await wizardService.GetGuildWizardStateAsync(guildId));
             return Ok();
         }
         catch (Exception ex)
@@ -167,8 +175,10 @@ public class WizardController : Controller
             var user = await userDb.GetTable<DiscordUser>().FirstOrDefaultAsync(u => u.UserId == userId);
             var wasFirstWizard = user?.HasCompletedAnyWizard != true;
 
+            auditContext.RecordBefore(await wizardService.GetGuildWizardStateAsync(guildId));
             await wizardService.MarkWizardCompletedAsync(userId, guildId, configuredFeatures);
             await wizardService.UpdateUserExperienceAsync(userId, ServiceUserAction.CompletedFirstWizard);
+            auditContext.RecordAfter(await wizardService.GetGuildWizardStateAsync(guildId));
 
             // Update experience level if they configured multiple features
             if (configuredFeatures.Length >= 3)
@@ -215,6 +225,7 @@ public class WizardController : Controller
     {
         try
         {
+            auditContext.RecordBefore(await wizardService.GetGuildWizardStateAsync(guildId));
             await wizardService.SkipWizardAsync(guildId, userId);
             return Ok();
         }

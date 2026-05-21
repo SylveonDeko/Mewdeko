@@ -25,6 +25,7 @@ public class FormsController : Controller
     private readonly HttpClient httpClient;
     private readonly ILogger<FormsController> logger;
     private readonly FormsService service;
+    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="FormsController" /> class.
@@ -34,18 +35,21 @@ public class FormsController : Controller
     /// <param name="creds">The bot credentials instance.</param>
     /// <param name="httpClient">The HTTP client instance for Turnstile verification.</param>
     /// <param name="logger">Logger for this class.</param>
+    /// <param name="auditContext">Records before/after state for the dashboard audit log.</param>
     public FormsController(
         FormsService service,
         DiscordShardedClient client,
         BotCredentials creds,
         HttpClient httpClient,
-        ILogger<FormsController> logger)
+        ILogger<FormsController> logger,
+        IDashboardAuditContext auditContext)
     {
         this.service = service;
         this.client = client;
         this.creds = creds;
         this.httpClient = httpClient;
         this.logger = logger;
+        this.auditContext = auditContext;
     }
 
     #region Turnstile Verification
@@ -218,6 +222,7 @@ public class FormsController : Controller
             }
 
             var createdForm = await service.CreateFormAsync(guildId, form);
+            auditContext.RecordAfter(createdForm);
             return Ok(createdForm);
         }
         catch (Exception ex)
@@ -252,6 +257,7 @@ public class FormsController : Controller
             }
 
             form.Id = formId; // Ensure ID matches route
+            auditContext.RecordBefore(await service.GetFormAsync(formId));
             var success = await service.UpdateFormAsync(form);
 
             if (!success)
@@ -260,6 +266,7 @@ public class FormsController : Controller
                     message = "Form not found"
                 });
 
+            auditContext.RecordAfter(form);
             return Ok(new
             {
                 message = "Form updated successfully"
@@ -285,6 +292,7 @@ public class FormsController : Controller
     {
         try
         {
+            auditContext.RecordBefore(await service.GetFormAsync(formId));
             var success = await service.DeleteFormAsync(formId);
 
             if (!success)

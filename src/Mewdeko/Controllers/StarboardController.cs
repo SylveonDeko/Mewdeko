@@ -15,16 +15,22 @@ public class StarboardController : Controller
 {
     private readonly DiscordShardedClient client;
     private readonly StarboardService starboardService;
+    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     ///     Initializes a new instance of the StarboardController
     /// </summary>
     /// <param name="starboardService">The starboardservice service.</param>
     /// <param name="client">The Discord client instance.</param>
-    public StarboardController(StarboardService starboardService, DiscordShardedClient client)
+    /// <param name="auditContext">Records before/after state for the dashboard audit log.</param>
+    public StarboardController(
+        StarboardService starboardService,
+        DiscordShardedClient client,
+        IDashboardAuditContext auditContext)
     {
         this.starboardService = starboardService;
         this.client = client;
+        this.auditContext = auditContext;
     }
 
     /// <summary>
@@ -69,6 +75,7 @@ public class StarboardController : Controller
         if (guild == null)
             return NotFound("Guild not found");
 
+        auditContext.RecordBefore(starboardService.GetStarboards(guildId).FirstOrDefault(s => s.Id == starboardId));
         var success = await starboardService.DeleteStarboard(guild, starboardId);
         if (!success)
             return NotFound("Starboard configuration not found");
@@ -86,6 +93,7 @@ public class StarboardController : Controller
         if (guild == null)
             return NotFound("Guild not found");
 
+        auditContext.RecordBefore(starboardService.GetStarboards(guildId).FirstOrDefault(s => s.Id == starboardId));
         var success = await starboardService.SetAllowBots(guild, starboardId, allowed);
         if (!success)
             return NotFound("Starboard configuration not found");
@@ -103,6 +111,7 @@ public class StarboardController : Controller
         if (guild == null)
             return NotFound("Guild not found");
 
+        auditContext.RecordBefore(starboardService.GetStarboards(guildId).FirstOrDefault(s => s.Id == starboardId));
         var success = await starboardService.SetRemoveOnDelete(guild, starboardId, removeOnDelete);
         if (!success)
             return NotFound("Starboard configuration not found");
@@ -120,6 +129,7 @@ public class StarboardController : Controller
         if (guild == null)
             return NotFound("Guild not found");
 
+        auditContext.RecordBefore(starboardService.GetStarboards(guildId).FirstOrDefault(s => s.Id == starboardId));
         var success = await starboardService.SetRemoveOnClear(guild, starboardId, removeOnClear);
         if (!success)
             return NotFound("Starboard configuration not found");
@@ -138,6 +148,7 @@ public class StarboardController : Controller
         if (guild == null)
             return NotFound("Guild not found");
 
+        auditContext.RecordBefore(starboardService.GetStarboards(guildId).FirstOrDefault(s => s.Id == starboardId));
         var success = await starboardService.SetRemoveBelowThreshold(guild, starboardId, removeBelowThreshold);
         if (!success)
             return NotFound("Starboard configuration not found");
@@ -155,6 +166,7 @@ public class StarboardController : Controller
         if (guild == null)
             return NotFound("Guild not found");
 
+        auditContext.RecordBefore(starboardService.GetStarboards(guildId).FirstOrDefault(s => s.Id == starboardId));
         var success = await starboardService.SetRepostThreshold(guild, starboardId, threshold);
         if (!success)
             return NotFound("Starboard configuration not found");
@@ -172,6 +184,7 @@ public class StarboardController : Controller
         if (guild == null)
             return NotFound("Guild not found");
 
+        auditContext.RecordBefore(starboardService.GetStarboards(guildId).FirstOrDefault(s => s.Id == starboardId));
         var success = await starboardService.SetStarThreshold(guild, starboardId, threshold);
         if (!success)
             return NotFound("Starboard configuration not found");
@@ -189,6 +202,7 @@ public class StarboardController : Controller
         if (guild == null)
             return NotFound("Guild not found");
 
+        auditContext.RecordBefore(starboardService.GetStarboards(guildId).FirstOrDefault(s => s.Id == starboardId));
         var success = await starboardService.SetUseBlacklist(guild, starboardId, useBlacklist);
         if (!success)
             return NotFound("Starboard configuration not found");
@@ -206,6 +220,7 @@ public class StarboardController : Controller
         if (guild == null)
             return NotFound("Guild not found");
 
+        auditContext.RecordBefore(starboardService.GetStarboards(guildId).FirstOrDefault(s => s.Id == starboardId));
         var result = await starboardService.ToggleChannel(guild, starboardId, channelId.ToString());
         if (result.Config == null)
             return NotFound("Starboard configuration not found");
@@ -242,6 +257,8 @@ public class StarboardController : Controller
 
         try
         {
+            auditContext.RecordBefore(
+                starboardService.GetStarboards(guildId).FirstOrDefault(s => s.Id == starboardId));
             var success = await starboardService.AddEmoteToStarboard(guild, starboardId, emote);
             if (!success)
                 return NotFound("Starboard configuration not found");
@@ -266,6 +283,8 @@ public class StarboardController : Controller
 
         try
         {
+            auditContext.RecordBefore(
+                starboardService.GetStarboards(guildId).FirstOrDefault(s => s.Id == starboardId));
             var success = await starboardService.RemoveEmoteFromStarboard(guild, starboardId, emote);
             if (!success)
                 return NotFound("Emote not found in starboard configuration");

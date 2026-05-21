@@ -12,13 +12,15 @@ namespace Mewdeko.Controllers;
 /// <param name="service"></param>
 /// <param name="client"></param>
 /// <param name="dbFactory"></param>
+/// <param name="auditContext"></param>
 [ApiController]
 [Route("botapi/[controller]/{guildId}")]
 [Authorize("ApiKeyPolicy")]
 public class SuggestionsController(
     SuggestionsService service,
     DiscordShardedClient client,
-    IDataConnectionFactory dbFactory)
+    IDataConnectionFactory dbFactory,
+    IDashboardAuditContext auditContext)
     : Controller
 {
     /// <summary>
@@ -113,6 +115,8 @@ public class SuggestionsController(
         if (suggestion == null || suggestion.Length == 0)
             return NotFound();
 
+        auditContext.RecordBefore(suggestion);
+
         // Use linq2db to delete the suggestion
         await using var db = await dbFactory.CreateConnectionAsync();
 
@@ -137,6 +141,7 @@ public class SuggestionsController(
     {
         var guild = client.GetGuild(guildId);
         var user = client.GetUser(update.UserId);
+        auditContext.RecordBefore(await service.Suggestions(guildId, id));
         switch (update.State)
         {
             case SuggestionsService.SuggestState.Accepted:
@@ -156,6 +161,7 @@ public class SuggestionsController(
                 throw new ArgumentOutOfRangeException(nameof(update.State), update.State, null);
         }
 
+        auditContext.RecordAfter(await service.Suggestions(guildId, id));
         return Ok();
     }
 

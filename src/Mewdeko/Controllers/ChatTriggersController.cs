@@ -11,7 +11,7 @@ namespace Mewdeko.Controllers;
 [ApiController]
 [Route("botapi/[controller]/{guildId}")]
 [Authorize("ApiKeyPolicy")]
-public class ChatTriggersController(ChatTriggersService service) : Controller
+public class ChatTriggersController(ChatTriggersService service, IDashboardAuditContext auditContext) : Controller
 {
     /// <summary>
     ///     Retrieves chat triggers for a guild id
@@ -41,7 +41,10 @@ public class ChatTriggersController(ChatTriggersService service) : Controller
     [HttpPatch]
     public async Task<IActionResult> UpdateTriggerForGuild(ulong guildId, [FromBody] ChatTrigger toUpdate)
     {
+        var existing = (await service.GetChatTriggersFor(guildId)).FirstOrDefault(t => t.Id == toUpdate.Id);
+        auditContext.RecordBefore(existing);
         await service.UpdateInternalAsync(guildId, toUpdate);
+        auditContext.RecordAfter(toUpdate);
         return Ok();
     }
 
@@ -55,6 +58,7 @@ public class ChatTriggersController(ChatTriggersService service) : Controller
     public async Task<IActionResult> AddTriggerToGuild(ulong guildId, [FromBody] ChatTrigger toAdd)
     {
         var added = await service.AddTrigger(guildId, toAdd);
+        auditContext.RecordAfter(added);
         return Ok(added);
     }
 
@@ -67,6 +71,8 @@ public class ChatTriggersController(ChatTriggersService service) : Controller
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> RemoveTriggerFromGuild(ulong guildId, int id)
     {
+        var existing = (await service.GetChatTriggersFor(guildId)).FirstOrDefault(t => t.Id == id);
+        auditContext.RecordBefore(existing);
         await service.DeleteAsync(guildId, id);
         return Ok();
     }

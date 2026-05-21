@@ -23,6 +23,7 @@ public class GiveawaysController : Controller
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<GiveawaysController> logger;
     private readonly GiveawayService service;
+    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="GiveawaysController" /> class.
@@ -32,17 +33,20 @@ public class GiveawaysController : Controller
     /// <param name="client">The HTTP client instance.</param>
     /// <param name="dbFactory">The factory for creating database connections.</param>
     /// <param name="logger">Logger for this class.</param>
+    /// <param name="auditContext">Records before/after state for the dashboard audit log.</param>
     public GiveawaysController(
         GiveawayService service,
         BotCredentials creds,
         HttpClient client,
-        IDataConnectionFactory dbFactory, ILogger<GiveawaysController> logger)
+        IDataConnectionFactory dbFactory, ILogger<GiveawaysController> logger,
+        IDashboardAuditContext auditContext)
     {
         this.service = service;
         this.creds = creds;
         this.client = client;
         this.dbFactory = dbFactory;
         this.logger = logger;
+        this.auditContext = auditContext;
     }
 
     /// <summary>
@@ -127,6 +131,7 @@ public class GiveawaysController : Controller
         try
         {
             var createdGiveaway = await service.CreateGiveawayFromDashboard(guildId, model);
+            auditContext.RecordAfter(createdGiveaway);
             return Ok(createdGiveaway);
         }
         catch (Exception ex)
@@ -154,6 +159,7 @@ public class GiveawaysController : Controller
             if (gway is null)
                 return NotFound("That giveaway doesnt exist.");
 
+            auditContext.RecordBefore(gway);
             await service.GiveawayTimerAction(gway);
             return Ok();
         }

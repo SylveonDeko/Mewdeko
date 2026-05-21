@@ -29,6 +29,7 @@ public class MusicController : Controller
     private readonly IDataConnectionFactory dbFactory;
     private readonly MusicEventManager eventManager;
     private readonly ILogger<MusicController> logger;
+    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     ///     Controller for managing music playback and settings
@@ -39,12 +40,14 @@ public class MusicController : Controller
     /// <param name="dbFactory">The database connection factory</param>
     /// <param name="eventManager">The event manager for music events</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="auditContext">Records before/after state for the dashboard audit log.</param>
     public MusicController(
         IAudioService audioService,
         IDataCache cache,
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
-        MusicEventManager eventManager, ILogger<MusicController> logger)
+        MusicEventManager eventManager, ILogger<MusicController> logger,
+        IDashboardAuditContext auditContext)
     {
         this.audioService = audioService;
         this.cache = cache;
@@ -52,6 +55,7 @@ public class MusicController : Controller
         this.dbFactory = dbFactory;
         this.eventManager = eventManager;
         this.logger = logger;
+        this.auditContext = auditContext;
     }
 
     /// <summary>
@@ -839,12 +843,14 @@ public class MusicController : Controller
     [Authorize("ApiKeyPolicy")]
     public async Task<IActionResult> UpdateSettings(ulong guildId, [FromBody] MusicPlayerSetting settings)
     {
+        auditContext.RecordBefore(await cache.GetMusicPlayerSettings(guildId));
         var player = await audioService.Players.GetPlayerAsync<MewdekoPlayer>(guildId);
         await player.SetMusicSettings(guildId, settings);
 
         // Notify clients of settings change
         await eventManager.BroadcastPlayerUpdate(guildId);
 
+        auditContext.RecordAfter(settings);
         return Ok(settings);
     }
 
@@ -896,6 +902,7 @@ public class MusicController : Controller
     public async Task<IActionResult> UpdateTtsSettings(ulong guildId, [FromBody] TtsGuildSettingsRequest request)
     {
         var settings = await GetOrCreateMusicSettings(guildId);
+        auditContext.RecordBefore(settings);
 
         if (request.Volume.HasValue) settings.TtsVolume = request.Volume.Value;
         if (request.Speed.HasValue) settings.TtsSpeed = request.Speed.Value;
@@ -911,6 +918,7 @@ public class MusicController : Controller
         await db.UpdateAsync(settings);
         await cache.SetMusicPlayerSettings(guildId, settings);
 
+        auditContext.RecordAfter(settings);
         return Ok(new
         {
             Message = "TTS settings updated"

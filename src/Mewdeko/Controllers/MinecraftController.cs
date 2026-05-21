@@ -17,10 +17,9 @@ namespace Mewdeko.Controllers;
 [Authorize("ApiKeyPolicy")]
 public class MinecraftController(
     MinecraftService minecraftService,
-    MinecraftBridgeService bridgeService,
     IDataConnectionFactory dbFactory,
     DiscordShardedClient client,
-    ILogger<MinecraftController> logger) : Controller
+    IDashboardAuditContext auditContext) : Controller
 {
     /// <summary>
     ///     Gets all registered Minecraft servers for a guild.
@@ -80,6 +79,7 @@ public class MinecraftController(
             }
 
             var created = await minecraftService.GetServerAsync(guildId, request.Name);
+            auditContext.RecordAfter(created);
             return CreatedAtAction(nameof(GetServer), new
             {
                 guildId, name = request.Name
@@ -108,6 +108,8 @@ public class MinecraftController(
 
         if (server == null)
             return NotFound("Server not found");
+
+        auditContext.RecordBefore(server);
 
         if (request.Address != null)
             server.Address = request.Address;
@@ -138,6 +140,7 @@ public class MinecraftController(
 
         await db.UpdateAsync(server);
         minecraftService.InvalidateCache(guildId, server.Id);
+        auditContext.RecordAfter(server);
         return Ok(MapToResponse(server));
     }
 
@@ -150,6 +153,7 @@ public class MinecraftController(
     [HttpDelete("servers/{name}")]
     public async Task<IActionResult> RemoveServer(ulong guildId, string name)
     {
+        auditContext.RecordBefore(await minecraftService.GetServerAsync(guildId, name));
         var removed = await minecraftService.RemoveServerAsync(guildId, name);
         if (!removed)
             return NotFound("Server not found");
@@ -226,6 +230,7 @@ public class MinecraftController(
         if (server == null)
             return NotFound("Server not found");
 
+        auditContext.RecordAfter(server);
         return Ok(MapToResponse(server));
     }
 
@@ -331,12 +336,12 @@ public class MinecraftController(
     }
 
     /// <summary>
-    ///     Configures RCON settings for a server (enable, port, password).
-    /// </summary>
-    /// <param name="guildId">The guild ID.</param>
-    /// <summary>
     ///     Sets the custom online alert message for a server.
     /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="name">The server name.</param>
+    /// <param name="request">The custom embed request payload.</param>
+    /// <returns>The updated server.</returns>
     [HttpPut("servers/{name}/online-message")]
     public async Task<IActionResult> SetOnlineMessage(ulong guildId, string name,
         [FromBody] SetCustomEmbedRequest request)
@@ -344,6 +349,7 @@ public class MinecraftController(
         var server = await minecraftService.SetCustomOnlineMessageAsync(guildId, name, request.Template);
         if (server == null)
             return NotFound("Server not found");
+        auditContext.RecordAfter(server);
         return Ok(MapToResponse(server));
     }
 
@@ -357,9 +363,14 @@ public class MinecraftController(
         var server = await minecraftService.SetCustomOfflineMessageAsync(guildId, name, request.Template);
         if (server == null)
             return NotFound("Server not found");
+        auditContext.RecordAfter(server);
         return Ok(MapToResponse(server));
     }
 
+    /// <summary>
+    ///     Configures RCON settings for a server (enable, port, password).
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
     /// <param name="name">The server name.</param>
     /// <param name="request">The RCON configuration.</param>
     /// <returns>The updated server.</returns>
@@ -372,6 +383,7 @@ public class MinecraftController(
         if (server == null)
             return NotFound("Server not found");
 
+        auditContext.RecordAfter(server);
         return Ok(MapToResponse(server));
     }
 
@@ -388,9 +400,11 @@ public class MinecraftController(
         if (server == null)
             return NotFound("Server not found");
 
+        auditContext.RecordBefore(server);
         server.EventTemplates = request.Template;
         await db.UpdateAsync(server);
         minecraftService.InvalidateCache(guildId, server.Id);
+        auditContext.RecordAfter(server);
         return Ok(MapToResponse(server));
     }
 
@@ -416,6 +430,7 @@ public class MinecraftController(
     [HttpDelete("servers/{name}/plugin-key")]
     public async Task<IActionResult> RevokePluginKey(ulong guildId, string name)
     {
+        auditContext.RecordBefore(await minecraftService.GetServerAsync(guildId, name));
         var success = await minecraftService.RevokePluginApiKeyAsync(guildId, name);
         if (!success)
             return NotFound("Server not found");

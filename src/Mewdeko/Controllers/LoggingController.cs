@@ -15,7 +15,10 @@ namespace Mewdeko.Controllers;
 [ApiController]
 [Route("botapi/[controller]/{guildId}")]
 [Authorize("ApiKeyPolicy")]
-public class LoggingController(LogCommandService logService, IDataConnectionFactory dbFactory) : Controller
+public class LoggingController(
+    LogCommandService logService,
+    IDataConnectionFactory dbFactory,
+    IDashboardAuditContext auditContext) : Controller
 {
     /// <summary>
     ///     Gets the complete logging configuration for a guild
@@ -115,8 +118,10 @@ public class LoggingController(LogCommandService logService, IDataConnectionFact
     [HttpPost("ignored-channels/{channelId}")]
     public async Task<IActionResult> ToggleIgnoredChannel(ulong guildId, ulong channelId)
     {
+        auditContext.RecordBefore(await logService.GetIgnoredChannels(guildId));
         var result = await logService.LogIgnore(guildId, channelId);
         var ignoredChannels = await logService.GetIgnoredChannels(guildId);
+        auditContext.RecordAfter(ignoredChannels.ToList());
 
         var action = result switch
         {
@@ -156,8 +161,10 @@ public class LoggingController(LogCommandService logService, IDataConnectionFact
     [HttpPut("ignored-channels")]
     public async Task<IActionResult> SetIgnoredChannels(ulong guildId, [FromBody] SetIgnoredChannelsRequest request)
     {
+        auditContext.RecordBefore(await logService.GetIgnoredChannels(guildId));
         var ignoredChannels = new HashSet<ulong>(request.ChannelIds ?? new List<ulong>());
         await logService.UpdateIgnoredChannelsAsync(guildId, ignoredChannels);
+        auditContext.RecordAfter(ignoredChannels.ToList());
 
         return Ok(new
         {
@@ -171,6 +178,7 @@ public class LoggingController(LogCommandService logService, IDataConnectionFact
     [HttpDelete("ignored-channels")]
     public async Task<IActionResult> ClearIgnoredChannels(ulong guildId)
     {
+        auditContext.RecordBefore(await logService.GetIgnoredChannels(guildId));
         await logService.UpdateIgnoredChannelsAsync(guildId, new HashSet<ulong>());
         return Ok(new
         {

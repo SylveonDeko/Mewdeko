@@ -19,6 +19,7 @@ public class AfkController : Controller
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<AfkController> logger;
+    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="AfkController" /> class.
@@ -27,13 +28,15 @@ public class AfkController : Controller
     /// <param name="client">The Discord sharded client instance.</param>
     /// <param name="dbFactory">The factory for creating database connections.</param>
     /// <param name="logger">Logger for this class.</param>
+    /// <param name="auditContext">Records before/after state for the dashboard audit log.</param>
     public AfkController(AfkService afk, DiscordShardedClient client, IDataConnectionFactory dbFactory,
-        ILogger<AfkController> logger)
+        ILogger<AfkController> logger, IDashboardAuditContext auditContext)
     {
         this.afk = afk;
         this.client = client;
         this.dbFactory = dbFactory;
         this.logger = logger;
+        this.auditContext = auditContext;
     }
 
     /// <summary>
@@ -66,7 +69,9 @@ public class AfkController : Controller
     [HttpPost("{userId}")]
     public async Task<IActionResult> SetAfkStatus(ulong guildId, ulong userId, [FromBody] string message)
     {
+        auditContext.RecordBefore(await afk.GetAfk(guildId, userId));
         await afk.AfkSet(guildId, userId, message);
+        auditContext.RecordAfter(await afk.GetAfk(guildId, userId));
         return Ok();
     }
 
@@ -79,6 +84,7 @@ public class AfkController : Controller
     [HttpDelete("{userId}")]
     public async Task<IActionResult> DeleteAfkStatus(ulong guildId, ulong userId)
     {
+        auditContext.RecordBefore(await afk.GetAfk(guildId, userId));
         await afk.AfkSet(guildId, userId, ""); // Setting empty message clears AFK
         return Ok();
     }
@@ -160,7 +166,9 @@ public class AfkController : Controller
     {
         var guild = client.GetGuild(guildId);
         if (guild is null) return NotFound("Guild not found.");
+        auditContext.RecordBefore(await afk.GetAfkDel(guildId));
         await afk.AfkDelSet(guild, time);
+        auditContext.RecordAfter(time);
         return Ok();
     }
 
@@ -187,7 +195,9 @@ public class AfkController : Controller
     {
         var guild = client.GetGuild(guildId);
         if (guild is null) return NotFound("Guild not found.");
+        auditContext.RecordBefore(await afk.GetAfkLength(guildId));
         await afk.AfkLengthSet(guild, length);
+        auditContext.RecordAfter(length);
         return Ok();
     }
 
@@ -214,7 +224,9 @@ public class AfkController : Controller
     {
         var guild = client.GetGuild(guildId);
         if (guild is null) return NotFound("Guild not found.");
+        auditContext.RecordBefore(await afk.GetAfkType(guildId));
         await afk.AfkTypeSet(guild, type);
+        auditContext.RecordAfter(type);
         return Ok();
     }
 
@@ -243,7 +255,9 @@ public class AfkController : Controller
         var timeoutSeconds = (int)stoopidTime.Time.TotalSeconds;
         var guild = client.GetGuild(guildId);
         if (guild is null) return NotFound("Guild not found.");
+        auditContext.RecordBefore(await afk.GetAfkTimeout(guildId));
         await afk.AfkTimeoutSet(guild, timeoutSeconds);
+        auditContext.RecordAfter(timeoutSeconds);
         return Ok();
     }
 
@@ -270,7 +284,9 @@ public class AfkController : Controller
     {
         var guild = client.GetGuild(guildId);
         if (guild is null) return NotFound("Guild not found.");
+        auditContext.RecordBefore(await afk.GetDisabledAfkChannels(guildId));
         await afk.AfkDisabledSet(guild, channels);
+        auditContext.RecordAfter(channels);
         return Ok();
     }
 
@@ -297,7 +313,9 @@ public class AfkController : Controller
     {
         var guild = client.GetGuild(guildId);
         if (guild is null) return NotFound("Guild not found.");
+        auditContext.RecordBefore(await afk.GetCustomAfkMessage(guildId));
         await afk.SetCustomAfkMessage(guild, message);
+        auditContext.RecordAfter(message);
         return Ok();
     }
 }
