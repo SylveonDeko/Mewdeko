@@ -1,0 +1,76 @@
+# Build outputs
+**/bin/
+**/obj/
+**/output/
+**/publish/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+docs/
+
+# Tests
+**/Tests/
+**/*.Tests/
+
+# Logs and databases
+*.log
+logs/
+*.db
+*.sqlite
+
+# Credentials (should be passed via env vars or mounted)
+credentials.json
+credentials_example.json
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# GitHub Actions
+.github/
+
+# Docker files themselves
+Dockerfile
+.dockerignore
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
