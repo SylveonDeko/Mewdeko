@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'Controlla lo stato di un server Minecraft. Usa un nome di server registrato, un indirizzo diretto, o lascia vuoto per il server predefinito.'
+  params:
+    - desc: 'Il nome del server registrato o indirizzo diretto (es. play.example.com:25565).'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: 'Aggiunge un server Minecraft alla gilda. Anteponi bedrock: all''indirizzo per server Bedrock.'
+  params:
+    - desc: 'Un''etichetta per il server.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'L''indirizzo del server, opzionalmente con porta (es. play.example.com:25565 o bedrock:play.example.com).'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: 'Rimuove un server Minecraft dalla gilda.'
+  params:
+    - desc: 'Il nome del server da rimuovere.'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: 'Elenca tutti i server Minecraft registrati per questa gilda.'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: 'Imposta un server come predefinito per i comandi di stato.'
+  params:
+    - desc: 'Il nome del server da impostare come predefinito.'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: 'Imposta un canale per ricevere aggiornamenti periodici dello stato di un server. Ometti il canale per disabilitare.'
+  params:
+    - desc: 'Il nome del server da monitorare.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Il canale dove pubblicare aggiornamenti.'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: 'Imposta come viene mostrato lo stato del server: embed (modifica sul posto), argomento del canale, o entrambi.'
+  params:
+    - desc: 'Il nome del server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'La modalità di monitoraggio: Embed, ChannelTopic, o Both.'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: 'Imposta un template embed personalizzato per un server monitorato. Usa "-" per ripristinare. Segnaposto: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
+  params:
+    - desc: 'Il nome del server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Il JSON del template embed, o "-" per ripristinare al predefinito.'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: 'Cerca un giocatore Minecraft per username e mostra il suo profilo e skin.'
+  params:
+    - desc: 'Lo username Minecraft da cercare.'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'Mostra il render dello skin di un giocatore Minecraft.'
+  params:
+    - desc: 'Lo username Minecraft.'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: 'Invia un comando RCON a un server Minecraft registrato. RCON deve essere configurato dalla dashboard.'
+  params:
+    - desc: 'Il nome del server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Il comando da eseguire sul server.'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'Gestisce la whitelist su un server Minecraft via RCON. Richiede RCON configurato.'
+  params:
+    - desc: 'Il nome del server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'L''azione: add, remove, list, on, off, reload.'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Il nome del giocatore (per add/remove).'
+      name: playerName
+      optional: true
+      type: string

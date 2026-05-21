@@ -1,0 +1,434 @@
+rolegreetadd:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Dodaje nową wiadomość powitalną roli dla określonej roli. Jeśli nie podano kanału, używany jest bieżący kanał.'
+  params:
+    - desc: 'Rola, dla której ustawiana jest wiadomość powitalna.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Kanał tekstowy, na który zostanie wysłana wiadomość powitalna. Opcjonalnie.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Dodaje nową wiadomość powitalną roli dla określonej roli. Jeśli nie podano kanału, używany jest bieżący kanał.'
+  params:
+    - desc: 'Rola, dla której ustawiana jest wiadomość powitalna.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Kanał tekstowy, na który zostanie wysłana wiadomość powitalna. Opcjonalnie.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=_1:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Dodaje nową wiadomość powitalną roli dla określonej roli. Jeśli nie podano kanału, używany jest bieżący kanał.'
+  params:
+    - desc: 'Rola, dla której ustawiana jest wiadomość powitalna.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Kanał tekstowy, na który zostanie wysłana wiadomość powitalna. Opcjonalnie.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=_2:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Dodaje nową wiadomość powitalną roli dla określonej roli. Jeśli nie podano kanału, używany jest bieżący kanał.'
+  params:
+    - desc: 'Rola, dla której ustawiana jest wiadomość powitalna.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Kanał tekstowy, na który zostanie wysłana wiadomość powitalna. Opcjonalnie.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetdelete:
+  args:
+    - number time
+  desc: 'Aktualizuje wiadomość powitalną roli, aby była automatycznie usuwana po określonym czasie.'
+  params:
+    - &ref_448
+      desc: 'Identyfikator powitania roli do zaktualizowania, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: id
+      optional: false
+      type: int
+    - &ref_450
+      desc: 'Aktualizuje wiadomość powitalną roli, aby była automatycznie usuwana po określonym czasie.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime:
+  args:
+    - number time
+  desc: 'Aktualizuje wiadomość powitalną roli, aby była automatycznie usuwana po określonym czasie.'
+  params:
+    - desc: 'Identyfikator powitania roli do zaktualizowania, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Aktualizuje wiadomość powitalną roli, aby była automatycznie usuwana po określonym czasie.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'Aktualizuje wiadomość powitalną roli, aby była automatycznie usuwana po określonym czasie.'
+  params:
+    - desc: 'Identyfikator powitania roli do zaktualizowania, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Aktualizuje wiadomość powitalną roli, aby była automatycznie usuwana po określonym czasie.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'Aktualizuje wiadomość powitalną roli, aby była automatycznie usuwana po określonym czasie.'
+  params:
+    - desc: 'Identyfikator powitania roli do zaktualizowania, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Aktualizuje wiadomość powitalną roli, aby była automatycznie usuwana po określonym czasie.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_int:
+  args:
+    - number number
+  desc: 'Aktualizuje wiadomość powitalną roli, aby była automatycznie usuwana po określonym czasie.'
+  params:
+    - desc: 'Identyfikator powitania roli do zaktualizowania, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: id
+      optional: false
+      type: int
+    - &ref_449
+      desc: 'Czas w sekundach, po którym wiadomość powitalna zostanie usunięta.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_1:
+  args:
+    - number number
+  desc: 'Aktualizuje wiadomość powitalną roli, aby była automatycznie usuwana po określonym czasie.'
+  params:
+    - desc: 'Identyfikator powitania roli do zaktualizowania, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Czas w sekundach, po którym wiadomość powitalna zostanie usunięta.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_2:
+  args:
+    - number number
+  desc: 'Aktualizuje wiadomość powitalną roli, aby była automatycznie usuwana po określonym czasie.'
+  params:
+    - desc: 'Identyfikator powitania roli do zaktualizowania, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Czas w sekundach, po którym wiadomość powitalna zostanie usunięta.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_3:
+  args:
+    - number number
+  desc: 'Aktualizuje wiadomość powitalną roli, aby była automatycznie usuwana po określonym czasie.'
+  params:
+    - desc: 'Identyfikator powitania roli do zaktualizowania, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Czas w sekundach, po którym wiadomość powitalna zostanie usunięta.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdisable:
+  args:
+    - number true|false
+  desc: 'Włącza lub wyłącza wiadomość powitalną roli.'
+  params:
+    - &ref_451
+      desc: 'Identyfikator powitania roli do zaktualizowania, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: num
+      optional: false
+      type: int
+    - &ref_452
+      desc: 'Czy wiadomość powitalna ma być włączona czy wyłączona.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool:
+  args:
+    - number true|false
+  desc: 'Włącza lub wyłącza wiadomość powitalną roli.'
+  params:
+    - desc: 'Identyfikator powitania roli do zaktualizowania, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Czy wiadomość powitalna ma być włączona czy wyłączona.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Włącza lub wyłącza wiadomość powitalną roli.'
+  params:
+    - desc: 'Identyfikator powitania roli do zaktualizowania, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Czy wiadomość powitalna ma być włączona czy wyłączona.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Włącza lub wyłącza wiadomość powitalną roli.'
+  params:
+    - desc: 'Identyfikator powitania roli do zaktualizowania, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Czy wiadomość powitalna ma być włączona czy wyłączona.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots:
+  args:
+    - number true|false
+  desc: 'Włącza lub wyłącza powitanie botów przez określone powitanie roli.'
+  params:
+    - desc: 'Identyfikator powitania roli do zaktualizowania, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: num
+      optional: false
+      type: int
+    - &ref_453
+      desc: 'Czy powitanie botów ma być włączone czy wyłączone.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool:
+  args:
+    - number true|false
+  desc: 'Włącza lub wyłącza powitanie botów przez określone powitanie roli.'
+  params:
+    - desc: 'Identyfikator powitania roli do zaktualizowania, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Czy powitanie botów ma być włączone czy wyłączone.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Włącza lub wyłącza powitanie botów przez określone powitanie roli.'
+  params:
+    - desc: 'Identyfikator powitania roli do zaktualizowania, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Czy powitanie botów ma być włączone czy wyłączone.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Włącza lub wyłącza powitanie botów przez określone powitanie roli.'
+  params:
+    - desc: 'Identyfikator powitania roli do zaktualizowania, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Czy powitanie botów ma być włączone czy wyłączone.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetlist:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie powitania ról skonfigurowane na serwerze, podając szczegółowe informacje o każdym z nich.'
+  params: [ ]
+rolegreetmessage:
+  args:
+    - '<id> [message]'
+    - number
+  desc: 'Aktualizuje treść wiadomości powitania roli. Jeśli nie podano wiadomości, prezentuje opcje podglądu wiadomości w obecnej formie lub wyświetlenia jako zwykły tekst.'
+  params:
+    - desc: 'Identyfikator powitania roli do zaktualizowania, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Nowa treść wiadomości. Opcjonalnie.'
+      name: message
+      optional: true
+      type: string
+rolegreetremove:
+  args:
+    - number
+  desc: Usuwa powitania ról powiązane z podanym identyfikatorem roli
+  params:
+    - &ref_454
+      desc: Usuwa powitania ról powiązane z podanym identyfikatorem roli
+      name: id
+      optional: false
+      type: int
+rolegreetremove_IRole:
+  args:
+    - '@role'
+  desc: Usuwa powitania ról powiązane z podanym identyfikatorem roli
+  params:
+    - desc: 'Rola, dla której zostaną usunięte powitania ról.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_1:
+  args:
+    - '@role'
+  desc: Usuwa powitania ról powiązane z podanym identyfikatorem roli
+  params:
+    - desc: 'Rola, dla której zostaną usunięte powitania ról.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_2:
+  args:
+    - '@role'
+  desc: Usuwa powitania ról powiązane z podanym identyfikatorem roli
+  params:
+    - desc: 'Rola, dla której zostaną usunięte powitania ról.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_3:
+  args:
+    - '@role'
+  desc: Usuwa powitania ról powiązane z podanym identyfikatorem roli
+  params:
+    - desc: 'Rola, dla której zostaną usunięte powitania ról.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_int:
+  args:
+    - number
+  desc: Usuwa powitania ról powiązane z podanym identyfikatorem roli
+  params:
+    - desc: Usuwa powitania ról powiązane z podanym identyfikatorem roli
+      name: id
+      optional: false
+      type: int
+rolegreetremove_int_1:
+  args:
+    - number
+  desc: Usuwa powitania ról powiązane z podanym identyfikatorem roli
+  params:
+    - desc: Usuwa powitania ról powiązane z podanym identyfikatorem roli
+      name: id
+      optional: false
+      type: int
+rolegreetremove_int_2:
+  args:
+    - number
+  desc: Usuwa powitania ról powiązane z podanym identyfikatorem roli
+  params:
+    - desc: Usuwa powitania ról powiązane z podanym identyfikatorem roli
+      name: id
+      optional: false
+      type: int
+rolegreetwebhook:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Konfiguruje webhook dla wiadomości powitalnej roli z niestandardową nazwą i awatarem. Jeśli nie podano nazwy, webhook zostaje wyłączony.'
+  params:
+    - desc: 'Identyfikator powitania roli do skonfigurowania webhooka, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Nazwa webhooka. Opcjonalnie.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Adres URL awatara dla webhooka. Opcjonalnie.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Konfiguruje webhook dla wiadomości powitalnej roli z niestandardową nazwą i awatarem. Jeśli nie podano nazwy, webhook zostaje wyłączony.'
+  params:
+    - desc: 'Identyfikator powitania roli do skonfigurowania webhooka, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Nazwa webhooka. Opcjonalnie.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Adres URL awatara dla webhooka. Opcjonalnie.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=_1:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Konfiguruje webhook dla wiadomości powitalnej roli z niestandardową nazwą i awatarem. Jeśli nie podano nazwy, webhook zostaje wyłączony.'
+  params:
+    - desc: 'Identyfikator powitania roli do skonfigurowania webhooka, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Nazwa webhooka. Opcjonalnie.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Adres URL awatara dla webhooka. Opcjonalnie.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=_2:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Konfiguruje webhook dla wiadomości powitalnej roli z niestandardową nazwą i awatarem. Jeśli nie podano nazwy, webhook zostaje wyłączony.'
+  params:
+    - desc: 'Identyfikator powitania roli do skonfigurowania webhooka, określony na podstawie jego pozycji na liście wszystkich powitań ról.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Nazwa webhooka. Opcjonalnie.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Adres URL awatara dla webhooka. Opcjonalnie.'
+      name: avatar
+      optional: true
+      type: string

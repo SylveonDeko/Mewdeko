@@ -1,0 +1,135 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'يعرض تحليلات Patreon المفصلة.'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'يطلق إعلان Patreon يدوياً.'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: يضبط أو يعرض قناة إعلانات Patreon.
+  params:
+    - desc: >-
+        القناة المراد ضبطها لإعلانات Patreon. إذا كانت null، يعرض القناة الحالية.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'يعرض تكوين Patreon الحالي لهذا الخادم.'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'يضبط يوم الشهر لإعلانات Patreon.'
+  params:
+    - desc: >-
+        يوم الشهر (1-28) للإعلانات. إذا كان null، يعرض اليوم الحالي.
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'يعطل إعلانات Patreon لهذا الخادم.'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'يعرض معلومات وحدة Patreon والعناصر النائبة المتاحة.'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'يربط مستخدم Discord بداعم Patreon.'
+  params:
+    - desc: مستخدم Discord المراد ربطه.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: معرف مستخدم Patreon المراد ربطه.
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: يضبط رسالة مخصصة لإعلانات Patreon.
+  params:
+    - desc: >-
+        الرسالة المخصصة. استخدم عناصر نائبة مثل %server.name% و %month%.
+        استخدم "-" لإعادة الضبط للافتراضي.
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'يرسل رسائل تقدير للداعمين الجدد.'
+  params:
+    - desc: القناة لإرسال رسائل التقدير إليها.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'يسرد تعيينات مستويات Patreon والأدوار.'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'يبدل المزامنة التلقائية للأدوار.'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'يعرض إحصائيات داعمي Patreon.'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'يسرد داعمي Patreon النشطين.'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'يضبط تكامل OAuth لـ Patreon بأمان.'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'يزامن الأدوار لجميع الداعمين المرتبطين.'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'يربط مستوى Patreon بدور Discord.'
+  params:
+    - desc: معرف مستوى Patreon.
+      name: tierId
+      optional: false
+      type: string
+    - desc: دور Discord للربط بالمستوى.
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'يفعّل أو يعطل إعلانات Patreon.'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'يعرض أفضل داعمي Patreon.'
+  params:
+    - desc: عدد أفضل الداعمين للعرض (1-20).
+      name: count
+      optional: true
+      type: int

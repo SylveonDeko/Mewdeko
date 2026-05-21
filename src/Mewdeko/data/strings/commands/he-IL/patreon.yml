@@ -1,0 +1,135 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'מציג ניתוחים מפורטים של Patreon.'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'מפעיל הודעת Patreon ידנית.'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: מגדיר או מציג את ערוץ ההודעות של Patreon.
+  params:
+    - desc: >-
+        הערוץ להגדרה כערוץ הודעות Patreon. אם null, מציג את הערוץ הנוכחי.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'מציג את תצורת Patreon הנוכחית עבור שרת זה.'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'מגדיר את היום בחודש להודעות Patreon.'
+  params:
+    - desc: >-
+        היום בחודש (1-28) להודעות. אם null, מציג את היום הנוכחי.
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'משבית הודעות Patreon עבור שרת זה.'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'מציג מידע על מודול Patreon וממלאי מקום זמינים.'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'מקשר משתמש Discord לתומך Patreon.'
+  params:
+    - desc: משתמש Discord לקישור.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: מזהה משתמש Patreon לקישור.
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: מגדיר הודעה מותאמת אישית להודעות Patreon.
+  params:
+    - desc: >-
+        ההודעה המותאמת אישית. השתמש בממלאי מקום כמו %server.name%, %month%
+        וכו'. השתמש ב-"-" לאיפוס לברירת מחדל.
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'שולח הודעות הכרה לתומכים חדשים.'
+  params:
+    - desc: הערוץ לשליחת הודעות הכרה אליו.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'מציג מיפויי דרגת Patreon-תפקיד.'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'מחליף סנכרון תפקידים אוטומטי.'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'מציג סטטיסטיקת תומכי Patreon.'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'מציג תומכי Patreon פעילים.'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'מגדיר אינטגרציית OAuth של Patreon בצורה מאובטחת.'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'מסנכרן תפקידים לכל התומכים המקושרים.'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'ממפה דרגת Patreon לתפקיד Discord.'
+  params:
+    - desc: מזהה דרגת Patreon.
+      name: tierId
+      optional: false
+      type: string
+    - desc: תפקיד Discord למיפוי לדרגה.
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'מפעיל או מבטל הודעות Patreon.'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'מציג את תומכי Patreon המובילים.'
+  params:
+    - desc: מספר התומכים המובילים להצגה (1-20).
+      name: count
+      optional: true
+      type: int

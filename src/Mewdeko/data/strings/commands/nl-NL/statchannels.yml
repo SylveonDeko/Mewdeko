@@ -1,0 +1,95 @@
+statchannelcreate:
+  args:
+    - 'TotalMembers [template]'
+  desc: 'Maakt een nieuw vergrendeld spraakkanaal dat een serverstatistiek toont. De bot zal het kanaal aanmaken en beheren.'
+  params:
+    - desc: 'Het te tonen statistiektype.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'De weergavesjabloon. Gebruik %count% voor de waarde.'
+      name: template
+      optional: true
+      type: string
+statchanneladd:
+  args:
+    - '#voice-channel TotalMembers [template]'
+  desc: 'Voegt een spraakkanaal toe als statistiekkanaal. Typen: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
+  params:
+    - desc: 'Het te gebruiken spraakkanaal.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Het te tonen statistiektype.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'De weergavesjabloon. Gebruik %count% voor de waarde.'
+      name: template
+      optional: true
+      type: string
+statchannelrole:
+  args:
+    - '#voice-channel @role [template]'
+  desc: 'Voegt een statistiekkanaal toe dat toont hoeveel leden een specifieke rol hebben.'
+  params:
+    - desc: 'Het te gebruiken spraakkanaal.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'De rol waarvan leden geteld worden.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'De weergavesjabloon. Gebruik %count% en %role.name%.'
+      name: template
+      optional: true
+      type: string
+statchannelcountdown:
+  args:
+    - '#voice-channel 2026-12-31 [template]'
+  desc: 'Voegt een aftel-statistiekkanaal toe. Gebruik %days% en %hours% placeholders.'
+  params:
+    - desc: 'Het te gebruiken spraakkanaal.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'De doeldatum voor de aftelling.'
+      name: date
+      optional: false
+      type: DateTime
+    - desc: 'De weergavesjabloon. Gebruik %days% en %hours%.'
+      name: template
+      optional: true
+      type: string
+statchannelgoal:
+  args:
+    - '#voice-channel 1000 [template]'
+  desc: 'Voegt een ledendoel-statistiekkanaal toe. Gebruik %count%, %goal% en %goal.percent%.'
+  params:
+    - desc: 'Het te gebruiken spraakkanaal.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Het beoogde aantal leden.'
+      name: goal
+      optional: false
+      type: int
+    - desc: 'De weergavesjabloon. Gebruik %count%, %goal%, %goal.percent%.'
+      name: template
+      optional: true
+      type: string
+statchannelremove:
+  args:
+    - '#voice-channel'
+  desc: 'Verwijdert een statistiekkanaal.'
+  params:
+    - desc: 'Het te verwijderen spraakkanaal.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+statchannellist:
+  args:
+    - ''
+  desc: 'Lijst alle statistiekkanalen voor deze server.'
+  params: [ ]

@@ -1,0 +1,384 @@
+multigreetadd:
+  args:
+    - '[@channel]'
+  desc: 'Lagger till en FlereHalsning-kanal.'
+  params:
+    - desc: 'Kanalen att lagga till'
+      name: channel
+      optional: true
+      type: channel
+multigreetdelete:
+  args:
+    - number time
+  desc: 'Andrar borttagningstiden for ett FlereHalsning-meddelande i sekunder.'
+  params:
+    - &ref_303
+      desc: 'ID:t for FlereHalsningen att andra'
+      name: id
+      optional: false
+      type: int
+    - &ref_305
+      desc: 'Andrar borttagningstiden for ett FlereHalsning-meddelande i sekunder.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime:
+  args:
+    - number time
+  desc: 'Andrar borttagningstiden for ett FlereHalsning-meddelande i sekunder.'
+  params:
+    - desc: 'ID:t for FlereHalsningen att andra'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Andrar borttagningstiden for ett FlereHalsning-meddelande i sekunder.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'Andrar borttagningstiden for ett FlereHalsning-meddelande i sekunder.'
+  params:
+    - desc: 'ID:t for FlereHalsningen att andra'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Andrar borttagningstiden for ett FlereHalsning-meddelande i sekunder.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'Andrar borttagningstiden for ett FlereHalsning-meddelande i sekunder.'
+  params:
+    - desc: 'ID:t for FlereHalsningen att andra'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Andrar borttagningstiden for ett FlereHalsning-meddelande i sekunder.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_int:
+  args:
+    - number number
+  desc: 'Andrar borttagningstiden for ett FlereHalsning-meddelande i sekunder.'
+  params:
+    - desc: 'ID:t for FlereHalsningen att andra'
+      name: id
+      optional: false
+      type: int
+    - &ref_304
+      desc: 'Tiden i sekunder efter vilken meddelandet tas bort'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_1:
+  args:
+    - number number
+  desc: 'Andrar borttagningstiden for ett FlereHalsning-meddelande i sekunder.'
+  params:
+    - desc: 'ID:t for FlereHalsningen att andra'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Tiden i sekunder efter vilken meddelandet tas bort'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_2:
+  args:
+    - number number
+  desc: 'Andrar borttagningstiden for ett FlereHalsning-meddelande i sekunder.'
+  params:
+    - desc: 'ID:t for FlereHalsningen att andra'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Tiden i sekunder efter vilken meddelandet tas bort'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_3:
+  args:
+    - number number
+  desc: 'Andrar borttagningstiden for ett FlereHalsning-meddelande i sekunder.'
+  params:
+    - desc: 'ID:t for FlereHalsningen att andra'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Tiden i sekunder efter vilken meddelandet tas bort'
+      name: howlong
+      optional: false
+      type: int
+multigreetdisable:
+  args:
+    - number true|false
+  desc: 'Inaktiverar en FlereHalsning.'
+  params:
+    - &ref_306
+      desc: 'ID:t for FlereHalsningen att inaktivera'
+      name: num
+      optional: false
+      type: int
+    - &ref_307
+      desc: 'Om FlereHalsningen ska inaktiveras'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool:
+  args:
+    - number true|false
+  desc: 'Inaktiverar en FlereHalsning.'
+  params:
+    - desc: 'ID:t for FlereHalsningen att inaktivera'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Om FlereHalsningen ska inaktiveras'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Inaktiverar en FlereHalsning.'
+  params:
+    - desc: 'ID:t for FlereHalsningen att inaktivera'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Om FlereHalsningen ska inaktiveras'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Inaktiverar en FlereHalsning.'
+  params:
+    - desc: 'ID:t for FlereHalsningen att inaktivera'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Om FlereHalsningen ska inaktiveras'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots:
+  args:
+    - number true|false
+  desc: 'Andrar om en FlereHalsning halsar pa bottar.'
+  params:
+    - &ref_308
+      desc: 'ID:t for FlereHalsningen att andra'
+      name: num
+      optional: false
+      type: int
+    - &ref_309
+      desc: 'Om bottar ska halsas pa'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool:
+  args:
+    - number true|false
+  desc: 'Andrar om en FlereHalsning halsar pa bottar.'
+  params:
+    - desc: 'ID:t for FlereHalsningen att andra'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Om bottar ska halsas pa'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Andrar om en FlereHalsning halsar pa bottar.'
+  params:
+    - desc: 'ID:t for FlereHalsningen att andra'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Om bottar ska halsas pa'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Andrar om en FlereHalsning halsar pa bottar.'
+  params:
+    - desc: 'ID:t for FlereHalsningen att andra'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Om bottar ska halsas pa'
+      name: enabled
+      optional: false
+      type: bool
+multigreetlist:
+  args:
+    - ''
+  desc: 'Listar alla FlereHalsningar.'
+  params: [ ]
+multigreetmessage:
+  args:
+    - '<id> [embedTemplate]'
+    - number
+  desc: 'Andrar meddelandet for en FlereHalsning.'
+  params:
+    - desc: 'ID:t for FlereHalsningen att andra'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Meddelande/embed-mallen att anvanda'
+      name: embedTemplate
+      optional: true
+      type: embedtemplateresult
+multigreetremove:
+  args:
+    - number
+  desc: 'Tar bort alla FlereHalsningar fran en kanal.'
+  params:
+    - &ref_310
+      desc: 'Tar bort alla FlereHalsningar fran en kanal.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_ITextChannel:
+  args:
+    - channel
+  desc: 'Tar bort alla FlereHalsningar fran en kanal.'
+  params:
+    - &ref_311
+      desc: 'Kanalen att ta bort FlereHalsningar fran'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Tar bort alla FlereHalsningar fran en kanal.'
+  params:
+    - desc: 'Kanalen att ta bort FlereHalsningar fran'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Tar bort alla FlereHalsningar fran en kanal.'
+  params:
+    - desc: 'Kanalen att ta bort FlereHalsningar fran'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_3:
+  args:
+    - channel
+  desc: 'Tar bort alla FlereHalsningar fran en kanal.'
+  params:
+    - desc: 'Kanalen att ta bort FlereHalsningar fran'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_int:
+  args:
+    - number
+  desc: 'Tar bort alla FlereHalsningar fran en kanal.'
+  params:
+    - desc: 'Tar bort alla FlereHalsningar fran en kanal.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_int_1:
+  args:
+    - number
+  desc: 'Tar bort alla FlereHalsningar fran en kanal.'
+  params:
+    - desc: 'Tar bort alla FlereHalsningar fran en kanal.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_int_2:
+  args:
+    - number
+  desc: 'Tar bort alla FlereHalsningar fran en kanal.'
+  params:
+    - desc: 'Tar bort alla FlereHalsningar fran en kanal.'
+      name: id
+      optional: false
+      type: int
+multigreettype:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Andrar typen av FlereHalsning.'
+  params:
+    - &ref_312
+      desc: 'Typen av FlereHalsning att stalla in'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Andrar typen av FlereHalsning.'
+  params:
+    - desc: 'Typen av FlereHalsning att stalla in'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes_1:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Andrar typen av FlereHalsning.'
+  params:
+    - desc: 'Typen av FlereHalsning att stalla in'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes_2:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Andrar typen av FlereHalsning.'
+  params:
+    - desc: 'Typen av FlereHalsning att stalla in'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreetwebhook:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Andrar webhooken for en FlereHalsning.'
+  params:
+    - desc: 'ID:t for FlereHalsningen att andra'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Webhookens namn'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Webhookens avatar'
+      name: avatar
+      optional: true
+      type: string

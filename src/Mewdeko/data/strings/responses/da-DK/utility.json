@@ -1,0 +1,19 @@
+{
+  "invite_filter_channel_off": "Slog invitations filter fra i denne kanal.",
+  "invite_filter_channel_on": "Invitationsfilter slået til i denne kanal.",
+  "invite_filter_server_off": "Invitationsfilter slået fra i denne kanal.",
+  "invite_filter_server_on": "Invitationsfilter slået til på denne server.",
+  "channel_topic": "Kanalens emne",
+  "convert": "{0} {1} er lig med {2} {3}",
+  "convert_not_found": "Kan ikke konvertere {0} til {1}: enhederne kunne ikke findes",
+  "convert_type_error": "Kan ikke konvertere {0} til {1}: Enhederne er ikke samme type",
+  "remind": "I will remind {0} to {1} {2}",
+  "remind_invalid_format": "Dette er ikke et gyldigt tidsformat. Tjek kommandolisten.",
+  "remind_too_long": "",
+  "repeat_invoke_none": "Ingen gentagende beskeder kunne findes på denne server.",
+  "serverid": "{0} af denne server er {1}",
+  "reminder_list": "",
+  "reminder_deleted": "Reminder #{0} was deleted.",
+  "reminder_not_exist": "",
+  "invite_deleted": "Invite {0} has been deleted."
+}

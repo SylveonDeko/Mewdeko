@@ -1,0 +1,481 @@
+deleteuserstatsdata:
+  args:
+    - ''
+  desc: 'Usuwa dane statystyk poleceń użytkownika.'
+  params: [ ]
+greetdmoptout:
+  args:
+    - ''
+  desc: 'Pozwala użytkownikowi przełączyć rezygnację z powitalnych wiadomości DM. Działa tylko wtedy, gdy serwer, do którego dołącza, używa mewdeko do powitań przez DM.'
+  params: [ ]
+profile:
+  args:
+    - '[@user]'
+  desc: 'Wyświetla profil użytkownika lub innego użytkownika, jeśli zostanie podany.'
+  params:
+    - desc: 'Użytkownik, którego profil ma zostać wyświetlony. Jeśli null, wyświetla profil wywołującego.'
+      name: user
+      optional: true
+      type: user
+profile_=:
+  args:
+    - '[@user]'
+  desc: 'Wyświetla profil użytkownika lub innego użytkownika, jeśli zostanie podany.'
+  params:
+    - desc: 'Użytkownik, którego profil ma zostać wyświetlony. Jeśli null, wyświetla profil wywołującego.'
+      name: user
+      optional: true
+      type: user
+profile_=_1:
+  args:
+    - '[@user]'
+  desc: 'Wyświetla profil użytkownika lub innego użytkownika, jeśli zostanie podany.'
+  params:
+    - desc: 'Użytkownik, którego profil ma zostać wyświetlony. Jeśli null, wyświetla profil wywołującego.'
+      name: user
+      optional: true
+      type: user
+profile_=_2:
+  args:
+    - '[@user]'
+  desc: 'Wyświetla profil użytkownika lub innego użytkownika, jeśli zostanie podany.'
+  params:
+    - desc: 'Użytkownik, którego profil ma zostać wyświetlony. Jeśli null, wyświetla profil wywołującego.'
+      name: user
+      optional: true
+      type: user
+pronouns:
+  args:
+    - '[@user]'
+  desc: 'Wyświetla zaimki wskazanego użytkownika lub wywołującego polecenie, jeśli nie podano użytkownika.'
+  params:
+    - desc: 'Opcjonalnie. Użytkownik, którego zaimki mają zostać wyświetlone.'
+      name: user
+      optional: true
+      type: user
+pronounsforceclear:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Wymuszone czyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
+  params:
+    - &ref_356
+      desc: 'ID użytkownika, którego zaimki mają zostać wyczyszczone.'
+      name: user
+      optional: true
+      type: IUser
+    - &ref_357
+      desc: 'Czy zaimki są wyłączane z powodu nadużycia.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - &ref_358
+      desc: 'Powód akcji.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Wymuszone czyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
+  params:
+    - desc: 'ID użytkownika, którego zaimki mają zostać wyczyszczone.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Czy zaimki są wyłączane z powodu nadużycia.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Powód akcji.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string_1:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Wymuszone czyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
+  params:
+    - desc: 'ID użytkownika, którego zaimki mają zostać wyczyszczone.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Czy zaimki są wyłączane z powodu nadużycia.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Powód akcji.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string_2:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Wymuszone czyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
+  params:
+    - desc: 'ID użytkownika, którego zaimki mają zostać wyczyszczone.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Czy zaimki są wyłączane z powodu nadużycia.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Powód akcji.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string:
+  args:
+    - user true|false text
+  desc: 'Wymuszone czyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
+  params:
+    - &ref_359
+      desc: 'ID użytkownika, którego zaimki mają zostać wyczyszczone.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Czy zaimki są wyłączane z powodu nadużycia.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Powód akcji.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_1:
+  args:
+    - user true|false text
+  desc: 'Wymuszone czyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
+  params:
+    - desc: 'ID użytkownika, którego zaimki mają zostać wyczyszczone.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Czy zaimki są wyłączane z powodu nadużycia.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Powód akcji.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_2:
+  args:
+    - user true|false text
+  desc: 'Wymuszone czyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
+  params:
+    - desc: 'ID użytkownika, którego zaimki mają zostać wyczyszczone.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Czy zaimki są wyłączane z powodu nadużycia.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Powód akcji.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_3:
+  args:
+    - user true|false text
+  desc: 'Wymuszone czyszczenie zaimków użytkownika po ID, opcjonalnie oznaczając je jako wyłączone z powodu nadużycia.'
+  params:
+    - desc: 'ID użytkownika, którego zaimki mają zostać wyczyszczone.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Czy zaimki są wyłączane z powodu nadużycia.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Powód akcji.'
+      name: reason
+      optional: false
+      type: string
+setbio:
+  args:
+    - text
+  desc: 'Ustawia lub aktualizuje biografię w profilu użytkownika.'
+  params:
+    - &ref_490
+      desc: 'Tekst biografii. Musi mieć mniej niż 2048 znaków.'
+      name: bio
+      optional: false
+      type: string
+setbio_string:
+  args:
+    - text
+  desc: 'Ustawia lub aktualizuje biografię w profilu użytkownika.'
+  params:
+    - desc: 'Tekst biografii. Musi mieć mniej niż 2048 znaków.'
+      name: bio
+      optional: false
+      type: string
+setbio_string_1:
+  args:
+    - text
+  desc: 'Ustawia lub aktualizuje biografię w profilu użytkownika.'
+  params:
+    - desc: 'Tekst biografii. Musi mieć mniej niż 2048 znaków.'
+      name: bio
+      optional: false
+      type: string
+setbio_string_2:
+  args:
+    - text
+  desc: 'Ustawia lub aktualizuje biografię w profilu użytkownika.'
+  params:
+    - desc: 'Tekst biografii. Musi mieć mniej niż 2048 znaków.'
+      name: bio
+      optional: false
+      type: string
+setbirthday:
+  args:
+    - time
+  desc: 'Ustawia datę urodzin w profilu użytkownika.'
+  params:
+    - &ref_491
+      desc: 'Data urodzin.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime:
+  args:
+    - time
+  desc: 'Ustawia datę urodzin w profilu użytkownika.'
+  params:
+    - desc: 'Data urodzin.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime_1:
+  args:
+    - time
+  desc: 'Ustawia datę urodzin w profilu użytkownika.'
+  params:
+    - desc: 'Data urodzin.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime_2:
+  args:
+    - time
+  desc: 'Ustawia datę urodzin w profilu użytkownika.'
+  params:
+    - desc: 'Data urodzin.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthdayprivacy:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Ustawia tryb prywatności urodzin w profilu użytkownika.'
+  params:
+    - &ref_492
+      desc: 'Tryb wyświetlania urodzin do ustawienia.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Ustawia tryb prywatności urodzin w profilu użytkownika.'
+  params:
+    - desc: 'Tryb wyświetlania urodzin do ustawienia.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum_1:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Ustawia tryb prywatności urodzin w profilu użytkownika.'
+  params:
+    - desc: 'Tryb wyświetlania urodzin do ustawienia.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum_2:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Ustawia tryb prywatności urodzin w profilu użytkownika.'
+  params:
+    - desc: 'Tryb wyświetlania urodzin do ustawienia.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setprivacy:
+  args:
+    - privacyenum
+  desc: 'Ustawia poziom prywatności profilu użytkownika.'
+  params:
+    - &ref_513
+      desc: 'Ustawienie prywatności do zastosowania.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum:
+  args:
+    - privacyenum
+  desc: 'Ustawia poziom prywatności profilu użytkownika.'
+  params:
+    - desc: 'Ustawienie prywatności do zastosowania.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum_1:
+  args:
+    - privacyenum
+  desc: 'Ustawia poziom prywatności profilu użytkownika.'
+  params:
+    - desc: 'Ustawienie prywatności do zastosowania.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum_2:
+  args:
+    - privacyenum
+  desc: 'Ustawia poziom prywatności profilu użytkownika.'
+  params:
+    - desc: 'Ustawienie prywatności do zastosowania.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprofilecolor:
+  args:
+    - input
+  desc: 'Ustawia kolor profilu na podstawie wartości SKColor.'
+  params:
+    - &ref_514
+      desc: 'SKColor reprezentujący żądany kolor profilu.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor:
+  args:
+    - input
+  desc: 'Ustawia kolor profilu na podstawie wartości SKColor.'
+  params:
+    - desc: 'SKColor reprezentujący żądany kolor profilu.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor_1:
+  args:
+    - input
+  desc: 'Ustawia kolor profilu na podstawie wartości SKColor.'
+  params:
+    - desc: 'SKColor reprezentujący żądany kolor profilu.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor_2:
+  args:
+    - input
+  desc: 'Ustawia kolor profilu na podstawie wartości SKColor.'
+  params:
+    - desc: 'SKColor reprezentujący żądany kolor profilu.'
+      name: input
+      optional: false
+      type: SKColor
+setprofileimage:
+  args:
+    - text
+  desc: 'Ustawia URL obrazu profilu w profilu użytkownika.'
+  params:
+    - &ref_515
+      desc: 'URL obrazu do ustawienia jako obraz profilu.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string:
+  args:
+    - text
+  desc: 'Ustawia URL obrazu profilu w profilu użytkownika.'
+  params:
+    - desc: 'URL obrazu do ustawienia jako obraz profilu.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string_1:
+  args:
+    - text
+  desc: 'Ustawia URL obrazu profilu w profilu użytkownika.'
+  params:
+    - desc: 'URL obrazu do ustawienia jako obraz profilu.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string_2:
+  args:
+    - text
+  desc: 'Ustawia URL obrazu profilu w profilu użytkownika.'
+  params:
+    - desc: 'URL obrazu do ustawienia jako obraz profilu.'
+      name: url
+      optional: false
+      type: string
+setpronouns:
+  args:
+    - '[pronouns]'
+  desc: 'Ustawia lub czyści zaimki użytkownika.'
+  params:
+    - desc: 'Zaimki do ustawienia. Jeśli null lub puste, czyści istniejące zaimki.'
+      name: pronouns
+      optional: true
+      type: string
+setswitchfc:
+  args:
+    - '""'
+  desc: 'Ustawia lub czyści kod znajomego Nintendo Switch w profilu użytkownika.'
+  params:
+    - desc: 'Ustawia lub czyści kod znajomego Nintendo Switch w profilu użytkownika.'
+      name: '""'
+      optional: false
+      type: '='
+setzodiac:
+  args:
+    - text
+  desc: 'Ustawia znak zodiaku w profilu użytkownika.'
+  params:
+    - &ref_539
+      desc: 'Znak zodiaku do ustawienia.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string:
+  args:
+    - text
+  desc: 'Ustawia znak zodiaku w profilu użytkownika.'
+  params:
+    - desc: 'Znak zodiaku do ustawienia.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string_1:
+  args:
+    - text
+  desc: 'Ustawia znak zodiaku w profilu użytkownika.'
+  params:
+    - desc: 'Znak zodiaku do ustawienia.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string_2:
+  args:
+    - text
+  desc: 'Ustawia znak zodiaku w profilu użytkownika.'
+  params:
+    - desc: 'Znak zodiaku do ustawienia.'
+      name: zodiac
+      optional: false
+      type: string
+userstatsoptout:
+  args:
+    - ''
+  desc: 'Przełącza status rezygnacji użytkownika z gromadzenia statystyk poleceń.'
+  params: [ ]

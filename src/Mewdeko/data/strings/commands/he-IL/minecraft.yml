@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'בודק את מצב שרת Minecraft. השתמש בשם שרת רשום, כתובת ישירה, או השאר ריק לשרת ברירת המחדל.'
+  params:
+    - desc: 'שם השרת הרשום או כתובת ישירה (למשל play.example.com:25565).'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: 'מוסיף שרת Minecraft לגילדה. הוסף קידומת bedrock: לכתובת עבור שרתי Bedrock.'
+  params:
+    - desc: 'תווית עבור השרת.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'כתובת השרת, אופציונלית עם פורט (למשל play.example.com:25565 או bedrock:play.example.com).'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: 'מסיר שרת Minecraft מהגילדה.'
+  params:
+    - desc: 'שם השרת להסרה.'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: 'מציג את כל שרתי Minecraft הרשומים עבור גילדה זו.'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: 'מגדיר שרת כברירת מחדל עבור פקודות מצב.'
+  params:
+    - desc: 'שם השרת להגדרה כברירת מחדל.'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: 'מגדיר ערוץ לקבלת עדכוני מצב תקופתיים עבור שרת. השמט את הערוץ לביטול.'
+  params:
+    - desc: 'שם השרת לצפייה.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'הערוץ לפרסום עדכונים.'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: 'מגדיר כיצד מצב השרת מוצג: embed (עריכה במקום), נושא הערוץ, או שניהם.'
+  params:
+    - desc: 'שם השרת.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'מצב הצפייה: Embed, ChannelTopic, או Both.'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: 'מגדיר תבנית embed מותאמת אישית עבור שרת בצפייה. השתמש ב-"-" לאיפוס. ממלאי מקום: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
+  params:
+    - desc: 'שם השרת.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'JSON של תבנית ה-embed, או "-" לאיפוס לברירת מחדל.'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: 'מחפש שחקן Minecraft לפי שם משתמש ומציג את הפרופיל וה-skin שלו.'
+  params:
+    - desc: 'שם המשתמש Minecraft לחיפוש.'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'מציג רינדור skin של שחקן Minecraft.'
+  params:
+    - desc: 'שם המשתמש Minecraft.'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: 'שולח פקודת RCON לשרת Minecraft רשום. RCON חייב להיות מוגדר דרך הלוח.'
+  params:
+    - desc: 'שם השרת.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'הפקודה לביצוע בשרת.'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'מנהל את ה-whitelist בשרת Minecraft דרך RCON. דורש RCON מוגדר.'
+  params:
+    - desc: 'שם השרת.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'הפעולה: add, remove, list, on, off, reload.'
+      name: action
+      optional: false
+      type: string
+    - desc: 'שם השחקן (עבור add/remove).'
+      name: playerName
+      optional: true
+      type: string

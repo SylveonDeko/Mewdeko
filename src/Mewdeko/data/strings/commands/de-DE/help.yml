@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    Zeigt Befehle für ein bestimmtes Modul an. Wenn null, ist es ein Alias
+    für modules, das wiederum ein Alias für help ist.
+  params:
+    - desc: 'Das anzusehende Modul'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    Zeigt Befehle für ein bestimmtes Modul an. Wenn null, ist es ein Alias
+    für modules, das wiederum ein Alias für help ist.
+  params:
+    - desc: 'Das anzusehende Modul'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    Zeigt Befehle für ein bestimmtes Modul an. Wenn null, ist es ein Alias
+    für modules, das wiederum ein Alias für help ist.
+  params:
+    - desc: 'Das anzusehende Modul'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    Zeigt Befehle für ein bestimmtes Modul an. Wenn null, ist es ein Alias
+    für modules, das wiederum ein Alias für help ist.
+  params:
+    - desc: 'Das anzusehende Modul'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: 'Zeigt, wie man den Bot unterstützen kann.'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    Exportiert alle Befehle in eine json-Datei. Hauptsächlich verwendet für
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    Exportiert alle Befehle in eine json-Datei. Hauptsächlich verwendet für
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    Exportiert alle Befehle in eine json-Datei. Hauptsächlich verwendet für
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    Exportiert alle Befehle in eine json-Datei. Hauptsächlich verwendet für
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: 'Zeigt die Anleitung für den Bot.'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: Zeigt Hilfe für einen bestimmten Befehl.
+  params:
+    - desc: Der Befehl, für den Hilfe angezeigt werden soll.
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: Zeigt Hilfeinformationen zu Befehlen.
+  params:
+    - desc: Der Befehl, für den Hilfe angezeigt werden soll.
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: 'Zeigt eine Liste aller Module. Ist aktuell einfach ein help-Alias.'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: 'Sucht nach einem Befehl anhand von Name oder Beschreibung.'
+  params:
+    - &ref_481
+      desc: 'Der Suchbegriff'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: 'Sucht nach einem Befehl anhand von Name oder Beschreibung.'
+  params:
+    - desc: 'Der Suchbegriff'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: 'Sucht nach einem Befehl anhand von Name oder Beschreibung.'
+  params:
+    - desc: 'Der Suchbegriff'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: 'Sucht nach einem Befehl anhand von Name oder Beschreibung.'
+  params:
+    - desc: 'Der Suchbegriff'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: 'Zeigt den Quellcode-Link für den Bot.'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'Zeigt einen Link zum Abstimmen für Mewdeko.'
+  params: [ ]

@@ -1,0 +1,272 @@
+addstatusrole:
+  args:
+    - text
+  desc: '상태 역할 구성을 추가합니다.'
+  params:
+    - &ref_32
+      desc: '추가할 상태.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string:
+  args:
+    - text
+  desc: '상태 역할 구성을 추가합니다.'
+  params:
+    - desc: '추가할 상태.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_1:
+  args:
+    - text
+  desc: '상태 역할 구성을 추가합니다.'
+  params:
+    - desc: '추가할 상태.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_2:
+  args:
+    - text
+  desc: '상태 역할 구성을 추가합니다.'
+  params:
+    - desc: '추가할 상태.'
+      name: status
+      optional: false
+      type: string
+liststatusroles:
+  args:
+    - ''
+  desc: '현재 모든 상태 역할을 세부 정보와 함께 나열합니다.'
+  params: [ ]
+removeaddroles:
+  args:
+    - number @role
+  desc: '사용자가 선택한 상태를 가질 때 제거할 역할을 설정합니다.'
+  params:
+    - &ref_390
+      desc: '상태 역할의 인덱스.'
+      name: index
+      optional: false
+      type: int
+    - &ref_391
+      desc: '제거할 역할.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: '사용자가 선택한 상태를 가질 때 제거할 역할을 설정합니다.'
+  params:
+    - desc: '상태 역할의 인덱스.'
+      name: index
+      optional: false
+      type: int
+    - desc: '제거할 역할.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: '사용자가 선택한 상태를 가질 때 제거할 역할을 설정합니다.'
+  params:
+    - desc: '상태 역할의 인덱스.'
+      name: index
+      optional: false
+      type: int
+    - desc: '제거할 역할.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: '사용자가 선택한 상태를 가질 때 제거할 역할을 설정합니다.'
+  params:
+    - desc: '상태 역할의 인덱스.'
+      name: index
+      optional: false
+      type: int
+    - desc: '제거할 역할.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeremoveroles:
+  args:
+    - number @role
+  desc: >-
+    사용자가 선택한 상태를 가질 때 추가된 역할에서 하나 이상의 역할을 제거합니다.
+  params:
+    - desc: '상태 역할의 인덱스.'
+      name: index
+      optional: false
+      type: int
+    - desc: '제거할 역할.'
+      name: roles
+      optional: false
+      type: IRole[]
+removestatusrole:
+  args:
+    - number
+  desc: '상태 역할 구성을 제거합니다.'
+  params:
+    - desc: '제거할 상태 역할의 인덱스.'
+      name: index
+      optional: false
+      type: int
+setaddroles:
+  args:
+    - number @role
+  desc: '사용자가 선택한 상태를 가질 때 추가할 역할을 설정합니다.'
+  params:
+    - desc: '상태 역할의 인덱스.'
+      name: index
+      optional: false
+      type: int
+    - &ref_486
+      desc: '추가할 역할.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: '사용자가 선택한 상태를 가질 때 추가할 역할을 설정합니다.'
+  params:
+    - desc: '상태 역할의 인덱스.'
+      name: index
+      optional: false
+      type: int
+    - desc: '추가할 역할.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: '사용자가 선택한 상태를 가질 때 추가할 역할을 설정합니다.'
+  params:
+    - desc: '상태 역할의 인덱스.'
+      name: index
+      optional: false
+      type: int
+    - desc: '추가할 역할.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: '사용자가 선택한 상태를 가질 때 추가할 역할을 설정합니다.'
+  params:
+    - desc: '상태 역할의 인덱스.'
+      name: index
+      optional: false
+      type: int
+    - desc: '추가할 역할.'
+      name: roles
+      optional: false
+      type: IRole[]
+setremoveroles:
+  args:
+    - number @role
+  desc: '사용자가 선택한 상태를 가질 때 제거할 역할을 설정합니다.'
+  params:
+    - desc: '상태 역할의 인덱스.'
+      name: index
+      optional: false
+      type: int
+    - desc: '제거할 역할.'
+      name: roles
+      optional: false
+      type: IRole[]
+setstatusrolechannel:
+  args:
+    - number channel
+  desc: '특정 상태 역할의 채널을 설정합니다.'
+  params:
+    - desc: '상태 역할의 인덱스.'
+      name: index
+      optional: false
+      type: int
+    - &ref_527
+      desc: '설정할 채널.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: '특정 상태 역할의 채널을 설정합니다.'
+  params:
+    - desc: '상태 역할의 인덱스.'
+      name: index
+      optional: false
+      type: int
+    - desc: '설정할 채널.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: '특정 상태 역할의 채널을 설정합니다.'
+  params:
+    - desc: '상태 역할의 인덱스.'
+      name: index
+      optional: false
+      type: int
+    - desc: '설정할 채널.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: '특정 상태 역할의 채널을 설정합니다.'
+  params:
+    - desc: '상태 역할의 인덱스.'
+      name: index
+      optional: false
+      type: int
+    - desc: '설정할 채널.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusroleembed:
+  args:
+    - '<index> [embedText]'
+    - number
+  desc: '특정 상태 역할의 임베드 텍스트를 설정하거나 미리 봅니다.'
+  params:
+    - desc: '상태 역할의 인덱스.'
+      name: index
+      optional: false
+      type: int
+    - desc: '설정할 임베드 텍스트.'
+      name: embedText
+      optional: true
+      type: string
+togglereaddremoved:
+  args:
+    - number
+  desc: '상태가 제거될 때 추가된 역할이 제거되는지 여부를 토글합니다.'
+  params:
+    - desc: '상태 역할의 인덱스.'
+      name: index
+      optional: false
+      type: int
+toggleremoveadded:
+  args:
+    - number
+  desc: >-
+    제공된 인덱스에 따라 사용자가 더 이상 상태를 가지지 않을 때 추가된 역할이
+    제거되는지 여부를 토글합니다.
+  params:
+    - desc: '상태 역할의 인덱스.'
+      name: index
+      optional: false
+      type: int

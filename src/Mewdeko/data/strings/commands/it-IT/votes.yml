@@ -1,0 +1,252 @@
+votechannel:
+  args:
+    - channel
+  desc: >-
+    Imposta il canale di testo specificato come canale di voto dove verranno
+    inviate tutte le conferme di voto.
+  params:
+    - &ref_646
+      desc: 'Il canale di testo da impostare come canale di voto.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel:
+  args:
+    - channel
+  desc: >-
+    Imposta il canale di testo specificato come canale di voto dove verranno
+    inviate tutte le conferme di voto.
+  params:
+    - desc: 'Il canale di testo da impostare come canale di voto.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel_1:
+  args:
+    - channel
+  desc: >-
+    Imposta il canale di testo specificato come canale di voto dove verranno
+    inviate tutte le conferme di voto.
+  params:
+    - desc: 'Il canale di testo da impostare come canale di voto.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel_2:
+  args:
+    - channel
+  desc: >-
+    Imposta il canale di testo specificato come canale di voto dove verranno
+    inviate tutte le conferme di voto.
+  params:
+    - desc: 'Il canale di testo da impostare come canale di voto.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votemessage:
+  args:
+    - '[message]'
+  desc: >-
+    Imposta un messaggio personalizzato da inviare quando un utente vota o
+    visualizza in anteprima il messaggio di voto corrente.
+  params:
+    - desc: 'Il messaggio personalizzato per i voti. Usa "-" per ripristinare al messaggio predefinito. Se null, mostra in anteprima il messaggio di voto corrente.'
+      name: message
+      optional: true
+      type: string
+votepassword:
+  args:
+    - ''
+  desc: >-
+    Avvia un processo di conferma per impostare una nuova password di voto,
+    avvertendo l''utente della sua sicurezza.
+  params: [ ]
+voteroleadd:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Aggiunge un ruolo da concedere agli utenti quando votano, con una durata
+    opzionale per la rimozione automatica del ruolo.
+  params:
+    - desc: 'Il ruolo da aggiungere come ricompensa di voto.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'La durata per cui il ruolo verrà concesso. Null per indefinito.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Aggiunge un ruolo da concedere agli utenti quando votano, con una durata
+    opzionale per la rimozione automatica del ruolo.
+  params:
+    - desc: 'Il ruolo da aggiungere come ricompensa di voto.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'La durata per cui il ruolo verrà concesso. Null per indefinito.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=_1:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Aggiunge un ruolo da concedere agli utenti quando votano, con una durata
+    opzionale per la rimozione automatica del ruolo.
+  params:
+    - desc: 'Il ruolo da aggiungere come ricompensa di voto.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'La durata per cui il ruolo verrà concesso. Null per indefinito.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=_2:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Aggiunge un ruolo da concedere agli utenti quando votano, con una durata
+    opzionale per la rimozione automatica del ruolo.
+  params:
+    - desc: 'Il ruolo da aggiungere come ricompensa di voto.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'La durata per cui il ruolo verrà concesso. Null per indefinito.'
+      name: time
+      optional: true
+      type: duration
+voteroleedit:
+  args:
+    - '@role time'
+  desc: 'Modifica la durata per cui un ruolo di voto viene concesso agli utenti.'
+  params:
+    - &ref_648
+      desc: 'Il ruolo da modificare.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_649
+      desc: 'La nuova durata per cui il ruolo verrà concesso.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime:
+  args:
+    - '@role time'
+  desc: 'Modifica la durata per cui un ruolo di voto viene concesso agli utenti.'
+  params:
+    - desc: 'Il ruolo da modificare.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'La nuova durata per cui il ruolo verrà concesso.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime_1:
+  args:
+    - '@role time'
+  desc: 'Modifica la durata per cui un ruolo di voto viene concesso agli utenti.'
+  params:
+    - desc: 'Il ruolo da modificare.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'La nuova durata per cui il ruolo verrà concesso.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime_2:
+  args:
+    - '@role time'
+  desc: 'Modifica la durata per cui un ruolo di voto viene concesso agli utenti.'
+  params:
+    - desc: 'Il ruolo da modificare.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'La nuova durata per cui il ruolo verrà concesso.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleremove:
+  args:
+    - '@role'
+  desc: 'Rimuove un ruolo dalla lista dei ruoli concessi agli utenti quando votano.'
+  params:
+    - &ref_650
+      desc: 'Il ruolo da rimuovere dalle ricompense di voto.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole:
+  args:
+    - '@role'
+  desc: 'Rimuove un ruolo dalla lista dei ruoli concessi agli utenti quando votano.'
+  params:
+    - desc: 'Il ruolo da rimuovere dalle ricompense di voto.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole_1:
+  args:
+    - '@role'
+  desc: 'Rimuove un ruolo dalla lista dei ruoli concessi agli utenti quando votano.'
+  params:
+    - desc: 'Il ruolo da rimuovere dalle ricompense di voto.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole_2:
+  args:
+    - '@role'
+  desc: 'Rimuove un ruolo dalla lista dei ruoli concessi agli utenti quando votano.'
+  params:
+    - desc: 'Il ruolo da rimuovere dalle ricompense di voto.'
+      name: role
+      optional: false
+      type: IRole
+voterolesclear:
+  args:
+    - ''
+  desc: 'Cancella tutti i ruoli concessi agli utenti quando votano.'
+  params: [ ]
+voteroleslist:
+  args:
+    - ''
+  desc: 'Elenca tutti i ruoli concessi agli utenti quando votano.'
+  params: [ ]
+votes:
+  args:
+    - '[@user]'
+  desc: >-
+    Mostra il numero totale di voti espressi da un utente specifico o
+    dall''invocatore del comando.
+  params:
+    - desc: 'L''utente di cui contare i voti. Se null, conta i voti dell''invocatore del comando.'
+      name: user
+      optional: true
+      type: user
+votesleaderboard:
+  args:
+    - false
+  desc: >-
+    Mostra una classifica degli utenti in base al loro numero di voti,
+    filtrando opzionalmente i voti del mese corrente.
+  params:
+    - desc: >-
+        Mostra una classifica degli utenti in base al loro numero di voti,
+        filtrando opzionalmente i voti del mese corrente.
+      name: false
+      optional: false
+      type: '='

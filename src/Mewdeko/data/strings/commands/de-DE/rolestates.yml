@@ -1,0 +1,470 @@
+addrolestorolestate:
+  args:
+    - '@user @role'
+  desc: 'Fügt Rollen zum Rollenstatus eines Benutzers hinzu.'
+  params:
+    - &ref_26
+      desc: 'Der Benutzer, dessen Rollenstatus geändert werden soll.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_25
+      desc: 'Die Rollen, die dem Rollenstatus des Benutzers hinzugefügt werden sollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Fügt Rollen zum Rollenstatus eines Benutzers hinzu.'
+  params:
+    - &ref_27
+      desc: 'Der Benutzer, dessen Rollenstatus geändert werden soll.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Die Rollen, die dem Rollenstatus des Benutzers hinzugefügt werden sollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Fügt Rollen zum Rollenstatus eines Benutzers hinzu.'
+  params:
+    - desc: 'Der Benutzer, dessen Rollenstatus geändert werden soll.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Die Rollen, die dem Rollenstatus des Benutzers hinzugefügt werden sollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Fügt Rollen zum Rollenstatus eines Benutzers hinzu.'
+  params:
+    - desc: 'Der Benutzer, dessen Rollenstatus geändert werden soll.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Die Rollen, die dem Rollenstatus des Benutzers hinzugefügt werden sollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteuserrolestate:
+  args:
+    - '@user'
+  desc: 'Löscht den Rollenstatus für einen bestimmten Benutzer.'
+  params:
+    - &ref_191
+      desc: 'Der Benutzer, dessen Rollenstatus gelöscht werden soll.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Löscht den Rollenstatus für einen bestimmten Benutzer.'
+  params:
+    - desc: 'Der Benutzer, dessen Rollenstatus gelöscht werden soll.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Löscht den Rollenstatus für einen bestimmten Benutzer.'
+  params:
+    - desc: 'Der Benutzer, dessen Rollenstatus gelöscht werden soll.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Löscht den Rollenstatus für einen bestimmten Benutzer.'
+  params:
+    - desc: 'Der Benutzer, dessen Rollenstatus gelöscht werden soll.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IUser:
+  args:
+    - '@user'
+  desc: 'Löscht den Rollenstatus für einen bestimmten Benutzer.'
+  params:
+    - desc: 'Der Benutzer, dessen Rollenstatus gelöscht werden soll.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_1:
+  args:
+    - '@user'
+  desc: 'Löscht den Rollenstatus für einen bestimmten Benutzer.'
+  params:
+    - desc: 'Der Benutzer, dessen Rollenstatus gelöscht werden soll.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_2:
+  args:
+    - '@user'
+  desc: 'Löscht den Rollenstatus für einen bestimmten Benutzer.'
+  params:
+    - desc: 'Der Benutzer, dessen Rollenstatus gelöscht werden soll.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_3:
+  args:
+    - '@user'
+  desc: 'Löscht den Rollenstatus für einen bestimmten Benutzer.'
+  params:
+    - desc: 'Der Benutzer, dessen Rollenstatus gelöscht werden soll.'
+      name: user
+      optional: false
+      type: IUser
+removerolesfromrolestate:
+  args:
+    - '@user @role'
+  desc: 'Entfernt Rollen aus dem Rollenstatus eines Benutzers.'
+  params:
+    - desc: 'Der Benutzer, dessen Rollenstatus geändert werden soll.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_414
+      desc: 'Die Rollen, die aus dem Rollenstatus des Benutzers entfernt werden sollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Entfernt Rollen aus dem Rollenstatus eines Benutzers.'
+  params:
+    - desc: 'Der Benutzer, dessen Rollenstatus geändert werden soll.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Die Rollen, die aus dem Rollenstatus des Benutzers entfernt werden sollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Entfernt Rollen aus dem Rollenstatus eines Benutzers.'
+  params:
+    - desc: 'Der Benutzer, dessen Rollenstatus geändert werden soll.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Die Rollen, die aus dem Rollenstatus des Benutzers entfernt werden sollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Entfernt Rollen aus dem Rollenstatus eines Benutzers.'
+  params:
+    - desc: 'Der Benutzer, dessen Rollenstatus geändert werden soll.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Die Rollen, die aus dem Rollenstatus des Benutzers entfernt werden sollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole:
+  args:
+    - '@role'
+  desc: 'Fügt Rollen zur Sperrliste der Rollenstatus-Funktion hinzu.'
+  params:
+    - &ref_463
+      desc: 'Die Rollen, die zur Sperrliste hinzugefügt werden sollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]:
+  args:
+    - '@role'
+  desc: 'Fügt Rollen zur Sperrliste der Rollenstatus-Funktion hinzu.'
+  params:
+    - desc: 'Die Rollen, die zur Sperrliste hinzugefügt werden sollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Fügt Rollen zur Sperrliste der Rollenstatus-Funktion hinzu.'
+  params:
+    - desc: 'Die Rollen, die zur Sperrliste hinzugefügt werden sollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Fügt Rollen zur Sperrliste der Rollenstatus-Funktion hinzu.'
+  params:
+    - desc: 'Die Rollen, die zur Sperrliste hinzugefügt werden sollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyuser:
+  args:
+    - '@user'
+  desc: 'Fügt Benutzer zur Sperrliste der Rollenstatus-Funktion hinzu.'
+  params:
+    - &ref_464
+      desc: 'Die Benutzer, die zur Sperrliste hinzugefügt werden sollen.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Fügt Benutzer zur Sperrliste der Rollenstatus-Funktion hinzu.'
+  params:
+    - desc: 'Die Benutzer, die zur Sperrliste hinzugefügt werden sollen.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Fügt Benutzer zur Sperrliste der Rollenstatus-Funktion hinzu.'
+  params:
+    - desc: 'Die Benutzer, die zur Sperrliste hinzugefügt werden sollen.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Fügt Benutzer zur Sperrliste der Rollenstatus-Funktion hinzu.'
+  params:
+    - desc: 'Die Benutzer, die zur Sperrliste hinzugefügt werden sollen.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremoveadduser:
+  args:
+    - user
+  desc: 'Entfernt oder verweigert einem Benutzer den Zugang zu Rollenstatus.'
+  params:
+    - desc: 'Der Benutzer, der von Rollenstatus entfernt/abgelehnt werden soll.'
+      name: user
+      optional: false
+      type: IUser
+rolestatesremovedenyrole:
+  args:
+    - '@role'
+  desc: 'Entfernt Rollen aus der Sperrliste der Rollenstatus-Funktion.'
+  params:
+    - &ref_465
+      desc: 'Die Rollen, die aus der Sperrliste entfernt werden sollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]:
+  args:
+    - '@role'
+  desc: 'Entfernt Rollen aus der Sperrliste der Rollenstatus-Funktion.'
+  params:
+    - desc: 'Die Rollen, die aus der Sperrliste entfernt werden sollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Entfernt Rollen aus der Sperrliste der Rollenstatus-Funktion.'
+  params:
+    - desc: 'Die Rollen, die aus der Sperrliste entfernt werden sollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Entfernt Rollen aus der Sperrliste der Rollenstatus-Funktion.'
+  params:
+    - desc: 'Die Rollen, die aus der Sperrliste entfernt werden sollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyuser:
+  args:
+    - '@user'
+  desc: 'Entfernt Benutzer aus der Sperrliste der Rollenstatus-Funktion.'
+  params:
+    - &ref_466
+      desc: 'Die Benutzer, die aus der Sperrliste entfernt werden sollen.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Entfernt Benutzer aus der Sperrliste der Rollenstatus-Funktion.'
+  params:
+    - desc: 'Die Benutzer, die aus der Sperrliste entfernt werden sollen.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Entfernt Benutzer aus der Sperrliste der Rollenstatus-Funktion.'
+  params:
+    - desc: 'Die Benutzer, die aus der Sperrliste entfernt werden sollen.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Entfernt Benutzer aus der Sperrliste der Rollenstatus-Funktion.'
+  params:
+    - desc: 'Die Benutzer, die aus der Sperrliste entfernt werden sollen.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+saveallrolestates:
+  args:
+    - ''
+  desc: 'Speichert Rollenstatus für alle Benutzer im Server.'
+  params: [ ]
+setuserrolestate:
+  args:
+    - '@user @role'
+  desc: 'Legt den Rollenstatus für einen bestimmten Benutzer fest.'
+  params:
+    - &ref_529
+      desc: 'Der Benutzer, dessen Rollenstatus festgelegt werden soll.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_530
+      desc: 'Die Rollen, die in den Rollenstatus des Benutzers aufgenommen werden sollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Legt den Rollenstatus für einen bestimmten Benutzer fest.'
+  params:
+    - &ref_531
+      desc: 'Der Benutzer, dessen Rollenstatus festgelegt werden soll.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Die Rollen, die in den Rollenstatus des Benutzers aufgenommen werden sollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Legt den Rollenstatus für einen bestimmten Benutzer fest.'
+  params:
+    - desc: 'Der Benutzer, dessen Rollenstatus festgelegt werden soll.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Die Rollen, die in den Rollenstatus des Benutzers aufgenommen werden sollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Legt den Rollenstatus für einen bestimmten Benutzer fest.'
+  params:
+    - desc: 'Der Benutzer, dessen Rollenstatus festgelegt werden soll.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Die Rollen, die in den Rollenstatus des Benutzers aufgenommen werden sollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+togglerolestates:
+  args:
+    - ''
+  desc: 'Aktiviert oder deaktiviert die Rollenstatus-Funktion.'
+  params: [ ]
+togglerolestatesclearonban:
+  args:
+    - ''
+  desc: 'Legt fest, ob Rollenstatus beim Bannen eines Benutzers gelöscht werden sollen.'
+  params: [ ]
+togglerolestatesignorebots:
+  args:
+    - ''
+  desc: 'Legt fest, ob Bots von der Rollenstatus-Funktion ignoriert werden sollen.'
+  params: [ ]
+togglerolestatesskipautoassign:
+  args:
+    - ''
+  desc: 'Legt fest, ob automatisch zugewiesene Rollen für Benutzer mit gespeicherten Rollenstatus übersprungen werden sollen.'
+  params: [ ]
+transferrolestates:
+  args:
+    - serverid
+  desc: 'Überträgt Rollenstatus vom aktuellen Server auf einen anderen Server.'
+  params:
+    - &ref_627
+      desc: 'Die ID des Zielservers.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong:
+  args:
+    - serverid
+  desc: 'Überträgt Rollenstatus vom aktuellen Server auf einen anderen Server.'
+  params:
+    - desc: 'Die ID des Zielservers.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong_1:
+  args:
+    - serverid
+  desc: 'Überträgt Rollenstatus vom aktuellen Server auf einen anderen Server.'
+  params:
+    - desc: 'Die ID des Zielservers.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong_2:
+  args:
+    - serverid
+  desc: 'Überträgt Rollenstatus vom aktuellen Server auf einen anderen Server.'
+  params:
+    - desc: 'Die ID des Zielservers.'
+      name: serverId
+      optional: false
+      type: ulong
+viewrolestates:
+  args:
+    - ''
+  desc: 'Zeigt alle Benutzer-Rollenstatus im Server an.'
+  params: [ ]
+viewrolestatessettings:
+  args:
+    - ''
+  desc: 'Zeigt die aktuellen Einstellungen der Rollenstatus-Funktion an.'
+  params: [ ]
+viewuserrolestates:
+  args:
+    - ''
+  desc: 'Zeigt die Rollenstatus aller Benutzer an.'
+  params: [ ]

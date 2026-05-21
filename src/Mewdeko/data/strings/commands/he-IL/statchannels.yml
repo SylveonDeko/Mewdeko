@@ -1,0 +1,95 @@
+statchannelcreate:
+  args:
+    - 'TotalMembers [template]'
+  desc: 'יוצר ערוץ קולי נעול חדש המציג סטטיסטיקת שרת. הבוט ייצור וינהל את הערוץ.'
+  params:
+    - desc: 'סוג הסטטיסטיקה להצגה.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'תבנית התצוגה. השתמש ב-%count% לערך.'
+      name: template
+      optional: true
+      type: string
+statchanneladd:
+  args:
+    - '#voice-channel TotalMembers [template]'
+  desc: 'מוסיף ערוץ קולי כערוץ סטטיסטיקה. סוגים: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
+  params:
+    - desc: 'הערוץ הקולי לשימוש.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'סוג הסטטיסטיקה להצגה.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'תבנית התצוגה. השתמש ב-%count% לערך.'
+      name: template
+      optional: true
+      type: string
+statchannelrole:
+  args:
+    - '#voice-channel @role [template]'
+  desc: 'מוסיף ערוץ סטטיסטיקה המציג כמה חברים בעלי תפקיד מסוים.'
+  params:
+    - desc: 'הערוץ הקולי לשימוש.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'התפקיד שחבריו יספרו.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'תבנית התצוגה. השתמש ב-%count% וב-%role.name%.'
+      name: template
+      optional: true
+      type: string
+statchannelcountdown:
+  args:
+    - '#voice-channel 2026-12-31 [template]'
+  desc: 'מוסיף ערוץ סטטיסטיקת ספירה לאחור. השתמש בממלאי המקום %days% ו-%hours%.'
+  params:
+    - desc: 'הערוץ הקולי לשימוש.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'תאריך היעד לספירה לאחור.'
+      name: date
+      optional: false
+      type: DateTime
+    - desc: 'תבנית התצוגה. השתמש ב-%days% וב-%hours%.'
+      name: template
+      optional: true
+      type: string
+statchannelgoal:
+  args:
+    - '#voice-channel 1000 [template]'
+  desc: 'מוסיף ערוץ סטטיסטיקת יעד חברים. השתמש ב-%count%, %goal% ו-%goal.percent%.'
+  params:
+    - desc: 'הערוץ הקולי לשימוש.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'מספר היעד של חברים.'
+      name: goal
+      optional: false
+      type: int
+    - desc: 'תבנית התצוגה. השתמש ב-%count%, %goal%, %goal.percent%.'
+      name: template
+      optional: true
+      type: string
+statchannelremove:
+  args:
+    - '#voice-channel'
+  desc: 'מסיר ערוץ סטטיסטיקה.'
+  params:
+    - desc: 'הערוץ הקולי להסרה.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+statchannellist:
+  args:
+    - ''
+  desc: 'מציג את כל ערוצי הסטטיסטיקה של שרת זה.'
+  params: [ ]

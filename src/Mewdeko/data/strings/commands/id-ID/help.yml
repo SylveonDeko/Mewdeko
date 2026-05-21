@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    Menampilkan perintah untuk modul tertentu. Jika null, ini adalah alias
+    untuk modules yang merupakan alias untuk help.
+  params:
+    - desc: 'Modul untuk dilihat'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    Menampilkan perintah untuk modul tertentu. Jika null, ini adalah alias
+    untuk modules yang merupakan alias untuk help.
+  params:
+    - desc: 'Modul untuk dilihat'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    Menampilkan perintah untuk modul tertentu. Jika null, ini adalah alias
+    untuk modules yang merupakan alias untuk help.
+  params:
+    - desc: 'Modul untuk dilihat'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    Menampilkan perintah untuk modul tertentu. Jika null, ini adalah alias
+    untuk modules yang merupakan alias untuk help.
+  params:
+    - desc: 'Modul untuk dilihat'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: 'Menampilkan cara mendukung bot.'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    Mengekspor semua perintah ke file json. Digunakan terutama untuk
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    Mengekspor semua perintah ke file json. Digunakan terutama untuk
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    Mengekspor semua perintah ke file json. Digunakan terutama untuk
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    Mengekspor semua perintah ke file json. Digunakan terutama untuk
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: 'Menampilkan panduan untuk bot.'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: Menampilkan bantuan untuk perintah tertentu.
+  params:
+    - desc: Perintah yang ingin dimintai bantuan.
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: Menampilkan informasi bantuan untuk perintah.
+  params:
+    - desc: Perintah yang ingin dimintai bantuan.
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: 'Menampilkan daftar semua modul. Pada dasarnya hanya alias help saat ini.'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: 'Mencari perintah berdasarkan nama atau deskripsi.'
+  params:
+    - &ref_481
+      desc: 'Istilah untuk dicari'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: 'Mencari perintah berdasarkan nama atau deskripsi.'
+  params:
+    - desc: 'Istilah untuk dicari'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: 'Mencari perintah berdasarkan nama atau deskripsi.'
+  params:
+    - desc: 'Istilah untuk dicari'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: 'Mencari perintah berdasarkan nama atau deskripsi.'
+  params:
+    - desc: 'Istilah untuk dicari'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: 'Menampilkan link kode sumber untuk bot.'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'Menampilkan link untuk memilih mewdeko.'
+  params: [ ]

@@ -1,0 +1,326 @@
+gbanner:
+  args:
+    - text
+  desc: 'Angir standard premiebanner.'
+  params:
+    - &ref_221
+      desc: 'Angir standard premiebanner.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string:
+  args:
+    - text
+  desc: 'Angir standard premiebanner.'
+  params:
+    - desc: 'Angir standard premiebanner.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_1:
+  args:
+    - text
+  desc: 'Angir standard premiebanner.'
+  params:
+    - desc: 'Angir standard premiebanner.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_2:
+  args:
+    - text
+  desc: 'Angir standard premiebanner.'
+  params:
+    - desc: 'Angir standard premiebanner.'
+      name: banner
+      optional: false
+      type: string
+gdm:
+  args:
+    - ''
+  desc: 'Angir om vinneren av en premie skal motta en DM.'
+  params: [ ]
+gdmmessage:
+  args:
+    - '[message]'
+  desc: 'Angir DM-meldingen som sendes til brukere nar de vinner en premie.'
+  params:
+    - desc: 'Angir DM-meldingen som sendes til brukere nar de vinner en premie.'
+      name: message
+      optional: true
+      type: string
+gembedcolor:
+  args:
+    - text
+  desc: 'Angir fargen pa embed for premier.'
+  params:
+    - &ref_223
+      desc: 'Fargen i hex.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string:
+  args:
+    - text
+  desc: 'Angir fargen pa embed for premier.'
+  params:
+    - desc: 'Fargen i hex.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_1:
+  args:
+    - text
+  desc: 'Angir fargen pa embed for premier.'
+  params:
+    - desc: 'Fargen i hex.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_2:
+  args:
+    - text
+  desc: 'Angir fargen pa embed for premier.'
+  params:
+    - desc: 'Fargen i hex.'
+      name: color
+      optional: false
+      type: string
+gemote:
+  args:
+    - emote
+  desc: 'Angir emoten som brukes for premier.'
+  params:
+    - &ref_224
+      desc: 'Emoten som skal angis.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote:
+  args:
+    - emote
+  desc: 'Angir emoten som brukes for premier.'
+  params:
+    - desc: 'Emoten som skal angis.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_1:
+  args:
+    - emote
+  desc: 'Angir emoten som brukes for premier.'
+  params:
+    - desc: 'Emoten som skal angis.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_2:
+  args:
+    - emote
+  desc: 'Angir emoten som brukes for premier.'
+  params:
+    - desc: 'Emoten som skal angis.'
+      name: emote
+      optional: false
+      type: IEmote
+gend:
+  args:
+    - messageid
+  desc: 'Avslutter en premie.'
+  params:
+    - &ref_225
+      desc: 'Meldings-IDen til premien som skal avsluttes'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong:
+  args:
+    - messageid
+  desc: 'Avslutter en premie.'
+  params:
+    - desc: 'Meldings-IDen til premien som skal avsluttes'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_1:
+  args:
+    - messageid
+  desc: 'Avslutter en premie.'
+  params:
+    - desc: 'Meldings-IDen til premien som skal avsluttes'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_2:
+  args:
+    - messageid
+  desc: 'Avslutter en premie.'
+  params:
+    - desc: 'Meldings-IDen til premien som skal avsluttes'
+      name: messageid
+      optional: false
+      type: ulong
+glist:
+  args:
+    - ''
+  desc: 'Lister opp alle aktive premier.'
+  params: [ ]
+greroll:
+  args:
+    - messageid
+  desc: 'Trekker om en premie.'
+  params:
+    - &ref_237
+      desc: 'Meldings-IDen til en premie'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong:
+  args:
+    - messageid
+  desc: 'Trekker om en premie.'
+  params:
+    - desc: 'Meldings-IDen til en premie'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_1:
+  args:
+    - messageid
+  desc: 'Trekker om en premie.'
+  params:
+    - desc: 'Meldings-IDen til en premie'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_2:
+  args:
+    - messageid
+  desc: 'Trekker om en premie.'
+  params:
+    - desc: 'Meldings-IDen til en premie'
+      name: messageid
+      optional: false
+      type: ulong
+gstart:
+  args:
+    - chan time number text
+  desc: 'Mer detaljert premiestart, lar deg angi en banner, pingrolle og mer.'
+  params:
+    - &ref_238
+      desc: 'Kanalen for a starte premien'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - &ref_239
+      desc: 'Varigheten til premien'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_240
+      desc: 'Antall vinnere'
+      name: winners
+      optional: false
+      type: int
+    - &ref_241
+      desc: 'Tingen som gis bort'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string:
+  args:
+    - chan time number text
+  desc: 'Mer detaljert premiestart, lar deg angi en banner, pingrolle og mer.'
+  params:
+    - desc: 'Kanalen for a starte premien'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Varigheten til premien'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Antall vinnere'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Tingen som gis bort'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_1:
+  args:
+    - chan time number text
+  desc: 'Mer detaljert premiestart, lar deg angi en banner, pingrolle og mer.'
+  params:
+    - desc: 'Kanalen for a starte premien'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Varigheten til premien'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Antall vinnere'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Tingen som gis bort'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_2:
+  args:
+    - chan time number text
+  desc: 'Mer detaljert premiestart, lar deg angi en banner, pingrolle og mer.'
+  params:
+    - desc: 'Kanalen for a starte premien'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Varigheten til premien'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Antall vinnere'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Tingen som gis bort'
+      name: what
+      optional: false
+      type: string
+gstart_noparams:
+  args:
+    - ''
+  desc: 'Mer detaljert premiestart, lar deg angi en banner, pingrolle og mer.'
+  params: [ ]
+gstart_noparams_1:
+  args:
+    - ''
+  desc: 'Mer detaljert premiestart, lar deg angi en banner, pingrolle og mer.'
+  params: [ ]
+gstart_noparams_2:
+  args:
+    - ''
+  desc: 'Mer detaljert premiestart, lar deg angi en banner, pingrolle og mer.'
+  params: [ ]
+gstart_noparams_3:
+  args:
+    - ''
+  desc: 'Mer detaljert premiestart, lar deg angi en banner, pingrolle og mer.'
+  params: [ ]
+gstats:
+  args:
+    - ''
+  desc: 'Viser statistikk for premier.'
+  params: [ ]
+gwinembedcolor:
+  args:
+    - text
+  desc: 'Angir fargen for vinner-embed.'
+  params:
+    - desc: 'Fargen i hex.'
+      name: color
+      optional: false
+      type: string

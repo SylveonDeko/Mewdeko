@@ -1,0 +1,157 @@
+confess:
+  args:
+    - serverid text
+  desc: 'Permite utilizatorilor să mărturisească anonim.'
+  params:
+    - &ref_139
+      desc: 'ID-ul serverului.'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: 'Mesajul mărturisirii'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: 'Permite utilizatorilor să mărturisească anonim.'
+  params:
+    - desc: 'ID-ul serverului.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Mesajul mărturisirii'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: 'Permite utilizatorilor să mărturisească anonim.'
+  params:
+    - desc: 'ID-ul serverului.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Mesajul mărturisirii'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: 'Permite utilizatorilor să mărturisească anonim.'
+  params:
+    - desc: 'ID-ul serverului.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Mesajul mărturisirii'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: 'Adaugă un utilizator pe lista neagră de mărturisiri.'
+  params:
+    - desc: 'Utilizatorul de adăugat pe lista neagră de mărturisiri.'
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: 'Setează canalul de mărturisiri.'
+  params:
+    - desc: 'Canalul de setat pentru mărturisiri.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: 'Adaugă sau elimină un utilizator de pe lista neagră de mărturisiri.'
+  params:
+    - &ref_141
+      desc: 'Utilizatorul de adăugat sau eliminat de pe lista neagră.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: 'Adaugă sau elimină un utilizator de pe lista neagră de mărturisiri.'
+  params:
+    - &ref_142
+      desc: 'Utilizatorul de adăugat sau eliminat de pe lista neagră.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: 'Adaugă sau elimină un utilizator de pe lista neagră de mărturisiri.'
+  params:
+    - desc: 'Utilizatorul de adăugat sau eliminat de pe lista neagră.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: 'Adaugă sau elimină un utilizator de pe lista neagră de mărturisiri.'
+  params:
+    - desc: 'Utilizatorul de adăugat sau eliminat de pe lista neagră.'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: 'Setează canalul de mărturisiri pentru mărturisiri anonime.'
+  params:
+    - desc: 'Canalul de mărturisiri (opțional).'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    Setează canalul de jurnal al mărturisirilor pentru a înregistra mărturisirile.
+    Utilizarea greșită a acestei funcții va sfârși cu mine la 2 m de casa ta.
+  params:
+    - desc: 'Canalul de jurnal al mărturisirilor (opțional).'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: 'Elimină un utilizator de pe lista neagră de mărturisiri.'
+  params:
+    - desc: 'Utilizatorul de eliminat de pe lista neagră.'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: 'Setează canalul de jurnal al mărturisirilor.'
+  params:
+    - desc: 'Canalul în care se înregistrează mărturisirile.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: 'Elimină un utilizator de pe lista neagră de mărturisiri.'
+  params:
+    - desc: 'Utilizatorul de scos de pe lista neagră de mărturisiri.'
+      name: user
+      optional: false
+      type: IUser

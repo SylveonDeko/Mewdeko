@@ -1,0 +1,8 @@
+{
+  "autoplay_disabled": "Automatické přehrávání byl vypnuto.",
+  "playlist_deleted": "Seznam stop byl vymazán.",
+  "playlist_saved": "Seznam stop uložen",
+  "queue": "Hudební fronta",
+  "queue_cleared": "Hudební fronta byla vyčištěna.",
+  "volume_set": "Hlasitost nastavena na {0}%"
+}

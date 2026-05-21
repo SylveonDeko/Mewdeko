@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'Minecraft सर्वर की स्थिति की जाँच करता है। पंजीकृत सर्वर नाम, सीधा पता, या डिफ़ॉल्ट सर्वर के लिए खाली छोड़ें।'
+  params:
+    - desc: 'पंजीकृत सर्वर नाम या सीधा पता (जैसे play.example.com:25565)।'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: 'गिल्ड में Minecraft सर्वर जोड़ता है। Bedrock सर्वरों के लिए पते पर bedrock: उपसर्ग लगाएँ।'
+  params:
+    - desc: 'सर्वर के लिए लेबल।'
+      name: name
+      optional: false
+      type: string
+    - desc: 'सर्वर पता, वैकल्पिक रूप से पोर्ट के साथ (जैसे play.example.com:25565 या bedrock:play.example.com)।'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: 'गिल्ड से Minecraft सर्वर हटाता है।'
+  params:
+    - desc: 'हटाने के लिए सर्वर का नाम।'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: 'इस गिल्ड के लिए सभी पंजीकृत Minecraft सर्वरों को सूचीबद्ध करता है।'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: 'स्थिति आदेशों के लिए सर्वर को डिफ़ॉल्ट के रूप में सेट करता है।'
+  params:
+    - desc: 'डिफ़ॉल्ट के रूप में सेट करने के लिए सर्वर का नाम।'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: 'सर्वर के लिए आवधिक स्थिति अद्यतन प्राप्त करने के लिए चैनल सेट करता है। अक्षम करने के लिए चैनल छोड़ें।'
+  params:
+    - desc: 'देखने के लिए सर्वर का नाम।'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'अद्यतन पोस्ट करने के लिए चैनल।'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: 'सर्वर स्थिति प्रदर्शित करने का तरीका सेट करता है: embed (जगह में संपादन), चैनल विषय, या दोनों।'
+  params:
+    - desc: 'सर्वर का नाम।'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'देखने का मोड: Embed, ChannelTopic, या Both।'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: 'देखे गए सर्वर के लिए कस्टम embed टेम्पलेट सेट करता है। रीसेट करने के लिए "-" का उपयोग करें। प्लेसहोल्डर्स: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%।'
+  params:
+    - desc: 'सर्वर का नाम।'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'embed टेम्पलेट JSON, या डिफ़ॉल्ट पर रीसेट करने के लिए "-"।'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: 'उपयोगकर्ता नाम से Minecraft खिलाड़ी ढूँढता है और उनकी प्रोफ़ाइल और स्किन दिखाता है।'
+  params:
+    - desc: 'खोजने के लिए Minecraft उपयोगकर्ता नाम।'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'Minecraft खिलाड़ी का स्किन रेंडर दिखाता है।'
+  params:
+    - desc: 'Minecraft उपयोगकर्ता नाम।'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: 'पंजीकृत Minecraft सर्वर पर RCON कमांड भेजता है। RCON को डैशबोर्ड के माध्यम से कॉन्फ़िगर किया जाना चाहिए।'
+  params:
+    - desc: 'सर्वर का नाम।'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'सर्वर पर निष्पादित करने के लिए कमांड।'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'RCON के माध्यम से Minecraft सर्वर पर whitelist का प्रबंधन करता है। RCON कॉन्फ़िगर होना चाहिए।'
+  params:
+    - desc: 'सर्वर का नाम।'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'क्रिया: add, remove, list, on, off, reload।'
+      name: action
+      optional: false
+      type: string
+    - desc: 'खिलाड़ी का नाम (add/remove के लिए)।'
+      name: playerName
+      optional: true
+      type: string

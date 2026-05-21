@@ -1,0 +1,326 @@
+todoadd:
+  args:
+    - listId
+    - title
+    - description
+  desc: 'Fuegt ein neues Aufgabenelement zu einer bestimmten Liste hinzu'
+  params:
+    - desc: 'Die ID der Aufgabenliste.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Der Titel des Aufgabenelements.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Optionale Beschreibung des Elements.'
+      name: description
+      optional: true
+      type: string
+todoaddpriority:
+  args:
+    - listId
+    - priority
+    - title
+    - description
+  desc: 'Fuegt ein Aufgabenelement mit Prioritaet und optionalem Faelligkeitsdatum hinzu'
+  params:
+    - desc: 'Die ID der Aufgabenliste.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Prioritaetsstufe (1=Niedrig, 2=Mittel, 3=Hoch, 4=Kritisch).'
+      name: priority
+      optional: false
+      type: int
+    - desc: 'Der Titel des Aufgabenelements.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Optionale Beschreibung des Elements.'
+      name: description
+      optional: true
+      type: string
+todoaddtag:
+  args:
+    - itemId
+    - tag
+  desc: 'Fuegt einem Aufgabenelement ein Tag hinzu'
+  params:
+    - desc: 'Die ID des Aufgabenelements.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Das hinzuzufuegende Tag.'
+      name: tag
+      optional: false
+      type: string
+todocleardue:
+  args:
+    - itemId
+  desc: 'Entfernt das Faelligkeitsdatum eines Aufgabenelements'
+  params:
+    - desc: 'Die ID des Aufgabenelements.'
+      name: itemId
+      optional: false
+      type: int
+todoclearreminder:
+  args:
+    - itemId
+  desc: 'Entfernt die Erinnerung eines Aufgabenelements'
+  params:
+    - desc: 'Die ID des Aufgabenelements.'
+      name: itemId
+      optional: false
+      type: int
+todocomplete:
+  args:
+    - itemId
+  desc: 'Markiert ein Aufgabenelement als abgeschlossen'
+  params:
+    - desc: 'Die ID des Aufgabenelements.'
+      name: itemId
+      optional: false
+      type: int
+todocreatelist:
+  args:
+    - name
+    - description
+  desc: 'Erstellt eine neue Aufgabenliste'
+  params:
+    - desc: 'Der Name der Aufgabenliste.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Optionale Beschreibung der Liste.'
+      name: description
+      optional: true
+      type: string
+todocreateserverlist:
+  args:
+    - name
+    - description
+  desc: 'Erstellt eine neue serverweite Aufgabenliste (nur Admins)'
+  params:
+    - desc: 'Der Name der Server-Aufgabenliste.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Optionale Beschreibung der Liste.'
+      name: description
+      optional: true
+      type: string
+tododelete:
+  args:
+    - itemId
+  desc: 'Loescht ein Aufgabenelement'
+  params:
+    - desc: 'Die ID des Aufgabenelements.'
+      name: itemId
+      optional: false
+      type: int
+tododeletelist:
+  args:
+    - listId
+  desc: 'Loescht eine gesamte Aufgabenliste'
+  params:
+    - desc: 'Die ID der Aufgabenliste.'
+      name: listId
+      optional: false
+      type: int
+todoedit:
+  args:
+    - itemId
+    - title
+    - description
+  desc: 'Bearbeitet Titel und Beschreibung eines Aufgabenelements'
+  params:
+    - desc: 'Die ID des Aufgabenelements.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Der neue Titel.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Die neue Beschreibung.'
+      name: description
+      optional: true
+      type: string
+todofilter:
+  args:
+    - listId
+    - filter
+    - value
+  desc: 'Filtert Aufgabenelemente nach Tag oder Prioritaet'
+  params:
+    - desc: 'Die ID der Aufgabenliste.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Filtertyp (Tag oder Prioritaet).'
+      name: filter
+      optional: false
+      type: string
+    - desc: 'Der Filterwert.'
+      name: value
+      optional: true
+      type: string
+todogrant:
+  args:
+    - listId
+    - '@user'
+    - permissions
+  desc: 'Erteilt einem Nutzer Berechtigungen fuer eine Aufgabenliste (nur Eigentueumer/Admin)'
+  params:
+    - desc: 'Die ID der Aufgabenliste.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Der Nutzer, dem Berechtigungen erteilt werden.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Kommagetrennte Berechtigungen (view,add,edit,complete,delete,manage,all).'
+      name: permissions
+      optional: false
+      type: string
+todolists:
+  args:
+    - includeServer
+  desc: 'Listet alle fuer den Nutzer zugaenglichen Aufgabenlisten auf'
+  params:
+    - desc: 'Ob serverweite Listen einbezogen werden sollen.'
+      name: includeServer
+      optional: true
+      type: bool
+todopermissions:
+  args:
+    - listId
+  desc: 'Zeigt alle Berechtigungen einer Aufgabenliste'
+  params:
+    - desc: 'Die ID der Aufgabenliste.'
+      name: listId
+      optional: false
+      type: int
+todoremovetag:
+  args:
+    - itemId
+    - tag
+  desc: 'Entfernt ein Tag von einem Aufgabenelement'
+  params:
+    - desc: 'Die ID des Aufgabenelements.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Das zu entfernende Tag.'
+      name: tag
+      optional: false
+      type: string
+todoreorder:
+  args:
+    - itemId
+    - newPosition
+  desc: 'Ordnet ein Aufgabenelement an eine neue Position um'
+  params:
+    - desc: 'Die ID des Aufgabenelements.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Die neue Position (1-basiert).'
+      name: newPosition
+      optional: false
+      type: int
+todorevoke:
+  args:
+    - listId
+    - '@user'
+  desc: 'Entzieht einem Nutzer alle Berechtigungen fuer eine Aufgabenliste'
+  params:
+    - desc: 'Die ID der Aufgabenliste.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Der Nutzer, dem die Berechtigungen entzogen werden.'
+      name: user
+      optional: false
+      type: IUser
+todosearch:
+  args:
+    - listId
+    - query
+  desc: 'Sucht nach Aufgabenelementen innerhalb einer Liste'
+  params:
+    - desc: 'Die ID der Aufgabenliste.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Die Suchanfrage.'
+      name: query
+      optional: false
+      type: string
+todosetcolor:
+  args:
+    - listId
+    - color
+  desc: 'Setzt die Farbe einer Aufgabenliste'
+  params:
+    - desc: 'Die ID der Aufgabenliste.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Hexadezimaler Farbcode (z.B.,'
+      name: color
+      optional: false
+      type: string
+todosetdue:
+  args:
+    - itemId
+    - dateString
+  desc: 'Setzt das Faelligkeitsdatum eines Aufgabenelements'
+  params:
+    - desc: 'Die ID des Aufgabenelements.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Das Faelligkeitsdatum und die Uhrzeit.'
+      name: dateString
+      optional: false
+      type: string
+todosetreminder:
+  args:
+    - itemId
+    - dateString
+  desc: 'Setzt eine Erinnerungszeit fuer ein Aufgabenelement'
+  params:
+    - desc: 'Die ID des Aufgabenelements.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Das Erinnerungsdatum und die Uhrzeit.'
+      name: dateString
+      optional: false
+      type: string
+todoshow:
+  args:
+    - listId
+    - includeCompleted
+  desc: 'Zeigt alle Elemente einer Aufgabenliste'
+  params:
+    - desc: 'Die ID der Aufgabenliste.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Ob abgeschlossene Elemente einbezogen werden sollen.'
+      name: includeCompleted
+      optional: true
+      type: bool
+todotoggleprivacy:
+  args:
+    - listId
+  desc: 'Schaltet die Datenschutzeinstellung einer Aufgabenliste um'
+  params:
+    - desc: 'Die ID der Aufgabenliste.'
+      name: listId
+      optional: false
+      type: int

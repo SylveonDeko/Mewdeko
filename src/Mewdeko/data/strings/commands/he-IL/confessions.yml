@@ -1,0 +1,157 @@
+confess:
+  args:
+    - serverid text
+  desc: 'מאפשר למשתמשים להתוודות באופן אנונימי.'
+  params:
+    - &ref_139
+      desc: 'מזהה השרת.'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: 'הודעת הווידוי'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: 'מאפשר למשתמשים להתוודות באופן אנונימי.'
+  params:
+    - desc: 'מזהה השרת.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'הודעת הווידוי'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: 'מאפשר למשתמשים להתוודות באופן אנונימי.'
+  params:
+    - desc: 'מזהה השרת.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'הודעת הווידוי'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: 'מאפשר למשתמשים להתוודות באופן אנונימי.'
+  params:
+    - desc: 'מזהה השרת.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'הודעת הווידוי'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: 'מוסיף משתמש לרשימה השחורה של ווידויים.'
+  params:
+    - desc: 'המשתמש להוספה לרשימה השחורה של ווידויים.'
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: 'מגדיר את ערוץ הווידויים.'
+  params:
+    - desc: 'הערוץ שיוגדר לווידויים.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: 'מוסיף או מסיר משתמש מהרשימה השחורה של ווידויים.'
+  params:
+    - &ref_141
+      desc: 'המשתמש להוספה או הסרה מהרשימה השחורה.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: 'מוסיף או מסיר משתמש מהרשימה השחורה של ווידויים.'
+  params:
+    - &ref_142
+      desc: 'המשתמש להוספה או הסרה מהרשימה השחורה.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: 'מוסיף או מסיר משתמש מהרשימה השחורה של ווידויים.'
+  params:
+    - desc: 'המשתמש להוספה או הסרה מהרשימה השחורה.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: 'מוסיף או מסיר משתמש מהרשימה השחורה של ווידויים.'
+  params:
+    - desc: 'המשתמש להוספה או הסרה מהרשימה השחורה.'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: 'מגדיר את ערוץ הווידויים לווידויים אנונימיים.'
+  params:
+    - desc: 'ערוץ הווידויים (אופציונלי).'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    מגדיר את ערוץ יומן הווידויים לרישום ווידויים. שימוש לרעה בתכונה זו יסתיים
+    בכך שאהיה במרחק 2 מטרים מהבית שלך.
+  params:
+    - desc: 'ערוץ יומן הווידויים (אופציונלי).'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: 'מסיר משתמש מהרשימה השחורה של ווידויים.'
+  params:
+    - desc: 'המשתמש להסרה מהרשימה השחורה.'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: 'מגדיר את ערוץ יומן הווידויים.'
+  params:
+    - desc: 'הערוץ שאליו יירשמו הווידויים.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: 'מסיר משתמש מהרשימה השחורה של ווידויים.'
+  params:
+    - desc: 'המשתמש להסרה מהרשימה השחורה של ווידויים.'
+      name: user
+      optional: false
+      type: IUser

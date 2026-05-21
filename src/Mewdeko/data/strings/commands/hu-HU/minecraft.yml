@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'Ellenőrzi egy Minecraft szerver állapotát. Használj regisztrált szervernevet, közvetlen címet, vagy hagyd üresen az alapértelmezett szerverhez.'
+  params:
+    - desc: 'A regisztrált szervernév vagy közvetlen cím (pl. play.example.com:25565).'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: 'Hozzáad egy Minecraft szervert a guildhoz. Bedrock szerverekhez tedd a bedrock: előtagot a cím elé.'
+  params:
+    - desc: 'A szerver címkéje.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'A szerver címe, opcionálisan portot tartalmazva (pl. play.example.com:25565 vagy bedrock:play.example.com).'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: 'Eltávolít egy Minecraft szervert a guildból.'
+  params:
+    - desc: 'Az eltávolítandó szerver neve.'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: 'Felsorolja az összes regisztrált Minecraft szervert ehhez a guildhez.'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: 'Beállít egy szervert alapértelmezettként az állapot parancsokhoz.'
+  params:
+    - desc: 'Az alapértelmezettként beállítandó szerver neve.'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: 'Beállít egy csatornát egy szerver időszakos állapotfrissítéseinek fogadására. Hagyd ki a csatornát a letiltáshoz.'
+  params:
+    - desc: 'A megfigyelendő szerver neve.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'A csatorna a frissítések közzétételéhez.'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: 'Beállítja, hogyan jelenjen meg a szerverállapot: embed (helyben szerkesztés), csatorna téma, vagy mindkettő.'
+  params:
+    - desc: 'A szerver neve.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'A megfigyelési mód: Embed, ChannelTopic, vagy Both.'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: 'Egyéni embed sablont állít be egy megfigyelt szerverhez. Használd a "-"-t a visszaállításhoz. Helyőrzők: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
+  params:
+    - desc: 'A szerver neve.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Az embed sablon JSON, vagy "-" az alapértelmezett visszaállításához.'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: 'Megkeres egy Minecraft játékost felhasználónév alapján és megjeleníti profilját és skinjét.'
+  params:
+    - desc: 'A keresendő Minecraft felhasználónév.'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'Megjeleníti egy Minecraft játékos skin renderét.'
+  params:
+    - desc: 'A Minecraft felhasználónév.'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: 'RCON parancsot küld egy regisztrált Minecraft szervernek. Az RCON-t a vezérlőpulton keresztül kell konfigurálni.'
+  params:
+    - desc: 'A szerver neve.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'A szerveren végrehajtandó parancs.'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'Kezeli egy Minecraft szerver whitelistjét RCON-on keresztül. Konfigurált RCON-t igényel.'
+  params:
+    - desc: 'A szerver neve.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'A művelet: add, remove, list, on, off, reload.'
+      name: action
+      optional: false
+      type: string
+    - desc: 'A játékos neve (add/remove esetén).'
+      name: playerName
+      optional: true
+      type: string

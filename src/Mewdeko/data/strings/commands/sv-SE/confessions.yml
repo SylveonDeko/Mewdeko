@@ -1,0 +1,157 @@
+confess:
+  args:
+    - serverid text
+  desc: 'Tillåter användare att bikta sig anonymt.'
+  params:
+    - &ref_139
+      desc: 'Serverns ID.'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: 'Biktmeddelandet'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: 'Tillåter användare att bikta sig anonymt.'
+  params:
+    - desc: 'Serverns ID.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Biktmeddelandet'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: 'Tillåter användare att bikta sig anonymt.'
+  params:
+    - desc: 'Serverns ID.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Biktmeddelandet'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: 'Tillåter användare att bikta sig anonymt.'
+  params:
+    - desc: 'Serverns ID.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Biktmeddelandet'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: 'Lägger till en användare på biktens svartlista.'
+  params:
+    - desc: 'Användaren som ska svartlistas från bikter.'
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: 'Ställer in biktkanalen.'
+  params:
+    - desc: 'Kanalen att ställa in för bikter.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: 'Lägger till eller tar bort en användare från biktens svartlista.'
+  params:
+    - &ref_141
+      desc: 'Användaren att lägga till eller ta bort från svartlistan.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: 'Lägger till eller tar bort en användare från biktens svartlista.'
+  params:
+    - &ref_142
+      desc: 'Användaren att lägga till eller ta bort från svartlistan.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: 'Lägger till eller tar bort en användare från biktens svartlista.'
+  params:
+    - desc: 'Användaren att lägga till eller ta bort från svartlistan.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: 'Lägger till eller tar bort en användare från biktens svartlista.'
+  params:
+    - desc: 'Användaren att lägga till eller ta bort från svartlistan.'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: 'Ställer in biktkanalen för anonyma bikter.'
+  params:
+    - desc: 'Biktkanalen (valfri).'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    Ställer in biktloggkanalen för att logga bikter. Missbruk av denna funktion
+    slutar med att jag är 2 m från ditt hus.
+  params:
+    - desc: 'Biktloggkanalen (valfri).'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: 'Tar bort en användare från biktens svartlista.'
+  params:
+    - desc: 'Användaren att ta bort från svartlistan.'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: 'Ställer in biktloggkanalen.'
+  params:
+    - desc: 'Kanalen att logga bikter till.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: 'Tar bort en användare från biktens svartlista.'
+  params:
+    - desc: 'Användaren att avlista från biktens svartlista.'
+      name: user
+      optional: false
+      type: IUser

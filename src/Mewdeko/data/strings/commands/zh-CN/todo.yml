@@ -1,0 +1,326 @@
+todoadd:
+  args:
+    - listId
+    - title
+    - description
+  desc: '向指定列表添加新的待办事项'
+  params:
+    - desc: '待办列表的ID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '待办事项的标题。'
+      name: title
+      optional: false
+      type: string
+    - desc: '事项的可选描述。'
+      name: description
+      optional: true
+      type: string
+todoaddpriority:
+  args:
+    - listId
+    - priority
+    - title
+    - description
+  desc: '添加带有优先级和可选截止日期的待办事项'
+  params:
+    - desc: '待办列表的ID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '优先级 (1=低, 2=中, 3=高, 4=紧急)。'
+      name: priority
+      optional: false
+      type: int
+    - desc: '待办事项的标题。'
+      name: title
+      optional: false
+      type: string
+    - desc: '事项的可选描述。'
+      name: description
+      optional: true
+      type: string
+todoaddtag:
+  args:
+    - itemId
+    - tag
+  desc: '为待办事项添加标签'
+  params:
+    - desc: '待办事项的ID。'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '要添加的标签。'
+      name: tag
+      optional: false
+      type: string
+todocleardue:
+  args:
+    - itemId
+  desc: '移除待办事项的截止日期'
+  params:
+    - desc: '待办事项的ID。'
+      name: itemId
+      optional: false
+      type: int
+todoclearreminder:
+  args:
+    - itemId
+  desc: '移除待办事项的提醒'
+  params:
+    - desc: '待办事项的ID。'
+      name: itemId
+      optional: false
+      type: int
+todocomplete:
+  args:
+    - itemId
+  desc: '将待办事项标记为已完成'
+  params:
+    - desc: '待办事项的ID。'
+      name: itemId
+      optional: false
+      type: int
+todocreatelist:
+  args:
+    - name
+    - description
+  desc: '创建新的待办列表'
+  params:
+    - desc: '待办列表的名称。'
+      name: name
+      optional: false
+      type: string
+    - desc: '列表的可选描述。'
+      name: description
+      optional: true
+      type: string
+todocreateserverlist:
+  args:
+    - name
+    - description
+  desc: '创建新的服务器级待办列表（仅管理员）'
+  params:
+    - desc: '服务器待办列表的名称。'
+      name: name
+      optional: false
+      type: string
+    - desc: '列表的可选描述。'
+      name: description
+      optional: true
+      type: string
+tododelete:
+  args:
+    - itemId
+  desc: '删除待办事项'
+  params:
+    - desc: '待办事项的ID。'
+      name: itemId
+      optional: false
+      type: int
+tododeletelist:
+  args:
+    - listId
+  desc: '删除整个待办列表'
+  params:
+    - desc: '待办列表的ID。'
+      name: listId
+      optional: false
+      type: int
+todoedit:
+  args:
+    - itemId
+    - title
+    - description
+  desc: '编辑待办事项的标题和描述'
+  params:
+    - desc: '待办事项的ID。'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '新标题。'
+      name: title
+      optional: false
+      type: string
+    - desc: '新描述。'
+      name: description
+      optional: true
+      type: string
+todofilter:
+  args:
+    - listId
+    - filter
+    - value
+  desc: '按标签或优先级筛选待办事项'
+  params:
+    - desc: '待办列表的ID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '筛选类型（标签或优先级）。'
+      name: filter
+      optional: false
+      type: string
+    - desc: '筛选值。'
+      name: value
+      optional: true
+      type: string
+todogrant:
+  args:
+    - listId
+    - '@user'
+    - permissions
+  desc: '授予用户对待办列表的权限（仅列表所有者/管理员）'
+  params:
+    - desc: '待办列表的ID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '要授予权限的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '逗号分隔的权限 (view,add,edit,complete,delete,manage,all)。'
+      name: permissions
+      optional: false
+      type: string
+todolists:
+  args:
+    - includeServer
+  desc: '列出用户可访问的所有待办列表'
+  params:
+    - desc: '是否包含服务器级列表。'
+      name: includeServer
+      optional: true
+      type: bool
+todopermissions:
+  args:
+    - listId
+  desc: '显示待办列表的所有权限'
+  params:
+    - desc: '待办列表的ID。'
+      name: listId
+      optional: false
+      type: int
+todoremovetag:
+  args:
+    - itemId
+    - tag
+  desc: '从待办事项中移除标签'
+  params:
+    - desc: '待办事项的ID。'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '要移除的标签。'
+      name: tag
+      optional: false
+      type: string
+todoreorder:
+  args:
+    - itemId
+    - newPosition
+  desc: '将待办事项重新排序到新位置'
+  params:
+    - desc: '待办事项的ID。'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '新位置（从1开始）。'
+      name: newPosition
+      optional: false
+      type: int
+todorevoke:
+  args:
+    - listId
+    - '@user'
+  desc: '撤销用户在待办列表上的所有权限'
+  params:
+    - desc: '待办列表的ID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '要撤销权限的用户。'
+      name: user
+      optional: false
+      type: IUser
+todosearch:
+  args:
+    - listId
+    - query
+  desc: '在列表中搜索待办事项'
+  params:
+    - desc: '待办列表的ID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '搜索查询。'
+      name: query
+      optional: false
+      type: string
+todosetcolor:
+  args:
+    - listId
+    - color
+  desc: '设置待办列表的颜色'
+  params:
+    - desc: '待办列表的ID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '十六进制颜色代码（例如，'
+      name: color
+      optional: false
+      type: string
+todosetdue:
+  args:
+    - itemId
+    - dateString
+  desc: '设置待办事项的截止日期'
+  params:
+    - desc: '待办事项的ID。'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '截止日期和时间。'
+      name: dateString
+      optional: false
+      type: string
+todosetreminder:
+  args:
+    - itemId
+    - dateString
+  desc: '为待办事项设置提醒时间'
+  params:
+    - desc: '待办事项的ID。'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '提醒日期和时间。'
+      name: dateString
+      optional: false
+      type: string
+todoshow:
+  args:
+    - listId
+    - includeCompleted
+  desc: '显示待办列表中的所有事项'
+  params:
+    - desc: '待办列表的ID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '是否包含已完成的事项。'
+      name: includeCompleted
+      optional: true
+      type: bool
+todotoggleprivacy:
+  args:
+    - listId
+  desc: '切换待办列表的隐私设置'
+  params:
+    - desc: '待办列表的ID。'
+      name: listId
+      optional: false
+      type: int

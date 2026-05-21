@@ -1,0 +1,468 @@
+afk:
+  args:
+    - message
+  desc: '设置你的AFK状态。'
+  params:
+    - desc: '要显示的AFK消息。'
+      name: message
+      optional: true
+      type: string
+afkdel:
+  args:
+    - ''
+  desc: '设置AFK消息的自动删除时间。'
+  params: [ ]
+afkdel_int:
+  args:
+    - number
+  desc: '设置AFK消息的自动删除时间。'
+  params:
+    - &ref_49
+      desc: '以秒为单位的时间。设置为0可禁用自动删除。'
+      name: num
+      optional: false
+      type: int
+afkdel_int_1:
+  args:
+    - number
+  desc: '设置AFK消息的自动删除时间。'
+  params:
+    - desc: '以秒为单位的时间。设置为0可禁用自动删除。'
+      name: num
+      optional: false
+      type: int
+afkdel_int_2:
+  args:
+    - number
+  desc: '设置AFK消息的自动删除时间。'
+  params:
+    - desc: '以秒为单位的时间。设置为0可禁用自动删除。'
+      name: num
+      optional: false
+      type: int
+afkdel_int_3:
+  args:
+    - number
+  desc: '设置AFK消息的自动删除时间。'
+  params:
+    - desc: '以秒为单位的时间。设置为0可禁用自动删除。'
+      name: num
+      optional: false
+      type: int
+afkdel_noparams:
+  args:
+    - ''
+  desc: '设置AFK消息的自动删除时间。'
+  params: [ ]
+afkdel_noparams_1:
+  args:
+    - ''
+  desc: '设置AFK消息的自动删除时间。'
+  params: [ ]
+afkdel_noparams_2:
+  args:
+    - ''
+  desc: '设置AFK消息的自动删除时间。'
+  params: [ ]
+afkdisable:
+  args:
+    - chan
+  desc: '设置不显示AFK消息的频道。'
+  params:
+    - &ref_50
+      desc: '要添加到AFK消息黑名单的频道。'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]:
+  args:
+    - chan
+  desc: '设置不显示AFK消息的频道。'
+  params:
+    - desc: '要添加到AFK消息黑名单的频道。'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]_1:
+  args:
+    - chan
+  desc: '设置不显示AFK消息的频道。'
+  params:
+    - desc: '要添加到AFK消息黑名单的频道。'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]_2:
+  args:
+    - chan
+  desc: '设置不显示AFK消息的频道。'
+  params:
+    - desc: '要添加到AFK消息黑名单的频道。'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisabledlist:
+  args:
+    - ''
+  desc: '列出不显示AFK消息的文字频道。'
+  params: [ ]
+afklength:
+  args:
+    - number
+  desc: '设置所有AFK消息的最大长度。'
+  params:
+    - &ref_51
+      desc: '要设置的最大长度。'
+      name: num
+      optional: false
+      type: int
+afklength_int:
+  args:
+    - number
+  desc: '设置所有AFK消息的最大长度。'
+  params:
+    - desc: '要设置的最大长度。'
+      name: num
+      optional: false
+      type: int
+afklength_int_1:
+  args:
+    - number
+  desc: '设置所有AFK消息的最大长度。'
+  params:
+    - desc: '要设置的最大长度。'
+      name: num
+      optional: false
+      type: int
+afklength_int_2:
+  args:
+    - number
+  desc: '设置所有AFK消息的最大长度。'
+  params:
+    - desc: '要设置的最大长度。'
+      name: num
+      optional: false
+      type: int
+afkremove:
+  args:
+    - '@user'
+  desc: '移除一个或多个用户的AFK状态。'
+  params:
+    - &ref_52
+      desc: '要移除AFK状态的用户。'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]:
+  args:
+    - '@user'
+  desc: '移除一个或多个用户的AFK状态。'
+  params:
+    - desc: '要移除AFK状态的用户。'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: '移除一个或多个用户的AFK状态。'
+  params:
+    - desc: '要移除AFK状态的用户。'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: '移除一个或多个用户的AFK状态。'
+  params:
+    - desc: '要移除AFK状态的用户。'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkrm:
+  args:
+    - ''
+  desc: '移除你的AFK状态。'
+  params: [ ]
+afktimeout:
+  args:
+    - time
+  desc: >-
+    设置用户不再被视为AFK之前的超时时间。当用户发送消息或在频道中输入时触发。
+  params:
+    - &ref_53
+      desc: 'AFK状态的超时时间。'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime:
+  args:
+    - time
+  desc: >-
+    设置用户不再被视为AFK之前的超时时间。当用户发送消息或在频道中输入时触发。
+  params:
+    - desc: 'AFK状态的超时时间。'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime_1:
+  args:
+    - time
+  desc: >-
+    设置用户不再被视为AFK之前的超时时间。当用户发送消息或在频道中输入时触发。
+  params:
+    - desc: 'AFK状态的超时时间。'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime_2:
+  args:
+    - time
+  desc: >-
+    设置用户不再被视为AFK之前的超时时间。当用户发送消息或在频道中输入时触发。
+  params:
+    - desc: 'AFK状态的超时时间。'
+      name: time
+      optional: false
+      type: StoopidTime
+afktype:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: '设置服务器的AFK行为类型。'
+  params:
+    - &ref_54
+      desc: '要设置的AFK行为类型。 <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: '设置服务器的AFK行为类型。'
+  params:
+    - desc: '要设置的AFK行为类型。 <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum_1:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: '设置服务器的AFK行为类型。'
+  params:
+    - desc: '要设置的AFK行为类型。 <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum_2:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: '设置服务器的AFK行为类型。'
+  params:
+    - desc: '要设置的AFK行为类型。 <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afkundisable:
+  args:
+    - chan
+  desc: '从AFK消息黑名单中移除指定频道。'
+  params:
+    - &ref_55
+      desc: '要从AFK消息黑名单中移除的文字频道。'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]:
+  args:
+    - chan
+  desc: '从AFK消息黑名单中移除指定频道。'
+  params:
+    - desc: '要从AFK消息黑名单中移除的文字频道。'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]_1:
+  args:
+    - chan
+  desc: '从AFK消息黑名单中移除指定频道。'
+  params:
+    - desc: '要从AFK消息黑名单中移除的文字频道。'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]_2:
+  args:
+    - chan
+  desc: '从AFK消息黑名单中移除指定频道。'
+  params:
+    - desc: '要从AFK消息黑名单中移除的文字频道。'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkview:
+  args:
+    - '@user'
+  desc: '显示特定用户的AFK状态。'
+  params:
+    - &ref_56
+      desc: '要查看AFK状态的用户。'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser:
+  args:
+    - '@user'
+  desc: '显示特定用户的AFK状态。'
+  params:
+    - desc: '要查看AFK状态的用户。'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '显示特定用户的AFK状态。'
+  params:
+    - desc: '要查看AFK状态的用户。'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '显示特定用户的AFK状态。'
+  params:
+    - desc: '要查看AFK状态的用户。'
+      name: user
+      optional: true
+      type: IGuildUser
+customafkmessage:
+  args:
+    - text
+  desc: >-
+    设置用户AFK时显示的自定义AFK嵌入。使用"-"可重置为默认嵌入。
+    访问 https://eb.mewdeko.tech 使用嵌入构建器，
+    访问 http://mewdeko.tech/placeholders 查看占位符。
+  params:
+    - &ref_175
+      desc: '要设置的自定义消息。使用"-"可重置为默认消息。'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string:
+  args:
+    - text
+  desc: >-
+    设置用户AFK时显示的自定义AFK嵌入。使用"-"可重置为默认嵌入。
+    访问 https://eb.mewdeko.tech 使用嵌入构建器，
+    访问 http://mewdeko.tech/placeholders 查看占位符。
+  params:
+    - desc: '要设置的自定义消息。使用"-"可重置为默认消息。'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string_1:
+  args:
+    - text
+  desc: >-
+    设置用户AFK时显示的自定义AFK嵌入。使用"-"可重置为默认嵌入。
+    访问 https://eb.mewdeko.tech 使用嵌入构建器，
+    访问 http://mewdeko.tech/placeholders 查看占位符。
+  params:
+    - desc: '要设置的自定义消息。使用"-"可重置为默认消息。'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string_2:
+  args:
+    - text
+  desc: >-
+    设置用户AFK时显示的自定义AFK嵌入。使用"-"可重置为默认嵌入。
+    访问 https://eb.mewdeko.tech 使用嵌入构建器，
+    访问 http://mewdeko.tech/placeholders 查看占位符。
+  params:
+    - desc: '要设置的自定义消息。使用"-"可重置为默认消息。'
+      name: embedCode
+      optional: false
+      type: string
+getactiveafks:
+  args:
+    - ''
+  desc: '显示当前处于AFK状态的活跃用户列表。'
+  params: [ ]
+setafk:
+  args:
+    - '[message]'
+  desc: '使用可选消息设置用户的AFK状态。'
+  params:
+    - desc: 'AFK消息。如果未提供，用户的AFK状态将被切换。'
+      name: message
+      optional: true
+      type: string
+timedafk:
+  args:
+    - time text
+  desc: '使用自定义消息设置定时AFK状态。'
+  params:
+    - &ref_621
+      desc: 'AFK状态的持续时间。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_622
+      desc: 'AFK状态的自定义消息。'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string:
+  args:
+    - time text
+  desc: '使用自定义消息设置定时AFK状态。'
+  params:
+    - desc: 'AFK状态的持续时间。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'AFK状态的自定义消息。'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string_1:
+  args:
+    - time text
+  desc: '使用自定义消息设置定时AFK状态。'
+  params:
+    - desc: 'AFK状态的持续时间。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'AFK状态的自定义消息。'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string_2:
+  args:
+    - time text
+  desc: '使用自定义消息设置定时AFK状态。'
+  params:
+    - desc: 'AFK状态的持续时间。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'AFK状态的自定义消息。'
+      name: message
+      optional: false
+      type: string

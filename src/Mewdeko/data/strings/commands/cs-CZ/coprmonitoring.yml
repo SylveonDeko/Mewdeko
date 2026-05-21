@@ -1,0 +1,168 @@
+coprmonitoradd:
+  args:
+    - '<ownerProject> [channel] [packages]'
+    - '<ownerProject> [channel] [packages]'
+    - ownerProject
+  desc: 'Přidá monitor COPR projektu na server.'
+  params:
+    - desc: 'COPR projekt ve formátu owner/project (např. linux4switch/l4s).'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Volitelný kanál pro oznámení. Výchozí je aktuální kanál.'
+      name: channel
+      optional: true
+      type: ITextChannel
+    - desc: 'Volitelný seznam balíčků k monitorování oddělených čárkami (např. mesa,kernel).'
+      name: packages
+      optional: true
+      type: string
+coprmonitorremove:
+  args:
+    - '<ownerProject> [channel]'
+    - ownerProject
+  desc: 'Odebere monitor COPR projektu ze serveru.'
+  params:
+    - desc: 'COPR projekt ve formátu owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Volitelný kanál pro odebrání konkrétního monitoru.'
+      name: channel
+      optional: true
+      type: ITextChannel
+coprmonitorlist:
+  args:
+    - ''
+  desc: 'Zobrazí seznam všech COPR monitorů nakonfigurovaných na serveru.'
+  params: [ ]
+coprmonitortoggle:
+  args:
+    - ownerProject
+  desc: 'Zapne nebo vypne COPR monitor.'
+  params:
+    - desc: 'COPR projekt ve formátu owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+coprnotify:
+  args:
+    - ownerProject status enabled
+  desc: 'Konfiguruje, které stavy sestavení spouštějí oznámení pro monitor.'
+  params:
+    - desc: 'COPR projekt ve formátu owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Stav sestavení ke konfiguraci.'
+      name: status
+      optional: false
+      type: CoprBuildStatus
+    - desc: 'Zda povolit nebo zakázat oznámení pro tento stav.'
+      name: enabled
+      optional: false
+      type: bool
+coprfilter:
+  args:
+    - ownerProject text
+  desc: 'Nastaví filtr balíčků pro COPR monitor.'
+  params:
+    - desc: 'COPR projekt ve formátu owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Seznam balíčků oddělených čárkami, nebo "all" pro monitorování všeho.'
+      name: packages
+      optional: false
+      type: string
+coprsucceededmessage:
+  args:
+    - ownerProject text
+  desc: 'Nastaví zprávu zobrazenou při úspěchu sestavení COPR.'
+  params:
+    - desc: 'COPR projekt ve formátu owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Zpráva nebo kód vložení. Použijte "-" pro reset na výchozí.'
+      name: message
+      optional: false
+      type: string
+coprfailedmessage:
+  args:
+    - ownerProject text
+  desc: 'Nastaví zprávu zobrazenou při selhání sestavení COPR.'
+  params:
+    - desc: 'COPR projekt ve formátu owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Zpráva nebo kód vložení. Použijte "-" pro reset na výchozí.'
+      name: message
+      optional: false
+      type: string
+coprcanceledmessage:
+  args:
+    - ownerProject text
+  desc: 'Nastaví zprávu zobrazenou při zrušení sestavení COPR.'
+  params:
+    - desc: 'COPR projekt ve formátu owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Zpráva nebo kód vložení. Použijte "-" pro reset na výchozí.'
+      name: message
+      optional: false
+      type: string
+coprpendingmessage:
+  args:
+    - ownerProject text
+  desc: 'Nastaví zprávu zobrazenou, když sestavení COPR čeká.'
+  params:
+    - desc: 'COPR projekt ve formátu owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Zpráva nebo kód vložení. Použijte "-" pro reset na výchozí.'
+      name: message
+      optional: false
+      type: string
+coprrunningmessage:
+  args:
+    - ownerProject text
+  desc: 'Nastaví zprávu zobrazenou, když sestavení COPR běží.'
+  params:
+    - desc: 'COPR projekt ve formátu owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Zpráva nebo kód vložení. Použijte "-" pro reset na výchozí.'
+      name: message
+      optional: false
+      type: string
+coprskippedmessage:
+  args:
+    - ownerProject text
+  desc: 'Nastaví zprávu zobrazenou, když je sestavení COPR přeskočeno.'
+  params:
+    - desc: 'COPR projekt ve formátu owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Zpráva nebo kód vložení. Použijte "-" pro reset na výchozí.'
+      name: message
+      optional: false
+      type: string
+coprdefaultmessage:
+  args:
+    - ownerProject text
+  desc: 'Nastaví výchozí zprávu pro všechny ostatní stavy sestavení.'
+  params:
+    - desc: 'COPR projekt ve formátu owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Zpráva nebo kód vložení. Použijte "-" pro reset na výchozí.'
+      name: message
+      optional: false
+      type: string

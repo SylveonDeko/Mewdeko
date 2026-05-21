@@ -1,0 +1,18 @@
+{
+  "rolegreet_add_success": "{1}で{0}を挨拶に追加しました！",
+  "rolegreet_button_preview": "プレビュー",
+  "rolegreet_button_regular": "通常",
+  "rolegreet_confirm_remove": "このロールのRoleGreetをすべて削除しますか？",
+  "rolegreet_confirm_removed": "ロールGreets 削除されました!",
+  "rolegreet_delete_disabled": "RoleGreet #{0} will no longer delete",
+  "rolegreet_delete_success": "Successfully updated RoleGreet #{0} to delete after {1}",
+  "rolegreet_disable_status": "RoleGreet {0} set to {1}",
+  "rolegreet_greetbots_set": "RoleGreet {0} GreetBots set to {1}",
+  "rolegreet_max_limit": "Seems like you have reached your max of 10 ロールGreets! Please remove one to add another one.",
+  "rolegreet_message_preview_prompt": "通常のテキストで表示しますか、それとも実際の見た目をプレビューしますか？",
+  "rolegreet_message_set": "RoleGreet Message for RoleGreet #{0} set!",
+  "rolegreet_no_delete": "RoleGreet #{0} will no longer delete.",
+  "rolegreet_no_greets_for_role": "そのロールの挨拶がありません！",
+  "rolegreet_webhook_disabled": "Webhook disabled for RoleGreet #{0}!",
+  "rolegreet_webhook_invalid_avatar": "使用されたアバターURLは直接URLではないか、無効です！別のURLを使用してください。"
+}

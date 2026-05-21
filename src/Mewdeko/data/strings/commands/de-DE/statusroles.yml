@@ -1,0 +1,273 @@
+addstatusrole:
+  args:
+    - text
+  desc: 'Fügt eine Statusrollen-Konfiguration hinzu.'
+  params:
+    - &ref_32
+      desc: 'Der hinzuzufügende Status.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string:
+  args:
+    - text
+  desc: 'Fügt eine Statusrollen-Konfiguration hinzu.'
+  params:
+    - desc: 'Der hinzuzufügende Status.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_1:
+  args:
+    - text
+  desc: 'Fügt eine Statusrollen-Konfiguration hinzu.'
+  params:
+    - desc: 'Der hinzuzufügende Status.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_2:
+  args:
+    - text
+  desc: 'Fügt eine Statusrollen-Konfiguration hinzu.'
+  params:
+    - desc: 'Der hinzuzufügende Status.'
+      name: status
+      optional: false
+      type: string
+liststatusroles:
+  args:
+    - ''
+  desc: 'Listet alle aktuellen Statusrollen mit ihren Details auf.'
+  params: [ ]
+removeaddroles:
+  args:
+    - number @role
+  desc: 'Legt die zu entfernenden Rollen fest, wenn ein Benutzer den ausgewählten Status hat.'
+  params:
+    - &ref_390
+      desc: 'Der Index der Statusrolle.'
+      name: index
+      optional: false
+      type: int
+    - &ref_391
+      desc: 'Die zu entfernenden Rollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: 'Legt die zu entfernenden Rollen fest, wenn ein Benutzer den ausgewählten Status hat.'
+  params:
+    - desc: 'Der Index der Statusrolle.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Die zu entfernenden Rollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: 'Legt die zu entfernenden Rollen fest, wenn ein Benutzer den ausgewählten Status hat.'
+  params:
+    - desc: 'Der Index der Statusrolle.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Die zu entfernenden Rollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: 'Legt die zu entfernenden Rollen fest, wenn ein Benutzer den ausgewählten Status hat.'
+  params:
+    - desc: 'Der Index der Statusrolle.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Die zu entfernenden Rollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeremoveroles:
+  args:
+    - number @role
+  desc: >-
+    Entfernt eine oder mehrere Rollen aus den hinzugefügten Rollen, wenn ein
+    Benutzer den ausgewählten Status hat.
+  params:
+    - desc: 'Der Index der Statusrolle.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Die zu entfernenden Rollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+removestatusrole:
+  args:
+    - number
+  desc: 'Entfernt eine Statusrollen-Konfiguration.'
+  params:
+    - desc: 'Der Index der zu entfernenden Statusrolle.'
+      name: index
+      optional: false
+      type: int
+setaddroles:
+  args:
+    - number @role
+  desc: 'Legt die hinzuzufügenden Rollen fest, wenn ein Benutzer den ausgewählten Status hat.'
+  params:
+    - desc: 'Der Index der Statusrolle.'
+      name: index
+      optional: false
+      type: int
+    - &ref_486
+      desc: 'Die hinzuzufügenden Rollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: 'Legt die hinzuzufügenden Rollen fest, wenn ein Benutzer den ausgewählten Status hat.'
+  params:
+    - desc: 'Der Index der Statusrolle.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Die hinzuzufügenden Rollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: 'Legt die hinzuzufügenden Rollen fest, wenn ein Benutzer den ausgewählten Status hat.'
+  params:
+    - desc: 'Der Index der Statusrolle.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Die hinzuzufügenden Rollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: 'Legt die hinzuzufügenden Rollen fest, wenn ein Benutzer den ausgewählten Status hat.'
+  params:
+    - desc: 'Der Index der Statusrolle.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Die hinzuzufügenden Rollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+setremoveroles:
+  args:
+    - number @role
+  desc: 'Legt die zu entfernenden Rollen fest, wenn ein Benutzer den ausgewählten Status hat.'
+  params:
+    - desc: 'Der Index der Statusrolle.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Die zu entfernenden Rollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+setstatusrolechannel:
+  args:
+    - number channel
+  desc: 'Legt den Kanal für eine bestimmte Statusrolle fest.'
+  params:
+    - desc: 'Der Index der Statusrolle.'
+      name: index
+      optional: false
+      type: int
+    - &ref_527
+      desc: 'Der festzulegende Kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: 'Legt den Kanal für eine bestimmte Statusrolle fest.'
+  params:
+    - desc: 'Der Index der Statusrolle.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Der festzulegende Kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: 'Legt den Kanal für eine bestimmte Statusrolle fest.'
+  params:
+    - desc: 'Der Index der Statusrolle.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Der festzulegende Kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: 'Legt den Kanal für eine bestimmte Statusrolle fest.'
+  params:
+    - desc: 'Der Index der Statusrolle.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Der festzulegende Kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusroleembed:
+  args:
+    - '<index> [embedText]'
+    - number
+  desc: 'Legt den Embed-Text für eine bestimmte Statusrolle fest oder zeigt eine Vorschau an.'
+  params:
+    - desc: 'Der Index der Statusrolle.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Der festzulegende Embed-Text.'
+      name: embedText
+      optional: true
+      type: string
+togglereaddremoved:
+  args:
+    - number
+  desc: 'Schaltet um, ob hinzugefügte Rollen entfernt werden, wenn ein Status entfernt wird.'
+  params:
+    - desc: 'Der Index der Statusrolle.'
+      name: index
+      optional: false
+      type: int
+toggleremoveadded:
+  args:
+    - number
+  desc: >-
+    Schaltet um, ob hinzugefügte Rollen entfernt werden, wenn ein Benutzer den
+    Status gemäß dem angegebenen Index nicht mehr hat.
+  params:
+    - desc: 'Der Index der Statusrolle.'
+      name: index
+      optional: false
+      type: int

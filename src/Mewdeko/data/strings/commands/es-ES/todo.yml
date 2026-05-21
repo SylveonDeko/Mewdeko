@@ -1,0 +1,326 @@
+todoadd:
+  args:
+    - listId
+    - title
+    - description
+  desc: 'Agrega un nuevo elemento a una lista de tareas especificada'
+  params:
+    - desc: 'El ID de la lista de tareas.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'El titulo del elemento de tarea.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Descripcion opcional del elemento.'
+      name: description
+      optional: true
+      type: string
+todoaddpriority:
+  args:
+    - listId
+    - priority
+    - title
+    - description
+  desc: 'Agrega un elemento con prioridad y fecha limite opcional'
+  params:
+    - desc: 'El ID de la lista de tareas.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Nivel de prioridad (1=Bajo, 2=Medio, 3=Alto, 4=Critico).'
+      name: priority
+      optional: false
+      type: int
+    - desc: 'El titulo del elemento de tarea.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Descripcion opcional del elemento.'
+      name: description
+      optional: true
+      type: string
+todoaddtag:
+  args:
+    - itemId
+    - tag
+  desc: 'Agrega una etiqueta a un elemento de tarea'
+  params:
+    - desc: 'El ID del elemento de tarea.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'La etiqueta a agregar.'
+      name: tag
+      optional: false
+      type: string
+todocleardue:
+  args:
+    - itemId
+  desc: 'Elimina la fecha limite de un elemento de tarea'
+  params:
+    - desc: 'El ID del elemento de tarea.'
+      name: itemId
+      optional: false
+      type: int
+todoclearreminder:
+  args:
+    - itemId
+  desc: 'Elimina el recordatorio de un elemento de tarea'
+  params:
+    - desc: 'El ID del elemento de tarea.'
+      name: itemId
+      optional: false
+      type: int
+todocomplete:
+  args:
+    - itemId
+  desc: 'Marca un elemento de tarea como completado'
+  params:
+    - desc: 'El ID del elemento de tarea.'
+      name: itemId
+      optional: false
+      type: int
+todocreatelist:
+  args:
+    - name
+    - description
+  desc: 'Crea una nueva lista de tareas'
+  params:
+    - desc: 'El nombre de la lista de tareas.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Descripcion opcional de la lista.'
+      name: description
+      optional: true
+      type: string
+todocreateserverlist:
+  args:
+    - name
+    - description
+  desc: 'Crea una nueva lista de tareas para todo el servidor (solo administradores)'
+  params:
+    - desc: 'El nombre de la lista de tareas del servidor.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Descripcion opcional de la lista.'
+      name: description
+      optional: true
+      type: string
+tododelete:
+  args:
+    - itemId
+  desc: 'Elimina un elemento de tarea'
+  params:
+    - desc: 'El ID del elemento de tarea.'
+      name: itemId
+      optional: false
+      type: int
+tododeletelist:
+  args:
+    - listId
+  desc: 'Elimina una lista de tareas completa'
+  params:
+    - desc: 'El ID de la lista de tareas.'
+      name: listId
+      optional: false
+      type: int
+todoedit:
+  args:
+    - itemId
+    - title
+    - description
+  desc: 'Edita el titulo y la descripcion de un elemento de tarea'
+  params:
+    - desc: 'El ID del elemento de tarea.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'El nuevo titulo.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'La nueva descripcion.'
+      name: description
+      optional: true
+      type: string
+todofilter:
+  args:
+    - listId
+    - filter
+    - value
+  desc: 'Filtra elementos de tarea por etiqueta o prioridad'
+  params:
+    - desc: 'El ID de la lista de tareas.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Tipo de filtro (etiqueta o prioridad).'
+      name: filter
+      optional: false
+      type: string
+    - desc: 'El valor por el que filtrar.'
+      name: value
+      optional: true
+      type: string
+todogrant:
+  args:
+    - listId
+    - '@user'
+    - permissions
+  desc: 'Otorga permisos a un usuario para una lista de tareas (solo propietario/administrador)'
+  params:
+    - desc: 'El ID de la lista de tareas.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'El usuario al que otorgar permisos.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Permisos separados por comas (view,add,edit,complete,delete,manage,all).'
+      name: permissions
+      optional: false
+      type: string
+todolists:
+  args:
+    - includeServer
+  desc: 'Lista todas las listas de tareas accesibles al usuario'
+  params:
+    - desc: 'Si se incluyen listas de todo el servidor.'
+      name: includeServer
+      optional: true
+      type: bool
+todopermissions:
+  args:
+    - listId
+  desc: 'Muestra todos los permisos de una lista de tareas'
+  params:
+    - desc: 'El ID de la lista de tareas.'
+      name: listId
+      optional: false
+      type: int
+todoremovetag:
+  args:
+    - itemId
+    - tag
+  desc: 'Elimina una etiqueta de un elemento de tarea'
+  params:
+    - desc: 'El ID del elemento de tarea.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'La etiqueta a eliminar.'
+      name: tag
+      optional: false
+      type: string
+todoreorder:
+  args:
+    - itemId
+    - newPosition
+  desc: 'Reordena un elemento de tarea a una nueva posicion'
+  params:
+    - desc: 'El ID del elemento de tarea.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'La nueva posicion (basada en 1).'
+      name: newPosition
+      optional: false
+      type: int
+todorevoke:
+  args:
+    - listId
+    - '@user'
+  desc: 'Revoca todos los permisos de un usuario en una lista de tareas'
+  params:
+    - desc: 'El ID de la lista de tareas.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'El usuario al que revocar los permisos.'
+      name: user
+      optional: false
+      type: IUser
+todosearch:
+  args:
+    - listId
+    - query
+  desc: 'Busca elementos de tarea dentro de una lista'
+  params:
+    - desc: 'El ID de la lista de tareas.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'La consulta de busqueda.'
+      name: query
+      optional: false
+      type: string
+todosetcolor:
+  args:
+    - listId
+    - color
+  desc: 'Establece el color de una lista de tareas'
+  params:
+    - desc: 'El ID de la lista de tareas.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Codigo de color hexadecimal (p.ej.,'
+      name: color
+      optional: false
+      type: string
+todosetdue:
+  args:
+    - itemId
+    - dateString
+  desc: 'Establece la fecha limite de un elemento de tarea'
+  params:
+    - desc: 'El ID del elemento de tarea.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'La fecha y hora limite.'
+      name: dateString
+      optional: false
+      type: string
+todosetreminder:
+  args:
+    - itemId
+    - dateString
+  desc: 'Establece un recordatorio para un elemento de tarea'
+  params:
+    - desc: 'El ID del elemento de tarea.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'La fecha y hora del recordatorio.'
+      name: dateString
+      optional: false
+      type: string
+todoshow:
+  args:
+    - listId
+    - includeCompleted
+  desc: 'Muestra todos los elementos de una lista de tareas'
+  params:
+    - desc: 'El ID de la lista de tareas.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Si se incluyen elementos completados.'
+      name: includeCompleted
+      optional: true
+      type: bool
+todotoggleprivacy:
+  args:
+    - listId
+  desc: 'Alterna la configuracion de privacidad de una lista de tareas'
+  params:
+    - desc: 'El ID de la lista de tareas.'
+      name: listId
+      optional: false
+      type: int

@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'Comută anunțurile de ziua de naștere pentru utilizator.'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'Setează canalul anunțurilor de ziua de naștere.'
+  params:
+    - desc: >-
+        Canalul text folosit pentru anunțuri. Implicit este canalul
+        curent dacă nu este specificat.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'Vizualizează configurația curentă a zilelor de naștere.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'Afișează zilele de naștere viitoare pe server.'
+  params:
+    - desc: Câte zile înainte să se uite. Implicit 7, maxim 30.
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'Setează un șablon personalizat de mesaj de ziua de naștere.'
+  params:
+    - desc: >-
+        Șablonul de mesaj. Folosește {user} pentru a menționa utilizatorul.
+        Afișează mesajul curent dacă este lăsat gol.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'Setează rolul de pingat când se anunță zilele de naștere.'
+  params:
+    - desc: Rolul de pingat. Nu oferi niciun rol pentru a dezactiva.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'Setează rolul de ziua de naștere pe care utilizatorii îl primesc de ziua lor.'
+  params:
+    - desc: Rolul de atribuit în ziua de naștere a utilizatorului. Nu oferi niciun rol pentru a dezactiva.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'Setează fusul orar al utilizatorului pentru calcularea zilei de naștere.'
+  params:
+    - desc: Fusul orar de setat (ex., "America/New_York").
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'Afișează zilele de naștere de astăzi.'
+  params: [ ]

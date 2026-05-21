@@ -1,0 +1,95 @@
+statchannelcreate:
+  args:
+    - 'TotalMembers [template]'
+  desc: 'Creează un nou canal vocal blocat care afișează o statistică a serverului. Botul va crea și gestiona canalul.'
+  params:
+    - desc: 'Tipul de statistică de afișat.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'Șablonul de afișare. Folosește %count% pentru valoare.'
+      name: template
+      optional: true
+      type: string
+statchanneladd:
+  args:
+    - '#voice-channel TotalMembers [template]'
+  desc: 'Adaugă un canal vocal ca canal de statistici. Tipuri: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
+  params:
+    - desc: 'Canalul vocal de folosit.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Tipul de statistică de afișat.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'Șablonul de afișare. Folosește %count% pentru valoare.'
+      name: template
+      optional: true
+      type: string
+statchannelrole:
+  args:
+    - '#voice-channel @role [template]'
+  desc: 'Adaugă un canal de statistici care arată câți membri au un anumit rol.'
+  params:
+    - desc: 'Canalul vocal de folosit.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Rolul ai cărui membri să fie numărați.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Șablonul de afișare. Folosește %count% și %role.name%.'
+      name: template
+      optional: true
+      type: string
+statchannelcountdown:
+  args:
+    - '#voice-channel 2026-12-31 [template]'
+  desc: 'Adaugă un canal de statistici cu numărătoare inversă. Folosește marcajele %days% și %hours%.'
+  params:
+    - desc: 'Canalul vocal de folosit.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Data țintă pentru numărătoarea inversă.'
+      name: date
+      optional: false
+      type: DateTime
+    - desc: 'Șablonul de afișare. Folosește %days% și %hours%.'
+      name: template
+      optional: true
+      type: string
+statchannelgoal:
+  args:
+    - '#voice-channel 1000 [template]'
+  desc: 'Adaugă un canal de statistici pentru obiectivul de membri. Folosește %count%, %goal% și %goal.percent%.'
+  params:
+    - desc: 'Canalul vocal de folosit.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Numărul țintă de membri.'
+      name: goal
+      optional: false
+      type: int
+    - desc: 'Șablonul de afișare. Folosește %count%, %goal%, %goal.percent%.'
+      name: template
+      optional: true
+      type: string
+statchannelremove:
+  args:
+    - '#voice-channel'
+  desc: 'Elimină un canal de statistici.'
+  params:
+    - desc: 'Canalul vocal de eliminat.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+statchannellist:
+  args:
+    - ''
+  desc: 'Listează toate canalele de statistici pentru acest server.'
+  params: [ ]

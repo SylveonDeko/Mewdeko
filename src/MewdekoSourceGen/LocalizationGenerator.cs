@@ -29,10 +29,16 @@ namespace MewdekoSourceGen;
 public class LocalizationGenerator : IIncrementalGenerator
 {
     /// <summary>
-    ///     Regular expression pattern to match locale files and extract the culture code.
+    ///     Regular expression pattern to match flat locale files and extract the culture code.
     ///     Matches files named 'responses.LOCALE.json' where LOCALE is the culture code.
     /// </summary>
     private static readonly Regex LangFilePattern = new(@"responses\.(.+)\.json$");
+
+    /// <summary>
+    ///     Regular expression pattern to match per-locale split files.
+    ///     Matches files like 'responses/LOCALE/MODULE.json' or 'responses\LOCALE\MODULE.json'.
+    /// </summary>
+    private static readonly Regex SplitLangFilePattern = new(@"responses[\\/]([^\\/]+)[\\/][^\\/]+\.json$");
 
     private static readonly Regex InvalidCharsRegex = new(@"[^A-Za-z0-9_]");
     private static readonly Regex StartsWithDigitRegex = new(@"^\d+");
@@ -51,22 +57,47 @@ public class LocalizationGenerator : IIncrementalGenerator
     /// </remarks>
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        // Register all response files (responses.*.json)
+        // Register all response files (flat 'responses.LOCALE.json' or split 'responses/LOCALE/MODULE.json')
         var responseFiles = context.AdditionalTextsProvider
-            .Where(file => LangFilePattern.IsMatch(file.Path));
+            .Where(file => LangFilePattern.IsMatch(file.Path) || SplitLangFilePattern.IsMatch(file.Path));
 
-        // Transform the files into a collection of locale-specific responses
+        // Transform the files into a collection of locale-specific responses (one entry per file)
         var localeResponses = responseFiles.Select((text, cancelToken) =>
         {
-            var match = LangFilePattern.Match(text.Path);
-            var locale = match.Groups[1].Value;
+            string locale;
+            var flatMatch = LangFilePattern.Match(text.Path);
+            if (flatMatch.Success)
+            {
+                locale = flatMatch.Groups[1].Value;
+            }
+            else
+            {
+                var splitMatch = SplitLangFilePattern.Match(text.Path);
+                locale = splitMatch.Groups[1].Value;
+            }
+
             var content = text.GetText(cancelToken)?.ToString() ?? "{}";
-            // Initialize empty dictionary if deserialization returns null
             var responses = ParseJsonToDictionary(content);
             return (locale, responses);
         });
 
-        var combinedSource = localeResponses.Collect().Select((items, _) => GenerateSource(items));
+        // Merge per-locale fragments into a single dictionary per locale before generating
+        var combinedSource = localeResponses.Collect().Select((items, _) =>
+        {
+            var merged = new Dictionary<string, Dictionary<string, string>>();
+            foreach (var (locale, responses) in items)
+            {
+                if (!merged.TryGetValue(locale, out var dict))
+                {
+                    dict = new Dictionary<string, string>();
+                    merged[locale] = dict;
+                }
+                foreach (var kvp in responses)
+                    dict[kvp.Key] = kvp.Value;
+            }
+
+            return GenerateSource(merged.Select(kvp => (kvp.Key, kvp.Value)).ToImmutableArray());
+        });
 
         context.RegisterSourceOutput(combinedSource, (sourceProductionContext, source) =>
         {

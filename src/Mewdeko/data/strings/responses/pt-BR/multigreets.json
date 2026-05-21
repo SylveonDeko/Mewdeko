@@ -1,0 +1,18 @@
+{
+  "boost_on": "Mensagens de boost ativadas.",
+  "boost_off": "Mensagens de boost desativadas.",
+  "boostmsg_cur": "Mensagem de boost atual: {0}",
+  "boostmsg_enable": "Ative mensagens de boost digitando {0}",
+  "boostmsg_new": "Nova mensagem de boost definida.",
+  "boostdel_off": "Remoção automática de mensagens de boost desativada.",
+  "boostdel_on": "Mensagens de boost serão deletadas após {0} segundos.",
+  "bandm": "Você foi banido do servidor {0}.\nMotivo: {1}",
+  "banmsg_default": "",
+  "byedel_off": "Remoção automática de mensagens de despedida foi desativada.",
+  "byedel_on": "Mensagens de despedida serão deletadas após {0} segundos.",
+  "byemsg_cur": "Mensagem de despedida atual: {0}",
+  "byemsg_enable": "Ative mensagens de despedida digitando {0}",
+  "byemsg_new": "Nova mensagem de despedida definida.",
+  "bye_off": "Mensagens de despedida desativadas.",
+  "bye_on": "Mensagens de despedida foram ativadas nesse canal."
+}

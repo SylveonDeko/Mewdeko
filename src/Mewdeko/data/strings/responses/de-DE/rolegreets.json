@@ -1,0 +1,18 @@
+{
+  "rolegreet_add_success": "{0} wurde zu Begrüßungen in {1} hinzugefügt!",
+  "rolegreet_button_preview": "Vorschau",
+  "rolegreet_button_regular": "Normal",
+  "rolegreet_confirm_remove": "Bist du sicher, dass du alle RoleGreets für diese Rolle entfernen möchtest?",
+  "rolegreet_confirm_removed": "RoleGreets entfernt!",
+  "rolegreet_delete_disabled": "RoleGreet #{0} wird nicht mehr gelöscht",
+  "rolegreet_delete_success": "RoleGreet #{0} erfolgreich aktualisiert, wird nach {1} gelöscht",
+  "rolegreet_disable_status": "RoleGreet {0} auf {1} gesetzt",
+  "rolegreet_greetbots_set": "RoleGreet {0} GreetBots auf {1} gesetzt",
+  "rolegreet_max_limit": "Du hast anscheinend das Maximum von 10 RoleGreets erreicht! Bitte entferne einen, um einen weiteren hinzuzufügen.",
+  "rolegreet_message_preview_prompt": "Möchtest du dies als normalen Text oder als Vorschau sehen, wie es tatsächlich aussieht?",
+  "rolegreet_message_set": "RoleGreet-Nachricht für RoleGreet #{0} gesetzt!",
+  "rolegreet_no_delete": "RoleGreet #{0} wird nicht mehr gelöscht.",
+  "rolegreet_no_greets_for_role": "Es gibt keine Begrüßungen für diese Rolle!",
+  "rolegreet_webhook_disabled": "Webhook für RoleGreet #{0} deaktiviert!",
+  "rolegreet_webhook_invalid_avatar": "Die verwendete Avatar-URL ist keine direkte URL oder ist ungültig! Bitte verwende eine andere URL."
+}

@@ -1,0 +1,326 @@
+todoadd:
+  args:
+    - listId
+    - title
+    - description
+  desc: '向指定清單新增待辦事項'
+  params:
+    - desc: '待辦清單的ID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '待辦事項的標題。'
+      name: title
+      optional: false
+      type: string
+    - desc: '事項的選擇性說明。'
+      name: description
+      optional: true
+      type: string
+todoaddpriority:
+  args:
+    - listId
+    - priority
+    - title
+    - description
+  desc: '新增帶有優先順序和選擇性截止日期的待辦事項'
+  params:
+    - desc: '待辦清單的ID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '優先順序等級 (1=低, 2=中, 3=高, 4=緊急)。'
+      name: priority
+      optional: false
+      type: int
+    - desc: '待辦事項的標題。'
+      name: title
+      optional: false
+      type: string
+    - desc: '事項的選擇性說明。'
+      name: description
+      optional: true
+      type: string
+todoaddtag:
+  args:
+    - itemId
+    - tag
+  desc: '為待辦事項新增標籤'
+  params:
+    - desc: '待辦事項的ID。'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '要新增的標籤。'
+      name: tag
+      optional: false
+      type: string
+todocleardue:
+  args:
+    - itemId
+  desc: '移除待辦事項的截止日期'
+  params:
+    - desc: '待辦事項的ID。'
+      name: itemId
+      optional: false
+      type: int
+todoclearreminder:
+  args:
+    - itemId
+  desc: '移除待辦事項的提醒'
+  params:
+    - desc: '待辦事項的ID。'
+      name: itemId
+      optional: false
+      type: int
+todocomplete:
+  args:
+    - itemId
+  desc: '將待辦事項標記為已完成'
+  params:
+    - desc: '待辦事項的ID。'
+      name: itemId
+      optional: false
+      type: int
+todocreatelist:
+  args:
+    - name
+    - description
+  desc: '建立新的待辦清單'
+  params:
+    - desc: '待辦清單的名稱。'
+      name: name
+      optional: false
+      type: string
+    - desc: '清單的選擇性說明。'
+      name: description
+      optional: true
+      type: string
+todocreateserverlist:
+  args:
+    - name
+    - description
+  desc: '建立新的伺服器待辦清單（僅管理員）'
+  params:
+    - desc: '伺服器待辦清單的名稱。'
+      name: name
+      optional: false
+      type: string
+    - desc: '清單的選擇性說明。'
+      name: description
+      optional: true
+      type: string
+tododelete:
+  args:
+    - itemId
+  desc: '刪除待辦事項'
+  params:
+    - desc: '待辦事項的ID。'
+      name: itemId
+      optional: false
+      type: int
+tododeletelist:
+  args:
+    - listId
+  desc: '刪除整個待辦清單'
+  params:
+    - desc: '待辦清單的ID。'
+      name: listId
+      optional: false
+      type: int
+todoedit:
+  args:
+    - itemId
+    - title
+    - description
+  desc: '編輯待辦事項的標題和說明'
+  params:
+    - desc: '待辦事項的ID。'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '新標題。'
+      name: title
+      optional: false
+      type: string
+    - desc: '新說明。'
+      name: description
+      optional: true
+      type: string
+todofilter:
+  args:
+    - listId
+    - filter
+    - value
+  desc: '依標籤或優先順序篩選待辦事項'
+  params:
+    - desc: '待辦清單的ID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '篩選類型（標籤或優先順序）。'
+      name: filter
+      optional: false
+      type: string
+    - desc: '篩選值。'
+      name: value
+      optional: true
+      type: string
+todogrant:
+  args:
+    - listId
+    - '@user'
+    - permissions
+  desc: '授予使用者待辦清單的權限（僅清單擁有者/管理員）'
+  params:
+    - desc: '待辦清單的ID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '要授予權限的使用者。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '以逗號分隔的權限 (view,add,edit,complete,delete,manage,all)。'
+      name: permissions
+      optional: false
+      type: string
+todolists:
+  args:
+    - includeServer
+  desc: '列出使用者可存取的所有待辦清單'
+  params:
+    - desc: '是否包含伺服器級清單。'
+      name: includeServer
+      optional: true
+      type: bool
+todopermissions:
+  args:
+    - listId
+  desc: '顯示待辦清單的所有權限'
+  params:
+    - desc: '待辦清單的ID。'
+      name: listId
+      optional: false
+      type: int
+todoremovetag:
+  args:
+    - itemId
+    - tag
+  desc: '從待辦事項中移除標籤'
+  params:
+    - desc: '待辦事項的ID。'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '要移除的標籤。'
+      name: tag
+      optional: false
+      type: string
+todoreorder:
+  args:
+    - itemId
+    - newPosition
+  desc: '將待辦事項重新排序到新位置'
+  params:
+    - desc: '待辦事項的ID。'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '新位置（從1開始）。'
+      name: newPosition
+      optional: false
+      type: int
+todorevoke:
+  args:
+    - listId
+    - '@user'
+  desc: '撤銷使用者在待辦清單上的所有權限'
+  params:
+    - desc: '待辦清單的ID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '要撤銷權限的使用者。'
+      name: user
+      optional: false
+      type: IUser
+todosearch:
+  args:
+    - listId
+    - query
+  desc: '在清單中搜尋待辦事項'
+  params:
+    - desc: '待辦清單的ID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '搜尋查詢。'
+      name: query
+      optional: false
+      type: string
+todosetcolor:
+  args:
+    - listId
+    - color
+  desc: '設定待辦清單的顏色'
+  params:
+    - desc: '待辦清單的ID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '十六進制顏色代碼（例如，'
+      name: color
+      optional: false
+      type: string
+todosetdue:
+  args:
+    - itemId
+    - dateString
+  desc: '設定待辦事項的截止日期'
+  params:
+    - desc: '待辦事項的ID。'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '截止日期和時間。'
+      name: dateString
+      optional: false
+      type: string
+todosetreminder:
+  args:
+    - itemId
+    - dateString
+  desc: '為待辦事項設定提醒時間'
+  params:
+    - desc: '待辦事項的ID。'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '提醒日期和時間。'
+      name: dateString
+      optional: false
+      type: string
+todoshow:
+  args:
+    - listId
+    - includeCompleted
+  desc: '顯示待辦清單中的所有事項'
+  params:
+    - desc: '待辦清單的ID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '是否包含已完成的事項。'
+      name: includeCompleted
+      optional: true
+      type: bool
+todotoggleprivacy:
+  args:
+    - listId
+  desc: '切換待辦清單的隱私設定'
+  params:
+    - desc: '待辦清單的ID。'
+      name: listId
+      optional: false
+      type: int

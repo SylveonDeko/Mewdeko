@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'Verifica o status de um servidor Minecraft. Use um nome registrado, endereço direto, ou deixe em branco para o servidor padrão.'
+  params:
+    - desc: 'O nome do servidor registrado ou endereço direto (ex. play.example.com:25565).'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: 'Adiciona um servidor Minecraft à guilda. Prefixe bedrock: no endereço para servidores Bedrock.'
+  params:
+    - desc: 'Um rótulo para o servidor.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'O endereço do servidor, opcionalmente com porta (ex. play.example.com:25565 ou bedrock:play.example.com).'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: 'Remove um servidor Minecraft da guilda.'
+  params:
+    - desc: 'O nome do servidor a remover.'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: 'Lista todos os servidores Minecraft registrados para esta guilda.'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: 'Define um servidor como padrão para comandos de status.'
+  params:
+    - desc: 'O nome do servidor a definir como padrão.'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: 'Define um canal para receber atualizações periódicas de status de um servidor. Omita o canal para desativar.'
+  params:
+    - desc: 'O nome do servidor a observar.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'O canal onde postar atualizações.'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: 'Define como o status do servidor é exibido: embed (edição no lugar), tópico do canal, ou ambos.'
+  params:
+    - desc: 'O nome do servidor.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'O modo de observação: Embed, ChannelTopic, ou Both.'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: 'Define um template embed personalizado para um servidor observado. Use "-" para resetar. Placeholders: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
+  params:
+    - desc: 'O nome do servidor.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'O JSON do template embed, ou "-" para resetar ao padrão.'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: 'Busca um jogador Minecraft por nome de usuário e exibe seu perfil e skin.'
+  params:
+    - desc: 'O nome de usuário Minecraft a buscar.'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'Exibe o render do skin de um jogador Minecraft.'
+  params:
+    - desc: 'O nome de usuário Minecraft.'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: 'Envia um comando RCON para um servidor Minecraft registrado. RCON deve ser configurado pelo painel.'
+  params:
+    - desc: 'O nome do servidor.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'O comando a executar no servidor.'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'Gerencia a whitelist em um servidor Minecraft via RCON. Requer RCON configurado.'
+  params:
+    - desc: 'O nome do servidor.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'A ação: add, remove, list, on, off, reload.'
+      name: action
+      optional: false
+      type: string
+    - desc: 'O nome do jogador (para add/remove).'
+      name: playerName
+      optional: true
+      type: string

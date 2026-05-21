@@ -1,0 +1,273 @@
+addstatusrole:
+  args:
+    - text
+  desc: 'Bir durum rolü yapılandırması ekler.'
+  params:
+    - &ref_32
+      desc: 'Eklenecek durum.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string:
+  args:
+    - text
+  desc: 'Bir durum rolü yapılandırması ekler.'
+  params:
+    - desc: 'Eklenecek durum.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_1:
+  args:
+    - text
+  desc: 'Bir durum rolü yapılandırması ekler.'
+  params:
+    - desc: 'Eklenecek durum.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_2:
+  args:
+    - text
+  desc: 'Bir durum rolü yapılandırması ekler.'
+  params:
+    - desc: 'Eklenecek durum.'
+      name: status
+      optional: false
+      type: string
+liststatusroles:
+  args:
+    - ''
+  desc: 'Tüm mevcut durum rollerini ayrıntılarıyla listeler.'
+  params: [ ]
+removeaddroles:
+  args:
+    - number @role
+  desc: 'Bir kullanıcı seçili duruma sahip olduğunda kaldırılacak rolleri ayarlar.'
+  params:
+    - &ref_390
+      desc: 'Durum rolünün indeksi.'
+      name: index
+      optional: false
+      type: int
+    - &ref_391
+      desc: 'Kaldırılacak roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: 'Bir kullanıcı seçili duruma sahip olduğunda kaldırılacak rolleri ayarlar.'
+  params:
+    - desc: 'Durum rolünün indeksi.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Kaldırılacak roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: 'Bir kullanıcı seçili duruma sahip olduğunda kaldırılacak rolleri ayarlar.'
+  params:
+    - desc: 'Durum rolünün indeksi.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Kaldırılacak roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: 'Bir kullanıcı seçili duruma sahip olduğunda kaldırılacak rolleri ayarlar.'
+  params:
+    - desc: 'Durum rolünün indeksi.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Kaldırılacak roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeremoveroles:
+  args:
+    - number @role
+  desc: >-
+    Bir kullanıcı seçili duruma sahip olduğunda eklenen rollerden bir veya
+    daha fazlasını kaldırır.
+  params:
+    - desc: 'Durum rolünün indeksi.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Kaldırılacak roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+removestatusrole:
+  args:
+    - number
+  desc: 'Bir durum rolü yapılandırmasını kaldırır.'
+  params:
+    - desc: 'Kaldırılacak durum rolünün indeksi.'
+      name: index
+      optional: false
+      type: int
+setaddroles:
+  args:
+    - number @role
+  desc: 'Bir kullanıcı seçili duruma sahip olduğunda eklenecek rolleri ayarlar.'
+  params:
+    - desc: 'Durum rolünün indeksi.'
+      name: index
+      optional: false
+      type: int
+    - &ref_486
+      desc: 'Eklenecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: 'Bir kullanıcı seçili duruma sahip olduğunda eklenecek rolleri ayarlar.'
+  params:
+    - desc: 'Durum rolünün indeksi.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Eklenecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: 'Bir kullanıcı seçili duruma sahip olduğunda eklenecek rolleri ayarlar.'
+  params:
+    - desc: 'Durum rolünün indeksi.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Eklenecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: 'Bir kullanıcı seçili duruma sahip olduğunda eklenecek rolleri ayarlar.'
+  params:
+    - desc: 'Durum rolünün indeksi.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Eklenecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+setremoveroles:
+  args:
+    - number @role
+  desc: 'Bir kullanıcı seçili duruma sahip olduğunda kaldırılacak rolleri ayarlar.'
+  params:
+    - desc: 'Durum rolünün indeksi.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Kaldırılacak roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+setstatusrolechannel:
+  args:
+    - number channel
+  desc: 'Belirli bir durum rolü için kanalı ayarlar.'
+  params:
+    - desc: 'Durum rolünün indeksi.'
+      name: index
+      optional: false
+      type: int
+    - &ref_527
+      desc: 'Ayarlanacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: 'Belirli bir durum rolü için kanalı ayarlar.'
+  params:
+    - desc: 'Durum rolünün indeksi.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: 'Belirli bir durum rolü için kanalı ayarlar.'
+  params:
+    - desc: 'Durum rolünün indeksi.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: 'Belirli bir durum rolü için kanalı ayarlar.'
+  params:
+    - desc: 'Durum rolünün indeksi.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusroleembed:
+  args:
+    - '<index> [embedText]'
+    - number
+  desc: 'Belirli bir durum rolü için embed metnini ayarlar veya önizler.'
+  params:
+    - desc: 'Durum rolünün indeksi.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak embed metni.'
+      name: embedText
+      optional: true
+      type: string
+togglereaddremoved:
+  args:
+    - number
+  desc: 'Bir durum kaldırıldığında eklenen rollerin kaldırılıp kaldırılmayacağını değiştirir.'
+  params:
+    - desc: 'Durum rolünün indeksi.'
+      name: index
+      optional: false
+      type: int
+toggleremoveadded:
+  args:
+    - number
+  desc: >-
+    Sağlanan indekse göre kullanıcı artık duruma sahip olmadığında eklenen
+    rollerin kaldırılıp kaldırılmayacağını değiştirir.
+  params:
+    - desc: 'Durum rolünün indeksi.'
+      name: index
+      optional: false
+      type: int

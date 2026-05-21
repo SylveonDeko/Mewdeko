@@ -1,0 +1,542 @@
+countingban:
+  args:
+    - user channel duration reason
+  desc: '특정 채널에서 사용자의 카운트를 금지합니다.'
+  params:
+    - desc: '카운트를 금지할 사용자.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '금지 기간 (예: 1h, 1d). 영구적으로는 비워두세요.'
+      name: duration
+      optional: true
+      type: stoopid time
+    - desc: '금지 이유.'
+      name: reason
+      optional: true
+      type: string
+countingconfig:
+  args:
+    - channel
+  desc: '카운트 채널의 설정을 구성합니다.'
+  params:
+    - desc: '설정을 표시할 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+countingcooldown:
+  args:
+    - channel seconds
+  desc: '사용자 카운트 간의 쿨다운을 설정합니다.'
+  params:
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '쿨다운 (초, 0-300).'
+      name: seconds
+      optional: true
+      type: int
+countingdisable:
+  args:
+    - channel purgeData reason
+  desc: '채널의 카운트를 비활성화하고 선택적으로 모든 데이터를 삭제합니다.'
+  params:
+    - desc: '카운트를 비활성화할 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '이 채널의 모든 카운트 데이터를 삭제할지 여부. 기본값은 false.'
+      name: purgeData
+      optional: true
+      type: bool
+    - desc: '카운트를 비활성화하는 이유.'
+      name: reason
+      optional: true
+      type: string
+countingfailurechannel:
+  args:
+    - countingChannel failureChannel
+  desc: '카운트 실패가 기록되는 채널을 설정합니다.'
+  params:
+    - desc: '카운트 채널.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: '실패 로그 채널. 비활성화하려면 null을 사용하세요.'
+      name: failureChannel
+      optional: true
+      type: text channel
+countingfailuremessage:
+  args:
+    - channel embed
+  desc: '실패한 카운트에 대한 사용자 정의 메시지를 설정합니다.'
+  params:
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '메시지 템플릿. 기본값으로 재설정하려면 "-"를 사용하세요.'
+      name: embed
+      optional: true
+      type: string
+countingfailurethreshold:
+  args:
+    - channel threshold
+  desc: '결과 전 실패 임계값을 설정합니다.'
+  params:
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '조치 전 실패 횟수 (1-10).'
+      name: threshold
+      optional: true
+      type: int
+countingleaderboard:
+  args:
+    - type channel
+  desc: '카운트 채널의 리더보드를 표시합니다.'
+  params:
+    - desc: '리더보드 유형 (contributions, streak, accuracy, totalnumbers).'
+      name: type
+      optional: true
+      type: string
+    - desc: '리더보드를 표시할 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+countinglist:
+  args:
+    - ''
+  desc: '서버의 모든 활성 카운트 채널을 나열합니다.'
+  params: [ ]
+countingmilestonechannel:
+  args:
+    - countingChannel milestoneChannel
+  desc: '마일스톤 달성이 발표되는 채널을 설정합니다.'
+  params:
+    - desc: '카운트 채널.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: '마일스톤 발표 채널. 비활성화하려면 null을 사용하세요.'
+      name: milestoneChannel
+      optional: true
+      type: text channel
+countingmilestonemessage:
+  args:
+    - channel embed
+  desc: '마일스톤 달성에 대한 사용자 정의 메시지를 설정합니다.'
+  params:
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '메시지 템플릿. 기본값으로 재설정하려면 "-"를 사용하세요.'
+      name: embed
+      optional: true
+      type: string
+countingmilestones:
+  args:
+    - channel milestones
+  desc: '사용자 정의 마일스톤 숫자를 설정합니다.'
+  params:
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '쉼표로 구분된 마일스톤 숫자 (예: 50,100,250,500,1000).'
+      name: milestones
+      optional: true
+      type: string
+countingreset:
+  args:
+    - channel newNumber reason
+  desc: '채널의 카운트를 특정 숫자로 재설정합니다.'
+  params:
+    - desc: '재설정할 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '재설정할 숫자. 기본값은 0.'
+      name: newNumber
+      optional: true
+      type: long
+    - desc: '재설정 이유.'
+      name: reason
+      optional: true
+      type: string
+countingrestore:
+  args:
+    - saveId channel
+  desc: '이전 저장 지점에서 카운트를 복원합니다.'
+  params:
+    - desc: '복원할 저장 지점 ID.'
+      name: saveId
+      optional: false
+      type: int
+    - desc: '복원할 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+countingsave:
+  args:
+    - channel reason
+  desc: '현재 카운트 진행 상황의 저장 지점을 만듭니다.'
+  params:
+    - desc: '저장할 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '저장 지점을 만드는 이유.'
+      name: reason
+      optional: true
+      type: string
+countingsetup:
+  args:
+    - channel startNumber increment
+  desc: '현재 또는 지정된 채널에서 카운트를 설정합니다.'
+  params:
+    - desc: '카운트를 설정할 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '카운트를 시작할 숫자. 기본값은 1.'
+      name: startNumber
+      optional: true
+      type: long
+    - desc: '각 카운트의 증가량. 기본값은 1.'
+      name: increment
+      optional: true
+      type: int
+countingstats:
+  args:
+    - user channel
+  desc: '사용자 또는 채널의 카운트 통계를 표시합니다.'
+  params:
+    - desc: '통계를 표시할 사용자. 기본값은 본인.'
+      name: user
+      optional: true
+      type: user
+    - desc: '통계를 확인할 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+countingstatus:
+  args:
+    - channel
+  desc: '채널의 현재 카운트 상태를 표시합니다.'
+  params:
+    - desc: '확인할 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+countingsuccessmessage:
+  args:
+    - channel embed
+  desc: '성공한 카운트에 대한 사용자 정의 메시지를 설정합니다.'
+  params:
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '메시지 템플릿. 기본값으로 재설정하려면 "-"를 사용하세요.'
+      name: embed
+      optional: true
+      type: string
+countingtimeout:
+  args:
+    - user duration channel reason
+  desc: '사용자를 카운트에서 일시적으로 타임아웃합니다.'
+  params:
+    - desc: '카운트에서 타임아웃할 사용자.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: '타임아웃 기간 (예: 30m, 2h).'
+      name: duration
+      optional: false
+      type: stoopid time
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '타임아웃 이유.'
+      name: reason
+      optional: true
+      type: string
+countingunban:
+  args:
+    - user channel reason
+  desc: '특정 채널에서 사용자의 카운트 금지를 해제합니다.'
+  params:
+    - desc: '카운트 금지를 해제할 사용자.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '금지 해제 이유.'
+      name: reason
+      optional: true
+      type: string
+countmodbanned:
+  args:
+    - channel roles...
+  desc: '카운트에서 금지된 역할을 설정합니다.'
+  params:
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '카운트에서 금지된 역할.'
+      name: roles
+      optional: true
+      type: role
+countmodclear:
+  args:
+    - user channel
+  desc: '카운트 채널에서 사용자의 오류 카운트를 지웁니다.'
+  params:
+    - desc: '오류 카운트를 지울 사용자.'
+      name: user
+      optional: false
+      type: user
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+countmodclearall:
+  args:
+    - channel
+  desc: '카운트 채널에서 모든 사용자의 오류 카운트를 지웁니다.'
+  params:
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+countmoddefaults:
+  args:
+    - enabled threshold windowHours punishment durationMinutes punishmentRole
+  desc: '서버 전체 기본 모더레이션 설정을 설정합니다.'
+  params:
+    - desc: '모더레이션이 기본적으로 활성화되는지 여부.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: '처벌 전 기본 오류 카운트 임계값.'
+      name: threshold
+      optional: true
+      type: int
+    - desc: '오류 카운트 추적을 위한 기본 시간 창 (시간).'
+      name: windowHours
+      optional: true
+      type: int
+    - desc: '적용할 기본 처벌 동작.'
+      name: punishment
+      optional: true
+      type: punishment action
+    - desc: '시간 제한 처벌의 기본 기간 (분).'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: '역할 추가 처벌 유형의 기본 역할.'
+      name: punishmentRole
+      optional: true
+      type: role
+countmodedits:
+  args:
+    - punish delete channel
+  desc: '카운트 채널의 메시지 편집 보호를 구성합니다.'
+  params:
+    - desc: '메시지 편집을 위반으로 처벌할지 여부.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: '편집된 메시지를 삭제할지 여부.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+countmodenable:
+  args:
+    - enabled channel
+  desc: '특정 카운트 채널의 모더레이션을 활성화하거나 비활성화합니다.'
+  params:
+    - desc: '모더레이션을 활성화 또는 비활성화할지 여부.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+countmodignore:
+  args:
+    - deleteMessages channel roles...
+  desc: '카운트에서 무시할 역할을 설정합니다.'
+  params:
+    - desc: '무시된 역할의 메시지를 삭제할지 여부.'
+      name: deleteMessages
+      optional: false
+      type: bool
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '카운트에서 무시할 역할.'
+      name: roles
+      optional: true
+      type: role
+countmodnonnumbers:
+  args:
+    - punish delete channel
+  desc: '카운트 채널에서 비숫자 메시지 처리를 구성합니다.'
+  params:
+    - desc: '비숫자 메시지를 위반으로 처벌할지 여부.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: '비숫자 메시지를 삭제할지 여부.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunish:
+  args:
+    - count punishment durationMinutes role channel
+  desc: '특정 오류 카운트 수에 대한 단계적 처벌을 설정합니다.'
+  params:
+    - desc: '이 처벌을 발동하는 오류 카운트 수.'
+      name: count
+      optional: false
+      type: int
+    - desc: '적용할 처벌 동작.'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: '시간 제한 처벌 기간 (분).'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: '역할 추가 처벌 유형의 역할.'
+      name: role
+      optional: true
+      type: role
+    - desc: '카운트 채널 (서버 기본값에는 NULL).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishlist:
+  args:
+    - channel
+  desc: '서버 또는 특정 채널의 모든 단계적 처벌을 나열합니다.'
+  params:
+    - desc: '카운트 채널 (서버 기본값에는 NULL).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishment:
+  args:
+    - punishment durationMinutes role channel
+  desc: '오류 카운트에 대한 처벌을 설정합니다.'
+  params:
+    - desc: '적용할 처벌 동작.'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: '시간 제한 처벌 기간 (분).'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: '역할 추가 처벌 유형의 역할.'
+      name: role
+      optional: true
+      type: role
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+countmodrequired:
+  args:
+    - channel roles...
+  desc: '카운트에 필요한 역할을 설정합니다.'
+  params:
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '카운트에 필요한 역할.'
+      name: roles
+      optional: true
+      type: role
+countmodreset:
+  args:
+    - channel
+  desc: '채널을 서버 기본값을 사용하도록 재설정합니다.'
+  params:
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+countmodshow:
+  args:
+    - channel
+  desc: '카운트 채널 또는 서버 기본값의 현재 모더레이션 구성을 표시합니다.'
+  params:
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+countmodthreshold:
+  args:
+    - threshold channel
+  desc: '카운트 채널의 오류 카운트 임계값을 설정합니다.'
+  params:
+    - desc: '처벌 전 오류 카운트 수 (1-100).'
+      name: threshold
+      optional: false
+      type: int
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel
+countmodunpunish:
+  args:
+    - count channel
+  desc: '특정 오류 카운트 수에 대한 단계적 처벌을 제거합니다.'
+  params:
+    - desc: '처벌을 제거할 오류 카운트 수.'
+      name: count
+      optional: false
+      type: int
+    - desc: '카운트 채널 (서버 기본값에는 NULL).'
+      name: channel
+      optional: true
+      type: text channel
+countmodwindow:
+  args:
+    - hours channel
+  desc: '오류 카운트 추적을 위한 시간 창을 설정합니다.'
+  params:
+    - desc: '시간 창 (시간, 1-168).'
+      name: hours
+      optional: false
+      type: int
+    - desc: '카운트 채널. 기본값은 현재 채널.'
+      name: channel
+      optional: true
+      type: text channel

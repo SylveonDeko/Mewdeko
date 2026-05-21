@@ -1,0 +1,272 @@
+addstatusrole:
+  args:
+    - text
+  desc: 'ステータスロール設定を追加します。'
+  params:
+    - &ref_32
+      desc: '追加するステータス。'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string:
+  args:
+    - text
+  desc: 'ステータスロール設定を追加します。'
+  params:
+    - desc: '追加するステータス。'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_1:
+  args:
+    - text
+  desc: 'ステータスロール設定を追加します。'
+  params:
+    - desc: '追加するステータス。'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_2:
+  args:
+    - text
+  desc: 'ステータスロール設定を追加します。'
+  params:
+    - desc: '追加するステータス。'
+      name: status
+      optional: false
+      type: string
+liststatusroles:
+  args:
+    - ''
+  desc: '現在のすべてのステータスロールを詳細とともに一覧表示します。'
+  params: [ ]
+removeaddroles:
+  args:
+    - number @role
+  desc: '選択したステータスを持つユーザーがいる場合に削除するロールを設定します。'
+  params:
+    - &ref_390
+      desc: 'ステータスロールのインデックス。'
+      name: index
+      optional: false
+      type: int
+    - &ref_391
+      desc: '削除するロール。'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: '選択したステータスを持つユーザーがいる場合に削除するロールを設定します。'
+  params:
+    - desc: 'ステータスロールのインデックス。'
+      name: index
+      optional: false
+      type: int
+    - desc: '削除するロール。'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: '選択したステータスを持つユーザーがいる場合に削除するロールを設定します。'
+  params:
+    - desc: 'ステータスロールのインデックス。'
+      name: index
+      optional: false
+      type: int
+    - desc: '削除するロール。'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: '選択したステータスを持つユーザーがいる場合に削除するロールを設定します。'
+  params:
+    - desc: 'ステータスロールのインデックス。'
+      name: index
+      optional: false
+      type: int
+    - desc: '削除するロール。'
+      name: roles
+      optional: false
+      type: IRole[]
+removeremoveroles:
+  args:
+    - number @role
+  desc: >-
+    選択したステータスを持つユーザーがいる場合に追加されたロールから1つ以上のロールを削除します。
+  params:
+    - desc: 'ステータスロールのインデックス。'
+      name: index
+      optional: false
+      type: int
+    - desc: '削除するロール。'
+      name: roles
+      optional: false
+      type: IRole[]
+removestatusrole:
+  args:
+    - number
+  desc: 'ステータスロール設定を削除します。'
+  params:
+    - desc: '削除するステータスロールのインデックス。'
+      name: index
+      optional: false
+      type: int
+setaddroles:
+  args:
+    - number @role
+  desc: '選択したステータスを持つユーザーがいる場合に追加するロールを設定します。'
+  params:
+    - desc: 'ステータスロールのインデックス。'
+      name: index
+      optional: false
+      type: int
+    - &ref_486
+      desc: '追加するロール。'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: '選択したステータスを持つユーザーがいる場合に追加するロールを設定します。'
+  params:
+    - desc: 'ステータスロールのインデックス。'
+      name: index
+      optional: false
+      type: int
+    - desc: '追加するロール。'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: '選択したステータスを持つユーザーがいる場合に追加するロールを設定します。'
+  params:
+    - desc: 'ステータスロールのインデックス。'
+      name: index
+      optional: false
+      type: int
+    - desc: '追加するロール。'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: '選択したステータスを持つユーザーがいる場合に追加するロールを設定します。'
+  params:
+    - desc: 'ステータスロールのインデックス。'
+      name: index
+      optional: false
+      type: int
+    - desc: '追加するロール。'
+      name: roles
+      optional: false
+      type: IRole[]
+setremoveroles:
+  args:
+    - number @role
+  desc: '選択したステータスを持つユーザーがいる場合に削除するロールを設定します。'
+  params:
+    - desc: 'ステータスロールのインデックス。'
+      name: index
+      optional: false
+      type: int
+    - desc: '削除するロール。'
+      name: roles
+      optional: false
+      type: IRole[]
+setstatusrolechannel:
+  args:
+    - number channel
+  desc: '特定のステータスロールのチャンネルを設定します。'
+  params:
+    - desc: 'ステータスロールのインデックス。'
+      name: index
+      optional: false
+      type: int
+    - &ref_527
+      desc: '設定するチャンネル。'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: '特定のステータスロールのチャンネルを設定します。'
+  params:
+    - desc: 'ステータスロールのインデックス。'
+      name: index
+      optional: false
+      type: int
+    - desc: '設定するチャンネル。'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: '特定のステータスロールのチャンネルを設定します。'
+  params:
+    - desc: 'ステータスロールのインデックス。'
+      name: index
+      optional: false
+      type: int
+    - desc: '設定するチャンネル。'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: '特定のステータスロールのチャンネルを設定します。'
+  params:
+    - desc: 'ステータスロールのインデックス。'
+      name: index
+      optional: false
+      type: int
+    - desc: '設定するチャンネル。'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusroleembed:
+  args:
+    - '<index> [embedText]'
+    - number
+  desc: '特定のステータスロールの埋め込みテキストを設定またはプレビューします。'
+  params:
+    - desc: 'ステータスロールのインデックス。'
+      name: index
+      optional: false
+      type: int
+    - desc: '設定する埋め込みテキスト。'
+      name: embedText
+      optional: true
+      type: string
+togglereaddremoved:
+  args:
+    - number
+  desc: 'ステータスが削除されたときに追加されたロールを削除するかどうかを切り替えます。'
+  params:
+    - desc: 'ステータスロールのインデックス。'
+      name: index
+      optional: false
+      type: int
+toggleremoveadded:
+  args:
+    - number
+  desc: >-
+    指定されたインデックスでユーザーがステータスを持たなくなったときに追加されたロールを
+    削除するかどうかを切り替えます。
+  params:
+    - desc: 'ステータスロールのインデックス。'
+      name: index
+      optional: false
+      type: int

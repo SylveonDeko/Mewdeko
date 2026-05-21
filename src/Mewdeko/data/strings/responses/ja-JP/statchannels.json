@@ -1,0 +1,9 @@
+{
+  "stat_channel_created": "タイプ **{1}** の統計チャンネル **{0}** を作成しました。",
+  "stat_channel_added": "タイプ **{1}** の統計チャンネル **{0}** を追加しました。",
+  "stat_channel_exists": "このチャンネルはすでに統計チャンネルです。",
+  "stat_channel_removed": "統計チャンネル **{0}** を削除しました。",
+  "stat_channel_not_found": "そのチャンネルは統計チャンネルではありません。",
+  "stat_channel_none": "統計チャンネルが設定されていません。",
+  "stat_channel_list_title": "統計チャンネル"
+}

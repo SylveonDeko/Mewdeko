@@ -1,0 +1,137 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'Zeigt detaillierte Patreon-Analysen an.'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'Löst manuell eine Patreon-Ankündigung aus.'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Legt den Patreon-Ankündigungskanal fest oder zeigt ihn an.
+  params:
+    - desc: >-
+        Der Kanal für Patreon-Ankündigungen. Wenn null, wird der aktuelle
+        Kanal angezeigt.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'Zeigt die aktuelle Patreon-Konfiguration für diesen Server.'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Legt den Tag des Monats für Patreon-Ankündigungen fest.'
+  params:
+    - desc: >-
+        Der Tag des Monats (1-28) für Ankündigungen. Wenn null, wird
+        der aktuelle Tag angezeigt.
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'Deaktiviert Patreon-Ankündigungen für diesen Server.'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Zeigt Informationen zum Patreon-Modul und verfügbare Platzhalter.'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Verknüpft einen Discord-Benutzer mit einem Patreon-Unterstützer.'
+  params:
+    - desc: Der zu verknüpfende Discord-Benutzer.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: Die zu verknüpfende Patreon-Benutzer-ID.
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Legt eine benutzerdefinierte Nachricht für Patreon-Ankündigungen fest.
+  params:
+    - desc: >-
+        Die benutzerdefinierte Nachricht. Verwende Platzhalter wie %server.name%,
+        %month% usw. Verwende "-" zum Zurücksetzen auf Standard.
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'Sendet Anerkennungsnachrichten für neue Unterstützer.'
+  params:
+    - desc: Der Kanal, in dem Anerkennungsnachrichten gesendet werden.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Listet Patreon-Tier-zu-Rollen-Zuordnungen auf.'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'Schaltet die automatische Rollensynchronisation um.'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Zeigt Patreon-Unterstützerstatistiken an.'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'Listet aktive Patreon-Unterstützer auf.'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'Richtet die Patreon-OAuth-Integration sicher ein.'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'Synchronisiert Rollen für alle verknüpften Unterstützer.'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Ordnet einen Patreon-Tier einer Discord-Rolle zu.'
+  params:
+    - desc: Die Patreon-Tier-ID.
+      name: tierId
+      optional: false
+      type: string
+    - desc: Die Discord-Rolle, die dem Tier zugeordnet werden soll.
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Schaltet Patreon-Ankündigungen ein oder aus.'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'Zeigt die Top-Patreon-Unterstützer an.'
+  params:
+    - desc: Anzahl der anzuzeigenden Top-Unterstützer (1-20).
+      name: count
+      optional: true
+      type: int

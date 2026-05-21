@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'Проверава статус Minecraft сервера. Користите регистровано име сервера, директну адресу, или оставите празно за подразумевани сервер.'
+  params:
+    - desc: 'Регистровано име сервера или директна адреса (нпр. play.example.com:25565).'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: 'Додаје Minecraft сервер у гилду. Додајте префикс bedrock: на адресу за Bedrock сервере.'
+  params:
+    - desc: 'Ознака за сервер.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Адреса сервера, опционо са портом (нпр. play.example.com:25565 или bedrock:play.example.com).'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: 'Уклања Minecraft сервер из гилде.'
+  params:
+    - desc: 'Име сервера за уклањање.'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: 'Наводи све регистроване Minecraft сервере за ову гилду.'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: 'Поставља сервер као подразумевани за команде статуса.'
+  params:
+    - desc: 'Име сервера за постављање као подразумевани.'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: 'Поставља канал за пријем периодичних ажурирања статуса сервера. Изоставите канал за онемогућавање.'
+  params:
+    - desc: 'Име сервера за праћење.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Канал за објаву ажурирања.'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: 'Поставља како се приказује статус сервера: embed (уређивање на месту), тема канала, или обоје.'
+  params:
+    - desc: 'Име сервера.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Режим праћења: Embed, ChannelTopic, или Both.'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: 'Поставља прилагођени embed шаблон за праћени сервер. Користите "-" за ресетовање. Чувари места: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
+  params:
+    - desc: 'Име сервера.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'JSON embed шаблона, или "-" за ресетовање на подразумевано.'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: 'Тражи Minecraft играча по корисничком имену и приказује његов профил и скин.'
+  params:
+    - desc: 'Minecraft корисничко име за тражење.'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'Приказује рендер скина Minecraft играча.'
+  params:
+    - desc: 'Minecraft корисничко име.'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: 'Шаље RCON команду регистрованом Minecraft серверу. RCON мора бити конфигурисан преко контролне табле.'
+  params:
+    - desc: 'Име сервера.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Команда за извршавање на серверу.'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'Управља whitelist-ом на Minecraft серверу преко RCON-а. Захтева конфигурисан RCON.'
+  params:
+    - desc: 'Име сервера.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Акција: add, remove, list, on, off, reload.'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Име играча (за add/remove).'
+      name: playerName
+      optional: true
+      type: string

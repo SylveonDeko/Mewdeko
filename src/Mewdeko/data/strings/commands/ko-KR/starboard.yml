@@ -1,0 +1,516 @@
+addstarboardemote:
+  args:
+    - number emote
+  desc: '기존 스타보드 구성에 이모트를 추가합니다.'
+  params:
+    - &ref_415
+      desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_516
+      desc: '추가할 이모트。'
+      name: emote
+      optional: false
+      type: IEmote
+createstarboard:
+  args:
+    - channel emote 1
+    - channel emote
+  desc: '서버에 새 스타보드 구성을 만듭니다.'
+  params:
+    - &ref_156
+      desc: '별표 메시지가 게시될 채널。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_157
+      desc: '메시지에 별표를 달 때 사용할 이모트。'
+      name: emote
+      optional: false
+      type: IEmote
+    - desc: '서버에 새 스타보드 구성을 만듭니다.'
+      name: 1
+      optional: false
+      type: '='
+createstarboard_ITextChannel_IEmote_=:
+  args:
+    - channel emote 1
+    - channel emote
+  desc: '서버에 새 스타보드 구성을 만듭니다.'
+  params:
+    - desc: '별표 메시지가 게시될 채널。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '메시지에 별표를 달 때 사용할 이모트。'
+      name: emote
+      optional: false
+      type: IEmote
+    - desc: '서버에 새 스타보드 구성을 만듭니다.'
+      name: 1
+      optional: false
+      type: '='
+createstarboard_ITextChannel_IEmote_=_1:
+  args:
+    - channel emote 1
+    - channel emote
+  desc: '서버에 새 스타보드 구성을 만듭니다.'
+  params:
+    - desc: '별표 메시지가 게시될 채널。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '메시지에 별표를 달 때 사용할 이모트。'
+      name: emote
+      optional: false
+      type: IEmote
+    - desc: '서버에 새 스타보드 구성을 만듭니다.'
+      name: 1
+      optional: false
+      type: '='
+createstarboard_ITextChannel_IEmote_=_2:
+  args:
+    - channel emote 1
+    - channel emote
+  desc: '서버에 새 스타보드 구성을 만듭니다.'
+  params:
+    - desc: '별표 메시지가 게시될 채널。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '메시지에 별표를 달 때 사용할 이모트。'
+      name: emote
+      optional: false
+      type: IEmote
+    - desc: '서버에 새 스타보드 구성을 만듭니다.'
+      name: 1
+      optional: false
+      type: '='
+deletestarboard:
+  args:
+    - number
+  desc: '서버에서 스타보드 구성을 제거합니다.'
+  params:
+    - &ref_190
+      desc: '제거할 스타보드의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+deletestarboard_int:
+  args:
+    - number
+  desc: '서버에서 스타보드 구성을 제거합니다.'
+  params:
+    - desc: '제거할 스타보드의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+deletestarboard_int_1:
+  args:
+    - number
+  desc: '서버에서 스타보드 구성을 제거합니다.'
+  params:
+    - desc: '제거할 스타보드의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+deletestarboard_int_2:
+  args:
+    - number
+  desc: '서버에서 스타보드 구성을 제거합니다.'
+  params:
+    - desc: '제거할 스타보드의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+liststarboards:
+  args:
+    - ''
+  desc: '서버의 모든 스타보드 구성을 나열합니다.'
+  params: [ ]
+removestarboardemote:
+  args:
+    - number emote
+  desc: '기존 스타보드 구성에서 이모트를 제거합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '제거할 이모트。'
+      name: emote
+      optional: false
+      type: IEmote
+setrepostthreshold:
+  args:
+    - number number
+  desc: '스타보드 구성의 리포스트 임계값을 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '설정할 리포스트 임계값。'
+      name: threshold
+      optional: false
+      type: int
+setrepostthreshold_int_int:
+  args:
+    - number number
+  desc: '스타보드 구성의 리포스트 임계값을 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_517
+      desc: '설정할 리포스트 임계값。'
+      name: threshold
+      optional: false
+      type: int
+setrepostthreshold_int_int_1:
+  args:
+    - number number
+  desc: '스타보드 구성의 리포스트 임계값을 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '스타보드 구성의 리포스트 임계값을 설정합니다.'
+      name: emote
+      optional: false
+      type: IEmote
+setrepostthreshold_int_int_2:
+  args:
+    - number number
+  desc: '스타보드 구성의 리포스트 임계값을 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '설정할 리포스트 임계값。'
+      name: threshold
+      optional: false
+      type: int
+setstarthreshold:
+  args:
+    - number number
+  desc: '스타보드 구성의 별표 임계값을 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '설정할 별표 임계값。'
+      name: threshold
+      optional: false
+      type: int
+starboardallowbots:
+  args:
+    - number true|false
+  desc: '특정 스타보드에서 봇을 카운트할 수 있는지 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_558
+      desc: '봇을 카운트할 수 있는지 여부。'
+      name: enabled
+      optional: false
+      type: bool
+starboardallowbots_int_bool:
+  args:
+    - number true|false
+  desc: '특정 스타보드에서 봇을 카운트할 수 있는지 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_559
+      desc: '봇을 카운트할 수 있는지 여부。'
+      name: enabled
+      optional: false
+      type: bool
+starboardallowbots_int_bool_1:
+  args:
+    - number true|false
+  desc: '특정 스타보드에서 봇을 카운트할 수 있는지 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '봇을 카운트할 수 있는지 여부。'
+      name: enabled
+      optional: false
+      type: bool
+starboardallowbots_int_bool_2:
+  args:
+    - number true|false
+  desc: '특정 스타보드에서 봇을 카운트할 수 있는지 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '봇을 카운트할 수 있는지 여부。'
+      name: enabled
+      optional: false
+      type: bool
+starboardchtoggle:
+  args:
+    - number channel
+  desc: '특정 스타보드에 대해 채널이 확인되는지 여부를 전환합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_560
+      desc: '전환할 채널。'
+      name: channel
+      optional: false
+      type: ITextChannel
+starboardchtoggle_int_ITextChannel:
+  args:
+    - number channel
+  desc: '특정 스타보드에 대해 채널이 확인되는지 여부를 전환합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '전환할 채널。'
+      name: channel
+      optional: false
+      type: ITextChannel
+starboardchtoggle_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: '특정 스타보드에 대해 채널이 확인되는지 여부를 전환합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '전환할 채널。'
+      name: channel
+      optional: false
+      type: ITextChannel
+starboardchtoggle_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: '특정 스타보드에 대해 채널이 확인되는지 여부를 전환합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '전환할 채널。'
+      name: channel
+      optional: false
+      type: ITextChannel
+starboardremoveonbelowthreshold:
+  args:
+    - number true|false
+  desc: '스타보드 게시물이 임계값 아래로 떨어질 때 제거할지 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_561
+      desc: '임계값 아래로 떨어질 때 게시물을 제거할지 여부。'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveonbelowthreshold_int_bool:
+  args:
+    - number true|false
+  desc: '스타보드 게시물이 임계값 아래로 떨어질 때 제거할지 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '임계값 아래로 떨어질 때 게시물을 제거할지 여부。'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveonbelowthreshold_int_bool_1:
+  args:
+    - number true|false
+  desc: '스타보드 게시물이 임계값 아래로 떨어질 때 제거할지 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '임계값 아래로 떨어질 때 게시물을 제거할지 여부。'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveonbelowthreshold_int_bool_2:
+  args:
+    - number true|false
+  desc: '스타보드 게시물이 임계값 아래로 떨어질 때 제거할지 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '임계값 아래로 떨어질 때 게시물을 제거할지 여부。'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveondelete:
+  args:
+    - number true|false
+  desc: '원본 메시지가 삭제될 때 스타보드 게시물을 제거할지 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_562
+      desc: '원본 메시지가 삭제될 때 게시물을 제거할지 여부。'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveondelete_int_bool:
+  args:
+    - number true|false
+  desc: '원본 메시지가 삭제될 때 스타보드 게시물을 제거할지 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '원본 메시지가 삭제될 때 게시물을 제거할지 여부。'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveondelete_int_bool_1:
+  args:
+    - number true|false
+  desc: '원본 메시지가 삭제될 때 스타보드 게시물을 제거할지 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '원본 메시지가 삭제될 때 게시물을 제거할지 여부。'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveondelete_int_bool_2:
+  args:
+    - number true|false
+  desc: '원본 메시지가 삭제될 때 스타보드 게시물을 제거할지 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '원본 메시지가 삭제될 때 게시물을 제거할지 여부。'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveonreactionsclear:
+  args:
+    - number true|false
+  desc: '반응이 지워질 때 스타보드 게시물을 제거할지 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '반응이 지워질 때 게시물을 제거할지 여부。'
+      name: enabled
+      optional: false
+      type: bool
+starboardstats:
+  args:
+    - ''
+  desc: '서버의 스타보드 통계를 표시합니다.'
+  params: [ ]
+starboarduserstats:
+  args:
+    - '@user'
+    - ''
+  desc: '특정 사용자의 스타보드 통계를 표시합니다.'
+  params:
+    - desc: '통계를 표시할 사용자. 기본값은 명령 호출자입니다.'
+      name: user
+      optional: true
+      type: IUser
+starboardwlmode:
+  args:
+    - number whitelist|wl|white
+    - whitelist
+    - wl
+    - white
+  desc: '스타보드 구성의 화이트리스트/블랙리스트 모드를 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_563
+      desc: '설정할 화이트리스트/블랙리스트 모드。'
+      name: mode
+      optional: false
+      type: WhitelistMode
+starboardwlmode_int_WhitelistMode:
+  args:
+    - number whitelist|wl|white
+    - whitelist
+    - wl
+    - white
+  desc: '스타보드 구성의 화이트리스트/블랙리스트 모드를 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '설정할 화이트리스트/블랙리스트 모드。'
+      name: mode
+      optional: false
+      type: WhitelistMode
+starboardwlmode_int_WhitelistMode_1:
+  args:
+    - number whitelist|wl|white
+    - whitelist
+    - wl
+    - white
+  desc: '스타보드 구성의 화이트리스트/블랙리스트 모드를 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '설정할 화이트리스트/블랙리스트 모드。'
+      name: mode
+      optional: false
+      type: WhitelistMode
+starboardwlmode_int_WhitelistMode_2:
+  args:
+    - number whitelist|wl|white
+    - whitelist
+    - wl
+    - white
+  desc: '스타보드 구성의 화이트리스트/블랙리스트 모드를 설정합니다.'
+  params:
+    - desc: '스타보드 구성의 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '설정할 화이트리스트/블랙리스트 모드。'
+      name: mode
+      optional: false
+      type: WhitelistMode

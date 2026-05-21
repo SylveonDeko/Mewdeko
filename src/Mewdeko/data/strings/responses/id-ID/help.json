@@ -1,0 +1,15 @@
+{
+  "module_not_found_or_cant_exec": "Antara modul tidak ada, atau anda tidak bisa menjalankan perintah di modul yang dipilih.",
+  "module": "Modul : {0}",
+  "module_description_help": "",
+  "module_description_gambling": "",
+  "module_description_games": "",
+  "module_description_nsfw": "",
+  "module_description_music": "",
+  "module_description_utility": "",
+  "module_description_administration": "",
+  "module_description_permissions": "",
+  "module_description_searches": "",
+  "module_description_xp": "",
+  "module_description_servermanagement": ""
+}

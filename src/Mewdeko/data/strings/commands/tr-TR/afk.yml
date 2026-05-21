@@ -1,0 +1,480 @@
+afk:
+  args:
+    - message
+  desc: 'AFK durumunuzu ayarlar.'
+  params:
+    - desc: 'Goruntulenecek AFK mesaji.'
+      name: message
+      optional: true
+      type: string
+afkdel:
+  args:
+    - ''
+  desc: 'AFK mesajlari icin otomatik silme suresini ayarlar.'
+  params: [ ]
+afkdel_int:
+  args:
+    - number
+  desc: 'AFK mesajlari icin otomatik silme suresini ayarlar.'
+  params:
+    - &ref_49
+      desc: 'Saniye cinsinden sure. Otomatik silmeyi devre disi birakmak icin 0 ayarlayin.'
+      name: num
+      optional: false
+      type: int
+afkdel_int_1:
+  args:
+    - number
+  desc: 'AFK mesajlari icin otomatik silme suresini ayarlar.'
+  params:
+    - desc: 'Saniye cinsinden sure. Otomatik silmeyi devre disi birakmak icin 0 ayarlayin.'
+      name: num
+      optional: false
+      type: int
+afkdel_int_2:
+  args:
+    - number
+  desc: 'AFK mesajlari icin otomatik silme suresini ayarlar.'
+  params:
+    - desc: 'Saniye cinsinden sure. Otomatik silmeyi devre disi birakmak icin 0 ayarlayin.'
+      name: num
+      optional: false
+      type: int
+afkdel_int_3:
+  args:
+    - number
+  desc: 'AFK mesajlari icin otomatik silme suresini ayarlar.'
+  params:
+    - desc: 'Saniye cinsinden sure. Otomatik silmeyi devre disi birakmak icin 0 ayarlayin.'
+      name: num
+      optional: false
+      type: int
+afkdel_noparams:
+  args:
+    - ''
+  desc: 'AFK mesajlari icin otomatik silme suresini ayarlar.'
+  params: [ ]
+afkdel_noparams_1:
+  args:
+    - ''
+  desc: 'AFK mesajlari icin otomatik silme suresini ayarlar.'
+  params: [ ]
+afkdel_noparams_2:
+  args:
+    - ''
+  desc: 'AFK mesajlari icin otomatik silme suresini ayarlar.'
+  params: [ ]
+afkdisable:
+  args:
+    - chan
+  desc: 'AFK mesajinin gosterilmeyecegi kanallari ayarlar.'
+  params:
+    - &ref_50
+      desc: 'AFK mesaj kara listesine eklemek istediginiz kanallar.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]:
+  args:
+    - chan
+  desc: 'AFK mesajinin gosterilmeyecegi kanallari ayarlar.'
+  params:
+    - desc: 'AFK mesaj kara listesine eklemek istediginiz kanallar.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]_1:
+  args:
+    - chan
+  desc: 'AFK mesajinin gosterilmeyecegi kanallari ayarlar.'
+  params:
+    - desc: 'AFK mesaj kara listesine eklemek istediginiz kanallar.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]_2:
+  args:
+    - chan
+  desc: 'AFK mesajinin gosterilmeyecegi kanallari ayarlar.'
+  params:
+    - desc: 'AFK mesaj kara listesine eklemek istediginiz kanallar.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisabledlist:
+  args:
+    - ''
+  desc: 'AFK mesajinin gosterilmedigi metin kanallarini listeler.'
+  params: [ ]
+afklength:
+  args:
+    - number
+  desc: 'Tum AFK mesajlarinin maksimum uzunlugunu ayarlar.'
+  params:
+    - &ref_51
+      desc: 'Ayarlamak istediginiz maksimum uzunluk.'
+      name: num
+      optional: false
+      type: int
+afklength_int:
+  args:
+    - number
+  desc: 'Tum AFK mesajlarinin maksimum uzunlugunu ayarlar.'
+  params:
+    - desc: 'Ayarlamak istediginiz maksimum uzunluk.'
+      name: num
+      optional: false
+      type: int
+afklength_int_1:
+  args:
+    - number
+  desc: 'Tum AFK mesajlarinin maksimum uzunlugunu ayarlar.'
+  params:
+    - desc: 'Ayarlamak istediginiz maksimum uzunluk.'
+      name: num
+      optional: false
+      type: int
+afklength_int_2:
+  args:
+    - number
+  desc: 'Tum AFK mesajlarinin maksimum uzunlugunu ayarlar.'
+  params:
+    - desc: 'Ayarlamak istediginiz maksimum uzunluk.'
+      name: num
+      optional: false
+      type: int
+afkremove:
+  args:
+    - '@user'
+  desc: 'Bir veya daha fazla kullanicinin AFK durumunu kaldirir.'
+  params:
+    - &ref_52
+      desc: 'AFK durumunu kaldirmak istediginiz kullanici(lar).'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Bir veya daha fazla kullanicinin AFK durumunu kaldirir.'
+  params:
+    - desc: 'AFK durumunu kaldirmak istediginiz kullanici(lar).'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Bir veya daha fazla kullanicinin AFK durumunu kaldirir.'
+  params:
+    - desc: 'AFK durumunu kaldirmak istediginiz kullanici(lar).'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Bir veya daha fazla kullanicinin AFK durumunu kaldirir.'
+  params:
+    - desc: 'AFK durumunu kaldirmak istediginiz kullanici(lar).'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkrm:
+  args:
+    - ''
+  desc: 'AFK durumunuzu kaldirir.'
+  params: [ ]
+afktimeout:
+  args:
+    - time
+  desc: >-
+    Bir kullanicinin artik AFK olarak kabul edilmeyecegi zaman asimi suresini
+    ayarlar. Kullanici bir mesaj gonderdikten veya bir kanalda yazmaaya
+    basladiginda tetiklenir.
+  params:
+    - &ref_53
+      desc: 'AFK durumu icin zaman asimi suresi.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime:
+  args:
+    - time
+  desc: >-
+    Bir kullanicinin artik AFK olarak kabul edilmeyecegi zaman asimi suresini
+    ayarlar. Kullanici bir mesaj gonderdikten veya bir kanalda yazmaaya
+    basladiginda tetiklenir.
+  params:
+    - desc: 'AFK durumu icin zaman asimi suresi.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime_1:
+  args:
+    - time
+  desc: >-
+    Bir kullanicinin artik AFK olarak kabul edilmeyecegi zaman asimi suresini
+    ayarlar. Kullanici bir mesaj gonderdikten veya bir kanalda yazmaaya
+    basladiginda tetiklenir.
+  params:
+    - desc: 'AFK durumu icin zaman asimi suresi.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime_2:
+  args:
+    - time
+  desc: >-
+    Bir kullanicinin artik AFK olarak kabul edilmeyecegi zaman asimi suresini
+    ayarlar. Kullanici bir mesaj gonderdikten veya bir kanalda yazmaaya
+    basladiginda tetiklenir.
+  params:
+    - desc: 'AFK durumu icin zaman asimi suresi.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktype:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'Sunucu icin AFK davranis turunu ayarlar.'
+  params:
+    - &ref_54
+      desc: 'Ayarlanacak AFK davranis turu. <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'Sunucu icin AFK davranis turunu ayarlar.'
+  params:
+    - desc: 'Ayarlanacak AFK davranis turu. <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum_1:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'Sunucu icin AFK davranis turunu ayarlar.'
+  params:
+    - desc: 'Ayarlanacak AFK davranis turu. <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum_2:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'Sunucu icin AFK davranis turunu ayarlar.'
+  params:
+    - desc: 'Ayarlanacak AFK davranis turu. <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afkundisable:
+  args:
+    - chan
+  desc: 'Belirtilen kanallari AFK mesaj kara listesinden kaldirir.'
+  params:
+    - &ref_55
+      desc: 'AFK mesaj kara listesinden kaldirilacak metin kanallari.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]:
+  args:
+    - chan
+  desc: 'Belirtilen kanallari AFK mesaj kara listesinden kaldirir.'
+  params:
+    - desc: 'AFK mesaj kara listesinden kaldirilacak metin kanallari.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]_1:
+  args:
+    - chan
+  desc: 'Belirtilen kanallari AFK mesaj kara listesinden kaldirir.'
+  params:
+    - desc: 'AFK mesaj kara listesinden kaldirilacak metin kanallari.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]_2:
+  args:
+    - chan
+  desc: 'Belirtilen kanallari AFK mesaj kara listesinden kaldirir.'
+  params:
+    - desc: 'AFK mesaj kara listesinden kaldirilacak metin kanallari.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkview:
+  args:
+    - '@user'
+  desc: 'Belirli bir kullanicinin AFK durumunu gosterir.'
+  params:
+    - &ref_56
+      desc: 'AFK durumu kontrol edilecek kullanici.'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Belirli bir kullanicinin AFK durumunu gosterir.'
+  params:
+    - desc: 'AFK durumu kontrol edilecek kullanici.'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Belirli bir kullanicinin AFK durumunu gosterir.'
+  params:
+    - desc: 'AFK durumu kontrol edilecek kullanici.'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Belirli bir kullanicinin AFK durumunu gosterir.'
+  params:
+    - desc: 'AFK durumu kontrol edilecek kullanici.'
+      name: user
+      optional: true
+      type: IGuildUser
+customafkmessage:
+  args:
+    - text
+  desc: >-
+    Kullanici AFK olduğunda gosterilecek ozel AFK gomu mesajini ayarlar.
+    Varsayilan gomiye sifirlamak icin "-" kullanin.
+    Gomu olusturucu icin https://eb.mewdeko.tech adresini,
+    yer tutucular icin http://mewdeko.tech/placeholders adresini ziyaret edin.
+  params:
+    - &ref_175
+      desc: 'Ayarlanacak ozel mesaj. Varsayilan mesaja sifirlamak icin "-" kullanin.'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string:
+  args:
+    - text
+  desc: >-
+    Kullanici AFK olduğunda gosterilecek ozel AFK gomu mesajini ayarlar.
+    Varsayilan gomiye sifirlamak icin "-" kullanin.
+    Gomu olusturucu icin https://eb.mewdeko.tech adresini,
+    yer tutucular icin http://mewdeko.tech/placeholders adresini ziyaret edin.
+  params:
+    - desc: 'Ayarlanacak ozel mesaj. Varsayilan mesaja sifirlamak icin "-" kullanin.'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string_1:
+  args:
+    - text
+  desc: >-
+    Kullanici AFK olduğunda gosterilecek ozel AFK gomu mesajini ayarlar.
+    Varsayilan gomiye sifirlamak icin "-" kullanin.
+    Gomu olusturucu icin https://eb.mewdeko.tech adresini,
+    yer tutucular icin http://mewdeko.tech/placeholders adresini ziyaret edin.
+  params:
+    - desc: 'Ayarlanacak ozel mesaj. Varsayilan mesaja sifirlamak icin "-" kullanin.'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string_2:
+  args:
+    - text
+  desc: >-
+    Kullanici AFK olduğunda gosterilecek ozel AFK gomu mesajini ayarlar.
+    Varsayilan gomiye sifirlamak icin "-" kullanin.
+    Gomu olusturucu icin https://eb.mewdeko.tech adresini,
+    yer tutucular icin http://mewdeko.tech/placeholders adresini ziyaret edin.
+  params:
+    - desc: 'Ayarlanacak ozel mesaj. Varsayilan mesaja sifirlamak icin "-" kullanin.'
+      name: embedCode
+      optional: false
+      type: string
+getactiveafks:
+  args:
+    - ''
+  desc: 'Su anda AFK olan aktif kullanicilarin listesini gosterir.'
+  params: [ ]
+setafk:
+  args:
+    - '[message]'
+  desc: 'Kullanicinin AFK durumunu istege bagli bir mesajla ayarlar.'
+  params:
+    - desc: 'AFK mesaji. Saglanmazsa kullanicinin AFK durumu degistirilir.'
+      name: message
+      optional: true
+      type: string
+timedafk:
+  args:
+    - time text
+  desc: 'Ozel mesajla zamanli AFK durumu ayarlar.'
+  params:
+    - &ref_621
+      desc: 'AFK durumu icin sure.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_622
+      desc: 'AFK durumu icin ozel mesaj.'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string:
+  args:
+    - time text
+  desc: 'Ozel mesajla zamanli AFK durumu ayarlar.'
+  params:
+    - desc: 'AFK durumu icin sure.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'AFK durumu icin ozel mesaj.'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string_1:
+  args:
+    - time text
+  desc: 'Ozel mesajla zamanli AFK durumu ayarlar.'
+  params:
+    - desc: 'AFK durumu icin sure.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'AFK durumu icin ozel mesaj.'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string_2:
+  args:
+    - time text
+  desc: 'Ozel mesajla zamanli AFK durumu ayarlar.'
+  params:
+    - desc: 'AFK durumu icin sure.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'AFK durumu icin ozel mesaj.'
+      name: message
+      optional: false
+      type: string

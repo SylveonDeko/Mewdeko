@@ -1,0 +1,384 @@
+multigreetadd:
+  args:
+    - '[@channel]'
+  desc: 'Aggiunge un canale MultiSaluto.'
+  params:
+    - desc: 'Il canale da aggiungere'
+      name: channel
+      optional: true
+      type: channel
+multigreetdelete:
+  args:
+    - number time
+  desc: 'Modifica il tempo di eliminazione di un messaggio MultiSaluto in secondi.'
+  params:
+    - &ref_303
+      desc: 'L''ID del MultiSaluto da modificare'
+      name: id
+      optional: false
+      type: int
+    - &ref_305
+      desc: 'Modifica il tempo di eliminazione di un messaggio MultiSaluto in secondi.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime:
+  args:
+    - number time
+  desc: 'Modifica il tempo di eliminazione di un messaggio MultiSaluto in secondi.'
+  params:
+    - desc: 'L''ID del MultiSaluto da modificare'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Modifica il tempo di eliminazione di un messaggio MultiSaluto in secondi.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'Modifica il tempo di eliminazione di un messaggio MultiSaluto in secondi.'
+  params:
+    - desc: 'L''ID del MultiSaluto da modificare'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Modifica il tempo di eliminazione di un messaggio MultiSaluto in secondi.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'Modifica il tempo di eliminazione di un messaggio MultiSaluto in secondi.'
+  params:
+    - desc: 'L''ID del MultiSaluto da modificare'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Modifica il tempo di eliminazione di un messaggio MultiSaluto in secondi.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_int:
+  args:
+    - number number
+  desc: 'Modifica il tempo di eliminazione di un messaggio MultiSaluto in secondi.'
+  params:
+    - desc: 'L''ID del MultiSaluto da modificare'
+      name: id
+      optional: false
+      type: int
+    - &ref_304
+      desc: 'Il tempo in secondi dopo cui eliminare il messaggio'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_1:
+  args:
+    - number number
+  desc: 'Modifica il tempo di eliminazione di un messaggio MultiSaluto in secondi.'
+  params:
+    - desc: 'L''ID del MultiSaluto da modificare'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il tempo in secondi dopo cui eliminare il messaggio'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_2:
+  args:
+    - number number
+  desc: 'Modifica il tempo di eliminazione di un messaggio MultiSaluto in secondi.'
+  params:
+    - desc: 'L''ID del MultiSaluto da modificare'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il tempo in secondi dopo cui eliminare il messaggio'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_3:
+  args:
+    - number number
+  desc: 'Modifica il tempo di eliminazione di un messaggio MultiSaluto in secondi.'
+  params:
+    - desc: 'L''ID del MultiSaluto da modificare'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il tempo in secondi dopo cui eliminare il messaggio'
+      name: howlong
+      optional: false
+      type: int
+multigreetdisable:
+  args:
+    - number true|false
+  desc: 'Disabilita un MultiSaluto.'
+  params:
+    - &ref_306
+      desc: 'L''ID del MultiSaluto da disabilitare'
+      name: num
+      optional: false
+      type: int
+    - &ref_307
+      desc: 'Se disabilitare il MultiSaluto'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool:
+  args:
+    - number true|false
+  desc: 'Disabilita un MultiSaluto.'
+  params:
+    - desc: 'L''ID del MultiSaluto da disabilitare'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Se disabilitare il MultiSaluto'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Disabilita un MultiSaluto.'
+  params:
+    - desc: 'L''ID del MultiSaluto da disabilitare'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Se disabilitare il MultiSaluto'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Disabilita un MultiSaluto.'
+  params:
+    - desc: 'L''ID del MultiSaluto da disabilitare'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Se disabilitare il MultiSaluto'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots:
+  args:
+    - number true|false
+  desc: 'Modifica se un MultiSaluto saluta i bot.'
+  params:
+    - &ref_308
+      desc: 'L''ID del MultiSaluto da modificare'
+      name: num
+      optional: false
+      type: int
+    - &ref_309
+      desc: 'Se salutare i bot'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool:
+  args:
+    - number true|false
+  desc: 'Modifica se un MultiSaluto saluta i bot.'
+  params:
+    - desc: 'L''ID del MultiSaluto da modificare'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Se salutare i bot'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Modifica se un MultiSaluto saluta i bot.'
+  params:
+    - desc: 'L''ID del MultiSaluto da modificare'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Se salutare i bot'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Modifica se un MultiSaluto saluta i bot.'
+  params:
+    - desc: 'L''ID del MultiSaluto da modificare'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Se salutare i bot'
+      name: enabled
+      optional: false
+      type: bool
+multigreetlist:
+  args:
+    - ''
+  desc: 'Elenca tutti i MultiSaluti.'
+  params: [ ]
+multigreetmessage:
+  args:
+    - '<id> [embedTemplate]'
+    - number
+  desc: 'Modifica il messaggio di un MultiSaluto.'
+  params:
+    - desc: 'L''ID del MultiSaluto da modificare'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il modello di messaggio/embed da impostare'
+      name: embedTemplate
+      optional: true
+      type: embedtemplateresult
+multigreetremove:
+  args:
+    - number
+  desc: 'Rimuove tutti i MultiSaluti da un canale.'
+  params:
+    - &ref_310
+      desc: 'Rimuove tutti i MultiSaluti da un canale.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_ITextChannel:
+  args:
+    - channel
+  desc: 'Rimuove tutti i MultiSaluti da un canale.'
+  params:
+    - &ref_311
+      desc: 'Il canale da cui rimuovere i MultiSaluti'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Rimuove tutti i MultiSaluti da un canale.'
+  params:
+    - desc: 'Il canale da cui rimuovere i MultiSaluti'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Rimuove tutti i MultiSaluti da un canale.'
+  params:
+    - desc: 'Il canale da cui rimuovere i MultiSaluti'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_3:
+  args:
+    - channel
+  desc: 'Rimuove tutti i MultiSaluti da un canale.'
+  params:
+    - desc: 'Il canale da cui rimuovere i MultiSaluti'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_int:
+  args:
+    - number
+  desc: 'Rimuove tutti i MultiSaluti da un canale.'
+  params:
+    - desc: 'Rimuove tutti i MultiSaluti da un canale.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_int_1:
+  args:
+    - number
+  desc: 'Rimuove tutti i MultiSaluti da un canale.'
+  params:
+    - desc: 'Rimuove tutti i MultiSaluti da un canale.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_int_2:
+  args:
+    - number
+  desc: 'Rimuove tutti i MultiSaluti da un canale.'
+  params:
+    - desc: 'Rimuove tutti i MultiSaluti da un canale.'
+      name: id
+      optional: false
+      type: int
+multigreettype:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Modifica il tipo di MultiSaluto.'
+  params:
+    - &ref_312
+      desc: 'Il tipo di MultiSaluto da impostare'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Modifica il tipo di MultiSaluto.'
+  params:
+    - desc: 'Il tipo di MultiSaluto da impostare'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes_1:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Modifica il tipo di MultiSaluto.'
+  params:
+    - desc: 'Il tipo di MultiSaluto da impostare'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes_2:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Modifica il tipo di MultiSaluto.'
+  params:
+    - desc: 'Il tipo di MultiSaluto da impostare'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreetwebhook:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Modifica il webhook di un MultiSaluto.'
+  params:
+    - desc: 'L''ID del MultiSaluto da modificare'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il nome del webhook'
+      name: name
+      optional: true
+      type: string
+    - desc: 'L''avatar del webhook'
+      name: avatar
+      optional: true
+      type: string

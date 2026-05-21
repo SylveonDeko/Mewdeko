@@ -1,0 +1,480 @@
+afk:
+  args:
+    - message
+  desc: 'Устанавливает ваш статус AFK.'
+  params:
+    - desc: 'Отображаемое AFK-сообщение.'
+      name: message
+      optional: true
+      type: string
+afkdel:
+  args:
+    - ''
+  desc: 'Устанавливает продолжительность авто-удаления для AFK-сообщений.'
+  params: [ ]
+afkdel_int:
+  args:
+    - number
+  desc: 'Устанавливает продолжительность авто-удаления для AFK-сообщений.'
+  params:
+    - &ref_49
+      desc: 'Продолжительность в секундах. Установите 0, чтобы отключить авто-удаление.'
+      name: num
+      optional: false
+      type: int
+afkdel_int_1:
+  args:
+    - number
+  desc: 'Устанавливает продолжительность авто-удаления для AFK-сообщений.'
+  params:
+    - desc: 'Продолжительность в секундах. Установите 0, чтобы отключить авто-удаление.'
+      name: num
+      optional: false
+      type: int
+afkdel_int_2:
+  args:
+    - number
+  desc: 'Устанавливает продолжительность авто-удаления для AFK-сообщений.'
+  params:
+    - desc: 'Продолжительность в секундах. Установите 0, чтобы отключить авто-удаление.'
+      name: num
+      optional: false
+      type: int
+afkdel_int_3:
+  args:
+    - number
+  desc: 'Устанавливает продолжительность авто-удаления для AFK-сообщений.'
+  params:
+    - desc: 'Продолжительность в секундах. Установите 0, чтобы отключить авто-удаление.'
+      name: num
+      optional: false
+      type: int
+afkdel_noparams:
+  args:
+    - ''
+  desc: 'Устанавливает продолжительность авто-удаления для AFK-сообщений.'
+  params: [ ]
+afkdel_noparams_1:
+  args:
+    - ''
+  desc: 'Устанавливает продолжительность авто-удаления для AFK-сообщений.'
+  params: [ ]
+afkdel_noparams_2:
+  args:
+    - ''
+  desc: 'Устанавливает продолжительность авто-удаления для AFK-сообщений.'
+  params: [ ]
+afkdisable:
+  args:
+    - chan
+  desc: 'Устанавливает каналы, где AFK-сообщение не будет отображаться.'
+  params:
+    - &ref_50
+      desc: 'Каналы, которые нужно добавить в черный список AFK-сообщений.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]:
+  args:
+    - chan
+  desc: 'Устанавливает каналы, где AFK-сообщение не будет отображаться.'
+  params:
+    - desc: 'Каналы, которые нужно добавить в черный список AFK-сообщений.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]_1:
+  args:
+    - chan
+  desc: 'Устанавливает каналы, где AFK-сообщение не будет отображаться.'
+  params:
+    - desc: 'Каналы, которые нужно добавить в черный список AFK-сообщений.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]_2:
+  args:
+    - chan
+  desc: 'Устанавливает каналы, где AFK-сообщение не будет отображаться.'
+  params:
+    - desc: 'Каналы, которые нужно добавить в черный список AFK-сообщений.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisabledlist:
+  args:
+    - ''
+  desc: 'Перечисляет текстовые каналы, где AFK-сообщение не отображается.'
+  params: [ ]
+afklength:
+  args:
+    - number
+  desc: 'Устанавливает максимальную длину всех AFK-сообщений.'
+  params:
+    - &ref_51
+      desc: 'Максимальная длина, которую нужно установить.'
+      name: num
+      optional: false
+      type: int
+afklength_int:
+  args:
+    - number
+  desc: 'Устанавливает максимальную длину всех AFK-сообщений.'
+  params:
+    - desc: 'Максимальная длина, которую нужно установить.'
+      name: num
+      optional: false
+      type: int
+afklength_int_1:
+  args:
+    - number
+  desc: 'Устанавливает максимальную длину всех AFK-сообщений.'
+  params:
+    - desc: 'Максимальная длина, которую нужно установить.'
+      name: num
+      optional: false
+      type: int
+afklength_int_2:
+  args:
+    - number
+  desc: 'Устанавливает максимальную длину всех AFK-сообщений.'
+  params:
+    - desc: 'Максимальная длина, которую нужно установить.'
+      name: num
+      optional: false
+      type: int
+afkremove:
+  args:
+    - '@user'
+  desc: 'Удаляет статус AFK для одного или нескольких пользователей.'
+  params:
+    - &ref_52
+      desc: 'Пользователь(и), у которых нужно удалить статус AFK.'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Удаляет статус AFK для одного или нескольких пользователей.'
+  params:
+    - desc: 'Пользователь(и), у которых нужно удалить статус AFK.'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Удаляет статус AFK для одного или нескольких пользователей.'
+  params:
+    - desc: 'Пользователь(и), у которых нужно удалить статус AFK.'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Удаляет статус AFK для одного или нескольких пользователей.'
+  params:
+    - desc: 'Пользователь(и), у которых нужно удалить статус AFK.'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkrm:
+  args:
+    - ''
+  desc: 'Удаляет ваш статус AFK.'
+  params: [ ]
+afktimeout:
+  args:
+    - time
+  desc: >-
+    Устанавливает продолжительность ожидания, прежде чем пользователь перестает
+    считаться AFK. Срабатывает, когда пользователь отправляет сообщение или
+    печатает в канале.
+  params:
+    - &ref_53
+      desc: 'Продолжительность ожидания для статуса AFK.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime:
+  args:
+    - time
+  desc: >-
+    Устанавливает продолжительность ожидания, прежде чем пользователь перестает
+    считаться AFK. Срабатывает, когда пользователь отправляет сообщение или
+    печатает в канале.
+  params:
+    - desc: 'Продолжительность ожидания для статуса AFK.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime_1:
+  args:
+    - time
+  desc: >-
+    Устанавливает продолжительность ожидания, прежде чем пользователь перестает
+    считаться AFK. Срабатывает, когда пользователь отправляет сообщение или
+    печатает в канале.
+  params:
+    - desc: 'Продолжительность ожидания для статуса AFK.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime_2:
+  args:
+    - time
+  desc: >-
+    Устанавливает продолжительность ожидания, прежде чем пользователь перестает
+    считаться AFK. Срабатывает, когда пользователь отправляет сообщение или
+    печатает в канале.
+  params:
+    - desc: 'Продолжительность ожидания для статуса AFK.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktype:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'Устанавливает тип поведения AFK для сервера.'
+  params:
+    - &ref_54
+      desc: 'Устанавливаемый тип поведения AFK. <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'Устанавливает тип поведения AFK для сервера.'
+  params:
+    - desc: 'Устанавливаемый тип поведения AFK. <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum_1:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'Устанавливает тип поведения AFK для сервера.'
+  params:
+    - desc: 'Устанавливаемый тип поведения AFK. <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum_2:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'Устанавливает тип поведения AFK для сервера.'
+  params:
+    - desc: 'Устанавливаемый тип поведения AFK. <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afkundisable:
+  args:
+    - chan
+  desc: 'Удаляет указанные каналы из черного списка AFK-сообщений.'
+  params:
+    - &ref_55
+      desc: 'Текстовые каналы, которые нужно удалить из черного списка AFK-сообщений.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]:
+  args:
+    - chan
+  desc: 'Удаляет указанные каналы из черного списка AFK-сообщений.'
+  params:
+    - desc: 'Текстовые каналы, которые нужно удалить из черного списка AFK-сообщений.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]_1:
+  args:
+    - chan
+  desc: 'Удаляет указанные каналы из черного списка AFK-сообщений.'
+  params:
+    - desc: 'Текстовые каналы, которые нужно удалить из черного списка AFK-сообщений.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]_2:
+  args:
+    - chan
+  desc: 'Удаляет указанные каналы из черного списка AFK-сообщений.'
+  params:
+    - desc: 'Текстовые каналы, которые нужно удалить из черного списка AFK-сообщений.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkview:
+  args:
+    - '@user'
+  desc: 'Отображает статус AFK определенного пользователя.'
+  params:
+    - &ref_56
+      desc: 'Пользователь, статус AFK которого нужно проверить.'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Отображает статус AFK определенного пользователя.'
+  params:
+    - desc: 'Пользователь, статус AFK которого нужно проверить.'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Отображает статус AFK определенного пользователя.'
+  params:
+    - desc: 'Пользователь, статус AFK которого нужно проверить.'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Отображает статус AFK определенного пользователя.'
+  params:
+    - desc: 'Пользователь, статус AFK которого нужно проверить.'
+      name: user
+      optional: true
+      type: IGuildUser
+customafkmessage:
+  args:
+    - text
+  desc: >-
+    Устанавливает пользовательский AFK-эмбед, который будет отображаться, когда
+    пользователь находится в AFK. Используйте "-" для сброса к стандартному
+    эмбеду. Посетите https://eb.mewdeko.tech для конструктора эмбедов и
+    http://mewdeko.tech/placeholders для плейсхолдеров.
+  params:
+    - &ref_175
+      desc: 'Устанавливаемое пользовательское сообщение. Используйте "-" для сброса к стандартному.'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string:
+  args:
+    - text
+  desc: >-
+    Устанавливает пользовательский AFK-эмбед, который будет отображаться, когда
+    пользователь находится в AFK. Используйте "-" для сброса к стандартному
+    эмбеду. Посетите https://eb.mewdeko.tech для конструктора эмбедов и
+    http://mewdeko.tech/placeholders для плейсхолдеров.
+  params:
+    - desc: 'Устанавливаемое пользовательское сообщение. Используйте "-" для сброса к стандартному.'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string_1:
+  args:
+    - text
+  desc: >-
+    Устанавливает пользовательский AFK-эмбед, который будет отображаться, когда
+    пользователь находится в AFK. Используйте "-" для сброса к стандартному
+    эмбеду. Посетите https://eb.mewdeko.tech для конструктора эмбедов и
+    http://mewdeko.tech/placeholders для плейсхолдеров.
+  params:
+    - desc: 'Устанавливаемое пользовательское сообщение. Используйте "-" для сброса к стандартному.'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string_2:
+  args:
+    - text
+  desc: >-
+    Устанавливает пользовательский AFK-эмбед, который будет отображаться, когда
+    пользователь находится в AFK. Используйте "-" для сброса к стандартному
+    эмбеду. Посетите https://eb.mewdeko.tech для конструктора эмбедов и
+    http://mewdeko.tech/placeholders для плейсхолдеров.
+  params:
+    - desc: 'Устанавливаемое пользовательское сообщение. Используйте "-" для сброса к стандартному.'
+      name: embedCode
+      optional: false
+      type: string
+getactiveafks:
+  args:
+    - ''
+  desc: 'Отображает список активных пользователей, которые в данный момент находятся в AFK.'
+  params: [ ]
+setafk:
+  args:
+    - '[message]'
+  desc: 'Устанавливает статус AFK пользователя с необязательным сообщением.'
+  params:
+    - desc: 'AFK-сообщение. Если не указано, статус AFK пользователя будет переключен.'
+      name: message
+      optional: true
+      type: string
+timedafk:
+  args:
+    - time text
+  desc: 'Устанавливает временный статус AFK с пользовательским сообщением.'
+  params:
+    - &ref_621
+      desc: 'Продолжительность статуса AFK.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_622
+      desc: 'Пользовательское сообщение для статуса AFK.'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string:
+  args:
+    - time text
+  desc: 'Устанавливает временный статус AFK с пользовательским сообщением.'
+  params:
+    - desc: 'Продолжительность статуса AFK.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Пользовательское сообщение для статуса AFK.'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string_1:
+  args:
+    - time text
+  desc: 'Устанавливает временный статус AFK с пользовательским сообщением.'
+  params:
+    - desc: 'Продолжительность статуса AFK.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Пользовательское сообщение для статуса AFK.'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string_2:
+  args:
+    - time text
+  desc: 'Устанавливает временный статус AFK с пользовательским сообщением.'
+  params:
+    - desc: 'Продолжительность статуса AFK.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Пользовательское сообщение для статуса AFK.'
+      name: message
+      optional: false
+      type: string

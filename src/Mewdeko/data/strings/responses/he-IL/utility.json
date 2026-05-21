@@ -1,0 +1,19 @@
+{
+  "invite_filter_channel_off": "הזמן את הסינון מושבת בערוץ זה.",
+  "invite_filter_channel_on": "הזמנת סינון מופעלת בערוץ זה.",
+  "invite_filter_server_off": "הזמנת סינון מושבתת בשרת זה.",
+  "invite_filter_server_on": "הזמנת סינון מופעלת בשרת זה.",
+  "channel_topic": "נושא הערוץ",
+  "convert": "{0} {1} שווה ל {2} {3}",
+  "convert_not_found": "לא ניתן להמיר את {0} ל- {1}: יחידות לא נמצאות",
+  "convert_type_error": "לא ניתן להמיר {0} ל- {1}: סוגי יחידות אינם שווים",
+  "remind": "I will remind {0} to {1} {2}",
+  "remind_invalid_format": "לא פורמט זמן חוקי. בדוק את רשימת הפקודות.",
+  "remind_too_long": "",
+  "repeat_invoke_none": "לא נמצאו הודעות חוזרות בשרת זה.",
+  "serverid": "{0} של שרת זה הוא {1}",
+  "reminder_list": "",
+  "reminder_deleted": "Reminder #{0} was deleted.",
+  "reminder_not_exist": "",
+  "invite_deleted": "Invite {0} has been deleted."
+}

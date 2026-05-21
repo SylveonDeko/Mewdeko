@@ -1,0 +1,8 @@
+{
+  "autoplay_disabled": "Auto spelning avaktiverad.",
+  "playlist_deleted": "Spelllista borttagen.",
+  "playlist_saved": "Spellista Sparad",
+  "queue": "Kö",
+  "queue_cleared": "Musik kön rensad.",
+  "volume_set": "Volym satt till {0}%"
+}

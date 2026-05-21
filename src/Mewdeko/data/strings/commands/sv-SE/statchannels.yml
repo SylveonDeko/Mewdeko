@@ -1,0 +1,95 @@
+statchannelcreate:
+  args:
+    - 'TotalMembers [template]'
+  desc: 'Skapar en ny låst röstkanal som visar serverstatistik. Botten skapar och hanterar kanalen.'
+  params:
+    - desc: 'Statistiktypen att visa.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'Visningsmallen. Använd %count% för värdet.'
+      name: template
+      optional: true
+      type: string
+statchanneladd:
+  args:
+    - '#voice-channel TotalMembers [template]'
+  desc: 'Lägger till en röstkanal som statistikkanal. Typer: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
+  params:
+    - desc: 'Röstkanalen att använda.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Statistiktypen att visa.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'Visningsmallen. Använd %count% för värdet.'
+      name: template
+      optional: true
+      type: string
+statchannelrole:
+  args:
+    - '#voice-channel @role [template]'
+  desc: 'Lägger till en statistikkanal som visar hur många medlemmar som har en specifik roll.'
+  params:
+    - desc: 'Röstkanalen att använda.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Rollen vars medlemmar ska räknas.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Visningsmallen. Använd %count% och %role.name%.'
+      name: template
+      optional: true
+      type: string
+statchannelcountdown:
+  args:
+    - '#voice-channel 2026-12-31 [template]'
+  desc: 'Lägger till en nedräkningsstatistikkanal. Använd platshållarna %days% och %hours%.'
+  params:
+    - desc: 'Röstkanalen att använda.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Måldatumet för nedräkningen.'
+      name: date
+      optional: false
+      type: DateTime
+    - desc: 'Visningsmallen. Använd %days% och %hours%.'
+      name: template
+      optional: true
+      type: string
+statchannelgoal:
+  args:
+    - '#voice-channel 1000 [template]'
+  desc: 'Lägger till en medlemsmål-statistikkanal. Använd %count%, %goal% och %goal.percent%.'
+  params:
+    - desc: 'Röstkanalen att använda.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Det målantal medlemmar.'
+      name: goal
+      optional: false
+      type: int
+    - desc: 'Visningsmallen. Använd %count%, %goal%, %goal.percent%.'
+      name: template
+      optional: true
+      type: string
+statchannelremove:
+  args:
+    - '#voice-channel'
+  desc: 'Tar bort en statistikkanal.'
+  params:
+    - desc: 'Röstkanalen att ta bort.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+statchannellist:
+  args:
+    - ''
+  desc: 'Listar alla statistikkanaler för denna server.'
+  params: [ ]

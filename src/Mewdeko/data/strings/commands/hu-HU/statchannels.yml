@@ -1,0 +1,95 @@
+statchannelcreate:
+  args:
+    - 'TotalMembers [template]'
+  desc: 'Új zárolt hangcsatornát hoz létre, amely szerverstatisztikát jelenít meg. A bot létrehozza és kezeli a csatornát.'
+  params:
+    - desc: 'A megjelenítendő statisztikatípus.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'A megjelenítési sablon. Az érték helyettesítője %count%.'
+      name: template
+      optional: true
+      type: string
+statchanneladd:
+  args:
+    - '#voice-channel TotalMembers [template]'
+  desc: 'Hozzáad egy hangcsatornát statisztikai csatornaként. Típusok: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
+  params:
+    - desc: 'A használandó hangcsatorna.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'A megjelenítendő statisztikatípus.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'A megjelenítési sablon. Az érték helyettesítője %count%.'
+      name: template
+      optional: true
+      type: string
+statchannelrole:
+  args:
+    - '#voice-channel @role [template]'
+  desc: 'Hozzáad egy statisztikai csatornát, amely megmutatja, hány tagnak van egy adott rangja.'
+  params:
+    - desc: 'A használandó hangcsatorna.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'A rang, amelynek tagjait számolja.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'A megjelenítési sablon. Használd a %count%-t és %role.name%-t.'
+      name: template
+      optional: true
+      type: string
+statchannelcountdown:
+  args:
+    - '#voice-channel 2026-12-31 [template]'
+  desc: 'Hozzáad egy visszaszámláló statisztikai csatornát. Használd a %days% és %hours% helyőrzőket.'
+  params:
+    - desc: 'A használandó hangcsatorna.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'A visszaszámlálás céldátuma.'
+      name: date
+      optional: false
+      type: DateTime
+    - desc: 'A megjelenítési sablon. Használd a %days%-t és %hours%-t.'
+      name: template
+      optional: true
+      type: string
+statchannelgoal:
+  args:
+    - '#voice-channel 1000 [template]'
+  desc: 'Hozzáad egy tagcél statisztikai csatornát. Használd a %count%-t, %goal%-t és %goal.percent%-t.'
+  params:
+    - desc: 'A használandó hangcsatorna.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'A cél taglétszám.'
+      name: goal
+      optional: false
+      type: int
+    - desc: 'A megjelenítési sablon. Használd a %count%-t, %goal%-t, %goal.percent%-t.'
+      name: template
+      optional: true
+      type: string
+statchannelremove:
+  args:
+    - '#voice-channel'
+  desc: 'Eltávolít egy statisztikai csatornát.'
+  params:
+    - desc: 'Az eltávolítandó hangcsatorna.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+statchannellist:
+  args:
+    - ''
+  desc: 'Felsorolja a szerver összes statisztikai csatornáját.'
+  params: [ ]

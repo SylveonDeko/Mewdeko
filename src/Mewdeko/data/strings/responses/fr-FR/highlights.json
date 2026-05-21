@@ -1,0 +1,23 @@
+{
+  "highlight_added": "{0} ajouté à vos highlights !",
+  "highlight_already_exists": "Cela figure déjà dans vos highlights !",
+  "highlight_cannot_delete": "Impossible de supprimer car vous n'avez aucun highlight défini !",
+  "highlight_disabled": "Highlights désactivés.",
+  "highlight_empty_delete": "Impossible de supprimer un highlight vide.",
+  "highlight_empty_match": "Impossible de chercher une correspondance pour un highlight vide.",
+  "highlight_enabled": "Highlights activés !",
+  "highlight_ignored_channel_added": "{0} ajouté aux salons ignorés !",
+  "highlight_ignored_channel_removed": "{0} retiré des salons ignorés !",
+  "highlight_ignored_user_added": "{0} ajouté aux utilisateurs ignorés !",
+  "highlight_ignored_user_removed": "{0} retiré des utilisateurs ignorés !",
+  "highlight_list_title": "Highlights de {0}",
+  "highlight_no_highlights": "Vous n'avez aucun highlight défini !",
+  "highlight_no_match_found": "Aucune correspondance trouvée.",
+  "highlight_no_matches": "Aucun highlight à faire correspondre.",
+  "highlight_not_exist": "Ce highlight n'existe pas !",
+  "highlight_not_found": "Cela ne figure pas dans vos highlights !",
+  "highlight_phrase_required": "Vous devez spécifier une phrase à mettre en highlight.",
+  "highlight_removed": "{0} retiré de vos highlights avec succès.",
+  "highlight_toggle_invalid": "La valeur doit être vrai ou faux, rien d'autre.",
+  "highlight_user_channel_not_found": "Cet utilisateur ou salon est introuvable !"
+}

@@ -1,0 +1,271 @@
+addstatusrole:
+  args:
+    - text
+  desc: '新增狀態身分組配置。'
+  params:
+    - &ref_32
+      desc: '要新增的狀態。'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string:
+  args:
+    - text
+  desc: '新增狀態身分組配置。'
+  params:
+    - desc: '要新增的狀態。'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_1:
+  args:
+    - text
+  desc: '新增狀態身分組配置。'
+  params:
+    - desc: '要新增的狀態。'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_2:
+  args:
+    - text
+  desc: '新增狀態身分組配置。'
+  params:
+    - desc: '要新增的狀態。'
+      name: status
+      optional: false
+      type: string
+liststatusroles:
+  args:
+    - ''
+  desc: '列出所有目前的狀態身分組及其詳細資訊。'
+  params: [ ]
+removeaddroles:
+  args:
+    - number @role
+  desc: '設定當用戶擁有所選狀態時要移除的身分組。'
+  params:
+    - &ref_390
+      desc: '狀態身分組的索引。'
+      name: index
+      optional: false
+      type: int
+    - &ref_391
+      desc: '要移除的身分組。'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: '設定當用戶擁有所選狀態時要移除的身分組。'
+  params:
+    - desc: '狀態身分組的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要移除的身分組。'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: '設定當用戶擁有所選狀態時要移除的身分組。'
+  params:
+    - desc: '狀態身分組的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要移除的身分組。'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: '設定當用戶擁有所選狀態時要移除的身分組。'
+  params:
+    - desc: '狀態身分組的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要移除的身分組。'
+      name: roles
+      optional: false
+      type: IRole[]
+removeremoveroles:
+  args:
+    - number @role
+  desc: >-
+    從用戶擁有所選狀態時新增的身分組中移除一個或多個身分組。
+  params:
+    - desc: '狀態身分組的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要移除的身分組。'
+      name: roles
+      optional: false
+      type: IRole[]
+removestatusrole:
+  args:
+    - number
+  desc: '移除狀態身分組配置。'
+  params:
+    - desc: '要移除的狀態身分組的索引。'
+      name: index
+      optional: false
+      type: int
+setaddroles:
+  args:
+    - number @role
+  desc: '設定當用戶擁有所選狀態時要新增的身分組。'
+  params:
+    - desc: '狀態身分組的索引。'
+      name: index
+      optional: false
+      type: int
+    - &ref_486
+      desc: '要新增的身分組。'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: '設定當用戶擁有所選狀態時要新增的身分組。'
+  params:
+    - desc: '狀態身分組的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要新增的身分組。'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: '設定當用戶擁有所選狀態時要新增的身分組。'
+  params:
+    - desc: '狀態身分組的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要新增的身分組。'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: '設定當用戶擁有所選狀態時要新增的身分組。'
+  params:
+    - desc: '狀態身分組的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要新增的身分組。'
+      name: roles
+      optional: false
+      type: IRole[]
+setremoveroles:
+  args:
+    - number @role
+  desc: '設定當用戶擁有所選狀態時要移除的身分組。'
+  params:
+    - desc: '狀態身分組的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要移除的身分組。'
+      name: roles
+      optional: false
+      type: IRole[]
+setstatusrolechannel:
+  args:
+    - number channel
+  desc: '為特定狀態身分組設定頻道。'
+  params:
+    - desc: '狀態身分組的索引。'
+      name: index
+      optional: false
+      type: int
+    - &ref_527
+      desc: '要設定的頻道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: '為特定狀態身分組設定頻道。'
+  params:
+    - desc: '狀態身分組的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要設定的頻道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: '為特定狀態身分組設定頻道。'
+  params:
+    - desc: '狀態身分組的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要設定的頻道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: '為特定狀態身分組設定頻道。'
+  params:
+    - desc: '狀態身分組的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要設定的頻道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusroleembed:
+  args:
+    - '<index> [embedText]'
+    - number
+  desc: '設定或預覽特定狀態身分組的嵌入文字。'
+  params:
+    - desc: '狀態身分組的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要設定的嵌入文字。'
+      name: embedText
+      optional: true
+      type: string
+togglereaddremoved:
+  args:
+    - number
+  desc: '切換狀態被移除時是否移除已新增的身分組。'
+  params:
+    - desc: '狀態身分組的索引。'
+      name: index
+      optional: false
+      type: int
+toggleremoveadded:
+  args:
+    - number
+  desc: >-
+    根據提供的索引，切換用戶不再擁有該狀態時是否移除已新增的身分組。
+  params:
+    - desc: '狀態身分組的索引。'
+      name: index
+      optional: false
+      type: int

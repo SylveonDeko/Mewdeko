@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'F-fine, I''ll toggle birthday announcements for you... not like I care!'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'Sets the birthday announcement channel. Don''t get the wrong idea!'
+  params:
+    - desc: >-
+        The text channel for announcements. It defaults to the current
+        channel if you forget to specify, dummy.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'Views the current birthday configuration. Hmph.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'Shows upcoming birthdays on the server. Not that I memorized them!'
+  params:
+    - desc: How many days to look ahead. Default is 7, max is 30. Don''t push it!
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'Sets a custom birthday message template. I-it''s for you, baka.'
+  params:
+    - desc: >-
+        The message template. Use {user} to mention them. Leave it empty
+        and I''ll show the current one... obviously.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'Sets the role to ping for birthdays. Don''t make a big deal of it!'
+  params:
+    - desc: The role to ping. Provide nothing to disable it, idiot.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'Sets the birthday role users get. Not for any special reason!'
+  params:
+    - desc: The role to give on their birthday. Skip it to disable... whatever.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'Sets your timezone for birthday math. Pay attention!'
+  params:
+    - desc: The timezone to set (like "America/New_York"). Don''t mess this up!
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'Shows today''s birthdays. I-it''s not like I prepared a cake or anything!'
+  params: [ ]

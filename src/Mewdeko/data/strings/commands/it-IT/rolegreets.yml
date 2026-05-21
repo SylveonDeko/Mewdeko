@@ -1,0 +1,434 @@
+rolegreetadd:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Aggiunge un nuovo messaggio di benvenuto per un ruolo specifico. Se non viene specificato un canale, viene utilizzato il canale corrente.'
+  params:
+    - desc: 'Il ruolo per cui viene impostato il messaggio di benvenuto.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Il canale di testo in cui verrà inviato il messaggio di benvenuto. Facoltativo.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Aggiunge un nuovo messaggio di benvenuto per un ruolo specifico. Se non viene specificato un canale, viene utilizzato il canale corrente.'
+  params:
+    - desc: 'Il ruolo per cui viene impostato il messaggio di benvenuto.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Il canale di testo in cui verrà inviato il messaggio di benvenuto. Facoltativo.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=_1:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Aggiunge un nuovo messaggio di benvenuto per un ruolo specifico. Se non viene specificato un canale, viene utilizzato il canale corrente.'
+  params:
+    - desc: 'Il ruolo per cui viene impostato il messaggio di benvenuto.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Il canale di testo in cui verrà inviato il messaggio di benvenuto. Facoltativo.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=_2:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Aggiunge un nuovo messaggio di benvenuto per un ruolo specifico. Se non viene specificato un canale, viene utilizzato il canale corrente.'
+  params:
+    - desc: 'Il ruolo per cui viene impostato il messaggio di benvenuto.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Il canale di testo in cui verrà inviato il messaggio di benvenuto. Facoltativo.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetdelete:
+  args:
+    - number time
+  desc: 'Aggiorna un messaggio di benvenuto del ruolo per essere eliminato automaticamente dopo una durata specificata.'
+  params:
+    - &ref_448
+      desc: "L'ID del saluto del ruolo da aggiornare, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: id
+      optional: false
+      type: int
+    - &ref_450
+      desc: 'Aggiorna un messaggio di benvenuto del ruolo per essere eliminato automaticamente dopo una durata specificata.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime:
+  args:
+    - number time
+  desc: 'Aggiorna un messaggio di benvenuto del ruolo per essere eliminato automaticamente dopo una durata specificata.'
+  params:
+    - desc: "L'ID del saluto del ruolo da aggiornare, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: id
+      optional: false
+      type: int
+    - desc: 'Aggiorna un messaggio di benvenuto del ruolo per essere eliminato automaticamente dopo una durata specificata.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'Aggiorna un messaggio di benvenuto del ruolo per essere eliminato automaticamente dopo una durata specificata.'
+  params:
+    - desc: "L'ID del saluto del ruolo da aggiornare, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: id
+      optional: false
+      type: int
+    - desc: 'Aggiorna un messaggio di benvenuto del ruolo per essere eliminato automaticamente dopo una durata specificata.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'Aggiorna un messaggio di benvenuto del ruolo per essere eliminato automaticamente dopo una durata specificata.'
+  params:
+    - desc: "L'ID del saluto del ruolo da aggiornare, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: id
+      optional: false
+      type: int
+    - desc: 'Aggiorna un messaggio di benvenuto del ruolo per essere eliminato automaticamente dopo una durata specificata.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_int:
+  args:
+    - number number
+  desc: 'Aggiorna un messaggio di benvenuto del ruolo per essere eliminato automaticamente dopo una durata specificata.'
+  params:
+    - desc: "L'ID del saluto del ruolo da aggiornare, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: id
+      optional: false
+      type: int
+    - &ref_449
+      desc: 'La durata, in secondi, dopo la quale il messaggio di benvenuto verrà eliminato.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_1:
+  args:
+    - number number
+  desc: 'Aggiorna un messaggio di benvenuto del ruolo per essere eliminato automaticamente dopo una durata specificata.'
+  params:
+    - desc: "L'ID del saluto del ruolo da aggiornare, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: id
+      optional: false
+      type: int
+    - desc: 'La durata, in secondi, dopo la quale il messaggio di benvenuto verrà eliminato.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_2:
+  args:
+    - number number
+  desc: 'Aggiorna un messaggio di benvenuto del ruolo per essere eliminato automaticamente dopo una durata specificata.'
+  params:
+    - desc: "L'ID del saluto del ruolo da aggiornare, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: id
+      optional: false
+      type: int
+    - desc: 'La durata, in secondi, dopo la quale il messaggio di benvenuto verrà eliminato.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_3:
+  args:
+    - number number
+  desc: 'Aggiorna un messaggio di benvenuto del ruolo per essere eliminato automaticamente dopo una durata specificata.'
+  params:
+    - desc: "L'ID del saluto del ruolo da aggiornare, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: id
+      optional: false
+      type: int
+    - desc: 'La durata, in secondi, dopo la quale il messaggio di benvenuto verrà eliminato.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdisable:
+  args:
+    - number true|false
+  desc: 'Abilita o disabilita un messaggio di benvenuto del ruolo.'
+  params:
+    - &ref_451
+      desc: "L'ID del saluto del ruolo da aggiornare, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: num
+      optional: false
+      type: int
+    - &ref_452
+      desc: 'Se abilitare o disabilitare il messaggio di benvenuto.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool:
+  args:
+    - number true|false
+  desc: 'Abilita o disabilita un messaggio di benvenuto del ruolo.'
+  params:
+    - desc: "L'ID del saluto del ruolo da aggiornare, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: num
+      optional: false
+      type: int
+    - desc: 'Se abilitare o disabilitare il messaggio di benvenuto.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Abilita o disabilita un messaggio di benvenuto del ruolo.'
+  params:
+    - desc: "L'ID del saluto del ruolo da aggiornare, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: num
+      optional: false
+      type: int
+    - desc: 'Se abilitare o disabilitare il messaggio di benvenuto.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Abilita o disabilita un messaggio di benvenuto del ruolo.'
+  params:
+    - desc: "L'ID del saluto del ruolo da aggiornare, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: num
+      optional: false
+      type: int
+    - desc: 'Se abilitare o disabilitare il messaggio di benvenuto.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots:
+  args:
+    - number true|false
+  desc: 'Abilita o disabilita il saluto dei bot da parte di un saluto del ruolo specifico.'
+  params:
+    - desc: "L'ID del saluto del ruolo da aggiornare, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: num
+      optional: false
+      type: int
+    - &ref_453
+      desc: 'Se abilitare o disabilitare il saluto ai bot.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool:
+  args:
+    - number true|false
+  desc: 'Abilita o disabilita il saluto dei bot da parte di un saluto del ruolo specifico.'
+  params:
+    - desc: "L'ID del saluto del ruolo da aggiornare, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: num
+      optional: false
+      type: int
+    - desc: 'Se abilitare o disabilitare il saluto ai bot.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Abilita o disabilita il saluto dei bot da parte di un saluto del ruolo specifico.'
+  params:
+    - desc: "L'ID del saluto del ruolo da aggiornare, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: num
+      optional: false
+      type: int
+    - desc: 'Se abilitare o disabilitare il saluto ai bot.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Abilita o disabilita il saluto dei bot da parte di un saluto del ruolo specifico.'
+  params:
+    - desc: "L'ID del saluto del ruolo da aggiornare, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: num
+      optional: false
+      type: int
+    - desc: 'Se abilitare o disabilitare il saluto ai bot.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetlist:
+  args:
+    - ''
+  desc: 'Elenca tutti i saluti dei ruoli configurati nel server, fornendo informazioni dettagliate per ciascuno.'
+  params: [ ]
+rolegreetmessage:
+  args:
+    - '<id> [message]'
+    - number
+  desc: 'Aggiorna il contenuto del messaggio di un saluto del ruolo. Se non viene fornito alcun messaggio, presenta opzioni per visualizzare in anteprima il messaggio o vederlo come testo normale.'
+  params:
+    - desc: "L'ID del saluto del ruolo da aggiornare, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il nuovo contenuto del messaggio. Facoltativo.'
+      name: message
+      optional: true
+      type: string
+rolegreetremove:
+  args:
+    - number
+  desc: Rimuove i saluti dei ruoli associati all''ID del ruolo specificato
+  params:
+    - &ref_454
+      desc: Rimuove i saluti dei ruoli associati all''ID del ruolo specificato
+      name: id
+      optional: false
+      type: int
+rolegreetremove_IRole:
+  args:
+    - '@role'
+  desc: Rimuove i saluti dei ruoli associati all''ID del ruolo specificato
+  params:
+    - desc: 'Il ruolo per cui verranno eliminati i saluti dei ruoli.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_1:
+  args:
+    - '@role'
+  desc: Rimuove i saluti dei ruoli associati all''ID del ruolo specificato
+  params:
+    - desc: 'Il ruolo per cui verranno eliminati i saluti dei ruoli.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_2:
+  args:
+    - '@role'
+  desc: Rimuove i saluti dei ruoli associati all''ID del ruolo specificato
+  params:
+    - desc: 'Il ruolo per cui verranno eliminati i saluti dei ruoli.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_3:
+  args:
+    - '@role'
+  desc: Rimuove i saluti dei ruoli associati all''ID del ruolo specificato
+  params:
+    - desc: 'Il ruolo per cui verranno eliminati i saluti dei ruoli.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_int:
+  args:
+    - number
+  desc: Rimuove i saluti dei ruoli associati all''ID del ruolo specificato
+  params:
+    - desc: Rimuove i saluti dei ruoli associati all''ID del ruolo specificato
+      name: id
+      optional: false
+      type: int
+rolegreetremove_int_1:
+  args:
+    - number
+  desc: Rimuove i saluti dei ruoli associati all''ID del ruolo specificato
+  params:
+    - desc: Rimuove i saluti dei ruoli associati all''ID del ruolo specificato
+      name: id
+      optional: false
+      type: int
+rolegreetremove_int_2:
+  args:
+    - number
+  desc: Rimuove i saluti dei ruoli associati all''ID del ruolo specificato
+  params:
+    - desc: Rimuove i saluti dei ruoli associati all''ID del ruolo specificato
+      name: id
+      optional: false
+      type: int
+rolegreetwebhook:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Configura un webhook per un messaggio di benvenuto del ruolo, con nome e avatar personalizzati. Se non viene fornito un nome, il webhook viene disabilitato.'
+  params:
+    - desc: "L'ID del saluto del ruolo per configurare il webhook, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il nome del webhook. Facoltativo.'
+      name: name
+      optional: true
+      type: string
+    - desc: "L'URL dell'avatar per il webhook. Facoltativo."
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Configura un webhook per un messaggio di benvenuto del ruolo, con nome e avatar personalizzati. Se non viene fornito un nome, il webhook viene disabilitato.'
+  params:
+    - desc: "L'ID del saluto del ruolo per configurare il webhook, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il nome del webhook. Facoltativo.'
+      name: name
+      optional: true
+      type: string
+    - desc: "L'URL dell'avatar per il webhook. Facoltativo."
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=_1:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Configura un webhook per un messaggio di benvenuto del ruolo, con nome e avatar personalizzati. Se non viene fornito un nome, il webhook viene disabilitato.'
+  params:
+    - desc: "L'ID del saluto del ruolo per configurare il webhook, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il nome del webhook. Facoltativo.'
+      name: name
+      optional: true
+      type: string
+    - desc: "L'URL dell'avatar per il webhook. Facoltativo."
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=_2:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Configura un webhook per un messaggio di benvenuto del ruolo, con nome e avatar personalizzati. Se non viene fornito un nome, il webhook viene disabilitato.'
+  params:
+    - desc: "L'ID del saluto del ruolo per configurare il webhook, in base alla sua posizione nell'elenco di tutti i saluti dei ruoli."
+      name: id
+      optional: false
+      type: int
+    - desc: 'Il nome del webhook. Facoltativo.'
+      name: name
+      optional: true
+      type: string
+    - desc: "L'URL dell'avatar per il webhook. Facoltativo."
+      name: avatar
+      optional: true
+      type: string

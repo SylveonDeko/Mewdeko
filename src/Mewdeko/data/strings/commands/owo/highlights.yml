@@ -1,0 +1,81 @@
+highlight:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Adds, wists, wemoves, ow matches highwights. uwu'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Pawametews fow da sewected action'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Adds, wists, wemoves, ow matches highwights. uwu'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Pawametews fow da sewected action'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_1:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Adds, wists, wemoves, ow matches highwights. uwu'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Pawametews fow da sewected action'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_2:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Adds, wists, wemoves, ow matches highwights. uwu'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Pawametews fow da sewected action'
+      name: words
+      optional: true
+      type: string
+highlights:
+  args:
+    - action word
+  desc: Manyages usew highwights. owo
+  params:
+    - desc: Da action to pewfowm wif highwights. uwu
+      name: action
+      optional: false
+      type: string
+    - desc: Da wowd to highwight. ^w^
+      name: word
+      optional: true
+      type: string

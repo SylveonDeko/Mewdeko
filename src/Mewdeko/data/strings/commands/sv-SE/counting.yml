@@ -1,0 +1,542 @@
+countingban:
+  args:
+    - user channel duration reason
+  desc: 'Forbjuder en anvandare fran att rakna i en specifik kanal.'
+  params:
+    - desc: 'Anvandaren som forbjuds fran att rakna.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Forbudets varaktighet (t.ex. 1h, 1d). Lamna tomt for permanent.'
+      name: duration
+      optional: true
+      type: stoopid time
+    - desc: 'Anledningen till forbudet.'
+      name: reason
+      optional: true
+      type: string
+countingconfig:
+  args:
+    - channel
+  desc: 'Konfigurerar installningarna for en raknikanal.'
+  params:
+    - desc: 'Kanalen for att visa konfigurationen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+countingcooldown:
+  args:
+    - channel seconds
+  desc: 'Anger vanetiden mellan anvandarnas rakningar.'
+  params:
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Vanetid i sekunder (0-300).'
+      name: seconds
+      optional: true
+      type: int
+countingdisable:
+  args:
+    - channel purgeData reason
+  desc: 'Inaktiverar rakning i en kanal och tar eventuellt bort all data.'
+  params:
+    - desc: 'Kanalen dar rakning ska inaktiveras. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Om all rakningsdata for denna kanal ska tas bort. Standard ar false.'
+      name: purgeData
+      optional: true
+      type: bool
+    - desc: 'Anledningen till att inaktivera rakning.'
+      name: reason
+      optional: true
+      type: string
+countingfailurechannel:
+  args:
+    - countingChannel failureChannel
+  desc: 'Anger kanalen dar rakningsfel loggas.'
+  params:
+    - desc: 'Raknikanalen.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: 'Kanalen for felloggar. Anvand null for att inaktivera.'
+      name: failureChannel
+      optional: true
+      type: text channel
+countingfailuremessage:
+  args:
+    - channel embed
+  desc: 'Anger ett anpassat meddelande for misslyckade rakningar.'
+  params:
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Meddelandemallen. Anvand "-" for att aterstalla till standard.'
+      name: embed
+      optional: true
+      type: string
+countingfailurethreshold:
+  args:
+    - channel threshold
+  desc: 'Anger feltroskeln fore konsekvenser.'
+  params:
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Antal fel fore atgard (1-10).'
+      name: threshold
+      optional: true
+      type: int
+countingleaderboard:
+  args:
+    - type channel
+  desc: 'Visar topplistan for en raknikanal.'
+  params:
+    - desc: 'Typen av topplista (contributions, streak, accuracy, totalnumbers).'
+      name: type
+      optional: true
+      type: string
+    - desc: 'Kanalen for att visa topplistan. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+countinglist:
+  args:
+    - ''
+  desc: 'Listar alla aktiva raknikanaler pa servern.'
+  params: [ ]
+countingmilestonechannel:
+  args:
+    - countingChannel milestoneChannel
+  desc: 'Anger kanalen dar milstolpeprestationer tillkannages.'
+  params:
+    - desc: 'Raknikanalen.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: 'Kanalen for milstolpemeddelanden. Anvand null for att inaktivera.'
+      name: milestoneChannel
+      optional: true
+      type: text channel
+countingmilestonemessage:
+  args:
+    - channel embed
+  desc: 'Anger ett anpassat meddelande for milstolpeprestationer.'
+  params:
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Meddelandemallen. Anvand "-" for att aterstalla till standard.'
+      name: embed
+      optional: true
+      type: string
+countingmilestones:
+  args:
+    - channel milestones
+  desc: 'Anger anpassade milstolpetal.'
+  params:
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Kommaseparerade milstolpetal (t.ex. 50,100,250,500,1000).'
+      name: milestones
+      optional: true
+      type: string
+countingreset:
+  args:
+    - channel newNumber reason
+  desc: 'Aterstaller rakningen i en kanal till ett specifikt tal.'
+  params:
+    - desc: 'Kanalen som ska aterstallas. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Talet att aterstalla till. Standard ar 0.'
+      name: newNumber
+      optional: true
+      type: long
+    - desc: 'Anledningen till aterstaallningen.'
+      name: reason
+      optional: true
+      type: string
+countingrestore:
+  args:
+    - saveId channel
+  desc: 'Aterstaller rakningen fran en tidigare sparningspunkt.'
+  params:
+    - desc: 'ID:t for sparningspunkten att aterstalla fran.'
+      name: saveId
+      optional: false
+      type: int
+    - desc: 'Kanalen att aterstalla. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+countingsave:
+  args:
+    - channel reason
+  desc: 'Skapar en sparningspunkt for den aktuella rakningsframstegen.'
+  params:
+    - desc: 'Kanalen att spara. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Anledningen till att skapa sparningspunkten.'
+      name: reason
+      optional: true
+      type: string
+countingsetup:
+  args:
+    - channel startNumber increment
+  desc: 'Konfigurerar rakning i den aktuella eller en angiven kanal.'
+  params:
+    - desc: 'Kanalen dar rakning ska konfigureras. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Talet att borja rakna fran. Standard ar 1.'
+      name: startNumber
+      optional: true
+      type: long
+    - desc: 'Okningen for varje rakning. Standard ar 1.'
+      name: increment
+      optional: true
+      type: int
+countingstats:
+  args:
+    - user channel
+  desc: 'Visar rakningsstatistik for en anvandare eller kanal.'
+  params:
+    - desc: 'Anvandaren att visa statistik for. Standard ar du.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Kanalen att kontrollera statistik i. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+countingstatus:
+  args:
+    - channel
+  desc: 'Visar den aktuella rakningsstatusen i en kanal.'
+  params:
+    - desc: 'Kanalen att kontrollera. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+countingsuccessmessage:
+  args:
+    - channel embed
+  desc: 'Anger ett anpassat meddelande for lyckade rakningar.'
+  params:
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Meddelandemallen. Anvand "-" for att aterstalla till standard.'
+      name: embed
+      optional: true
+      type: string
+countingtimeout:
+  args:
+    - user duration channel reason
+  desc: 'Tystar tillfallgt en anvandare fran rakning.'
+  params:
+    - desc: 'Anvandaren att tysta fran rakning.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Varaktigheten for tystningen (t.ex. 30m, 2h).'
+      name: duration
+      optional: false
+      type: stoopid time
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Anledningen till tystningen.'
+      name: reason
+      optional: true
+      type: string
+countingunban:
+  args:
+    - user channel reason
+  desc: 'Havar forbudet for en anvandare fran att rakna i en specifik kanal.'
+  params:
+    - desc: 'Anvandaren vars forbud ska havas.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Anledningen till att hava forbudet.'
+      name: reason
+      optional: true
+      type: string
+countmodbanned:
+  args:
+    - channel roles...
+  desc: 'Anger roller som ar forbjudna fran att rakna.'
+  params:
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Roller forbjudna fran att rakna.'
+      name: roles
+      optional: true
+      type: role
+countmodclear:
+  args:
+    - user channel
+  desc: 'Rensar felaktiga rakningar for en anvandare i en raknikanal.'
+  params:
+    - desc: 'Anvandaren vars felaktiga rakningar ska rensas.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+countmodclearall:
+  args:
+    - channel
+  desc: 'Rensar felaktiga rakningar for alla anvandare i en raknikanal.'
+  params:
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+countmoddefaults:
+  args:
+    - enabled threshold windowHours punishment durationMinutes punishmentRole
+  desc: 'Anger standardinstallningar for moderering pa hela servern.'
+  params:
+    - desc: 'Om moderering ar aktiverad som standard.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: 'Standard troskelvarde for felaktiga rakningar fore straff.'
+      name: threshold
+      optional: true
+      type: int
+    - desc: 'Standard tidsfoenster i timmar for att spara felaktiga rakningar.'
+      name: windowHours
+      optional: true
+      type: int
+    - desc: 'Standard straffatgard att tillampas.'
+      name: punishment
+      optional: true
+      type: punishment action
+    - desc: 'Standard varaktighet for tidsbestamda straff i minuter.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Standardroll for strafftypen LaggTillRoll.'
+      name: punishmentRole
+      optional: true
+      type: role
+countmodedits:
+  args:
+    - punish delete channel
+  desc: 'Konfigurerar skydd mot meddelanderedigering for en raknikanal.'
+  params:
+    - desc: 'Om meddelanderedigeringar ska straffas som overtrader.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: 'Om redigerade meddelanden ska tas bort.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+countmodenable:
+  args:
+    - enabled channel
+  desc: 'Aktiverar eller inaktiverar moderering for en specifik raknikanal.'
+  params:
+    - desc: 'Om moderering ska aktiveras eller inaktiveras.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+countmodignore:
+  args:
+    - deleteMessages channel roles...
+  desc: 'Anger roller som ska ignoreras fran rakning.'
+  params:
+    - desc: 'Om meddelanden fran ignorerade roller ska tas bort.'
+      name: deleteMessages
+      optional: false
+      type: bool
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Roller att ignorera fran rakning.'
+      name: roles
+      optional: true
+      type: role
+countmodnonnumbers:
+  args:
+    - punish delete channel
+  desc: 'Konfigurerar hanteringen av icke-numeriska meddelanden i en raknikanal.'
+  params:
+    - desc: 'Om icke-numeriska meddelanden ska straffas som overtrader.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: 'Om icke-numeriska meddelanden ska tas bort.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunish:
+  args:
+    - count punishment durationMinutes role channel
+  desc: 'Anger ett stegvist straff for ett specifikt antal felaktiga rakningar.'
+  params:
+    - desc: 'Antalet felaktiga rakningar som utloser detta straff.'
+      name: count
+      optional: false
+      type: int
+    - desc: 'Straffatgarden att tillampas.'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: 'Varaktighet for tidsbestamda straff i minuter.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Roll for strafftypen LaggTillRoll.'
+      name: role
+      optional: true
+      type: role
+    - desc: 'Raknikanalen (NULL for serverstandarder).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishlist:
+  args:
+    - channel
+  desc: 'Listar alla stegvisa straff for servern eller en specifik kanal.'
+  params:
+    - desc: 'Raknikanalen (NULL for serverstandarder).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishment:
+  args:
+    - punishment durationMinutes role channel
+  desc: 'Anger straffet for felaktiga rakningar.'
+  params:
+    - desc: 'Straffatgarden att tillampas.'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: 'Varaktighet for tidsbestamda straff i minuter.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Roll for strafftypen LaggTillRoll.'
+      name: role
+      optional: true
+      type: role
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+countmodrequired:
+  args:
+    - channel roles...
+  desc: 'Anger roller som kravs for att rakna.'
+  params:
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Roller som kravs for att rakna.'
+      name: roles
+      optional: true
+      type: role
+countmodreset:
+  args:
+    - channel
+  desc: 'Aterstaller en kanal till att anvanda serverstandarder.'
+  params:
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+countmodshow:
+  args:
+    - channel
+  desc: 'Visar den aktuella modereringskonfigurationen for raknikanalen eller serverstandarderna.'
+  params:
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+countmodthreshold:
+  args:
+    - threshold channel
+  desc: 'Anger troskelvaardet for felaktiga rakningar for en raknikanal.'
+  params:
+    - desc: 'Antal felaktiga rakningar fore straff (1-100).'
+      name: threshold
+      optional: false
+      type: int
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel
+countmodunpunish:
+  args:
+    - count channel
+  desc: 'Tar bort ett stegvist straff for ett specifikt antal felaktiga rakningar.'
+  params:
+    - desc: 'Antalet felaktiga rakningar att ta bort straffet for.'
+      name: count
+      optional: false
+      type: int
+    - desc: 'Raknikanalen (NULL for serverstandarder).'
+      name: channel
+      optional: true
+      type: text channel
+countmodwindow:
+  args:
+    - hours channel
+  desc: 'Anger tidsfonstret for att spara felaktiga rakningar.'
+  params:
+    - desc: 'Tidsfoenster i timmar (1-168).'
+      name: hours
+      optional: false
+      type: int
+    - desc: 'Raknikanalen. Standard ar den aktuella kanalen.'
+      name: channel
+      optional: true
+      type: text channel

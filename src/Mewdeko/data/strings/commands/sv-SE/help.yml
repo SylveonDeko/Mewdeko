@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    Visar kommandon för en specifik modul. Om null är det ett alias för
+    modules som är ett alias för help.
+  params:
+    - desc: 'Modulen att titta på'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    Visar kommandon för en specifik modul. Om null är det ett alias för
+    modules som är ett alias för help.
+  params:
+    - desc: 'Modulen att titta på'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    Visar kommandon för en specifik modul. Om null är det ett alias för
+    modules som är ett alias för help.
+  params:
+    - desc: 'Modulen att titta på'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    Visar kommandon för en specifik modul. Om null är det ett alias för
+    modules som är ett alias för help.
+  params:
+    - desc: 'Modulen att titta på'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: 'Visar hur du stödjer botten.'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    Exporterar alla kommandon till en json-fil. Används främst för
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    Exporterar alla kommandon till en json-fil. Används främst för
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    Exporterar alla kommandon till en json-fil. Används främst för
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    Exporterar alla kommandon till en json-fil. Används främst för
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: 'Visar guiden för botten.'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: Visar hjälp för ett specifikt kommando.
+  params:
+    - desc: Kommandot att få hjälp för.
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: Visar hjälpinformation för kommandon.
+  params:
+    - desc: Kommandot att få hjälp för.
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: 'Visar en lista över alla moduler. Är i princip bara ett help-alias just nu.'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: 'Söker efter ett kommando med namn eller beskrivning.'
+  params:
+    - &ref_481
+      desc: 'Termen att söka efter'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: 'Söker efter ett kommando med namn eller beskrivning.'
+  params:
+    - desc: 'Termen att söka efter'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: 'Söker efter ett kommando med namn eller beskrivning.'
+  params:
+    - desc: 'Termen att söka efter'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: 'Söker efter ett kommando med namn eller beskrivning.'
+  params:
+    - desc: 'Termen att söka efter'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: 'Visar källkodlänken för botten.'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'Visar en länk för att rösta på mewdeko.'
+  params: [ ]

@@ -1,0 +1,19 @@
+{
+  "invite_filter_channel_off": "Filtro de convites desabilitado nesse canal.",
+  "invite_filter_channel_on": "Filtro de convites habilitado nesse canal.",
+  "invite_filter_server_off": "Filtro de convites desabilitado nesse servidor.",
+  "invite_filter_server_on": "Filtro de convites habilitado nesse servidor.",
+  "channel_topic": "Tópico do Canal",
+  "convert": "{0} {1} é igual a {2} {3}",
+  "convert_not_found": "Não foi possível converter {0} para {1}: unidades não encontradas",
+  "convert_type_error": "Não foi possível converter {0} para {1}: as unidades não são do mesmo tipo",
+  "remind": "Lembrarei {0} sobre {1} {2}",
+  "remind_invalid_format": "Formato de data inválido. Verifique a lista de comandos.",
+  "remind_too_long": "O tempo de lembrete excede o máximo permitido.",
+  "repeat_invoke_none": "Nenhuma mensagem em repetição foi encontrada nesse servidor.",
+  "serverid": "{0} desse servidor é {1}",
+  "reminder_list": "Lista de lembretes",
+  "reminder_deleted": "O lembrete #{0} foi excluído.",
+  "reminder_not_exist": "Não existe lembrete nesse índice.",
+  "invite_deleted": "O convite {0} foi deletado."
+}

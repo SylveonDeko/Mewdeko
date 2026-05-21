@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'Be- vagy kikapcsolja a születésnapi értesítéseket a felhasználó számára.'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'Beállítja a születésnapi értesítések csatornáját.'
+  params:
+    - desc: >-
+        Az értesítésekhez használt szöveges csatorna. Alapértelmezés
+        szerint az aktuális csatorna, ha nincs megadva.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'Megtekinti a jelenlegi születésnapi konfigurációt.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'A szerveren közelgő születésnapokat jeleníti meg.'
+  params:
+    - desc: Hány napot előre nézni. Alapértelmezett 7, maximum 30.
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'Egyéni születésnapi üzenetsablont állít be.'
+  params:
+    - desc: >-
+        Az üzenetsablon. Használd a {user}-t a felhasználó megemlítéséhez.
+        Üresen hagyva az aktuális üzenetet jeleníti meg.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'Beállítja a születésnapok bejelentésekor pingelendő rangot.'
+  params:
+    - desc: A pingelendő rang. Ne adj meg rangot a letiltáshoz.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'Beállítja a születésnapi rangot, amit a felhasználók a születésnapjukon kapnak.'
+  params:
+    - desc: A felhasználó születésnapján hozzárendelendő rang. Ne adj meg rangot a letiltáshoz.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'Beállítja a felhasználó időzónáját a születésnapi számításokhoz.'
+  params:
+    - desc: A beállítandó időzóna (pl. "America/New_York").
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'A mai napi születésnapokat jeleníti meg.'
+  params: [ ]

@@ -141,3 +141,8 @@ source:
     - ''
   desc: 'Shows the source code link for the bot.'
   params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'Shows a link to vote for mewdeko.'
+  params: [ ]

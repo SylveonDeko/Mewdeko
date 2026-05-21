@@ -1,0 +1,326 @@
+todoadd:
+  args:
+    - listId
+    - title
+    - description
+  desc: 'Belirtilen listeye yeni bir gorev ogesi ekler'
+  params:
+    - desc: 'Gorev listesinin IDsi.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Gorev ogesinin basligi.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Oge icin ihtiyari aciklama.'
+      name: description
+      optional: true
+      type: string
+todoaddpriority:
+  args:
+    - listId
+    - priority
+    - title
+    - description
+  desc: 'Oncelik ve ihtiyari son tarihle bir gorev ogesi ekler'
+  params:
+    - desc: 'Gorev listesinin IDsi.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Oncelik seviyesi (1=Dusuk, 2=Orta, 3=Yuksek, 4=Kritik).'
+      name: priority
+      optional: false
+      type: int
+    - desc: 'Gorev ogesinin basligi.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Oge icin ihtiyari aciklama.'
+      name: description
+      optional: true
+      type: string
+todoaddtag:
+  args:
+    - itemId
+    - tag
+  desc: 'Bir gorev ogesine etiket ekler'
+  params:
+    - desc: 'Gorev ogesinin IDsi.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Eklenecek etiket.'
+      name: tag
+      optional: false
+      type: string
+todocleardue:
+  args:
+    - itemId
+  desc: 'Bir gorev ogesinin son tarihini kaldirir'
+  params:
+    - desc: 'Gorev ogesinin IDsi.'
+      name: itemId
+      optional: false
+      type: int
+todoclearreminder:
+  args:
+    - itemId
+  desc: 'Bir gorev ogesinin hatirlaticisini kaldirir'
+  params:
+    - desc: 'Gorev ogesinin IDsi.'
+      name: itemId
+      optional: false
+      type: int
+todocomplete:
+  args:
+    - itemId
+  desc: 'Bir gorev ogesini tamamlanmis olarak isaretler'
+  params:
+    - desc: 'Gorev ogesinin IDsi.'
+      name: itemId
+      optional: false
+      type: int
+todocreatelist:
+  args:
+    - name
+    - description
+  desc: 'Yeni bir gorev listesi olusturur'
+  params:
+    - desc: 'Gorev listesinin adi.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Liste icin ihtiyari aciklama.'
+      name: description
+      optional: true
+      type: string
+todocreateserverlist:
+  args:
+    - name
+    - description
+  desc: 'Yeni bir sunucu geneli gorev listesi olusturur (yalnizca admin)'
+  params:
+    - desc: 'Sunucu gorev listesinin adi.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Liste icin ihtiyari aciklama.'
+      name: description
+      optional: true
+      type: string
+tododelete:
+  args:
+    - itemId
+  desc: 'Bir gorev ogesini siler'
+  params:
+    - desc: 'Gorev ogesinin IDsi.'
+      name: itemId
+      optional: false
+      type: int
+tododeletelist:
+  args:
+    - listId
+  desc: 'Tum bir gorev listesini siler'
+  params:
+    - desc: 'Gorev listesinin IDsi.'
+      name: listId
+      optional: false
+      type: int
+todoedit:
+  args:
+    - itemId
+    - title
+    - description
+  desc: 'Bir gorev ogesinin basligini ve aciklamasini duzenler'
+  params:
+    - desc: 'Gorev ogesinin IDsi.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Yeni baslik.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Yeni aciklama.'
+      name: description
+      optional: true
+      type: string
+todofilter:
+  args:
+    - listId
+    - filter
+    - value
+  desc: 'Gorev ogelerini etikete veya oncelige gore filtreler'
+  params:
+    - desc: 'Gorev listesinin IDsi.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Filtre turu (etiket veya oncelik).'
+      name: filter
+      optional: false
+      type: string
+    - desc: 'Filtrelenecek deger.'
+      name: value
+      optional: true
+      type: string
+todogrant:
+  args:
+    - listId
+    - '@user'
+    - permissions
+  desc: 'Bir gorev listesi icin kullaniciya izin verir (yalnizca liste sahibi/admin)'
+  params:
+    - desc: 'Gorev listesinin IDsi.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Izin verilecek kullanici.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Virgullerle ayrilmis izinler (view,add,edit,complete,delete,manage,all).'
+      name: permissions
+      optional: false
+      type: string
+todolists:
+  args:
+    - includeServer
+  desc: 'Kullanicinin erisebilecegi tum gorev listelerini listeler'
+  params:
+    - desc: 'Sunucu geneli listelerin dahil edilip edilmeyecegi.'
+      name: includeServer
+      optional: true
+      type: bool
+todopermissions:
+  args:
+    - listId
+  desc: 'Bir gorev listesinin tum izinlerini gosterir'
+  params:
+    - desc: 'Gorev listesinin IDsi.'
+      name: listId
+      optional: false
+      type: int
+todoremovetag:
+  args:
+    - itemId
+    - tag
+  desc: 'Bir gorev ogesinden etiketi kaldirir'
+  params:
+    - desc: 'Gorev ogesinin IDsi.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Kaldirilacak etiket.'
+      name: tag
+      optional: false
+      type: string
+todoreorder:
+  args:
+    - itemId
+    - newPosition
+  desc: 'Bir gorev ogesini yeni bir konuma yeniden siralar'
+  params:
+    - desc: 'Gorev ogesinin IDsi.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Yeni konum (1 tabanli).'
+      name: newPosition
+      optional: false
+      type: int
+todorevoke:
+  args:
+    - listId
+    - '@user'
+  desc: 'Bir gorev listesinde kullanicinin tum izinlerini iptal eder'
+  params:
+    - desc: 'Gorev listesinin IDsi.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Izinleri iptal edilecek kullanici.'
+      name: user
+      optional: false
+      type: IUser
+todosearch:
+  args:
+    - listId
+    - query
+  desc: 'Bir liste icinde gorev ogelerini arar'
+  params:
+    - desc: 'Gorev listesinin IDsi.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Arama sorgusu.'
+      name: query
+      optional: false
+      type: string
+todosetcolor:
+  args:
+    - listId
+    - color
+  desc: 'Bir gorev listesinin rengini ayarlar'
+  params:
+    - desc: 'Gorev listesinin IDsi.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Onaltilik renk kodu (orn.,'
+      name: color
+      optional: false
+      type: string
+todosetdue:
+  args:
+    - itemId
+    - dateString
+  desc: 'Bir gorev ogesinin son tarihini ayarlar'
+  params:
+    - desc: 'Gorev ogesinin IDsi.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Son tarih ve saat.'
+      name: dateString
+      optional: false
+      type: string
+todosetreminder:
+  args:
+    - itemId
+    - dateString
+  desc: 'Bir gorev ogesi icin hatirlama zamani ayarlar'
+  params:
+    - desc: 'Gorev ogesinin IDsi.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Hatirlama tarihi ve saati.'
+      name: dateString
+      optional: false
+      type: string
+todoshow:
+  args:
+    - listId
+    - includeCompleted
+  desc: 'Bir gorev listesindeki tum ogeleri gosterir'
+  params:
+    - desc: 'Gorev listesinin IDsi.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Tamamlanan ogelerin dahil edilip edilmeyecegi.'
+      name: includeCompleted
+      optional: true
+      type: bool
+todotoggleprivacy:
+  args:
+    - listId
+  desc: 'Bir gorev listesinin gizlilik ayarini degistirir'
+  params:
+    - desc: 'Gorev listesinin IDsi.'
+      name: listId
+      optional: false
+      type: int

@@ -1,0 +1,273 @@
+addstatusrole:
+  args:
+    - text
+  desc: 'Aggiunge una configurazione di ruolo di stato.'
+  params:
+    - &ref_32
+      desc: 'Lo stato da aggiungere.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string:
+  args:
+    - text
+  desc: 'Aggiunge una configurazione di ruolo di stato.'
+  params:
+    - desc: 'Lo stato da aggiungere.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_1:
+  args:
+    - text
+  desc: 'Aggiunge una configurazione di ruolo di stato.'
+  params:
+    - desc: 'Lo stato da aggiungere.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_2:
+  args:
+    - text
+  desc: 'Aggiunge una configurazione di ruolo di stato.'
+  params:
+    - desc: 'Lo stato da aggiungere.'
+      name: status
+      optional: false
+      type: string
+liststatusroles:
+  args:
+    - ''
+  desc: 'Elenca tutti i ruoli di stato correnti con i loro dettagli.'
+  params: [ ]
+removeaddroles:
+  args:
+    - number @role
+  desc: 'Imposta i ruoli da rimuovere quando un utente ha lo stato selezionato.'
+  params:
+    - &ref_390
+      desc: 'L''indice del ruolo di stato.'
+      name: index
+      optional: false
+      type: int
+    - &ref_391
+      desc: 'I ruoli da rimuovere.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: 'Imposta i ruoli da rimuovere quando un utente ha lo stato selezionato.'
+  params:
+    - desc: 'L''indice del ruolo di stato.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'I ruoli da rimuovere.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: 'Imposta i ruoli da rimuovere quando un utente ha lo stato selezionato.'
+  params:
+    - desc: 'L''indice del ruolo di stato.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'I ruoli da rimuovere.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: 'Imposta i ruoli da rimuovere quando un utente ha lo stato selezionato.'
+  params:
+    - desc: 'L''indice del ruolo di stato.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'I ruoli da rimuovere.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeremoveroles:
+  args:
+    - number @role
+  desc: >-
+    Rimuove uno o più ruoli dai ruoli aggiunti quando un utente ha lo stato
+    selezionato.
+  params:
+    - desc: 'L''indice del ruolo di stato.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'I ruoli da rimuovere.'
+      name: roles
+      optional: false
+      type: IRole[]
+removestatusrole:
+  args:
+    - number
+  desc: 'Rimuove una configurazione di ruolo di stato.'
+  params:
+    - desc: 'L''indice del ruolo di stato da rimuovere.'
+      name: index
+      optional: false
+      type: int
+setaddroles:
+  args:
+    - number @role
+  desc: 'Imposta i ruoli da aggiungere quando un utente ha lo stato selezionato.'
+  params:
+    - desc: 'L''indice del ruolo di stato.'
+      name: index
+      optional: false
+      type: int
+    - &ref_486
+      desc: 'I ruoli da aggiungere.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: 'Imposta i ruoli da aggiungere quando un utente ha lo stato selezionato.'
+  params:
+    - desc: 'L''indice del ruolo di stato.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'I ruoli da aggiungere.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: 'Imposta i ruoli da aggiungere quando un utente ha lo stato selezionato.'
+  params:
+    - desc: 'L''indice del ruolo di stato.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'I ruoli da aggiungere.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: 'Imposta i ruoli da aggiungere quando un utente ha lo stato selezionato.'
+  params:
+    - desc: 'L''indice del ruolo di stato.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'I ruoli da aggiungere.'
+      name: roles
+      optional: false
+      type: IRole[]
+setremoveroles:
+  args:
+    - number @role
+  desc: 'Imposta i ruoli da rimuovere quando un utente ha lo stato selezionato.'
+  params:
+    - desc: 'L''indice del ruolo di stato.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'I ruoli da rimuovere.'
+      name: roles
+      optional: false
+      type: IRole[]
+setstatusrolechannel:
+  args:
+    - number channel
+  desc: 'Imposta il canale per un ruolo di stato specifico.'
+  params:
+    - desc: 'L''indice del ruolo di stato.'
+      name: index
+      optional: false
+      type: int
+    - &ref_527
+      desc: 'Il canale da impostare.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: 'Imposta il canale per un ruolo di stato specifico.'
+  params:
+    - desc: 'L''indice del ruolo di stato.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Il canale da impostare.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: 'Imposta il canale per un ruolo di stato specifico.'
+  params:
+    - desc: 'L''indice del ruolo di stato.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Il canale da impostare.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: 'Imposta il canale per un ruolo di stato specifico.'
+  params:
+    - desc: 'L''indice del ruolo di stato.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Il canale da impostare.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusroleembed:
+  args:
+    - '<index> [embedText]'
+    - number
+  desc: 'Imposta o visualizza in anteprima il testo dell''embed per un ruolo di stato specifico.'
+  params:
+    - desc: 'L''indice del ruolo di stato.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Il testo dell''embed da impostare.'
+      name: embedText
+      optional: true
+      type: string
+togglereaddremoved:
+  args:
+    - number
+  desc: 'Attiva/disattiva se i ruoli aggiunti vengono rimossi quando uno stato viene rimosso.'
+  params:
+    - desc: 'L''indice del ruolo di stato.'
+      name: index
+      optional: false
+      type: int
+toggleremoveadded:
+  args:
+    - number
+  desc: >-
+    Attiva/disattiva se i ruoli aggiunti vengono rimossi quando un utente non
+    ha più lo stato in base all''indice fornito.
+  params:
+    - desc: 'L''indice del ruolo di stato.'
+      name: index
+      optional: false
+      type: int

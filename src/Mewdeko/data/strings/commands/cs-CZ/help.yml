@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    Zobrazuje příkazy pro konkrétní modul. Pokud null, je to alias pro
+    modules, který je aliasem pro help.
+  params:
+    - desc: 'Modul k prohlížení'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    Zobrazuje příkazy pro konkrétní modul. Pokud null, je to alias pro
+    modules, který je aliasem pro help.
+  params:
+    - desc: 'Modul k prohlížení'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    Zobrazuje příkazy pro konkrétní modul. Pokud null, je to alias pro
+    modules, který je aliasem pro help.
+  params:
+    - desc: 'Modul k prohlížení'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    Zobrazuje příkazy pro konkrétní modul. Pokud null, je to alias pro
+    modules, který je aliasem pro help.
+  params:
+    - desc: 'Modul k prohlížení'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: 'Zobrazuje, jak podpořit bota.'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    Exportuje všechny příkazy do souboru json. Používá se hlavně pro
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    Exportuje všechny příkazy do souboru json. Používá se hlavně pro
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    Exportuje všechny příkazy do souboru json. Používá se hlavně pro
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    Exportuje všechny příkazy do souboru json. Používá se hlavně pro
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: 'Zobrazuje průvodce botem.'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: Zobrazuje nápovědu pro konkrétní příkaz.
+  params:
+    - desc: Příkaz, pro který chcete získat nápovědu.
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: Zobrazuje informace o nápovědě pro příkazy.
+  params:
+    - desc: Příkaz, pro který chcete získat nápovědu.
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: 'Zobrazuje seznam všech modulů. V tuto chvíli je to v podstatě jen alias help.'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: 'Vyhledá příkaz podle názvu nebo popisu.'
+  params:
+    - &ref_481
+      desc: 'Hledaný výraz'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: 'Vyhledá příkaz podle názvu nebo popisu.'
+  params:
+    - desc: 'Hledaný výraz'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: 'Vyhledá příkaz podle názvu nebo popisu.'
+  params:
+    - desc: 'Hledaný výraz'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: 'Vyhledá příkaz podle názvu nebo popisu.'
+  params:
+    - desc: 'Hledaný výraz'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: 'Zobrazuje odkaz na zdrojový kód bota.'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'Zobrazuje odkaz pro hlasování pro Mewdeko.'
+  params: [ ]

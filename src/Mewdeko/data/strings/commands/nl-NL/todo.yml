@@ -1,0 +1,326 @@
+todoadd:
+  args:
+    - listId
+    - title
+    - description
+  desc: 'Voegt een nieuw taakoverzichtsitem toe aan een opgegeven lijst'
+  params:
+    - desc: 'Het ID van de takenlijst.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'De titel van het taakoverzichtsitem.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Optionele omschrijving van het item.'
+      name: description
+      optional: true
+      type: string
+todoaddpriority:
+  args:
+    - listId
+    - priority
+    - title
+    - description
+  desc: 'Voegt een taakoverzichtsitem toe met prioriteit en optionele vervaldatum'
+  params:
+    - desc: 'Het ID van de takenlijst.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Prioriteitsniveau (1=Laag, 2=Gemiddeld, 3=Hoog, 4=Kritiek).'
+      name: priority
+      optional: false
+      type: int
+    - desc: 'De titel van het taakoverzichtsitem.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Optionele omschrijving van het item.'
+      name: description
+      optional: true
+      type: string
+todoaddtag:
+  args:
+    - itemId
+    - tag
+  desc: 'Voegt een tag toe aan een taakoverzichtsitem'
+  params:
+    - desc: 'Het ID van het taakoverzichtsitem.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'De toe te voegen tag.'
+      name: tag
+      optional: false
+      type: string
+todocleardue:
+  args:
+    - itemId
+  desc: 'Verwijdert de vervaldatum van een taakoverzichtsitem'
+  params:
+    - desc: 'Het ID van het taakoverzichtsitem.'
+      name: itemId
+      optional: false
+      type: int
+todoclearreminder:
+  args:
+    - itemId
+  desc: 'Verwijdert de herinnering van een taakoverzichtsitem'
+  params:
+    - desc: 'Het ID van het taakoverzichtsitem.'
+      name: itemId
+      optional: false
+      type: int
+todocomplete:
+  args:
+    - itemId
+  desc: 'Markeert een taakoverzichtsitem als voltooid'
+  params:
+    - desc: 'Het ID van het taakoverzichtsitem.'
+      name: itemId
+      optional: false
+      type: int
+todocreatelist:
+  args:
+    - name
+    - description
+  desc: 'Maakt een nieuwe takenlijst aan'
+  params:
+    - desc: 'De naam van de takenlijst.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Optionele omschrijving van de lijst.'
+      name: description
+      optional: true
+      type: string
+todocreateserverlist:
+  args:
+    - name
+    - description
+  desc: 'Maakt een nieuwe serverwijde takenlijst aan (alleen admins)'
+  params:
+    - desc: 'De naam van de server-takenlijst.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Optionele omschrijving van de lijst.'
+      name: description
+      optional: true
+      type: string
+tododelete:
+  args:
+    - itemId
+  desc: 'Verwijdert een taakoverzichtsitem'
+  params:
+    - desc: 'Het ID van het taakoverzichtsitem.'
+      name: itemId
+      optional: false
+      type: int
+tododeletelist:
+  args:
+    - listId
+  desc: 'Verwijdert een volledige takenlijst'
+  params:
+    - desc: 'Het ID van de takenlijst.'
+      name: listId
+      optional: false
+      type: int
+todoedit:
+  args:
+    - itemId
+    - title
+    - description
+  desc: 'Bewerkt de titel en omschrijving van een taakoverzichtsitem'
+  params:
+    - desc: 'Het ID van het taakoverzichtsitem.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'De nieuwe titel.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'De nieuwe omschrijving.'
+      name: description
+      optional: true
+      type: string
+todofilter:
+  args:
+    - listId
+    - filter
+    - value
+  desc: 'Filtert taakoverzichtsitems op tag of prioriteit'
+  params:
+    - desc: 'Het ID van de takenlijst.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Filtertype (tag of prioriteit).'
+      name: filter
+      optional: false
+      type: string
+    - desc: 'De waarde om op te filteren.'
+      name: value
+      optional: true
+      type: string
+todogrant:
+  args:
+    - listId
+    - '@user'
+    - permissions
+  desc: 'Verleent machtigingen aan een gebruiker voor een takenlijst (alleen lijsteigenaar/admin)'
+  params:
+    - desc: 'Het ID van de takenlijst.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'De gebruiker aan wie machtigingen worden verleend.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Kommagescheiden machtigingen (view,add,edit,complete,delete,manage,all).'
+      name: permissions
+      optional: false
+      type: string
+todolists:
+  args:
+    - includeServer
+  desc: 'Geeft een lijst van alle takenlijsten die toegankelijk zijn voor de gebruiker'
+  params:
+    - desc: 'Of serverwijde lijsten moeten worden opgenomen.'
+      name: includeServer
+      optional: true
+      type: bool
+todopermissions:
+  args:
+    - listId
+  desc: 'Toont alle machtigingen voor een takenlijst'
+  params:
+    - desc: 'Het ID van de takenlijst.'
+      name: listId
+      optional: false
+      type: int
+todoremovetag:
+  args:
+    - itemId
+    - tag
+  desc: 'Verwijdert een tag van een taakoverzichtsitem'
+  params:
+    - desc: 'Het ID van het taakoverzichtsitem.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'De te verwijderen tag.'
+      name: tag
+      optional: false
+      type: string
+todoreorder:
+  args:
+    - itemId
+    - newPosition
+  desc: 'Herordent een taakoverzichtsitem naar een nieuwe positie'
+  params:
+    - desc: 'Het ID van het taakoverzichtsitem.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'De nieuwe positie (1-gebaseerd).'
+      name: newPosition
+      optional: false
+      type: int
+todorevoke:
+  args:
+    - listId
+    - '@user'
+  desc: 'Trekt alle machtigingen van een gebruiker voor een takenlijst in'
+  params:
+    - desc: 'Het ID van de takenlijst.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'De gebruiker van wie de machtigingen worden ingetrokken.'
+      name: user
+      optional: false
+      type: IUser
+todosearch:
+  args:
+    - listId
+    - query
+  desc: 'Zoekt naar taakoverzichtsitems in een lijst'
+  params:
+    - desc: 'Het ID van de takenlijst.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'De zoekopdracht.'
+      name: query
+      optional: false
+      type: string
+todosetcolor:
+  args:
+    - listId
+    - color
+  desc: 'Stelt de kleur van een takenlijst in'
+  params:
+    - desc: 'Het ID van de takenlijst.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Hexadecimale kleurcode (bijv.,'
+      name: color
+      optional: false
+      type: string
+todosetdue:
+  args:
+    - itemId
+    - dateString
+  desc: 'Stelt de vervaldatum in voor een taakoverzichtsitem'
+  params:
+    - desc: 'Het ID van het taakoverzichtsitem.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'De vervaldatum en -tijd.'
+      name: dateString
+      optional: false
+      type: string
+todosetreminder:
+  args:
+    - itemId
+    - dateString
+  desc: 'Stelt een herinneringstijd in voor een taakoverzichtsitem'
+  params:
+    - desc: 'Het ID van het taakoverzichtsitem.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'De herinneringsdatum en -tijd.'
+      name: dateString
+      optional: false
+      type: string
+todoshow:
+  args:
+    - listId
+    - includeCompleted
+  desc: 'Toont alle items in een takenlijst'
+  params:
+    - desc: 'Het ID van de takenlijst.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Of voltooide items moeten worden opgenomen.'
+      name: includeCompleted
+      optional: true
+      type: bool
+todotoggleprivacy:
+  args:
+    - listId
+  desc: 'Schakelt de privacy-instelling voor een takenlijst om'
+  params:
+    - desc: 'Het ID van de takenlijst.'
+      name: listId
+      optional: false
+      type: int

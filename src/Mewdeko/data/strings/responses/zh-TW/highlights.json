@@ -1,0 +1,23 @@
+{
+  "highlight_added": "Added {0} to your highlights!",
+  "highlight_already_exists": "That's already in your highlights!",
+  "highlight_cannot_delete": "Cannot delete because you have no highlights set!",
+  "highlight_disabled": "Highlights disabled.",
+  "highlight_empty_delete": "Cannot delete an empty highlight.",
+  "highlight_empty_match": "Cannot match an empty highlight.",
+  "highlight_enabled": "Highlights enabled!",
+  "highlight_ignored_channel_added": "Added {0} to ignored channels!",
+  "highlight_ignored_channel_removed": "Removed {0} from ignored channels!",
+  "highlight_ignored_user_added": "Added {0} to ignored users!",
+  "highlight_ignored_user_removed": "Removed {0} from ignored users!",
+  "highlight_list_title": "{0} Highlights",
+  "highlight_no_highlights": "You have no highlights set!",
+  "highlight_no_match_found": "No matches found.",
+  "highlight_no_matches": "There are no highlights to match to.",
+  "highlight_not_exist": "That highlight does not exist!",
+  "highlight_not_found": "This is not in your highlights!",
+  "highlight_phrase_required": "You need to specify a phrase to highlight.",
+  "highlight_removed": "Successfully removed {0} from your highlights.",
+  "highlight_toggle_invalid": "That's gonna be true or false, not anything else.",
+  "highlight_user_channel_not_found": "That user or channel wasn't found!"
+}

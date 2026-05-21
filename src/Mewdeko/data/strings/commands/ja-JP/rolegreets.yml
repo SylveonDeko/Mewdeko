@@ -1,0 +1,434 @@
+rolegreetadd:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: '指定したロールに新しいロール挨拶メッセージを追加します。チャンネルが指定されない場合は現在のチャンネルが使用されます。'
+  params:
+    - desc: '挨拶メッセージを設定するロール。'
+      name: role
+      optional: false
+      type: role
+    - desc: '挨拶メッセージを送信するテキストチャンネル。省略可能。'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: '指定したロールに新しいロール挨拶メッセージを追加します。チャンネルが指定されない場合は現在のチャンネルが使用されます。'
+  params:
+    - desc: '挨拶メッセージを設定するロール。'
+      name: role
+      optional: false
+      type: role
+    - desc: '挨拶メッセージを送信するテキストチャンネル。省略可能。'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=_1:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: '指定したロールに新しいロール挨拶メッセージを追加します。チャンネルが指定されない場合は現在のチャンネルが使用されます。'
+  params:
+    - desc: '挨拶メッセージを設定するロール。'
+      name: role
+      optional: false
+      type: role
+    - desc: '挨拶メッセージを送信するテキストチャンネル。省略可能。'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=_2:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: '指定したロールに新しいロール挨拶メッセージを追加します。チャンネルが指定されない場合は現在のチャンネルが使用されます。'
+  params:
+    - desc: '挨拶メッセージを設定するロール。'
+      name: role
+      optional: false
+      type: role
+    - desc: '挨拶メッセージを送信するテキストチャンネル。省略可能。'
+      name: channel
+      optional: true
+      type: channel
+rolegreetdelete:
+  args:
+    - number time
+  desc: '指定した時間が経過した後に自動削除されるようにロール挨拶メッセージを更新します。'
+  params:
+    - &ref_448
+      desc: '更新するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: id
+      optional: false
+      type: int
+    - &ref_450
+      desc: '指定した時間が経過した後に自動削除されるようにロール挨拶メッセージを更新します。'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime:
+  args:
+    - number time
+  desc: '指定した時間が経過した後に自動削除されるようにロール挨拶メッセージを更新します。'
+  params:
+    - desc: '更新するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: id
+      optional: false
+      type: int
+    - desc: '指定した時間が経過した後に自動削除されるようにロール挨拶メッセージを更新します。'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime_1:
+  args:
+    - number time
+  desc: '指定した時間が経過した後に自動削除されるようにロール挨拶メッセージを更新します。'
+  params:
+    - desc: '更新するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: id
+      optional: false
+      type: int
+    - desc: '指定した時間が経過した後に自動削除されるようにロール挨拶メッセージを更新します。'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime_2:
+  args:
+    - number time
+  desc: '指定した時間が経過した後に自動削除されるようにロール挨拶メッセージを更新します。'
+  params:
+    - desc: '更新するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: id
+      optional: false
+      type: int
+    - desc: '指定した時間が経過した後に自動削除されるようにロール挨拶メッセージを更新します。'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_int:
+  args:
+    - number number
+  desc: '指定した時間が経過した後に自動削除されるようにロール挨拶メッセージを更新します。'
+  params:
+    - desc: '更新するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: id
+      optional: false
+      type: int
+    - &ref_449
+      desc: '挨拶メッセージが削除されるまでの秒数。'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_1:
+  args:
+    - number number
+  desc: '指定した時間が経過した後に自動削除されるようにロール挨拶メッセージを更新します。'
+  params:
+    - desc: '更新するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: id
+      optional: false
+      type: int
+    - desc: '挨拶メッセージが削除されるまでの秒数。'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_2:
+  args:
+    - number number
+  desc: '指定した時間が経過した後に自動削除されるようにロール挨拶メッセージを更新します。'
+  params:
+    - desc: '更新するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: id
+      optional: false
+      type: int
+    - desc: '挨拶メッセージが削除されるまでの秒数。'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_3:
+  args:
+    - number number
+  desc: '指定した時間が経過した後に自動削除されるようにロール挨拶メッセージを更新します。'
+  params:
+    - desc: '更新するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: id
+      optional: false
+      type: int
+    - desc: '挨拶メッセージが削除されるまでの秒数。'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdisable:
+  args:
+    - number true|false
+  desc: 'ロール挨拶メッセージを有効または無効にします。'
+  params:
+    - &ref_451
+      desc: '更新するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: num
+      optional: false
+      type: int
+    - &ref_452
+      desc: '挨拶メッセージを有効にするか無効にするか。'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool:
+  args:
+    - number true|false
+  desc: 'ロール挨拶メッセージを有効または無効にします。'
+  params:
+    - desc: '更新するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: num
+      optional: false
+      type: int
+    - desc: '挨拶メッセージを有効にするか無効にするか。'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool_1:
+  args:
+    - number true|false
+  desc: 'ロール挨拶メッセージを有効または無効にします。'
+  params:
+    - desc: '更新するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: num
+      optional: false
+      type: int
+    - desc: '挨拶メッセージを有効にするか無効にするか。'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool_2:
+  args:
+    - number true|false
+  desc: 'ロール挨拶メッセージを有効または無効にします。'
+  params:
+    - desc: '更新するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: num
+      optional: false
+      type: int
+    - desc: '挨拶メッセージを有効にするか無効にするか。'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots:
+  args:
+    - number true|false
+  desc: '特定のロール挨拶によるボットへの挨拶を有効または無効にします。'
+  params:
+    - desc: '更新するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: num
+      optional: false
+      type: int
+    - &ref_453
+      desc: 'ボットへの挨拶を有効にするか無効にするか。'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool:
+  args:
+    - number true|false
+  desc: '特定のロール挨拶によるボットへの挨拶を有効または無効にします。'
+  params:
+    - desc: '更新するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: num
+      optional: false
+      type: int
+    - desc: 'ボットへの挨拶を有効にするか無効にするか。'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool_1:
+  args:
+    - number true|false
+  desc: '特定のロール挨拶によるボットへの挨拶を有効または無効にします。'
+  params:
+    - desc: '更新するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: num
+      optional: false
+      type: int
+    - desc: 'ボットへの挨拶を有効にするか無効にするか。'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool_2:
+  args:
+    - number true|false
+  desc: '特定のロール挨拶によるボットへの挨拶を有効または無効にします。'
+  params:
+    - desc: '更新するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: num
+      optional: false
+      type: int
+    - desc: 'ボットへの挨拶を有効にするか無効にするか。'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetlist:
+  args:
+    - ''
+  desc: 'サーバーに設定されたすべてのロール挨拶を一覧表示し、それぞれの詳細情報を提供します。'
+  params: [ ]
+rolegreetmessage:
+  args:
+    - '<id> [message]'
+    - number
+  desc: 'ロール挨拶のメッセージ内容を更新します。メッセージが指定されない場合は、現在のメッセージをプレビューするかプレーンテキストとして表示するオプションが提示されます。'
+  params:
+    - desc: '更新するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: id
+      optional: false
+      type: int
+    - desc: '新しいメッセージ内容。省略可能。'
+      name: message
+      optional: true
+      type: string
+rolegreetremove:
+  args:
+    - number
+  desc: 指定したロールIDに関連するロール挨拶を削除します
+  params:
+    - &ref_454
+      desc: 指定したロールIDに関連するロール挨拶を削除します
+      name: id
+      optional: false
+      type: int
+rolegreetremove_IRole:
+  args:
+    - '@role'
+  desc: 指定したロールIDに関連するロール挨拶を削除します
+  params:
+    - desc: 'ロール挨拶を削除するロール。'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_1:
+  args:
+    - '@role'
+  desc: 指定したロールIDに関連するロール挨拶を削除します
+  params:
+    - desc: 'ロール挨拶を削除するロール。'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_2:
+  args:
+    - '@role'
+  desc: 指定したロールIDに関連するロール挨拶を削除します
+  params:
+    - desc: 'ロール挨拶を削除するロール。'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_3:
+  args:
+    - '@role'
+  desc: 指定したロールIDに関連するロール挨拶を削除します
+  params:
+    - desc: 'ロール挨拶を削除するロール。'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_int:
+  args:
+    - number
+  desc: 指定したロールIDに関連するロール挨拶を削除します
+  params:
+    - desc: 指定したロールIDに関連するロール挨拶を削除します
+      name: id
+      optional: false
+      type: int
+rolegreetremove_int_1:
+  args:
+    - number
+  desc: 指定したロールIDに関連するロール挨拶を削除します
+  params:
+    - desc: 指定したロールIDに関連するロール挨拶を削除します
+      name: id
+      optional: false
+      type: int
+rolegreetremove_int_2:
+  args:
+    - number
+  desc: 指定したロールIDに関連するロール挨拶を削除します
+  params:
+    - desc: 指定したロールIDに関連するロール挨拶を削除します
+      name: id
+      optional: false
+      type: int
+rolegreetwebhook:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'ロール挨拶メッセージのウェブフックをカスタム名とアバターで設定します。名前が指定されない場合はウェブフックが無効になります。'
+  params:
+    - desc: 'ウェブフックを設定するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'ウェブフックの名前。省略可能。'
+      name: name
+      optional: true
+      type: string
+    - desc: 'ウェブフックのアバターURL。省略可能。'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'ロール挨拶メッセージのウェブフックをカスタム名とアバターで設定します。名前が指定されない場合はウェブフックが無効になります。'
+  params:
+    - desc: 'ウェブフックを設定するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'ウェブフックの名前。省略可能。'
+      name: name
+      optional: true
+      type: string
+    - desc: 'ウェブフックのアバターURL。省略可能。'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=_1:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'ロール挨拶メッセージのウェブフックをカスタム名とアバターで設定します。名前が指定されない場合はウェブフックが無効になります。'
+  params:
+    - desc: 'ウェブフックを設定するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'ウェブフックの名前。省略可能。'
+      name: name
+      optional: true
+      type: string
+    - desc: 'ウェブフックのアバターURL。省略可能。'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=_2:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'ロール挨拶メッセージのウェブフックをカスタム名とアバターで設定します。名前が指定されない場合はウェブフックが無効になります。'
+  params:
+    - desc: 'ウェブフックを設定するロール挨拶のID（全ロール挨拶リストの位置に基づく）。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'ウェブフックの名前。省略可能。'
+      name: name
+      optional: true
+      type: string
+    - desc: 'ウェブフックのアバターURL。省略可能。'
+      name: avatar
+      optional: true
+      type: string

@@ -1,0 +1,481 @@
+deleteuserstatsdata:
+  args:
+    - ''
+  desc: 'Sletter brukerens kommandostatistikkdata.'
+  params: [ ]
+greetdmoptout:
+  args:
+    - ''
+  desc: 'Lar en bruker veksle mellom å melde seg av velkomst-DM-er. Fungerer bare hvis serveren de blir med i bruker mewdeko for DM-hilsener.'
+  params: [ ]
+profile:
+  args:
+    - '[@user]'
+  desc: 'Viser brukerens profil eller en annen brukers profil hvis angitt.'
+  params:
+    - desc: 'Brukeren hvis profil skal vises. Hvis null, vises anroperens profil.'
+      name: user
+      optional: true
+      type: user
+profile_=:
+  args:
+    - '[@user]'
+  desc: 'Viser brukerens profil eller en annen brukers profil hvis angitt.'
+  params:
+    - desc: 'Brukeren hvis profil skal vises. Hvis null, vises anroperens profil.'
+      name: user
+      optional: true
+      type: user
+profile_=_1:
+  args:
+    - '[@user]'
+  desc: 'Viser brukerens profil eller en annen brukers profil hvis angitt.'
+  params:
+    - desc: 'Brukeren hvis profil skal vises. Hvis null, vises anroperens profil.'
+      name: user
+      optional: true
+      type: user
+profile_=_2:
+  args:
+    - '[@user]'
+  desc: 'Viser brukerens profil eller en annen brukers profil hvis angitt.'
+  params:
+    - desc: 'Brukeren hvis profil skal vises. Hvis null, vises anroperens profil.'
+      name: user
+      optional: true
+      type: user
+pronouns:
+  args:
+    - '[@user]'
+  desc: 'Viser pronomenene til den angitte brukeren eller kommandoanroperen hvis ingen bruker er angitt.'
+  params:
+    - desc: 'Valgfritt. Brukeren hvis pronomen skal vises.'
+      name: user
+      optional: true
+      type: user
+pronounsforceclear:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Tvangsslett pronomenene til en bruker via ID, eventuelt merket som deaktivert på grunn av misbruk.'
+  params:
+    - &ref_356
+      desc: 'Bruker-ID-en til brukeren hvis pronomen skal slettes.'
+      name: user
+      optional: true
+      type: IUser
+    - &ref_357
+      desc: 'Om pronomenene deaktiveres på grunn av misbruk.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - &ref_358
+      desc: 'Årsaken til handlingen.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Tvangsslett pronomenene til en bruker via ID, eventuelt merket som deaktivert på grunn av misbruk.'
+  params:
+    - desc: 'Bruker-ID-en til brukeren hvis pronomen skal slettes.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Om pronomenene deaktiveres på grunn av misbruk.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Årsaken til handlingen.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string_1:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Tvangsslett pronomenene til en bruker via ID, eventuelt merket som deaktivert på grunn av misbruk.'
+  params:
+    - desc: 'Bruker-ID-en til brukeren hvis pronomen skal slettes.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Om pronomenene deaktiveres på grunn av misbruk.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Årsaken til handlingen.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string_2:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Tvangsslett pronomenene til en bruker via ID, eventuelt merket som deaktivert på grunn av misbruk.'
+  params:
+    - desc: 'Bruker-ID-en til brukeren hvis pronomen skal slettes.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Om pronomenene deaktiveres på grunn av misbruk.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Årsaken til handlingen.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string:
+  args:
+    - user true|false text
+  desc: 'Tvangsslett pronomenene til en bruker via ID, eventuelt merket som deaktivert på grunn av misbruk.'
+  params:
+    - &ref_359
+      desc: 'Bruker-ID-en til brukeren hvis pronomen skal slettes.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Om pronomenene deaktiveres på grunn av misbruk.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Årsaken til handlingen.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_1:
+  args:
+    - user true|false text
+  desc: 'Tvangsslett pronomenene til en bruker via ID, eventuelt merket som deaktivert på grunn av misbruk.'
+  params:
+    - desc: 'Bruker-ID-en til brukeren hvis pronomen skal slettes.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Om pronomenene deaktiveres på grunn av misbruk.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Årsaken til handlingen.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_2:
+  args:
+    - user true|false text
+  desc: 'Tvangsslett pronomenene til en bruker via ID, eventuelt merket som deaktivert på grunn av misbruk.'
+  params:
+    - desc: 'Bruker-ID-en til brukeren hvis pronomen skal slettes.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Om pronomenene deaktiveres på grunn av misbruk.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Årsaken til handlingen.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_3:
+  args:
+    - user true|false text
+  desc: 'Tvangsslett pronomenene til en bruker via ID, eventuelt merket som deaktivert på grunn av misbruk.'
+  params:
+    - desc: 'Bruker-ID-en til brukeren hvis pronomen skal slettes.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Om pronomenene deaktiveres på grunn av misbruk.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Årsaken til handlingen.'
+      name: reason
+      optional: false
+      type: string
+setbio:
+  args:
+    - text
+  desc: 'Angir eller oppdaterer biografien i brukerens profil.'
+  params:
+    - &ref_490
+      desc: 'Biografiteksten. Må være under 2048 tegn.'
+      name: bio
+      optional: false
+      type: string
+setbio_string:
+  args:
+    - text
+  desc: 'Angir eller oppdaterer biografien i brukerens profil.'
+  params:
+    - desc: 'Biografiteksten. Må være under 2048 tegn.'
+      name: bio
+      optional: false
+      type: string
+setbio_string_1:
+  args:
+    - text
+  desc: 'Angir eller oppdaterer biografien i brukerens profil.'
+  params:
+    - desc: 'Biografiteksten. Må være under 2048 tegn.'
+      name: bio
+      optional: false
+      type: string
+setbio_string_2:
+  args:
+    - text
+  desc: 'Angir eller oppdaterer biografien i brukerens profil.'
+  params:
+    - desc: 'Biografiteksten. Må være under 2048 tegn.'
+      name: bio
+      optional: false
+      type: string
+setbirthday:
+  args:
+    - time
+  desc: 'Angir bursdagen i brukerens profil.'
+  params:
+    - &ref_491
+      desc: 'Bursdagsdatoen.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime:
+  args:
+    - time
+  desc: 'Angir bursdagen i brukerens profil.'
+  params:
+    - desc: 'Bursdagsdatoen.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime_1:
+  args:
+    - time
+  desc: 'Angir bursdagen i brukerens profil.'
+  params:
+    - desc: 'Bursdagsdatoen.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime_2:
+  args:
+    - time
+  desc: 'Angir bursdagen i brukerens profil.'
+  params:
+    - desc: 'Bursdagsdatoen.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthdayprivacy:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Angir personvernmodus for bursdag i brukerens profil.'
+  params:
+    - &ref_492
+      desc: 'Visningsmodusen for bursdag som skal angis.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Angir personvernmodus for bursdag i brukerens profil.'
+  params:
+    - desc: 'Visningsmodusen for bursdag som skal angis.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum_1:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Angir personvernmodus for bursdag i brukerens profil.'
+  params:
+    - desc: 'Visningsmodusen for bursdag som skal angis.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum_2:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Angir personvernmodus for bursdag i brukerens profil.'
+  params:
+    - desc: 'Visningsmodusen for bursdag som skal angis.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setprivacy:
+  args:
+    - privacyenum
+  desc: 'Angir personvernnivået for brukerens profil.'
+  params:
+    - &ref_513
+      desc: 'Personverninnstillingen som skal brukes.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum:
+  args:
+    - privacyenum
+  desc: 'Angir personvernnivået for brukerens profil.'
+  params:
+    - desc: 'Personverninnstillingen som skal brukes.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum_1:
+  args:
+    - privacyenum
+  desc: 'Angir personvernnivået for brukerens profil.'
+  params:
+    - desc: 'Personverninnstillingen som skal brukes.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum_2:
+  args:
+    - privacyenum
+  desc: 'Angir personvernnivået for brukerens profil.'
+  params:
+    - desc: 'Personverninnstillingen som skal brukes.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprofilecolor:
+  args:
+    - input
+  desc: 'Angir profilfargen basert på en SKColor-inndata.'
+  params:
+    - &ref_514
+      desc: 'SKColor som representerer den ønskede profilfargen.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor:
+  args:
+    - input
+  desc: 'Angir profilfargen basert på en SKColor-inndata.'
+  params:
+    - desc: 'SKColor som representerer den ønskede profilfargen.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor_1:
+  args:
+    - input
+  desc: 'Angir profilfargen basert på en SKColor-inndata.'
+  params:
+    - desc: 'SKColor som representerer den ønskede profilfargen.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor_2:
+  args:
+    - input
+  desc: 'Angir profilfargen basert på en SKColor-inndata.'
+  params:
+    - desc: 'SKColor som representerer den ønskede profilfargen.'
+      name: input
+      optional: false
+      type: SKColor
+setprofileimage:
+  args:
+    - text
+  desc: 'Angir profilbilde-URL-en i brukerens profil.'
+  params:
+    - &ref_515
+      desc: 'URL-en til bildet som skal angis som profilbilde.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string:
+  args:
+    - text
+  desc: 'Angir profilbilde-URL-en i brukerens profil.'
+  params:
+    - desc: 'URL-en til bildet som skal angis som profilbilde.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string_1:
+  args:
+    - text
+  desc: 'Angir profilbilde-URL-en i brukerens profil.'
+  params:
+    - desc: 'URL-en til bildet som skal angis som profilbilde.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string_2:
+  args:
+    - text
+  desc: 'Angir profilbilde-URL-en i brukerens profil.'
+  params:
+    - desc: 'URL-en til bildet som skal angis som profilbilde.'
+      name: url
+      optional: false
+      type: string
+setpronouns:
+  args:
+    - '[pronouns]'
+  desc: 'Angir eller sletter pronomenene til brukeren.'
+  params:
+    - desc: 'Pronomenene som skal angis. Hvis null eller tomt, slettes eksisterende pronomen.'
+      name: pronouns
+      optional: true
+      type: string
+setswitchfc:
+  args:
+    - '""'
+  desc: 'Angir eller sletter Nintendo Switch-vennekoden i brukerens profil.'
+  params:
+    - desc: 'Angir eller sletter Nintendo Switch-vennekoden i brukerens profil.'
+      name: '""'
+      optional: false
+      type: '='
+setzodiac:
+  args:
+    - text
+  desc: 'Angir stjernetegnet i brukerens profil.'
+  params:
+    - &ref_539
+      desc: 'Stjernetegnet som skal angis.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string:
+  args:
+    - text
+  desc: 'Angir stjernetegnet i brukerens profil.'
+  params:
+    - desc: 'Stjernetegnet som skal angis.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string_1:
+  args:
+    - text
+  desc: 'Angir stjernetegnet i brukerens profil.'
+  params:
+    - desc: 'Stjernetegnet som skal angis.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string_2:
+  args:
+    - text
+  desc: 'Angir stjernetegnet i brukerens profil.'
+  params:
+    - desc: 'Stjernetegnet som skal angis.'
+      name: zodiac
+      optional: false
+      type: string
+userstatsoptout:
+  args:
+    - ''
+  desc: 'Veksler brukerens avmeldingsstatus for innsamling av kommandostatistikk.'
+  params: [ ]

@@ -1,0 +1,18 @@
+{
+  "status_role_channel_set": "Canal establecido en {0}",
+  "status": "Estado",
+  "status_addrole_successfully_removed": "¡{0} Eliminados con éxito los siguientes roles de AddRoles\n{1}",
+  "status_addroles_none_removed": "{0} No se eliminaron AddRoles, ninguno de los roles proporcionados está en la lista.",
+  "status_embed_channel_already_set": "{0} Ese ya es tu CanalStatusEmbed.",
+  "status_embed_channel_set": "¡{0} CanalStatusEmbed establecido con éxito en {1}!",
+  "status_readd_removed_now": "{0} ReaddRemoved es ahora `{1}`",
+  "status_remove_added_now": "{0} RemoveAdded es ahora `{1}`",
+  "status_removerole_none_removed": "{0} No se eliminaron RemoveRoles, ninguno de los roles proporcionados está en la lista.",
+  "status_removerole_successfully_removed": "¡{0} Eliminados con éxito los siguientes roles de RemoveRoles\n{1}",
+  "status_role_config_added": "¡Configuración de Rol de Estado añadida! Por favor, configúrala con los otros comandos.",
+  "status_role_exists": "¡{0} Ese Rol de Estado ya existe!",
+  "status_role_text_select": "¡{0} Por favor, selecciona lo que quieres hacer con el texto actual del Rol de Estado",
+  "status_roles_added": "¡{0} Tener este estado ahora añadirá los siguientes roles:\n{1}",
+  "status_roles_removed": "¡{0} Tener este estado ahora eliminará los siguientes roles:\n{1}",
+  "status_too_long": "{0} Eso es demasiado largo para caber en un estado normal. Inténtalo de nuevo."
+}

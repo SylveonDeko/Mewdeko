@@ -1,0 +1,136 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'Visar detaljerade Patreon-analyser.'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'Utlöser manuellt ett Patreon-meddelande.'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Ställer in eller visar Patreon-meddelandekanalen.
+  params:
+    - desc: >-
+        Kanalen att ställa in för Patreon-meddelanden. Om null visas
+        nuvarande kanal.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'Visar den aktuella Patreon-konfigurationen för denna server.'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Ställer in dagen i månaden för Patreon-meddelanden.'
+  params:
+    - desc: >-
+        Dagen i månaden (1-28) för meddelanden. Om null visas nuvarande dag.
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'Inaktiverar Patreon-meddelanden för denna server.'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Visar Patreon-modulinformation och tillgängliga platshållare.'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Länkar en Discord-användare till en Patreon-supporter.'
+  params:
+    - desc: Discord-användaren att länka.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: Patreon-användar-ID att länka till.
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Ställer in ett anpassat meddelande för Patreon-meddelanden.
+  params:
+    - desc: >-
+        Det anpassade meddelandet. Använd platshållare som %server.name%,
+        %month%, osv. Använd "-" för att återställa till standard.
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'Skickar erkännandemeddelanden för nya supportrar.'
+  params:
+    - desc: Kanalen att skicka erkännandemeddelanden till.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Listar Patreon nivå-roll-tilldelningar.'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'Slår på/av automatisk rollsynkronisering.'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Visar Patreon-supporterstatistik.'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'Listar aktiva Patreon-supportrar.'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'Konfigurerar säkert Patreon OAuth-integration.'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'Synkroniserar roller för alla länkade supportrar.'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Tilldelar en Patreon-nivå till en Discord-roll.'
+  params:
+    - desc: Patreon-nivå-ID.
+      name: tierId
+      optional: false
+      type: string
+    - desc: Discord-rollen att tilldela till nivån.
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Slår på eller av Patreon-meddelanden.'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'Visar topp Patreon-supportrar.'
+  params:
+    - desc: Antal topp-supportrar att visa (1-20).
+      name: count
+      optional: true
+      type: int

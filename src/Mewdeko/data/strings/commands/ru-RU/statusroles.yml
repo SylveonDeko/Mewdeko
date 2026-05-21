@@ -1,0 +1,273 @@
+addstatusrole:
+  args:
+    - text
+  desc: 'Добавляет конфигурацию роли статуса.'
+  params:
+    - &ref_32
+      desc: 'Статус для добавления.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string:
+  args:
+    - text
+  desc: 'Добавляет конфигурацию роли статуса.'
+  params:
+    - desc: 'Статус для добавления.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_1:
+  args:
+    - text
+  desc: 'Добавляет конфигурацию роли статуса.'
+  params:
+    - desc: 'Статус для добавления.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_2:
+  args:
+    - text
+  desc: 'Добавляет конфигурацию роли статуса.'
+  params:
+    - desc: 'Статус для добавления.'
+      name: status
+      optional: false
+      type: string
+liststatusroles:
+  args:
+    - ''
+  desc: 'Перечисляет все текущие роли статуса с их подробностями.'
+  params: [ ]
+removeaddroles:
+  args:
+    - number @role
+  desc: 'Устанавливает роли для удаления, когда пользователь имеет выбранный статус.'
+  params:
+    - &ref_390
+      desc: 'Индекс роли статуса.'
+      name: index
+      optional: false
+      type: int
+    - &ref_391
+      desc: 'Роли для удаления.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: 'Устанавливает роли для удаления, когда пользователь имеет выбранный статус.'
+  params:
+    - desc: 'Индекс роли статуса.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Роли для удаления.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: 'Устанавливает роли для удаления, когда пользователь имеет выбранный статус.'
+  params:
+    - desc: 'Индекс роли статуса.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Роли для удаления.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: 'Устанавливает роли для удаления, когда пользователь имеет выбранный статус.'
+  params:
+    - desc: 'Индекс роли статуса.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Роли для удаления.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeremoveroles:
+  args:
+    - number @role
+  desc: >-
+    Удаляет одну или несколько ролей из добавленных ролей, когда пользователь
+    имеет выбранный статус.
+  params:
+    - desc: 'Индекс роли статуса.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Роли для удаления.'
+      name: roles
+      optional: false
+      type: IRole[]
+removestatusrole:
+  args:
+    - number
+  desc: 'Удаляет конфигурацию роли статуса.'
+  params:
+    - desc: 'Индекс роли статуса для удаления.'
+      name: index
+      optional: false
+      type: int
+setaddroles:
+  args:
+    - number @role
+  desc: 'Устанавливает роли для добавления, когда пользователь имеет выбранный статус.'
+  params:
+    - desc: 'Индекс роли статуса.'
+      name: index
+      optional: false
+      type: int
+    - &ref_486
+      desc: 'Роли для добавления.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: 'Устанавливает роли для добавления, когда пользователь имеет выбранный статус.'
+  params:
+    - desc: 'Индекс роли статуса.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Роли для добавления.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: 'Устанавливает роли для добавления, когда пользователь имеет выбранный статус.'
+  params:
+    - desc: 'Индекс роли статуса.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Роли для добавления.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: 'Устанавливает роли для добавления, когда пользователь имеет выбранный статус.'
+  params:
+    - desc: 'Индекс роли статуса.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Роли для добавления.'
+      name: roles
+      optional: false
+      type: IRole[]
+setremoveroles:
+  args:
+    - number @role
+  desc: 'Устанавливает роли для удаления, когда пользователь имеет выбранный статус.'
+  params:
+    - desc: 'Индекс роли статуса.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Роли для удаления.'
+      name: roles
+      optional: false
+      type: IRole[]
+setstatusrolechannel:
+  args:
+    - number channel
+  desc: 'Устанавливает канал для определённой роли статуса.'
+  params:
+    - desc: 'Индекс роли статуса.'
+      name: index
+      optional: false
+      type: int
+    - &ref_527
+      desc: 'Канал для установки.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: 'Устанавливает канал для определённой роли статуса.'
+  params:
+    - desc: 'Индекс роли статуса.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Канал для установки.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: 'Устанавливает канал для определённой роли статуса.'
+  params:
+    - desc: 'Индекс роли статуса.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Канал для установки.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: 'Устанавливает канал для определённой роли статуса.'
+  params:
+    - desc: 'Индекс роли статуса.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Канал для установки.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusroleembed:
+  args:
+    - '<index> [embedText]'
+    - number
+  desc: 'Устанавливает или просматривает текст встраивания для определённой роли статуса.'
+  params:
+    - desc: 'Индекс роли статуса.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Текст встраивания для установки.'
+      name: embedText
+      optional: true
+      type: string
+togglereaddremoved:
+  args:
+    - number
+  desc: 'Переключает, удаляются ли добавленные роли при снятии статуса.'
+  params:
+    - desc: 'Индекс роли статуса.'
+      name: index
+      optional: false
+      type: int
+toggleremoveadded:
+  args:
+    - number
+  desc: >-
+    Переключает, удаляются ли добавленные роли, когда пользователь больше не
+    имеет статуса по указанному индексу.
+  params:
+    - desc: 'Индекс роли статуса.'
+      name: index
+      optional: false
+      type: int

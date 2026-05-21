@@ -1,0 +1,157 @@
+confess:
+  args:
+    - serverid text
+  desc: 'A-allows users to confess anonymously. N-not that I care!'
+  params:
+    - &ref_139
+      desc: 'The ID of the server. G-get it right!'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: 'The confession message. Hmph!'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: 'A-allows users to confess anonymously. N-not that I care!'
+  params:
+    - desc: 'The ID of the server. G-get it right!'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'The confession message. Hmph!'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: 'A-allows users to confess anonymously. N-not that I care!'
+  params:
+    - desc: 'The ID of the server. G-get it right!'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'The confession message. Hmph!'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: 'A-allows users to confess anonymously. N-not that I care!'
+  params:
+    - desc: 'The ID of the server. G-get it right!'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'The confession message. Hmph!'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: 'Adds a user to the confession blacklist. Serves them right!'
+  params:
+    - desc: 'The user to blacklist. Hmph, baka!'
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: 'Sets the confession channel. D-don''t misuse it!'
+  params:
+    - desc: 'The channel for confessions. Choose carefully!'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: 'Adds or removes a user from the confession blacklist. Hmph!'
+  params:
+    - &ref_141
+      desc: 'The user to add or remove. I-it''s not like I''m doing this for you!'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: 'Adds or removes a user from the confession blacklist. Hmph!'
+  params:
+    - &ref_142
+      desc: 'The user to add or remove. I-it''s not like I''m doing this for you!'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: 'Adds or removes a user from the confession blacklist. Hmph!'
+  params:
+    - desc: 'The user to add or remove. I-it''s not like I''m doing this for you!'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: 'Adds or removes a user from the confession blacklist. Hmph!'
+  params:
+    - desc: 'The user to add or remove. I-it''s not like I''m doing this for you!'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: 'Sets the confession channel for anonymous confessions. B-baka, be careful!'
+  params:
+    - desc: 'The confession channel. Optional, obviously!'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    Sets the confession log channel. Misuse this and I''ll end up 2m from your
+    house. D-don''t test me!
+  params:
+    - desc: 'The log channel. Optional, hmph!'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: 'Removes a user from the confession blacklist. F-fine, I''ll allow it!'
+  params:
+    - desc: 'The user to remove. Lucky them!'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: 'Sets the confession log channel. D-don''t ask why!'
+  params:
+    - desc: 'The channel to log confessions to. Hmph!'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: 'Removes a user from the confession blacklist. I-it''s not like I forgive them!'
+  params:
+    - desc: 'The user to unblacklist. Fine, whatever!'
+      name: user
+      optional: false
+      type: IUser

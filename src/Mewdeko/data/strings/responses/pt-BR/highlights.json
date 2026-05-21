@@ -1,0 +1,23 @@
+{
+  "highlight_added": "Adicionado {0} aos seus highlights!",
+  "highlight_already_exists": "Isso já está nos seus highlights!",
+  "highlight_cannot_delete": "Não é possível deletar porque você não tem nenhum highlight definido!",
+  "highlight_disabled": "Highlights desativados.",
+  "highlight_empty_delete": "Não é possível deletar um highlight vazio.",
+  "highlight_empty_match": "Não é possível corresponder a um highlight vazio.",
+  "highlight_enabled": "Highlights ativados!",
+  "highlight_ignored_channel_added": "Adicionado {0} aos canais ignorados!",
+  "highlight_ignored_channel_removed": "Removido {0} dos canais ignorados!",
+  "highlight_ignored_user_added": "Adicionado {0} aos usuários ignorados!",
+  "highlight_ignored_user_removed": "Removido {0} dos usuários ignorados!",
+  "highlight_list_title": "Highlights de {0}",
+  "highlight_no_highlights": "Você não tem nenhum highlight definido!",
+  "highlight_no_match_found": "Nenhuma correspondência encontrada.",
+  "highlight_no_matches": "Não há highlights para corresponder.",
+  "highlight_not_exist": "Esse highlight não existe!",
+  "highlight_not_found": "Isso não está nos seus highlights!",
+  "highlight_phrase_required": "Você precisa especificar uma frase para destacar.",
+  "highlight_removed": "{0} removido dos seus highlights com sucesso.",
+  "highlight_toggle_invalid": "Isso deve ser verdadeiro ou falso, nada mais.",
+  "highlight_user_channel_not_found": "Esse usuário ou canal não foi encontrado!"
+}

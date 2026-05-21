@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'Activa o desactiva los anuncios de cumpleaños para el usuario.'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'Establece el canal de anuncios de cumpleaños.'
+  params:
+    - desc: >-
+        El canal de texto para los anuncios. Por defecto el canal actual
+        si no se especifica.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'Muestra la configuración actual de cumpleaños.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'Muestra los próximos cumpleaños en el servidor.'
+  params:
+    - desc: Cuántos días mirar adelante. Por defecto 7, máximo 30.
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'Establece una plantilla de mensaje de cumpleaños personalizada.'
+  params:
+    - desc: >-
+        La plantilla de mensaje. Usa {user} para mencionar al usuario.
+        Muestra el mensaje actual si se deja vacío.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'Establece el rol al que mencionar al anunciar cumpleaños.'
+  params:
+    - desc: El rol a mencionar. No proporciones ningún rol para desactivarlo.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'Establece el rol de cumpleaños que los usuarios reciben en su cumpleaños.'
+  params:
+    - desc: El rol a asignar en el cumpleaños del usuario. No proporciones ningún rol para desactivarlo.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'Establece la zona horaria del usuario para el cálculo de cumpleaños.'
+  params:
+    - desc: La zona horaria a establecer (ej., "America/New_York").
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'Muestra los cumpleaños de hoy.'
+  params: [ ]

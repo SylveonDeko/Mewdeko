@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    Показывает команды для определённого модуля. Если null, является
+    псевдонимом modules, который является псевдонимом help.
+  params:
+    - desc: 'Модуль для просмотра'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    Показывает команды для определённого модуля. Если null, является
+    псевдонимом modules, который является псевдонимом help.
+  params:
+    - desc: 'Модуль для просмотра'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    Показывает команды для определённого модуля. Если null, является
+    псевдонимом modules, который является псевдонимом help.
+  params:
+    - desc: 'Модуль для просмотра'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    Показывает команды для определённого модуля. Если null, является
+    псевдонимом modules, который является псевдонимом help.
+  params:
+    - desc: 'Модуль для просмотра'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: 'Показывает, как поддержать бота.'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    Экспортирует все команды в json-файл. В основном используется для
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    Экспортирует все команды в json-файл. В основном используется для
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    Экспортирует все команды в json-файл. В основном используется для
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    Экспортирует все команды в json-файл. В основном используется для
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: 'Показывает руководство по боту.'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: Показывает справку по определённой команде.
+  params:
+    - desc: Команда, по которой нужна справка.
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: Показывает справочную информацию по командам.
+  params:
+    - desc: Команда, по которой нужна справка.
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: 'Показывает список всех модулей. По сути сейчас просто псевдоним help.'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: 'Ищет команду по имени или описанию.'
+  params:
+    - &ref_481
+      desc: 'Термин для поиска'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: 'Ищет команду по имени или описанию.'
+  params:
+    - desc: 'Термин для поиска'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: 'Ищет команду по имени или описанию.'
+  params:
+    - desc: 'Термин для поиска'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: 'Ищет команду по имени или описанию.'
+  params:
+    - desc: 'Термин для поиска'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: 'Показывает ссылку на исходный код бота.'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'Показывает ссылку для голосования за Mewdeko.'
+  params: [ ]

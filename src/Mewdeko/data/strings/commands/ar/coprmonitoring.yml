@@ -1,0 +1,168 @@
+coprmonitoradd:
+  args:
+    - '<ownerProject> [channel] [packages]'
+    - '<ownerProject> [channel] [packages]'
+    - ownerProject
+  desc: 'يضيف مراقب مشروع COPR إلى الخادم.'
+  params:
+    - desc: 'مشروع COPR بصيغة owner/project (مثل linux4switch/l4s).'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'قناة اختيارية للإشعارات. الافتراضي هو القناة الحالية.'
+      name: channel
+      optional: true
+      type: ITextChannel
+    - desc: 'قائمة اختيارية من الحزم المفصولة بفواصل للمراقبة (مثل mesa,kernel).'
+      name: packages
+      optional: true
+      type: string
+coprmonitorremove:
+  args:
+    - '<ownerProject> [channel]'
+    - ownerProject
+  desc: 'يزيل مراقب مشروع COPR من الخادم.'
+  params:
+    - desc: 'مشروع COPR بصيغة owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'قناة اختيارية لإزالة مراقب محدد منها.'
+      name: channel
+      optional: true
+      type: ITextChannel
+coprmonitorlist:
+  args:
+    - ''
+  desc: 'يسرد جميع مراقبي COPR المكوَّنين في الخادم.'
+  params: [ ]
+coprmonitortoggle:
+  args:
+    - ownerProject
+  desc: 'يشغل أو يوقف مراقب COPR.'
+  params:
+    - desc: 'مشروع COPR بصيغة owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+coprnotify:
+  args:
+    - ownerProject status enabled
+  desc: 'يضبط حالات البناء التي تُفعّل الإشعارات لمراقب.'
+  params:
+    - desc: 'مشروع COPR بصيغة owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'حالة البناء للتكوين.'
+      name: status
+      optional: false
+      type: CoprBuildStatus
+    - desc: 'تمكين أو تعطيل الإشعارات لهذه الحالة.'
+      name: enabled
+      optional: false
+      type: bool
+coprfilter:
+  args:
+    - ownerProject text
+  desc: 'يحدد مرشح الحزم لمراقب COPR.'
+  params:
+    - desc: 'مشروع COPR بصيغة owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'قائمة حزم مفصولة بفواصل، أو "all" لمراقبة كل شيء.'
+      name: packages
+      optional: false
+      type: string
+coprsucceededmessage:
+  args:
+    - ownerProject text
+  desc: 'يحدد الرسالة المعروضة عند نجاح بناء COPR.'
+  params:
+    - desc: 'مشروع COPR بصيغة owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'الرسالة أو كود التضمين. استخدم "-" للإعادة إلى الافتراضي.'
+      name: message
+      optional: false
+      type: string
+coprfailedmessage:
+  args:
+    - ownerProject text
+  desc: 'يحدد الرسالة المعروضة عند فشل بناء COPR.'
+  params:
+    - desc: 'مشروع COPR بصيغة owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'الرسالة أو كود التضمين. استخدم "-" للإعادة إلى الافتراضي.'
+      name: message
+      optional: false
+      type: string
+coprcanceledmessage:
+  args:
+    - ownerProject text
+  desc: 'يحدد الرسالة المعروضة عند إلغاء بناء COPR.'
+  params:
+    - desc: 'مشروع COPR بصيغة owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'الرسالة أو كود التضمين. استخدم "-" للإعادة إلى الافتراضي.'
+      name: message
+      optional: false
+      type: string
+coprpendingmessage:
+  args:
+    - ownerProject text
+  desc: 'يحدد الرسالة المعروضة عندما يكون بناء COPR معلقاً.'
+  params:
+    - desc: 'مشروع COPR بصيغة owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'الرسالة أو كود التضمين. استخدم "-" للإعادة إلى الافتراضي.'
+      name: message
+      optional: false
+      type: string
+coprrunningmessage:
+  args:
+    - ownerProject text
+  desc: 'يحدد الرسالة المعروضة عندما يكون بناء COPR قيد التشغيل.'
+  params:
+    - desc: 'مشروع COPR بصيغة owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'الرسالة أو كود التضمين. استخدم "-" للإعادة إلى الافتراضي.'
+      name: message
+      optional: false
+      type: string
+coprskippedmessage:
+  args:
+    - ownerProject text
+  desc: 'يحدد الرسالة المعروضة عند تخطي بناء COPR.'
+  params:
+    - desc: 'مشروع COPR بصيغة owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'الرسالة أو كود التضمين. استخدم "-" للإعادة إلى الافتراضي.'
+      name: message
+      optional: false
+      type: string
+coprdefaultmessage:
+  args:
+    - ownerProject text
+  desc: 'يحدد الرسالة الافتراضية لجميع حالات البناء الأخرى.'
+  params:
+    - desc: 'مشروع COPR بصيغة owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'الرسالة أو كود التضمين. استخدم "-" للإعادة إلى الافتراضي.'
+      name: message
+      optional: false
+      type: string

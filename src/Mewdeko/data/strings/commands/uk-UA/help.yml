@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    Показує команди для конкретного модуля. Якщо null, це псевдонім для
+    modules, який є псевдонімом для help.
+  params:
+    - desc: 'Модуль для перегляду'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    Показує команди для конкретного модуля. Якщо null, це псевдонім для
+    modules, який є псевдонімом для help.
+  params:
+    - desc: 'Модуль для перегляду'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    Показує команди для конкретного модуля. Якщо null, це псевдонім для
+    modules, який є псевдонімом для help.
+  params:
+    - desc: 'Модуль для перегляду'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    Показує команди для конкретного модуля. Якщо null, це псевдонім для
+    modules, який є псевдонімом для help.
+  params:
+    - desc: 'Модуль для перегляду'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: 'Показує, як підтримати бота.'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    Експортує всі команди в файл json. Використовується переважно для
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    Експортує всі команди в файл json. Використовується переважно для
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    Експортує всі команди в файл json. Використовується переважно для
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    Експортує всі команди в файл json. Використовується переважно для
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: 'Показує посібник для бота.'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: Показує допомогу для конкретної команди.
+  params:
+    - desc: Команда, для якої отримати допомогу.
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: Показує інформацію про допомогу для команд.
+  params:
+    - desc: Команда, для якої отримати допомогу.
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: 'Показує список усіх модулів. По суті, зараз це просто псевдонім для help.'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: 'Шукає команду за назвою або описом.'
+  params:
+    - &ref_481
+      desc: 'Термін для пошуку'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: 'Шукає команду за назвою або описом.'
+  params:
+    - desc: 'Термін для пошуку'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: 'Шукає команду за назвою або описом.'
+  params:
+    - desc: 'Термін для пошуку'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: 'Шукає команду за назвою або описом.'
+  params:
+    - desc: 'Термін для пошуку'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: 'Показує посилання на вихідний код бота.'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'Показує посилання для голосування за mewdeko.'
+  params: [ ]

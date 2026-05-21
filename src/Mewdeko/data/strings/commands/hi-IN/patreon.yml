@@ -1,0 +1,136 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'विस्तृत Patreon विश्लेषण दिखाता है।'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'मैन्युअल रूप से Patreon घोषणा को ट्रिगर करता है।'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Patreon घोषणा चैनल सेट करता है या दिखाता है।
+  params:
+    - desc: >-
+        Patreon घोषणाओं के लिए सेट करने वाला चैनल। यदि null है, तो वर्तमान
+        चैनल दिखाता है।
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'इस सर्वर के लिए वर्तमान Patreon कॉन्फ़िगरेशन दिखाता है।'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Patreon घोषणाओं के लिए महीने का दिन सेट करता है।'
+  params:
+    - desc: >-
+        घोषणाओं के लिए महीने का दिन (1-28)। यदि null है, तो वर्तमान दिन दिखाता है।
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'इस सर्वर के लिए Patreon घोषणाओं को अक्षम करता है।'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Patreon मॉड्यूल जानकारी और उपलब्ध प्लेसहोल्डर्स दिखाता है।'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Discord उपयोगकर्ता को Patreon समर्थक से जोड़ता है।'
+  params:
+    - desc: जोड़ने के लिए Discord उपयोगकर्ता।
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: जोड़ने के लिए Patreon उपयोगकर्ता ID।
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Patreon घोषणाओं के लिए एक कस्टम संदेश सेट करता है।
+  params:
+    - desc: >-
+        कस्टम संदेश। %server.name%, %month%, आदि जैसे प्लेसहोल्डर्स का उपयोग करें।
+        डिफ़ॉल्ट पर रीसेट करने के लिए "-" का उपयोग करें।
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'नए समर्थकों के लिए मान्यता संदेश भेजता है।'
+  params:
+    - desc: मान्यता संदेश भेजने के लिए चैनल।
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Patreon टियर-भूमिका मैपिंग को सूचीबद्ध करता है।'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'स्वचालित भूमिका सिंक्रनाइज़ेशन को टॉगल करता है।'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Patreon समर्थक सांख्यिकी दिखाता है।'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'सक्रिय Patreon समर्थकों को सूचीबद्ध करता है।'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'सुरक्षित रूप से Patreon OAuth एकीकरण सेट करता है।'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'सभी जुड़े समर्थकों के लिए भूमिकाएँ सिंक्रनाइज़ करता है।'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Patreon टियर को Discord भूमिका से मैप करता है।'
+  params:
+    - desc: Patreon टियर ID।
+      name: tierId
+      optional: false
+      type: string
+    - desc: टियर पर मैप करने के लिए Discord भूमिका।
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Patreon घोषणाओं को चालू या बंद करता है।'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'शीर्ष Patreon समर्थकों को दिखाता है।'
+  params:
+    - desc: दिखाने के लिए शीर्ष समर्थकों की संख्या (1-20)।
+      name: count
+      optional: true
+      type: int

@@ -1,0 +1,326 @@
+todoadd:
+  args:
+    - listId
+    - title
+    - description
+  desc: 'Ajoute un nouvel element a une liste de taches specifiee'
+  params:
+    - desc: 'L''ID de la liste de taches.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Le titre de l''element de tache.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Description facultative de l''element.'
+      name: description
+      optional: true
+      type: string
+todoaddpriority:
+  args:
+    - listId
+    - priority
+    - title
+    - description
+  desc: 'Ajoute un element de tache avec priorite et date d''echeance facultative'
+  params:
+    - desc: 'L''ID de la liste de taches.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Niveau de priorite (1=Bas, 2=Moyen, 3=Eleve, 4=Critique).'
+      name: priority
+      optional: false
+      type: int
+    - desc: 'Le titre de l''element de tache.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Description facultative de l''element.'
+      name: description
+      optional: true
+      type: string
+todoaddtag:
+  args:
+    - itemId
+    - tag
+  desc: 'Ajoute un tag a un element de tache'
+  params:
+    - desc: 'L''ID de l''element de tache.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Le tag a ajouter.'
+      name: tag
+      optional: false
+      type: string
+todocleardue:
+  args:
+    - itemId
+  desc: 'Supprime la date d''echeance d''un element de tache'
+  params:
+    - desc: 'L''ID de l''element de tache.'
+      name: itemId
+      optional: false
+      type: int
+todoclearreminder:
+  args:
+    - itemId
+  desc: 'Supprime le rappel d''un element de tache'
+  params:
+    - desc: 'L''ID de l''element de tache.'
+      name: itemId
+      optional: false
+      type: int
+todocomplete:
+  args:
+    - itemId
+  desc: 'Marque un element de tache comme termine'
+  params:
+    - desc: 'L''ID de l''element de tache.'
+      name: itemId
+      optional: false
+      type: int
+todocreatelist:
+  args:
+    - name
+    - description
+  desc: 'Cree une nouvelle liste de taches'
+  params:
+    - desc: 'Le nom de la liste de taches.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Description facultative de la liste.'
+      name: description
+      optional: true
+      type: string
+todocreateserverlist:
+  args:
+    - name
+    - description
+  desc: 'Cree une nouvelle liste de taches a l''echelle du serveur (admin uniquement)'
+  params:
+    - desc: 'Le nom de la liste de taches du serveur.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Description facultative de la liste.'
+      name: description
+      optional: true
+      type: string
+tododelete:
+  args:
+    - itemId
+  desc: 'Supprime un element de tache'
+  params:
+    - desc: 'L''ID de l''element de tache.'
+      name: itemId
+      optional: false
+      type: int
+tododeletelist:
+  args:
+    - listId
+  desc: 'Supprime une liste de taches entiere'
+  params:
+    - desc: 'L''ID de la liste de taches.'
+      name: listId
+      optional: false
+      type: int
+todoedit:
+  args:
+    - itemId
+    - title
+    - description
+  desc: 'Modifie le titre et la description d''un element de tache'
+  params:
+    - desc: 'L''ID de l''element de tache.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Le nouveau titre.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'La nouvelle description.'
+      name: description
+      optional: true
+      type: string
+todofilter:
+  args:
+    - listId
+    - filter
+    - value
+  desc: 'Filtre les elements de tache par tag ou priorite'
+  params:
+    - desc: 'L''ID de la liste de taches.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Type de filtre (tag ou priorite).'
+      name: filter
+      optional: false
+      type: string
+    - desc: 'La valeur par laquelle filtrer.'
+      name: value
+      optional: true
+      type: string
+todogrant:
+  args:
+    - listId
+    - '@user'
+    - permissions
+  desc: 'Accorde des permissions a un utilisateur pour une liste de taches (proprietaire/admin uniquement)'
+  params:
+    - desc: 'L''ID de la liste de taches.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'L''utilisateur a qui accorder les permissions.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Permissions separees par des virgules (view,add,edit,complete,delete,manage,all).'
+      name: permissions
+      optional: false
+      type: string
+todolists:
+  args:
+    - includeServer
+  desc: 'Liste toutes les listes de taches accessibles a l''utilisateur'
+  params:
+    - desc: 'Indique s''il faut inclure les listes a l''echelle du serveur.'
+      name: includeServer
+      optional: true
+      type: bool
+todopermissions:
+  args:
+    - listId
+  desc: 'Affiche toutes les permissions d''une liste de taches'
+  params:
+    - desc: 'L''ID de la liste de taches.'
+      name: listId
+      optional: false
+      type: int
+todoremovetag:
+  args:
+    - itemId
+    - tag
+  desc: 'Supprime un tag d''un element de tache'
+  params:
+    - desc: 'L''ID de l''element de tache.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Le tag a supprimer.'
+      name: tag
+      optional: false
+      type: string
+todoreorder:
+  args:
+    - itemId
+    - newPosition
+  desc: 'Reordonne un element de tache vers une nouvelle position'
+  params:
+    - desc: 'L''ID de l''element de tache.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'La nouvelle position (basee sur 1).'
+      name: newPosition
+      optional: false
+      type: int
+todorevoke:
+  args:
+    - listId
+    - '@user'
+  desc: 'Revoque toutes les permissions d''un utilisateur sur une liste de taches'
+  params:
+    - desc: 'L''ID de la liste de taches.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'L''utilisateur dont les permissions sont revoquees.'
+      name: user
+      optional: false
+      type: IUser
+todosearch:
+  args:
+    - listId
+    - query
+  desc: 'Recherche des elements de tache dans une liste'
+  params:
+    - desc: 'L''ID de la liste de taches.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'La requete de recherche.'
+      name: query
+      optional: false
+      type: string
+todosetcolor:
+  args:
+    - listId
+    - color
+  desc: 'Definit la couleur d''une liste de taches'
+  params:
+    - desc: 'L''ID de la liste de taches.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Code couleur hexadecimal (ex.,'
+      name: color
+      optional: false
+      type: string
+todosetdue:
+  args:
+    - itemId
+    - dateString
+  desc: 'Definit la date d''echeance d''un element de tache'
+  params:
+    - desc: 'L''ID de l''element de tache.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'La date et l''heure d''echeance.'
+      name: dateString
+      optional: false
+      type: string
+todosetreminder:
+  args:
+    - itemId
+    - dateString
+  desc: 'Definit un rappel pour un element de tache'
+  params:
+    - desc: 'L''ID de l''element de tache.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'La date et l''heure du rappel.'
+      name: dateString
+      optional: false
+      type: string
+todoshow:
+  args:
+    - listId
+    - includeCompleted
+  desc: 'Affiche tous les elements d''une liste de taches'
+  params:
+    - desc: 'L''ID de la liste de taches.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Indique s''il faut inclure les elements termines.'
+      name: includeCompleted
+      optional: true
+      type: bool
+todotoggleprivacy:
+  args:
+    - listId
+  desc: 'Bascule le parametre de confidentialite d''une liste de taches'
+  params:
+    - desc: 'L''ID de la liste de taches.'
+      name: listId
+      optional: false
+      type: int

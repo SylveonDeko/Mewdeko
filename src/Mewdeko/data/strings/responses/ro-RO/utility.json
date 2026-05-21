@@ -1,0 +1,19 @@
+{
+  "invite_filter_channel_off": "Filtrul de invitații dezactivat pe acest canal.",
+  "invite_filter_channel_on": "Filtrul de invitații activat pe acest canal.",
+  "invite_filter_server_off": "Filtrul de invitații dezactivat pe acest server.",
+  "invite_filter_server_on": "Filtrul de invitații activat pe acest server.",
+  "channel_topic": "Topicul Canalului",
+  "convert": "{0} {1} este egal cu {2} {3}",
+  "convert_not_found": "Nu se poate converti {0} la {1}: unitățile nu pot fii găsite",
+  "convert_type_error": "Nu se poate converti {0} la {1}: tipurile de unități nu sunt egale.",
+  "remind": "I will remind {0} to {1} {2}",
+  "remind_invalid_format": "Nu este un format de timp valid. Verificați lista de comenzi.",
+  "remind_too_long": "",
+  "repeat_invoke_none": "Nu e de găsit nici un mesaj repetat pe server-ul ăsta.",
+  "serverid": "{0} acestui server este {1}",
+  "reminder_list": "Listă de mementouri",
+  "reminder_deleted": "Mementoul  #{0} a fost șters.",
+  "reminder_not_exist": "Memento în acel index nu există.",
+  "invite_deleted": "Invite {0} has been deleted."
+}

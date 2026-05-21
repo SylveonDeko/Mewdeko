@@ -1,0 +1,472 @@
+afk:
+  args:
+    - message
+  desc: 'Anger din AFK-status.'
+  params:
+    - desc: 'AFK-meddelandet att visa.'
+      name: message
+      optional: true
+      type: string
+afkdel:
+  args:
+    - ''
+  desc: 'Anger varaktigheten for automatisk borttagning av AFK-meddelanden.'
+  params: [ ]
+afkdel_int:
+  args:
+    - number
+  desc: 'Anger varaktigheten for automatisk borttagning av AFK-meddelanden.'
+  params:
+    - &ref_49
+      desc: 'Varaktigheten i sekunder. Satt till 0 for att inaktivera automatisk borttagning.'
+      name: num
+      optional: false
+      type: int
+afkdel_int_1:
+  args:
+    - number
+  desc: 'Anger varaktigheten for automatisk borttagning av AFK-meddelanden.'
+  params:
+    - desc: 'Varaktigheten i sekunder. Satt till 0 for att inaktivera automatisk borttagning.'
+      name: num
+      optional: false
+      type: int
+afkdel_int_2:
+  args:
+    - number
+  desc: 'Anger varaktigheten for automatisk borttagning av AFK-meddelanden.'
+  params:
+    - desc: 'Varaktigheten i sekunder. Satt till 0 for att inaktivera automatisk borttagning.'
+      name: num
+      optional: false
+      type: int
+afkdel_int_3:
+  args:
+    - number
+  desc: 'Anger varaktigheten for automatisk borttagning av AFK-meddelanden.'
+  params:
+    - desc: 'Varaktigheten i sekunder. Satt till 0 for att inaktivera automatisk borttagning.'
+      name: num
+      optional: false
+      type: int
+afkdel_noparams:
+  args:
+    - ''
+  desc: 'Anger varaktigheten for automatisk borttagning av AFK-meddelanden.'
+  params: [ ]
+afkdel_noparams_1:
+  args:
+    - ''
+  desc: 'Anger varaktigheten for automatisk borttagning av AFK-meddelanden.'
+  params: [ ]
+afkdel_noparams_2:
+  args:
+    - ''
+  desc: 'Anger varaktigheten for automatisk borttagning av AFK-meddelanden.'
+  params: [ ]
+afkdisable:
+  args:
+    - chan
+  desc: 'Anger kanalerna dar AFK-meddelandet inte visas.'
+  params:
+    - &ref_50
+      desc: 'Kanaler du vill lagga till i AFK-meddelandets blocklista.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]:
+  args:
+    - chan
+  desc: 'Anger kanalerna dar AFK-meddelandet inte visas.'
+  params:
+    - desc: 'Kanaler du vill lagga till i AFK-meddelandets blocklista.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]_1:
+  args:
+    - chan
+  desc: 'Anger kanalerna dar AFK-meddelandet inte visas.'
+  params:
+    - desc: 'Kanaler du vill lagga till i AFK-meddelandets blocklista.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]_2:
+  args:
+    - chan
+  desc: 'Anger kanalerna dar AFK-meddelandet inte visas.'
+  params:
+    - desc: 'Kanaler du vill lagga till i AFK-meddelandets blocklista.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisabledlist:
+  args:
+    - ''
+  desc: 'Listar textkanalerna dar AFK-meddelandet inte visas.'
+  params: [ ]
+afklength:
+  args:
+    - number
+  desc: 'Anger maximal langd for alla AFK-meddelanden.'
+  params:
+    - &ref_51
+      desc: 'Den maximala langden du vill ange.'
+      name: num
+      optional: false
+      type: int
+afklength_int:
+  args:
+    - number
+  desc: 'Anger maximal langd for alla AFK-meddelanden.'
+  params:
+    - desc: 'Den maximala langden du vill ange.'
+      name: num
+      optional: false
+      type: int
+afklength_int_1:
+  args:
+    - number
+  desc: 'Anger maximal langd for alla AFK-meddelanden.'
+  params:
+    - desc: 'Den maximala langden du vill ange.'
+      name: num
+      optional: false
+      type: int
+afklength_int_2:
+  args:
+    - number
+  desc: 'Anger maximal langd for alla AFK-meddelanden.'
+  params:
+    - desc: 'Den maximala langden du vill ange.'
+      name: num
+      optional: false
+      type: int
+afkremove:
+  args:
+    - '@user'
+  desc: 'Tar bort AFK-status for en eller flera anvandare.'
+  params:
+    - &ref_52
+      desc: 'Anvandaren/anvandarna du vill ta bort AFK-status fran.'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Tar bort AFK-status for en eller flera anvandare.'
+  params:
+    - desc: 'Anvandaren/anvandarna du vill ta bort AFK-status fran.'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Tar bort AFK-status for en eller flera anvandare.'
+  params:
+    - desc: 'Anvandaren/anvandarna du vill ta bort AFK-status fran.'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Tar bort AFK-status for en eller flera anvandare.'
+  params:
+    - desc: 'Anvandaren/anvandarna du vill ta bort AFK-status fran.'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkrm:
+  args:
+    - ''
+  desc: 'Tar bort din AFK-status.'
+  params: [ ]
+afktimeout:
+  args:
+    - time
+  desc: >-
+    Anger tidsgransvarden innan en anvandare inte langre anses vara AFK.
+    Aktiveras nar en anvandare skickar ett meddelande eller skriver i en kanal.
+  params:
+    - &ref_53
+      desc: 'Tidsgransvarden for AFK-statusen.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime:
+  args:
+    - time
+  desc: >-
+    Anger tidsgransvarden innan en anvandare inte langre anses vara AFK.
+    Aktiveras nar en anvandare skickar ett meddelande eller skriver i en kanal.
+  params:
+    - desc: 'Tidsgransvarden for AFK-statusen.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime_1:
+  args:
+    - time
+  desc: >-
+    Anger tidsgransvarden innan en anvandare inte langre anses vara AFK.
+    Aktiveras nar en anvandare skickar ett meddelande eller skriver i en kanal.
+  params:
+    - desc: 'Tidsgransvarden for AFK-statusen.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime_2:
+  args:
+    - time
+  desc: >-
+    Anger tidsgransvarden innan en anvandare inte langre anses vara AFK.
+    Aktiveras nar en anvandare skickar ett meddelande eller skriver i en kanal.
+  params:
+    - desc: 'Tidsgransvarden for AFK-statusen.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktype:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'Anger typen av AFK-beteende for servern.'
+  params:
+    - &ref_54
+      desc: 'Typen av AFK-beteende att ange. <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'Anger typen av AFK-beteende for servern.'
+  params:
+    - desc: 'Typen av AFK-beteende att ange. <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum_1:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'Anger typen av AFK-beteende for servern.'
+  params:
+    - desc: 'Typen av AFK-beteende att ange. <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum_2:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'Anger typen av AFK-beteende for servern.'
+  params:
+    - desc: 'Typen av AFK-beteende att ange. <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afkundisable:
+  args:
+    - chan
+  desc: 'Tar bort de angivna kanalerna fran AFK-meddelandets blocklista.'
+  params:
+    - &ref_55
+      desc: 'Textkanalerna som ska tas bort fran AFK-meddelandets blocklista.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]:
+  args:
+    - chan
+  desc: 'Tar bort de angivna kanalerna fran AFK-meddelandets blocklista.'
+  params:
+    - desc: 'Textkanalerna som ska tas bort fran AFK-meddelandets blocklista.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]_1:
+  args:
+    - chan
+  desc: 'Tar bort de angivna kanalerna fran AFK-meddelandets blocklista.'
+  params:
+    - desc: 'Textkanalerna som ska tas bort fran AFK-meddelandets blocklista.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]_2:
+  args:
+    - chan
+  desc: 'Tar bort de angivna kanalerna fran AFK-meddelandets blocklista.'
+  params:
+    - desc: 'Textkanalerna som ska tas bort fran AFK-meddelandets blocklista.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkview:
+  args:
+    - '@user'
+  desc: 'Visar AFK-statusen for en specifik anvandare.'
+  params:
+    - &ref_56
+      desc: 'Anvandaren vars AFK-status ska kontrolleras.'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Visar AFK-statusen for en specifik anvandare.'
+  params:
+    - desc: 'Anvandaren vars AFK-status ska kontrolleras.'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Visar AFK-statusen for en specifik anvandare.'
+  params:
+    - desc: 'Anvandaren vars AFK-status ska kontrolleras.'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Visar AFK-statusen for en specifik anvandare.'
+  params:
+    - desc: 'Anvandaren vars AFK-status ska kontrolleras.'
+      name: user
+      optional: true
+      type: IGuildUser
+customafkmessage:
+  args:
+    - text
+  desc: >-
+    Anger en anpassad AFK-embed som visas nar en anvandare ar AFK. Anvand
+    "-" for att aterstalla till standard-embeden. Se https://eb.mewdeko.tech
+    for embed-byggaren och http://mewdeko.tech/placeholders for platshallare.
+  params:
+    - &ref_175
+      desc: 'Det anpassade meddelandet att ange. Anvand "-" for att aterstalla till standardmeddelandet.'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string:
+  args:
+    - text
+  desc: >-
+    Anger en anpassad AFK-embed som visas nar en anvandare ar AFK. Anvand
+    "-" for att aterstalla till standard-embeden. Se https://eb.mewdeko.tech
+    for embed-byggaren och http://mewdeko.tech/placeholders for platshallare.
+  params:
+    - desc: 'Det anpassade meddelandet att ange. Anvand "-" for att aterstalla till standardmeddelandet.'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string_1:
+  args:
+    - text
+  desc: >-
+    Anger en anpassad AFK-embed som visas nar en anvandare ar AFK. Anvand
+    "-" for att aterstalla till standard-embeden. Se https://eb.mewdeko.tech
+    for embed-byggaren och http://mewdeko.tech/placeholders for platshallare.
+  params:
+    - desc: 'Det anpassade meddelandet att ange. Anvand "-" for att aterstalla till standardmeddelandet.'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string_2:
+  args:
+    - text
+  desc: >-
+    Anger en anpassad AFK-embed som visas nar en anvandare ar AFK. Anvand
+    "-" for att aterstalla till standard-embeden. Se https://eb.mewdeko.tech
+    for embed-byggaren och http://mewdeko.tech/placeholders for platshallare.
+  params:
+    - desc: 'Det anpassade meddelandet att ange. Anvand "-" for att aterstalla till standardmeddelandet.'
+      name: embedCode
+      optional: false
+      type: string
+getactiveafks:
+  args:
+    - ''
+  desc: 'Visar en lista over aktiva anvandare som for narvarande ar AFK.'
+  params: [ ]
+setafk:
+  args:
+    - '[message]'
+  desc: 'Anger anvandarens AFK-status med ett valfritt meddelande.'
+  params:
+    - desc: 'AFK-meddelandet. Om det inte anges, vaxlas anvandarens AFK-status.'
+      name: message
+      optional: true
+      type: string
+timedafk:
+  args:
+    - time text
+  desc: 'Anger en tidssatt AFK-status med ett anpassat meddelande.'
+  params:
+    - &ref_621
+      desc: 'Varaktigheten for AFK-statusen.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_622
+      desc: 'Det anpassade meddelandet for AFK-statusen.'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string:
+  args:
+    - time text
+  desc: 'Anger en tidssatt AFK-status med ett anpassat meddelande.'
+  params:
+    - desc: 'Varaktigheten for AFK-statusen.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Det anpassade meddelandet for AFK-statusen.'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string_1:
+  args:
+    - time text
+  desc: 'Anger en tidssatt AFK-status med ett anpassat meddelande.'
+  params:
+    - desc: 'Varaktigheten for AFK-statusen.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Det anpassade meddelandet for AFK-statusen.'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string_2:
+  args:
+    - time text
+  desc: 'Anger en tidssatt AFK-status med ett anpassat meddelande.'
+  params:
+    - desc: 'Varaktigheten for AFK-statusen.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Det anpassade meddelandet for AFK-statusen.'
+      name: message
+      optional: false
+      type: string

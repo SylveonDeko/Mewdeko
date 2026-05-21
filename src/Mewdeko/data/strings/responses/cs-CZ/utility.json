@@ -1,0 +1,19 @@
+{
+  "invite_filter_channel_off": "Filtrování pozvánek bylo vypnuto na tomto kanále.",
+  "invite_filter_channel_on": "Filtrování pozvánek bylo zapnuto na tomto kanále.",
+  "invite_filter_server_off": "Filtrování pozvánek bylo vypnuto na tomto serveru.",
+  "invite_filter_server_on": "Filtrování pozvánek bylo zapnuto na tomto serveru.",
+  "channel_topic": "Téma kanálu",
+  "convert": "{0} {1} se rovná {2} {3}",
+  "convert_not_found": "Nepodařilo se převést {0} na {1}: jednotky nenalezeny",
+  "convert_type_error": "Nepodařilo se převést {0} na {1}: rozdílné typy jednotek",
+  "remind": "I will remind {0} to {1} {2}",
+  "remind_invalid_format": "Neplatný vstupní formát. Zkontroluj seznam příkazů.",
+  "remind_too_long": "Možný čas upomínky dosáhl maxima.",
+  "repeat_invoke_none": "Žádné opakující se zprávy nebyly nalezeny na tomto serveru.",
+  "serverid": "{0} tohoto serveru je {1}",
+  "reminder_list": "Seznam upomínek",
+  "reminder_deleted": "Upomínka #{0} byla smazána.",
+  "reminder_not_exist": "Upomínka tohoto indexu neexistuje.",
+  "invite_deleted": "Invite {0} has been deleted."
+}

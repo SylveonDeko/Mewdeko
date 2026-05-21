@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'Kullanıcı için doğum günü duyurularını açar/kapatır.'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'Doğum günü duyuru kanalını ayarlar.'
+  params:
+    - desc: >-
+        Duyurular için kullanılacak metin kanalı. Belirtilmezse
+        varsayılan olarak mevcut kanaldır.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'Mevcut doğum günü yapılandırmasını görüntüler.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'Sunucudaki yaklaşan doğum günlerini gösterir.'
+  params:
+    - desc: Kaç gün ileri bakılacak. Varsayılan 7, maksimum 30.
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'Özel bir doğum günü mesaj şablonu ayarlar.'
+  params:
+    - desc: >-
+        Mesaj şablonu. Kullanıcıya bahsetmek için {user} kullanın. Boş
+        bırakılırsa mevcut mesajı gösterir.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'Doğum günü duyurulurken pinglenecek rolü ayarlar.'
+  params:
+    - desc: Pinglenecek rol. Devre dışı bırakmak için rol vermeyin.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'Kullanıcıların doğum günlerinde aldıkları doğum günü rolünü ayarlar.'
+  params:
+    - desc: Kullanıcının doğum gününde atanacak rol. Devre dışı bırakmak için rol vermeyin.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'Kullanıcının doğum günü hesaplamaları için saat dilimini ayarlar.'
+  params:
+    - desc: Ayarlanacak saat dilimi (örn., "America/New_York").
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'Bugünün doğum günlerini gösterir.'
+  params: [ ]

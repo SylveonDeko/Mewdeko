@@ -1,0 +1,6 @@
+{
+  "aar_disabled": "**Automatikus rang kiosztás** felhasználó csatlakozásakor **letiltva**.",
+  "acm_disable": "Az ÖSSZES MODUL használata letiltva a(z) {0} szobán.",
+  "acm_enable": "Enabled usage of ALL MODULES on channel {0}.",
+  "perm_out_of_range": "Nincs ilyen sorszámú engedély."
+}

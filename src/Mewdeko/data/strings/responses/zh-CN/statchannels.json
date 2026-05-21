@@ -1,0 +1,9 @@
+{
+  "stat_channel_created": "已创建类型为 **{1}** 的统计频道 **{0}**。",
+  "stat_channel_added": "已添加类型为 **{1}** 的统计频道 **{0}**。",
+  "stat_channel_exists": "此频道已经是一个统计频道。",
+  "stat_channel_removed": "已移除统计频道 **{0}**。",
+  "stat_channel_not_found": "该频道不是统计频道。",
+  "stat_channel_none": "未配置任何统计频道。",
+  "stat_channel_list_title": "统计频道"
+}

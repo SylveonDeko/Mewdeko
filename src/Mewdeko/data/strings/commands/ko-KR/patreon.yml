@@ -1,0 +1,135 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: '상세한 Patreon 분석을 표시합니다.'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'Patreon 공지를 수동으로 트리거합니다.'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Patreon 공지 채널을 설정하거나 표시합니다.
+  params:
+    - desc: >-
+        Patreon 공지에 사용할 채널. null인 경우 현재 채널을 표시합니다.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: '이 서버의 현재 Patreon 구성을 표시합니다.'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Patreon 공지를 위한 월의 일자를 설정합니다.'
+  params:
+    - desc: >-
+        공지를 위한 월의 일자(1-28). null인 경우 현재 일자를 표시합니다.
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: '이 서버에 대한 Patreon 공지를 비활성화합니다.'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Patreon 모듈 정보와 사용 가능한 자리표시자를 표시합니다.'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Discord 사용자를 Patreon 후원자에게 연결합니다.'
+  params:
+    - desc: 연결할 Discord 사용자.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 연결할 Patreon 사용자 ID.
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Patreon 공지에 대한 사용자 정의 메시지를 설정합니다.
+  params:
+    - desc: >-
+        사용자 정의 메시지. %server.name%, %month% 등의 자리표시자를 사용하세요.
+        기본값으로 재설정하려면 "-"를 사용하세요.
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: '신규 후원자를 위한 인정 메시지를 보냅니다.'
+  params:
+    - desc: 인정 메시지를 보낼 채널.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Patreon 티어-역할 매핑을 나열합니다.'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: '자동 역할 동기화를 토글합니다.'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Patreon 후원자 통계를 표시합니다.'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: '활성 Patreon 후원자를 나열합니다.'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: '안전하게 Patreon OAuth 통합을 설정합니다.'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: '모든 연결된 후원자에 대한 역할을 동기화합니다.'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Patreon 티어를 Discord 역할에 매핑합니다.'
+  params:
+    - desc: Patreon 티어 ID.
+      name: tierId
+      optional: false
+      type: string
+    - desc: 티어에 매핑할 Discord 역할.
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Patreon 공지를 켜거나 끕니다.'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: '상위 Patreon 후원자를 표시합니다.'
+  params:
+    - desc: 표시할 상위 후원자 수(1-20).
+      name: count
+      optional: true
+      type: int

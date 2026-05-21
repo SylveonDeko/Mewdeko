@@ -1,0 +1,22 @@
+{
+  "confessions_blacklisted": "您已被该服务器的告白功能屏蔽！",
+  "confessions_blacklisted_added": "已将 {0} 添加到告白黑名单！！",
+  "confessions_blacklisted_already": "该用户已在黑名单中！",
+  "confessions_blacklisted_not": "该用户不在黑名单中！",
+  "confessions_blacklisted_removed": "已将 {0} 从告白黑名单中移除！！",
+  "confessions_channel_set": "已将 {0} 设为告白频道！",
+  "confessions_disabled": "告白功能已禁用",
+  "confessions_invalid_id": "您提供的 ID 无效！",
+  "confessions_invalid_perms": "我在该频道没有适当的权限！请确保在该频道为我启用了 EmbedLinks 和 SendMessages 权限！",
+  "confessions_logging_disabled": "告白日志记录已禁用",
+  "confessions_missing_invite": "由于缺少权限或没有可用邀请，无法获取邀请链接。",
+  "confessions_none": "此服务器未启用告白功能！",
+  "confessions_none_any": "您所在的任何服务器都未启用我的告白功能！",
+  "confessions_report": "举报",
+  "confessions_report_received": "已收到告白滥用举报",
+  "confessions_report_sent": "举报已发送。如果您想加入并补充说明，请使用下方链接。",
+  "confessions_report_user": "举报用户",
+  "confessions_server_id": "服务器 ID",
+  "confessions_server_invite": "服务器邀请",
+  "confessions_spleen": "已将 {0} 设为告白日志频道。\n***请注意，如果我发现您滥用此功能，我会察觉到并将此服务器加入黑名单。"
+}

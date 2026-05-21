@@ -1,0 +1,305 @@
+setupvoicehub:
+  args:
+    - ''
+  desc: 'Настраивает голосовой канал как хаб для создания пользовательских голосовых каналов.'
+  params: [ ]
+setvoicehub:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Устанавливает определённый голосовой канал как хаб для создания пользовательских голосовых каналов.'
+  params:
+    - desc: 'Устанавливает определённый голосовой канал как хаб для создания пользовательских голосовых каналов.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Устанавливает определённый голосовой канал как хаб для создания пользовательских голосовых каналов.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Устанавливает определённый голосовой канал как хаб для создания пользовательских голосовых каналов.'
+  params:
+    - desc: 'Устанавливает определённый голосовой канал как хаб для создания пользовательских голосовых каналов.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Устанавливает определённый голосовой канал как хаб для создания пользовательских голосовых каналов.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_1:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Устанавливает определённый голосовой канал как хаб для создания пользовательских голосовых каналов.'
+  params:
+    - desc: 'Устанавливает определённый голосовой канал как хаб для создания пользовательских голосовых каналов.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Устанавливает определённый голосовой канал как хаб для создания пользовательских голосовых каналов.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_2:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Устанавливает определённый голосовой канал как хаб для создания пользовательских голосовых каналов.'
+  params:
+    - desc: 'Устанавливает определённый голосовой канал как хаб для создания пользовательских голосовых каналов.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Устанавливает определённый голосовой канал как хаб для создания пользовательских голосовых каналов.'
+      name: category
+      optional: true
+      type: category
+voiceallow:
+  args:
+    - '@user'
+  desc: 'Разрешает определённому пользователю войти в ваш заблокированный голосовой канал.'
+  params:
+    - &ref_642
+      desc: 'Разрешает определённому пользователю войти в ваш заблокированный голосовой канал.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Разрешает определённому пользователю войти в ваш заблокированный голосовой канал.'
+  params:
+    - desc: 'Разрешает определённому пользователю войти в ваш заблокированный голосовой канал.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Разрешает определённому пользователю войти в ваш заблокированный голосовой канал.'
+  params:
+    - desc: 'Разрешает определённому пользователю войти в ваш заблокированный голосовой канал.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Разрешает определённому пользователю войти в ваш заблокированный голосовой канал.'
+  params:
+    - desc: 'Разрешает определённому пользователю войти в ваш заблокированный голосовой канал.'
+      name: target
+      optional: false
+      type: IGuildUser
+voicebitrate:
+  args:
+    - number
+  desc: 'Устанавливает битрейт для вашего пользовательского голосового канала.'
+  params:
+    - &ref_643
+      desc: 'Устанавливает битрейт для вашего пользовательского голосового канала.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int:
+  args:
+    - number
+  desc: 'Устанавливает битрейт для вашего пользовательского голосового канала.'
+  params:
+    - desc: 'Устанавливает битрейт для вашего пользовательского голосового канала.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_1:
+  args:
+    - number
+  desc: 'Устанавливает битрейт для вашего пользовательского голосового канала.'
+  params:
+    - desc: 'Устанавливает битрейт для вашего пользовательского голосового канала.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_2:
+  args:
+    - number
+  desc: 'Устанавливает битрейт для вашего пользовательского голосового канала.'
+  params:
+    - desc: 'Устанавливает битрейт для вашего пользовательского голосового канала.'
+      name: bitrate
+      optional: false
+      type: int
+voicechannels:
+  args:
+    - ''
+  desc: 'Отображает список активных пользовательских голосовых каналов.'
+  params: [ ]
+voiceclaim:
+  args:
+    - ''
+  desc: 'Присваивает право собственности на пользовательский голосовой канал, если владелец отсутствует.'
+  params: [ ]
+voiceconfig:
+  args:
+    - '[setting] [value]'
+  desc: 'Настраивает параметры пользовательского голоса.'
+  params:
+    - desc: 'Настраивает параметры пользовательского голоса.'
+      name: setting
+      optional: true
+      type: string
+    - desc: 'Настраивает параметры пользовательского голоса.'
+      name: value
+      optional: true
+      type: string
+voicecontrols:
+  args:
+    - ''
+  desc: 'Отображает интерактивные элементы управления для вашего пользовательского голосового канала.'
+  params: [ ]
+voicedeny:
+  args:
+    - '@user'
+  desc: 'Запрещает определённому пользователю войти в ваш голосовой канал.'
+  params:
+    - desc: 'Запрещает определённому пользователю войти в ваш голосовой канал.'
+      name: target
+      optional: false
+      type: IGuildUser
+voicekeepalive:
+  args:
+    - true
+  desc: 'Оставляет канал активным, даже когда он пустой.'
+  params:
+    - desc: 'Оставляет канал активным, даже когда он пустой.'
+      name: true
+      optional: false
+      type: '='
+voicelimit:
+  args:
+    - number
+  desc: 'Устанавливает лимит пользователей для вашего пользовательского голосового канала.'
+  params:
+    - &ref_644
+      desc: 'Устанавливает лимит пользователей для вашего пользовательского голосового канала.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int:
+  args:
+    - number
+  desc: 'Устанавливает лимит пользователей для вашего пользовательского голосового канала.'
+  params:
+    - desc: 'Устанавливает лимит пользователей для вашего пользовательского голосового канала.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_1:
+  args:
+    - number
+  desc: 'Устанавливает лимит пользователей для вашего пользовательского голосового канала.'
+  params:
+    - desc: 'Устанавливает лимит пользователей для вашего пользовательского голосового канала.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_2:
+  args:
+    - number
+  desc: 'Устанавливает лимит пользователей для вашего пользовательского голосового канала.'
+  params:
+    - desc: 'Устанавливает лимит пользователей для вашего пользовательского голосового канала.'
+      name: limit
+      optional: false
+      type: int
+voicelock:
+  args:
+    - true
+  desc: 'Блокирует или разблокирует ваш пользовательский голосовой канал.'
+  params:
+    - desc: 'Блокирует или разблокирует ваш пользовательский голосовой канал.'
+      name: true
+      optional: false
+      type: '='
+voicepreferences:
+  args:
+    - ''
+  desc: 'Устанавливает ваши предпочтения голосового канала.'
+  params: [ ]
+voiceprefsbitrate:
+  args:
+    - '[bitrate]'
+  desc: 'Устанавливает предпочтительный битрейт для пользовательских голосовых каналов.'
+  params:
+    - desc: 'Устанавливает предпочтительный битрейт для пользовательских голосовых каналов.'
+      name: bitrate
+      optional: true
+      type: int
+voiceprefskeepalive:
+  args:
+    - '[keepAlive]'
+  desc: 'Устанавливает предпочтительный статус keep-alive для пользовательских голосовых каналов.'
+  params:
+    - desc: 'Устанавливает предпочтительный статус keep-alive для пользовательских голосовых каналов.'
+      name: keepAlive
+      optional: true
+      type: bool
+voiceprefslimit:
+  args:
+    - '[limit]'
+  desc: 'Устанавливает предпочтительный лимит пользователей для пользовательских голосовых каналов.'
+  params:
+    - desc: 'Устанавливает предпочтительный лимит пользователей для пользовательских голосовых каналов.'
+      name: limit
+      optional: true
+      type: int
+voiceprefslock:
+  args:
+    - '[locked]'
+  desc: 'Устанавливает предпочтительный статус блокировки для пользовательских голосовых каналов.'
+  params:
+    - desc: 'Устанавливает предпочтительный статус блокировки для пользовательских голосовых каналов.'
+      name: locked
+      optional: true
+      type: bool
+voiceprefsname:
+  args:
+    - '[format]'
+  desc: 'Устанавливает предпочтительный формат имени для пользовательских голосовых каналов.'
+  params:
+    - desc: 'Устанавливает предпочтительный формат имени для пользовательских голосовых каналов.'
+      name: format
+      optional: true
+      type: string
+voiceprefsreset:
+  args:
+    - ''
+  desc: 'Сбрасывает все ваши предпочтения голосового канала.'
+  params: [ ]
+voicerename:
+  args:
+    - text
+  desc: 'Переименовывает ваш пользовательский голосовой канал.'
+  params:
+    - desc: 'Переименовывает ваш пользовательский голосовой канал.'
+      name: name
+      optional: false
+      type: string
+voicetransfer:
+  args:
+    - '@user'
+  desc: 'Передаёт право собственности на ваш пользовательский голосовой канал другому пользователю.'
+  params:
+    - desc: 'Передаёт право собственности на ваш пользовательский голосовой канал другому пользователю.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceunlock:
+  args:
+    - ''
+  desc: 'Разблокирует ваш пользовательский голосовой канал.'
+  params: [ ]

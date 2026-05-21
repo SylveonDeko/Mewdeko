@@ -1,0 +1,326 @@
+todoadd:
+  args:
+    - listId
+    - title
+    - description
+  desc: '지정된 목록에 새 할 일 항목을 추가합니다'
+  params:
+    - desc: '할 일 목록의 ID.'
+      name: listId
+      optional: false
+      type: int
+    - desc: '할 일 항목의 제목.'
+      name: title
+      optional: false
+      type: string
+    - desc: '항목의 선택적 설명.'
+      name: description
+      optional: true
+      type: string
+todoaddpriority:
+  args:
+    - listId
+    - priority
+    - title
+    - description
+  desc: '우선순위와 선택적 마감일이 있는 할 일 항목을 추가합니다'
+  params:
+    - desc: '할 일 목록의 ID.'
+      name: listId
+      optional: false
+      type: int
+    - desc: '우선순위 수준 (1=낮음, 2=보통, 3=높음, 4=긴급).'
+      name: priority
+      optional: false
+      type: int
+    - desc: '할 일 항목의 제목.'
+      name: title
+      optional: false
+      type: string
+    - desc: '항목의 선택적 설명.'
+      name: description
+      optional: true
+      type: string
+todoaddtag:
+  args:
+    - itemId
+    - tag
+  desc: '할 일 항목에 태그를 추가합니다'
+  params:
+    - desc: '할 일 항목의 ID.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '추가할 태그.'
+      name: tag
+      optional: false
+      type: string
+todocleardue:
+  args:
+    - itemId
+  desc: '할 일 항목의 마감일을 제거합니다'
+  params:
+    - desc: '할 일 항목의 ID.'
+      name: itemId
+      optional: false
+      type: int
+todoclearreminder:
+  args:
+    - itemId
+  desc: '할 일 항목의 알림을 제거합니다'
+  params:
+    - desc: '할 일 항목의 ID.'
+      name: itemId
+      optional: false
+      type: int
+todocomplete:
+  args:
+    - itemId
+  desc: '할 일 항목을 완료로 표시합니다'
+  params:
+    - desc: '할 일 항목의 ID.'
+      name: itemId
+      optional: false
+      type: int
+todocreatelist:
+  args:
+    - name
+    - description
+  desc: '새 할 일 목록을 생성합니다'
+  params:
+    - desc: '할 일 목록의 이름.'
+      name: name
+      optional: false
+      type: string
+    - desc: '목록의 선택적 설명.'
+      name: description
+      optional: true
+      type: string
+todocreateserverlist:
+  args:
+    - name
+    - description
+  desc: '새 서버 전체 할 일 목록을 생성합니다 (관리자 전용)'
+  params:
+    - desc: '서버 할 일 목록의 이름.'
+      name: name
+      optional: false
+      type: string
+    - desc: '목록의 선택적 설명.'
+      name: description
+      optional: true
+      type: string
+tododelete:
+  args:
+    - itemId
+  desc: '할 일 항목을 삭제합니다'
+  params:
+    - desc: '할 일 항목의 ID.'
+      name: itemId
+      optional: false
+      type: int
+tododeletelist:
+  args:
+    - listId
+  desc: '할 일 목록 전체를 삭제합니다'
+  params:
+    - desc: '할 일 목록의 ID.'
+      name: listId
+      optional: false
+      type: int
+todoedit:
+  args:
+    - itemId
+    - title
+    - description
+  desc: '할 일 항목의 제목과 설명을 편집합니다'
+  params:
+    - desc: '할 일 항목의 ID.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '새 제목.'
+      name: title
+      optional: false
+      type: string
+    - desc: '새 설명.'
+      name: description
+      optional: true
+      type: string
+todofilter:
+  args:
+    - listId
+    - filter
+    - value
+  desc: '태그 또는 우선순위로 할 일 항목을 필터링합니다'
+  params:
+    - desc: '할 일 목록의 ID.'
+      name: listId
+      optional: false
+      type: int
+    - desc: '필터 유형 (태그 또는 우선순위).'
+      name: filter
+      optional: false
+      type: string
+    - desc: '필터링할 값.'
+      name: value
+      optional: true
+      type: string
+todogrant:
+  args:
+    - listId
+    - '@user'
+    - permissions
+  desc: '할 일 목록에 대한 사용자 권한을 부여합니다 (목록 소유자/관리자 전용)'
+  params:
+    - desc: '할 일 목록의 ID.'
+      name: listId
+      optional: false
+      type: int
+    - desc: '권한을 부여할 사용자.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '쉼표로 구분된 권한 (view,add,edit,complete,delete,manage,all).'
+      name: permissions
+      optional: false
+      type: string
+todolists:
+  args:
+    - includeServer
+  desc: '사용자가 접근 가능한 모든 할 일 목록을 나열합니다'
+  params:
+    - desc: '서버 전체 목록을 포함할지 여부.'
+      name: includeServer
+      optional: true
+      type: bool
+todopermissions:
+  args:
+    - listId
+  desc: '할 일 목록의 모든 권한을 표시합니다'
+  params:
+    - desc: '할 일 목록의 ID.'
+      name: listId
+      optional: false
+      type: int
+todoremovetag:
+  args:
+    - itemId
+    - tag
+  desc: '할 일 항목에서 태그를 제거합니다'
+  params:
+    - desc: '할 일 항목의 ID.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '제거할 태그.'
+      name: tag
+      optional: false
+      type: string
+todoreorder:
+  args:
+    - itemId
+    - newPosition
+  desc: '할 일 항목을 새 위치로 재정렬합니다'
+  params:
+    - desc: '할 일 항목의 ID.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '새 위치 (1부터 시작).'
+      name: newPosition
+      optional: false
+      type: int
+todorevoke:
+  args:
+    - listId
+    - '@user'
+  desc: '할 일 목록에 대한 사용자의 모든 권한을 취소합니다'
+  params:
+    - desc: '할 일 목록의 ID.'
+      name: listId
+      optional: false
+      type: int
+    - desc: '권한을 취소할 사용자.'
+      name: user
+      optional: false
+      type: IUser
+todosearch:
+  args:
+    - listId
+    - query
+  desc: '목록 내에서 할 일 항목을 검색합니다'
+  params:
+    - desc: '할 일 목록의 ID.'
+      name: listId
+      optional: false
+      type: int
+    - desc: '검색 쿼리.'
+      name: query
+      optional: false
+      type: string
+todosetcolor:
+  args:
+    - listId
+    - color
+  desc: '할 일 목록의 색상을 설정합니다'
+  params:
+    - desc: '할 일 목록의 ID.'
+      name: listId
+      optional: false
+      type: int
+    - desc: '16진수 색상 코드 (예:'
+      name: color
+      optional: false
+      type: string
+todosetdue:
+  args:
+    - itemId
+    - dateString
+  desc: '할 일 항목의 마감일을 설정합니다'
+  params:
+    - desc: '할 일 항목의 ID.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '마감 날짜 및 시간.'
+      name: dateString
+      optional: false
+      type: string
+todosetreminder:
+  args:
+    - itemId
+    - dateString
+  desc: '할 일 항목의 알림 시간을 설정합니다'
+  params:
+    - desc: '할 일 항목의 ID.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '알림 날짜 및 시간.'
+      name: dateString
+      optional: false
+      type: string
+todoshow:
+  args:
+    - listId
+    - includeCompleted
+  desc: '할 일 목록의 모든 항목을 표시합니다'
+  params:
+    - desc: '할 일 목록의 ID.'
+      name: listId
+      optional: false
+      type: int
+    - desc: '완료된 항목을 포함할지 여부.'
+      name: includeCompleted
+      optional: true
+      type: bool
+todotoggleprivacy:
+  args:
+    - listId
+  desc: '할 일 목록의 개인정보 설정을 전환합니다'
+  params:
+    - desc: '할 일 목록의 ID.'
+      name: listId
+      optional: false
+      type: int

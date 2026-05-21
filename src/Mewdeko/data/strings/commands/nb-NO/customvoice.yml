@@ -1,0 +1,305 @@
+setupvoicehub:
+  args:
+    - ''
+  desc: 'Setter opp en talekanal som nav for å opprette tilpassede talekanaler.'
+  params: [ ]
+setvoicehub:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Angir en bestemt talekanal som nav for å opprette tilpassede talekanaler.'
+  params:
+    - desc: 'Angir en bestemt talekanal som nav for å opprette tilpassede talekanaler.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Angir en bestemt talekanal som nav for å opprette tilpassede talekanaler.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Angir en bestemt talekanal som nav for å opprette tilpassede talekanaler.'
+  params:
+    - desc: 'Angir en bestemt talekanal som nav for å opprette tilpassede talekanaler.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Angir en bestemt talekanal som nav for å opprette tilpassede talekanaler.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_1:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Angir en bestemt talekanal som nav for å opprette tilpassede talekanaler.'
+  params:
+    - desc: 'Angir en bestemt talekanal som nav for å opprette tilpassede talekanaler.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Angir en bestemt talekanal som nav for å opprette tilpassede talekanaler.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_2:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Angir en bestemt talekanal som nav for å opprette tilpassede talekanaler.'
+  params:
+    - desc: 'Angir en bestemt talekanal som nav for å opprette tilpassede talekanaler.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Angir en bestemt talekanal som nav for å opprette tilpassede talekanaler.'
+      name: category
+      optional: true
+      type: category
+voiceallow:
+  args:
+    - '@user'
+  desc: 'Lar en bestemt bruker bli med i den låste talekanalen din.'
+  params:
+    - &ref_642
+      desc: 'Lar en bestemt bruker bli med i den låste talekanalen din.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Lar en bestemt bruker bli med i den låste talekanalen din.'
+  params:
+    - desc: 'Lar en bestemt bruker bli med i den låste talekanalen din.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Lar en bestemt bruker bli med i den låste talekanalen din.'
+  params:
+    - desc: 'Lar en bestemt bruker bli med i den låste talekanalen din.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Lar en bestemt bruker bli med i den låste talekanalen din.'
+  params:
+    - desc: 'Lar en bestemt bruker bli med i den låste talekanalen din.'
+      name: target
+      optional: false
+      type: IGuildUser
+voicebitrate:
+  args:
+    - number
+  desc: 'Angir bithastigheten for den tilpassede talekanalen din.'
+  params:
+    - &ref_643
+      desc: 'Angir bithastigheten for den tilpassede talekanalen din.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int:
+  args:
+    - number
+  desc: 'Angir bithastigheten for den tilpassede talekanalen din.'
+  params:
+    - desc: 'Angir bithastigheten for den tilpassede talekanalen din.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_1:
+  args:
+    - number
+  desc: 'Angir bithastigheten for den tilpassede talekanalen din.'
+  params:
+    - desc: 'Angir bithastigheten for den tilpassede talekanalen din.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_2:
+  args:
+    - number
+  desc: 'Angir bithastigheten for den tilpassede talekanalen din.'
+  params:
+    - desc: 'Angir bithastigheten for den tilpassede talekanalen din.'
+      name: bitrate
+      optional: false
+      type: int
+voicechannels:
+  args:
+    - ''
+  desc: 'Lister opp aktive tilpassede talekanaler.'
+  params: [ ]
+voiceclaim:
+  args:
+    - ''
+  desc: 'Gjør krav på eierskap av en tilpasset talekanal hvis eieren ikke er til stede.'
+  params: [ ]
+voiceconfig:
+  args:
+    - '[setting] [value]'
+  desc: 'Konfigurerer de tilpassede taleinnstillingene.'
+  params:
+    - desc: 'Konfigurerer de tilpassede taleinnstillingene.'
+      name: setting
+      optional: true
+      type: string
+    - desc: 'Konfigurerer de tilpassede taleinnstillingene.'
+      name: value
+      optional: true
+      type: string
+voicecontrols:
+  args:
+    - ''
+  desc: 'Viser interaktive kontroller for å administrere den tilpassede talekanalen din.'
+  params: [ ]
+voicedeny:
+  args:
+    - '@user'
+  desc: 'Nekter en bestemt bruker å bli med i talekanalen din.'
+  params:
+    - desc: 'Nekter en bestemt bruker å bli med i talekanalen din.'
+      name: target
+      optional: false
+      type: IGuildUser
+voicekeepalive:
+  args:
+    - true
+  desc: 'Holder kanalen aktiv selv når den er tom.'
+  params:
+    - desc: 'Holder kanalen aktiv selv når den er tom.'
+      name: true
+      optional: false
+      type: '='
+voicelimit:
+  args:
+    - number
+  desc: 'Angir brukergrensen for den tilpassede talekanalen din.'
+  params:
+    - &ref_644
+      desc: 'Angir brukergrensen for den tilpassede talekanalen din.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int:
+  args:
+    - number
+  desc: 'Angir brukergrensen for den tilpassede talekanalen din.'
+  params:
+    - desc: 'Angir brukergrensen for den tilpassede talekanalen din.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_1:
+  args:
+    - number
+  desc: 'Angir brukergrensen for den tilpassede talekanalen din.'
+  params:
+    - desc: 'Angir brukergrensen for den tilpassede talekanalen din.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_2:
+  args:
+    - number
+  desc: 'Angir brukergrensen for den tilpassede talekanalen din.'
+  params:
+    - desc: 'Angir brukergrensen for den tilpassede talekanalen din.'
+      name: limit
+      optional: false
+      type: int
+voicelock:
+  args:
+    - true
+  desc: 'Låser eller låser opp den tilpassede talekanalen din.'
+  params:
+    - desc: 'Låser eller låser opp den tilpassede talekanalen din.'
+      name: true
+      optional: false
+      type: '='
+voicepreferences:
+  args:
+    - ''
+  desc: 'Angir dine talekanal-preferanser.'
+  params: [ ]
+voiceprefsbitrate:
+  args:
+    - '[bitrate]'
+  desc: 'Angir din foretrukne bithastighet for tilpassede talekanaler.'
+  params:
+    - desc: 'Angir din foretrukne bithastighet for tilpassede talekanaler.'
+      name: bitrate
+      optional: true
+      type: int
+voiceprefskeepalive:
+  args:
+    - '[keepAlive]'
+  desc: 'Angir din foretrukne keep-alive-status for tilpassede talekanaler.'
+  params:
+    - desc: 'Angir din foretrukne keep-alive-status for tilpassede talekanaler.'
+      name: keepAlive
+      optional: true
+      type: bool
+voiceprefslimit:
+  args:
+    - '[limit]'
+  desc: 'Angir din foretrukne brukergrense for tilpassede talekanaler.'
+  params:
+    - desc: 'Angir din foretrukne brukergrense for tilpassede talekanaler.'
+      name: limit
+      optional: true
+      type: int
+voiceprefslock:
+  args:
+    - '[locked]'
+  desc: 'Angir din foretrukne låsestatus for tilpassede talekanaler.'
+  params:
+    - desc: 'Angir din foretrukne låsestatus for tilpassede talekanaler.'
+      name: locked
+      optional: true
+      type: bool
+voiceprefsname:
+  args:
+    - '[format]'
+  desc: 'Angir ditt foretrukne navneformat for tilpassede talekanaler.'
+  params:
+    - desc: 'Angir ditt foretrukne navneformat for tilpassede talekanaler.'
+      name: format
+      optional: true
+      type: string
+voiceprefsreset:
+  args:
+    - ''
+  desc: 'Tilbakestiller alle dine talekanal-preferanser.'
+  params: [ ]
+voicerename:
+  args:
+    - text
+  desc: 'Gir den tilpassede talekanalen din et nytt navn.'
+  params:
+    - desc: 'Gir den tilpassede talekanalen din et nytt navn.'
+      name: name
+      optional: false
+      type: string
+voicetransfer:
+  args:
+    - '@user'
+  desc: 'Overfører eierskap av den tilpassede talekanalen din til en annen bruker.'
+  params:
+    - desc: 'Overfører eierskap av den tilpassede talekanalen din til en annen bruker.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceunlock:
+  args:
+    - ''
+  desc: 'Låser opp den tilpassede talekanalen din.'
+  params: [ ]

@@ -1,0 +1,18 @@
+{
+  "boost_on": "",
+  "boost_off": "",
+  "boostmsg_cur": "Current boost message: {0}",
+  "boostmsg_enable": "Enable boost messages by typing {0}",
+  "boostmsg_new": "",
+  "boostdel_off": "",
+  "boostdel_on": "Boost messages will be deleted after {0} seconds.",
+  "bandm": "Du er blevet bandlyst fra {0} serveren. \nBegrundelse: {1}",
+  "banmsg_default": "",
+  "byedel_off": "Automatisk sletning af farvelbeskeder er slået fra.",
+  "byedel_on": "Farvelbeskeder vil blive slettet efter {0} sekunder.",
+  "byemsg_cur": "Nuværende farvelbesked: {0}",
+  "byemsg_enable": "Slå farvelbeskeder til ved at skrive {0}",
+  "byemsg_new": "Ny farvelbesked sat.",
+  "bye_off": "Farvelmeddelelse slået fra.",
+  "bye_on": "Farvelmeddelelser er slået til på denne kanal."
+}

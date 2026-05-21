@@ -1,0 +1,157 @@
+confess:
+  args:
+    - serverid text
+  desc: 'Memungkinkan pengguna untuk mengaku secara anonim.'
+  params:
+    - &ref_139
+      desc: 'ID server.'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: 'Pesan pengakuan'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: 'Memungkinkan pengguna untuk mengaku secara anonim.'
+  params:
+    - desc: 'ID server.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Pesan pengakuan'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: 'Memungkinkan pengguna untuk mengaku secara anonim.'
+  params:
+    - desc: 'ID server.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Pesan pengakuan'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: 'Memungkinkan pengguna untuk mengaku secara anonim.'
+  params:
+    - desc: 'ID server.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Pesan pengakuan'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: 'Menambahkan pengguna ke daftar hitam pengakuan.'
+  params:
+    - desc: 'Pengguna yang akan dimasukkan ke daftar hitam pengakuan.'
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: 'Mengatur saluran pengakuan.'
+  params:
+    - desc: 'Saluran yang akan diatur untuk pengakuan.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: 'Menambahkan atau menghapus pengguna dari daftar hitam pengakuan.'
+  params:
+    - &ref_141
+      desc: 'Pengguna untuk ditambahkan atau dihapus dari daftar hitam.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: 'Menambahkan atau menghapus pengguna dari daftar hitam pengakuan.'
+  params:
+    - &ref_142
+      desc: 'Pengguna untuk ditambahkan atau dihapus dari daftar hitam.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: 'Menambahkan atau menghapus pengguna dari daftar hitam pengakuan.'
+  params:
+    - desc: 'Pengguna untuk ditambahkan atau dihapus dari daftar hitam.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: 'Menambahkan atau menghapus pengguna dari daftar hitam pengakuan.'
+  params:
+    - desc: 'Pengguna untuk ditambahkan atau dihapus dari daftar hitam.'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: 'Mengatur saluran pengakuan untuk pengakuan anonim.'
+  params:
+    - desc: 'Saluran pengakuan (opsional).'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    Mengatur saluran log pengakuan untuk mencatat pengakuan. Penyalahgunaan
+    fitur ini akan berakhir dengan saya berada 2 m dari rumahmu.
+  params:
+    - desc: 'Saluran log pengakuan (opsional).'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: 'Menghapus pengguna dari daftar hitam pengakuan.'
+  params:
+    - desc: 'Pengguna untuk dihapus dari daftar hitam.'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: 'Mengatur saluran log pengakuan.'
+  params:
+    - desc: 'Saluran untuk mencatat pengakuan.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: 'Menghapus pengguna dari daftar hitam pengakuan.'
+  params:
+    - desc: 'Pengguna untuk dihapus dari daftar hitam pengakuan.'
+      name: user
+      optional: false
+      type: IUser

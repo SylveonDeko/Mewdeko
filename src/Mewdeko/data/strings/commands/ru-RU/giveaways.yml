@@ -1,0 +1,326 @@
+gbanner:
+  args:
+    - text
+  desc: 'Устанавливает стандартный баннер розыгрыша.'
+  params:
+    - &ref_221
+      desc: 'Устанавливает стандартный баннер розыгрыша.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string:
+  args:
+    - text
+  desc: 'Устанавливает стандартный баннер розыгрыша.'
+  params:
+    - desc: 'Устанавливает стандартный баннер розыгрыша.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_1:
+  args:
+    - text
+  desc: 'Устанавливает стандартный баннер розыгрыша.'
+  params:
+    - desc: 'Устанавливает стандартный баннер розыгрыша.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_2:
+  args:
+    - text
+  desc: 'Устанавливает стандартный баннер розыгрыша.'
+  params:
+    - desc: 'Устанавливает стандартный баннер розыгрыша.'
+      name: banner
+      optional: false
+      type: string
+gdm:
+  args:
+    - ''
+  desc: 'Определяет, отправлять ли личное сообщение победителю розыгрыша.'
+  params: [ ]
+gdmmessage:
+  args:
+    - '[message]'
+  desc: 'Устанавливает сообщение в личку, отправляемое пользователям при победе в розыгрыше.'
+  params:
+    - desc: 'Устанавливает сообщение в личку, отправляемое пользователям при победе в розыгрыше.'
+      name: message
+      optional: true
+      type: string
+gembedcolor:
+  args:
+    - text
+  desc: 'Устанавливает цвет embed для розыгрышей.'
+  params:
+    - &ref_223
+      desc: 'Цвет в формате hex.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string:
+  args:
+    - text
+  desc: 'Устанавливает цвет embed для розыгрышей.'
+  params:
+    - desc: 'Цвет в формате hex.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_1:
+  args:
+    - text
+  desc: 'Устанавливает цвет embed для розыгрышей.'
+  params:
+    - desc: 'Цвет в формате hex.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_2:
+  args:
+    - text
+  desc: 'Устанавливает цвет embed для розыгрышей.'
+  params:
+    - desc: 'Цвет в формате hex.'
+      name: color
+      optional: false
+      type: string
+gemote:
+  args:
+    - emote
+  desc: 'Устанавливает эмодзи для розыгрышей.'
+  params:
+    - &ref_224
+      desc: 'Устанавливаемый эмодзи.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote:
+  args:
+    - emote
+  desc: 'Устанавливает эмодзи для розыгрышей.'
+  params:
+    - desc: 'Устанавливаемый эмодзи.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_1:
+  args:
+    - emote
+  desc: 'Устанавливает эмодзи для розыгрышей.'
+  params:
+    - desc: 'Устанавливаемый эмодзи.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_2:
+  args:
+    - emote
+  desc: 'Устанавливает эмодзи для розыгрышей.'
+  params:
+    - desc: 'Устанавливаемый эмодзи.'
+      name: emote
+      optional: false
+      type: IEmote
+gend:
+  args:
+    - messageid
+  desc: 'Завершает розыгрыш.'
+  params:
+    - &ref_225
+      desc: 'ID сообщения розыгрыша для завершения'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong:
+  args:
+    - messageid
+  desc: 'Завершает розыгрыш.'
+  params:
+    - desc: 'ID сообщения розыгрыша для завершения'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_1:
+  args:
+    - messageid
+  desc: 'Завершает розыгрыш.'
+  params:
+    - desc: 'ID сообщения розыгрыша для завершения'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_2:
+  args:
+    - messageid
+  desc: 'Завершает розыгрыш.'
+  params:
+    - desc: 'ID сообщения розыгрыша для завершения'
+      name: messageid
+      optional: false
+      type: ulong
+glist:
+  args:
+    - ''
+  desc: 'Перечисляет все активные розыгрыши.'
+  params: [ ]
+greroll:
+  args:
+    - messageid
+  desc: 'Перезапускает розыгрыш.'
+  params:
+    - &ref_237
+      desc: 'ID сообщения розыгрыша'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong:
+  args:
+    - messageid
+  desc: 'Перезапускает розыгрыш.'
+  params:
+    - desc: 'ID сообщения розыгрыша'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_1:
+  args:
+    - messageid
+  desc: 'Перезапускает розыгрыш.'
+  params:
+    - desc: 'ID сообщения розыгрыша'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_2:
+  args:
+    - messageid
+  desc: 'Перезапускает розыгрыш.'
+  params:
+    - desc: 'ID сообщения розыгрыша'
+      name: messageid
+      optional: false
+      type: ulong
+gstart:
+  args:
+    - chan time number text
+  desc: 'Более подробный запуск розыгрыша, позволяет установить баннер, роль для пинга и многое другое.'
+  params:
+    - &ref_238
+      desc: 'Канал для запуска розыгрыша'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - &ref_239
+      desc: 'Продолжительность розыгрыша'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_240
+      desc: 'Количество победителей'
+      name: winners
+      optional: false
+      type: int
+    - &ref_241
+      desc: 'Разыгрываемый предмет'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string:
+  args:
+    - chan time number text
+  desc: 'Более подробный запуск розыгрыша, позволяет установить баннер, роль для пинга и многое другое.'
+  params:
+    - desc: 'Канал для запуска розыгрыша'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Продолжительность розыгрыша'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Количество победителей'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Разыгрываемый предмет'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_1:
+  args:
+    - chan time number text
+  desc: 'Более подробный запуск розыгрыша, позволяет установить баннер, роль для пинга и многое другое.'
+  params:
+    - desc: 'Канал для запуска розыгрыша'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Продолжительность розыгрыша'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Количество победителей'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Разыгрываемый предмет'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_2:
+  args:
+    - chan time number text
+  desc: 'Более подробный запуск розыгрыша, позволяет установить баннер, роль для пинга и многое другое.'
+  params:
+    - desc: 'Канал для запуска розыгрыша'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Продолжительность розыгрыша'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Количество победителей'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Разыгрываемый предмет'
+      name: what
+      optional: false
+      type: string
+gstart_noparams:
+  args:
+    - ''
+  desc: 'Более подробный запуск розыгрыша, позволяет установить баннер, роль для пинга и многое другое.'
+  params: [ ]
+gstart_noparams_1:
+  args:
+    - ''
+  desc: 'Более подробный запуск розыгрыша, позволяет установить баннер, роль для пинга и многое другое.'
+  params: [ ]
+gstart_noparams_2:
+  args:
+    - ''
+  desc: 'Более подробный запуск розыгрыша, позволяет установить баннер, роль для пинга и многое другое.'
+  params: [ ]
+gstart_noparams_3:
+  args:
+    - ''
+  desc: 'Более подробный запуск розыгрыша, позволяет установить баннер, роль для пинга и многое другое.'
+  params: [ ]
+gstats:
+  args:
+    - ''
+  desc: 'Показывает статистику розыгрышей.'
+  params: [ ]
+gwinembedcolor:
+  args:
+    - text
+  desc: 'Устанавливает цвет для embed победителя.'
+  params:
+    - desc: 'Цвет в формате hex.'
+      name: color
+      optional: false
+      type: string

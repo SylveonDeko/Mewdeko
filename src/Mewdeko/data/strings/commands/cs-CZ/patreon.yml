@@ -1,0 +1,135 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'Zobrazuje podrobnou analýzu Patreon.'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'Ručně spustí oznámení Patreon.'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Nastaví nebo zobrazí kanál oznámení Patreon.
+  params:
+    - desc: >-
+        Kanál pro oznámení Patreon. Pokud null, zobrazí aktuální kanál.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'Zobrazuje aktuální konfiguraci Patreon pro tento server.'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Nastaví den v měsíci pro oznámení Patreon.'
+  params:
+    - desc: >-
+        Den v měsíci (1-28) pro oznámení. Pokud null, zobrazí aktuální den.
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'Zakáže oznámení Patreon pro tento server.'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Zobrazuje informace o modulu Patreon a dostupné zástupné symboly.'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Propojí uživatele Discord s podporovatelem Patreon.'
+  params:
+    - desc: Uživatel Discord k propojení.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: ID uživatele Patreon k propojení.
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Nastaví vlastní zprávu pro oznámení Patreon.
+  params:
+    - desc: >-
+        Vlastní zpráva. Použijte zástupné symboly jako %server.name%, %month% atd.
+        Použijte "-" pro reset na výchozí.
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'Odešle uznávací zprávy pro nové podporovatele.'
+  params:
+    - desc: Kanál pro odeslání uznávacích zpráv.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Vypisuje mapování úrovní Patreon a rolí.'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'Přepíná automatickou synchronizaci rolí.'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Zobrazuje statistiky podporovatelů Patreon.'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'Vypisuje aktivní podporovatele Patreon.'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'Bezpečně nastaví integraci OAuth Patreon.'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'Synchronizuje role pro všechny propojené podporovatele.'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Mapuje úroveň Patreon na roli Discord.'
+  params:
+    - desc: ID úrovně Patreon.
+      name: tierId
+      optional: false
+      type: string
+    - desc: Role Discord k mapování na úroveň.
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Zapíná nebo vypíná oznámení Patreon.'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'Zobrazuje top podporovatele Patreon.'
+  params:
+    - desc: Počet top podporovatelů k zobrazení (1-20).
+      name: count
+      optional: true
+      type: int

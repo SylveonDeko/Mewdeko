@@ -1,0 +1,81 @@
+highlight:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Aggiunge, elenca, rimuove o abbina evidenziazioni.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parametri per l''azione selezionata'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Aggiunge, elenca, rimuove o abbina evidenziazioni.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parametri per l''azione selezionata'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_1:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Aggiunge, elenca, rimuove o abbina evidenziazioni.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parametri per l''azione selezionata'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_2:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Aggiunge, elenca, rimuove o abbina evidenziazioni.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parametri per l''azione selezionata'
+      name: words
+      optional: true
+      type: string
+highlights:
+  args:
+    - action word
+  desc: Gestisce le evidenziazioni dell'utente.
+  params:
+    - desc: L'azione da eseguire con le evidenziazioni.
+      name: action
+      optional: false
+      type: string
+    - desc: La parola da evidenziare.
+      name: word
+      optional: true
+      type: string

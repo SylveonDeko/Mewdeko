@@ -1,0 +1,9 @@
+{
+  "stat_channel_created": "Salon de statistiques **{0}** créé avec le type **{1}**.",
+  "stat_channel_added": "Salon de statistiques **{0}** ajouté avec le type **{1}**.",
+  "stat_channel_exists": "Ce salon est déjà un salon de statistiques.",
+  "stat_channel_removed": "Salon de statistiques **{0}** supprimé.",
+  "stat_channel_not_found": "Ce salon n'est pas un salon de statistiques.",
+  "stat_channel_none": "Aucun salon de statistiques configuré.",
+  "stat_channel_list_title": "Salons de statistiques"
+}

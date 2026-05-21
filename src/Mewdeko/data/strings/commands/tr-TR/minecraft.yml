@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'Bir Minecraft sunucusunun durumunu kontrol eder. Kayıtlı bir sunucu adı, doğrudan adres kullanın veya varsayılan sunucu için boş bırakın.'
+  params:
+    - desc: 'Kayıtlı sunucu adı veya doğrudan adres (örn. play.example.com:25565).'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: 'Loncaya bir Minecraft sunucusu ekler. Bedrock sunucuları için adresin önüne bedrock: ekleyin.'
+  params:
+    - desc: 'Sunucu için bir etiket.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Sunucu adresi, isteğe bağlı olarak port ile (örn. play.example.com:25565 veya bedrock:play.example.com).'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: 'Loncadan bir Minecraft sunucusunu kaldırır.'
+  params:
+    - desc: 'Kaldırılacak sunucu adı.'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: 'Bu lonca için kayıtlı tüm Minecraft sunucularını listeler.'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: 'Bir sunucuyu durum komutları için varsayılan olarak ayarlar.'
+  params:
+    - desc: 'Varsayılan olarak ayarlanacak sunucu adı.'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: 'Bir sunucu için periyodik durum güncellemelerini almak üzere kanal ayarlar. Devre dışı bırakmak için kanalı atlayın.'
+  params:
+    - desc: 'İzlenecek sunucu adı.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Güncellemelerin gönderileceği kanal.'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: 'Sunucu durumunun nasıl gösterileceğini ayarlar: embed (yerinde düzenle), kanal konusu veya her ikisi.'
+  params:
+    - desc: 'Sunucu adı.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'İzleme modu: Embed, ChannelTopic veya Both.'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: 'İzlenen bir sunucu için özel embed şablonu ayarlar. Sıfırlamak için "-" kullanın. Yer tutucular: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
+  params:
+    - desc: 'Sunucu adı.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Embed şablonu JSON, veya varsayılana sıfırlamak için "-".'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: 'Kullanıcı adına göre Minecraft oyuncusunu arar ve profilini ve kıyafetini görüntüler.'
+  params:
+    - desc: 'Aranacak Minecraft kullanıcı adı.'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'Bir Minecraft oyuncusunun kıyafet renderini görüntüler.'
+  params:
+    - desc: 'Minecraft kullanıcı adı.'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: 'Kayıtlı bir Minecraft sunucusuna RCON komutu gönderir. RCON, kontrol panelinden yapılandırılmalıdır.'
+  params:
+    - desc: 'Sunucu adı.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Sunucuda yürütülecek komut.'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'Bir Minecraft sunucusunda RCON üzerinden beyaz listeyi yönetir. RCON yapılandırılmış olmalıdır.'
+  params:
+    - desc: 'Sunucu adı.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Eylem: add, remove, list, on, off, reload.'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Oyuncu adı (add/remove için).'
+      name: playerName
+      optional: true
+      type: string

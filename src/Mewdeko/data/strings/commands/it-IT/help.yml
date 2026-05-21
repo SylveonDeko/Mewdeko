@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    Mostra i comandi di un modulo specifico. Se null, è un alias per
+    modules che è un alias per help.
+  params:
+    - desc: 'Il modulo da consultare'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    Mostra i comandi di un modulo specifico. Se null, è un alias per
+    modules che è un alias per help.
+  params:
+    - desc: 'Il modulo da consultare'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    Mostra i comandi di un modulo specifico. Se null, è un alias per
+    modules che è un alias per help.
+  params:
+    - desc: 'Il modulo da consultare'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    Mostra i comandi di un modulo specifico. Se null, è un alias per
+    modules che è un alias per help.
+  params:
+    - desc: 'Il modulo da consultare'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: 'Mostra come supportare il bot.'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    Esporta tutti i comandi in un file json. Usato principalmente per
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    Esporta tutti i comandi in un file json. Usato principalmente per
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    Esporta tutti i comandi in un file json. Usato principalmente per
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    Esporta tutti i comandi in un file json. Usato principalmente per
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: 'Mostra la guida del bot.'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: Mostra l'aiuto per un comando specifico.
+  params:
+    - desc: Il comando per cui ottenere aiuto.
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: Mostra informazioni di aiuto per i comandi.
+  params:
+    - desc: Il comando per cui ottenere aiuto.
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: 'Mostra un elenco di tutti i moduli. Praticamente è solo un alias per help a questo punto.'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: 'Cerca un comando per nome o descrizione.'
+  params:
+    - &ref_481
+      desc: 'Il termine da cercare'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: 'Cerca un comando per nome o descrizione.'
+  params:
+    - desc: 'Il termine da cercare'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: 'Cerca un comando per nome o descrizione.'
+  params:
+    - desc: 'Il termine da cercare'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: 'Cerca un comando per nome o descrizione.'
+  params:
+    - desc: 'Il termine da cercare'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: 'Mostra il link al codice sorgente del bot.'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'Mostra un link per votare per mewdeko.'
+  params: [ ]

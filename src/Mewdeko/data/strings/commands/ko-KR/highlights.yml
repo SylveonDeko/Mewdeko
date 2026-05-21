@@ -1,0 +1,81 @@
+highlight:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: '하이라이트를 추가, 나열, 제거 또는 매칭합니다.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: '선택한 작업의 매개변수'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: '하이라이트를 추가, 나열, 제거 또는 매칭합니다.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: '선택한 작업의 매개변수'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_1:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: '하이라이트를 추가, 나열, 제거 또는 매칭합니다.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: '선택한 작업의 매개변수'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_2:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: '하이라이트를 추가, 나열, 제거 또는 매칭합니다.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: '선택한 작업의 매개변수'
+      name: words
+      optional: true
+      type: string
+highlights:
+  args:
+    - action word
+  desc: 사용자 하이라이트를 관리합니다.
+  params:
+    - desc: 하이라이트로 수행할 작업.
+      name: action
+      optional: false
+      type: string
+    - desc: 하이라이트할 단어.
+      name: word
+      optional: true
+      type: string

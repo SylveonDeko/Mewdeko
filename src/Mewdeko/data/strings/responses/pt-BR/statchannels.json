@@ -1,0 +1,9 @@
+{
+  "stat_channel_created": "Canal de estatísticas **{0}** criado com tipo **{1}**.",
+  "stat_channel_added": "Canal de estatísticas **{0}** adicionado com tipo **{1}**.",
+  "stat_channel_exists": "Esse canal já é um canal de estatísticas.",
+  "stat_channel_removed": "Canal de estatísticas **{0}** removido.",
+  "stat_channel_not_found": "Esse canal não é um canal de estatísticas.",
+  "stat_channel_none": "Nenhum canal de estatísticas configurado.",
+  "stat_channel_list_title": "Canais de Estatísticas"
+}

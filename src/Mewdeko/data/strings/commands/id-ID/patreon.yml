@@ -1,0 +1,137 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'Menampilkan analitik Patreon yang detail.'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'Memicu pengumuman Patreon secara manual.'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Mengatur atau menampilkan saluran pengumuman Patreon.
+  params:
+    - desc: >-
+        Saluran yang diatur untuk pengumuman Patreon. Jika null, menampilkan
+        saluran saat ini.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'Menampilkan konfigurasi Patreon saat ini untuk server ini.'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Mengatur hari dalam bulan untuk pengumuman Patreon.'
+  params:
+    - desc: >-
+        Hari dalam bulan (1-28) untuk pengumuman. Jika null, menampilkan
+        hari saat ini.
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'Menonaktifkan pengumuman Patreon untuk server ini.'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Menampilkan informasi modul Patreon dan placeholder yang tersedia.'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Menghubungkan pengguna Discord dengan pendukung Patreon.'
+  params:
+    - desc: Pengguna Discord yang akan dihubungkan.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: ID pengguna Patreon yang akan dihubungkan.
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Mengatur pesan kustom untuk pengumuman Patreon.
+  params:
+    - desc: >-
+        Pesan kustom. Gunakan placeholder seperti %server.name%, %month%, dll.
+        Gunakan "-" untuk mereset ke default.
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'Mengirim pesan pengakuan untuk pendukung baru.'
+  params:
+    - desc: Saluran tempat mengirim pesan pengakuan.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Mendaftar pemetaan tingkat-peran Patreon.'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'Mengaktifkan/menonaktifkan sinkronisasi peran otomatis.'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Menampilkan statistik pendukung Patreon.'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'Mendaftar pendukung Patreon yang aktif.'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'Mengatur dengan aman integrasi OAuth Patreon.'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'Mensinkronkan peran untuk semua pendukung yang terhubung.'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Memetakan tingkat Patreon ke peran Discord.'
+  params:
+    - desc: ID tingkat Patreon.
+      name: tierId
+      optional: false
+      type: string
+    - desc: Peran Discord untuk dipetakan ke tingkat.
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Mengaktifkan atau menonaktifkan pengumuman Patreon.'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'Menampilkan pendukung Patreon teratas.'
+  params:
+    - desc: Jumlah pendukung teratas yang ditampilkan (1-20).
+      name: count
+      optional: true
+      type: int

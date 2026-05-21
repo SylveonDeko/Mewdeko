@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    Belirli bir modülün komutlarını gösterir. null ise, modules için bir
+    takma addır ki o da help için bir takma addır.
+  params:
+    - desc: 'Bakılacak modül'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    Belirli bir modülün komutlarını gösterir. null ise, modules için bir
+    takma addır ki o da help için bir takma addır.
+  params:
+    - desc: 'Bakılacak modül'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    Belirli bir modülün komutlarını gösterir. null ise, modules için bir
+    takma addır ki o da help için bir takma addır.
+  params:
+    - desc: 'Bakılacak modül'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    Belirli bir modülün komutlarını gösterir. null ise, modules için bir
+    takma addır ki o da help için bir takma addır.
+  params:
+    - desc: 'Bakılacak modül'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: 'Bota nasıl destek olunacağını gösterir.'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    Tüm komutları bir json dosyasına aktarır. Esas olarak şunun için kullanılır
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    Tüm komutları bir json dosyasına aktarır. Esas olarak şunun için kullanılır
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    Tüm komutları bir json dosyasına aktarır. Esas olarak şunun için kullanılır
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    Tüm komutları bir json dosyasına aktarır. Esas olarak şunun için kullanılır
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: 'Bot için kılavuzu gösterir.'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: Belirli bir komut için yardım gösterir.
+  params:
+    - desc: Yardım alınacak komut.
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: Komutlar için yardım bilgilerini gösterir.
+  params:
+    - desc: Yardım alınacak komut.
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: 'Tüm modüllerin bir listesini gösterir. Bu noktada temel olarak sadece bir help takma adıdır.'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: 'İsim veya açıklamaya göre bir komut arar.'
+  params:
+    - &ref_481
+      desc: 'Aranacak terim'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: 'İsim veya açıklamaya göre bir komut arar.'
+  params:
+    - desc: 'Aranacak terim'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: 'İsim veya açıklamaya göre bir komut arar.'
+  params:
+    - desc: 'Aranacak terim'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: 'İsim veya açıklamaya göre bir komut arar.'
+  params:
+    - desc: 'Aranacak terim'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: 'Bot için kaynak kod bağlantısını gösterir.'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'Mewdeko için oy vermek üzere bir bağlantı gösterir.'
+  params: [ ]

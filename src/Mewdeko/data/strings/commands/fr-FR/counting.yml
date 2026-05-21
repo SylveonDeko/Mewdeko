@@ -1,0 +1,542 @@
+countingban:
+  args:
+    - user channel duration reason
+  desc: 'Interdit à un utilisateur de compter dans un canal spécifique.'
+  params:
+    - desc: 'L''utilisateur à interdire de compter.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Durée de l''interdiction (ex. : 1h, 1d). Laisser vide pour permanent.'
+      name: duration
+      optional: true
+      type: stoopid time
+    - desc: 'La raison de l''interdiction.'
+      name: reason
+      optional: true
+      type: string
+countingconfig:
+  args:
+    - channel
+  desc: 'Configure les paramètres d''un canal de comptage.'
+  params:
+    - desc: 'Le canal pour afficher la configuration. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+countingcooldown:
+  args:
+    - channel seconds
+  desc: 'Définit le délai d''attente entre les comptages des utilisateurs.'
+  params:
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Délai d''attente en secondes (0-300).'
+      name: seconds
+      optional: true
+      type: int
+countingdisable:
+  args:
+    - channel purgeData reason
+  desc: 'Désactive le comptage dans un canal et supprime optionnellement toutes les données.'
+  params:
+    - desc: 'Le canal où désactiver le comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Si toutes les données de comptage de ce canal doivent être supprimées. Par défaut faux.'
+      name: purgeData
+      optional: true
+      type: bool
+    - desc: 'La raison de la désactivation du comptage.'
+      name: reason
+      optional: true
+      type: string
+countingfailurechannel:
+  args:
+    - countingChannel failureChannel
+  desc: 'Définit le canal où les échecs de comptage sont enregistrés.'
+  params:
+    - desc: 'Le canal de comptage.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: 'Le canal pour les journaux d''échecs. Utilisez null pour désactiver.'
+      name: failureChannel
+      optional: true
+      type: text channel
+countingfailuremessage:
+  args:
+    - channel embed
+  desc: 'Définit un message personnalisé pour les comptages échoués.'
+  params:
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Le modèle de message. Utilisez "-" pour rétablir la valeur par défaut.'
+      name: embed
+      optional: true
+      type: string
+countingfailurethreshold:
+  args:
+    - channel threshold
+  desc: 'Définit le seuil d''échecs avant les conséquences.'
+  params:
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Nombre d''échecs avant action (1-10).'
+      name: threshold
+      optional: true
+      type: int
+countingleaderboard:
+  args:
+    - type channel
+  desc: 'Affiche le classement d''un canal de comptage.'
+  params:
+    - desc: 'Le type de classement (contributions, streak, accuracy, totalnumbers).'
+      name: type
+      optional: true
+      type: string
+    - desc: 'Le canal pour afficher le classement. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+countinglist:
+  args:
+    - ''
+  desc: 'Liste tous les canaux de comptage actifs sur le serveur.'
+  params: [ ]
+countingmilestonechannel:
+  args:
+    - countingChannel milestoneChannel
+  desc: 'Définit le canal où les jalons sont annoncés.'
+  params:
+    - desc: 'Le canal de comptage.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: 'Le canal pour les annonces de jalons. Utilisez null pour désactiver.'
+      name: milestoneChannel
+      optional: true
+      type: text channel
+countingmilestonemessage:
+  args:
+    - channel embed
+  desc: 'Définit un message personnalisé pour les jalons.'
+  params:
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Le modèle de message. Utilisez "-" pour rétablir la valeur par défaut.'
+      name: embed
+      optional: true
+      type: string
+countingmilestones:
+  args:
+    - channel milestones
+  desc: 'Définit des numéros de jalons personnalisés.'
+  params:
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Numéros de jalons séparés par des virgules (ex. : 50,100,250,500,1000).'
+      name: milestones
+      optional: true
+      type: string
+countingreset:
+  args:
+    - channel newNumber reason
+  desc: 'Réinitialise le comptage dans un canal à un nombre spécifique.'
+  params:
+    - desc: 'Le canal à réinitialiser. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Le nombre auquel réinitialiser. Par défaut 0.'
+      name: newNumber
+      optional: true
+      type: long
+    - desc: 'La raison de la réinitialisation.'
+      name: reason
+      optional: true
+      type: string
+countingrestore:
+  args:
+    - saveId channel
+  desc: 'Restaure le comptage à partir d''un point de sauvegarde précédent.'
+  params:
+    - desc: 'L''ID du point de sauvegarde à restaurer.'
+      name: saveId
+      optional: false
+      type: int
+    - desc: 'Le canal à restaurer. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+countingsave:
+  args:
+    - channel reason
+  desc: 'Crée un point de sauvegarde pour la progression de comptage actuelle.'
+  params:
+    - desc: 'Le canal à sauvegarder. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'La raison de la création du point de sauvegarde.'
+      name: reason
+      optional: true
+      type: string
+countingsetup:
+  args:
+    - channel startNumber increment
+  desc: 'Configure le comptage dans le canal actuel ou un canal spécifié.'
+  params:
+    - desc: 'Le canal où configurer le comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Le nombre à partir duquel commencer à compter. Par défaut 1.'
+      name: startNumber
+      optional: true
+      type: long
+    - desc: 'L''incrément pour chaque comptage. Par défaut 1.'
+      name: increment
+      optional: true
+      type: int
+countingstats:
+  args:
+    - user channel
+  desc: 'Affiche les statistiques de comptage pour un utilisateur ou un canal.'
+  params:
+    - desc: 'L''utilisateur dont afficher les statistiques. Par défaut vous.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Le canal où vérifier les statistiques. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+countingstatus:
+  args:
+    - channel
+  desc: 'Affiche le statut actuel du comptage dans un canal.'
+  params:
+    - desc: 'Le canal à vérifier. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+countingsuccessmessage:
+  args:
+    - channel embed
+  desc: 'Définit un message personnalisé pour les comptages réussis.'
+  params:
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Le modèle de message. Utilisez "-" pour rétablir la valeur par défaut.'
+      name: embed
+      optional: true
+      type: string
+countingtimeout:
+  args:
+    - user duration channel reason
+  desc: 'Met temporairement un utilisateur en sourdine du comptage.'
+  params:
+    - desc: 'L''utilisateur à mettre en sourdine du comptage.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Durée de la mise en sourdine (ex. : 30m, 2h).'
+      name: duration
+      optional: false
+      type: stoopid time
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'La raison de la mise en sourdine.'
+      name: reason
+      optional: true
+      type: string
+countingunban:
+  args:
+    - user channel reason
+  desc: 'Lève l''interdiction de comptage d''un utilisateur dans un canal spécifique.'
+  params:
+    - desc: 'L''utilisateur dont lever l''interdiction de compter.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'La raison de la levée de l''interdiction.'
+      name: reason
+      optional: true
+      type: string
+countmodbanned:
+  args:
+    - channel roles...
+  desc: 'Définit les rôles interdits de comptage.'
+  params:
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Rôles interdits de compter.'
+      name: roles
+      optional: true
+      type: role
+countmodclear:
+  args:
+    - user channel
+  desc: 'Efface les mauvais comptages d''un utilisateur dans un canal de comptage.'
+  params:
+    - desc: 'L''utilisateur dont effacer les mauvais comptages.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+countmodclearall:
+  args:
+    - channel
+  desc: 'Efface les mauvais comptages de tous les utilisateurs dans un canal de comptage.'
+  params:
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+countmoddefaults:
+  args:
+    - enabled threshold windowHours punishment durationMinutes punishmentRole
+  desc: 'Définit les paramètres de modération par défaut pour tout le serveur.'
+  params:
+    - desc: 'Si la modération est activée par défaut.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: 'Seuil de mauvais comptages par défaut avant la punition.'
+      name: threshold
+      optional: true
+      type: int
+    - desc: 'Fenêtre de temps par défaut en heures pour suivre les mauvais comptages.'
+      name: windowHours
+      optional: true
+      type: int
+    - desc: 'Action de punition par défaut à appliquer.'
+      name: punishment
+      optional: true
+      type: punishment action
+    - desc: 'Durée par défaut pour les punitions temporelles en minutes.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Rôle par défaut pour le type de punition AjouterRôle.'
+      name: punishmentRole
+      optional: true
+      type: role
+countmodedits:
+  args:
+    - punish delete channel
+  desc: 'Configure la protection des modifications de messages pour un canal de comptage.'
+  params:
+    - desc: 'Si les modifications de messages doivent être punies comme des infractions.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: 'Si les messages modifiés doivent être supprimés.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+countmodenable:
+  args:
+    - enabled channel
+  desc: 'Active ou désactive la modération pour un canal de comptage spécifique.'
+  params:
+    - desc: 'Si activer ou désactiver la modération.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+countmodignore:
+  args:
+    - deleteMessages channel roles...
+  desc: 'Définit les rôles à ignorer du comptage.'
+  params:
+    - desc: 'Si supprimer les messages des rôles ignorés.'
+      name: deleteMessages
+      optional: false
+      type: bool
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Rôles à ignorer du comptage.'
+      name: roles
+      optional: true
+      type: role
+countmodnonnumbers:
+  args:
+    - punish delete channel
+  desc: 'Configure la gestion des messages non numériques dans un canal de comptage.'
+  params:
+    - desc: 'Si les messages non numériques doivent être punis comme des infractions.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: 'Si les messages non numériques doivent être supprimés.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunish:
+  args:
+    - count punishment durationMinutes role channel
+  desc: 'Définit une punition par paliers pour un nombre spécifique de mauvais comptages.'
+  params:
+    - desc: 'Le nombre de mauvais comptages qui déclenche cette punition.'
+      name: count
+      optional: false
+      type: int
+    - desc: 'L''action de punition à appliquer.'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: 'Durée pour les punitions temporelles en minutes.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Rôle pour le type de punition AjouterRôle.'
+      name: role
+      optional: true
+      type: role
+    - desc: 'Le canal de comptage (NULL pour les valeurs par défaut du serveur).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishlist:
+  args:
+    - channel
+  desc: 'Liste toutes les punitions par paliers du serveur ou d''un canal spécifique.'
+  params:
+    - desc: 'Le canal de comptage (NULL pour les valeurs par défaut du serveur).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishment:
+  args:
+    - punishment durationMinutes role channel
+  desc: 'Définit la punition pour les mauvais comptages.'
+  params:
+    - desc: 'L''action de punition à appliquer.'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: 'Durée pour les punitions temporelles en minutes.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Rôle pour le type de punition AjouterRôle.'
+      name: role
+      optional: true
+      type: role
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+countmodrequired:
+  args:
+    - channel roles...
+  desc: 'Définit les rôles requis pour compter.'
+  params:
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Rôles requis pour compter.'
+      name: roles
+      optional: true
+      type: role
+countmodreset:
+  args:
+    - channel
+  desc: 'Réinitialise un canal pour utiliser les valeurs par défaut du serveur.'
+  params:
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+countmodshow:
+  args:
+    - channel
+  desc: 'Affiche la configuration de modération actuelle pour le canal de comptage ou les valeurs par défaut du serveur.'
+  params:
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+countmodthreshold:
+  args:
+    - threshold channel
+  desc: 'Définit le seuil de mauvais comptages pour un canal de comptage.'
+  params:
+    - desc: 'Nombre de mauvais comptages avant la punition (1-100).'
+      name: threshold
+      optional: false
+      type: int
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel
+countmodunpunish:
+  args:
+    - count channel
+  desc: 'Supprime une punition par paliers pour un nombre spécifique de mauvais comptages.'
+  params:
+    - desc: 'Le nombre de mauvais comptages dont supprimer la punition.'
+      name: count
+      optional: false
+      type: int
+    - desc: 'Le canal de comptage (NULL pour les valeurs par défaut du serveur).'
+      name: channel
+      optional: true
+      type: text channel
+countmodwindow:
+  args:
+    - hours channel
+  desc: 'Définit la fenêtre de temps pour suivre les mauvais comptages.'
+  params:
+    - desc: 'Fenêtre de temps en heures (1-168).'
+      name: hours
+      optional: false
+      type: int
+    - desc: 'Le canal de comptage. Par défaut, le canal actuel.'
+      name: channel
+      optional: true
+      type: text channel

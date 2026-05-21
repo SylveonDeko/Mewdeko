@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'Checks da status of a Minyecwaft sewvew. Use a wegistewed sewvew nyame, a diwect addwess, ow weave bwank fow da defauwt sewvew. uwu'
+  params:
+    - desc: 'Da wegistewed sewvew nyame ow diwect addwess (e.g. play.example.com:25565). owo'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: 'Adds a Minyecwaft sewvew to da guiwd. Pwefix addwess wif bedrock: fow Bedrock sewvews. ^w^'
+  params:
+    - desc: 'A wabew fow da sewvew. uwu'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Da sewvew addwess, optionyawwy wif powt (e.g. play.example.com:25565 ow bedrock:play.example.com). owo'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: 'Wemoves a Minyecwaft sewvew fwom da guiwd. uwu'
+  params:
+    - desc: 'Da nyame of da sewvew to wemove. owo'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: 'Wists aww wegistewed Minyecwaft sewvews fow this guiwd. ^w^'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: 'Sets a sewvew as da defauwt fow status commands. uwu'
+  params:
+    - desc: 'Da nyame of da sewvew to set as defauwt. owo'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: 'Sets a channyew to weceive pewiodic status updates fow a sewvew. Omit da channyew to disabwe. uwu'
+  params:
+    - desc: 'Da nyame of da sewvew to watch. owo'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Da channyew to post updates in. ^w^'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: 'Sets how sewvew status is dispwayed: embed (edit in pwace), channyew topic, ow both. uwu'
+  params:
+    - desc: 'Da nyame of da sewvew. owo'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Da watch mode: Embed, ChannelTopic, ow Both. ^w^'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: 'Sets a custom embed tempwate fow a watched sewvew. Use "-" to weset. Pwacehowdews: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%. uwu'
+  params:
+    - desc: 'Da nyame of da sewvew. owo'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Da embed tempwate JSON, ow "-" to weset to defauwt. ^w^'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: 'Wooks up a Minyecwaft pwayew by usewnyame and dispways theiw pwofiwe and skin. uwu'
+  params:
+    - desc: 'Da Minyecwaft usewnyame to wook up. owo'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'Dispways a Minyecwaft pwayew''s skin wendew. ^w^'
+  params:
+    - desc: 'Da Minyecwaft usewnyame. uwu'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: 'Sends an RCON command to a wegistewed Minyecwaft sewvew. RCON must be configuwed via da dashboawd. uwu'
+  params:
+    - desc: 'Da nyame of da sewvew. owo'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Da command to execute on da sewvew. ^w^'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'Manyages da whitewist on a Minyecwaft sewvew via RCON. Wequiwes RCON to be configuwed. uwu'
+  params:
+    - desc: 'Da nyame of da sewvew. owo'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Da action: add, wemove, wist, on, off, wewoad. ^w^'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Da pwayew nyame (fow add/wemove). uwu'
+      name: playerName
+      optional: true
+      type: string

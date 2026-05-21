@@ -1,0 +1,157 @@
+confess:
+  args:
+    - serverid text
+  desc: 'Awwows usews to confess anonymouswy. uwu'
+  params:
+    - &ref_139
+      desc: 'Da ID of da sewvew.'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: 'Da confession message owo'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: 'Awwows usews to confess anonymouswy. uwu'
+  params:
+    - desc: 'Da ID of da sewvew.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Da confession message owo'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: 'Awwows usews to confess anonymouswy. uwu'
+  params:
+    - desc: 'Da ID of da sewvew.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Da confession message owo'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: 'Awwows usews to confess anonymouswy. uwu'
+  params:
+    - desc: 'Da ID of da sewvew.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Da confession message owo'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: 'Adds a usew to da confession bwackwist. ^w^'
+  params:
+    - desc: 'Da usew to bwackwist fwom confessions.'
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: 'Sets da confession channyew. uwu'
+  params:
+    - desc: 'Da channyew to set fow confessions.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: 'Adds ow wemoves a usew fwom da confession bwackwist. owo'
+  params:
+    - &ref_141
+      desc: 'Da usew to add ow wemove fwom da bwackwist.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: 'Adds ow wemoves a usew fwom da confession bwackwist. owo'
+  params:
+    - &ref_142
+      desc: 'Da usew to add ow wemove fwom da bwackwist.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: 'Adds ow wemoves a usew fwom da confession bwackwist. owo'
+  params:
+    - desc: 'Da usew to add ow wemove fwom da bwackwist.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: 'Adds ow wemoves a usew fwom da confession bwackwist. owo'
+  params:
+    - desc: 'Da usew to add ow wemove fwom da bwackwist.'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: 'Sets da confession channyew fow anonymous confessions. uwu'
+  params:
+    - desc: 'Da confession channyew (optionyaw).'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    Sets da confession wog channyew fow wogging confessions. Misuse of dis
+    featuwe wiww end up in me being 2m away fwom youw house. ^w^
+  params:
+    - desc: 'Da confession wog channyew (optionyaw).'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: 'Wemoves a usew fwom da confession bwackwist. uwu'
+  params:
+    - desc: 'Da usew to wemove fwom da bwackwist.'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: 'Sets da confession wog channyew. owo'
+  params:
+    - desc: 'Da channyew to wog confessions to.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: 'Wemoves a usew fwom da confession bwackwist. uwu'
+  params:
+    - desc: 'Da usew to unbwackwist fwom confessions.'
+      name: user
+      optional: false
+      type: IUser

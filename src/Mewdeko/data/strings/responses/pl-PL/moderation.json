@@ -1,0 +1,17 @@
+{
+  "mute_error": "Najprawdopodobniej nie mam do tego wymaganych uprawnień.",
+  "mute_role_set": "Nowa wyciszająca rola ustawiona.",
+  "user_chat_mute": "{0} został **wyciszony** z chatowania.",
+  "user_chat_unmute": "{0} został **odciszony** z chatowania.",
+  "user_muted": "{0} został **wyciszony** z chatu głosowego i pisanego.",
+  "user_unmuted": "{0} został **odciszony** z chatu głosowego i pisanego.",
+  "user_voice_mute": "{0} został **wyciszony z chatu głosowego**.",
+  "user_voice_unmute": "{0} został **odciszony z chatu głosowego**.",
+  "user_muted_time": "{0} został **wyciszony** w kanałach tekstowych oraz głosowych na {1} minut.",
+  "user_warned": "Użytkownik {0} został ostrzeżony.",
+  "user_warned_and_punished": "Użytkownik {0} został ostrzeżony i kara {1} została nałożona",
+  "warn_cleared_by": "wyczyszczone przez {0}",
+  "warn_punish_list": "Lista kar za ostrzeżenia",
+  "warn_punish_rem": "Na użytkowników z {0} ostrzeżeniami już nie będzie nakładana kara.",
+  "warn_punish_set": "Nałożę karę {0} na użytkowników z {1} ostrzeżeniami"
+}

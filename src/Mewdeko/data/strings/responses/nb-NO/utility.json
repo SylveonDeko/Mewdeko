@@ -1,0 +1,19 @@
+{
+  "invite_filter_channel_off": "Invitasjons-filtrering deaktivert i denne kanalen.",
+  "invite_filter_channel_on": "Invitasjons-filtrering aktivert i denne kanalen.",
+  "invite_filter_server_off": "Invitasjons-filtrering deaktivert på denne serveren.",
+  "invite_filter_server_on": "Invitasjons-filtrering aktivert på denne serveren.",
+  "channel_topic": "Kanal emne",
+  "convert": "{0} {1} er lik {2} {3}",
+  "convert_not_found": "Kan ikke konvertere {0} til {1}: enheter ikke funnet",
+  "convert_type_error": "Kan ikke konvertere {0} til {1}: typer enheter er ikke lik",
+  "remind": "I will remind {0} to {1} {2}",
+  "remind_invalid_format": "Ikke et gyldig format. Sjekk kommandolisten.",
+  "remind_too_long": "",
+  "repeat_invoke_none": "Ingen gjentagende meldinger funnet på denne serveren.",
+  "serverid": "{0} av denne serveren er {1}",
+  "reminder_list": "",
+  "reminder_deleted": "Reminder #{0} was deleted.",
+  "reminder_not_exist": "",
+  "invite_deleted": "Invite {0} has been deleted."
+}

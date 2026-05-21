@@ -1,0 +1,480 @@
+afk:
+  args:
+    - message
+  desc: 'Stelt je AFK-status in.'
+  params:
+    - desc: 'Het AFK-bericht om te tonen.'
+      name: message
+      optional: true
+      type: string
+afkdel:
+  args:
+    - ''
+  desc: 'Stelt de automatische verwijderduur voor AFK-berichten in.'
+  params: [ ]
+afkdel_int:
+  args:
+    - number
+  desc: 'Stelt de automatische verwijderduur voor AFK-berichten in.'
+  params:
+    - &ref_49
+      desc: 'De duur in seconden. Stel in op 0 om automatisch verwijderen uit te schakelen.'
+      name: num
+      optional: false
+      type: int
+afkdel_int_1:
+  args:
+    - number
+  desc: 'Stelt de automatische verwijderduur voor AFK-berichten in.'
+  params:
+    - desc: 'De duur in seconden. Stel in op 0 om automatisch verwijderen uit te schakelen.'
+      name: num
+      optional: false
+      type: int
+afkdel_int_2:
+  args:
+    - number
+  desc: 'Stelt de automatische verwijderduur voor AFK-berichten in.'
+  params:
+    - desc: 'De duur in seconden. Stel in op 0 om automatisch verwijderen uit te schakelen.'
+      name: num
+      optional: false
+      type: int
+afkdel_int_3:
+  args:
+    - number
+  desc: 'Stelt de automatische verwijderduur voor AFK-berichten in.'
+  params:
+    - desc: 'De duur in seconden. Stel in op 0 om automatisch verwijderen uit te schakelen.'
+      name: num
+      optional: false
+      type: int
+afkdel_noparams:
+  args:
+    - ''
+  desc: 'Stelt de automatische verwijderduur voor AFK-berichten in.'
+  params: [ ]
+afkdel_noparams_1:
+  args:
+    - ''
+  desc: 'Stelt de automatische verwijderduur voor AFK-berichten in.'
+  params: [ ]
+afkdel_noparams_2:
+  args:
+    - ''
+  desc: 'Stelt de automatische verwijderduur voor AFK-berichten in.'
+  params: [ ]
+afkdisable:
+  args:
+    - chan
+  desc: 'Stelt de kanalen in waar het AFK-bericht niet wordt weergegeven.'
+  params:
+    - &ref_50
+      desc: 'Kanalen die je wilt toevoegen aan de AFK-berichtenblokkeerlijst.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]:
+  args:
+    - chan
+  desc: 'Stelt de kanalen in waar het AFK-bericht niet wordt weergegeven.'
+  params:
+    - desc: 'Kanalen die je wilt toevoegen aan de AFK-berichtenblokkeerlijst.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]_1:
+  args:
+    - chan
+  desc: 'Stelt de kanalen in waar het AFK-bericht niet wordt weergegeven.'
+  params:
+    - desc: 'Kanalen die je wilt toevoegen aan de AFK-berichtenblokkeerlijst.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]_2:
+  args:
+    - chan
+  desc: 'Stelt de kanalen in waar het AFK-bericht niet wordt weergegeven.'
+  params:
+    - desc: 'Kanalen die je wilt toevoegen aan de AFK-berichtenblokkeerlijst.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisabledlist:
+  args:
+    - ''
+  desc: 'Toont de tekstkanalen waar het AFK-bericht niet wordt weergegeven.'
+  params: [ ]
+afklength:
+  args:
+    - number
+  desc: 'Stelt de maximale lengte van alle AFK-berichten in.'
+  params:
+    - &ref_51
+      desc: 'De maximale lengte die je wilt instellen.'
+      name: num
+      optional: false
+      type: int
+afklength_int:
+  args:
+    - number
+  desc: 'Stelt de maximale lengte van alle AFK-berichten in.'
+  params:
+    - desc: 'De maximale lengte die je wilt instellen.'
+      name: num
+      optional: false
+      type: int
+afklength_int_1:
+  args:
+    - number
+  desc: 'Stelt de maximale lengte van alle AFK-berichten in.'
+  params:
+    - desc: 'De maximale lengte die je wilt instellen.'
+      name: num
+      optional: false
+      type: int
+afklength_int_2:
+  args:
+    - number
+  desc: 'Stelt de maximale lengte van alle AFK-berichten in.'
+  params:
+    - desc: 'De maximale lengte die je wilt instellen.'
+      name: num
+      optional: false
+      type: int
+afkremove:
+  args:
+    - '@user'
+  desc: 'Verwijdert de AFK-status van een of meer gebruikers.'
+  params:
+    - &ref_52
+      desc: 'De gebruiker(s) van wie je de AFK-status wilt verwijderen.'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Verwijdert de AFK-status van een of meer gebruikers.'
+  params:
+    - desc: 'De gebruiker(s) van wie je de AFK-status wilt verwijderen.'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Verwijdert de AFK-status van een of meer gebruikers.'
+  params:
+    - desc: 'De gebruiker(s) van wie je de AFK-status wilt verwijderen.'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Verwijdert de AFK-status van een of meer gebruikers.'
+  params:
+    - desc: 'De gebruiker(s) van wie je de AFK-status wilt verwijderen.'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkrm:
+  args:
+    - ''
+  desc: 'Verwijdert je AFK-status.'
+  params: [ ]
+afktimeout:
+  args:
+    - time
+  desc: >-
+    Stelt de time-outduur in voordat een gebruiker niet meer als AFK wordt
+    beschouwd. Wordt geactiveerd wanneer een gebruiker een bericht stuurt of
+    typt in een kanaal.
+  params:
+    - &ref_53
+      desc: 'De time-outduur voor de AFK-status.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime:
+  args:
+    - time
+  desc: >-
+    Stelt de time-outduur in voordat een gebruiker niet meer als AFK wordt
+    beschouwd. Wordt geactiveerd wanneer een gebruiker een bericht stuurt of
+    typt in een kanaal.
+  params:
+    - desc: 'De time-outduur voor de AFK-status.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime_1:
+  args:
+    - time
+  desc: >-
+    Stelt de time-outduur in voordat een gebruiker niet meer als AFK wordt
+    beschouwd. Wordt geactiveerd wanneer een gebruiker een bericht stuurt of
+    typt in een kanaal.
+  params:
+    - desc: 'De time-outduur voor de AFK-status.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime_2:
+  args:
+    - time
+  desc: >-
+    Stelt de time-outduur in voordat een gebruiker niet meer als AFK wordt
+    beschouwd. Wordt geactiveerd wanneer een gebruiker een bericht stuurt of
+    typt in een kanaal.
+  params:
+    - desc: 'De time-outduur voor de AFK-status.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktype:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'Stelt het type AFK-gedrag voor de server in.'
+  params:
+    - &ref_54
+      desc: 'Het type AFK-gedrag om in te stellen. <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'Stelt het type AFK-gedrag voor de server in.'
+  params:
+    - desc: 'Het type AFK-gedrag om in te stellen. <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum_1:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'Stelt het type AFK-gedrag voor de server in.'
+  params:
+    - desc: 'Het type AFK-gedrag om in te stellen. <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum_2:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'Stelt het type AFK-gedrag voor de server in.'
+  params:
+    - desc: 'Het type AFK-gedrag om in te stellen. <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afkundisable:
+  args:
+    - chan
+  desc: 'Verwijdert de opgegeven kanalen uit de AFK-berichtenblokkeerlijst.'
+  params:
+    - &ref_55
+      desc: 'De tekstkanalen die uit de AFK-berichtenblokkeerlijst verwijderd moeten worden.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]:
+  args:
+    - chan
+  desc: 'Verwijdert de opgegeven kanalen uit de AFK-berichtenblokkeerlijst.'
+  params:
+    - desc: 'De tekstkanalen die uit de AFK-berichtenblokkeerlijst verwijderd moeten worden.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]_1:
+  args:
+    - chan
+  desc: 'Verwijdert de opgegeven kanalen uit de AFK-berichtenblokkeerlijst.'
+  params:
+    - desc: 'De tekstkanalen die uit de AFK-berichtenblokkeerlijst verwijderd moeten worden.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]_2:
+  args:
+    - chan
+  desc: 'Verwijdert de opgegeven kanalen uit de AFK-berichtenblokkeerlijst.'
+  params:
+    - desc: 'De tekstkanalen die uit de AFK-berichtenblokkeerlijst verwijderd moeten worden.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkview:
+  args:
+    - '@user'
+  desc: 'Toont de AFK-status van een specifieke gebruiker.'
+  params:
+    - &ref_56
+      desc: 'De gebruiker wiens AFK-status gecontroleerd moet worden.'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Toont de AFK-status van een specifieke gebruiker.'
+  params:
+    - desc: 'De gebruiker wiens AFK-status gecontroleerd moet worden.'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Toont de AFK-status van een specifieke gebruiker.'
+  params:
+    - desc: 'De gebruiker wiens AFK-status gecontroleerd moet worden.'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Toont de AFK-status van een specifieke gebruiker.'
+  params:
+    - desc: 'De gebruiker wiens AFK-status gecontroleerd moet worden.'
+      name: user
+      optional: true
+      type: IGuildUser
+customafkmessage:
+  args:
+    - text
+  desc: >-
+    Stelt een aangepaste AFK-embed in die wordt weergegeven wanneer een
+    gebruiker AFK is. Gebruik "-" om te resetten naar de standaard embed.
+    Bekijk https://eb.mewdeko.tech voor de embed-builder en
+    http://mewdeko.tech/placeholders voor plaatshouders.
+  params:
+    - &ref_175
+      desc: 'Het aangepaste bericht om in te stellen. Gebruik "-" om te resetten naar het standaardbericht.'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string:
+  args:
+    - text
+  desc: >-
+    Stelt een aangepaste AFK-embed in die wordt weergegeven wanneer een
+    gebruiker AFK is. Gebruik "-" om te resetten naar de standaard embed.
+    Bekijk https://eb.mewdeko.tech voor de embed-builder en
+    http://mewdeko.tech/placeholders voor plaatshouders.
+  params:
+    - desc: 'Het aangepaste bericht om in te stellen. Gebruik "-" om te resetten naar het standaardbericht.'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string_1:
+  args:
+    - text
+  desc: >-
+    Stelt een aangepaste AFK-embed in die wordt weergegeven wanneer een
+    gebruiker AFK is. Gebruik "-" om te resetten naar de standaard embed.
+    Bekijk https://eb.mewdeko.tech voor de embed-builder en
+    http://mewdeko.tech/placeholders voor plaatshouders.
+  params:
+    - desc: 'Het aangepaste bericht om in te stellen. Gebruik "-" om te resetten naar het standaardbericht.'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string_2:
+  args:
+    - text
+  desc: >-
+    Stelt een aangepaste AFK-embed in die wordt weergegeven wanneer een
+    gebruiker AFK is. Gebruik "-" om te resetten naar de standaard embed.
+    Bekijk https://eb.mewdeko.tech voor de embed-builder en
+    http://mewdeko.tech/placeholders voor plaatshouders.
+  params:
+    - desc: 'Het aangepaste bericht om in te stellen. Gebruik "-" om te resetten naar het standaardbericht.'
+      name: embedCode
+      optional: false
+      type: string
+getactiveafks:
+  args:
+    - ''
+  desc: 'Toont een lijst van actieve gebruikers die momenteel AFK zijn.'
+  params: [ ]
+setafk:
+  args:
+    - '[message]'
+  desc: 'Stelt de AFK-status van de gebruiker in met een optioneel bericht.'
+  params:
+    - desc: 'Het AFK-bericht. Als dit niet wordt opgegeven, wordt de AFK-status van de gebruiker omgeschakeld.'
+      name: message
+      optional: true
+      type: string
+timedafk:
+  args:
+    - time text
+  desc: 'Stelt een getimede AFK-status in met een aangepast bericht.'
+  params:
+    - &ref_621
+      desc: 'De duur voor de AFK-status.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_622
+      desc: 'Het aangepaste bericht voor de AFK-status.'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string:
+  args:
+    - time text
+  desc: 'Stelt een getimede AFK-status in met een aangepast bericht.'
+  params:
+    - desc: 'De duur voor de AFK-status.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Het aangepaste bericht voor de AFK-status.'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string_1:
+  args:
+    - time text
+  desc: 'Stelt een getimede AFK-status in met een aangepast bericht.'
+  params:
+    - desc: 'De duur voor de AFK-status.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Het aangepaste bericht voor de AFK-status.'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string_2:
+  args:
+    - time text
+  desc: 'Stelt een getimede AFK-status in met een aangepast bericht.'
+  params:
+    - desc: 'De duur voor de AFK-status.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Het aangepaste bericht voor de AFK-status.'
+      name: message
+      optional: false
+      type: string

@@ -1,0 +1,22 @@
+{
+  "eval_compiling": "Evaluacija...",
+  "eval_no_code": "Nije dostavljen kod. Molimo uključite kod unutar blokova koda ili priložite .cs datoteku",
+  "eval_output_blank": "Izlaz je bio prazan",
+  "eval_read_error": "Neuspešno čitanje priložene datoteke: {0}",
+  "eval_too_large": "Priložena datoteka je prevelika. Proverite da li je manja od 100 KB",
+  "instance_added": "Instanca Dodata",
+  "instance_command_count": "Broj Komandi: {0}",
+  "instance_modules_count": "Broj Modula: {0}",
+  "instance_not_added": "Neuspešno dodavanje instance: {0}",
+  "instance_not_found": "Instanca sa portom {0} nije pronađena. Molimo pokušajte ponovo.",
+  "instance_offline": "Instanca je van mreže",
+  "instance_removed": "Uspešno uklonjena instanca na portu {0}",
+  "instance_status": "Status Instance",
+  "instance_user_count": "Broj Korisnika {0}",
+  "instance_version": "Verzija Instance: {0}",
+  "owner": "Vlasnik",
+  "owner_config_error": "Došlo je do greške prilikom postavljanja ili štampanja konfiguracije, molimo proverite logove.",
+  "owner_ids": "ID-ovi Vlasnika",
+  "owner_setting_title": "⚙️ {0}",
+  "user_stats": "Statistika Korisnika"
+}

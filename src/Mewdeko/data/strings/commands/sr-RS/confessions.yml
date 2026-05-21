@@ -1,0 +1,157 @@
+confess:
+  args:
+    - serverid text
+  desc: 'Omogućava korisnicima da anonimno priznaju.'
+  params:
+    - &ref_139
+      desc: 'ID servera.'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: 'Poruka priznanja'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: 'Omogućava korisnicima da anonimno priznaju.'
+  params:
+    - desc: 'ID servera.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Poruka priznanja'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: 'Omogućava korisnicima da anonimno priznaju.'
+  params:
+    - desc: 'ID servera.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Poruka priznanja'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: 'Omogućava korisnicima da anonimno priznaju.'
+  params:
+    - desc: 'ID servera.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Poruka priznanja'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: 'Dodaje korisnika na crnu listu priznanja.'
+  params:
+    - desc: 'Korisnik koji se stavlja na crnu listu priznanja.'
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: 'Postavlja kanal priznanja.'
+  params:
+    - desc: 'Kanal koji se postavlja za priznanja.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: 'Dodaje ili uklanja korisnika sa crne liste priznanja.'
+  params:
+    - &ref_141
+      desc: 'Korisnik koji se dodaje ili uklanja sa crne liste.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: 'Dodaje ili uklanja korisnika sa crne liste priznanja.'
+  params:
+    - &ref_142
+      desc: 'Korisnik koji se dodaje ili uklanja sa crne liste.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: 'Dodaje ili uklanja korisnika sa crne liste priznanja.'
+  params:
+    - desc: 'Korisnik koji se dodaje ili uklanja sa crne liste.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: 'Dodaje ili uklanja korisnika sa crne liste priznanja.'
+  params:
+    - desc: 'Korisnik koji se dodaje ili uklanja sa crne liste.'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: 'Postavlja kanal priznanja za anonimna priznanja.'
+  params:
+    - desc: 'Kanal priznanja (opciono).'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    Postavlja kanal log-a priznanja za beleženje priznanja. Zloupotreba ove
+    funkcije će se završiti tako što ću biti 2m od tvoje kuće.
+  params:
+    - desc: 'Kanal log-a priznanja (opciono).'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: 'Uklanja korisnika sa crne liste priznanja.'
+  params:
+    - desc: 'Korisnik koji se uklanja sa crne liste.'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: 'Postavlja kanal log-a priznanja.'
+  params:
+    - desc: 'Kanal u koji se beleže priznanja.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: 'Uklanja korisnika sa crne liste priznanja.'
+  params:
+    - desc: 'Korisnik koji se skida sa crne liste priznanja.'
+      name: user
+      optional: false
+      type: IUser

@@ -1,0 +1,137 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'Muestra análisis detallados de Patreon.'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'Activa manualmente un anuncio de Patreon.'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Establece o muestra el canal de anuncios de Patreon.
+  params:
+    - desc: >-
+        El canal a establecer para anuncios de Patreon. Si es null, muestra
+        el canal actual.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'Muestra la configuración actual de Patreon para este servidor.'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Establece el día del mes para los anuncios de Patreon.'
+  params:
+    - desc: >-
+        El día del mes (1-28) para los anuncios. Si es null, muestra el
+        día actual.
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'Desactiva los anuncios de Patreon para este servidor.'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Muestra información del módulo Patreon y marcadores disponibles.'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Vincula a un usuario de Discord con un mecenas de Patreon.'
+  params:
+    - desc: El usuario de Discord a vincular.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: El ID de usuario de Patreon a vincular.
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Establece un mensaje personalizado para anuncios de Patreon.
+  params:
+    - desc: >-
+        El mensaje personalizado. Usa marcadores como %server.name%, %month%, etc.
+        Usa "-" para reiniciar al predeterminado.
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'Envía mensajes de reconocimiento para nuevos mecenas.'
+  params:
+    - desc: El canal donde enviar mensajes de reconocimiento.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Lista las asignaciones de niveles a roles de Patreon.'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'Activa o desactiva la sincronización automática de roles.'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Muestra estadísticas de mecenas de Patreon.'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'Lista los mecenas de Patreon activos.'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'Configura de forma segura la integración OAuth de Patreon.'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'Sincroniza roles para todos los mecenas vinculados.'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Asigna un nivel de Patreon a un rol de Discord.'
+  params:
+    - desc: El ID del nivel de Patreon.
+      name: tierId
+      optional: false
+      type: string
+    - desc: El rol de Discord a asignar al nivel.
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Activa o desactiva los anuncios de Patreon.'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'Muestra los mejores mecenas de Patreon.'
+  params:
+    - desc: Número de mejores mecenas a mostrar (1-20).
+      name: count
+      optional: true
+      type: int

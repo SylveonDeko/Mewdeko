@@ -1,0 +1,18 @@
+{
+  "boost_on": "",
+  "boost_off": "",
+  "boostmsg_cur": "Current boost message: {0}",
+  "boostmsg_enable": "Enable boost messages by typing {0}",
+  "boostmsg_new": "",
+  "boostdel_off": "",
+  "boostdel_on": "Boost messages will be deleted after {0} seconds.",
+  "bandm": "Du har blitt utestengt fra {0}\nGrunn: {1}",
+  "banmsg_default": "",
+  "byedel_off": "Automatisk sletting av 'farvel'-meldinger er aktivert",
+  "byedel_on": "Farvel-meldinger vil bli slettet etter {0} sekunder.",
+  "byemsg_cur": "Nåværende 'farvel'-melding: {0}",
+  "byemsg_enable": "Aktivér 'farvel'-meldinger ved å skrive {0}",
+  "byemsg_new": "Ny 'farvel'-melding satt.",
+  "bye_off": "'farvel'-kunngjøringer deaktivert.",
+  "bye_on": "'farvel'-kunngjøringer aktivert i denne kanalen."
+}

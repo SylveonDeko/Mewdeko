@@ -1,0 +1,81 @@
+highlight:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Legger til, lister, fjerner eller matcher highlights.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parametere for den valgte handlingen'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Legger til, lister, fjerner eller matcher highlights.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parametere for den valgte handlingen'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_1:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Legger til, lister, fjerner eller matcher highlights.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parametere for den valgte handlingen'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_2:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Legger til, lister, fjerner eller matcher highlights.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parametere for den valgte handlingen'
+      name: words
+      optional: true
+      type: string
+highlights:
+  args:
+    - action word
+  desc: Administrerer brukerhighlights.
+  params:
+    - desc: Handlingen som skal utføres med highlights.
+      name: action
+      optional: false
+      type: string
+    - desc: Ordet som skal fremheves.
+      name: word
+      optional: true
+      type: string

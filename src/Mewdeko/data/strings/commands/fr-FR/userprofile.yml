@@ -1,0 +1,481 @@
+deleteuserstatsdata:
+  args:
+    - ''
+  desc: 'Supprime les donnees de statistiques de commandes de l''utilisateur.'
+  params: [ ]
+greetdmoptout:
+  args:
+    - ''
+  desc: 'Permet a un utilisateur de basculer la desactivation des messages de bienvenue en DM. Fonctionne uniquement si le serveur qu''il rejoint utilise mewdeko pour les salutations par DM.'
+  params: [ ]
+profile:
+  args:
+    - '[@user]'
+  desc: 'Affiche le profil de l''utilisateur ou le profil d''un autre utilisateur si specifie.'
+  params:
+    - desc: 'L''utilisateur dont le profil doit etre affiche. Si nul, affiche le profil de l''appelant.'
+      name: user
+      optional: true
+      type: user
+profile_=:
+  args:
+    - '[@user]'
+  desc: 'Affiche le profil de l''utilisateur ou le profil d''un autre utilisateur si specifie.'
+  params:
+    - desc: 'L''utilisateur dont le profil doit etre affiche. Si nul, affiche le profil de l''appelant.'
+      name: user
+      optional: true
+      type: user
+profile_=_1:
+  args:
+    - '[@user]'
+  desc: 'Affiche le profil de l''utilisateur ou le profil d''un autre utilisateur si specifie.'
+  params:
+    - desc: 'L''utilisateur dont le profil doit etre affiche. Si nul, affiche le profil de l''appelant.'
+      name: user
+      optional: true
+      type: user
+profile_=_2:
+  args:
+    - '[@user]'
+  desc: 'Affiche le profil de l''utilisateur ou le profil d''un autre utilisateur si specifie.'
+  params:
+    - desc: 'L''utilisateur dont le profil doit etre affiche. Si nul, affiche le profil de l''appelant.'
+      name: user
+      optional: true
+      type: user
+pronouns:
+  args:
+    - '[@user]'
+  desc: 'Affiche les pronoms de l''utilisateur specifie ou de l''appelant de la commande si aucun utilisateur n''est specifie.'
+  params:
+    - desc: 'Optionnel. L''utilisateur dont les pronoms doivent etre affiches.'
+      name: user
+      optional: true
+      type: user
+pronounsforceclear:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Efface de force les pronoms d''un utilisateur par ID, en les marquant eventuellement comme desactives en raison d''abus.'
+  params:
+    - &ref_356
+      desc: 'L''ID de l''utilisateur dont les pronoms doivent etre effaces.'
+      name: user
+      optional: true
+      type: IUser
+    - &ref_357
+      desc: 'Si les pronoms sont desactives en raison d''abus.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - &ref_358
+      desc: 'La raison de l''action.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Efface de force les pronoms d''un utilisateur par ID, en les marquant eventuellement comme desactives en raison d''abus.'
+  params:
+    - desc: 'L''ID de l''utilisateur dont les pronoms doivent etre effaces.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Si les pronoms sont desactives en raison d''abus.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'La raison de l''action.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string_1:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Efface de force les pronoms d''un utilisateur par ID, en les marquant eventuellement comme desactives en raison d''abus.'
+  params:
+    - desc: 'L''ID de l''utilisateur dont les pronoms doivent etre effaces.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Si les pronoms sont desactives en raison d''abus.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'La raison de l''action.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string_2:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Efface de force les pronoms d''un utilisateur par ID, en les marquant eventuellement comme desactives en raison d''abus.'
+  params:
+    - desc: 'L''ID de l''utilisateur dont les pronoms doivent etre effaces.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Si les pronoms sont desactives en raison d''abus.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'La raison de l''action.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string:
+  args:
+    - user true|false text
+  desc: 'Efface de force les pronoms d''un utilisateur par ID, en les marquant eventuellement comme desactives en raison d''abus.'
+  params:
+    - &ref_359
+      desc: 'L''ID de l''utilisateur dont les pronoms doivent etre effaces.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Si les pronoms sont desactives en raison d''abus.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'La raison de l''action.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_1:
+  args:
+    - user true|false text
+  desc: 'Efface de force les pronoms d''un utilisateur par ID, en les marquant eventuellement comme desactives en raison d''abus.'
+  params:
+    - desc: 'L''ID de l''utilisateur dont les pronoms doivent etre effaces.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Si les pronoms sont desactives en raison d''abus.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'La raison de l''action.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_2:
+  args:
+    - user true|false text
+  desc: 'Efface de force les pronoms d''un utilisateur par ID, en les marquant eventuellement comme desactives en raison d''abus.'
+  params:
+    - desc: 'L''ID de l''utilisateur dont les pronoms doivent etre effaces.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Si les pronoms sont desactives en raison d''abus.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'La raison de l''action.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_3:
+  args:
+    - user true|false text
+  desc: 'Efface de force les pronoms d''un utilisateur par ID, en les marquant eventuellement comme desactives en raison d''abus.'
+  params:
+    - desc: 'L''ID de l''utilisateur dont les pronoms doivent etre effaces.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Si les pronoms sont desactives en raison d''abus.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'La raison de l''action.'
+      name: reason
+      optional: false
+      type: string
+setbio:
+  args:
+    - text
+  desc: 'Definit ou met a jour la biographie dans le profil de l''utilisateur.'
+  params:
+    - &ref_490
+      desc: 'Le texte de la biographie. Doit comporter moins de 2048 caracteres.'
+      name: bio
+      optional: false
+      type: string
+setbio_string:
+  args:
+    - text
+  desc: 'Definit ou met a jour la biographie dans le profil de l''utilisateur.'
+  params:
+    - desc: 'Le texte de la biographie. Doit comporter moins de 2048 caracteres.'
+      name: bio
+      optional: false
+      type: string
+setbio_string_1:
+  args:
+    - text
+  desc: 'Definit ou met a jour la biographie dans le profil de l''utilisateur.'
+  params:
+    - desc: 'Le texte de la biographie. Doit comporter moins de 2048 caracteres.'
+      name: bio
+      optional: false
+      type: string
+setbio_string_2:
+  args:
+    - text
+  desc: 'Definit ou met a jour la biographie dans le profil de l''utilisateur.'
+  params:
+    - desc: 'Le texte de la biographie. Doit comporter moins de 2048 caracteres.'
+      name: bio
+      optional: false
+      type: string
+setbirthday:
+  args:
+    - time
+  desc: 'Definit l''anniversaire dans le profil de l''utilisateur.'
+  params:
+    - &ref_491
+      desc: 'La date d''anniversaire.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime:
+  args:
+    - time
+  desc: 'Definit l''anniversaire dans le profil de l''utilisateur.'
+  params:
+    - desc: 'La date d''anniversaire.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime_1:
+  args:
+    - time
+  desc: 'Definit l''anniversaire dans le profil de l''utilisateur.'
+  params:
+    - desc: 'La date d''anniversaire.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime_2:
+  args:
+    - time
+  desc: 'Definit l''anniversaire dans le profil de l''utilisateur.'
+  params:
+    - desc: 'La date d''anniversaire.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthdayprivacy:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Definit le mode de confidentialite des anniversaires dans le profil de l''utilisateur.'
+  params:
+    - &ref_492
+      desc: 'Le mode d''affichage des anniversaires a definir.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Definit le mode de confidentialite des anniversaires dans le profil de l''utilisateur.'
+  params:
+    - desc: 'Le mode d''affichage des anniversaires a definir.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum_1:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Definit le mode de confidentialite des anniversaires dans le profil de l''utilisateur.'
+  params:
+    - desc: 'Le mode d''affichage des anniversaires a definir.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum_2:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Definit le mode de confidentialite des anniversaires dans le profil de l''utilisateur.'
+  params:
+    - desc: 'Le mode d''affichage des anniversaires a definir.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setprivacy:
+  args:
+    - privacyenum
+  desc: 'Definit le niveau de confidentialite du profil de l''utilisateur.'
+  params:
+    - &ref_513
+      desc: 'Le parametre de confidentialite a appliquer.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum:
+  args:
+    - privacyenum
+  desc: 'Definit le niveau de confidentialite du profil de l''utilisateur.'
+  params:
+    - desc: 'Le parametre de confidentialite a appliquer.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum_1:
+  args:
+    - privacyenum
+  desc: 'Definit le niveau de confidentialite du profil de l''utilisateur.'
+  params:
+    - desc: 'Le parametre de confidentialite a appliquer.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum_2:
+  args:
+    - privacyenum
+  desc: 'Definit le niveau de confidentialite du profil de l''utilisateur.'
+  params:
+    - desc: 'Le parametre de confidentialite a appliquer.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprofilecolor:
+  args:
+    - input
+  desc: 'Definit la couleur du profil en fonction d''une entree SKColor.'
+  params:
+    - &ref_514
+      desc: 'La SKColor representant la couleur de profil souhaitee.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor:
+  args:
+    - input
+  desc: 'Definit la couleur du profil en fonction d''une entree SKColor.'
+  params:
+    - desc: 'La SKColor representant la couleur de profil souhaitee.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor_1:
+  args:
+    - input
+  desc: 'Definit la couleur du profil en fonction d''une entree SKColor.'
+  params:
+    - desc: 'La SKColor representant la couleur de profil souhaitee.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor_2:
+  args:
+    - input
+  desc: 'Definit la couleur du profil en fonction d''une entree SKColor.'
+  params:
+    - desc: 'La SKColor representant la couleur de profil souhaitee.'
+      name: input
+      optional: false
+      type: SKColor
+setprofileimage:
+  args:
+    - text
+  desc: "Definit l'URL de l'image de profil dans le profil de l'utilisateur."
+  params:
+    - &ref_515
+      desc: "L'URL de l'image a definir comme image de profil."
+      name: url
+      optional: false
+      type: string
+setprofileimage_string:
+  args:
+    - text
+  desc: "Definit l'URL de l'image de profil dans le profil de l'utilisateur."
+  params:
+    - desc: "L'URL de l'image a definir comme image de profil."
+      name: url
+      optional: false
+      type: string
+setprofileimage_string_1:
+  args:
+    - text
+  desc: "Definit l'URL de l'image de profil dans le profil de l'utilisateur."
+  params:
+    - desc: "L'URL de l'image a definir comme image de profil."
+      name: url
+      optional: false
+      type: string
+setprofileimage_string_2:
+  args:
+    - text
+  desc: "Definit l'URL de l'image de profil dans le profil de l'utilisateur."
+  params:
+    - desc: "L'URL de l'image a definir comme image de profil."
+      name: url
+      optional: false
+      type: string
+setpronouns:
+  args:
+    - '[pronouns]'
+  desc: 'Definit ou efface les pronoms de l''utilisateur.'
+  params:
+    - desc: 'Les pronoms a definir. Si nul ou vide, efface les pronoms existants.'
+      name: pronouns
+      optional: true
+      type: string
+setswitchfc:
+  args:
+    - '""'
+  desc: 'Definit ou efface le code ami Nintendo Switch dans le profil de l''utilisateur.'
+  params:
+    - desc: 'Definit ou efface le code ami Nintendo Switch dans le profil de l''utilisateur.'
+      name: '""'
+      optional: false
+      type: '='
+setzodiac:
+  args:
+    - text
+  desc: 'Definit le signe du zodiaque dans le profil de l''utilisateur.'
+  params:
+    - &ref_539
+      desc: 'Le signe du zodiaque a definir.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string:
+  args:
+    - text
+  desc: 'Definit le signe du zodiaque dans le profil de l''utilisateur.'
+  params:
+    - desc: 'Le signe du zodiaque a definir.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string_1:
+  args:
+    - text
+  desc: 'Definit le signe du zodiaque dans le profil de l''utilisateur.'
+  params:
+    - desc: 'Le signe du zodiaque a definir.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string_2:
+  args:
+    - text
+  desc: 'Definit le signe du zodiaque dans le profil de l''utilisateur.'
+  params:
+    - desc: 'Le signe du zodiaque a definir.'
+      name: zodiac
+      optional: false
+      type: string
+userstatsoptout:
+  args:
+    - ''
+  desc: 'Bascule le statut de desactivation de l''utilisateur pour la collecte de statistiques de commandes.'
+  params: [ ]

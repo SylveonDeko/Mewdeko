@@ -1,0 +1,305 @@
+setupvoicehub:
+  args:
+    - ''
+  desc: 'Stelt een spraakkanaal in als hub voor het maken van aangepaste spraakkanalen.'
+  params: [ ]
+setvoicehub:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Stelt een specifiek spraakkanaal in als hub voor het maken van aangepaste spraakkanalen.'
+  params:
+    - desc: 'Stelt een specifiek spraakkanaal in als hub voor het maken van aangepaste spraakkanalen.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Stelt een specifiek spraakkanaal in als hub voor het maken van aangepaste spraakkanalen.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Stelt een specifiek spraakkanaal in als hub voor het maken van aangepaste spraakkanalen.'
+  params:
+    - desc: 'Stelt een specifiek spraakkanaal in als hub voor het maken van aangepaste spraakkanalen.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Stelt een specifiek spraakkanaal in als hub voor het maken van aangepaste spraakkanalen.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_1:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Stelt een specifiek spraakkanaal in als hub voor het maken van aangepaste spraakkanalen.'
+  params:
+    - desc: 'Stelt een specifiek spraakkanaal in als hub voor het maken van aangepaste spraakkanalen.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Stelt een specifiek spraakkanaal in als hub voor het maken van aangepaste spraakkanalen.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_2:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Stelt een specifiek spraakkanaal in als hub voor het maken van aangepaste spraakkanalen.'
+  params:
+    - desc: 'Stelt een specifiek spraakkanaal in als hub voor het maken van aangepaste spraakkanalen.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Stelt een specifiek spraakkanaal in als hub voor het maken van aangepaste spraakkanalen.'
+      name: category
+      optional: true
+      type: category
+voiceallow:
+  args:
+    - '@user'
+  desc: 'Staat een specifieke gebruiker toe om je vergrendelde spraakkanaal te betreden.'
+  params:
+    - &ref_642
+      desc: 'Staat een specifieke gebruiker toe om je vergrendelde spraakkanaal te betreden.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Staat een specifieke gebruiker toe om je vergrendelde spraakkanaal te betreden.'
+  params:
+    - desc: 'Staat een specifieke gebruiker toe om je vergrendelde spraakkanaal te betreden.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Staat een specifieke gebruiker toe om je vergrendelde spraakkanaal te betreden.'
+  params:
+    - desc: 'Staat een specifieke gebruiker toe om je vergrendelde spraakkanaal te betreden.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Staat een specifieke gebruiker toe om je vergrendelde spraakkanaal te betreden.'
+  params:
+    - desc: 'Staat een specifieke gebruiker toe om je vergrendelde spraakkanaal te betreden.'
+      name: target
+      optional: false
+      type: IGuildUser
+voicebitrate:
+  args:
+    - number
+  desc: 'Stelt de bitrate in voor je aangepaste spraakkanaal.'
+  params:
+    - &ref_643
+      desc: 'Stelt de bitrate in voor je aangepaste spraakkanaal.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int:
+  args:
+    - number
+  desc: 'Stelt de bitrate in voor je aangepaste spraakkanaal.'
+  params:
+    - desc: 'Stelt de bitrate in voor je aangepaste spraakkanaal.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_1:
+  args:
+    - number
+  desc: 'Stelt de bitrate in voor je aangepaste spraakkanaal.'
+  params:
+    - desc: 'Stelt de bitrate in voor je aangepaste spraakkanaal.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_2:
+  args:
+    - number
+  desc: 'Stelt de bitrate in voor je aangepaste spraakkanaal.'
+  params:
+    - desc: 'Stelt de bitrate in voor je aangepaste spraakkanaal.'
+      name: bitrate
+      optional: false
+      type: int
+voicechannels:
+  args:
+    - ''
+  desc: 'Geeft een lijst van actieve aangepaste spraakkanalen.'
+  params: [ ]
+voiceclaim:
+  args:
+    - ''
+  desc: 'Claimt het eigendom van een aangepast spraakkanaal als de eigenaar niet aanwezig is.'
+  params: [ ]
+voiceconfig:
+  args:
+    - '[setting] [value]'
+  desc: 'Configureert de aangepaste spraakinstelling.'
+  params:
+    - desc: 'Configureert de aangepaste spraakinstelling.'
+      name: setting
+      optional: true
+      type: string
+    - desc: 'Configureert de aangepaste spraakinstelling.'
+      name: value
+      optional: true
+      type: string
+voicecontrols:
+  args:
+    - ''
+  desc: 'Toont interactieve besturingselementen voor het beheren van je aangepaste spraakkanaal.'
+  params: [ ]
+voicedeny:
+  args:
+    - '@user'
+  desc: 'Weigert een specifieke gebruiker toegang tot je spraakkanaal.'
+  params:
+    - desc: 'Weigert een specifieke gebruiker toegang tot je spraakkanaal.'
+      name: target
+      optional: false
+      type: IGuildUser
+voicekeepalive:
+  args:
+    - true
+  desc: 'Houdt het kanaal actief, ook als het leeg is.'
+  params:
+    - desc: 'Houdt het kanaal actief, ook als het leeg is.'
+      name: true
+      optional: false
+      type: '='
+voicelimit:
+  args:
+    - number
+  desc: 'Stelt de gebruikerslimiet in voor je aangepaste spraakkanaal.'
+  params:
+    - &ref_644
+      desc: 'Stelt de gebruikerslimiet in voor je aangepaste spraakkanaal.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int:
+  args:
+    - number
+  desc: 'Stelt de gebruikerslimiet in voor je aangepaste spraakkanaal.'
+  params:
+    - desc: 'Stelt de gebruikerslimiet in voor je aangepaste spraakkanaal.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_1:
+  args:
+    - number
+  desc: 'Stelt de gebruikerslimiet in voor je aangepaste spraakkanaal.'
+  params:
+    - desc: 'Stelt de gebruikerslimiet in voor je aangepaste spraakkanaal.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_2:
+  args:
+    - number
+  desc: 'Stelt de gebruikerslimiet in voor je aangepaste spraakkanaal.'
+  params:
+    - desc: 'Stelt de gebruikerslimiet in voor je aangepaste spraakkanaal.'
+      name: limit
+      optional: false
+      type: int
+voicelock:
+  args:
+    - true
+  desc: 'Vergrendelt of ontgrendelt je aangepaste spraakkanaal.'
+  params:
+    - desc: 'Vergrendelt of ontgrendelt je aangepaste spraakkanaal.'
+      name: true
+      optional: false
+      type: '='
+voicepreferences:
+  args:
+    - ''
+  desc: 'Stelt je spraakkanaalvoorkeuren in.'
+  params: [ ]
+voiceprefsbitrate:
+  args:
+    - '[bitrate]'
+  desc: 'Stelt je voorkeursbitrate in voor aangepaste spraakkanalen.'
+  params:
+    - desc: 'Stelt je voorkeursbitrate in voor aangepaste spraakkanalen.'
+      name: bitrate
+      optional: true
+      type: int
+voiceprefskeepalive:
+  args:
+    - '[keepAlive]'
+  desc: 'Stelt je voorkeur voor keep-alive in voor aangepaste spraakkanalen.'
+  params:
+    - desc: 'Stelt je voorkeur voor keep-alive in voor aangepaste spraakkanalen.'
+      name: keepAlive
+      optional: true
+      type: bool
+voiceprefslimit:
+  args:
+    - '[limit]'
+  desc: 'Stelt je voorkeurslimiet in voor aangepaste spraakkanalen.'
+  params:
+    - desc: 'Stelt je voorkeurslimiet in voor aangepaste spraakkanalen.'
+      name: limit
+      optional: true
+      type: int
+voiceprefslock:
+  args:
+    - '[locked]'
+  desc: 'Stelt je voorkeursvergrendelingsstatus in voor aangepaste spraakkanalen.'
+  params:
+    - desc: 'Stelt je voorkeursvergrendelingsstatus in voor aangepaste spraakkanalen.'
+      name: locked
+      optional: true
+      type: bool
+voiceprefsname:
+  args:
+    - '[format]'
+  desc: 'Stelt je voorkeursnaamsopmaak in voor aangepaste spraakkanalen.'
+  params:
+    - desc: 'Stelt je voorkeursnaamsopmaak in voor aangepaste spraakkanalen.'
+      name: format
+      optional: true
+      type: string
+voiceprefsreset:
+  args:
+    - ''
+  desc: 'Herstelt al je spraakkanaalvoorkeuren.'
+  params: [ ]
+voicerename:
+  args:
+    - text
+  desc: 'Hernoemt je aangepaste spraakkanaal.'
+  params:
+    - desc: 'Hernoemt je aangepaste spraakkanaal.'
+      name: name
+      optional: false
+      type: string
+voicetransfer:
+  args:
+    - '@user'
+  desc: 'Draagt het eigendom van je aangepaste spraakkanaal over aan een andere gebruiker.'
+  params:
+    - desc: 'Draagt het eigendom van je aangepaste spraakkanaal over aan een andere gebruiker.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceunlock:
+  args:
+    - ''
+  desc: 'Ontgrendelt je aangepaste spraakkanaal.'
+  params: [ ]

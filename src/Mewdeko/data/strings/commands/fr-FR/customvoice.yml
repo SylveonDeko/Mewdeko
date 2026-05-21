@@ -1,0 +1,305 @@
+setupvoicehub:
+  args:
+    - ''
+  desc: 'Configure un salon vocal en tant que hub pour créer des salons vocaux personnalisés.'
+  params: [ ]
+setvoicehub:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+  params:
+    - desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+  params:
+    - desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_1:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+  params:
+    - desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_2:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+  params:
+    - desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Définit un salon vocal spécifique comme hub pour créer des salons vocaux personnalisés.'
+      name: category
+      optional: true
+      type: category
+voiceallow:
+  args:
+    - '@user'
+  desc: 'Permet à un utilisateur spécifique de rejoindre votre salon vocal verrouillé.'
+  params:
+    - &ref_642
+      desc: 'Permet à un utilisateur spécifique de rejoindre votre salon vocal verrouillé.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Permet à un utilisateur spécifique de rejoindre votre salon vocal verrouillé.'
+  params:
+    - desc: 'Permet à un utilisateur spécifique de rejoindre votre salon vocal verrouillé.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Permet à un utilisateur spécifique de rejoindre votre salon vocal verrouillé.'
+  params:
+    - desc: 'Permet à un utilisateur spécifique de rejoindre votre salon vocal verrouillé.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Permet à un utilisateur spécifique de rejoindre votre salon vocal verrouillé.'
+  params:
+    - desc: 'Permet à un utilisateur spécifique de rejoindre votre salon vocal verrouillé.'
+      name: target
+      optional: false
+      type: IGuildUser
+voicebitrate:
+  args:
+    - number
+  desc: 'Définit le débit binaire de votre salon vocal personnalisé.'
+  params:
+    - &ref_643
+      desc: 'Définit le débit binaire de votre salon vocal personnalisé.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int:
+  args:
+    - number
+  desc: 'Définit le débit binaire de votre salon vocal personnalisé.'
+  params:
+    - desc: 'Définit le débit binaire de votre salon vocal personnalisé.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_1:
+  args:
+    - number
+  desc: 'Définit le débit binaire de votre salon vocal personnalisé.'
+  params:
+    - desc: 'Définit le débit binaire de votre salon vocal personnalisé.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_2:
+  args:
+    - number
+  desc: 'Définit le débit binaire de votre salon vocal personnalisé.'
+  params:
+    - desc: 'Définit le débit binaire de votre salon vocal personnalisé.'
+      name: bitrate
+      optional: false
+      type: int
+voicechannels:
+  args:
+    - ''
+  desc: 'Liste les salons vocaux personnalisés actifs.'
+  params: [ ]
+voiceclaim:
+  args:
+    - ''
+  desc: 'Revendique la propriété d''un salon vocal personnalisé si le propriétaire n''est pas présent.'
+  params: [ ]
+voiceconfig:
+  args:
+    - '[setting] [value]'
+  desc: 'Configure les paramètres vocaux personnalisés.'
+  params:
+    - desc: 'Configure les paramètres vocaux personnalisés.'
+      name: setting
+      optional: true
+      type: string
+    - desc: 'Configure les paramètres vocaux personnalisés.'
+      name: value
+      optional: true
+      type: string
+voicecontrols:
+  args:
+    - ''
+  desc: 'Affiche des contrôles interactifs pour gérer votre salon vocal personnalisé.'
+  params: [ ]
+voicedeny:
+  args:
+    - '@user'
+  desc: 'Refuse l''accès d''un utilisateur spécifique à votre salon vocal.'
+  params:
+    - desc: 'Refuse l''accès d''un utilisateur spécifique à votre salon vocal.'
+      name: target
+      optional: false
+      type: IGuildUser
+voicekeepalive:
+  args:
+    - true
+  desc: 'Maintient le salon actif même lorsqu''il est vide.'
+  params:
+    - desc: 'Maintient le salon actif même lorsqu''il est vide.'
+      name: true
+      optional: false
+      type: '='
+voicelimit:
+  args:
+    - number
+  desc: 'Définit la limite d''utilisateurs pour votre salon vocal personnalisé.'
+  params:
+    - &ref_644
+      desc: 'Définit la limite d''utilisateurs pour votre salon vocal personnalisé.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int:
+  args:
+    - number
+  desc: 'Définit la limite d''utilisateurs pour votre salon vocal personnalisé.'
+  params:
+    - desc: 'Définit la limite d''utilisateurs pour votre salon vocal personnalisé.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_1:
+  args:
+    - number
+  desc: 'Définit la limite d''utilisateurs pour votre salon vocal personnalisé.'
+  params:
+    - desc: 'Définit la limite d''utilisateurs pour votre salon vocal personnalisé.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_2:
+  args:
+    - number
+  desc: 'Définit la limite d''utilisateurs pour votre salon vocal personnalisé.'
+  params:
+    - desc: 'Définit la limite d''utilisateurs pour votre salon vocal personnalisé.'
+      name: limit
+      optional: false
+      type: int
+voicelock:
+  args:
+    - true
+  desc: 'Verrouille ou déverrouille votre salon vocal personnalisé.'
+  params:
+    - desc: 'Verrouille ou déverrouille votre salon vocal personnalisé.'
+      name: true
+      optional: false
+      type: '='
+voicepreferences:
+  args:
+    - ''
+  desc: 'Définit vos préférences de salon vocal.'
+  params: [ ]
+voiceprefsbitrate:
+  args:
+    - '[bitrate]'
+  desc: 'Définit votre débit binaire préféré pour les salons vocaux personnalisés.'
+  params:
+    - desc: 'Définit votre débit binaire préféré pour les salons vocaux personnalisés.'
+      name: bitrate
+      optional: true
+      type: int
+voiceprefskeepalive:
+  args:
+    - '[keepAlive]'
+  desc: 'Définit votre préférence de maintien actif pour les salons vocaux personnalisés.'
+  params:
+    - desc: 'Définit votre préférence de maintien actif pour les salons vocaux personnalisés.'
+      name: keepAlive
+      optional: true
+      type: bool
+voiceprefslimit:
+  args:
+    - '[limit]'
+  desc: 'Définit votre limite d''utilisateurs préférée pour les salons vocaux personnalisés.'
+  params:
+    - desc: 'Définit votre limite d''utilisateurs préférée pour les salons vocaux personnalisés.'
+      name: limit
+      optional: true
+      type: int
+voiceprefslock:
+  args:
+    - '[locked]'
+  desc: 'Définit votre préférence de verrouillage pour les salons vocaux personnalisés.'
+  params:
+    - desc: 'Définit votre préférence de verrouillage pour les salons vocaux personnalisés.'
+      name: locked
+      optional: true
+      type: bool
+voiceprefsname:
+  args:
+    - '[format]'
+  desc: 'Définit votre format de nom préféré pour les salons vocaux personnalisés.'
+  params:
+    - desc: 'Définit votre format de nom préféré pour les salons vocaux personnalisés.'
+      name: format
+      optional: true
+      type: string
+voiceprefsreset:
+  args:
+    - ''
+  desc: 'Réinitialise toutes vos préférences de salon vocal.'
+  params: [ ]
+voicerename:
+  args:
+    - text
+  desc: 'Renomme votre salon vocal personnalisé.'
+  params:
+    - desc: 'Renomme votre salon vocal personnalisé.'
+      name: name
+      optional: false
+      type: string
+voicetransfer:
+  args:
+    - '@user'
+  desc: 'Transfère la propriété de votre salon vocal personnalisé à un autre utilisateur.'
+  params:
+    - desc: 'Transfère la propriété de votre salon vocal personnalisé à un autre utilisateur.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceunlock:
+  args:
+    - ''
+  desc: 'Déverrouille votre salon vocal personnalisé.'
+  params: [ ]

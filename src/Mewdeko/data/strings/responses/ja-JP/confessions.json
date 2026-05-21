@@ -1,0 +1,22 @@
+{
+  "confessions_blacklisted": "そのサーバーでの告白はブラックリストに登録されています！",
+  "confessions_blacklisted_added": "{0}を告白ブラックリストに追加しました！！",
+  "confessions_blacklisted_already": "このユーザーはすでにブラックリストに登録されています！",
+  "confessions_blacklisted_not": "このユーザーはブラックリストに登録されていません！",
+  "confessions_blacklisted_removed": "{0}を告白ブラックリストから削除しました！！",
+  "confessions_channel_set": "{0}を告白チャンネルに設定しました！",
+  "confessions_disabled": "告白機能が無効になりました",
+  "confessions_invalid_id": "指定されたIDは無効です！",
+  "confessions_invalid_perms": "そのチャンネルに適切な権限がありません！BotのEmbedLinksとSendMessagesをそのチャンネルで有効にしてください！",
+  "confessions_logging_disabled": "告白ログが無効になりました",
+  "confessions_missing_invite": "権限がないか有効な招待がないため、招待リンクを取得できませんでした。",
+  "confessions_none": "このサーバーでは告白機能が有効になっていません！",
+  "confessions_none_any": "あなたが参加しているサーバーで告白機能が有効になっているものはありません！",
+  "confessions_report": "報告",
+  "confessions_report_received": "告白の不正利用報告を受信しました",
+  "confessions_report_sent": "報告を送信しました。参加して追記する場合は下のリンクを使用してください。",
+  "confessions_report_user": "ユーザーを報告",
+  "confessions_server_id": "サーバーID",
+  "confessions_server_invite": "サーバー招待",
+  "confessions_spleen": "{0}を告白ログチャンネルに設定しました。\n***この機能の悪用が発覚した場合、サーバーをブラックリストに登録します。ご注意ください。"
+}

@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    Приказује команде за одређени модул. Ако је null, то је псеудоним за
+    modules који је псеудоним за help.
+  params:
+    - desc: 'Модул за преглед'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    Приказује команде за одређени модул. Ако је null, то је псеудоним за
+    modules који је псеудоним за help.
+  params:
+    - desc: 'Модул за преглед'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    Приказује команде за одређени модул. Ако је null, то је псеудоним за
+    modules који је псеудоним за help.
+  params:
+    - desc: 'Модул за преглед'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    Приказује команде за одређени модул. Ако је null, то је псеудоним за
+    modules који је псеудоним за help.
+  params:
+    - desc: 'Модул за преглед'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: 'Приказује како подржати бота.'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    Извози све команде у json фајл. Углавном се користи за
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    Извози све команде у json фајл. Углавном се користи за
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    Извози све команде у json фајл. Углавном се користи за
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    Извози све команде у json фајл. Углавном се користи за
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: 'Приказује водич за бота.'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: Приказује помоћ за одређену команду.
+  params:
+    - desc: Команда за коју добити помоћ.
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: Приказује информације о помоћи за команде.
+  params:
+    - desc: Команда за коју добити помоћ.
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: 'Приказује листу свих модула. У основи је сада само псеудоним за help.'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: 'Тражи команду по имену или опису.'
+  params:
+    - &ref_481
+      desc: 'Појам за претрагу'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: 'Тражи команду по имену или опису.'
+  params:
+    - desc: 'Појам за претрагу'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: 'Тражи команду по имену или опису.'
+  params:
+    - desc: 'Појам за претрагу'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: 'Тражи команду по имену или опису.'
+  params:
+    - desc: 'Појам за претрагу'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: 'Приказује везу до изворног кода бота.'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'Приказује везу за гласање за mewdeko.'
+  params: [ ]

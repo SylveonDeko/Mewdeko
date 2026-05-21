@@ -1,0 +1,18 @@
+{
+  "boost_on": "",
+  "boost_off": "",
+  "boostmsg_cur": "Current boost message: {0}",
+  "boostmsg_enable": "Enable boost messages by typing {0}",
+  "boostmsg_new": "",
+  "boostdel_off": "",
+  "boostdel_on": "Boost messages will be deleted after {0} seconds.",
+  "bandm": "Byl jsi zablokován na serveru {0}.\nDůvod: {1}",
+  "banmsg_default": "",
+  "byedel_off": "Automatické mazání odchodových zpráv bylo vypnuto.",
+  "byedel_on": "Odchodové zprávy budou smazány po {0} sekundách.",
+  "byemsg_cur": "Současná odchodová zpráva: {0}",
+  "byemsg_enable": "Zapni odchodové zprávy pomocí {0}",
+  "byemsg_new": "Nová odchodová zpráva nastavena.",
+  "bye_off": "Odchodové oznámení zakázáno.",
+  "bye_on": "Odchodové oznámení povoleno na tomto kanálu."
+}

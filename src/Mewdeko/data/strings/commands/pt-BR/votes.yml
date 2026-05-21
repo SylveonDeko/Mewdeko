@@ -1,0 +1,252 @@
+votechannel:
+  args:
+    - channel
+  desc: >-
+    Define o canal de texto especificado como canal de votos onde todas as
+    confirmações de voto serão enviadas.
+  params:
+    - &ref_646
+      desc: 'O canal de texto a definir como canal de votos.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel:
+  args:
+    - channel
+  desc: >-
+    Define o canal de texto especificado como canal de votos onde todas as
+    confirmações de voto serão enviadas.
+  params:
+    - desc: 'O canal de texto a definir como canal de votos.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel_1:
+  args:
+    - channel
+  desc: >-
+    Define o canal de texto especificado como canal de votos onde todas as
+    confirmações de voto serão enviadas.
+  params:
+    - desc: 'O canal de texto a definir como canal de votos.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel_2:
+  args:
+    - channel
+  desc: >-
+    Define o canal de texto especificado como canal de votos onde todas as
+    confirmações de voto serão enviadas.
+  params:
+    - desc: 'O canal de texto a definir como canal de votos.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votemessage:
+  args:
+    - '[message]'
+  desc: >-
+    Define uma mensagem personalizada a ser enviada quando um usuário vota ou
+    previsualiza a mensagem de voto atual.
+  params:
+    - desc: 'A mensagem personalizada para votos. Use "-" para redefinir ao padrão. Se nulo, previsualiza a mensagem de voto atual.'
+      name: message
+      optional: true
+      type: string
+votepassword:
+  args:
+    - ''
+  desc: >-
+    Inicia um processo de confirmação para definir uma nova senha de voto,
+    alertando o usuário sobre sua segurança.
+  params: [ ]
+voteroleadd:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Adiciona um cargo a ser concedido aos usuários quando votarem, com uma
+    duração opcional para o cargo ser removido automaticamente.
+  params:
+    - desc: 'O cargo a adicionar como recompensa de voto.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'A duração para a qual o cargo será concedido. Nulo para indefinido.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Adiciona um cargo a ser concedido aos usuários quando votarem, com uma
+    duração opcional para o cargo ser removido automaticamente.
+  params:
+    - desc: 'O cargo a adicionar como recompensa de voto.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'A duração para a qual o cargo será concedido. Nulo para indefinido.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=_1:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Adiciona um cargo a ser concedido aos usuários quando votarem, com uma
+    duração opcional para o cargo ser removido automaticamente.
+  params:
+    - desc: 'O cargo a adicionar como recompensa de voto.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'A duração para a qual o cargo será concedido. Nulo para indefinido.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=_2:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Adiciona um cargo a ser concedido aos usuários quando votarem, com uma
+    duração opcional para o cargo ser removido automaticamente.
+  params:
+    - desc: 'O cargo a adicionar como recompensa de voto.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'A duração para a qual o cargo será concedido. Nulo para indefinido.'
+      name: time
+      optional: true
+      type: duration
+voteroleedit:
+  args:
+    - '@role time'
+  desc: 'Edita a duração pela qual um cargo de voto é concedido aos usuários.'
+  params:
+    - &ref_648
+      desc: 'O cargo a editar.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_649
+      desc: 'A nova duração para a qual o cargo será concedido.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime:
+  args:
+    - '@role time'
+  desc: 'Edita a duração pela qual um cargo de voto é concedido aos usuários.'
+  params:
+    - desc: 'O cargo a editar.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'A nova duração para a qual o cargo será concedido.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime_1:
+  args:
+    - '@role time'
+  desc: 'Edita a duração pela qual um cargo de voto é concedido aos usuários.'
+  params:
+    - desc: 'O cargo a editar.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'A nova duração para a qual o cargo será concedido.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime_2:
+  args:
+    - '@role time'
+  desc: 'Edita a duração pela qual um cargo de voto é concedido aos usuários.'
+  params:
+    - desc: 'O cargo a editar.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'A nova duração para a qual o cargo será concedido.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleremove:
+  args:
+    - '@role'
+  desc: 'Remove um cargo da lista de cargos a serem concedidos aos usuários quando votarem.'
+  params:
+    - &ref_650
+      desc: 'O cargo a remover das recompensas de voto.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole:
+  args:
+    - '@role'
+  desc: 'Remove um cargo da lista de cargos a serem concedidos aos usuários quando votarem.'
+  params:
+    - desc: 'O cargo a remover das recompensas de voto.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole_1:
+  args:
+    - '@role'
+  desc: 'Remove um cargo da lista de cargos a serem concedidos aos usuários quando votarem.'
+  params:
+    - desc: 'O cargo a remover das recompensas de voto.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole_2:
+  args:
+    - '@role'
+  desc: 'Remove um cargo da lista de cargos a serem concedidos aos usuários quando votarem.'
+  params:
+    - desc: 'O cargo a remover das recompensas de voto.'
+      name: role
+      optional: false
+      type: IRole
+voterolesclear:
+  args:
+    - ''
+  desc: 'Limpa todos os cargos que são concedidos aos usuários quando votam.'
+  params: [ ]
+voteroleslist:
+  args:
+    - ''
+  desc: 'Lista todos os cargos que são concedidos aos usuários quando votam.'
+  params: [ ]
+votes:
+  args:
+    - '[@user]'
+  desc: >-
+    Exibe o número total de votos dados por um usuário específico ou pelo
+    invocador do comando.
+  params:
+    - desc: 'O usuário cujos votos contar. Se nulo, conta os votos do invocador do comando.'
+      name: user
+      optional: true
+      type: user
+votesleaderboard:
+  args:
+    - false
+  desc: >-
+    Exibe uma classificação de usuários com base em seus números de votos,
+    filtrando opcionalmente os votos do mês atual.
+  params:
+    - desc: >-
+        Exibe uma classificação de usuários com base em seus números de votos,
+        filtrando opcionalmente os votos do mês atual.
+      name: false
+      optional: false
+      type: '='

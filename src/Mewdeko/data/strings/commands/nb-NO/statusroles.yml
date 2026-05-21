@@ -1,0 +1,273 @@
+addstatusrole:
+  args:
+    - text
+  desc: 'Legger til en statusrollekonfigurasjon.'
+  params:
+    - &ref_32
+      desc: 'Statusen som skal legges til.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string:
+  args:
+    - text
+  desc: 'Legger til en statusrollekonfigurasjon.'
+  params:
+    - desc: 'Statusen som skal legges til.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_1:
+  args:
+    - text
+  desc: 'Legger til en statusrollekonfigurasjon.'
+  params:
+    - desc: 'Statusen som skal legges til.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_2:
+  args:
+    - text
+  desc: 'Legger til en statusrollekonfigurasjon.'
+  params:
+    - desc: 'Statusen som skal legges til.'
+      name: status
+      optional: false
+      type: string
+liststatusroles:
+  args:
+    - ''
+  desc: 'Lister opp alle gjeldende statusroller med deres detaljer.'
+  params: [ ]
+removeaddroles:
+  args:
+    - number @role
+  desc: 'Angir rollene som skal fjernes når en bruker har den valgte statusen.'
+  params:
+    - &ref_390
+      desc: 'Indeksen til statusrollen.'
+      name: index
+      optional: false
+      type: int
+    - &ref_391
+      desc: 'Rollene som skal fjernes.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: 'Angir rollene som skal fjernes når en bruker har den valgte statusen.'
+  params:
+    - desc: 'Indeksen til statusrollen.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Rollene som skal fjernes.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: 'Angir rollene som skal fjernes når en bruker har den valgte statusen.'
+  params:
+    - desc: 'Indeksen til statusrollen.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Rollene som skal fjernes.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: 'Angir rollene som skal fjernes når en bruker har den valgte statusen.'
+  params:
+    - desc: 'Indeksen til statusrollen.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Rollene som skal fjernes.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeremoveroles:
+  args:
+    - number @role
+  desc: >-
+    Fjerner én eller flere roller fra de lagt-til rollene når en bruker har
+    den valgte statusen.
+  params:
+    - desc: 'Indeksen til statusrollen.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Rollene som skal fjernes.'
+      name: roles
+      optional: false
+      type: IRole[]
+removestatusrole:
+  args:
+    - number
+  desc: 'Fjerner en statusrollekonfigurasjon.'
+  params:
+    - desc: 'Indeksen til statusrollen som skal fjernes.'
+      name: index
+      optional: false
+      type: int
+setaddroles:
+  args:
+    - number @role
+  desc: 'Angir rollene som skal legges til når en bruker har den valgte statusen.'
+  params:
+    - desc: 'Indeksen til statusrollen.'
+      name: index
+      optional: false
+      type: int
+    - &ref_486
+      desc: 'Rollene som skal legges til.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: 'Angir rollene som skal legges til når en bruker har den valgte statusen.'
+  params:
+    - desc: 'Indeksen til statusrollen.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Rollene som skal legges til.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: 'Angir rollene som skal legges til når en bruker har den valgte statusen.'
+  params:
+    - desc: 'Indeksen til statusrollen.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Rollene som skal legges til.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: 'Angir rollene som skal legges til når en bruker har den valgte statusen.'
+  params:
+    - desc: 'Indeksen til statusrollen.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Rollene som skal legges til.'
+      name: roles
+      optional: false
+      type: IRole[]
+setremoveroles:
+  args:
+    - number @role
+  desc: 'Angir rollene som skal fjernes når en bruker har den valgte statusen.'
+  params:
+    - desc: 'Indeksen til statusrollen.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Rollene som skal fjernes.'
+      name: roles
+      optional: false
+      type: IRole[]
+setstatusrolechannel:
+  args:
+    - number channel
+  desc: 'Angir kanalen for en bestemt statusrolle.'
+  params:
+    - desc: 'Indeksen til statusrollen.'
+      name: index
+      optional: false
+      type: int
+    - &ref_527
+      desc: 'Kanalen som skal angis.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: 'Angir kanalen for en bestemt statusrolle.'
+  params:
+    - desc: 'Indeksen til statusrollen.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Kanalen som skal angis.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: 'Angir kanalen for en bestemt statusrolle.'
+  params:
+    - desc: 'Indeksen til statusrollen.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Kanalen som skal angis.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: 'Angir kanalen for en bestemt statusrolle.'
+  params:
+    - desc: 'Indeksen til statusrollen.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Kanalen som skal angis.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusroleembed:
+  args:
+    - '<index> [embedText]'
+    - number
+  desc: 'Angir eller forhåndsviser embed-teksten for en bestemt statusrolle.'
+  params:
+    - desc: 'Indeksen til statusrollen.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Embed-teksten som skal angis.'
+      name: embedText
+      optional: true
+      type: string
+togglereaddremoved:
+  args:
+    - number
+  desc: 'Bytter om lagt-til roller fjernes når en status fjernes.'
+  params:
+    - desc: 'Indeksen til statusrollen.'
+      name: index
+      optional: false
+      type: int
+toggleremoveadded:
+  args:
+    - number
+  desc: >-
+    Bytter om lagt-til roller fjernes når en bruker ikke lenger har statusen
+    basert på det angitte indeksnummeret.
+  params:
+    - desc: 'Indeksen til statusrollen.'
+      name: index
+      optional: false
+      type: int

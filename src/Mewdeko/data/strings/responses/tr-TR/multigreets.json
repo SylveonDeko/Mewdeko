@@ -1,0 +1,18 @@
+{
+  "boost_on": "",
+  "boost_off": "",
+  "boostmsg_cur": "Current boost message: {0}",
+  "boostmsg_enable": "Enable boost messages by typing {0}",
+  "boostmsg_new": "",
+  "boostdel_off": "",
+  "boostdel_on": "Boost messages will be deleted after {0} seconds.",
+  "bandm": "{0} sunucusundan uzaklaştırıldınız.\nSebep: {1}",
+  "banmsg_default": "",
+  "byedel_off": "Çıkış mesajlarının otomatik silinmesi devre dışı bırakıldı.",
+  "byedel_on": "Çıkış mesajları {0} saniye sonra silinecektir.",
+  "byemsg_cur": "Şu anki çıkış mesajı: {0}",
+  "byemsg_enable": "{0} yazarak çıkış mesajlarını etkinleştirin.",
+  "byemsg_new": "Yeni çıkış mesajı tanımlandı.",
+  "bye_off": "Çıkış duyuruları devre dışı.",
+  "bye_on": "Çıkış duyuruları bu kanalda devreye sokuldu."
+}

@@ -1,0 +1,434 @@
+rolegreetadd:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Fügt eine neue Rollenbegrüßungsnachricht für eine bestimmte Rolle hinzu. Wenn kein Kanal angegeben wird, wird der aktuelle Kanal verwendet.'
+  params:
+    - desc: 'Die Rolle, für die die Begrüßungsnachricht festgelegt wird.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Der Textkanal, in dem die Begrüßungsnachricht gesendet wird. Optional.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Fügt eine neue Rollenbegrüßungsnachricht für eine bestimmte Rolle hinzu. Wenn kein Kanal angegeben wird, wird der aktuelle Kanal verwendet.'
+  params:
+    - desc: 'Die Rolle, für die die Begrüßungsnachricht festgelegt wird.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Der Textkanal, in dem die Begrüßungsnachricht gesendet wird. Optional.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=_1:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Fügt eine neue Rollenbegrüßungsnachricht für eine bestimmte Rolle hinzu. Wenn kein Kanal angegeben wird, wird der aktuelle Kanal verwendet.'
+  params:
+    - desc: 'Die Rolle, für die die Begrüßungsnachricht festgelegt wird.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Der Textkanal, in dem die Begrüßungsnachricht gesendet wird. Optional.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=_2:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Fügt eine neue Rollenbegrüßungsnachricht für eine bestimmte Rolle hinzu. Wenn kein Kanal angegeben wird, wird der aktuelle Kanal verwendet.'
+  params:
+    - desc: 'Die Rolle, für die die Begrüßungsnachricht festgelegt wird.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Der Textkanal, in dem die Begrüßungsnachricht gesendet wird. Optional.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetdelete:
+  args:
+    - number time
+  desc: 'Aktualisiert eine Rollenbegrüßungsnachricht, sodass sie nach einer bestimmten Dauer automatisch gelöscht wird.'
+  params:
+    - &ref_448
+      desc: 'Die ID der zu aktualisierenden Rollenbegrüßung, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: id
+      optional: false
+      type: int
+    - &ref_450
+      desc: 'Aktualisiert eine Rollenbegrüßungsnachricht, sodass sie nach einer bestimmten Dauer automatisch gelöscht wird.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime:
+  args:
+    - number time
+  desc: 'Aktualisiert eine Rollenbegrüßungsnachricht, sodass sie nach einer bestimmten Dauer automatisch gelöscht wird.'
+  params:
+    - desc: 'Die ID der zu aktualisierenden Rollenbegrüßung, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Aktualisiert eine Rollenbegrüßungsnachricht, sodass sie nach einer bestimmten Dauer automatisch gelöscht wird.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'Aktualisiert eine Rollenbegrüßungsnachricht, sodass sie nach einer bestimmten Dauer automatisch gelöscht wird.'
+  params:
+    - desc: 'Die ID der zu aktualisierenden Rollenbegrüßung, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Aktualisiert eine Rollenbegrüßungsnachricht, sodass sie nach einer bestimmten Dauer automatisch gelöscht wird.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'Aktualisiert eine Rollenbegrüßungsnachricht, sodass sie nach einer bestimmten Dauer automatisch gelöscht wird.'
+  params:
+    - desc: 'Die ID der zu aktualisierenden Rollenbegrüßung, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Aktualisiert eine Rollenbegrüßungsnachricht, sodass sie nach einer bestimmten Dauer automatisch gelöscht wird.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_int:
+  args:
+    - number number
+  desc: 'Aktualisiert eine Rollenbegrüßungsnachricht, sodass sie nach einer bestimmten Dauer automatisch gelöscht wird.'
+  params:
+    - desc: 'Die ID der zu aktualisierenden Rollenbegrüßung, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: id
+      optional: false
+      type: int
+    - &ref_449
+      desc: 'Die Dauer in Sekunden, nach der die Begrüßungsnachricht gelöscht wird.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_1:
+  args:
+    - number number
+  desc: 'Aktualisiert eine Rollenbegrüßungsnachricht, sodass sie nach einer bestimmten Dauer automatisch gelöscht wird.'
+  params:
+    - desc: 'Die ID der zu aktualisierenden Rollenbegrüßung, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Die Dauer in Sekunden, nach der die Begrüßungsnachricht gelöscht wird.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_2:
+  args:
+    - number number
+  desc: 'Aktualisiert eine Rollenbegrüßungsnachricht, sodass sie nach einer bestimmten Dauer automatisch gelöscht wird.'
+  params:
+    - desc: 'Die ID der zu aktualisierenden Rollenbegrüßung, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Die Dauer in Sekunden, nach der die Begrüßungsnachricht gelöscht wird.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_3:
+  args:
+    - number number
+  desc: 'Aktualisiert eine Rollenbegrüßungsnachricht, sodass sie nach einer bestimmten Dauer automatisch gelöscht wird.'
+  params:
+    - desc: 'Die ID der zu aktualisierenden Rollenbegrüßung, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Die Dauer in Sekunden, nach der die Begrüßungsnachricht gelöscht wird.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdisable:
+  args:
+    - number true|false
+  desc: 'Aktiviert oder deaktiviert eine Rollenbegrüßungsnachricht.'
+  params:
+    - &ref_451
+      desc: 'Die ID der zu aktualisierenden Rollenbegrüßung, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: num
+      optional: false
+      type: int
+    - &ref_452
+      desc: 'Ob die Begrüßungsnachricht aktiviert oder deaktiviert werden soll.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool:
+  args:
+    - number true|false
+  desc: 'Aktiviert oder deaktiviert eine Rollenbegrüßungsnachricht.'
+  params:
+    - desc: 'Die ID der zu aktualisierenden Rollenbegrüßung, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Ob die Begrüßungsnachricht aktiviert oder deaktiviert werden soll.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Aktiviert oder deaktiviert eine Rollenbegrüßungsnachricht.'
+  params:
+    - desc: 'Die ID der zu aktualisierenden Rollenbegrüßung, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Ob die Begrüßungsnachricht aktiviert oder deaktiviert werden soll.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Aktiviert oder deaktiviert eine Rollenbegrüßungsnachricht.'
+  params:
+    - desc: 'Die ID der zu aktualisierenden Rollenbegrüßung, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Ob die Begrüßungsnachricht aktiviert oder deaktiviert werden soll.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots:
+  args:
+    - number true|false
+  desc: 'Aktiviert oder deaktiviert die Begrüßung von Bots durch eine bestimmte Rollenbegrüßung.'
+  params:
+    - desc: 'Die ID der zu aktualisierenden Rollenbegrüßung, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: num
+      optional: false
+      type: int
+    - &ref_453
+      desc: 'Ob die Bot-Begrüßung aktiviert oder deaktiviert werden soll.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool:
+  args:
+    - number true|false
+  desc: 'Aktiviert oder deaktiviert die Begrüßung von Bots durch eine bestimmte Rollenbegrüßung.'
+  params:
+    - desc: 'Die ID der zu aktualisierenden Rollenbegrüßung, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Ob die Bot-Begrüßung aktiviert oder deaktiviert werden soll.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Aktiviert oder deaktiviert die Begrüßung von Bots durch eine bestimmte Rollenbegrüßung.'
+  params:
+    - desc: 'Die ID der zu aktualisierenden Rollenbegrüßung, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Ob die Bot-Begrüßung aktiviert oder deaktiviert werden soll.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Aktiviert oder deaktiviert die Begrüßung von Bots durch eine bestimmte Rollenbegrüßung.'
+  params:
+    - desc: 'Die ID der zu aktualisierenden Rollenbegrüßung, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Ob die Bot-Begrüßung aktiviert oder deaktiviert werden soll.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetlist:
+  args:
+    - ''
+  desc: 'Listet alle im Server eingerichteten Rollenbegrüßungen auf und stellt detaillierte Informationen zu jeder bereit.'
+  params: [ ]
+rolegreetmessage:
+  args:
+    - '<id> [message]'
+    - number
+  desc: 'Aktualisiert den Nachrichteninhalt einer Rollenbegrüßung. Wenn keine Nachricht angegeben wird, werden Optionen zur Vorschau oder Anzeige als normaler Text angeboten.'
+  params:
+    - desc: 'Die ID der zu aktualisierenden Rollenbegrüßung, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der neue Nachrichteninhalt. Optional.'
+      name: message
+      optional: true
+      type: string
+rolegreetremove:
+  args:
+    - number
+  desc: Entfernt Rollenbegrüßungen, die der angegebenen Rollen-ID zugeordnet sind
+  params:
+    - &ref_454
+      desc: Entfernt Rollenbegrüßungen, die der angegebenen Rollen-ID zugeordnet sind
+      name: id
+      optional: false
+      type: int
+rolegreetremove_IRole:
+  args:
+    - '@role'
+  desc: Entfernt Rollenbegrüßungen, die der angegebenen Rollen-ID zugeordnet sind
+  params:
+    - desc: 'Die Rolle, für die Rollenbegrüßungen gelöscht werden sollen.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_1:
+  args:
+    - '@role'
+  desc: Entfernt Rollenbegrüßungen, die der angegebenen Rollen-ID zugeordnet sind
+  params:
+    - desc: 'Die Rolle, für die Rollenbegrüßungen gelöscht werden sollen.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_2:
+  args:
+    - '@role'
+  desc: Entfernt Rollenbegrüßungen, die der angegebenen Rollen-ID zugeordnet sind
+  params:
+    - desc: 'Die Rolle, für die Rollenbegrüßungen gelöscht werden sollen.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_3:
+  args:
+    - '@role'
+  desc: Entfernt Rollenbegrüßungen, die der angegebenen Rollen-ID zugeordnet sind
+  params:
+    - desc: 'Die Rolle, für die Rollenbegrüßungen gelöscht werden sollen.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_int:
+  args:
+    - number
+  desc: Entfernt Rollenbegrüßungen, die der angegebenen Rollen-ID zugeordnet sind
+  params:
+    - desc: Entfernt Rollenbegrüßungen, die der angegebenen Rollen-ID zugeordnet sind
+      name: id
+      optional: false
+      type: int
+rolegreetremove_int_1:
+  args:
+    - number
+  desc: Entfernt Rollenbegrüßungen, die der angegebenen Rollen-ID zugeordnet sind
+  params:
+    - desc: Entfernt Rollenbegrüßungen, die der angegebenen Rollen-ID zugeordnet sind
+      name: id
+      optional: false
+      type: int
+rolegreetremove_int_2:
+  args:
+    - number
+  desc: Entfernt Rollenbegrüßungen, die der angegebenen Rollen-ID zugeordnet sind
+  params:
+    - desc: Entfernt Rollenbegrüßungen, die der angegebenen Rollen-ID zugeordnet sind
+      name: id
+      optional: false
+      type: int
+rolegreetwebhook:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Konfiguriert einen Webhook für eine Rollenbegrüßungsnachricht mit benutzerdefiniertem Namen und Avatar. Wenn kein Name angegeben wird, wird der Webhook deaktiviert.'
+  params:
+    - desc: 'Die ID der Rollenbegrüßung, für die der Webhook konfiguriert werden soll, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der Name des Webhooks. Optional.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Die Avatar-URL für den Webhook. Optional.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Konfiguriert einen Webhook für eine Rollenbegrüßungsnachricht mit benutzerdefiniertem Namen und Avatar. Wenn kein Name angegeben wird, wird der Webhook deaktiviert.'
+  params:
+    - desc: 'Die ID der Rollenbegrüßung, für die der Webhook konfiguriert werden soll, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der Name des Webhooks. Optional.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Die Avatar-URL für den Webhook. Optional.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=_1:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Konfiguriert einen Webhook für eine Rollenbegrüßungsnachricht mit benutzerdefiniertem Namen und Avatar. Wenn kein Name angegeben wird, wird der Webhook deaktiviert.'
+  params:
+    - desc: 'Die ID der Rollenbegrüßung, für die der Webhook konfiguriert werden soll, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der Name des Webhooks. Optional.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Die Avatar-URL für den Webhook. Optional.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=_2:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Konfiguriert einen Webhook für eine Rollenbegrüßungsnachricht mit benutzerdefiniertem Namen und Avatar. Wenn kein Name angegeben wird, wird der Webhook deaktiviert.'
+  params:
+    - desc: 'Die ID der Rollenbegrüßung, für die der Webhook konfiguriert werden soll, basierend auf ihrer Position in der Liste aller Rollenbegrüßungen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Der Name des Webhooks. Optional.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Die Avatar-URL für den Webhook. Optional.'
+      name: avatar
+      optional: true
+      type: string

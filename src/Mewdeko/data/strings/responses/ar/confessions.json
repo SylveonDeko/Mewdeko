@@ -1,0 +1,22 @@
+{
+  "confessions_blacklisted": "أنت محظور من الاعترافات في ذلك السيرفر!",
+  "confessions_blacklisted_added": "تمت إضافة {0} إلى قائمة الحظر للاعترافات!!",
+  "confessions_blacklisted_already": "هذا المستخدم محظور بالفعل!",
+  "confessions_blacklisted_not": "هذا المستخدم ليس محظوراً!",
+  "confessions_blacklisted_removed": "تمت إزالة {0} من قائمة الحظر للاعترافات!!",
+  "confessions_channel_set": "تم ضبط {0} كقناة الاعترافات!",
+  "confessions_disabled": "الاعترافات معطلة",
+  "confessions_invalid_id": "المعرف الذي قدمته غير صالح!",
+  "confessions_invalid_perms": "ليس لدي الصلاحيات الكافية هناك! يرجى التأكد من تفعيل EmbedLinks وSendMessages في تلك القناة لي!",
+  "confessions_logging_disabled": "تم تعطيل تسجيل الاعترافات",
+  "confessions_missing_invite": "تعذر الحصول على دعوة بسبب نقص الصلاحيات أو عدم توفر دعوات.",
+  "confessions_none": "هذا السيرفر لا يملك الاعترافات مفعلة!",
+  "confessions_none_any": "أنت لست في أي سيرفر يملك اعترافاتي مفعلة!",
+  "confessions_report": "إبلاغ",
+  "confessions_report_received": "تم استلام تقرير إساءة الاعترافات",
+  "confessions_report_sent": "تم إرسال التقرير. إذا أردت الانضمام والإضافة إليه استخدم الرابط أدناه.",
+  "confessions_report_user": "الإبلاغ عن مستخدم",
+  "confessions_server_id": "معرف السيرفر",
+  "confessions_server_invite": "دعوة السيرفر",
+  "confessions_spleen": "تم ضبط {0} كقناة سجل الاعترافات. \n***ضع في اعتبارك أنني إذا وجدت أنك تسيء استخدام هذه الوظيفة، سأكتشف ذلك وأحظر هذا السيرفر."
+}

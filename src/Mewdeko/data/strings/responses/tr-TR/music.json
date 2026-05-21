@@ -1,0 +1,8 @@
+{
+  "autoplay_disabled": "Otomatik Oynatıcı devre dışı.",
+  "playlist_deleted": "Çalma listesi silindi.",
+  "playlist_saved": "Oynatma listesi kayıt edildi.",
+  "queue": "Sıra",
+  "queue_cleared": "Müzik sırası temizlendi.",
+  "volume_set": "Ses düzeyi {0}% olarak ayarlandı."
+}

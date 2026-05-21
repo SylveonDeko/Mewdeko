@@ -5019,3 +5019,38 @@ vcrolerm_ulong_2:
       name: vcId
       optional: false
       type: ulong
+timezones:
+  args:
+    - ''
+  desc: 'List all available time zones.'
+  params: [ ]
+antimasspost:
+  args:
+    - ''
+  desc: 'Disables the Anti-Mass-Post protection for the guild, or with arguments configures it.'
+  params: [ ]
+antipostchannel:
+  args:
+    - ''
+  desc: 'Disables the Anti-Post-Channel protection for the guild, or with arguments configures it.'
+  params: [ ]
+antipostchanneladd:
+  args:
+    - '<channel>'
+    - channel
+  desc: 'Adds a honeypot channel to the Anti-Post-Channel protection.'
+  params:
+    - desc: 'The text channel to add as a honeypot.'
+      name: channel
+      optional: false
+      type: ITextChannel
+antipostchannelremove:
+  args:
+    - '<channel>'
+    - channel
+  desc: 'Removes a honeypot channel from the Anti-Post-Channel protection.'
+  params:
+    - desc: 'The text channel to remove from honeypot tracking.'
+      name: channel
+      optional: false
+      type: ITextChannel

@@ -1,0 +1,326 @@
+todoadd:
+  args:
+    - listId
+    - title
+    - description
+  desc: '指定したリストに新しいタスクアイテムを追加します'
+  params:
+    - desc: 'タスクリストのID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'タスクアイテムのタイトル。'
+      name: title
+      optional: false
+      type: string
+    - desc: 'アイテムの任意の説明。'
+      name: description
+      optional: true
+      type: string
+todoaddpriority:
+  args:
+    - listId
+    - priority
+    - title
+    - description
+  desc: '優先度と任意の期限を持つタスクアイテムを追加します'
+  params:
+    - desc: 'タスクリストのID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '優先度レベル (1=低, 2=中, 3=高, 4=重要)。'
+      name: priority
+      optional: false
+      type: int
+    - desc: 'タスクアイテムのタイトル。'
+      name: title
+      optional: false
+      type: string
+    - desc: 'アイテムの任意の説明。'
+      name: description
+      optional: true
+      type: string
+todoaddtag:
+  args:
+    - itemId
+    - tag
+  desc: 'タスクアイテムにタグを追加します'
+  params:
+    - desc: 'タスクアイテムのID。'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '追加するタグ。'
+      name: tag
+      optional: false
+      type: string
+todocleardue:
+  args:
+    - itemId
+  desc: 'タスクアイテムの期限を削除します'
+  params:
+    - desc: 'タスクアイテムのID。'
+      name: itemId
+      optional: false
+      type: int
+todoclearreminder:
+  args:
+    - itemId
+  desc: 'タスクアイテムのリマインダーを削除します'
+  params:
+    - desc: 'タスクアイテムのID。'
+      name: itemId
+      optional: false
+      type: int
+todocomplete:
+  args:
+    - itemId
+  desc: 'タスクアイテムを完了としてマークします'
+  params:
+    - desc: 'タスクアイテムのID。'
+      name: itemId
+      optional: false
+      type: int
+todocreatelist:
+  args:
+    - name
+    - description
+  desc: '新しいタスクリストを作成します'
+  params:
+    - desc: 'タスクリストの名前。'
+      name: name
+      optional: false
+      type: string
+    - desc: 'リストの任意の説明。'
+      name: description
+      optional: true
+      type: string
+todocreateserverlist:
+  args:
+    - name
+    - description
+  desc: '新しいサーバー全体のタスクリストを作成します (管理者専用)'
+  params:
+    - desc: 'サーバータスクリストの名前。'
+      name: name
+      optional: false
+      type: string
+    - desc: 'リストの任意の説明。'
+      name: description
+      optional: true
+      type: string
+tododelete:
+  args:
+    - itemId
+  desc: 'タスクアイテムを削除します'
+  params:
+    - desc: 'タスクアイテムのID。'
+      name: itemId
+      optional: false
+      type: int
+tododeletelist:
+  args:
+    - listId
+  desc: 'タスクリスト全体を削除します'
+  params:
+    - desc: 'タスクリストのID。'
+      name: listId
+      optional: false
+      type: int
+todoedit:
+  args:
+    - itemId
+    - title
+    - description
+  desc: 'タスクアイテムのタイトルと説明を編集します'
+  params:
+    - desc: 'タスクアイテムのID。'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '新しいタイトル。'
+      name: title
+      optional: false
+      type: string
+    - desc: '新しい説明。'
+      name: description
+      optional: true
+      type: string
+todofilter:
+  args:
+    - listId
+    - filter
+    - value
+  desc: 'タグまたは優先度でタスクアイテムをフィルタリングします'
+  params:
+    - desc: 'タスクリストのID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'フィルタータイプ (タグまたは優先度)。'
+      name: filter
+      optional: false
+      type: string
+    - desc: 'フィルタリングする値。'
+      name: value
+      optional: true
+      type: string
+todogrant:
+  args:
+    - listId
+    - '@user'
+    - permissions
+  desc: 'タスクリストのユーザーに権限を付与します (リストオーナー/管理者専用)'
+  params:
+    - desc: 'タスクリストのID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '権限を付与するユーザー。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'カンマ区切りの権限 (view,add,edit,complete,delete,manage,all)。'
+      name: permissions
+      optional: false
+      type: string
+todolists:
+  args:
+    - includeServer
+  desc: 'ユーザーがアクセスできるすべてのタスクリストを一覧表示します'
+  params:
+    - desc: 'サーバー全体のリストを含めるかどうか。'
+      name: includeServer
+      optional: true
+      type: bool
+todopermissions:
+  args:
+    - listId
+  desc: 'タスクリストのすべての権限を表示します'
+  params:
+    - desc: 'タスクリストのID。'
+      name: listId
+      optional: false
+      type: int
+todoremovetag:
+  args:
+    - itemId
+    - tag
+  desc: 'タスクアイテムからタグを削除します'
+  params:
+    - desc: 'タスクアイテムのID。'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '削除するタグ。'
+      name: tag
+      optional: false
+      type: string
+todoreorder:
+  args:
+    - itemId
+    - newPosition
+  desc: 'タスクアイテムを新しい位置に並び替えます'
+  params:
+    - desc: 'タスクアイテムのID。'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '新しい位置 (1始まり)。'
+      name: newPosition
+      optional: false
+      type: int
+todorevoke:
+  args:
+    - listId
+    - '@user'
+  desc: 'タスクリストに対するユーザーのすべての権限を取り消します'
+  params:
+    - desc: 'タスクリストのID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '権限を取り消すユーザー。'
+      name: user
+      optional: false
+      type: IUser
+todosearch:
+  args:
+    - listId
+    - query
+  desc: 'リスト内のタスクアイテムを検索します'
+  params:
+    - desc: 'タスクリストのID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '検索クエリ。'
+      name: query
+      optional: false
+      type: string
+todosetcolor:
+  args:
+    - listId
+    - color
+  desc: 'タスクリストの色を設定します'
+  params:
+    - desc: 'タスクリストのID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '16進数カラーコード (例:'
+      name: color
+      optional: false
+      type: string
+todosetdue:
+  args:
+    - itemId
+    - dateString
+  desc: 'タスクアイテムの期限を設定します'
+  params:
+    - desc: 'タスクアイテムのID。'
+      name: itemId
+      optional: false
+      type: int
+    - desc: '期限の日時。'
+      name: dateString
+      optional: false
+      type: string
+todosetreminder:
+  args:
+    - itemId
+    - dateString
+  desc: 'タスクアイテムのリマインダー時間を設定します'
+  params:
+    - desc: 'タスクアイテムのID。'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'リマインダーの日時。'
+      name: dateString
+      optional: false
+      type: string
+todoshow:
+  args:
+    - listId
+    - includeCompleted
+  desc: 'タスクリストのすべてのアイテムを表示します'
+  params:
+    - desc: 'タスクリストのID。'
+      name: listId
+      optional: false
+      type: int
+    - desc: '完了したアイテムを含めるかどうか。'
+      name: includeCompleted
+      optional: true
+      type: bool
+todotoggleprivacy:
+  args:
+    - listId
+  desc: 'タスクリストのプライバシー設定を切り替えます'
+  params:
+    - desc: 'タスクリストのID。'
+      name: listId
+      optional: false
+      type: int

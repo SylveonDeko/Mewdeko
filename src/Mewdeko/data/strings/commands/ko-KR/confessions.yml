@@ -1,0 +1,156 @@
+confess:
+  args:
+    - serverid text
+  desc: '사용자가 익명으로 고백할 수 있도록 합니다.'
+  params:
+    - &ref_139
+      desc: '서버의 ID입니다.'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: '고백 메시지'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: '사용자가 익명으로 고백할 수 있도록 합니다.'
+  params:
+    - desc: '서버의 ID입니다.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: '고백 메시지'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: '사용자가 익명으로 고백할 수 있도록 합니다.'
+  params:
+    - desc: '서버의 ID입니다.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: '고백 메시지'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: '사용자가 익명으로 고백할 수 있도록 합니다.'
+  params:
+    - desc: '서버의 ID입니다.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: '고백 메시지'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: '사용자를 고백 블랙리스트에 추가합니다.'
+  params:
+    - desc: '고백에서 블랙리스트할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: '고백 채널을 설정합니다.'
+  params:
+    - desc: '고백을 위해 설정할 채널입니다.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: '사용자를 고백 블랙리스트에 추가하거나 제거합니다.'
+  params:
+    - &ref_141
+      desc: '블랙리스트에 추가하거나 제거할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: '사용자를 고백 블랙리스트에 추가하거나 제거합니다.'
+  params:
+    - &ref_142
+      desc: '블랙리스트에 추가하거나 제거할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: '사용자를 고백 블랙리스트에 추가하거나 제거합니다.'
+  params:
+    - desc: '블랙리스트에 추가하거나 제거할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: '사용자를 고백 블랙리스트에 추가하거나 제거합니다.'
+  params:
+    - desc: '블랙리스트에 추가하거나 제거할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: '익명 고백을 위한 고백 채널을 설정합니다.'
+  params:
+    - desc: '고백 채널 (선택사항).'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    고백을 기록하기 위한 고백 로그 채널을 설정합니다. 이 기능을 오용하면 제가 당신 집에서 2m 떨어진 곳에 있게 됩니다.
+  params:
+    - desc: '고백 로그 채널 (선택사항).'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: '사용자를 고백 블랙리스트에서 제거합니다.'
+  params:
+    - desc: '블랙리스트에서 제거할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: '고백 로그 채널을 설정합니다.'
+  params:
+    - desc: '고백을 기록할 채널입니다.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: '사용자를 고백 블랙리스트에서 제거합니다.'
+  params:
+    - desc: '고백에서 블랙리스트 해제할 사용자입니다.'
+      name: user
+      optional: false
+      type: IUser

@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'Перемикає оголошення про дні народження для користувача.'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'Встановлює канал оголошень про дні народження.'
+  params:
+    - desc: >-
+        Текстовий канал для оголошень. За замовчуванням поточний канал,
+        якщо не вказано.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'Переглядає поточну конфігурацію днів народження.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'Показує майбутні дні народження на сервері.'
+  params:
+    - desc: На скільки днів вперед дивитись. За замовчуванням 7, максимум 30.
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'Встановлює власний шаблон повідомлення про день народження.'
+  params:
+    - desc: >-
+        Шаблон повідомлення. Використовуйте {user} для згадування
+        користувача. Показує поточне повідомлення, якщо залишити порожнім.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'Встановлює роль для пінгування при оголошенні днів народження.'
+  params:
+    - desc: Роль для пінгування. Не вказуйте роль для вимкнення.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'Встановлює роль дня народження, яку користувачі отримують у свій день народження.'
+  params:
+    - desc: Роль для призначення в день народження користувача. Не вказуйте роль для вимкнення.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'Встановлює часовий пояс користувача для розрахунків днів народження.'
+  params:
+    - desc: Часовий пояс для встановлення (напр. "America/New_York").
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'Показує сьогоднішні дні народження.'
+  params: [ ]

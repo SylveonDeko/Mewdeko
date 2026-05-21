@@ -1,0 +1,81 @@
+highlight:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: '添加、列出、移除或匹配关键词高亮。'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: '所选操作的参数'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: '添加、列出、移除或匹配关键词高亮。'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: '所选操作的参数'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_1:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: '添加、列出、移除或匹配关键词高亮。'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: '所选操作的参数'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_2:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: '添加、列出、移除或匹配关键词高亮。'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: '所选操作的参数'
+      name: words
+      optional: true
+      type: string
+highlights:
+  args:
+    - action word
+  desc: 管理用户的关键词高亮。
+  params:
+    - desc: 要对关键词高亮执行的操作。
+      name: action
+      optional: false
+      type: string
+    - desc: 要高亮的单词。
+      name: word
+      optional: true
+      type: string

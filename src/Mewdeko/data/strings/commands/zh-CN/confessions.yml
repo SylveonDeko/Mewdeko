@@ -1,0 +1,156 @@
+confess:
+  args:
+    - serverid text
+  desc: '允许用户匿名告白。'
+  params:
+    - &ref_139
+      desc: '服务器的ID。'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: '告白消息'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: '允许用户匿名告白。'
+  params:
+    - desc: '服务器的ID。'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: '告白消息'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: '允许用户匿名告白。'
+  params:
+    - desc: '服务器的ID。'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: '告白消息'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: '允许用户匿名告白。'
+  params:
+    - desc: '服务器的ID。'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: '告白消息'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: '将用户添加到告白黑名单。'
+  params:
+    - desc: '要加入告白黑名单的用户。'
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: '设置告白频道。'
+  params:
+    - desc: '要设置为告白的频道。'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: '从告白黑名单中添加或删除用户。'
+  params:
+    - &ref_141
+      desc: '要添加或从黑名单中删除的用户。'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: '从告白黑名单中添加或删除用户。'
+  params:
+    - &ref_142
+      desc: '要添加或从黑名单中删除的用户。'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: '从告白黑名单中添加或删除用户。'
+  params:
+    - desc: '要添加或从黑名单中删除的用户。'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: '从告白黑名单中添加或删除用户。'
+  params:
+    - desc: '要添加或从黑名单中删除的用户。'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: '为匿名告白设置告白频道。'
+  params:
+    - desc: '告白频道（可选）。'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    设置用于记录告白的告白日志频道。滥用此功能将导致我出现在距你家2米的地方。
+  params:
+    - desc: '告白日志频道（可选）。'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: '从告白黑名单中删除用户。'
+  params:
+    - desc: '要从黑名单中删除的用户。'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: '设置告白日志频道。'
+  params:
+    - desc: '用于记录告白的频道。'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: '从告白黑名单中删除用户。'
+  params:
+    - desc: '要从告白黑名单中解除的用户。'
+      name: user
+      optional: false
+      type: IUser

@@ -1,0 +1,135 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'Ayrıntılı Patreon analizlerini gösterir.'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'Manuel olarak bir Patreon duyurusu tetikler.'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Patreon duyuru kanalını ayarlar veya gösterir.
+  params:
+    - desc: >-
+        Patreon duyuruları için ayarlanacak kanal. null ise mevcut kanalı gösterir.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'Bu sunucu için mevcut Patreon yapılandırmasını gösterir.'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Patreon duyuruları için ayın gününü ayarlar.'
+  params:
+    - desc: >-
+        Duyurular için ayın günü (1-28). null ise mevcut günü gösterir.
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'Bu sunucu için Patreon duyurularını devre dışı bırakır.'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Patreon modül bilgilerini ve kullanılabilir yer tutucuları gösterir.'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Bir Discord kullanıcısını Patreon destekçisine bağlar.'
+  params:
+    - desc: Bağlanacak Discord kullanıcısı.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: Bağlanacak Patreon kullanıcı ID''si.
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Patreon duyuruları için özel bir mesaj ayarlar.
+  params:
+    - desc: >-
+        Özel mesaj. %server.name%, %month% gibi yer tutucular kullanın.
+        Varsayılana sıfırlamak için "-" kullanın.
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'Yeni destekçiler için tanıma mesajları gönderir.'
+  params:
+    - desc: Tanıma mesajları gönderilecek kanal.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Patreon kademe-rol eşlemelerini listeler.'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'Otomatik rol senkronizasyonunu açar/kapatır.'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Patreon destekçi istatistiklerini gösterir.'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'Aktif Patreon destekçilerini listeler.'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'Patreon OAuth entegrasyonunu güvenli şekilde ayarlar.'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'Bağlı tüm destekçiler için rolleri senkronize eder.'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Bir Patreon kademesini Discord rolüne eşler.'
+  params:
+    - desc: Patreon kademe ID''si.
+      name: tierId
+      optional: false
+      type: string
+    - desc: Kademeyle eşlenecek Discord rolü.
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Patreon duyurularını açar veya kapatır.'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'En iyi Patreon destekçilerini gösterir.'
+  params:
+    - desc: Gösterilecek en iyi destekçi sayısı (1-20).
+      name: count
+      optional: true
+      type: int

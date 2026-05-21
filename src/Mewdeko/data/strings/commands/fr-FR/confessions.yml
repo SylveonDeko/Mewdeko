@@ -1,0 +1,157 @@
+confess:
+  args:
+    - serverid text
+  desc: 'Permet aux utilisateurs de se confesser anonymement.'
+  params:
+    - &ref_139
+      desc: 'L''ID du serveur.'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: 'Le message de confession'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: 'Permet aux utilisateurs de se confesser anonymement.'
+  params:
+    - desc: 'L''ID du serveur.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Le message de confession'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: 'Permet aux utilisateurs de se confesser anonymement.'
+  params:
+    - desc: 'L''ID du serveur.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Le message de confession'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: 'Permet aux utilisateurs de se confesser anonymement.'
+  params:
+    - desc: 'L''ID du serveur.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Le message de confession'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: 'Ajoute un utilisateur à la liste noire des confessions.'
+  params:
+    - desc: 'L''utilisateur à mettre sur la liste noire des confessions.'
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: 'Définit le canal des confessions.'
+  params:
+    - desc: 'Le canal à définir pour les confessions.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: 'Ajoute ou retire un utilisateur de la liste noire des confessions.'
+  params:
+    - &ref_141
+      desc: 'L''utilisateur à ajouter ou retirer de la liste noire.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: 'Ajoute ou retire un utilisateur de la liste noire des confessions.'
+  params:
+    - &ref_142
+      desc: 'L''utilisateur à ajouter ou retirer de la liste noire.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: 'Ajoute ou retire un utilisateur de la liste noire des confessions.'
+  params:
+    - desc: 'L''utilisateur à ajouter ou retirer de la liste noire.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: 'Ajoute ou retire un utilisateur de la liste noire des confessions.'
+  params:
+    - desc: 'L''utilisateur à ajouter ou retirer de la liste noire.'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: 'Définit le canal des confessions pour les confessions anonymes.'
+  params:
+    - desc: 'Le canal des confessions (optionnel).'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    Définit le canal de journalisation des confessions. Un mauvais usage de
+    cette fonctionnalité finira par moi à 2m de chez toi.
+  params:
+    - desc: 'Le canal de journalisation des confessions (optionnel).'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: 'Retire un utilisateur de la liste noire des confessions.'
+  params:
+    - desc: 'L''utilisateur à retirer de la liste noire.'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: 'Définit le canal de journalisation des confessions.'
+  params:
+    - desc: 'Le canal où journaliser les confessions.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: 'Retire un utilisateur de la liste noire des confessions.'
+  params:
+    - desc: 'L''utilisateur à retirer de la liste noire des confessions.'
+      name: user
+      optional: false
+      type: IUser

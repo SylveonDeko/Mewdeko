@@ -1,0 +1,18 @@
+{
+  "rolegreet_confirm_removed": "RoleGreets Verwijderd!",
+  "rolegreet_webhook_disabled": "Webhook Uitgeschakeld voor RoleGreet #{0}!",
+  "rolegreet_add_success": "Toegevoegd {0} naar greet in {1}!",
+  "rolegreet_button_preview": "Preview",
+  "rolegreet_button_regular": "Regular",
+  "rolegreet_confirm_remove": "zijn je sure je want naar remove allemaal RoleGreets voor this Rol?",
+  "rolegreet_delete_disabled": "RoleGreet #{0} zal geen longer delete",
+  "rolegreet_delete_success": "Met succes Bijgewerkt RoleGreet #{0} naar delete after {1}",
+  "rolegreet_disable_status": "RoleGreet {0} set naar {1}",
+  "rolegreet_greetbots_set": "RoleGreet {0} GreetBots set naar {1}",
+  "rolegreet_max_limit": "Seems like je hebben reached je max of 10 RoleGreets! Please remove one naar add another one.",
+  "rolegreet_message_preview_prompt": "Would je like naar view this as regular text of would je like naar preview how it actually looks?",
+  "rolegreet_message_set": "RoleGreet Bericht voor RoleGreet #{0} set!",
+  "rolegreet_no_delete": "RoleGreet #{0} zal geen longer delete.",
+  "rolegreet_no_greets_for_role": "There zijn geen greets voor that Rol!",
+  "rolegreet_webhook_invalid_avatar": "de avatar url used is not een direct url of is Ongeldig! Please use een different url."
+}

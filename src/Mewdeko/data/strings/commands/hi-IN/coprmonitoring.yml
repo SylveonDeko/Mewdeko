@@ -1,0 +1,168 @@
+coprmonitoradd:
+  args:
+    - '<ownerProject> [channel] [packages]'
+    - '<ownerProject> [channel] [packages]'
+    - ownerProject
+  desc: 'सर्वर में COPR प्रोजेक्ट मॉनिटर जोड़ता है।'
+  params:
+    - desc: 'COPR प्रोजेक्ट owner/project फॉर्मेट में (जैसे linux4switch/l4s)।'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'सूचनाओं के लिए वैकल्पिक चैनल। डिफ़ॉल्ट वर्तमान चैनल है।'
+      name: channel
+      optional: true
+      type: ITextChannel
+    - desc: 'मॉनिटर करने के लिए पैकेजों की वैकल्पिक कॉमा-अलग सूची (जैसे mesa,kernel)।'
+      name: packages
+      optional: true
+      type: string
+coprmonitorremove:
+  args:
+    - '<ownerProject> [channel]'
+    - ownerProject
+  desc: 'सर्वर से COPR प्रोजेक्ट मॉनिटर हटाता है।'
+  params:
+    - desc: 'COPR प्रोजेक्ट owner/project फॉर्मेट में।'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'किसी विशिष्ट मॉनिटर को हटाने के लिए वैकल्पिक चैनल।'
+      name: channel
+      optional: true
+      type: ITextChannel
+coprmonitorlist:
+  args:
+    - ''
+  desc: 'सर्वर में कॉन्फ़िगर किए गए सभी COPR मॉनिटर सूचीबद्ध करता है।'
+  params: [ ]
+coprmonitortoggle:
+  args:
+    - ownerProject
+  desc: 'COPR मॉनिटर को चालू या बंद करता है।'
+  params:
+    - desc: 'COPR प्रोजेक्ट owner/project फॉर्मेट में।'
+      name: ownerProject
+      optional: false
+      type: string
+coprnotify:
+  args:
+    - ownerProject status enabled
+  desc: 'कॉन्फ़िगर करता है कि कौन से बिल्ड स्टेटस मॉनिटर के लिए सूचनाएं ट्रिगर करते हैं।'
+  params:
+    - desc: 'COPR प्रोजेक्ट owner/project फॉर्मेट में।'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'कॉन्फ़िगर करने के लिए बिल्ड स्टेटस।'
+      name: status
+      optional: false
+      type: CoprBuildStatus
+    - desc: 'इस स्टेटस के लिए सूचनाएं सक्षम या अक्षम करें।'
+      name: enabled
+      optional: false
+      type: bool
+coprfilter:
+  args:
+    - ownerProject text
+  desc: 'COPR मॉनिटर के लिए पैकेज फ़िल्टर सेट करता है।'
+  params:
+    - desc: 'COPR प्रोजेक्ट owner/project फॉर्मेट में।'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'कॉमा-अलग पैकेजों की सूची, या सब कुछ मॉनिटर करने के लिए "all"।'
+      name: packages
+      optional: false
+      type: string
+coprsucceededmessage:
+  args:
+    - ownerProject text
+  desc: 'COPR बिल्ड सफल होने पर प्रदर्शित संदेश सेट करता है।'
+  params:
+    - desc: 'COPR प्रोजेक्ट owner/project फॉर्मेट में।'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'संदेश या embed कोड। डिफ़ॉल्ट पर रीसेट करने के लिए "-" उपयोग करें।'
+      name: message
+      optional: false
+      type: string
+coprfailedmessage:
+  args:
+    - ownerProject text
+  desc: 'COPR बिल्ड विफल होने पर प्रदर्शित संदेश सेट करता है।'
+  params:
+    - desc: 'COPR प्रोजेक्ट owner/project फॉर्मेट में।'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'संदेश या embed कोड। डिफ़ॉल्ट पर रीसेट करने के लिए "-" उपयोग करें।'
+      name: message
+      optional: false
+      type: string
+coprcanceledmessage:
+  args:
+    - ownerProject text
+  desc: 'COPR बिल्ड रद्द होने पर प्रदर्शित संदेश सेट करता है।'
+  params:
+    - desc: 'COPR प्रोजेक्ट owner/project फॉर्मेट में।'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'संदेश या embed कोड। डिफ़ॉल्ट पर रीसेट करने के लिए "-" उपयोग करें।'
+      name: message
+      optional: false
+      type: string
+coprpendingmessage:
+  args:
+    - ownerProject text
+  desc: 'COPR बिल्ड लंबित होने पर प्रदर्शित संदेश सेट करता है।'
+  params:
+    - desc: 'COPR प्रोजेक्ट owner/project फॉर्मेट में।'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'संदेश या embed कोड। डिफ़ॉल्ट पर रीसेट करने के लिए "-" उपयोग करें।'
+      name: message
+      optional: false
+      type: string
+coprrunningmessage:
+  args:
+    - ownerProject text
+  desc: 'COPR बिल्ड चल रहा होने पर प्रदर्शित संदेश सेट करता है।'
+  params:
+    - desc: 'COPR प्रोजेक्ट owner/project फॉर्मेट में।'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'संदेश या embed कोड। डिफ़ॉल्ट पर रीसेट करने के लिए "-" उपयोग करें।'
+      name: message
+      optional: false
+      type: string
+coprskippedmessage:
+  args:
+    - ownerProject text
+  desc: 'COPR बिल्ड छोड़े जाने पर प्रदर्शित संदेश सेट करता है।'
+  params:
+    - desc: 'COPR प्रोजेक्ट owner/project फॉर्मेट में।'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'संदेश या embed कोड। डिफ़ॉल्ट पर रीसेट करने के लिए "-" उपयोग करें।'
+      name: message
+      optional: false
+      type: string
+coprdefaultmessage:
+  args:
+    - ownerProject text
+  desc: 'अन्य सभी बिल्ड स्टेटस के लिए डिफ़ॉल्ट संदेश सेट करता है।'
+  params:
+    - desc: 'COPR प्रोजेक्ट owner/project फॉर्मेट में।'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'संदेश या embed कोड। डिफ़ॉल्ट पर रीसेट करने के लिए "-" उपयोग करें।'
+      name: message
+      optional: false
+      type: string

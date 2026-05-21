@@ -1,0 +1,22 @@
+{
+  "owner": "Владелец",
+  "owner_ids": "ID владельца",
+  "eval_compiling": "Evaluating...",
+  "eval_no_code": "No code provided. Please include code within code blocks or attach a .cs file",
+  "eval_output_blank": "The output was blank",
+  "eval_read_error": "Failed to read the attached file: {0}",
+  "eval_too_large": "The attached file is too large. Please ensure it's under 100 KB",
+  "instance_added": "Instance Added",
+  "instance_command_count": "Commands Count: {0}",
+  "instance_modules_count": "Modules Count: {0}",
+  "instance_not_added": "Failed to add instance: {0}",
+  "instance_not_found": "Instance with port {0} not found. Please try again.",
+  "instance_offline": "Instance is offline",
+  "instance_removed": "Successfully removed instance on port {0}",
+  "instance_status": "Instance Status",
+  "instance_user_count": "User Count {0}",
+  "instance_version": "Instance Version: {0}",
+  "owner_config_error": "There was an error setting or printing the config, please check the logs.",
+  "owner_setting_title": "⚙️ {0}",
+  "user_stats": "User Statistics"
+}

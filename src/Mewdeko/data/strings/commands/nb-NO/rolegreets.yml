@@ -1,0 +1,434 @@
+rolegreetadd:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Legger til en ny rollehilsenmelding for en spesifisert rolle. Hvis ingen kanal er angitt, brukes gjeldende kanal.'
+  params:
+    - desc: 'Rollen hilsenmeldingen settes for.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Tekstkanalen hilsenmeldingen sendes til. Valgfritt.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Legger til en ny rollehilsenmelding for en spesifisert rolle. Hvis ingen kanal er angitt, brukes gjeldende kanal.'
+  params:
+    - desc: 'Rollen hilsenmeldingen settes for.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Tekstkanalen hilsenmeldingen sendes til. Valgfritt.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=_1:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Legger til en ny rollehilsenmelding for en spesifisert rolle. Hvis ingen kanal er angitt, brukes gjeldende kanal.'
+  params:
+    - desc: 'Rollen hilsenmeldingen settes for.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Tekstkanalen hilsenmeldingen sendes til. Valgfritt.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=_2:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Legger til en ny rollehilsenmelding for en spesifisert rolle. Hvis ingen kanal er angitt, brukes gjeldende kanal.'
+  params:
+    - desc: 'Rollen hilsenmeldingen settes for.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Tekstkanalen hilsenmeldingen sendes til. Valgfritt.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetdelete:
+  args:
+    - number time
+  desc: 'Oppdaterer en rollehilsenmelding slik at den automatisk slettes etter en angitt varighet.'
+  params:
+    - &ref_448
+      desc: 'ID-en til rollehilsenen som skal oppdateres, basert på dens posisjon i listen over alle rollehilsener.'
+      name: id
+      optional: false
+      type: int
+    - &ref_450
+      desc: 'Oppdaterer en rollehilsenmelding slik at den automatisk slettes etter en angitt varighet.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime:
+  args:
+    - number time
+  desc: 'Oppdaterer en rollehilsenmelding slik at den automatisk slettes etter en angitt varighet.'
+  params:
+    - desc: 'ID-en til rollehilsenen som skal oppdateres, basert på dens posisjon i listen over alle rollehilsener.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Oppdaterer en rollehilsenmelding slik at den automatisk slettes etter en angitt varighet.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'Oppdaterer en rollehilsenmelding slik at den automatisk slettes etter en angitt varighet.'
+  params:
+    - desc: 'ID-en til rollehilsenen som skal oppdateres, basert på dens posisjon i listen over alle rollehilsener.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Oppdaterer en rollehilsenmelding slik at den automatisk slettes etter en angitt varighet.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'Oppdaterer en rollehilsenmelding slik at den automatisk slettes etter en angitt varighet.'
+  params:
+    - desc: 'ID-en til rollehilsenen som skal oppdateres, basert på dens posisjon i listen over alle rollehilsener.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Oppdaterer en rollehilsenmelding slik at den automatisk slettes etter en angitt varighet.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_int:
+  args:
+    - number number
+  desc: 'Oppdaterer en rollehilsenmelding slik at den automatisk slettes etter en angitt varighet.'
+  params:
+    - desc: 'ID-en til rollehilsenen som skal oppdateres, basert på dens posisjon i listen over alle rollehilsener.'
+      name: id
+      optional: false
+      type: int
+    - &ref_449
+      desc: 'Varigheten i sekunder etter hvilken hilsenmeldingen slettes.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_1:
+  args:
+    - number number
+  desc: 'Oppdaterer en rollehilsenmelding slik at den automatisk slettes etter en angitt varighet.'
+  params:
+    - desc: 'ID-en til rollehilsenen som skal oppdateres, basert på dens posisjon i listen over alle rollehilsener.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Varigheten i sekunder etter hvilken hilsenmeldingen slettes.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_2:
+  args:
+    - number number
+  desc: 'Oppdaterer en rollehilsenmelding slik at den automatisk slettes etter en angitt varighet.'
+  params:
+    - desc: 'ID-en til rollehilsenen som skal oppdateres, basert på dens posisjon i listen over alle rollehilsener.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Varigheten i sekunder etter hvilken hilsenmeldingen slettes.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_3:
+  args:
+    - number number
+  desc: 'Oppdaterer en rollehilsenmelding slik at den automatisk slettes etter en angitt varighet.'
+  params:
+    - desc: 'ID-en til rollehilsenen som skal oppdateres, basert på dens posisjon i listen over alle rollehilsener.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Varigheten i sekunder etter hvilken hilsenmeldingen slettes.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdisable:
+  args:
+    - number true|false
+  desc: 'Aktiverer eller deaktiverer en rollehilsenmelding.'
+  params:
+    - &ref_451
+      desc: 'ID-en til rollehilsenen som skal oppdateres, basert på dens posisjon i listen over alle rollehilsener.'
+      name: num
+      optional: false
+      type: int
+    - &ref_452
+      desc: 'Om hilsenmeldingen skal aktiveres eller deaktiveres.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool:
+  args:
+    - number true|false
+  desc: 'Aktiverer eller deaktiverer en rollehilsenmelding.'
+  params:
+    - desc: 'ID-en til rollehilsenen som skal oppdateres, basert på dens posisjon i listen over alle rollehilsener.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Om hilsenmeldingen skal aktiveres eller deaktiveres.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Aktiverer eller deaktiverer en rollehilsenmelding.'
+  params:
+    - desc: 'ID-en til rollehilsenen som skal oppdateres, basert på dens posisjon i listen over alle rollehilsener.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Om hilsenmeldingen skal aktiveres eller deaktiveres.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Aktiverer eller deaktiverer en rollehilsenmelding.'
+  params:
+    - desc: 'ID-en til rollehilsenen som skal oppdateres, basert på dens posisjon i listen over alle rollehilsener.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Om hilsenmeldingen skal aktiveres eller deaktiveres.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots:
+  args:
+    - number true|false
+  desc: 'Aktiverer eller deaktiverer hilsing av boter av en spesifikk rollehilsen.'
+  params:
+    - desc: 'ID-en til rollehilsenen som skal oppdateres, basert på dens posisjon i listen over alle rollehilsener.'
+      name: num
+      optional: false
+      type: int
+    - &ref_453
+      desc: 'Om hilsing av boter skal aktiveres eller deaktiveres.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool:
+  args:
+    - number true|false
+  desc: 'Aktiverer eller deaktiverer hilsing av boter av en spesifikk rollehilsen.'
+  params:
+    - desc: 'ID-en til rollehilsenen som skal oppdateres, basert på dens posisjon i listen over alle rollehilsener.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Om hilsing av boter skal aktiveres eller deaktiveres.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Aktiverer eller deaktiverer hilsing av boter av en spesifikk rollehilsen.'
+  params:
+    - desc: 'ID-en til rollehilsenen som skal oppdateres, basert på dens posisjon i listen over alle rollehilsener.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Om hilsing av boter skal aktiveres eller deaktiveres.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Aktiverer eller deaktiverer hilsing av boter av en spesifikk rollehilsen.'
+  params:
+    - desc: 'ID-en til rollehilsenen som skal oppdateres, basert på dens posisjon i listen over alle rollehilsener.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Om hilsing av boter skal aktiveres eller deaktiveres.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetlist:
+  args:
+    - ''
+  desc: 'Lister opp alle rollehilsener som er konfigurert på serveren, med detaljert informasjon om hver.'
+  params: [ ]
+rolegreetmessage:
+  args:
+    - '<id> [message]'
+    - number
+  desc: 'Oppdaterer meldingsinnholdet i en rollehilsen. Hvis ingen melding er angitt, presenteres alternativer for å forhåndsvise meldingen eller se den som vanlig tekst.'
+  params:
+    - desc: 'ID-en til rollehilsenen som skal oppdateres, basert på dens posisjon i listen over alle rollehilsener.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Det nye meldingsinnholdet. Valgfritt.'
+      name: message
+      optional: true
+      type: string
+rolegreetremove:
+  args:
+    - number
+  desc: Fjerner rollehilsener tilknyttet den angitte rolle-ID-en
+  params:
+    - &ref_454
+      desc: Fjerner rollehilsener tilknyttet den angitte rolle-ID-en
+      name: id
+      optional: false
+      type: int
+rolegreetremove_IRole:
+  args:
+    - '@role'
+  desc: Fjerner rollehilsener tilknyttet den angitte rolle-ID-en
+  params:
+    - desc: 'Rollen rollehilsenene slettes for.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_1:
+  args:
+    - '@role'
+  desc: Fjerner rollehilsener tilknyttet den angitte rolle-ID-en
+  params:
+    - desc: 'Rollen rollehilsenene slettes for.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_2:
+  args:
+    - '@role'
+  desc: Fjerner rollehilsener tilknyttet den angitte rolle-ID-en
+  params:
+    - desc: 'Rollen rollehilsenene slettes for.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_3:
+  args:
+    - '@role'
+  desc: Fjerner rollehilsener tilknyttet den angitte rolle-ID-en
+  params:
+    - desc: 'Rollen rollehilsenene slettes for.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_int:
+  args:
+    - number
+  desc: Fjerner rollehilsener tilknyttet den angitte rolle-ID-en
+  params:
+    - desc: Fjerner rollehilsener tilknyttet den angitte rolle-ID-en
+      name: id
+      optional: false
+      type: int
+rolegreetremove_int_1:
+  args:
+    - number
+  desc: Fjerner rollehilsener tilknyttet den angitte rolle-ID-en
+  params:
+    - desc: Fjerner rollehilsener tilknyttet den angitte rolle-ID-en
+      name: id
+      optional: false
+      type: int
+rolegreetremove_int_2:
+  args:
+    - number
+  desc: Fjerner rollehilsener tilknyttet den angitte rolle-ID-en
+  params:
+    - desc: Fjerner rollehilsener tilknyttet den angitte rolle-ID-en
+      name: id
+      optional: false
+      type: int
+rolegreetwebhook:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Konfigurerer en webhook for en rollehilsenmelding med tilpasset navn og avatar. Hvis ingen navn er angitt, deaktiveres webhooken.'
+  params:
+    - desc: 'ID-en til rollehilsenen webhooken skal konfigureres for, basert på dens posisjon i listen over alle rollehilsener.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Webhookens navn. Valgfritt.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Avatar-URL-en for webhooken. Valgfritt.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Konfigurerer en webhook for en rollehilsenmelding med tilpasset navn og avatar. Hvis ingen navn er angitt, deaktiveres webhooken.'
+  params:
+    - desc: 'ID-en til rollehilsenen webhooken skal konfigureres for, basert på dens posisjon i listen over alle rollehilsener.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Webhookens navn. Valgfritt.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Avatar-URL-en for webhooken. Valgfritt.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=_1:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Konfigurerer en webhook for en rollehilsenmelding med tilpasset navn og avatar. Hvis ingen navn er angitt, deaktiveres webhooken.'
+  params:
+    - desc: 'ID-en til rollehilsenen webhooken skal konfigureres for, basert på dens posisjon i listen over alle rollehilsener.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Webhookens navn. Valgfritt.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Avatar-URL-en for webhooken. Valgfritt.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=_2:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Konfigurerer en webhook for en rollehilsenmelding med tilpasset navn og avatar. Hvis ingen navn er angitt, deaktiveres webhooken.'
+  params:
+    - desc: 'ID-en til rollehilsenen webhooken skal konfigureres for, basert på dens posisjon i listen over alle rollehilsener.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Webhookens navn. Valgfritt.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Avatar-URL-en for webhooken. Valgfritt.'
+      name: avatar
+      optional: true
+      type: string

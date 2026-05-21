@@ -1,0 +1,384 @@
+multigreetadd:
+  args:
+    - '[@channel]'
+  desc: 'Agrega un canal MultiSaludo.'
+  params:
+    - desc: 'El canal a agregar'
+      name: channel
+      optional: true
+      type: channel
+multigreetdelete:
+  args:
+    - number time
+  desc: 'Cambia el tiempo de eliminacion de un mensaje MultiSaludo en segundos.'
+  params:
+    - &ref_303
+      desc: 'El ID del MultiSaludo a cambiar'
+      name: id
+      optional: false
+      type: int
+    - &ref_305
+      desc: 'Cambia el tiempo de eliminacion de un mensaje MultiSaludo en segundos.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime:
+  args:
+    - number time
+  desc: 'Cambia el tiempo de eliminacion de un mensaje MultiSaludo en segundos.'
+  params:
+    - desc: 'El ID del MultiSaludo a cambiar'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Cambia el tiempo de eliminacion de un mensaje MultiSaludo en segundos.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'Cambia el tiempo de eliminacion de un mensaje MultiSaludo en segundos.'
+  params:
+    - desc: 'El ID del MultiSaludo a cambiar'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Cambia el tiempo de eliminacion de un mensaje MultiSaludo en segundos.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'Cambia el tiempo de eliminacion de un mensaje MultiSaludo en segundos.'
+  params:
+    - desc: 'El ID del MultiSaludo a cambiar'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Cambia el tiempo de eliminacion de un mensaje MultiSaludo en segundos.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_int:
+  args:
+    - number number
+  desc: 'Cambia el tiempo de eliminacion de un mensaje MultiSaludo en segundos.'
+  params:
+    - desc: 'El ID del MultiSaludo a cambiar'
+      name: id
+      optional: false
+      type: int
+    - &ref_304
+      desc: 'El tiempo tras el que eliminar el mensaje en segundos'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_1:
+  args:
+    - number number
+  desc: 'Cambia el tiempo de eliminacion de un mensaje MultiSaludo en segundos.'
+  params:
+    - desc: 'El ID del MultiSaludo a cambiar'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El tiempo tras el que eliminar el mensaje en segundos'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_2:
+  args:
+    - number number
+  desc: 'Cambia el tiempo de eliminacion de un mensaje MultiSaludo en segundos.'
+  params:
+    - desc: 'El ID del MultiSaludo a cambiar'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El tiempo tras el que eliminar el mensaje en segundos'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_3:
+  args:
+    - number number
+  desc: 'Cambia el tiempo de eliminacion de un mensaje MultiSaludo en segundos.'
+  params:
+    - desc: 'El ID del MultiSaludo a cambiar'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El tiempo tras el que eliminar el mensaje en segundos'
+      name: howlong
+      optional: false
+      type: int
+multigreetdisable:
+  args:
+    - number true|false
+  desc: 'Deshabilita un MultiSaludo.'
+  params:
+    - &ref_306
+      desc: 'El ID del MultiSaludo a deshabilitar'
+      name: num
+      optional: false
+      type: int
+    - &ref_307
+      desc: 'Si se debe deshabilitar el MultiSaludo'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool:
+  args:
+    - number true|false
+  desc: 'Deshabilita un MultiSaludo.'
+  params:
+    - desc: 'El ID del MultiSaludo a deshabilitar'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Si se debe deshabilitar el MultiSaludo'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Deshabilita un MultiSaludo.'
+  params:
+    - desc: 'El ID del MultiSaludo a deshabilitar'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Si se debe deshabilitar el MultiSaludo'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Deshabilita un MultiSaludo.'
+  params:
+    - desc: 'El ID del MultiSaludo a deshabilitar'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Si se debe deshabilitar el MultiSaludo'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots:
+  args:
+    - number true|false
+  desc: 'Cambia si un MultiSaludo saluda a los bots.'
+  params:
+    - &ref_308
+      desc: 'El ID del MultiSaludo a cambiar'
+      name: num
+      optional: false
+      type: int
+    - &ref_309
+      desc: 'Si se debe saludar a los bots'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool:
+  args:
+    - number true|false
+  desc: 'Cambia si un MultiSaludo saluda a los bots.'
+  params:
+    - desc: 'El ID del MultiSaludo a cambiar'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Si se debe saludar a los bots'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Cambia si un MultiSaludo saluda a los bots.'
+  params:
+    - desc: 'El ID del MultiSaludo a cambiar'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Si se debe saludar a los bots'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Cambia si un MultiSaludo saluda a los bots.'
+  params:
+    - desc: 'El ID del MultiSaludo a cambiar'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Si se debe saludar a los bots'
+      name: enabled
+      optional: false
+      type: bool
+multigreetlist:
+  args:
+    - ''
+  desc: 'Lista todos los MultiSaludos.'
+  params: [ ]
+multigreetmessage:
+  args:
+    - '<id> [embedTemplate]'
+    - number
+  desc: 'Cambia el mensaje de un MultiSaludo.'
+  params:
+    - desc: 'El ID del MultiSaludo a cambiar'
+      name: id
+      optional: false
+      type: int
+    - desc: 'La plantilla de mensaje/embed a establecer'
+      name: embedTemplate
+      optional: true
+      type: embedtemplateresult
+multigreetremove:
+  args:
+    - number
+  desc: 'Elimina todos los MultiSaludos de un canal.'
+  params:
+    - &ref_310
+      desc: 'Elimina todos los MultiSaludos de un canal.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_ITextChannel:
+  args:
+    - channel
+  desc: 'Elimina todos los MultiSaludos de un canal.'
+  params:
+    - &ref_311
+      desc: 'El canal del que eliminar los MultiSaludos'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Elimina todos los MultiSaludos de un canal.'
+  params:
+    - desc: 'El canal del que eliminar los MultiSaludos'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Elimina todos los MultiSaludos de un canal.'
+  params:
+    - desc: 'El canal del que eliminar los MultiSaludos'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_3:
+  args:
+    - channel
+  desc: 'Elimina todos los MultiSaludos de un canal.'
+  params:
+    - desc: 'El canal del que eliminar los MultiSaludos'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_int:
+  args:
+    - number
+  desc: 'Elimina todos los MultiSaludos de un canal.'
+  params:
+    - desc: 'Elimina todos los MultiSaludos de un canal.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_int_1:
+  args:
+    - number
+  desc: 'Elimina todos los MultiSaludos de un canal.'
+  params:
+    - desc: 'Elimina todos los MultiSaludos de un canal.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_int_2:
+  args:
+    - number
+  desc: 'Elimina todos los MultiSaludos de un canal.'
+  params:
+    - desc: 'Elimina todos los MultiSaludos de un canal.'
+      name: id
+      optional: false
+      type: int
+multigreettype:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Cambia el tipo de MultiSaludo.'
+  params:
+    - &ref_312
+      desc: 'El tipo de MultiSaludo a establecer'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Cambia el tipo de MultiSaludo.'
+  params:
+    - desc: 'El tipo de MultiSaludo a establecer'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes_1:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Cambia el tipo de MultiSaludo.'
+  params:
+    - desc: 'El tipo de MultiSaludo a establecer'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes_2:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Cambia el tipo de MultiSaludo.'
+  params:
+    - desc: 'El tipo de MultiSaludo a establecer'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreetwebhook:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Cambia el webhook de un MultiSaludo.'
+  params:
+    - desc: 'El ID del MultiSaludo a cambiar'
+      name: id
+      optional: false
+      type: int
+    - desc: 'El nombre del webhook'
+      name: name
+      optional: true
+      type: string
+    - desc: 'El avatar del webhook'
+      name: avatar
+      optional: true
+      type: string

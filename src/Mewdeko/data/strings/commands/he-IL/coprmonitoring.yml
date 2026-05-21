@@ -1,0 +1,168 @@
+coprmonitoradd:
+  args:
+    - '<ownerProject> [channel] [packages]'
+    - '<ownerProject> [channel] [packages]'
+    - ownerProject
+  desc: 'מוסיף מוניטור פרויקט COPR לשרת.'
+  params:
+    - desc: 'פרויקט COPR בפורמט owner/project (למשל linux4switch/l4s).'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'ערוץ אופציונלי להתראות. ברירת המחדל היא הערוץ הנוכחי.'
+      name: channel
+      optional: true
+      type: ITextChannel
+    - desc: 'רשימה אופציונלית של חבילות לניטור מופרדות בפסיקים (למשל mesa,kernel).'
+      name: packages
+      optional: true
+      type: string
+coprmonitorremove:
+  args:
+    - '<ownerProject> [channel]'
+    - ownerProject
+  desc: 'מסיר מוניטור פרויקט COPR מהשרת.'
+  params:
+    - desc: 'פרויקט COPR בפורמט owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'ערוץ אופציונלי להסרת מוניטור ספציפי.'
+      name: channel
+      optional: true
+      type: ITextChannel
+coprmonitorlist:
+  args:
+    - ''
+  desc: 'מציג את כל מוניטורי COPR המוגדרים בשרת.'
+  params: [ ]
+coprmonitortoggle:
+  args:
+    - ownerProject
+  desc: 'מפעיל או מכבה מוניטור COPR.'
+  params:
+    - desc: 'פרויקט COPR בפורמט owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+coprnotify:
+  args:
+    - ownerProject status enabled
+  desc: 'מגדיר אילו סטטוסי בנייה מפעילים התראות עבור מוניטור.'
+  params:
+    - desc: 'פרויקט COPR בפורמט owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'סטטוס הבנייה להגדרה.'
+      name: status
+      optional: false
+      type: CoprBuildStatus
+    - desc: 'האם להפעיל או לכבות התראות עבור סטטוס זה.'
+      name: enabled
+      optional: false
+      type: bool
+coprfilter:
+  args:
+    - ownerProject text
+  desc: 'מגדיר מסנן חבילות עבור מוניטור COPR.'
+  params:
+    - desc: 'פרויקט COPR בפורמט owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'רשימת חבילות מופרדות בפסיקים, או "all" לניטור הכל.'
+      name: packages
+      optional: false
+      type: string
+coprsucceededmessage:
+  args:
+    - ownerProject text
+  desc: 'מגדיר את ההודעה המוצגת כאשר בנייה של COPR מצליחה.'
+  params:
+    - desc: 'פרויקט COPR בפורמט owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'ההודעה או קוד ה-embed. השתמש ב-"-" לאיפוס לברירת המחדל.'
+      name: message
+      optional: false
+      type: string
+coprfailedmessage:
+  args:
+    - ownerProject text
+  desc: 'מגדיר את ההודעה המוצגת כאשר בנייה של COPR נכשלת.'
+  params:
+    - desc: 'פרויקט COPR בפורמט owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'ההודעה או קוד ה-embed. השתמש ב-"-" לאיפוס לברירת המחדל.'
+      name: message
+      optional: false
+      type: string
+coprcanceledmessage:
+  args:
+    - ownerProject text
+  desc: 'מגדיר את ההודעה המוצגת כאשר בנייה של COPR מבוטלת.'
+  params:
+    - desc: 'פרויקט COPR בפורמט owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'ההודעה או קוד ה-embed. השתמש ב-"-" לאיפוס לברירת המחדל.'
+      name: message
+      optional: false
+      type: string
+coprpendingmessage:
+  args:
+    - ownerProject text
+  desc: 'מגדיר את ההודעה המוצגת כאשר בנייה של COPR ממתינה.'
+  params:
+    - desc: 'פרויקט COPR בפורמט owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'ההודעה או קוד ה-embed. השתמש ב-"-" לאיפוס לברירת המחדל.'
+      name: message
+      optional: false
+      type: string
+coprrunningmessage:
+  args:
+    - ownerProject text
+  desc: 'מגדיר את ההודעה המוצגת כאשר בנייה של COPR מתבצעת.'
+  params:
+    - desc: 'פרויקט COPR בפורמט owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'ההודעה או קוד ה-embed. השתמש ב-"-" לאיפוס לברירת המחדל.'
+      name: message
+      optional: false
+      type: string
+coprskippedmessage:
+  args:
+    - ownerProject text
+  desc: 'מגדיר את ההודעה המוצגת כאשר בנייה של COPR מדולגת.'
+  params:
+    - desc: 'פרויקט COPR בפורמט owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'ההודעה או קוד ה-embed. השתמש ב-"-" לאיפוס לברירת המחדל.'
+      name: message
+      optional: false
+      type: string
+coprdefaultmessage:
+  args:
+    - ownerProject text
+  desc: 'מגדיר את ההודעה ברירת המחדל לכל שאר סטטוסי הבנייה.'
+  params:
+    - desc: 'פרויקט COPR בפורמט owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'ההודעה או קוד ה-embed. השתמש ב-"-" לאיפוס לברירת המחדל.'
+      name: message
+      optional: false
+      type: string

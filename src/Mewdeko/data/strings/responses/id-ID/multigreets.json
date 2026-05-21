@@ -1,0 +1,18 @@
+{
+  "boost_on": "",
+  "boost_off": "",
+  "boostmsg_cur": "Current boost message: {0}",
+  "boostmsg_enable": "Enable boost messages by typing {0}",
+  "boostmsg_new": "",
+  "boostdel_off": "",
+  "boostdel_on": "Boost messages will be deleted after {0} seconds.",
+  "bandm": "Anda telah diban dari server {0}. \nAlasan: {1}",
+  "banmsg_default": "",
+  "byedel_off": "Penghapusan otomatis dari pesan 'bye' telah dimatikan.",
+  "byedel_on": "Pesan 'bye' akan dihapus setelah {0} detik.",
+  "byemsg_cur": "Pesan 'bye' sekarang: {0}",
+  "byemsg_enable": "Nyalakan pesan 'bye' dengan menggunakan {0}",
+  "byemsg_new": "Pesan tinggal baru tersetel.",
+  "bye_off": "Pengumuman tinggal dimatikan.",
+  "bye_on": "Pengumuman tinggal dinyalakan di channel ini."
+}

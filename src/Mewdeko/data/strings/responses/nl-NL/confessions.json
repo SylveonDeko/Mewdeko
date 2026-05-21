@@ -1,0 +1,22 @@
+{
+  "confessions_blacklisted_already": "This gebruiker is al blacklisted!",
+  "confessions_blacklisted_not": "This Gebruiker is not blacklisted!",
+  "confessions_blacklisted_removed": "Verwijderd {0} van de confession blacklist!!",
+  "confessions_disabled": "Confessions uitgeschakeld",
+  "confessions_logging_disabled": "Confessions logging Uitgeschakeld",
+  "confessions_missing_invite": "Unable naar get invite due naar missing permissions of geen available invites.",
+  "confessions_server_invite": "Server Invite",
+  "confessions_spleen": "Set {0} as de Confession Log Kanaal. \n***Keep in mind if I find je misusing this function I zal find out, blacklist this Server. en use je spleen naar take over de world",
+  "confessions_blacklisted": "je zijn blacklisted van suggestions in that Server!",
+  "confessions_blacklisted_added": "Toegevoegd {0} naar de confession blacklist!!",
+  "confessions_channel_set": "Set {0} as de Confession Kanaal!",
+  "confessions_invalid_id": "de ID je provided was Ongeldig!",
+  "confessions_invalid_perms": "I don't hebben proper perms there! Please make sure naar enable EmbedLinks en SendMessages in that Kanaal voor me!",
+  "confessions_none": "This Server does not hebben confessions Ingeschakeld!",
+  "confessions_none_any": "je aren't in any servers that hebben my confessions Ingeschakeld!",
+  "confessions_report": "report",
+  "confessions_report_received": "Confessions Abuse Report Received",
+  "confessions_report_sent": "Report sent. If je want naar join en add op naar it use de link below.",
+  "confessions_report_user": "report Gebruiker",
+  "confessions_server_id": "Server Id"
+}

@@ -1,0 +1,136 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'Shows detaiwed Patweon anyawytics. uwu'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'Manyuawwy twiggews a Patweon announcement. owo'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Sets ow shows da Patweon announcement channyew. uwu
+  params:
+    - desc: >-
+        Da channyew to set fow Patweon announcements. If nyuww, shows cuwwent
+        channyew. ^w^
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'Shows da cuwwent Patweon configuwation fow this sewvew. uwu'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Sets da day of da monf fow Patweon announcements. owo'
+  params:
+    - desc: >-
+        Da day of da monf (1-28) fow announcements. If nyuww, shows cuwwent day. uwu
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'Disabwes Patweon announcements fow this sewvew. ^w^'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Shows Patweon moduwe info and avaiwabwe pwacehowdews. uwu'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Winks a Discowd usew to a Patweon suppowtew. owo'
+  params:
+    - desc: Da Discowd usew to wink. uwu
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: Da Patweon usew ID to wink to. ^w^
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Sets a custom message fow Patweon announcements. uwu
+  params:
+    - desc: >-
+        Da custom message. Use pwacehowdews wike %server.name%, %month%, etc.
+        Use "-" to weset to defauwt. owo
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'Sends wecognyition messages fow nyew suppowtews. ^w^'
+  params:
+    - desc: Da channyew to send wecognyition messages to. uwu
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Wists Patweon tiew-wowe mappings. owo'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'Toggwes automatic wowe synchwonyization. uwu'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Shows Patweon suppowtew statistics. ^w^'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'Wists active Patweon suppowtews. uwu'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'Secuwewy sets up Patweon OAuth integwation. owo'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'Syncs wowes fow aww winked suppowtews. ^w^'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Maps a Patweon tiew to a Discowd wowe. uwu'
+  params:
+    - desc: Da Patweon tiew ID. owo
+      name: tierId
+      optional: false
+      type: string
+    - desc: Da Discowd wowe to map to da tiew. ^w^
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Toggwes Patweon announcements on ow off. uwu'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'Shows top Patweon suppowtews. owo'
+  params:
+    - desc: Numbew of top suppowtews to show (1-20). uwu
+      name: count
+      optional: true
+      type: int

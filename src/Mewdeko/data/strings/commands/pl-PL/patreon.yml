@@ -1,0 +1,136 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'Pokazuje szczegółowe analizy Patreon.'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'Ręcznie wyzwala ogłoszenie Patreon.'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Ustawia lub pokazuje kanał ogłoszeń Patreon.
+  params:
+    - desc: >-
+        Kanał do ustawienia dla ogłoszeń Patreon. Jeśli null, pokazuje
+        bieżący kanał.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'Pokazuje bieżącą konfigurację Patreon dla tego serwera.'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Ustawia dzień miesiąca dla ogłoszeń Patreon.'
+  params:
+    - desc: >-
+        Dzień miesiąca (1-28) dla ogłoszeń. Jeśli null, pokazuje bieżący dzień.
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'Wyłącza ogłoszenia Patreon dla tego serwera.'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Pokazuje informacje o module Patreon i dostępne symbole zastępcze.'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Łączy użytkownika Discord ze wspierającym Patreon.'
+  params:
+    - desc: Użytkownik Discord do połączenia.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: ID użytkownika Patreon do połączenia.
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Ustawia niestandardową wiadomość dla ogłoszeń Patreon.
+  params:
+    - desc: >-
+        Niestandardowa wiadomość. Użyj symboli zastępczych jak %server.name%,
+        %month%, itd. Użyj "-" aby zresetować do domyślnego.
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'Wysyła wiadomości uznania dla nowych wspierających.'
+  params:
+    - desc: Kanał do wysyłania wiadomości uznania.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Wyświetla mapowania poziomów Patreon do ról.'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'Przełącza automatyczną synchronizację ról.'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Pokazuje statystyki wspierających Patreon.'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'Wyświetla aktywnych wspierających Patreon.'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'Bezpiecznie konfiguruje integrację OAuth Patreon.'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'Synchronizuje role dla wszystkich połączonych wspierających.'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Mapuje poziom Patreon do roli Discord.'
+  params:
+    - desc: ID poziomu Patreon.
+      name: tierId
+      optional: false
+      type: string
+    - desc: Rola Discord do mapowania na poziom.
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Włącza lub wyłącza ogłoszenia Patreon.'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'Pokazuje najlepszych wspierających Patreon.'
+  params:
+    - desc: Liczba najlepszych wspierających do pokazania (1-20).
+      name: count
+      optional: true
+      type: int

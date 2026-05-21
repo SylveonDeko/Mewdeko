@@ -1,0 +1,516 @@
+addstarboardemote:
+  args:
+    - number emote
+  desc: 'Mevcut bir starboard yapilandirmasina emote ekler.'
+  params:
+    - &ref_415
+      desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_516
+      desc: 'Eklenecek emote.'
+      name: emote
+      optional: false
+      type: IEmote
+createstarboard:
+  args:
+    - channel emote 1
+    - channel emote
+  desc: 'Sunucu icin yeni bir starboard yapilandirmasi olusturur.'
+  params:
+    - &ref_156
+      desc: 'Yildizli mesajlarin yayinlanacagi kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_157
+      desc: 'Mesajlari yildizlamak icin kullanilacak emote.'
+      name: emote
+      optional: false
+      type: IEmote
+    - desc: 'Sunucu icin yeni bir starboard yapilandirmasi olusturur.'
+      name: 1
+      optional: false
+      type: '='
+createstarboard_ITextChannel_IEmote_=:
+  args:
+    - channel emote 1
+    - channel emote
+  desc: 'Sunucu icin yeni bir starboard yapilandirmasi olusturur.'
+  params:
+    - desc: 'Yildizli mesajlarin yayinlanacagi kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Mesajlari yildizlamak icin kullanilacak emote.'
+      name: emote
+      optional: false
+      type: IEmote
+    - desc: 'Sunucu icin yeni bir starboard yapilandirmasi olusturur.'
+      name: 1
+      optional: false
+      type: '='
+createstarboard_ITextChannel_IEmote_=_1:
+  args:
+    - channel emote 1
+    - channel emote
+  desc: 'Sunucu icin yeni bir starboard yapilandirmasi olusturur.'
+  params:
+    - desc: 'Yildizli mesajlarin yayinlanacagi kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Mesajlari yildizlamak icin kullanilacak emote.'
+      name: emote
+      optional: false
+      type: IEmote
+    - desc: 'Sunucu icin yeni bir starboard yapilandirmasi olusturur.'
+      name: 1
+      optional: false
+      type: '='
+createstarboard_ITextChannel_IEmote_=_2:
+  args:
+    - channel emote 1
+    - channel emote
+  desc: 'Sunucu icin yeni bir starboard yapilandirmasi olusturur.'
+  params:
+    - desc: 'Yildizli mesajlarin yayinlanacagi kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'Mesajlari yildizlamak icin kullanilacak emote.'
+      name: emote
+      optional: false
+      type: IEmote
+    - desc: 'Sunucu icin yeni bir starboard yapilandirmasi olusturur.'
+      name: 1
+      optional: false
+      type: '='
+deletestarboard:
+  args:
+    - number
+  desc: 'Sunucudan bir starboard yapilandirmasini kaldirir.'
+  params:
+    - &ref_190
+      desc: 'Kaldirilacak starboard''un ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+deletestarboard_int:
+  args:
+    - number
+  desc: 'Sunucudan bir starboard yapilandirmasini kaldirir.'
+  params:
+    - desc: 'Kaldirilacak starboard''un ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+deletestarboard_int_1:
+  args:
+    - number
+  desc: 'Sunucudan bir starboard yapilandirmasini kaldirir.'
+  params:
+    - desc: 'Kaldirilacak starboard''un ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+deletestarboard_int_2:
+  args:
+    - number
+  desc: 'Sunucudan bir starboard yapilandirmasini kaldirir.'
+  params:
+    - desc: 'Kaldirilacak starboard''un ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+liststarboards:
+  args:
+    - ''
+  desc: 'Sunucudaki tum starboard yapilandirmalarini listeler.'
+  params: [ ]
+removestarboardemote:
+  args:
+    - number emote
+  desc: 'Mevcut bir starboard yapilandirmasindan emote kaldirir.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Kaldirilacak emote.'
+      name: emote
+      optional: false
+      type: IEmote
+setrepostthreshold:
+  args:
+    - number number
+  desc: 'Starboard yapilandirmasi icin yeniden gonderi esigini ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak yeniden gonderi esigi.'
+      name: threshold
+      optional: false
+      type: int
+setrepostthreshold_int_int:
+  args:
+    - number number
+  desc: 'Starboard yapilandirmasi icin yeniden gonderi esigini ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_517
+      desc: 'Ayarlanacak yeniden gonderi esigi.'
+      name: threshold
+      optional: false
+      type: int
+setrepostthreshold_int_int_1:
+  args:
+    - number number
+  desc: 'Starboard yapilandirmasi icin yeniden gonderi esigini ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Starboard yapilandirmasi icin yeniden gonderi esigini ayarlar.'
+      name: emote
+      optional: false
+      type: IEmote
+setrepostthreshold_int_int_2:
+  args:
+    - number number
+  desc: 'Starboard yapilandirmasi icin yeniden gonderi esigini ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak yeniden gonderi esigi.'
+      name: threshold
+      optional: false
+      type: int
+setstarthreshold:
+  args:
+    - number number
+  desc: 'Starboard yapilandirmasi icin yildiz esigini ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak yildiz esigi.'
+      name: threshold
+      optional: false
+      type: int
+starboardallowbots:
+  args:
+    - number true|false
+  desc: 'Belirli bir starboard icin botlarin sayilmasina izin verilip verilmeyecegini ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_558
+      desc: 'Botlarin sayilmasina izin verilip verilmeyecegi.'
+      name: enabled
+      optional: false
+      type: bool
+starboardallowbots_int_bool:
+  args:
+    - number true|false
+  desc: 'Belirli bir starboard icin botlarin sayilmasina izin verilip verilmeyecegini ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_559
+      desc: 'Botlarin sayilmasina izin verilip verilmeyecegi.'
+      name: enabled
+      optional: false
+      type: bool
+starboardallowbots_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Belirli bir starboard icin botlarin sayilmasina izin verilip verilmeyecegini ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Botlarin sayilmasina izin verilip verilmeyecegi.'
+      name: enabled
+      optional: false
+      type: bool
+starboardallowbots_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Belirli bir starboard icin botlarin sayilmasina izin verilip verilmeyecegini ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Botlarin sayilmasina izin verilip verilmeyecegi.'
+      name: enabled
+      optional: false
+      type: bool
+starboardchtoggle:
+  args:
+    - number channel
+  desc: 'Belirli bir starboard icin bir kanalin kontrol edilip edilmeyecegini degistirir.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_560
+      desc: 'Degistirilecek kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+starboardchtoggle_int_ITextChannel:
+  args:
+    - number channel
+  desc: 'Belirli bir starboard icin bir kanalin kontrol edilip edilmeyecegini degistirir.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Degistirilecek kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+starboardchtoggle_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: 'Belirli bir starboard icin bir kanalin kontrol edilip edilmeyecegini degistirir.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Degistirilecek kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+starboardchtoggle_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: 'Belirli bir starboard icin bir kanalin kontrol edilip edilmeyecegini degistirir.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Degistirilecek kanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+starboardremoveonbelowthreshold:
+  args:
+    - number true|false
+  desc: 'Starboard gonderileri esik degerin altina dustugunde kaldirilip kaldirilmayacagini ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_561
+      desc: 'Esik degerin altina dustugunde gonderilerin kaldirilip kaldirilmayacagi.'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveonbelowthreshold_int_bool:
+  args:
+    - number true|false
+  desc: 'Starboard gonderileri esik degerin altina dustugunde kaldirilip kaldirilmayacagini ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Esik degerin altina dustugunde gonderilerin kaldirilip kaldirilmayacagi.'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveonbelowthreshold_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Starboard gonderileri esik degerin altina dustugunde kaldirilip kaldirilmayacagini ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Esik degerin altina dustugunde gonderilerin kaldirilip kaldirilmayacagi.'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveonbelowthreshold_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Starboard gonderileri esik degerin altina dustugunde kaldirilip kaldirilmayacagini ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Esik degerin altina dustugunde gonderilerin kaldirilip kaldirilmayacagi.'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveondelete:
+  args:
+    - number true|false
+  desc: 'Orijinal mesaj silindiginde starboard gonderilerinin kaldirilip kaldirilmayacagini ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_562
+      desc: 'Orijinal mesaj silindiginde gonderilerin kaldirilip kaldirilmayacagi.'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveondelete_int_bool:
+  args:
+    - number true|false
+  desc: 'Orijinal mesaj silindiginde starboard gonderilerinin kaldirilip kaldirilmayacagini ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Orijinal mesaj silindiginde gonderilerin kaldirilip kaldirilmayacagi.'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveondelete_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Orijinal mesaj silindiginde starboard gonderilerinin kaldirilip kaldirilmayacagini ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Orijinal mesaj silindiginde gonderilerin kaldirilip kaldirilmayacagi.'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveondelete_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Orijinal mesaj silindiginde starboard gonderilerinin kaldirilip kaldirilmayacagini ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Orijinal mesaj silindiginde gonderilerin kaldirilip kaldirilmayacagi.'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveonreactionsclear:
+  args:
+    - number true|false
+  desc: 'Tepkiler temizlendiginde starboard gonderilerinin kaldirilip kaldirilmayacagini ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Tepkiler temizlendiginde gonderilerin kaldirilip kaldirilmayacagi.'
+      name: enabled
+      optional: false
+      type: bool
+starboardstats:
+  args:
+    - ''
+  desc: 'Sunucu icin starboard istatistiklerini gosterir.'
+  params: [ ]
+starboarduserstats:
+  args:
+    - '@user'
+    - ''
+  desc: 'Belirli bir kullanici icin starboard istatistiklerini gosterir.'
+  params:
+    - desc: 'Istatistikleri gosterilecek kullanici. Varsayilan komut cagiranidir.'
+      name: user
+      optional: true
+      type: IUser
+starboardwlmode:
+  args:
+    - number whitelist|wl|white
+    - whitelist
+    - wl
+    - white
+  desc: 'Starboard yapilandirmasi icin beyaz liste/kara liste modunu ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_563
+      desc: 'Ayarlanacak beyaz liste/kara liste modu.'
+      name: mode
+      optional: false
+      type: WhitelistMode
+starboardwlmode_int_WhitelistMode:
+  args:
+    - number whitelist|wl|white
+    - whitelist
+    - wl
+    - white
+  desc: 'Starboard yapilandirmasi icin beyaz liste/kara liste modunu ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak beyaz liste/kara liste modu.'
+      name: mode
+      optional: false
+      type: WhitelistMode
+starboardwlmode_int_WhitelistMode_1:
+  args:
+    - number whitelist|wl|white
+    - whitelist
+    - wl
+    - white
+  desc: 'Starboard yapilandirmasi icin beyaz liste/kara liste modunu ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak beyaz liste/kara liste modu.'
+      name: mode
+      optional: false
+      type: WhitelistMode
+starboardwlmode_int_WhitelistMode_2:
+  args:
+    - number whitelist|wl|white
+    - whitelist
+    - wl
+    - white
+  desc: 'Starboard yapilandirmasi icin beyaz liste/kara liste modunu ayarlar.'
+  params:
+    - desc: 'Starboard yapilandirmasinin ID''si.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak beyaz liste/kara liste modu.'
+      name: mode
+      optional: false
+      type: WhitelistMode

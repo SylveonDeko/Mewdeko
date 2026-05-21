@@ -1,0 +1,252 @@
+votechannel:
+  args:
+    - channel
+  desc: >-
+    Ställer in den angivna textkanalen som röstningskanal där alla
+    röstningsbekräftelser skickas.
+  params:
+    - &ref_646
+      desc: 'Textkanalen att ställa in som röstningskanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel:
+  args:
+    - channel
+  desc: >-
+    Ställer in den angivna textkanalen som röstningskanal där alla
+    röstningsbekräftelser skickas.
+  params:
+    - desc: 'Textkanalen att ställa in som röstningskanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel_1:
+  args:
+    - channel
+  desc: >-
+    Ställer in den angivna textkanalen som röstningskanal där alla
+    röstningsbekräftelser skickas.
+  params:
+    - desc: 'Textkanalen att ställa in som röstningskanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel_2:
+  args:
+    - channel
+  desc: >-
+    Ställer in den angivna textkanalen som röstningskanal där alla
+    röstningsbekräftelser skickas.
+  params:
+    - desc: 'Textkanalen att ställa in som röstningskanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votemessage:
+  args:
+    - '[message]'
+  desc: >-
+    Ställer in ett anpassat meddelande som skickas när en användare röstar,
+    eller förhandsgranskar det aktuella röstningsmeddelandet.
+  params:
+    - desc: 'Det anpassade meddelandet för röstningar. Använd "-" för att återställa till standard. Om tomt visas det aktuella röstningsmeddelandet.'
+      name: message
+      optional: true
+      type: string
+votepassword:
+  args:
+    - ''
+  desc: >-
+    Startar en bekräftelseprocess för att ange ett nytt röstningslösenord och
+    varnar användaren om säkerheten.
+  params: [ ]
+voteroleadd:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Lägger till en roll som ges till användare när de röstar, med en valfri
+    varaktighet för automatisk borttagning av rollen.
+  params:
+    - desc: 'Rollen att lägga till som röstningsbelöning.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Varaktigheten för vilken rollen ges. Null för obegränsad tid.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Lägger till en roll som ges till användare när de röstar, med en valfri
+    varaktighet för automatisk borttagning av rollen.
+  params:
+    - desc: 'Rollen att lägga till som röstningsbelöning.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Varaktigheten för vilken rollen ges. Null för obegränsad tid.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=_1:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Lägger till en roll som ges till användare när de röstar, med en valfri
+    varaktighet för automatisk borttagning av rollen.
+  params:
+    - desc: 'Rollen att lägga till som röstningsbelöning.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Varaktigheten för vilken rollen ges. Null för obegränsad tid.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=_2:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Lägger till en roll som ges till användare när de röstar, med en valfri
+    varaktighet för automatisk borttagning av rollen.
+  params:
+    - desc: 'Rollen att lägga till som röstningsbelöning.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Varaktigheten för vilken rollen ges. Null för obegränsad tid.'
+      name: time
+      optional: true
+      type: duration
+voteroleedit:
+  args:
+    - '@role time'
+  desc: 'Redigerar varaktigheten för vilken en röstningsroll ges till användare.'
+  params:
+    - &ref_648
+      desc: 'Rollen att redigera.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_649
+      desc: 'Den nya varaktigheten för vilken rollen ges.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime:
+  args:
+    - '@role time'
+  desc: 'Redigerar varaktigheten för vilken en röstningsroll ges till användare.'
+  params:
+    - desc: 'Rollen att redigera.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Den nya varaktigheten för vilken rollen ges.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime_1:
+  args:
+    - '@role time'
+  desc: 'Redigerar varaktigheten för vilken en röstningsroll ges till användare.'
+  params:
+    - desc: 'Rollen att redigera.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Den nya varaktigheten för vilken rollen ges.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime_2:
+  args:
+    - '@role time'
+  desc: 'Redigerar varaktigheten för vilken en röstningsroll ges till användare.'
+  params:
+    - desc: 'Rollen att redigera.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Den nya varaktigheten för vilken rollen ges.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleremove:
+  args:
+    - '@role'
+  desc: 'Tar bort en roll från listan över roller som ges till användare när de röstar.'
+  params:
+    - &ref_650
+      desc: 'Rollen att ta bort från röstningsbelöningarna.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole:
+  args:
+    - '@role'
+  desc: 'Tar bort en roll från listan över roller som ges till användare när de röstar.'
+  params:
+    - desc: 'Rollen att ta bort från röstningsbelöningarna.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole_1:
+  args:
+    - '@role'
+  desc: 'Tar bort en roll från listan över roller som ges till användare när de röstar.'
+  params:
+    - desc: 'Rollen att ta bort från röstningsbelöningarna.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole_2:
+  args:
+    - '@role'
+  desc: 'Tar bort en roll från listan över roller som ges till användare när de röstar.'
+  params:
+    - desc: 'Rollen att ta bort från röstningsbelöningarna.'
+      name: role
+      optional: false
+      type: IRole
+voterolesclear:
+  args:
+    - ''
+  desc: 'Rensar alla roller som ges till användare när de röstar.'
+  params: [ ]
+voteroleslist:
+  args:
+    - ''
+  desc: 'Listar alla roller som ges till användare när de röstar.'
+  params: [ ]
+votes:
+  args:
+    - '[@user]'
+  desc: >-
+    Visar det totala antalet röster avgivna av en specifik användare eller
+    kommandots utförare.
+  params:
+    - desc: 'Användaren vars röster ska räknas. Om tomt räknas utförarens röster.'
+      name: user
+      optional: true
+      type: user
+votesleaderboard:
+  args:
+    - false
+  desc: >-
+    Visar en topplista med användare baserat på deras röstantal, med valfri
+    filtrering av röster från innevarande månad.
+  params:
+    - desc: >-
+        Visar en topplista med användare baserat på deras röstantal, med valfri
+        filtrering av röster från innevarande månad.
+      name: false
+      optional: false
+      type: '='

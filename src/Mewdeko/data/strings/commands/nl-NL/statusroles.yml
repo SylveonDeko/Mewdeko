@@ -1,0 +1,273 @@
+addstatusrole:
+  args:
+    - text
+  desc: 'Voegt een statusrolconfiguratie toe.'
+  params:
+    - &ref_32
+      desc: 'De toe te voegen status.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string:
+  args:
+    - text
+  desc: 'Voegt een statusrolconfiguratie toe.'
+  params:
+    - desc: 'De toe te voegen status.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_1:
+  args:
+    - text
+  desc: 'Voegt een statusrolconfiguratie toe.'
+  params:
+    - desc: 'De toe te voegen status.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_2:
+  args:
+    - text
+  desc: 'Voegt een statusrolconfiguratie toe.'
+  params:
+    - desc: 'De toe te voegen status.'
+      name: status
+      optional: false
+      type: string
+liststatusroles:
+  args:
+    - ''
+  desc: 'Geeft een lijst van alle huidige statusrollen met hun details.'
+  params: [ ]
+removeaddroles:
+  args:
+    - number @role
+  desc: 'Stelt de te verwijderen rollen in wanneer een gebruiker de geselecteerde status heeft.'
+  params:
+    - &ref_390
+      desc: 'De index van de statusrol.'
+      name: index
+      optional: false
+      type: int
+    - &ref_391
+      desc: 'De te verwijderen rollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: 'Stelt de te verwijderen rollen in wanneer een gebruiker de geselecteerde status heeft.'
+  params:
+    - desc: 'De index van de statusrol.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'De te verwijderen rollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: 'Stelt de te verwijderen rollen in wanneer een gebruiker de geselecteerde status heeft.'
+  params:
+    - desc: 'De index van de statusrol.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'De te verwijderen rollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: 'Stelt de te verwijderen rollen in wanneer een gebruiker de geselecteerde status heeft.'
+  params:
+    - desc: 'De index van de statusrol.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'De te verwijderen rollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeremoveroles:
+  args:
+    - number @role
+  desc: >-
+    Verwijdert een of meer rollen uit de toegevoegde rollen wanneer een
+    gebruiker de geselecteerde status heeft.
+  params:
+    - desc: 'De index van de statusrol.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'De te verwijderen rollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+removestatusrole:
+  args:
+    - number
+  desc: 'Verwijdert een statusrolconfiguratie.'
+  params:
+    - desc: 'De index van de te verwijderen statusrol.'
+      name: index
+      optional: false
+      type: int
+setaddroles:
+  args:
+    - number @role
+  desc: 'Stelt de toe te voegen rollen in wanneer een gebruiker de geselecteerde status heeft.'
+  params:
+    - desc: 'De index van de statusrol.'
+      name: index
+      optional: false
+      type: int
+    - &ref_486
+      desc: 'De toe te voegen rollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: 'Stelt de toe te voegen rollen in wanneer een gebruiker de geselecteerde status heeft.'
+  params:
+    - desc: 'De index van de statusrol.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'De toe te voegen rollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: 'Stelt de toe te voegen rollen in wanneer een gebruiker de geselecteerde status heeft.'
+  params:
+    - desc: 'De index van de statusrol.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'De toe te voegen rollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: 'Stelt de toe te voegen rollen in wanneer een gebruiker de geselecteerde status heeft.'
+  params:
+    - desc: 'De index van de statusrol.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'De toe te voegen rollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+setremoveroles:
+  args:
+    - number @role
+  desc: 'Stelt de te verwijderen rollen in wanneer een gebruiker de geselecteerde status heeft.'
+  params:
+    - desc: 'De index van de statusrol.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'De te verwijderen rollen.'
+      name: roles
+      optional: false
+      type: IRole[]
+setstatusrolechannel:
+  args:
+    - number channel
+  desc: 'Stelt het kanaal in voor een specifieke statusrol.'
+  params:
+    - desc: 'De index van de statusrol.'
+      name: index
+      optional: false
+      type: int
+    - &ref_527
+      desc: 'Het in te stellen kanaal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: 'Stelt het kanaal in voor een specifieke statusrol.'
+  params:
+    - desc: 'De index van de statusrol.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Het in te stellen kanaal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: 'Stelt het kanaal in voor een specifieke statusrol.'
+  params:
+    - desc: 'De index van de statusrol.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Het in te stellen kanaal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: 'Stelt het kanaal in voor een specifieke statusrol.'
+  params:
+    - desc: 'De index van de statusrol.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Het in te stellen kanaal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusroleembed:
+  args:
+    - '<index> [embedText]'
+    - number
+  desc: 'Stelt de embed-tekst in voor een specifieke statusrol of toont een voorbeeld.'
+  params:
+    - desc: 'De index van de statusrol.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'De in te stellen embed-tekst.'
+      name: embedText
+      optional: true
+      type: string
+togglereaddremoved:
+  args:
+    - number
+  desc: 'Schakelt of toegevoegde rollen worden verwijderd wanneer een status wordt verwijderd.'
+  params:
+    - desc: 'De index van de statusrol.'
+      name: index
+      optional: false
+      type: int
+toggleremoveadded:
+  args:
+    - number
+  desc: >-
+    Schakelt of toegevoegde rollen worden verwijderd wanneer een gebruiker de
+    status niet meer heeft via de opgegeven index.
+  params:
+    - desc: 'De index van de statusrol.'
+      name: index
+      optional: false
+      type: int

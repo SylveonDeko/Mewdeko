@@ -1,0 +1,15 @@
+{
+  "autohentai_started": "自动 hentai 已启动。每 {0} 秒自动发送带有以下标签之一的内容：\n{1}",
+  "autohentai_stopped": "自动 hentai 已停止。",
+  "nsfw_api_fetch_error": "无法获取 NSFW subreddit。请查看控制台或在 https://discord.gg/mewdeko 报告问题",
+  "nsfw_autohentai_started": "自动 NSFW 发送已启动。间隔：{0}秒 | 标签：{1}",
+  "nsfw_autohentai_stopped": "自动 NSFW 发送已停止",
+  "nsfw_blacklist_title": "已屏蔽的 NSFW 标签",
+  "nsfw_file_too_large": "文件过大",
+  "nsfw_loading_subreddit": "正在尝试从 `{0}` 获取帖子...",
+  "nsfw_loli_shota_content": "此漫画含有 loli/shota 内容，违反 Discord 服务条款！",
+  "nsfw_search_no_results": "搜索没有返回任何结果。请尝试其他关键词！",
+  "nsfw_set_false": "已在此频道禁用 NSFW。",
+  "nsfw_set_true": "已在此频道启用 NSFW。",
+  "nsfw_title_format": "{0} - {1} 页"
+}

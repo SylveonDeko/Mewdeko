@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'Kontroluje stav Minecraft serveru. Použijte registrovaný název serveru, přímou adresu, nebo nechte prázdné pro výchozí server.'
+  params:
+    - desc: 'Registrovaný název serveru nebo přímá adresa (např. play.example.com:25565).'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: 'Přidá Minecraft server do gildy. Předponujte adresu bedrock: pro Bedrock servery.'
+  params:
+    - desc: 'Označení pro server.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Adresa serveru, volitelně s portem (např. play.example.com:25565 nebo bedrock:play.example.com).'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: 'Odstraní Minecraft server z gildy.'
+  params:
+    - desc: 'Název serveru k odstranění.'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: 'Vypíše všechny registrované Minecraft servery pro tuto gildu.'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: 'Nastaví server jako výchozí pro příkazy stavu.'
+  params:
+    - desc: 'Název serveru pro nastavení jako výchozí.'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: 'Nastaví kanál pro příjem pravidelných aktualizací stavu serveru. Vynechte kanál pro deaktivaci.'
+  params:
+    - desc: 'Název serveru ke sledování.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Kanál pro publikování aktualizací.'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: 'Nastaví, jak se zobrazuje stav serveru: embed (úprava na místě), téma kanálu, nebo obojí.'
+  params:
+    - desc: 'Název serveru.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Režim sledování: Embed, ChannelTopic, nebo Both.'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: 'Nastaví vlastní embed šablonu pro sledovaný server. Použijte "-" pro reset. Zástupné symboly: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
+  params:
+    - desc: 'Název serveru.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'JSON embed šablony, nebo "-" pro reset na výchozí.'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: 'Vyhledá Minecraft hráče podle uživatelského jména a zobrazí jeho profil a skin.'
+  params:
+    - desc: 'Minecraft uživatelské jméno k vyhledání.'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'Zobrazí render skinu Minecraft hráče.'
+  params:
+    - desc: 'Minecraft uživatelské jméno.'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: 'Odešle RCON příkaz na registrovaný Minecraft server. RCON musí být nakonfigurován přes dashboard.'
+  params:
+    - desc: 'Název serveru.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Příkaz k provedení na serveru.'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'Spravuje whitelist na Minecraft serveru přes RCON. Vyžaduje nakonfigurovaný RCON.'
+  params:
+    - desc: 'Název serveru.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Akce: add, remove, list, on, off, reload.'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Jméno hráče (pro add/remove).'
+      name: playerName
+      optional: true
+      type: string

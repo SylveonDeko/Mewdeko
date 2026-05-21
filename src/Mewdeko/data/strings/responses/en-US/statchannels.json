@@ -1,0 +1,9 @@
+{
+  "stat_channel_created": "Created stat channel **{0}** with type **{1}**.",
+  "stat_channel_added": "Stat channel **{0}** added with type **{1}**.",
+  "stat_channel_exists": "This channel is already a stat channel.",
+  "stat_channel_removed": "Stat channel **{0}** removed.",
+  "stat_channel_not_found": "That channel is not a stat channel.",
+  "stat_channel_none": "No stat channels configured.",
+  "stat_channel_list_title": "Stat Channels"
+}

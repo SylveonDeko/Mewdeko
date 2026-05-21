@@ -1,0 +1,22 @@
+{
+  "confessions_blacklisted": "¡Estás en la lista negra para sugerencias en ese servidor!",
+  "confessions_blacklisted_added": "¡Añadido {0} a la lista negra de confesiones!",
+  "confessions_blacklisted_already": "¡Este usuario ya está en la lista negra!",
+  "confessions_blacklisted_not": "¡Este usuario no está en la lista negra!",
+  "confessions_blacklisted_removed": "¡Eliminado {0} de la lista negra de confesiones!",
+  "confessions_channel_set": "¡Establecido {0} como el Canal de Confesiones!",
+  "confessions_disabled": "Confesiones deshabilitadas",
+  "confessions_invalid_id": "¡La ID que proporcionaste no era válida!",
+  "confessions_invalid_perms": "¡No tengo los permisos adecuados allí! ¡Por favor, asegúrate de habilitar EmbedLinks y SendMessages en ese canal para mí!",
+  "confessions_logging_disabled": "Registro de confesiones deshabilitado",
+  "confessions_missing_invite": "No se puede obtener la invitación debido a la falta de permisos o a que no hay invitaciones disponibles.",
+  "confessions_none": "¡Este servidor no tiene confesiones habilitadas!",
+  "confessions_none_any": "¡No estás en ningún servidor que tenga mis confesiones habilitadas!",
+  "confessions_report": "informe",
+  "confessions_report_received": "Informe de Abuso de Confesiones Recibido",
+  "confessions_report_sent": "Informe enviado. Si quieres unirte y añadir algo, usa el enlace a continuación.",
+  "confessions_report_user": "reportar usuario",
+  "confessions_server_id": "ID del Servidor",
+  "confessions_server_invite": "Invitación del Servidor",
+  "confessions_spleen": "Establecido {0} como el Canal de Registro de Confesiones. \n***Ten en cuenta que si te encuentro abusando de esta función, lo descubriré, pondré este servidor en la lista negra. Y usaré tu bazo para dominar el mundo."
+}

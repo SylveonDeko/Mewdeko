@@ -1,0 +1,81 @@
+highlight:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Přidává, vypisuje, odstraňuje nebo porovnává zvýraznění.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parametry pro vybranou akci'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Přidává, vypisuje, odstraňuje nebo porovnává zvýraznění.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parametry pro vybranou akci'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_1:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Přidává, vypisuje, odstraňuje nebo porovnává zvýraznění.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parametry pro vybranou akci'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_2:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Přidává, vypisuje, odstraňuje nebo porovnává zvýraznění.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parametry pro vybranou akci'
+      name: words
+      optional: true
+      type: string
+highlights:
+  args:
+    - action word
+  desc: Spravuje uživatelská zvýraznění.
+  params:
+    - desc: Akce, kterou provést se zvýrazněními.
+      name: action
+      optional: false
+      type: string
+    - desc: Slovo ke zvýraznění.
+      name: word
+      optional: true
+      type: string

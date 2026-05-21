@@ -1,0 +1,476 @@
+afk:
+  args:
+    - message
+  desc: 'AFKステータスを設定します。'
+  params:
+    - desc: '表示するAFKメッセージ。'
+      name: message
+      optional: true
+      type: string
+afkdel:
+  args:
+    - ''
+  desc: 'AFKメッセージの自動削除時間を設定します。'
+  params: [ ]
+afkdel_int:
+  args:
+    - number
+  desc: 'AFKメッセージの自動削除時間を設定します。'
+  params:
+    - &ref_49
+      desc: '秒単位の時間。自動削除を無効にするには0を設定してください。'
+      name: num
+      optional: false
+      type: int
+afkdel_int_1:
+  args:
+    - number
+  desc: 'AFKメッセージの自動削除時間を設定します。'
+  params:
+    - desc: '秒単位の時間。自動削除を無効にするには0を設定してください。'
+      name: num
+      optional: false
+      type: int
+afkdel_int_2:
+  args:
+    - number
+  desc: 'AFKメッセージの自動削除時間を設定します。'
+  params:
+    - desc: '秒単位の時間。自動削除を無効にするには0を設定してください。'
+      name: num
+      optional: false
+      type: int
+afkdel_int_3:
+  args:
+    - number
+  desc: 'AFKメッセージの自動削除時間を設定します。'
+  params:
+    - desc: '秒単位の時間。自動削除を無効にするには0を設定してください。'
+      name: num
+      optional: false
+      type: int
+afkdel_noparams:
+  args:
+    - ''
+  desc: 'AFKメッセージの自動削除時間を設定します。'
+  params: [ ]
+afkdel_noparams_1:
+  args:
+    - ''
+  desc: 'AFKメッセージの自動削除時間を設定します。'
+  params: [ ]
+afkdel_noparams_2:
+  args:
+    - ''
+  desc: 'AFKメッセージの自動削除時間を設定します。'
+  params: [ ]
+afkdisable:
+  args:
+    - chan
+  desc: 'AFKメッセージが表示されないチャンネルを設定します。'
+  params:
+    - &ref_50
+      desc: 'AFKメッセージのブラックリストに追加するチャンネル。'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]:
+  args:
+    - chan
+  desc: 'AFKメッセージが表示されないチャンネルを設定します。'
+  params:
+    - desc: 'AFKメッセージのブラックリストに追加するチャンネル。'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]_1:
+  args:
+    - chan
+  desc: 'AFKメッセージが表示されないチャンネルを設定します。'
+  params:
+    - desc: 'AFKメッセージのブラックリストに追加するチャンネル。'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]_2:
+  args:
+    - chan
+  desc: 'AFKメッセージが表示されないチャンネルを設定します。'
+  params:
+    - desc: 'AFKメッセージのブラックリストに追加するチャンネル。'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisabledlist:
+  args:
+    - ''
+  desc: 'AFKメッセージが表示されないテキストチャンネルの一覧を表示します。'
+  params: [ ]
+afklength:
+  args:
+    - number
+  desc: 'すべてのAFKメッセージの最大文字数を設定します。'
+  params:
+    - &ref_51
+      desc: '設定する最大文字数。'
+      name: num
+      optional: false
+      type: int
+afklength_int:
+  args:
+    - number
+  desc: 'すべてのAFKメッセージの最大文字数を設定します。'
+  params:
+    - desc: '設定する最大文字数。'
+      name: num
+      optional: false
+      type: int
+afklength_int_1:
+  args:
+    - number
+  desc: 'すべてのAFKメッセージの最大文字数を設定します。'
+  params:
+    - desc: '設定する最大文字数。'
+      name: num
+      optional: false
+      type: int
+afklength_int_2:
+  args:
+    - number
+  desc: 'すべてのAFKメッセージの最大文字数を設定します。'
+  params:
+    - desc: '設定する最大文字数。'
+      name: num
+      optional: false
+      type: int
+afkremove:
+  args:
+    - '@user'
+  desc: '1人以上のユーザーのAFKステータスを削除します。'
+  params:
+    - &ref_52
+      desc: 'AFKステータスを削除するユーザー。'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]:
+  args:
+    - '@user'
+  desc: '1人以上のユーザーのAFKステータスを削除します。'
+  params:
+    - desc: 'AFKステータスを削除するユーザー。'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: '1人以上のユーザーのAFKステータスを削除します。'
+  params:
+    - desc: 'AFKステータスを削除するユーザー。'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: '1人以上のユーザーのAFKステータスを削除します。'
+  params:
+    - desc: 'AFKステータスを削除するユーザー。'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkrm:
+  args:
+    - ''
+  desc: 'あなたのAFKステータスを削除します。'
+  params: [ ]
+afktimeout:
+  args:
+    - time
+  desc: >-
+    ユーザーがAFKと見なされなくなるまでのタイムアウト時間を設定します。
+    ユーザーがメッセージを送信またはチャンネルで入力すると発動します。
+  params:
+    - &ref_53
+      desc: 'AFKステータスのタイムアウト時間。'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime:
+  args:
+    - time
+  desc: >-
+    ユーザーがAFKと見なされなくなるまでのタイムアウト時間を設定します。
+    ユーザーがメッセージを送信またはチャンネルで入力すると発動します。
+  params:
+    - desc: 'AFKステータスのタイムアウト時間。'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime_1:
+  args:
+    - time
+  desc: >-
+    ユーザーがAFKと見なされなくなるまでのタイムアウト時間を設定します。
+    ユーザーがメッセージを送信またはチャンネルで入力すると発動します。
+  params:
+    - desc: 'AFKステータスのタイムアウト時間。'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime_2:
+  args:
+    - time
+  desc: >-
+    ユーザーがAFKと見なされなくなるまでのタイムアウト時間を設定します。
+    ユーザーがメッセージを送信またはチャンネルで入力すると発動します。
+  params:
+    - desc: 'AFKステータスのタイムアウト時間。'
+      name: time
+      optional: false
+      type: StoopidTime
+afktype:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'サーバーのAFKの動作タイプを設定します。'
+  params:
+    - &ref_54
+      desc: '設定するAFKの動作タイプ。 <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'サーバーのAFKの動作タイプを設定します。'
+  params:
+    - desc: '設定するAFKの動作タイプ。 <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum_1:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'サーバーのAFKの動作タイプを設定します。'
+  params:
+    - desc: '設定するAFKの動作タイプ。 <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum_2:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: 'サーバーのAFKの動作タイプを設定します。'
+  params:
+    - desc: '設定するAFKの動作タイプ。 <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afkundisable:
+  args:
+    - chan
+  desc: '指定したチャンネルをAFKメッセージのブラックリストから削除します。'
+  params:
+    - &ref_55
+      desc: 'AFKメッセージのブラックリストから削除するテキストチャンネル。'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]:
+  args:
+    - chan
+  desc: '指定したチャンネルをAFKメッセージのブラックリストから削除します。'
+  params:
+    - desc: 'AFKメッセージのブラックリストから削除するテキストチャンネル。'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]_1:
+  args:
+    - chan
+  desc: '指定したチャンネルをAFKメッセージのブラックリストから削除します。'
+  params:
+    - desc: 'AFKメッセージのブラックリストから削除するテキストチャンネル。'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]_2:
+  args:
+    - chan
+  desc: '指定したチャンネルをAFKメッセージのブラックリストから削除します。'
+  params:
+    - desc: 'AFKメッセージのブラックリストから削除するテキストチャンネル。'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkview:
+  args:
+    - '@user'
+  desc: '特定のユーザーのAFKステータスを表示します。'
+  params:
+    - &ref_56
+      desc: 'AFKステータスを確認するユーザー。'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser:
+  args:
+    - '@user'
+  desc: '特定のユーザーのAFKステータスを表示します。'
+  params:
+    - desc: 'AFKステータスを確認するユーザー。'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '特定のユーザーのAFKステータスを表示します。'
+  params:
+    - desc: 'AFKステータスを確認するユーザー。'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '特定のユーザーのAFKステータスを表示します。'
+  params:
+    - desc: 'AFKステータスを確認するユーザー。'
+      name: user
+      optional: true
+      type: IGuildUser
+customafkmessage:
+  args:
+    - text
+  desc: >-
+    ユーザーがAFK中に表示されるカスタムAFKエンベッドを設定します。
+    デフォルトのエンベッドにリセットするには"-"を使用してください。
+    エンベッドビルダーは https://eb.mewdeko.tech 、
+    プレースホルダーは http://mewdeko.tech/placeholders を参照してください。
+  params:
+    - &ref_175
+      desc: '設定するカスタムメッセージ。デフォルトメッセージにリセットするには"-"を使用してください。'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string:
+  args:
+    - text
+  desc: >-
+    ユーザーがAFK中に表示されるカスタムAFKエンベッドを設定します。
+    デフォルトのエンベッドにリセットするには"-"を使用してください。
+    エンベッドビルダーは https://eb.mewdeko.tech 、
+    プレースホルダーは http://mewdeko.tech/placeholders を参照してください。
+  params:
+    - desc: '設定するカスタムメッセージ。デフォルトメッセージにリセットするには"-"を使用してください。'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string_1:
+  args:
+    - text
+  desc: >-
+    ユーザーがAFK中に表示されるカスタムAFKエンベッドを設定します。
+    デフォルトのエンベッドにリセットするには"-"を使用してください。
+    エンベッドビルダーは https://eb.mewdeko.tech 、
+    プレースホルダーは http://mewdeko.tech/placeholders を参照してください。
+  params:
+    - desc: '設定するカスタムメッセージ。デフォルトメッセージにリセットするには"-"を使用してください。'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string_2:
+  args:
+    - text
+  desc: >-
+    ユーザーがAFK中に表示されるカスタムAFKエンベッドを設定します。
+    デフォルトのエンベッドにリセットするには"-"を使用してください。
+    エンベッドビルダーは https://eb.mewdeko.tech 、
+    プレースホルダーは http://mewdeko.tech/placeholders を参照してください。
+  params:
+    - desc: '設定するカスタムメッセージ。デフォルトメッセージにリセットするには"-"を使用してください。'
+      name: embedCode
+      optional: false
+      type: string
+getactiveafks:
+  args:
+    - ''
+  desc: '現在AFK中のアクティブユーザーの一覧を表示します。'
+  params: [ ]
+setafk:
+  args:
+    - '[message]'
+  desc: 'オプションのメッセージとともにユーザーのAFKステータスを設定します。'
+  params:
+    - desc: 'AFKメッセージ。指定しない場合、ユーザーのAFKステータスが切り替わります。'
+      name: message
+      optional: true
+      type: string
+timedafk:
+  args:
+    - time text
+  desc: 'カスタムメッセージ付きの期間限定AFKステータスを設定します。'
+  params:
+    - &ref_621
+      desc: 'AFKステータスの期間。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_622
+      desc: 'AFKステータスのカスタムメッセージ。'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string:
+  args:
+    - time text
+  desc: 'カスタムメッセージ付きの期間限定AFKステータスを設定します。'
+  params:
+    - desc: 'AFKステータスの期間。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'AFKステータスのカスタムメッセージ。'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string_1:
+  args:
+    - time text
+  desc: 'カスタムメッセージ付きの期間限定AFKステータスを設定します。'
+  params:
+    - desc: 'AFKステータスの期間。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'AFKステータスのカスタムメッセージ。'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string_2:
+  args:
+    - time text
+  desc: 'カスタムメッセージ付きの期間限定AFKステータスを設定します。'
+  params:
+    - desc: 'AFKステータスの期間。'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'AFKステータスのカスタムメッセージ。'
+      name: message
+      optional: false
+      type: string

@@ -1,0 +1,22 @@
+{
+  "eval_compiling": "جاري التقييم...",
+  "eval_no_code": "لم يتم تقديم كود. يرجى تضمين الكود داخل code blocks أو إرفاق ملف .cs",
+  "eval_output_blank": "الناتج كان فارغاً",
+  "eval_read_error": "فشل قراءة الملف المرفق: {0}",
+  "eval_too_large": "الملف المرفق كبير جداً. يرجى التأكد من أنه أقل من 100 KB",
+  "instance_added": "تمت إضافة النسخة",
+  "instance_command_count": "عدد الأوامر: {0}",
+  "instance_modules_count": "عدد الوحدات: {0}",
+  "instance_not_added": "فشل إضافة النسخة: {0}",
+  "instance_not_found": "النسخة بالمنفذ {0} غير موجودة. يرجى المحاولة مجدداً.",
+  "instance_offline": "النسخة غير متصلة",
+  "instance_removed": "تمت إزالة النسخة بنجاح على المنفذ {0}",
+  "instance_status": "حالة النسخة",
+  "instance_user_count": "عدد المستخدمين {0}",
+  "instance_version": "إصدار النسخة: {0}",
+  "owner": "مالك",
+  "owner_config_error": "حدث خطأ في ضبط أو طباعة الإعداد، يرجى التحقق من السجلات.",
+  "owner_ids": "معرفات المالك",
+  "owner_setting_title": "⚙️ {0}",
+  "user_stats": "إحصائيات المستخدم"
+}

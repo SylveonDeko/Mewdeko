@@ -1,0 +1,252 @@
+votechannel:
+  args:
+    - channel
+  desc: >-
+    Setter den angitte tekstkanalen som stemmekanal der alle
+    stemmebekreftelser sendes.
+  params:
+    - &ref_646
+      desc: 'Tekstkanalen som skal settes som stemmekanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel:
+  args:
+    - channel
+  desc: >-
+    Setter den angitte tekstkanalen som stemmekanal der alle
+    stemmebekreftelser sendes.
+  params:
+    - desc: 'Tekstkanalen som skal settes som stemmekanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel_1:
+  args:
+    - channel
+  desc: >-
+    Setter den angitte tekstkanalen som stemmekanal der alle
+    stemmebekreftelser sendes.
+  params:
+    - desc: 'Tekstkanalen som skal settes som stemmekanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel_2:
+  args:
+    - channel
+  desc: >-
+    Setter den angitte tekstkanalen som stemmekanal der alle
+    stemmebekreftelser sendes.
+  params:
+    - desc: 'Tekstkanalen som skal settes som stemmekanal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votemessage:
+  args:
+    - '[message]'
+  desc: >-
+    Setter en tilpasset melding som sendes når en bruker stemmer, eller
+    forhåndsviser den gjeldende stemmemeldingen.
+  params:
+    - desc: 'Den tilpassede meldingen for stemmer. Bruk "-" for å tilbakestille til standard. Hvis tom, forhåndsvises den gjeldende stemmemeldingen.'
+      name: message
+      optional: true
+      type: string
+votepassword:
+  args:
+    - ''
+  desc: >-
+    Starter en bekreftelsesprosess for å angi et nytt stemmepassord og
+    advarer brukeren om sikkerheten.
+  params: [ ]
+voteroleadd:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Legger til en rolle som gis til brukere når de stemmer, med en valgfri
+    varighet for automatisk fjerning av rollen.
+  params:
+    - desc: 'Rollen som skal legges til som stemmebelønning.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Varigheten rollen gis for. Null for ubegrenset.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Legger til en rolle som gis til brukere når de stemmer, med en valgfri
+    varighet for automatisk fjerning av rollen.
+  params:
+    - desc: 'Rollen som skal legges til som stemmebelønning.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Varigheten rollen gis for. Null for ubegrenset.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=_1:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Legger til en rolle som gis til brukere når de stemmer, med en valgfri
+    varighet for automatisk fjerning av rollen.
+  params:
+    - desc: 'Rollen som skal legges til som stemmebelønning.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Varigheten rollen gis for. Null for ubegrenset.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=_2:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Legger til en rolle som gis til brukere når de stemmer, med en valgfri
+    varighet for automatisk fjerning av rollen.
+  params:
+    - desc: 'Rollen som skal legges til som stemmebelønning.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Varigheten rollen gis for. Null for ubegrenset.'
+      name: time
+      optional: true
+      type: duration
+voteroleedit:
+  args:
+    - '@role time'
+  desc: 'Redigerer varigheten en stemmeroll gis til brukere.'
+  params:
+    - &ref_648
+      desc: 'Rollen som skal redigeres.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_649
+      desc: 'Den nye varigheten rollen gis for.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime:
+  args:
+    - '@role time'
+  desc: 'Redigerer varigheten en stemmeroll gis til brukere.'
+  params:
+    - desc: 'Rollen som skal redigeres.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Den nye varigheten rollen gis for.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime_1:
+  args:
+    - '@role time'
+  desc: 'Redigerer varigheten en stemmeroll gis til brukere.'
+  params:
+    - desc: 'Rollen som skal redigeres.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Den nye varigheten rollen gis for.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime_2:
+  args:
+    - '@role time'
+  desc: 'Redigerer varigheten en stemmeroll gis til brukere.'
+  params:
+    - desc: 'Rollen som skal redigeres.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Den nye varigheten rollen gis for.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleremove:
+  args:
+    - '@role'
+  desc: 'Fjerner en rolle fra listen over roller som gis til brukere når de stemmer.'
+  params:
+    - &ref_650
+      desc: 'Rollen som skal fjernes fra stemmebelønningene.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole:
+  args:
+    - '@role'
+  desc: 'Fjerner en rolle fra listen over roller som gis til brukere når de stemmer.'
+  params:
+    - desc: 'Rollen som skal fjernes fra stemmebelønningene.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole_1:
+  args:
+    - '@role'
+  desc: 'Fjerner en rolle fra listen over roller som gis til brukere når de stemmer.'
+  params:
+    - desc: 'Rollen som skal fjernes fra stemmebelønningene.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole_2:
+  args:
+    - '@role'
+  desc: 'Fjerner en rolle fra listen over roller som gis til brukere når de stemmer.'
+  params:
+    - desc: 'Rollen som skal fjernes fra stemmebelønningene.'
+      name: role
+      optional: false
+      type: IRole
+voterolesclear:
+  args:
+    - ''
+  desc: 'Fjerner alle roller som gis til brukere når de stemmer.'
+  params: [ ]
+voteroleslist:
+  args:
+    - ''
+  desc: 'Lister opp alle roller som gis til brukere når de stemmer.'
+  params: [ ]
+votes:
+  args:
+    - '[@user]'
+  desc: >-
+    Viser det totale antallet stemmer avgitt av en bestemt bruker eller
+    kommandoutføreren.
+  params:
+    - desc: 'Brukeren hvis stemmer skal telles. Hvis tom, telles kommandoutførerens stemmer.'
+      name: user
+      optional: true
+      type: user
+votesleaderboard:
+  args:
+    - false
+  desc: >-
+    Viser en toppliste over brukere basert på antall stemmer, med valgfri
+    filtrering av stemmer fra inneværende måned.
+  params:
+    - desc: >-
+        Viser en toppliste over brukere basert på antall stemmer, med valgfri
+        filtrering av stemmer fra inneværende måned.
+      name: false
+      optional: false
+      type: '='

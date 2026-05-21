@@ -1,0 +1,18 @@
+{
+  "status_addroles_none_removed": "{0} geen AddRoles Verwijderd, none of de provided Rollen zijn in de list.",
+  "status_remove_added_now": "{0} RemoveAdded is nu `{1}`",
+  "status_removerole_none_removed": "{0} geen RemoveRoles Verwijderd, none of de provided Rollen zijn in de list.",
+  "status_role_exists": "{0} That StatusRole Al exists!",
+  "status_role_channel_set": "Kanaal set naar {0}",
+  "status": "Status",
+  "status_addrole_successfully_removed": "{0} Succesfully Verwijderd de following Rollen van AddRoles\n{1}",
+  "status_embed_channel_already_set": "{0} That's Al je StatusEmbedChannel.",
+  "status_embed_channel_set": "{0} Succesfully set StatusEmbedChannel naar {1}!",
+  "status_readd_removed_now": "{0} ReaddRemoved is nu `{1}`",
+  "status_removerole_successfully_removed": "{0} Succesfully Verwijderd de following Rollen van RemoveRoles\n{1}",
+  "status_role_config_added": "Toegevoegd StatusRole config! Please configure it met de other commands.",
+  "status_role_text_select": "{0} Please select what je want naar do met de current StatusRole text",
+  "status_roles_added": "{0} Having this status zal nu add de following Rollen:\n{1}",
+  "status_roles_removed": "{0} Having this status zal nu remove de following Rollen:\n{1}",
+  "status_too_long": "{0} That's too long naar even fit in een normal status. Try again."
+}

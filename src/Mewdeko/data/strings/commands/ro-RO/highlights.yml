@@ -1,0 +1,81 @@
+highlight:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Adaugă, listează, elimină sau potrivește evidențieri.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parametri pentru acțiunea selectată'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Adaugă, listează, elimină sau potrivește evidențieri.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parametri pentru acțiunea selectată'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_1:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Adaugă, listează, elimină sau potrivește evidențieri.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parametri pentru acțiunea selectată'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_2:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Adaugă, listează, elimină sau potrivește evidențieri.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parametri pentru acțiunea selectată'
+      name: words
+      optional: true
+      type: string
+highlights:
+  args:
+    - action word
+  desc: Gestionează evidențierile utilizatorului.
+  params:
+    - desc: Acțiunea de efectuat cu evidențierile.
+      name: action
+      optional: false
+      type: string
+    - desc: Cuvântul de evidențiat.
+      name: word
+      optional: true
+      type: string

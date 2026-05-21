@@ -1,0 +1,542 @@
+countingban:
+  args:
+    - user channel duration reason
+  desc: "Vieta a un utente di contare in un canale specifico."
+  params:
+    - desc: "L'utente a cui vietare il conteggio."
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Durata del divieto (es. 1h, 1d). Lascia vuoto per permanente.'
+      name: duration
+      optional: true
+      type: stoopid time
+    - desc: 'Il motivo del divieto.'
+      name: reason
+      optional: true
+      type: string
+countingconfig:
+  args:
+    - channel
+  desc: 'Configura le impostazioni di un canale di conteggio.'
+  params:
+    - desc: 'Il canale per visualizzare la configurazione. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+countingcooldown:
+  args:
+    - channel seconds
+  desc: 'Imposta il tempo di attesa tra i conteggi degli utenti.'
+  params:
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Tempo di attesa in secondi (0-300).'
+      name: seconds
+      optional: true
+      type: int
+countingdisable:
+  args:
+    - channel purgeData reason
+  desc: 'Disabilita il conteggio in un canale e facoltativamente elimina tutti i dati.'
+  params:
+    - desc: 'Il canale in cui disabilitare il conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Se eliminare tutti i dati di conteggio di questo canale. Predefinito è false.'
+      name: purgeData
+      optional: true
+      type: bool
+    - desc: 'Il motivo per disabilitare il conteggio.'
+      name: reason
+      optional: true
+      type: string
+countingfailurechannel:
+  args:
+    - countingChannel failureChannel
+  desc: 'Imposta il canale in cui vengono registrati i fallimenti di conteggio.'
+  params:
+    - desc: 'Il canale di conteggio.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: 'Il canale per i log dei fallimenti. Usa null per disabilitare.'
+      name: failureChannel
+      optional: true
+      type: text channel
+countingfailuremessage:
+  args:
+    - channel embed
+  desc: 'Imposta un messaggio personalizzato per i conteggi falliti.'
+  params:
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Il modello di messaggio. Usa "-" per ripristinare il valore predefinito.'
+      name: embed
+      optional: true
+      type: string
+countingfailurethreshold:
+  args:
+    - channel threshold
+  desc: 'Imposta la soglia di fallimenti prima delle conseguenze.'
+  params:
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Numero di fallimenti prima di agire (1-10).'
+      name: threshold
+      optional: true
+      type: int
+countingleaderboard:
+  args:
+    - type channel
+  desc: 'Mostra la classifica di un canale di conteggio.'
+  params:
+    - desc: 'Il tipo di classifica (contributions, streak, accuracy, totalnumbers).'
+      name: type
+      optional: true
+      type: string
+    - desc: 'Il canale per visualizzare la classifica. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+countinglist:
+  args:
+    - ''
+  desc: 'Elenca tutti i canali di conteggio attivi nel server.'
+  params: [ ]
+countingmilestonechannel:
+  args:
+    - countingChannel milestoneChannel
+  desc: 'Imposta il canale in cui vengono annunciati i traguardi.'
+  params:
+    - desc: 'Il canale di conteggio.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: 'Il canale per gli annunci dei traguardi. Usa null per disabilitare.'
+      name: milestoneChannel
+      optional: true
+      type: text channel
+countingmilestonemessage:
+  args:
+    - channel embed
+  desc: 'Imposta un messaggio personalizzato per i traguardi.'
+  params:
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Il modello di messaggio. Usa "-" per ripristinare il valore predefinito.'
+      name: embed
+      optional: true
+      type: string
+countingmilestones:
+  args:
+    - channel milestones
+  desc: 'Imposta numeri di traguardo personalizzati.'
+  params:
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Numeri di traguardo separati da virgola (es. 50,100,250,500,1000).'
+      name: milestones
+      optional: true
+      type: string
+countingreset:
+  args:
+    - channel newNumber reason
+  desc: 'Reimposta il conteggio in un canale a un numero specifico.'
+  params:
+    - desc: 'Il canale da reimpostare. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Il numero a cui reimpostare. Predefinito è 0.'
+      name: newNumber
+      optional: true
+      type: long
+    - desc: 'Il motivo del ripristino.'
+      name: reason
+      optional: true
+      type: string
+countingrestore:
+  args:
+    - saveId channel
+  desc: 'Ripristina il conteggio da un punto di salvataggio precedente.'
+  params:
+    - desc: "L'ID del punto di salvataggio da ripristinare."
+      name: saveId
+      optional: false
+      type: int
+    - desc: 'Il canale da ripristinare. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+countingsave:
+  args:
+    - channel reason
+  desc: 'Crea un punto di salvataggio per il progresso di conteggio corrente.'
+  params:
+    - desc: 'Il canale da salvare. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Il motivo per creare il punto di salvataggio.'
+      name: reason
+      optional: true
+      type: string
+countingsetup:
+  args:
+    - channel startNumber increment
+  desc: 'Configura il conteggio nel canale corrente o in uno specificato.'
+  params:
+    - desc: 'Il canale in cui configurare il conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Il numero da cui iniziare a contare. Predefinito è 1.'
+      name: startNumber
+      optional: true
+      type: long
+    - desc: "L'incremento per ogni conteggio. Predefinito è 1."
+      name: increment
+      optional: true
+      type: int
+countingstats:
+  args:
+    - user channel
+  desc: 'Mostra le statistiche di conteggio per un utente o un canale.'
+  params:
+    - desc: "L'utente di cui mostrare le statistiche. Predefinito sei tu."
+      name: user
+      optional: true
+      type: user
+    - desc: 'Il canale in cui verificare le statistiche. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+countingstatus:
+  args:
+    - channel
+  desc: 'Mostra lo stato corrente del conteggio in un canale.'
+  params:
+    - desc: 'Il canale da verificare. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+countingsuccessmessage:
+  args:
+    - channel embed
+  desc: 'Imposta un messaggio personalizzato per i conteggi riusciti.'
+  params:
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Il modello di messaggio. Usa "-" per ripristinare il valore predefinito.'
+      name: embed
+      optional: true
+      type: string
+countingtimeout:
+  args:
+    - user duration channel reason
+  desc: 'Silenzia temporaneamente un utente dal conteggio.'
+  params:
+    - desc: "L'utente da silenziare dal conteggio."
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Durata del silenziamento (es. 30m, 2h).'
+      name: duration
+      optional: false
+      type: stoopid time
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Il motivo del silenziamento.'
+      name: reason
+      optional: true
+      type: string
+countingunban:
+  args:
+    - user channel reason
+  desc: 'Rimuove il divieto di conteggio di un utente in un canale specifico.'
+  params:
+    - desc: "L'utente a cui rimuovere il divieto di conteggio."
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Il motivo della rimozione del divieto.'
+      name: reason
+      optional: true
+      type: string
+countmodbanned:
+  args:
+    - channel roles...
+  desc: 'Imposta i ruoli vietati dal conteggio.'
+  params:
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Ruoli vietati dal conteggio.'
+      name: roles
+      optional: true
+      type: role
+countmodclear:
+  args:
+    - user channel
+  desc: 'Cancella i conteggi errati di un utente in un canale di conteggio.'
+  params:
+    - desc: "L'utente di cui cancellare i conteggi errati."
+      name: user
+      optional: false
+      type: user
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+countmodclearall:
+  args:
+    - channel
+  desc: 'Cancella i conteggi errati di tutti gli utenti in un canale di conteggio.'
+  params:
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+countmoddefaults:
+  args:
+    - enabled threshold windowHours punishment durationMinutes punishmentRole
+  desc: 'Imposta le impostazioni di moderazione predefinite per tutto il server.'
+  params:
+    - desc: 'Se la moderazione è abilitata per impostazione predefinita.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: 'Soglia predefinita di conteggi errati prima della punizione.'
+      name: threshold
+      optional: true
+      type: int
+    - desc: 'Finestra temporale predefinita in ore per tracciare i conteggi errati.'
+      name: windowHours
+      optional: true
+      type: int
+    - desc: "Azione di punizione predefinita da applicare."
+      name: punishment
+      optional: true
+      type: punishment action
+    - desc: 'Durata predefinita per le punizioni temporizzate in minuti.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Ruolo predefinito per il tipo di punizione AggiungiRuolo.'
+      name: punishmentRole
+      optional: true
+      type: role
+countmodedits:
+  args:
+    - punish delete channel
+  desc: 'Configura la protezione dalla modifica dei messaggi per un canale di conteggio.'
+  params:
+    - desc: 'Se punire le modifiche ai messaggi come violazioni.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: 'Se eliminare i messaggi modificati.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+countmodenable:
+  args:
+    - enabled channel
+  desc: 'Abilita o disabilita la moderazione per un canale di conteggio specifico.'
+  params:
+    - desc: 'Se abilitare o disabilitare la moderazione.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+countmodignore:
+  args:
+    - deleteMessages channel roles...
+  desc: 'Imposta i ruoli da ignorare nel conteggio.'
+  params:
+    - desc: 'Se eliminare i messaggi dai ruoli ignorati.'
+      name: deleteMessages
+      optional: false
+      type: bool
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Ruoli da ignorare nel conteggio.'
+      name: roles
+      optional: true
+      type: role
+countmodnonnumbers:
+  args:
+    - punish delete channel
+  desc: 'Configura la gestione dei messaggi non numerici in un canale di conteggio.'
+  params:
+    - desc: 'Se punire i messaggi non numerici come violazioni.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: 'Se eliminare i messaggi non numerici.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunish:
+  args:
+    - count punishment durationMinutes role channel
+  desc: 'Imposta una punizione a livelli per un numero specifico di conteggi errati.'
+  params:
+    - desc: 'Il numero di conteggi errati che attiva questa punizione.'
+      name: count
+      optional: false
+      type: int
+    - desc: "L'azione di punizione da applicare."
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: 'Durata per le punizioni temporizzate in minuti.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Ruolo per il tipo di punizione AggiungiRuolo.'
+      name: role
+      optional: true
+      type: role
+    - desc: 'Il canale di conteggio (NULL per i valori predefiniti del server).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishlist:
+  args:
+    - channel
+  desc: 'Elenca tutte le punizioni a livelli del server o del canale specifico.'
+  params:
+    - desc: 'Il canale di conteggio (NULL per i valori predefiniti del server).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishment:
+  args:
+    - punishment durationMinutes role channel
+  desc: 'Imposta la punizione per i conteggi errati.'
+  params:
+    - desc: "L'azione di punizione da applicare."
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: 'Durata per le punizioni temporizzate in minuti.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Ruolo per il tipo di punizione AggiungiRuolo.'
+      name: role
+      optional: true
+      type: role
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+countmodrequired:
+  args:
+    - channel roles...
+  desc: 'Imposta i ruoli richiesti per contare.'
+  params:
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Ruoli richiesti per contare.'
+      name: roles
+      optional: true
+      type: role
+countmodreset:
+  args:
+    - channel
+  desc: 'Reimposta un canale per usare i valori predefiniti del server.'
+  params:
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+countmodshow:
+  args:
+    - channel
+  desc: 'Mostra la configurazione di moderazione corrente per il canale di conteggio o i valori predefiniti del server.'
+  params:
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+countmodthreshold:
+  args:
+    - threshold channel
+  desc: 'Imposta la soglia di conteggi errati per un canale di conteggio.'
+  params:
+    - desc: 'Numero di conteggi errati prima della punizione (1-100).'
+      name: threshold
+      optional: false
+      type: int
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel
+countmodunpunish:
+  args:
+    - count channel
+  desc: 'Rimuove una punizione a livelli per un numero specifico di conteggi errati.'
+  params:
+    - desc: 'Il numero di conteggi errati da cui rimuovere la punizione.'
+      name: count
+      optional: false
+      type: int
+    - desc: 'Il canale di conteggio (NULL per i valori predefiniti del server).'
+      name: channel
+      optional: true
+      type: text channel
+countmodwindow:
+  args:
+    - hours channel
+  desc: 'Imposta la finestra temporale per tracciare i conteggi errati.'
+  params:
+    - desc: 'Finestra temporale in ore (1-168).'
+      name: hours
+      optional: false
+      type: int
+    - desc: 'Il canale di conteggio. Predefinito è il canale corrente.'
+      name: channel
+      optional: true
+      type: text channel

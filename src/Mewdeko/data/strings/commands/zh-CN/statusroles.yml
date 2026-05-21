@@ -1,0 +1,271 @@
+addstatusrole:
+  args:
+    - text
+  desc: '添加状态身份组配置。'
+  params:
+    - &ref_32
+      desc: '要添加的状态。'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string:
+  args:
+    - text
+  desc: '添加状态身份组配置。'
+  params:
+    - desc: '要添加的状态。'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_1:
+  args:
+    - text
+  desc: '添加状态身份组配置。'
+  params:
+    - desc: '要添加的状态。'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_2:
+  args:
+    - text
+  desc: '添加状态身份组配置。'
+  params:
+    - desc: '要添加的状态。'
+      name: status
+      optional: false
+      type: string
+liststatusroles:
+  args:
+    - ''
+  desc: '列出所有当前状态身份组及其详细信息。'
+  params: [ ]
+removeaddroles:
+  args:
+    - number @role
+  desc: '设置当用户拥有所选状态时要移除的身份组。'
+  params:
+    - &ref_390
+      desc: '状态身份组的索引。'
+      name: index
+      optional: false
+      type: int
+    - &ref_391
+      desc: '要移除的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: '设置当用户拥有所选状态时要移除的身份组。'
+  params:
+    - desc: '状态身份组的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要移除的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: '设置当用户拥有所选状态时要移除的身份组。'
+  params:
+    - desc: '状态身份组的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要移除的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: '设置当用户拥有所选状态时要移除的身份组。'
+  params:
+    - desc: '状态身份组的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要移除的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+removeremoveroles:
+  args:
+    - number @role
+  desc: >-
+    从用户拥有所选状态时添加的身份组中移除一个或多个身份组。
+  params:
+    - desc: '状态身份组的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要移除的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+removestatusrole:
+  args:
+    - number
+  desc: '移除状态身份组配置。'
+  params:
+    - desc: '要移除的状态身份组的索引。'
+      name: index
+      optional: false
+      type: int
+setaddroles:
+  args:
+    - number @role
+  desc: '设置当用户拥有所选状态时要添加的身份组。'
+  params:
+    - desc: '状态身份组的索引。'
+      name: index
+      optional: false
+      type: int
+    - &ref_486
+      desc: '要添加的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: '设置当用户拥有所选状态时要添加的身份组。'
+  params:
+    - desc: '状态身份组的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要添加的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: '设置当用户拥有所选状态时要添加的身份组。'
+  params:
+    - desc: '状态身份组的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要添加的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: '设置当用户拥有所选状态时要添加的身份组。'
+  params:
+    - desc: '状态身份组的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要添加的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+setremoveroles:
+  args:
+    - number @role
+  desc: '设置当用户拥有所选状态时要移除的身份组。'
+  params:
+    - desc: '状态身份组的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要移除的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+setstatusrolechannel:
+  args:
+    - number channel
+  desc: '为特定状态身份组设置频道。'
+  params:
+    - desc: '状态身份组的索引。'
+      name: index
+      optional: false
+      type: int
+    - &ref_527
+      desc: '要设置的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: '为特定状态身份组设置频道。'
+  params:
+    - desc: '状态身份组的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要设置的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: '为特定状态身份组设置频道。'
+  params:
+    - desc: '状态身份组的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要设置的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: '为特定状态身份组设置频道。'
+  params:
+    - desc: '状态身份组的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要设置的频道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusroleembed:
+  args:
+    - '<index> [embedText]'
+    - number
+  desc: '设置或预览特定状态身份组的嵌入文本。'
+  params:
+    - desc: '状态身份组的索引。'
+      name: index
+      optional: false
+      type: int
+    - desc: '要设置的嵌入文本。'
+      name: embedText
+      optional: true
+      type: string
+togglereaddremoved:
+  args:
+    - number
+  desc: '切换状态被移除时是否移除已添加的身份组。'
+  params:
+    - desc: '状态身份组的索引。'
+      name: index
+      optional: false
+      type: int
+toggleremoveadded:
+  args:
+    - number
+  desc: >-
+    根据提供的索引，切换用户不再拥有该状态时是否移除已添加的身份组。
+  params:
+    - desc: '状态身份组的索引。'
+      name: index
+      optional: false
+      type: int

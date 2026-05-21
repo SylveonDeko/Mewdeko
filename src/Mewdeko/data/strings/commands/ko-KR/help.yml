@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    특정 모듈의 명령어를 표시합니다. null인 경우 modules의 별칭이며,
+    modules는 help의 별칭입니다.
+  params:
+    - desc: '볼 모듈'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    특정 모듈의 명령어를 표시합니다. null인 경우 modules의 별칭이며,
+    modules는 help의 별칭입니다.
+  params:
+    - desc: '볼 모듈'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    특정 모듈의 명령어를 표시합니다. null인 경우 modules의 별칭이며,
+    modules는 help의 별칭입니다.
+  params:
+    - desc: '볼 모듈'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    특정 모듈의 명령어를 표시합니다. null인 경우 modules의 별칭이며,
+    modules는 help의 별칭입니다.
+  params:
+    - desc: '볼 모듈'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: '봇을 지원하는 방법을 표시합니다.'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    모든 명령어를 json 파일로 내보냅니다. 주로 다음에 사용됩니다
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    모든 명령어를 json 파일로 내보냅니다. 주로 다음에 사용됩니다
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    모든 명령어를 json 파일로 내보냅니다. 주로 다음에 사용됩니다
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    모든 명령어를 json 파일로 내보냅니다. 주로 다음에 사용됩니다
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: '봇의 가이드를 표시합니다.'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: 특정 명령어에 대한 도움말을 표시합니다.
+  params:
+    - desc: 도움말을 받을 명령어.
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: 명령어에 대한 도움말 정보를 표시합니다.
+  params:
+    - desc: 도움말을 받을 명령어.
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: '모든 모듈의 목록을 표시합니다. 기본적으로 지금은 help 별칭일 뿐입니다.'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: '이름 또는 설명으로 명령어를 검색합니다.'
+  params:
+    - &ref_481
+      desc: '검색할 용어'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: '이름 또는 설명으로 명령어를 검색합니다.'
+  params:
+    - desc: '검색할 용어'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: '이름 또는 설명으로 명령어를 검색합니다.'
+  params:
+    - desc: '검색할 용어'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: '이름 또는 설명으로 명령어를 검색합니다.'
+  params:
+    - desc: '검색할 용어'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: '봇의 소스 코드 링크를 표시합니다.'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'Mewdeko에 투표할 링크를 표시합니다.'
+  params: [ ]

@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    מציג פקודות עבור מודול מסוים. אם null, הוא כינוי ל-modules שהוא כינוי
+    ל-help.
+  params:
+    - desc: 'המודול לצפייה'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    מציג פקודות עבור מודול מסוים. אם null, הוא כינוי ל-modules שהוא כינוי
+    ל-help.
+  params:
+    - desc: 'המודול לצפייה'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    מציג פקודות עבור מודול מסוים. אם null, הוא כינוי ל-modules שהוא כינוי
+    ל-help.
+  params:
+    - desc: 'המודול לצפייה'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    מציג פקודות עבור מודול מסוים. אם null, הוא כינוי ל-modules שהוא כינוי
+    ל-help.
+  params:
+    - desc: 'המודול לצפייה'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: 'מציג כיצד לתמוך בבוט.'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    מייצא את כל הפקודות לקובץ json. משמש בעיקר עבור
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    מייצא את כל הפקודות לקובץ json. משמש בעיקר עבור
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    מייצא את כל הפקודות לקובץ json. משמש בעיקר עבור
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    מייצא את כל הפקודות לקובץ json. משמש בעיקר עבור
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: 'מציג את מדריך הבוט.'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: מציג עזרה לפקודה ספציפית.
+  params:
+    - desc: הפקודה לקבל עליה עזרה.
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: מציג מידע עזרה לפקודות.
+  params:
+    - desc: הפקודה לקבל עליה עזרה.
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: 'מציג רשימה של כל המודולים. בעיקרון זה פשוט כינוי ל-help בשלב זה.'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: 'מחפש פקודה לפי שם או תיאור.'
+  params:
+    - &ref_481
+      desc: 'המונח לחיפוש'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: 'מחפש פקודה לפי שם או תיאור.'
+  params:
+    - desc: 'המונח לחיפוש'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: 'מחפש פקודה לפי שם או תיאור.'
+  params:
+    - desc: 'המונח לחיפוש'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: 'מחפש פקודה לפי שם או תיאור.'
+  params:
+    - desc: 'המונח לחיפוש'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: 'מציג את הקישור לקוד המקור של הבוט.'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'מציג קישור להצבעה עבור Mewdeko.'
+  params: [ ]

@@ -1,0 +1,95 @@
+statchannelcreate:
+  args:
+    - 'TotalMembers [template]'
+  desc: 'Tworzy nowy zablokowany kanał głosowy wyświetlający statystykę serwera. Bot utworzy i zarządzi kanałem.'
+  params:
+    - desc: 'Typ statystyki do wyświetlenia.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'Szablon wyświetlania. Użyj %count% dla wartości.'
+      name: template
+      optional: true
+      type: string
+statchanneladd:
+  args:
+    - '#voice-channel TotalMembers [template]'
+  desc: 'Dodaje kanał głosowy jako kanał statystyk. Typy: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
+  params:
+    - desc: 'Kanał głosowy do użycia.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Typ statystyki do wyświetlenia.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'Szablon wyświetlania. Użyj %count% dla wartości.'
+      name: template
+      optional: true
+      type: string
+statchannelrole:
+  args:
+    - '#voice-channel @role [template]'
+  desc: 'Dodaje kanał statystyk pokazujący ilu członków ma określoną rolę.'
+  params:
+    - desc: 'Kanał głosowy do użycia.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Rola, której członkowie mają być liczeni.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Szablon wyświetlania. Użyj %count% i %role.name%.'
+      name: template
+      optional: true
+      type: string
+statchannelcountdown:
+  args:
+    - '#voice-channel 2026-12-31 [template]'
+  desc: 'Dodaje kanał statystyk odliczania. Użyj symboli zastępczych %days% i %hours%.'
+  params:
+    - desc: 'Kanał głosowy do użycia.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Data docelowa odliczania.'
+      name: date
+      optional: false
+      type: DateTime
+    - desc: 'Szablon wyświetlania. Użyj %days% i %hours%.'
+      name: template
+      optional: true
+      type: string
+statchannelgoal:
+  args:
+    - '#voice-channel 1000 [template]'
+  desc: 'Dodaje kanał statystyk celu członków. Użyj %count%, %goal% i %goal.percent%.'
+  params:
+    - desc: 'Kanał głosowy do użycia.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Docelowa liczba członków.'
+      name: goal
+      optional: false
+      type: int
+    - desc: 'Szablon wyświetlania. Użyj %count%, %goal%, %goal.percent%.'
+      name: template
+      optional: true
+      type: string
+statchannelremove:
+  args:
+    - '#voice-channel'
+  desc: 'Usuwa kanał statystyk.'
+  params:
+    - desc: 'Kanał głosowy do usunięcia.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+statchannellist:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie kanały statystyk dla tego serwera.'
+  params: [ ]

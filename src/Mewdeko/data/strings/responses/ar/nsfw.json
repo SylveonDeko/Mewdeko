@@ -1,0 +1,15 @@
+{
+  "autohentai_started": "بدأت Autohentai. إعادة نشر كل {0} ثانية مع إحدى العلامات التالية:\n{1}",
+  "autohentai_stopped": "توقف Autohentai.",
+  "nsfw_api_fetch_error": "تعذر جلب subreddit nsfw. يرجى التحقق من وحدة التحكم أو الإبلاغ عن المشكلة في https://discord.gg/mewdeko",
+  "nsfw_autohentai_started": "بدأ نشر NSFW التلقائي. الفاصل الزمني: {0} ثانية | العلامات: {1}",
+  "nsfw_autohentai_stopped": "تم إيقاف نشر NSFW التلقائي",
+  "nsfw_blacklist_title": "علامات NSFW المحظورة",
+  "nsfw_file_too_large": "الملف كبير جداً",
+  "nsfw_loading_subreddit": "جاري محاولة الحصول على منشور من `{0}`...",
+  "nsfw_loli_shota_content": "هذا المانغا يحتوي على محتوى loli/shota وغير مسموح به بموجب شروط خدمة Discord!",
+  "nsfw_search_no_results": "لم يُرجع البحث أي نتائج. حاول مجدداً بكلمة بحث مختلفة!",
+  "nsfw_set_false": "تم تعطيل NSFW على هذه القناة.",
+  "nsfw_set_true": "تم تفعيل NSFW على هذه القناة.",
+  "nsfw_title_format": "{0} - {1} صفحة"
+}

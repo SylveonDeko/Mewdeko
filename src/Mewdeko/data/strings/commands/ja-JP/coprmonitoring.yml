@@ -1,0 +1,168 @@
+coprmonitoradd:
+  args:
+    - '<ownerProject> [channel] [packages]'
+    - '<ownerProject> [channel] [packages]'
+    - ownerProject
+  desc: 'サーバーにCOPRプロジェクトモニターを追加します。'
+  params:
+    - desc: 'owner/project形式のCOPRプロジェクト（例：linux4switch/l4s）。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: '通知用のオプションチャンネル。デフォルトは現在のチャンネルです。'
+      name: channel
+      optional: true
+      type: ITextChannel
+    - desc: '監視するパッケージのオプションのカンマ区切りリスト（例：mesa,kernel）。'
+      name: packages
+      optional: true
+      type: string
+coprmonitorremove:
+  args:
+    - '<ownerProject> [channel]'
+    - ownerProject
+  desc: 'サーバーからCOPRプロジェクトモニターを削除します。'
+  params:
+    - desc: 'owner/project形式のCOPRプロジェクト。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: '特定のモニターを削除するためのオプションチャンネル。'
+      name: channel
+      optional: true
+      type: ITextChannel
+coprmonitorlist:
+  args:
+    - ''
+  desc: 'サーバーで設定されているすべてのCOPRモニターを一覧表示します。'
+  params: [ ]
+coprmonitortoggle:
+  args:
+    - ownerProject
+  desc: 'COPRモニターをオンまたはオフにします。'
+  params:
+    - desc: 'owner/project形式のCOPRプロジェクト。'
+      name: ownerProject
+      optional: false
+      type: string
+coprnotify:
+  args:
+    - ownerProject status enabled
+  desc: 'モニターの通知をトリガーするビルドステータスを設定します。'
+  params:
+    - desc: 'owner/project形式のCOPRプロジェクト。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: '設定するビルドステータス。'
+      name: status
+      optional: false
+      type: CoprBuildStatus
+    - desc: 'このステータスの通知を有効または無効にするか。'
+      name: enabled
+      optional: false
+      type: bool
+coprfilter:
+  args:
+    - ownerProject text
+  desc: 'COPRモニターのパッケージフィルターを設定します。'
+  params:
+    - desc: 'owner/project形式のCOPRプロジェクト。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'カンマ区切りのパッケージリスト、またはすべてを監視する場合は"all"。'
+      name: packages
+      optional: false
+      type: string
+coprsucceededmessage:
+  args:
+    - ownerProject text
+  desc: 'COPRビルドが成功したときに表示されるメッセージを設定します。'
+  params:
+    - desc: 'owner/project形式のCOPRプロジェクト。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'メッセージまたはembedコード。デフォルトにリセットするには"-"を使用。'
+      name: message
+      optional: false
+      type: string
+coprfailedmessage:
+  args:
+    - ownerProject text
+  desc: 'COPRビルドが失敗したときに表示されるメッセージを設定します。'
+  params:
+    - desc: 'owner/project形式のCOPRプロジェクト。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'メッセージまたはembedコード。デフォルトにリセットするには"-"を使用。'
+      name: message
+      optional: false
+      type: string
+coprcanceledmessage:
+  args:
+    - ownerProject text
+  desc: 'COPRビルドがキャンセルされたときに表示されるメッセージを設定します。'
+  params:
+    - desc: 'owner/project形式のCOPRプロジェクト。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'メッセージまたはembedコード。デフォルトにリセットするには"-"を使用。'
+      name: message
+      optional: false
+      type: string
+coprpendingmessage:
+  args:
+    - ownerProject text
+  desc: 'COPRビルドが保留中のときに表示されるメッセージを設定します。'
+  params:
+    - desc: 'owner/project形式のCOPRプロジェクト。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'メッセージまたはembedコード。デフォルトにリセットするには"-"を使用。'
+      name: message
+      optional: false
+      type: string
+coprrunningmessage:
+  args:
+    - ownerProject text
+  desc: 'COPRビルドが実行中のときに表示されるメッセージを設定します。'
+  params:
+    - desc: 'owner/project形式のCOPRプロジェクト。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'メッセージまたはembedコード。デフォルトにリセットするには"-"を使用。'
+      name: message
+      optional: false
+      type: string
+coprskippedmessage:
+  args:
+    - ownerProject text
+  desc: 'COPRビルドがスキップされたときに表示されるメッセージを設定します。'
+  params:
+    - desc: 'owner/project形式のCOPRプロジェクト。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'メッセージまたはembedコード。デフォルトにリセットするには"-"を使用。'
+      name: message
+      optional: false
+      type: string
+coprdefaultmessage:
+  args:
+    - ownerProject text
+  desc: '他のすべてのビルドステータスのデフォルトメッセージを設定します。'
+  params:
+    - desc: 'owner/project形式のCOPRプロジェクト。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'メッセージまたはembedコード。デフォルトにリセットするには"-"を使用。'
+      name: message
+      optional: false
+      type: string

@@ -1,0 +1,157 @@
+confess:
+  args:
+    - serverid text
+  desc: 'Lehetővé teszi a felhasználók számára, hogy névtelenül vallomást tegyenek.'
+  params:
+    - &ref_139
+      desc: 'A szerver azonosítója.'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: 'A vallomás üzenete'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: 'Lehetővé teszi a felhasználók számára, hogy névtelenül vallomást tegyenek.'
+  params:
+    - desc: 'A szerver azonosítója.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'A vallomás üzenete'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: 'Lehetővé teszi a felhasználók számára, hogy névtelenül vallomást tegyenek.'
+  params:
+    - desc: 'A szerver azonosítója.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'A vallomás üzenete'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: 'Lehetővé teszi a felhasználók számára, hogy névtelenül vallomást tegyenek.'
+  params:
+    - desc: 'A szerver azonosítója.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'A vallomás üzenete'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: 'Felhasználót ad a vallomás feketelistájához.'
+  params:
+    - desc: 'A vallomásokból kitiltandó felhasználó.'
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: 'Beállítja a vallomáscsatornát.'
+  params:
+    - desc: 'A vallomásokhoz beállítandó csatorna.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: 'Felhasználót ad hozzá vagy távolít el a vallomás feketelistájáról.'
+  params:
+    - &ref_141
+      desc: 'A feketelistára felvenni vagy onnan eltávolítani kívánt felhasználó.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: 'Felhasználót ad hozzá vagy távolít el a vallomás feketelistájáról.'
+  params:
+    - &ref_142
+      desc: 'A feketelistára felvenni vagy onnan eltávolítani kívánt felhasználó.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: 'Felhasználót ad hozzá vagy távolít el a vallomás feketelistájáról.'
+  params:
+    - desc: 'A feketelistára felvenni vagy onnan eltávolítani kívánt felhasználó.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: 'Felhasználót ad hozzá vagy távolít el a vallomás feketelistájáról.'
+  params:
+    - desc: 'A feketelistára felvenni vagy onnan eltávolítani kívánt felhasználó.'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: 'Beállítja a vallomáscsatornát névtelen vallomásokhoz.'
+  params:
+    - desc: 'A vallomáscsatorna (opcionális).'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    Beállítja a vallomásnaplócsatornát a vallomások naplózásához. E funkció
+    visszaélése azzal végződik, hogy 2 méterre leszek a házadtól.
+  params:
+    - desc: 'A vallomásnaplócsatorna (opcionális).'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: 'Eltávolít egy felhasználót a vallomás feketelistájáról.'
+  params:
+    - desc: 'A feketelistáról eltávolítandó felhasználó.'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: 'Beállítja a vallomásnaplócsatornát.'
+  params:
+    - desc: 'A csatorna, ahova a vallomások naplózásra kerülnek.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: 'Eltávolít egy felhasználót a vallomás feketelistájáról.'
+  params:
+    - desc: 'A vallomás feketelistájáról eltávolítandó felhasználó.'
+      name: user
+      optional: false
+      type: IUser

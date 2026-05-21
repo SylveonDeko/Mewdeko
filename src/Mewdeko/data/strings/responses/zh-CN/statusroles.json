@@ -1,0 +1,18 @@
+{
+  "status_role_channel_set": "频道已设为 {0}",
+  "status": "状态",
+  "status_addrole_successfully_removed": "{0} 已成功从 AddRoles 中移除以下身份组\n{1}",
+  "status_addroles_none_removed": "{0} 未移除任何 AddRoles，所提供的身份组均不在列表中。",
+  "status_embed_channel_already_set": "{0} 这已经是您的 StatusEmbedChannel。",
+  "status_embed_channel_set": "{0} 已成功将 StatusEmbedChannel 设为 {1}！",
+  "status_readd_removed_now": "{0} ReaddRemoved 现在为 `{1}`",
+  "status_remove_added_now": "{0} RemoveAdded 现在为 `{1}`",
+  "status_removerole_none_removed": "{0} 未移除任何 RemoveRoles，所提供的身份组均不在列表中。",
+  "status_removerole_successfully_removed": "{0} 已成功从 RemoveRoles 中移除以下身份组\n{1}",
+  "status_role_config_added": "已添加 StatusRole 配置！请使用其他命令进行配置。",
+  "status_role_exists": "{0} 该 StatusRole 已存在！",
+  "status_role_text_select": "{0} 请选择要对当前 StatusRole 文本进行的操作",
+  "status_roles_added": "{0} 拥有此状态时将获得以下身份组：\n{1}",
+  "status_roles_removed": "{0} 拥有此状态时将移除以下身份组：\n{1}",
+  "status_too_long": "{0} 该内容太长，连普通状态都装不下。请重试。"
+}

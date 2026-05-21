@@ -1,0 +1,134 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: '显示详细的 Patreon 分析数据。'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: '手动触发 Patreon 通告。'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: 设置或显示 Patreon 通告频道。
+  params:
+    - desc: >-
+        要设置为 Patreon 通告的频道。如果为空，则显示当前频道。
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: '显示此服务器的当前 Patreon 配置。'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: '设置每月发布 Patreon 通告的日期。'
+  params:
+    - desc: >-
+        每月发布通告的日期（1-28）。如果为空，则显示当前日期。
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: '为此服务器禁用 Patreon 通告。'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: '显示 Patreon 模块信息和可用占位符。'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: '将 Discord 用户链接到 Patreon 支持者。'
+  params:
+    - desc: 要链接的 Discord 用户。
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 要链接的 Patreon 用户 ID。
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: 为 Patreon 通告设置自定义消息。
+  params:
+    - desc: >-
+        自定义消息。使用 %server.name%、%month% 等占位符。使用 "-" 重置为默认。
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: '为新支持者发送表彰消息。'
+  params:
+    - desc: 发送表彰消息的频道。
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: '列出 Patreon 等级与身份组映射。'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: '切换身份组自动同步。'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: '显示 Patreon 支持者统计数据。'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: '列出当前活跃的 Patreon 支持者。'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: '安全设置 Patreon OAuth 集成。'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: '为所有已链接的支持者同步身份组。'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: '将 Patreon 等级映射到 Discord 身份组。'
+  params:
+    - desc: Patreon 等级 ID。
+      name: tierId
+      optional: false
+      type: string
+    - desc: 要映射到该等级的 Discord 身份组。
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: '开启或关闭 Patreon 通告。'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: '显示顶级 Patreon 支持者。'
+  params:
+    - desc: 要显示的顶级支持者数量（1-20）。
+      name: count
+      optional: true
+      type: int

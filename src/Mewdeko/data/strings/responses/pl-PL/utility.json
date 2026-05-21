@@ -1,0 +1,18 @@
+{
+  "invite_filter_channel_off": "Filtrowanie zaproszeń zostało zablokowane na tym serwerze.",
+  "invite_filter_channel_on": "Filtrowanie zaproszeń zostało odblokowane na tym serwerze.",
+  "invite_filter_server_off": "Filtrowanie zaproszeń na tym serwerze wyłączone.",
+  "invite_filter_server_on": "Filtrowanie zaproszeń na tym serwerze włączone.",
+  "channel_topic": "Temat kanału",
+  "convert": "{0} {1} wynosi {2} {3}",
+  "convert_not_found": "Nie można przekonwertować {0} na {1}: nie znaleziono jednostki",
+  "convert_type_error": "Nie mogę przeliczyć {0} na {1}: rodzaje jednostek są różne",
+  "remind": "I will remind {0} to {1} {2}",
+  "remind_invalid_format": "Błędny format czasu. Sprawdź listę komend.",
+  "repeat_invoke_none": "Brak powtarzanych wiadomości na serwerze",
+  "serverid": "{0} tego serwera to {1}",
+  "reminder_list": "",
+  "reminder_deleted": "Reminder #{0} was deleted.",
+  "reminder_not_exist": "",
+  "remind_too_long": ""
+}

@@ -1,0 +1,434 @@
+rolegreetadd:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Laggar till ett nytt rollhalsningsmeddeland for en specifik roll. Om ingen kanal anges anvands den aktuella kanalen.'
+  params:
+    - desc: 'Rollen som halsningsmeddelandet stalls in for.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Textkanalen dit halsningsmeddelandet skickas. Valfritt.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Laggar till ett nytt rollhalsningsmeddeland for en specifik roll. Om ingen kanal anges anvands den aktuella kanalen.'
+  params:
+    - desc: 'Rollen som halsningsmeddelandet stalls in for.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Textkanalen dit halsningsmeddelandet skickas. Valfritt.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=_1:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Laggar till ett nytt rollhalsningsmeddeland for en specifik roll. Om ingen kanal anges anvands den aktuella kanalen.'
+  params:
+    - desc: 'Rollen som halsningsmeddelandet stalls in for.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Textkanalen dit halsningsmeddelandet skickas. Valfritt.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=_2:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Laggar till ett nytt rollhalsningsmeddeland for en specifik roll. Om ingen kanal anges anvands den aktuella kanalen.'
+  params:
+    - desc: 'Rollen som halsningsmeddelandet stalls in for.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Textkanalen dit halsningsmeddelandet skickas. Valfritt.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetdelete:
+  args:
+    - number time
+  desc: 'Uppdaterar ett rollhalsningsmeddelande sa att det automatiskt raderas efter en angiven tid.'
+  params:
+    - &ref_448
+      desc: 'ID for rollhalsningen som ska uppdateras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: id
+      optional: false
+      type: int
+    - &ref_450
+      desc: 'Uppdaterar ett rollhalsningsmeddelande sa att det automatiskt raderas efter en angiven tid.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime:
+  args:
+    - number time
+  desc: 'Uppdaterar ett rollhalsningsmeddelande sa att det automatiskt raderas efter en angiven tid.'
+  params:
+    - desc: 'ID for rollhalsningen som ska uppdateras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Uppdaterar ett rollhalsningsmeddelande sa att det automatiskt raderas efter en angiven tid.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'Uppdaterar ett rollhalsningsmeddelande sa att det automatiskt raderas efter en angiven tid.'
+  params:
+    - desc: 'ID for rollhalsningen som ska uppdateras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Uppdaterar ett rollhalsningsmeddelande sa att det automatiskt raderas efter en angiven tid.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'Uppdaterar ett rollhalsningsmeddelande sa att det automatiskt raderas efter en angiven tid.'
+  params:
+    - desc: 'ID for rollhalsningen som ska uppdateras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Uppdaterar ett rollhalsningsmeddelande sa att det automatiskt raderas efter en angiven tid.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_int:
+  args:
+    - number number
+  desc: 'Uppdaterar ett rollhalsningsmeddelande sa att det automatiskt raderas efter en angiven tid.'
+  params:
+    - desc: 'ID for rollhalsningen som ska uppdateras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: id
+      optional: false
+      type: int
+    - &ref_449
+      desc: 'Varaktigheten i sekunder efter vilken halsningsmeddelandet raderas.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_1:
+  args:
+    - number number
+  desc: 'Uppdaterar ett rollhalsningsmeddelande sa att det automatiskt raderas efter en angiven tid.'
+  params:
+    - desc: 'ID for rollhalsningen som ska uppdateras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Varaktigheten i sekunder efter vilken halsningsmeddelandet raderas.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_2:
+  args:
+    - number number
+  desc: 'Uppdaterar ett rollhalsningsmeddelande sa att det automatiskt raderas efter en angiven tid.'
+  params:
+    - desc: 'ID for rollhalsningen som ska uppdateras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Varaktigheten i sekunder efter vilken halsningsmeddelandet raderas.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_3:
+  args:
+    - number number
+  desc: 'Uppdaterar ett rollhalsningsmeddelande sa att det automatiskt raderas efter en angiven tid.'
+  params:
+    - desc: 'ID for rollhalsningen som ska uppdateras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Varaktigheten i sekunder efter vilken halsningsmeddelandet raderas.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdisable:
+  args:
+    - number true|false
+  desc: 'Aktiverar eller inaktiverar ett rollhalsningsmeddelande.'
+  params:
+    - &ref_451
+      desc: 'ID for rollhalsningen som ska uppdateras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: num
+      optional: false
+      type: int
+    - &ref_452
+      desc: 'Om halsningsmeddelandet ska aktiveras eller inaktiveras.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool:
+  args:
+    - number true|false
+  desc: 'Aktiverar eller inaktiverar ett rollhalsningsmeddelande.'
+  params:
+    - desc: 'ID for rollhalsningen som ska uppdateras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Om halsningsmeddelandet ska aktiveras eller inaktiveras.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Aktiverar eller inaktiverar ett rollhalsningsmeddelande.'
+  params:
+    - desc: 'ID for rollhalsningen som ska uppdateras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Om halsningsmeddelandet ska aktiveras eller inaktiveras.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Aktiverar eller inaktiverar ett rollhalsningsmeddelande.'
+  params:
+    - desc: 'ID for rollhalsningen som ska uppdateras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Om halsningsmeddelandet ska aktiveras eller inaktiveras.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots:
+  args:
+    - number true|false
+  desc: 'Aktiverar eller inaktiverar halsning av bottar av en specifik rollhalsning.'
+  params:
+    - desc: 'ID for rollhalsningen som ska uppdateras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: num
+      optional: false
+      type: int
+    - &ref_453
+      desc: 'Om halsning av bottar ska aktiveras eller inaktiveras.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool:
+  args:
+    - number true|false
+  desc: 'Aktiverar eller inaktiverar halsning av bottar av en specifik rollhalsning.'
+  params:
+    - desc: 'ID for rollhalsningen som ska uppdateras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Om halsning av bottar ska aktiveras eller inaktiveras.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Aktiverar eller inaktiverar halsning av bottar av en specifik rollhalsning.'
+  params:
+    - desc: 'ID for rollhalsningen som ska uppdateras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Om halsning av bottar ska aktiveras eller inaktiveras.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Aktiverar eller inaktiverar halsning av bottar av en specifik rollhalsning.'
+  params:
+    - desc: 'ID for rollhalsningen som ska uppdateras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Om halsning av bottar ska aktiveras eller inaktiveras.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetlist:
+  args:
+    - ''
+  desc: 'Listar alla rollhalsningar som ar installda pa servern och ger detaljerad information om var och en.'
+  params: [ ]
+rolegreetmessage:
+  args:
+    - '<id> [message]'
+    - number
+  desc: 'Uppdaterar meddelandeinnehallet for en rollhalsning. Om inget meddelande anges presenteras alternativ for att forhandsgranska meddelandet eller visa det som vanlig text.'
+  params:
+    - desc: 'ID for rollhalsningen som ska uppdateras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Det nya meddelandeinnehallet. Valfritt.'
+      name: message
+      optional: true
+      type: string
+rolegreetremove:
+  args:
+    - number
+  desc: Tar bort rollhalsningar som ar kopplade till det angivna roll-ID
+  params:
+    - &ref_454
+      desc: Tar bort rollhalsningar som ar kopplade till det angivna roll-ID
+      name: id
+      optional: false
+      type: int
+rolegreetremove_IRole:
+  args:
+    - '@role'
+  desc: Tar bort rollhalsningar som ar kopplade till det angivna roll-ID
+  params:
+    - desc: 'Rollen vars rollhalsningar ska tas bort.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_1:
+  args:
+    - '@role'
+  desc: Tar bort rollhalsningar som ar kopplade till det angivna roll-ID
+  params:
+    - desc: 'Rollen vars rollhalsningar ska tas bort.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_2:
+  args:
+    - '@role'
+  desc: Tar bort rollhalsningar som ar kopplade till det angivna roll-ID
+  params:
+    - desc: 'Rollen vars rollhalsningar ska tas bort.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_3:
+  args:
+    - '@role'
+  desc: Tar bort rollhalsningar som ar kopplade till det angivna roll-ID
+  params:
+    - desc: 'Rollen vars rollhalsningar ska tas bort.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_int:
+  args:
+    - number
+  desc: Tar bort rollhalsningar som ar kopplade till det angivna roll-ID
+  params:
+    - desc: Tar bort rollhalsningar som ar kopplade till det angivna roll-ID
+      name: id
+      optional: false
+      type: int
+rolegreetremove_int_1:
+  args:
+    - number
+  desc: Tar bort rollhalsningar som ar kopplade till det angivna roll-ID
+  params:
+    - desc: Tar bort rollhalsningar som ar kopplade till det angivna roll-ID
+      name: id
+      optional: false
+      type: int
+rolegreetremove_int_2:
+  args:
+    - number
+  desc: Tar bort rollhalsningar som ar kopplade till det angivna roll-ID
+  params:
+    - desc: Tar bort rollhalsningar som ar kopplade till det angivna roll-ID
+      name: id
+      optional: false
+      type: int
+rolegreetwebhook:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Konfigurerar en webhook for ett rollhalsningsmeddelande med anpassat namn och avatar. Om inget namn anges inaktiveras webhooken.'
+  params:
+    - desc: 'ID for rollhalsningen dar webhooken ska konfigureras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Webhookens namn. Valfritt.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Avatar-URL for webhooken. Valfritt.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Konfigurerar en webhook for ett rollhalsningsmeddelande med anpassat namn och avatar. Om inget namn anges inaktiveras webhooken.'
+  params:
+    - desc: 'ID for rollhalsningen dar webhooken ska konfigureras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Webhookens namn. Valfritt.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Avatar-URL for webhooken. Valfritt.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=_1:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Konfigurerar en webhook for ett rollhalsningsmeddelande med anpassat namn och avatar. Om inget namn anges inaktiveras webhooken.'
+  params:
+    - desc: 'ID for rollhalsningen dar webhooken ska konfigureras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Webhookens namn. Valfritt.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Avatar-URL for webhooken. Valfritt.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=_2:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Konfigurerar en webhook for ett rollhalsningsmeddelande med anpassat namn och avatar. Om inget namn anges inaktiveras webhooken.'
+  params:
+    - desc: 'ID for rollhalsningen dar webhooken ska konfigureras, baserat pa dess position i listan over alla rollhalsningar.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Webhookens namn. Valfritt.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Avatar-URL for webhooken. Valfritt.'
+      name: avatar
+      optional: true
+      type: string

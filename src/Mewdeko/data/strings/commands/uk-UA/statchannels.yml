@@ -1,0 +1,95 @@
+statchannelcreate:
+  args:
+    - 'TotalMembers [template]'
+  desc: 'Створює новий заблокований голосовий канал, що відображає статистику сервера. Бот створить і керуватиме каналом.'
+  params:
+    - desc: 'Тип статистики для відображення.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'Шаблон відображення. Використовуйте %count% для значення.'
+      name: template
+      optional: true
+      type: string
+statchanneladd:
+  args:
+    - '#voice-channel TotalMembers [template]'
+  desc: 'Додає голосовий канал як канал статистики. Типи: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
+  params:
+    - desc: 'Голосовий канал для використання.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Тип статистики для відображення.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'Шаблон відображення. Використовуйте %count% для значення.'
+      name: template
+      optional: true
+      type: string
+statchannelrole:
+  args:
+    - '#voice-channel @role [template]'
+  desc: 'Додає канал статистики, що показує кількість учасників із певною роллю.'
+  params:
+    - desc: 'Голосовий канал для використання.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Роль, учасників якої треба порахувати.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Шаблон відображення. Використовуйте %count% і %role.name%.'
+      name: template
+      optional: true
+      type: string
+statchannelcountdown:
+  args:
+    - '#voice-channel 2026-12-31 [template]'
+  desc: 'Додає канал статистики зворотного відліку. Використовуйте заповнювачі %days% і %hours%.'
+  params:
+    - desc: 'Голосовий канал для використання.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Цільова дата для зворотного відліку.'
+      name: date
+      optional: false
+      type: DateTime
+    - desc: 'Шаблон відображення. Використовуйте %days% і %hours%.'
+      name: template
+      optional: true
+      type: string
+statchannelgoal:
+  args:
+    - '#voice-channel 1000 [template]'
+  desc: 'Додає канал статистики цілі учасників. Використовуйте %count%, %goal% і %goal.percent%.'
+  params:
+    - desc: 'Голосовий канал для використання.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Цільова кількість учасників.'
+      name: goal
+      optional: false
+      type: int
+    - desc: 'Шаблон відображення. Використовуйте %count%, %goal%, %goal.percent%.'
+      name: template
+      optional: true
+      type: string
+statchannelremove:
+  args:
+    - '#voice-channel'
+  desc: 'Видаляє канал статистики.'
+  params:
+    - desc: 'Голосовий канал для видалення.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+statchannellist:
+  args:
+    - ''
+  desc: 'Перелічує всі канали статистики для цього сервера.'
+  params: [ ]

@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: '사용자의 생일 공지를 토글합니다.'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: '생일 공지 채널을 설정합니다.'
+  params:
+    - desc: >-
+        공지에 사용할 텍스트 채널입니다. 지정하지 않으면 현재 채널이
+        기본값입니다.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: '현재 생일 구성을 확인합니다.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: '서버에서 다가오는 생일을 표시합니다.'
+  params:
+    - desc: 며칠 앞을 볼지. 기본 7, 최대 30.
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: '사용자 정의 생일 메시지 템플릿을 설정합니다.'
+  params:
+    - desc: >-
+        메시지 템플릿. {user}를 사용하여 사용자를 언급하세요. 비워두면
+        현재 메시지를 표시합니다.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: '생일을 공지할 때 핑할 역할을 설정합니다.'
+  params:
+    - desc: 핑할 역할. 비활성화하려면 역할을 제공하지 마세요.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: '사용자가 생일에 받는 생일 역할을 설정합니다.'
+  params:
+    - desc: 사용자의 생일에 부여할 역할. 비활성화하려면 역할을 제공하지 마세요.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: '생일 계산을 위한 사용자의 시간대를 설정합니다.'
+  params:
+    - desc: '설정할 시간대 (예: "America/New_York").'
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: '오늘의 생일을 표시합니다.'
+  params: [ ]

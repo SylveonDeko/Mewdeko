@@ -1,0 +1,18 @@
+{
+  "boost_on": "",
+  "boost_off": "",
+  "boostmsg_cur": "Current boost message: {0}",
+  "boostmsg_enable": "Enable boost messages by typing {0}",
+  "boostmsg_new": "",
+  "boostdel_off": "",
+  "boostdel_on": "Boost messages will be deleted after {0} seconds.",
+  "bandm": "Nu îți mai este permisă intrarea in server-ul {0}\nCauză: {1}",
+  "banmsg_default": "",
+  "byedel_off": "Ștergerea automată a mesajelor de la revedere a fost dezactivată.",
+  "byedel_on": "Mesajele de la revedere vor fi șterse după {0} secunde.",
+  "byemsg_cur": "Mesajul actual de la revedere: {0}",
+  "byemsg_enable": "Permite mesajele de la revedere scriind {0}",
+  "byemsg_new": "Mesaj nou de la revedere setat.",
+  "bye_off": "Anunțuri de la revedere dezactivate.",
+  "bye_on": "Anunțuri de la revedere sunt activate in canalul acesta."
+}

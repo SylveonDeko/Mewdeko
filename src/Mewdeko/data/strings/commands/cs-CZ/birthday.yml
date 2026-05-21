@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'Přepíná oznámení narozenin pro uživatele.'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'Nastaví kanál pro oznámení narozenin.'
+  params:
+    - desc: >-
+        Textový kanál pro oznámení. Výchozí je aktuální kanál,
+        pokud není zadán.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'Zobrazí aktuální konfiguraci narozenin.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'Zobrazí nadcházející narozeniny na serveru.'
+  params:
+    - desc: Kolik dní dopředu se má dívat. Výchozí 7, maximum 30.
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'Nastaví vlastní šablonu narozeninové zprávy.'
+  params:
+    - desc: >-
+        Šablona zprávy. Použijte {user} pro zmínku uživatele. Zobrazí
+        aktuální zprávu, pokud je ponecháno prázdné.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'Nastaví roli, která má být pingnuta při oznamování narozenin.'
+  params:
+    - desc: Role k pingnutí. Pro deaktivaci neposkytujte žádnou roli.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'Nastaví narozeninovou roli, kterou uživatelé dostanou v narozeniny.'
+  params:
+    - desc: Role k přiřazení v narozeniny uživatele. Pro deaktivaci neposkytujte žádnou roli.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'Nastaví časové pásmo uživatele pro výpočty narozenin.'
+  params:
+    - desc: Časové pásmo k nastavení (např. "America/New_York").
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'Zobrazí dnešní narozeniny.'
+  params: [ ]

@@ -1,0 +1,470 @@
+addrolestorolestate:
+  args:
+    - '@user @role'
+  desc: 'Добавляет роли в состояние ролей пользователя.'
+  params:
+    - &ref_26
+      desc: 'Пользователь, чьё состояние ролей должно быть изменено.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_25
+      desc: 'Роли, которые нужно добавить в состояние ролей пользователя.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Добавляет роли в состояние ролей пользователя.'
+  params:
+    - &ref_27
+      desc: 'Пользователь, чьё состояние ролей должно быть изменено.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Роли, которые нужно добавить в состояние ролей пользователя.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Добавляет роли в состояние ролей пользователя.'
+  params:
+    - desc: 'Пользователь, чьё состояние ролей должно быть изменено.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Роли, которые нужно добавить в состояние ролей пользователя.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Добавляет роли в состояние ролей пользователя.'
+  params:
+    - desc: 'Пользователь, чьё состояние ролей должно быть изменено.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Роли, которые нужно добавить в состояние ролей пользователя.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteuserrolestate:
+  args:
+    - '@user'
+  desc: 'Удаляет состояние ролей для конкретного пользователя.'
+  params:
+    - &ref_191
+      desc: 'Пользователь, чьё состояние ролей должно быть удалено.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Удаляет состояние ролей для конкретного пользователя.'
+  params:
+    - desc: 'Пользователь, чьё состояние ролей должно быть удалено.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Удаляет состояние ролей для конкретного пользователя.'
+  params:
+    - desc: 'Пользователь, чьё состояние ролей должно быть удалено.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Удаляет состояние ролей для конкретного пользователя.'
+  params:
+    - desc: 'Пользователь, чьё состояние ролей должно быть удалено.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IUser:
+  args:
+    - '@user'
+  desc: 'Удаляет состояние ролей для конкретного пользователя.'
+  params:
+    - desc: 'Пользователь, чьё состояние ролей должно быть удалено.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_1:
+  args:
+    - '@user'
+  desc: 'Удаляет состояние ролей для конкретного пользователя.'
+  params:
+    - desc: 'Пользователь, чьё состояние ролей должно быть удалено.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_2:
+  args:
+    - '@user'
+  desc: 'Удаляет состояние ролей для конкретного пользователя.'
+  params:
+    - desc: 'Пользователь, чьё состояние ролей должно быть удалено.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_3:
+  args:
+    - '@user'
+  desc: 'Удаляет состояние ролей для конкретного пользователя.'
+  params:
+    - desc: 'Пользователь, чьё состояние ролей должно быть удалено.'
+      name: user
+      optional: false
+      type: IUser
+removerolesfromrolestate:
+  args:
+    - '@user @role'
+  desc: 'Удаляет роли из состояния ролей пользователя.'
+  params:
+    - desc: 'Пользователь, чьё состояние ролей должно быть изменено.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_414
+      desc: 'Роли, которые нужно удалить из состояния ролей пользователя.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Удаляет роли из состояния ролей пользователя.'
+  params:
+    - desc: 'Пользователь, чьё состояние ролей должно быть изменено.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Роли, которые нужно удалить из состояния ролей пользователя.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Удаляет роли из состояния ролей пользователя.'
+  params:
+    - desc: 'Пользователь, чьё состояние ролей должно быть изменено.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Роли, которые нужно удалить из состояния ролей пользователя.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Удаляет роли из состояния ролей пользователя.'
+  params:
+    - desc: 'Пользователь, чьё состояние ролей должно быть изменено.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Роли, которые нужно удалить из состояния ролей пользователя.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole:
+  args:
+    - '@role'
+  desc: 'Добавляет роли в список запрета функции состояния ролей.'
+  params:
+    - &ref_463
+      desc: 'Роли, которые нужно добавить в список запрета.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]:
+  args:
+    - '@role'
+  desc: 'Добавляет роли в список запрета функции состояния ролей.'
+  params:
+    - desc: 'Роли, которые нужно добавить в список запрета.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Добавляет роли в список запрета функции состояния ролей.'
+  params:
+    - desc: 'Роли, которые нужно добавить в список запрета.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Добавляет роли в список запрета функции состояния ролей.'
+  params:
+    - desc: 'Роли, которые нужно добавить в список запрета.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyuser:
+  args:
+    - '@user'
+  desc: 'Добавляет пользователей в список запрета функции состояния ролей.'
+  params:
+    - &ref_464
+      desc: 'Пользователи, которых нужно добавить в список запрета.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Добавляет пользователей в список запрета функции состояния ролей.'
+  params:
+    - desc: 'Пользователи, которых нужно добавить в список запрета.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Добавляет пользователей в список запрета функции состояния ролей.'
+  params:
+    - desc: 'Пользователи, которых нужно добавить в список запрета.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Добавляет пользователей в список запрета функции состояния ролей.'
+  params:
+    - desc: 'Пользователи, которых нужно добавить в список запрета.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremoveadduser:
+  args:
+    - user
+  desc: 'Удаляет или запрещает пользователю доступ к состояниям ролей.'
+  params:
+    - desc: 'Пользователь, которого нужно удалить/запретить из состояний ролей.'
+      name: user
+      optional: false
+      type: IUser
+rolestatesremovedenyrole:
+  args:
+    - '@role'
+  desc: 'Удаляет роли из списка запрета функции состояния ролей.'
+  params:
+    - &ref_465
+      desc: 'Роли, которые нужно удалить из списка запрета.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]:
+  args:
+    - '@role'
+  desc: 'Удаляет роли из списка запрета функции состояния ролей.'
+  params:
+    - desc: 'Роли, которые нужно удалить из списка запрета.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Удаляет роли из списка запрета функции состояния ролей.'
+  params:
+    - desc: 'Роли, которые нужно удалить из списка запрета.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Удаляет роли из списка запрета функции состояния ролей.'
+  params:
+    - desc: 'Роли, которые нужно удалить из списка запрета.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyuser:
+  args:
+    - '@user'
+  desc: 'Удаляет пользователей из списка запрета функции состояния ролей.'
+  params:
+    - &ref_466
+      desc: 'Пользователи, которых нужно удалить из списка запрета.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Удаляет пользователей из списка запрета функции состояния ролей.'
+  params:
+    - desc: 'Пользователи, которых нужно удалить из списка запрета.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Удаляет пользователей из списка запрета функции состояния ролей.'
+  params:
+    - desc: 'Пользователи, которых нужно удалить из списка запрета.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Удаляет пользователей из списка запрета функции состояния ролей.'
+  params:
+    - desc: 'Пользователи, которых нужно удалить из списка запрета.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+saveallrolestates:
+  args:
+    - ''
+  desc: 'Сохраняет состояния ролей для всех пользователей сервера.'
+  params: [ ]
+setuserrolestate:
+  args:
+    - '@user @role'
+  desc: 'Устанавливает состояние ролей для конкретного пользователя.'
+  params:
+    - &ref_529
+      desc: 'Пользователь, чьё состояние ролей должно быть установлено.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_530
+      desc: 'Роли, которые нужно включить в состояние ролей пользователя.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Устанавливает состояние ролей для конкретного пользователя.'
+  params:
+    - &ref_531
+      desc: 'Пользователь, чьё состояние ролей должно быть установлено.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Роли, которые нужно включить в состояние ролей пользователя.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Устанавливает состояние ролей для конкретного пользователя.'
+  params:
+    - desc: 'Пользователь, чьё состояние ролей должно быть установлено.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Роли, которые нужно включить в состояние ролей пользователя.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Устанавливает состояние ролей для конкретного пользователя.'
+  params:
+    - desc: 'Пользователь, чьё состояние ролей должно быть установлено.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Роли, которые нужно включить в состояние ролей пользователя.'
+      name: roles
+      optional: false
+      type: IRole[]
+togglerolestates:
+  args:
+    - ''
+  desc: 'Включает или отключает функцию состояния ролей.'
+  params: [ ]
+togglerolestatesclearonban:
+  args:
+    - ''
+  desc: 'Переключает, должны ли состояния ролей очищаться при бане пользователя.'
+  params: [ ]
+togglerolestatesignorebots:
+  args:
+    - ''
+  desc: 'Переключает, должны ли боты игнорироваться функцией состояния ролей.'
+  params: [ ]
+togglerolestatesskipautoassign:
+  args:
+    - ''
+  desc: 'Переключает, должны ли роли автоназначения пропускаться для пользователей с сохранёнными состояниями ролей.'
+  params: [ ]
+transferrolestates:
+  args:
+    - serverid
+  desc: 'Переносит состояния ролей с текущего сервера на другой сервер.'
+  params:
+    - &ref_627
+      desc: 'ID целевого сервера.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong:
+  args:
+    - serverid
+  desc: 'Переносит состояния ролей с текущего сервера на другой сервер.'
+  params:
+    - desc: 'ID целевого сервера.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong_1:
+  args:
+    - serverid
+  desc: 'Переносит состояния ролей с текущего сервера на другой сервер.'
+  params:
+    - desc: 'ID целевого сервера.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong_2:
+  args:
+    - serverid
+  desc: 'Переносит состояния ролей с текущего сервера на другой сервер.'
+  params:
+    - desc: 'ID целевого сервера.'
+      name: serverId
+      optional: false
+      type: ulong
+viewrolestates:
+  args:
+    - ''
+  desc: 'Просматривает все состояния ролей пользователей на сервере.'
+  params: [ ]
+viewrolestatessettings:
+  args:
+    - ''
+  desc: 'Отображает текущие настройки функции состояния ролей.'
+  params: [ ]
+viewuserrolestates:
+  args:
+    - ''
+  desc: 'Отображает состояния ролей всех пользователей.'
+  params: [ ]

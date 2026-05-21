@@ -1,0 +1,18 @@
+{
+  "boost_on": "",
+  "boost_off": "",
+  "boostmsg_cur": "Current boost message: {0}",
+  "boostmsg_enable": "Enable boost messages by typing {0}",
+  "boostmsg_new": "",
+  "boostdel_off": "",
+  "boostdel_on": "Boost messages will be deleted after {0} seconds.",
+  "bandm": "אתה הוסרת משרת {0}.\nסיבה: {1}",
+  "banmsg_default": "",
+  "byedel_off": "ההסרה האוטומטית של הודאת השלום לא בשימוש.",
+  "byedel_on": "הודאת השלום תמחק בעוד {0} שניות.",
+  "byemsg_cur": "הודעת עזיבה נוכחית: {0}",
+  "byemsg_enable": "אפשור הודאת שלום דרך כתיבת {0}",
+  "byemsg_new": "התראת עזיבה חדשה הוגדרה.",
+  "bye_off": "התראת עזיבה לא פעילה.",
+  "bye_on": "התראת עזיבה הופעלה עבור ערוץ זה."
+}

@@ -1,0 +1,384 @@
+multigreetadd:
+  args:
+    - '[@channel]'
+  desc: 'マルチグリートチャンネルを追加します。'
+  params:
+    - desc: '追加するチャンネル'
+      name: channel
+      optional: true
+      type: channel
+multigreetdelete:
+  args:
+    - number time
+  desc: 'マルチグリートメッセージの削除時間を秒単位で変更します。'
+  params:
+    - &ref_303
+      desc: '変更するマルチグリートのID'
+      name: id
+      optional: false
+      type: int
+    - &ref_305
+      desc: 'マルチグリートメッセージの削除時間を秒単位で変更します。'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime:
+  args:
+    - number time
+  desc: 'マルチグリートメッセージの削除時間を秒単位で変更します。'
+  params:
+    - desc: '変更するマルチグリートのID'
+      name: id
+      optional: false
+      type: int
+    - desc: 'マルチグリートメッセージの削除時間を秒単位で変更します。'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'マルチグリートメッセージの削除時間を秒単位で変更します。'
+  params:
+    - desc: '変更するマルチグリートのID'
+      name: id
+      optional: false
+      type: int
+    - desc: 'マルチグリートメッセージの削除時間を秒単位で変更します。'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'マルチグリートメッセージの削除時間を秒単位で変更します。'
+  params:
+    - desc: '変更するマルチグリートのID'
+      name: id
+      optional: false
+      type: int
+    - desc: 'マルチグリートメッセージの削除時間を秒単位で変更します。'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_int:
+  args:
+    - number number
+  desc: 'マルチグリートメッセージの削除時間を秒単位で変更します。'
+  params:
+    - desc: '変更するマルチグリートのID'
+      name: id
+      optional: false
+      type: int
+    - &ref_304
+      desc: 'メッセージを削除するまでの時間（秒）'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_1:
+  args:
+    - number number
+  desc: 'マルチグリートメッセージの削除時間を秒単位で変更します。'
+  params:
+    - desc: '変更するマルチグリートのID'
+      name: id
+      optional: false
+      type: int
+    - desc: 'メッセージを削除するまでの時間（秒）'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_2:
+  args:
+    - number number
+  desc: 'マルチグリートメッセージの削除時間を秒単位で変更します。'
+  params:
+    - desc: '変更するマルチグリートのID'
+      name: id
+      optional: false
+      type: int
+    - desc: 'メッセージを削除するまでの時間（秒）'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_3:
+  args:
+    - number number
+  desc: 'マルチグリートメッセージの削除時間を秒単位で変更します。'
+  params:
+    - desc: '変更するマルチグリートのID'
+      name: id
+      optional: false
+      type: int
+    - desc: 'メッセージを削除するまでの時間（秒）'
+      name: howlong
+      optional: false
+      type: int
+multigreetdisable:
+  args:
+    - number true|false
+  desc: 'マルチグリートを無効にします。'
+  params:
+    - &ref_306
+      desc: '無効にするマルチグリートのID'
+      name: num
+      optional: false
+      type: int
+    - &ref_307
+      desc: 'マルチグリートを無効にするかどうか'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool:
+  args:
+    - number true|false
+  desc: 'マルチグリートを無効にします。'
+  params:
+    - desc: '無効にするマルチグリートのID'
+      name: num
+      optional: false
+      type: int
+    - desc: 'マルチグリートを無効にするかどうか'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool_1:
+  args:
+    - number true|false
+  desc: 'マルチグリートを無効にします。'
+  params:
+    - desc: '無効にするマルチグリートのID'
+      name: num
+      optional: false
+      type: int
+    - desc: 'マルチグリートを無効にするかどうか'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool_2:
+  args:
+    - number true|false
+  desc: 'マルチグリートを無効にします。'
+  params:
+    - desc: '無効にするマルチグリートのID'
+      name: num
+      optional: false
+      type: int
+    - desc: 'マルチグリートを無効にするかどうか'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots:
+  args:
+    - number true|false
+  desc: 'マルチグリートがボットを挨拶するかどうかを変更します。'
+  params:
+    - &ref_308
+      desc: '変更するマルチグリートのID'
+      name: num
+      optional: false
+      type: int
+    - &ref_309
+      desc: 'ボットを挨拶するかどうか'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool:
+  args:
+    - number true|false
+  desc: 'マルチグリートがボットを挨拶するかどうかを変更します。'
+  params:
+    - desc: '変更するマルチグリートのID'
+      name: num
+      optional: false
+      type: int
+    - desc: 'ボットを挨拶するかどうか'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool_1:
+  args:
+    - number true|false
+  desc: 'マルチグリートがボットを挨拶するかどうかを変更します。'
+  params:
+    - desc: '変更するマルチグリートのID'
+      name: num
+      optional: false
+      type: int
+    - desc: 'ボットを挨拶するかどうか'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool_2:
+  args:
+    - number true|false
+  desc: 'マルチグリートがボットを挨拶するかどうかを変更します。'
+  params:
+    - desc: '変更するマルチグリートのID'
+      name: num
+      optional: false
+      type: int
+    - desc: 'ボットを挨拶するかどうか'
+      name: enabled
+      optional: false
+      type: bool
+multigreetlist:
+  args:
+    - ''
+  desc: 'すべてのマルチグリートを一覧表示します。'
+  params: [ ]
+multigreetmessage:
+  args:
+    - '<id> [embedTemplate]'
+    - number
+  desc: 'マルチグリートのメッセージを変更します。'
+  params:
+    - desc: '変更するマルチグリートのID'
+      name: id
+      optional: false
+      type: int
+    - desc: '設定するメッセージ/埋め込みテンプレート'
+      name: embedTemplate
+      optional: true
+      type: embedtemplateresult
+multigreetremove:
+  args:
+    - number
+  desc: 'チャンネルからすべてのマルチグリートを削除します。'
+  params:
+    - &ref_310
+      desc: 'チャンネルからすべてのマルチグリートを削除します。'
+      name: id
+      optional: false
+      type: int
+multigreetremove_ITextChannel:
+  args:
+    - channel
+  desc: 'チャンネルからすべてのマルチグリートを削除します。'
+  params:
+    - &ref_311
+      desc: 'マルチグリートを削除するチャンネル'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_1:
+  args:
+    - channel
+  desc: 'チャンネルからすべてのマルチグリートを削除します。'
+  params:
+    - desc: 'マルチグリートを削除するチャンネル'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_2:
+  args:
+    - channel
+  desc: 'チャンネルからすべてのマルチグリートを削除します。'
+  params:
+    - desc: 'マルチグリートを削除するチャンネル'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_3:
+  args:
+    - channel
+  desc: 'チャンネルからすべてのマルチグリートを削除します。'
+  params:
+    - desc: 'マルチグリートを削除するチャンネル'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_int:
+  args:
+    - number
+  desc: 'チャンネルからすべてのマルチグリートを削除します。'
+  params:
+    - desc: 'チャンネルからすべてのマルチグリートを削除します。'
+      name: id
+      optional: false
+      type: int
+multigreetremove_int_1:
+  args:
+    - number
+  desc: 'チャンネルからすべてのマルチグリートを削除します。'
+  params:
+    - desc: 'チャンネルからすべてのマルチグリートを削除します。'
+      name: id
+      optional: false
+      type: int
+multigreetremove_int_2:
+  args:
+    - number
+  desc: 'チャンネルからすべてのマルチグリートを削除します。'
+  params:
+    - desc: 'チャンネルからすべてのマルチグリートを削除します。'
+      name: id
+      optional: false
+      type: int
+multigreettype:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'マルチグリートのタイプを変更します。'
+  params:
+    - &ref_312
+      desc: '設定するマルチグリートのタイプ'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'マルチグリートのタイプを変更します。'
+  params:
+    - desc: '設定するマルチグリートのタイプ'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes_1:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'マルチグリートのタイプを変更します。'
+  params:
+    - desc: '設定するマルチグリートのタイプ'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes_2:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'マルチグリートのタイプを変更します。'
+  params:
+    - desc: '設定するマルチグリートのタイプ'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreetwebhook:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'マルチグリートのウェブフックを変更します。'
+  params:
+    - desc: '変更するマルチグリートのID'
+      name: id
+      optional: false
+      type: int
+    - desc: 'ウェブフックの名前'
+      name: name
+      optional: true
+      type: string
+    - desc: 'ウェブフックのアバター'
+      name: avatar
+      optional: true
+      type: string

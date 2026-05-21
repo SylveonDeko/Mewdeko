@@ -1,0 +1,470 @@
+addrolestorolestate:
+  args:
+    - '@user @role'
+  desc: '将身份组添加到用户的身份组状态中。'
+  params:
+    - &ref_26
+      desc: '需要修改身份组状态的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_25
+      desc: '要添加到用户身份组状态中的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: '将身份组添加到用户的身份组状态中。'
+  params:
+    - &ref_27
+      desc: '需要修改身份组状态的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '要添加到用户身份组状态中的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: '将身份组添加到用户的身份组状态中。'
+  params:
+    - desc: '需要修改身份组状态的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '要添加到用户身份组状态中的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: '将身份组添加到用户的身份组状态中。'
+  params:
+    - desc: '需要修改身份组状态的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '要添加到用户身份组状态中的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteuserrolestate:
+  args:
+    - '@user'
+  desc: '删除特定用户的身份组状态。'
+  params:
+    - &ref_191
+      desc: '需要删除身份组状态的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser:
+  args:
+    - '@user'
+  desc: '删除特定用户的身份组状态。'
+  params:
+    - desc: '需要删除身份组状态的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '删除特定用户的身份组状态。'
+  params:
+    - desc: '需要删除身份组状态的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '删除特定用户的身份组状态。'
+  params:
+    - desc: '需要删除身份组状态的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IUser:
+  args:
+    - '@user'
+  desc: '删除特定用户的身份组状态。'
+  params:
+    - desc: '需要删除身份组状态的用户。'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_1:
+  args:
+    - '@user'
+  desc: '删除特定用户的身份组状态。'
+  params:
+    - desc: '需要删除身份组状态的用户。'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_2:
+  args:
+    - '@user'
+  desc: '删除特定用户的身份组状态。'
+  params:
+    - desc: '需要删除身份组状态的用户。'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_3:
+  args:
+    - '@user'
+  desc: '删除特定用户的身份组状态。'
+  params:
+    - desc: '需要删除身份组状态的用户。'
+      name: user
+      optional: false
+      type: IUser
+removerolesfromrolestate:
+  args:
+    - '@user @role'
+  desc: '从用户的身份组状态中删除身份组。'
+  params:
+    - desc: '需要修改身份组状态的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_414
+      desc: '要从用户身份组状态中删除的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: '从用户的身份组状态中删除身份组。'
+  params:
+    - desc: '需要修改身份组状态的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '要从用户身份组状态中删除的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: '从用户的身份组状态中删除身份组。'
+  params:
+    - desc: '需要修改身份组状态的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '要从用户身份组状态中删除的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: '从用户的身份组状态中删除身份组。'
+  params:
+    - desc: '需要修改身份组状态的用户。'
+      name: user
+      optional: false
+      type: IUser
+    - desc: '要从用户身份组状态中删除的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole:
+  args:
+    - '@role'
+  desc: '将身份组添加到身份组状态功能的拒绝列表中。'
+  params:
+    - &ref_463
+      desc: '要添加到拒绝列表中的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]:
+  args:
+    - '@role'
+  desc: '将身份组添加到身份组状态功能的拒绝列表中。'
+  params:
+    - desc: '要添加到拒绝列表中的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]_1:
+  args:
+    - '@role'
+  desc: '将身份组添加到身份组状态功能的拒绝列表中。'
+  params:
+    - desc: '要添加到拒绝列表中的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]_2:
+  args:
+    - '@role'
+  desc: '将身份组添加到身份组状态功能的拒绝列表中。'
+  params:
+    - desc: '要添加到拒绝列表中的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyuser:
+  args:
+    - '@user'
+  desc: '将用户添加到身份组状态功能的拒绝列表中。'
+  params:
+    - &ref_464
+      desc: '要添加到拒绝列表中的用户。'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]:
+  args:
+    - '@user'
+  desc: '将用户添加到身份组状态功能的拒绝列表中。'
+  params:
+    - desc: '要添加到拒绝列表中的用户。'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: '将用户添加到身份组状态功能的拒绝列表中。'
+  params:
+    - desc: '要添加到拒绝列表中的用户。'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: '将用户添加到身份组状态功能的拒绝列表中。'
+  params:
+    - desc: '要添加到拒绝列表中的用户。'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremoveadduser:
+  args:
+    - user
+  desc: '从身份组状态中删除或拒绝用户。'
+  params:
+    - desc: '要从身份组状态中删除/拒绝的用户。'
+      name: user
+      optional: false
+      type: IUser
+rolestatesremovedenyrole:
+  args:
+    - '@role'
+  desc: '从身份组状态功能的拒绝列表中删除身份组。'
+  params:
+    - &ref_465
+      desc: '要从拒绝列表中删除的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]:
+  args:
+    - '@role'
+  desc: '从身份组状态功能的拒绝列表中删除身份组。'
+  params:
+    - desc: '要从拒绝列表中删除的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]_1:
+  args:
+    - '@role'
+  desc: '从身份组状态功能的拒绝列表中删除身份组。'
+  params:
+    - desc: '要从拒绝列表中删除的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]_2:
+  args:
+    - '@role'
+  desc: '从身份组状态功能的拒绝列表中删除身份组。'
+  params:
+    - desc: '要从拒绝列表中删除的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyuser:
+  args:
+    - '@user'
+  desc: '从身份组状态功能的拒绝列表中删除用户。'
+  params:
+    - &ref_466
+      desc: '要从拒绝列表中删除的用户。'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]:
+  args:
+    - '@user'
+  desc: '从身份组状态功能的拒绝列表中删除用户。'
+  params:
+    - desc: '要从拒绝列表中删除的用户。'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: '从身份组状态功能的拒绝列表中删除用户。'
+  params:
+    - desc: '要从拒绝列表中删除的用户。'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: '从身份组状态功能的拒绝列表中删除用户。'
+  params:
+    - desc: '要从拒绝列表中删除的用户。'
+      name: users
+      optional: false
+      type: IGuildUser[]
+saveallrolestates:
+  args:
+    - ''
+  desc: '保存服务器中所有用户的身份组状态。'
+  params: [ ]
+setuserrolestate:
+  args:
+    - '@user @role'
+  desc: '设置特定用户的身份组状态。'
+  params:
+    - &ref_529
+      desc: '需要设置身份组状态的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_530
+      desc: '要包含在用户身份组状态中的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: '设置特定用户的身份组状态。'
+  params:
+    - &ref_531
+      desc: '需要设置身份组状态的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要包含在用户身份组状态中的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: '设置特定用户的身份组状态。'
+  params:
+    - desc: '需要设置身份组状态的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要包含在用户身份组状态中的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: '设置特定用户的身份组状态。'
+  params:
+    - desc: '需要设置身份组状态的用户。'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: '要包含在用户身份组状态中的身份组。'
+      name: roles
+      optional: false
+      type: IRole[]
+togglerolestates:
+  args:
+    - ''
+  desc: '开启或关闭身份组状态功能。'
+  params: [ ]
+togglerolestatesclearonban:
+  args:
+    - ''
+  desc: '切换用户被封禁时是否清除身份组状态。'
+  params: [ ]
+togglerolestatesignorebots:
+  args:
+    - ''
+  desc: '切换身份组状态功能是否忽略机器人。'
+  params: [ ]
+togglerolestatesskipautoassign:
+  args:
+    - ''
+  desc: '切换是否为已保存身份组状态的用户跳过自动分配身份组。'
+  params: [ ]
+transferrolestates:
+  args:
+    - serverid
+  desc: '将身份组状态从当前服务器转移到另一个服务器。'
+  params:
+    - &ref_627
+      desc: '目标服务器的ID。'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong:
+  args:
+    - serverid
+  desc: '将身份组状态从当前服务器转移到另一个服务器。'
+  params:
+    - desc: '目标服务器的ID。'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong_1:
+  args:
+    - serverid
+  desc: '将身份组状态从当前服务器转移到另一个服务器。'
+  params:
+    - desc: '目标服务器的ID。'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong_2:
+  args:
+    - serverid
+  desc: '将身份组状态从当前服务器转移到另一个服务器。'
+  params:
+    - desc: '目标服务器的ID。'
+      name: serverId
+      optional: false
+      type: ulong
+viewrolestates:
+  args:
+    - ''
+  desc: '查看服务器中所有用户的身份组状态。'
+  params: [ ]
+viewrolestatessettings:
+  args:
+    - ''
+  desc: '显示身份组状态功能的当前设置。'
+  params: [ ]
+viewuserrolestates:
+  args:
+    - ''
+  desc: '显示所有用户的身份组状态。'
+  params: [ ]

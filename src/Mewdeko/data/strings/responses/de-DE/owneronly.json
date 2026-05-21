@@ -1,0 +1,22 @@
+{
+  "eval_compiling": "Evaluiert...",
+  "eval_no_code": "Kein Code bereitgestellt. Bitte schließe den Code in Code-Blöcke ein oder füge eine .cs-Datei an",
+  "eval_output_blank": "Die Ausgabe war leer",
+  "eval_read_error": "Fehler beim Lesen der angehängten Datei: {0}",
+  "eval_too_large": "Die angehängte Datei ist zu groß. Bitte stelle sicher, dass sie unter 100 KB liegt",
+  "instance_added": "Instanz hinzugefügt",
+  "instance_command_count": "Befehlsanzahl: {0}",
+  "instance_modules_count": "Modulanzahl: {0}",
+  "instance_not_added": "Fehler beim Hinzufügen der Instanz: {0}",
+  "instance_not_found": "Instanz mit Port {0} nicht gefunden. Bitte versuche es erneut.",
+  "instance_offline": "Instanz ist offline",
+  "instance_removed": "Instanz auf Port {0} erfolgreich entfernt",
+  "instance_status": "Instanzstatus",
+  "instance_user_count": "Benutzeranzahl {0}",
+  "instance_version": "Instanzversion: {0}",
+  "owner": "Besitzer",
+  "owner_config_error": "Es gab einen Fehler beim Setzen oder Drucken der Konfiguration, bitte überprüfe die Protokolle.",
+  "owner_ids": "Besitzer-IDs",
+  "owner_setting_title": "⚙️ {0}",
+  "user_stats": "Benutzerstatistiken"
+}

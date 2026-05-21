@@ -1,0 +1,95 @@
+statchannelcreate:
+  args:
+    - 'TotalMembers [template]'
+  desc: 'Sunucu istatistiği gösteren yeni bir kilitli ses kanalı oluşturur. Bot kanalı oluşturup yönetecektir.'
+  params:
+    - desc: 'Görüntülenecek istatistik türü.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'Görüntü şablonu. Değer için %count% kullanın.'
+      name: template
+      optional: true
+      type: string
+statchanneladd:
+  args:
+    - '#voice-channel TotalMembers [template]'
+  desc: 'Bir ses kanalını istatistik kanalı olarak ekler. Türler: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
+  params:
+    - desc: 'Kullanılacak ses kanalı.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Görüntülenecek istatistik türü.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'Görüntü şablonu. Değer için %count% kullanın.'
+      name: template
+      optional: true
+      type: string
+statchannelrole:
+  args:
+    - '#voice-channel @role [template]'
+  desc: 'Belirli bir role sahip kaç üye olduğunu gösteren bir istatistik kanalı ekler.'
+  params:
+    - desc: 'Kullanılacak ses kanalı.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Üyeleri sayılacak rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Görüntü şablonu. %count% ve %role.name% kullanın.'
+      name: template
+      optional: true
+      type: string
+statchannelcountdown:
+  args:
+    - '#voice-channel 2026-12-31 [template]'
+  desc: 'Bir geri sayım istatistik kanalı ekler. %days% ve %hours% yer tutucularını kullanın.'
+  params:
+    - desc: 'Kullanılacak ses kanalı.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Geri sayım için hedef tarih.'
+      name: date
+      optional: false
+      type: DateTime
+    - desc: 'Görüntü şablonu. %days% ve %hours% kullanın.'
+      name: template
+      optional: true
+      type: string
+statchannelgoal:
+  args:
+    - '#voice-channel 1000 [template]'
+  desc: 'Bir üye hedef istatistik kanalı ekler. %count%, %goal% ve %goal.percent% kullanın.'
+  params:
+    - desc: 'Kullanılacak ses kanalı.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Hedef üye sayısı.'
+      name: goal
+      optional: false
+      type: int
+    - desc: 'Görüntü şablonu. %count%, %goal%, %goal.percent% kullanın.'
+      name: template
+      optional: true
+      type: string
+statchannelremove:
+  args:
+    - '#voice-channel'
+  desc: 'Bir istatistik kanalını kaldırır.'
+  params:
+    - desc: 'Kaldırılacak ses kanalı.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+statchannellist:
+  args:
+    - ''
+  desc: 'Bu sunucu için tüm istatistik kanallarını listeler.'
+  params: [ ]

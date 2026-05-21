@@ -1,0 +1,305 @@
+setupvoicehub:
+  args:
+    - ''
+  desc: 'Özel sesli kanal oluşturmak için bir sesli kanalı merkez olarak ayarlar.'
+  params: [ ]
+setvoicehub:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Özel sesli kanal oluşturmak için belirli bir sesli kanalı merkez olarak ayarlar.'
+  params:
+    - desc: 'Özel sesli kanal oluşturmak için belirli bir sesli kanalı merkez olarak ayarlar.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Özel sesli kanal oluşturmak için belirli bir sesli kanalı merkez olarak ayarlar.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Özel sesli kanal oluşturmak için belirli bir sesli kanalı merkez olarak ayarlar.'
+  params:
+    - desc: 'Özel sesli kanal oluşturmak için belirli bir sesli kanalı merkez olarak ayarlar.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Özel sesli kanal oluşturmak için belirli bir sesli kanalı merkez olarak ayarlar.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_1:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Özel sesli kanal oluşturmak için belirli bir sesli kanalı merkez olarak ayarlar.'
+  params:
+    - desc: 'Özel sesli kanal oluşturmak için belirli bir sesli kanalı merkez olarak ayarlar.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Özel sesli kanal oluşturmak için belirli bir sesli kanalı merkez olarak ayarlar.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_2:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Özel sesli kanal oluşturmak için belirli bir sesli kanalı merkez olarak ayarlar.'
+  params:
+    - desc: 'Özel sesli kanal oluşturmak için belirli bir sesli kanalı merkez olarak ayarlar.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Özel sesli kanal oluşturmak için belirli bir sesli kanalı merkez olarak ayarlar.'
+      name: category
+      optional: true
+      type: category
+voiceallow:
+  args:
+    - '@user'
+  desc: 'Belirli bir kullanıcının kilitli sesli kanalınıza katılmasına izin verir.'
+  params:
+    - &ref_642
+      desc: 'Belirli bir kullanıcının kilitli sesli kanalınıza katılmasına izin verir.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Belirli bir kullanıcının kilitli sesli kanalınıza katılmasına izin verir.'
+  params:
+    - desc: 'Belirli bir kullanıcının kilitli sesli kanalınıza katılmasına izin verir.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Belirli bir kullanıcının kilitli sesli kanalınıza katılmasına izin verir.'
+  params:
+    - desc: 'Belirli bir kullanıcının kilitli sesli kanalınıza katılmasına izin verir.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Belirli bir kullanıcının kilitli sesli kanalınıza katılmasına izin verir.'
+  params:
+    - desc: 'Belirli bir kullanıcının kilitli sesli kanalınıza katılmasına izin verir.'
+      name: target
+      optional: false
+      type: IGuildUser
+voicebitrate:
+  args:
+    - number
+  desc: 'Özel sesli kanalınızın bit hızını ayarlar.'
+  params:
+    - &ref_643
+      desc: 'Özel sesli kanalınızın bit hızını ayarlar.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int:
+  args:
+    - number
+  desc: 'Özel sesli kanalınızın bit hızını ayarlar.'
+  params:
+    - desc: 'Özel sesli kanalınızın bit hızını ayarlar.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_1:
+  args:
+    - number
+  desc: 'Özel sesli kanalınızın bit hızını ayarlar.'
+  params:
+    - desc: 'Özel sesli kanalınızın bit hızını ayarlar.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_2:
+  args:
+    - number
+  desc: 'Özel sesli kanalınızın bit hızını ayarlar.'
+  params:
+    - desc: 'Özel sesli kanalınızın bit hızını ayarlar.'
+      name: bitrate
+      optional: false
+      type: int
+voicechannels:
+  args:
+    - ''
+  desc: 'Aktif özel sesli kanalları listeler.'
+  params: [ ]
+voiceclaim:
+  args:
+    - ''
+  desc: 'Sahip mevcut değilse özel sesli kanalın sahipliğini talep eder.'
+  params: [ ]
+voiceconfig:
+  args:
+    - '[setting] [value]'
+  desc: 'Özel ses ayarlarını yapılandırır.'
+  params:
+    - desc: 'Özel ses ayarlarını yapılandırır.'
+      name: setting
+      optional: true
+      type: string
+    - desc: 'Özel ses ayarlarını yapılandırır.'
+      name: value
+      optional: true
+      type: string
+voicecontrols:
+  args:
+    - ''
+  desc: 'Özel sesli kanalınızı yönetmek için etkileşimli kontroller gösterir.'
+  params: [ ]
+voicedeny:
+  args:
+    - '@user'
+  desc: 'Belirli bir kullanıcının sesli kanalınıza katılmasını engeller.'
+  params:
+    - desc: 'Belirli bir kullanıcının sesli kanalınıza katılmasını engeller.'
+      name: target
+      optional: false
+      type: IGuildUser
+voicekeepalive:
+  args:
+    - true
+  desc: 'Kanal boş olsa bile aktif kalmasını sağlar.'
+  params:
+    - desc: 'Kanal boş olsa bile aktif kalmasını sağlar.'
+      name: true
+      optional: false
+      type: '='
+voicelimit:
+  args:
+    - number
+  desc: 'Özel sesli kanalınız için kullanıcı sınırını ayarlar.'
+  params:
+    - &ref_644
+      desc: 'Özel sesli kanalınız için kullanıcı sınırını ayarlar.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int:
+  args:
+    - number
+  desc: 'Özel sesli kanalınız için kullanıcı sınırını ayarlar.'
+  params:
+    - desc: 'Özel sesli kanalınız için kullanıcı sınırını ayarlar.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_1:
+  args:
+    - number
+  desc: 'Özel sesli kanalınız için kullanıcı sınırını ayarlar.'
+  params:
+    - desc: 'Özel sesli kanalınız için kullanıcı sınırını ayarlar.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_2:
+  args:
+    - number
+  desc: 'Özel sesli kanalınız için kullanıcı sınırını ayarlar.'
+  params:
+    - desc: 'Özel sesli kanalınız için kullanıcı sınırını ayarlar.'
+      name: limit
+      optional: false
+      type: int
+voicelock:
+  args:
+    - true
+  desc: 'Özel sesli kanalınızı kilitler veya kilidini açar.'
+  params:
+    - desc: 'Özel sesli kanalınızı kilitler veya kilidini açar.'
+      name: true
+      optional: false
+      type: '='
+voicepreferences:
+  args:
+    - ''
+  desc: 'Sesli kanal tercihlerinizi ayarlar.'
+  params: [ ]
+voiceprefsbitrate:
+  args:
+    - '[bitrate]'
+  desc: 'Özel sesli kanallar için tercih ettiğiniz bit hızını ayarlar.'
+  params:
+    - desc: 'Özel sesli kanallar için tercih ettiğiniz bit hızını ayarlar.'
+      name: bitrate
+      optional: true
+      type: int
+voiceprefskeepalive:
+  args:
+    - '[keepAlive]'
+  desc: 'Özel sesli kanallar için tercih ettiğiniz keep-alive durumunu ayarlar.'
+  params:
+    - desc: 'Özel sesli kanallar için tercih ettiğiniz keep-alive durumunu ayarlar.'
+      name: keepAlive
+      optional: true
+      type: bool
+voiceprefslimit:
+  args:
+    - '[limit]'
+  desc: 'Özel sesli kanallar için tercih ettiğiniz kullanıcı sınırını ayarlar.'
+  params:
+    - desc: 'Özel sesli kanallar için tercih ettiğiniz kullanıcı sınırını ayarlar.'
+      name: limit
+      optional: true
+      type: int
+voiceprefslock:
+  args:
+    - '[locked]'
+  desc: 'Özel sesli kanallar için tercih ettiğiniz kilit durumunu ayarlar.'
+  params:
+    - desc: 'Özel sesli kanallar için tercih ettiğiniz kilit durumunu ayarlar.'
+      name: locked
+      optional: true
+      type: bool
+voiceprefsname:
+  args:
+    - '[format]'
+  desc: 'Özel sesli kanallar için tercih ettiğiniz ad biçimini ayarlar.'
+  params:
+    - desc: 'Özel sesli kanallar için tercih ettiğiniz ad biçimini ayarlar.'
+      name: format
+      optional: true
+      type: string
+voiceprefsreset:
+  args:
+    - ''
+  desc: 'Tüm sesli kanal tercihlerinizi sıfırlar.'
+  params: [ ]
+voicerename:
+  args:
+    - text
+  desc: 'Özel sesli kanalınızı yeniden adlandırır.'
+  params:
+    - desc: 'Özel sesli kanalınızı yeniden adlandırır.'
+      name: name
+      optional: false
+      type: string
+voicetransfer:
+  args:
+    - '@user'
+  desc: 'Özel sesli kanalınızın sahipliğini başka bir kullanıcıya devreder.'
+  params:
+    - desc: 'Özel sesli kanalınızın sahipliğini başka bir kullanıcıya devreder.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceunlock:
+  args:
+    - ''
+  desc: 'Özel sesli kanalınızın kilidini açar.'
+  params: [ ]

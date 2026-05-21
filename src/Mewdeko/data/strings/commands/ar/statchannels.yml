@@ -1,0 +1,95 @@
+statchannelcreate:
+  args:
+    - 'TotalMembers [template]'
+  desc: 'ينشئ قناة صوتية مقفلة جديدة تعرض إحصائية الخادم. سيقوم البوت بإنشاء وإدارة القناة.'
+  params:
+    - desc: 'نوع الإحصائية للعرض.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'قالب العرض. استخدم %count% للقيمة.'
+      name: template
+      optional: true
+      type: string
+statchanneladd:
+  args:
+    - '#voice-channel TotalMembers [template]'
+  desc: 'يضيف قناة صوتية كقناة إحصائيات. الأنواع: TotalMembers، HumanMembers، BotCount، OnlineMembers، ChannelCount، RoleCount، BoostCount، BoostLevel، EmojiCount.'
+  params:
+    - desc: 'القناة الصوتية للاستخدام.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'نوع الإحصائية للعرض.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'قالب العرض. استخدم %count% للقيمة.'
+      name: template
+      optional: true
+      type: string
+statchannelrole:
+  args:
+    - '#voice-channel @role [template]'
+  desc: 'يضيف قناة إحصائيات تعرض عدد الأعضاء الذين لديهم دور معين.'
+  params:
+    - desc: 'القناة الصوتية للاستخدام.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'الدور الذي يتم عد أعضائه.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'قالب العرض. استخدم %count% و %role.name%.'
+      name: template
+      optional: true
+      type: string
+statchannelcountdown:
+  args:
+    - '#voice-channel 2026-12-31 [template]'
+  desc: 'يضيف قناة إحصائيات للعد التنازلي. استخدم العناصر النائبة %days% و %hours%.'
+  params:
+    - desc: 'القناة الصوتية للاستخدام.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'التاريخ المستهدف للعد التنازلي.'
+      name: date
+      optional: false
+      type: DateTime
+    - desc: 'قالب العرض. استخدم %days% و %hours%.'
+      name: template
+      optional: true
+      type: string
+statchannelgoal:
+  args:
+    - '#voice-channel 1000 [template]'
+  desc: 'يضيف قناة إحصائيات لهدف الأعضاء. استخدم %count% و %goal% و %goal.percent%.'
+  params:
+    - desc: 'القناة الصوتية للاستخدام.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'العدد المستهدف للأعضاء.'
+      name: goal
+      optional: false
+      type: int
+    - desc: 'قالب العرض. استخدم %count% و %goal% و %goal.percent%.'
+      name: template
+      optional: true
+      type: string
+statchannelremove:
+  args:
+    - '#voice-channel'
+  desc: 'يزيل قناة إحصائيات.'
+  params:
+    - desc: 'القناة الصوتية للإزالة.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+statchannellist:
+  args:
+    - ''
+  desc: 'يسرد جميع قنوات الإحصائيات لهذا الخادم.'
+  params: [ ]

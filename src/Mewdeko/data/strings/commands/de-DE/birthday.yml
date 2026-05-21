@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'Schaltet Geburtstagsankündigungen für den Benutzer um.'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'Legt den Kanal für Geburtstagsankündigungen fest.'
+  params:
+    - desc: >-
+        Der Textkanal für Ankündigungen. Standardmäßig der aktuelle
+        Kanal, wenn nicht angegeben.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'Zeigt die aktuelle Geburtstagskonfiguration an.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'Zeigt anstehende Geburtstage im Server an.'
+  params:
+    - desc: Wie viele Tage vorausschauen. Standard ist 7, Maximum 30.
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'Legt eine benutzerdefinierte Geburtstagsnachrichten-Vorlage fest.'
+  params:
+    - desc: >-
+        Die Nachrichtenvorlage. Verwende {user} um den Benutzer zu
+        erwähnen. Zeigt die aktuelle Nachricht, wenn leer gelassen.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'Legt die Rolle fest, die bei Geburtstagsankündigungen gepingt wird.'
+  params:
+    - desc: Die Rolle zum Pingen. Keine Rolle angeben, um zu deaktivieren.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'Legt die Geburtstagsrolle fest, die Benutzer an ihrem Geburtstag erhalten.'
+  params:
+    - desc: Die Rolle, die am Geburtstag eines Benutzers zugewiesen wird. Keine Rolle angeben, um zu deaktivieren.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'Legt die Zeitzone des Benutzers für Geburtstagsberechnungen fest.'
+  params:
+    - desc: Die festzulegende Zeitzone (z. B. "America/New_York").
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'Zeigt die Geburtstage von heute an.'
+  params: [ ]

@@ -1,0 +1,15 @@
+{
+  "autohentai_started": "Autohentai gestartet. Wird alle {0}s mit einem der folgenden Tags regepostet:\n{1}",
+  "autohentai_stopped": "Autohentai gestoppt.",
+  "nsfw_api_fetch_error": "NSFW-Subreddit konnte nicht abgerufen werden. Bitte überprüfe die Konsole oder melde das Problem unter https://discord.gg/mewdeko",
+  "nsfw_autohentai_started": "Auto-NSFW-Posting gestartet. Intervall: {0}s | Tags: {1}",
+  "nsfw_autohentai_stopped": "Auto-NSFW-Posting wurde gestoppt",
+  "nsfw_blacklist_title": "Gesperrte NSFW-Tags",
+  "nsfw_file_too_large": "Datei zu groß",
+  "nsfw_loading_subreddit": "Versuche, einen Beitrag von `{0}` zu erhalten...",
+  "nsfw_loli_shota_content": "Dieser Manga enthält Loli/Shota-Inhalte und ist von den Discord-Nutzungsbedingungen nicht gestattet!",
+  "nsfw_search_no_results": "Die Suche hat keine Ergebnisse zurückgegeben. Versuche es mit einer anderen Abfrage!",
+  "nsfw_set_false": "NSFW wurde auf diesem Kanal deaktiviert.",
+  "nsfw_set_true": "NSFW wurde auf diesem Kanal aktiviert.",
+  "nsfw_title_format": "{0} - {1} Seiten"
+}

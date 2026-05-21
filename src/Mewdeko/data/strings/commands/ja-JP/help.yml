@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    特定のモジュールのコマンドを表示します。null の場合、modules の
+    エイリアスであり、modules は help のエイリアスです。
+  params:
+    - desc: '見るモジュール'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    特定のモジュールのコマンドを表示します。null の場合、modules の
+    エイリアスであり、modules は help のエイリアスです。
+  params:
+    - desc: '見るモジュール'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    特定のモジュールのコマンドを表示します。null の場合、modules の
+    エイリアスであり、modules は help のエイリアスです。
+  params:
+    - desc: '見るモジュール'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    特定のモジュールのコマンドを表示します。null の場合、modules の
+    エイリアスであり、modules は help のエイリアスです。
+  params:
+    - desc: '見るモジュール'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: 'ボットを支援する方法を表示します。'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    すべてのコマンドを json ファイルにエクスポートします。主に次の用途で使用
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    すべてのコマンドを json ファイルにエクスポートします。主に次の用途で使用
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    すべてのコマンドを json ファイルにエクスポートします。主に次の用途で使用
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    すべてのコマンドを json ファイルにエクスポートします。主に次の用途で使用
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: 'ボットのガイドを表示します。'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: 特定のコマンドのヘルプを表示します。
+  params:
+    - desc: ヘルプを取得するコマンド。
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: コマンドのヘルプ情報を表示します。
+  params:
+    - desc: ヘルプを取得するコマンド。
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: 'すべてのモジュールのリストを表示します。基本的に今は help のエイリアスです。'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: '名前または説明でコマンドを検索します。'
+  params:
+    - &ref_481
+      desc: '検索する用語'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: '名前または説明でコマンドを検索します。'
+  params:
+    - desc: '検索する用語'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: '名前または説明でコマンドを検索します。'
+  params:
+    - desc: '検索する用語'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: '名前または説明でコマンドを検索します。'
+  params:
+    - desc: '検索する用語'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: 'ボットのソースコードリンクを表示します。'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'Mewdeko に投票するリンクを表示します。'
+  params: [ ]

@@ -1,0 +1,239 @@
+votechannel:
+  args:
+    - channel
+  desc: >-
+    將指定的文字頻道設定為投票頻道，所有投票確認將在此頻道發送。
+  params:
+    - &ref_646
+      desc: '要設定為投票頻道的文字頻道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel:
+  args:
+    - channel
+  desc: >-
+    將指定的文字頻道設定為投票頻道，所有投票確認將在此頻道發送。
+  params:
+    - desc: '要設定為投票頻道的文字頻道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel_1:
+  args:
+    - channel
+  desc: >-
+    將指定的文字頻道設定為投票頻道，所有投票確認將在此頻道發送。
+  params:
+    - desc: '要設定為投票頻道的文字頻道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel_2:
+  args:
+    - channel
+  desc: >-
+    將指定的文字頻道設定為投票頻道，所有投票確認將在此頻道發送。
+  params:
+    - desc: '要設定為投票頻道的文字頻道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+votemessage:
+  args:
+    - '[message]'
+  desc: >-
+    設定用戶投票時發送的自訂訊息，或預覽目前的投票訊息。
+  params:
+    - desc: '要為投票設定的自訂訊息。使用"-"重置為預設訊息。如果為空，則預覽目前的投票訊息。'
+      name: message
+      optional: true
+      type: string
+votepassword:
+  args:
+    - ''
+  desc: >-
+    啟動設定新投票密碼的確認流程，並提醒用戶注意其安全性。
+  params: [ ]
+voteroleadd:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    新增用戶投票時將獲得的身分組，並可選設定自動移除該身分組的時長。
+  params:
+    - desc: '要作為投票獎勵新增的身分組。'
+      name: role
+      optional: false
+      type: role
+    - desc: '身分組被授予的時長。填null表示永久。'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    新增用戶投票時將獲得的身分組，並可選設定自動移除該身分組的時長。
+  params:
+    - desc: '要作為投票獎勵新增的身分組。'
+      name: role
+      optional: false
+      type: role
+    - desc: '身分組被授予的時長。填null表示永久。'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=_1:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    新增用戶投票時將獲得的身分組，並可選設定自動移除該身分組的時長。
+  params:
+    - desc: '要作為投票獎勵新增的身分組。'
+      name: role
+      optional: false
+      type: role
+    - desc: '身分組被授予的時長。填null表示永久。'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=_2:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    新增用戶投票時將獲得的身分組，並可選設定自動移除該身分組的時長。
+  params:
+    - desc: '要作為投票獎勵新增的身分組。'
+      name: role
+      optional: false
+      type: role
+    - desc: '身分組被授予的時長。填null表示永久。'
+      name: time
+      optional: true
+      type: duration
+voteroleedit:
+  args:
+    - '@role time'
+  desc: '編輯投票身分組授予用戶的時長。'
+  params:
+    - &ref_648
+      desc: '要編輯的身分組。'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_649
+      desc: '身分組被授予的新時長。'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime:
+  args:
+    - '@role time'
+  desc: '編輯投票身分組授予用戶的時長。'
+  params:
+    - desc: '要編輯的身分組。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '身分組被授予的新時長。'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime_1:
+  args:
+    - '@role time'
+  desc: '編輯投票身分組授予用戶的時長。'
+  params:
+    - desc: '要編輯的身分組。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '身分組被授予的新時長。'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime_2:
+  args:
+    - '@role time'
+  desc: '編輯投票身分組授予用戶的時長。'
+  params:
+    - desc: '要編輯的身分組。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '身分組被授予的新時長。'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleremove:
+  args:
+    - '@role'
+  desc: '從用戶投票時授予的身分組清單中移除一個身分組。'
+  params:
+    - &ref_650
+      desc: '要從投票獎勵中移除的身分組。'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole:
+  args:
+    - '@role'
+  desc: '從用戶投票時授予的身分組清單中移除一個身分組。'
+  params:
+    - desc: '要從投票獎勵中移除的身分組。'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole_1:
+  args:
+    - '@role'
+  desc: '從用戶投票時授予的身分組清單中移除一個身分組。'
+  params:
+    - desc: '要從投票獎勵中移除的身分組。'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole_2:
+  args:
+    - '@role'
+  desc: '從用戶投票時授予的身分組清單中移除一個身分組。'
+  params:
+    - desc: '要從投票獎勵中移除的身分組。'
+      name: role
+      optional: false
+      type: IRole
+voterolesclear:
+  args:
+    - ''
+  desc: '清除用戶投票時授予的所有身分組。'
+  params: [ ]
+voteroleslist:
+  args:
+    - ''
+  desc: '列出用戶投票時授予的所有身分組。'
+  params: [ ]
+votes:
+  args:
+    - '[@user]'
+  desc: >-
+    顯示特定用戶或命令執行者投出的總票數。
+  params:
+    - desc: '要統計投票的用戶。如果為空，則統計命令執行者的投票。'
+      name: user
+      optional: true
+      type: user
+votesleaderboard:
+  args:
+    - false
+  desc: >-
+    根據用戶投票數顯示排行榜，可選擇僅篩選本月的投票。
+  params:
+    - desc: >-
+        根據用戶投票數顯示排行榜，可選擇僅篩選本月的投票。
+      name: false
+      optional: false
+      type: '='

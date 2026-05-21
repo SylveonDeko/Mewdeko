@@ -1,0 +1,168 @@
+coprmonitoradd:
+  args:
+    - '<ownerProject> [channel] [packages]'
+    - '<ownerProject> [channel] [packages]'
+    - ownerProject
+  desc: 'Sunucuya bir COPR proje monitörü ekler.'
+  params:
+    - desc: 'owner/project formatında COPR projesi (örn. linux4switch/l4s).'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Bildirimler için isteğe bağlı kanal. Varsayılan geçerli kanaldır.'
+      name: channel
+      optional: true
+      type: ITextChannel
+    - desc: 'İzlenecek isteğe bağlı virgülle ayrılmış paket listesi (örn. mesa,kernel).'
+      name: packages
+      optional: true
+      type: string
+coprmonitorremove:
+  args:
+    - '<ownerProject> [channel]'
+    - ownerProject
+  desc: 'Sunucudan bir COPR proje monitörü kaldırır.'
+  params:
+    - desc: 'owner/project formatında COPR projesi.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Belirli bir monitörü kaldırmak için isteğe bağlı kanal.'
+      name: channel
+      optional: true
+      type: ITextChannel
+coprmonitorlist:
+  args:
+    - ''
+  desc: 'Sunucuda yapılandırılmış tüm COPR monitörlerini listeler.'
+  params: [ ]
+coprmonitortoggle:
+  args:
+    - ownerProject
+  desc: 'Bir COPR monitörünü açar veya kapatır.'
+  params:
+    - desc: 'owner/project formatında COPR projesi.'
+      name: ownerProject
+      optional: false
+      type: string
+coprnotify:
+  args:
+    - ownerProject status enabled
+  desc: 'Bir monitör için hangi derleme durumlarının bildirim tetikleyeceğini yapılandırır.'
+  params:
+    - desc: 'owner/project formatında COPR projesi.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Yapılandırılacak derleme durumu.'
+      name: status
+      optional: false
+      type: CoprBuildStatus
+    - desc: 'Bu durum için bildirimlerin etkinleştirilip etkinleştirilmeyeceği.'
+      name: enabled
+      optional: false
+      type: bool
+coprfilter:
+  args:
+    - ownerProject text
+  desc: 'Bir COPR monitörü için paket filtresini ayarlar.'
+  params:
+    - desc: 'owner/project formatında COPR projesi.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Virgülle ayrılmış paket listesi veya her şeyi izlemek için "all".'
+      name: packages
+      optional: false
+      type: string
+coprsucceededmessage:
+  args:
+    - ownerProject text
+  desc: 'COPR derlemesi başarılı olduğunda görüntülenen mesajı ayarlar.'
+  params:
+    - desc: 'owner/project formatında COPR projesi.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Mesaj veya embed kodu. Varsayılana sıfırlamak için "-" kullanın.'
+      name: message
+      optional: false
+      type: string
+coprfailedmessage:
+  args:
+    - ownerProject text
+  desc: 'COPR derlemesi başarısız olduğunda görüntülenen mesajı ayarlar.'
+  params:
+    - desc: 'owner/project formatında COPR projesi.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Mesaj veya embed kodu. Varsayılana sıfırlamak için "-" kullanın.'
+      name: message
+      optional: false
+      type: string
+coprcanceledmessage:
+  args:
+    - ownerProject text
+  desc: 'COPR derlemesi iptal edildiğinde görüntülenen mesajı ayarlar.'
+  params:
+    - desc: 'owner/project formatında COPR projesi.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Mesaj veya embed kodu. Varsayılana sıfırlamak için "-" kullanın.'
+      name: message
+      optional: false
+      type: string
+coprpendingmessage:
+  args:
+    - ownerProject text
+  desc: 'COPR derlemesi beklemedeyken görüntülenen mesajı ayarlar.'
+  params:
+    - desc: 'owner/project formatında COPR projesi.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Mesaj veya embed kodu. Varsayılana sıfırlamak için "-" kullanın.'
+      name: message
+      optional: false
+      type: string
+coprrunningmessage:
+  args:
+    - ownerProject text
+  desc: 'COPR derlemesi çalışırken görüntülenen mesajı ayarlar.'
+  params:
+    - desc: 'owner/project formatında COPR projesi.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Mesaj veya embed kodu. Varsayılana sıfırlamak için "-" kullanın.'
+      name: message
+      optional: false
+      type: string
+coprskippedmessage:
+  args:
+    - ownerProject text
+  desc: 'COPR derlemesi atlandığında görüntülenen mesajı ayarlar.'
+  params:
+    - desc: 'owner/project formatında COPR projesi.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Mesaj veya embed kodu. Varsayılana sıfırlamak için "-" kullanın.'
+      name: message
+      optional: false
+      type: string
+coprdefaultmessage:
+  args:
+    - ownerProject text
+  desc: 'Diğer tüm derleme durumları için varsayılan mesajı ayarlar.'
+  params:
+    - desc: 'owner/project formatında COPR projesi.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Mesaj veya embed kodu. Varsayılana sıfırlamak için "-" kullanın.'
+      name: message
+      optional: false
+      type: string

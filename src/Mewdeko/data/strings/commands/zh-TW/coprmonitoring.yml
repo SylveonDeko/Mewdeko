@@ -1,0 +1,168 @@
+coprmonitoradd:
+  args:
+    - '<ownerProject> [channel] [packages]'
+    - '<ownerProject> [channel] [packages]'
+    - ownerProject
+  desc: '向伺服器新增COPR專案監控。'
+  params:
+    - desc: 'COPR專案，格式為owner/project（例如linux4switch/l4s）。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: '通知的選填頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: ITextChannel
+    - desc: '要監控的選填逗號分隔套件清單（例如mesa,kernel）。'
+      name: packages
+      optional: true
+      type: string
+coprmonitorremove:
+  args:
+    - '<ownerProject> [channel]'
+    - ownerProject
+  desc: '從伺服器移除COPR專案監控。'
+  params:
+    - desc: 'COPR專案，格式為owner/project。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: '移除特定監控的選填頻道。'
+      name: channel
+      optional: true
+      type: ITextChannel
+coprmonitorlist:
+  args:
+    - ''
+  desc: '列出伺服器中設定的所有COPR監控。'
+  params: [ ]
+coprmonitortoggle:
+  args:
+    - ownerProject
+  desc: '開啟或關閉COPR監控。'
+  params:
+    - desc: 'COPR專案，格式為owner/project。'
+      name: ownerProject
+      optional: false
+      type: string
+coprnotify:
+  args:
+    - ownerProject status enabled
+  desc: '設定哪些建置狀態會為監控觸發通知。'
+  params:
+    - desc: 'COPR專案，格式為owner/project。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: '要設定的建置狀態。'
+      name: status
+      optional: false
+      type: CoprBuildStatus
+    - desc: '是否啟用或停用此狀態的通知。'
+      name: enabled
+      optional: false
+      type: bool
+coprfilter:
+  args:
+    - ownerProject text
+  desc: '設定COPR監控的套件篩選器。'
+  params:
+    - desc: 'COPR專案，格式為owner/project。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: '逗號分隔的套件清單，或"all"以監控所有內容。'
+      name: packages
+      optional: false
+      type: string
+coprsucceededmessage:
+  args:
+    - ownerProject text
+  desc: '設定COPR建置成功時顯示的訊息。'
+  params:
+    - desc: 'COPR專案，格式為owner/project。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: '訊息或embed代碼。使用"-"重設為預設值。'
+      name: message
+      optional: false
+      type: string
+coprfailedmessage:
+  args:
+    - ownerProject text
+  desc: '設定COPR建置失敗時顯示的訊息。'
+  params:
+    - desc: 'COPR專案，格式為owner/project。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: '訊息或embed代碼。使用"-"重設為預設值。'
+      name: message
+      optional: false
+      type: string
+coprcanceledmessage:
+  args:
+    - ownerProject text
+  desc: '設定COPR建置取消時顯示的訊息。'
+  params:
+    - desc: 'COPR專案，格式為owner/project。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: '訊息或embed代碼。使用"-"重設為預設值。'
+      name: message
+      optional: false
+      type: string
+coprpendingmessage:
+  args:
+    - ownerProject text
+  desc: '設定COPR建置待處理時顯示的訊息。'
+  params:
+    - desc: 'COPR專案，格式為owner/project。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: '訊息或embed代碼。使用"-"重設為預設值。'
+      name: message
+      optional: false
+      type: string
+coprrunningmessage:
+  args:
+    - ownerProject text
+  desc: '設定COPR建置執行中時顯示的訊息。'
+  params:
+    - desc: 'COPR專案，格式為owner/project。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: '訊息或embed代碼。使用"-"重設為預設值。'
+      name: message
+      optional: false
+      type: string
+coprskippedmessage:
+  args:
+    - ownerProject text
+  desc: '設定COPR建置跳過時顯示的訊息。'
+  params:
+    - desc: 'COPR專案，格式為owner/project。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: '訊息或embed代碼。使用"-"重設為預設值。'
+      name: message
+      optional: false
+      type: string
+coprdefaultmessage:
+  args:
+    - ownerProject text
+  desc: '設定所有其他建置狀態的預設訊息。'
+  params:
+    - desc: 'COPR專案，格式為owner/project。'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: '訊息或embed代碼。使用"-"重設為預設值。'
+      name: message
+      optional: false
+      type: string

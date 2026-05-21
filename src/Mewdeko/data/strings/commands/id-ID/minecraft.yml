@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'Memeriksa status server Minecraft. Gunakan nama server terdaftar, alamat langsung, atau biarkan kosong untuk server default.'
+  params:
+    - desc: 'Nama server terdaftar atau alamat langsung (misalnya play.example.com:25565).'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: 'Menambahkan server Minecraft ke guild. Tambahkan prefix bedrock: ke alamat untuk server Bedrock.'
+  params:
+    - desc: 'Label untuk server.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Alamat server, opsional dengan port (misalnya play.example.com:25565 atau bedrock:play.example.com).'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: 'Menghapus server Minecraft dari guild.'
+  params:
+    - desc: 'Nama server yang akan dihapus.'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: 'Daftar semua server Minecraft terdaftar untuk guild ini.'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: 'Mengatur server sebagai default untuk perintah status.'
+  params:
+    - desc: 'Nama server yang akan diatur sebagai default.'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: 'Mengatur saluran untuk menerima pembaruan status berkala dari server. Hilangkan saluran untuk menonaktifkan.'
+  params:
+    - desc: 'Nama server yang akan dipantau.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Saluran untuk memposting pembaruan.'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: 'Mengatur cara status server ditampilkan: embed (edit di tempat), topik saluran, atau keduanya.'
+  params:
+    - desc: 'Nama server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Mode pemantauan: Embed, ChannelTopic, atau Both.'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: 'Mengatur template embed kustom untuk server yang dipantau. Gunakan "-" untuk mereset. Placeholder: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
+  params:
+    - desc: 'Nama server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'JSON template embed, atau "-" untuk mereset ke default.'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: 'Mencari pemain Minecraft berdasarkan nama pengguna dan menampilkan profil serta skinnya.'
+  params:
+    - desc: 'Nama pengguna Minecraft yang dicari.'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'Menampilkan render skin pemain Minecraft.'
+  params:
+    - desc: 'Nama pengguna Minecraft.'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: 'Mengirim perintah RCON ke server Minecraft terdaftar. RCON harus dikonfigurasi melalui dasbor.'
+  params:
+    - desc: 'Nama server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Perintah yang akan dijalankan di server.'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'Mengelola whitelist di server Minecraft melalui RCON. Membutuhkan RCON yang dikonfigurasi.'
+  params:
+    - desc: 'Nama server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Tindakan: add, remove, list, on, off, reload.'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Nama pemain (untuk add/remove).'
+      name: playerName
+      optional: true
+      type: string

@@ -1,0 +1,136 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'Viser detaljert Patreon-analyse.'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'Utløser manuelt en Patreon-kunngjøring.'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Angir eller viser Patreon-kunngjøringskanalen.
+  params:
+    - desc: >-
+        Kanalen som skal angis for Patreon-kunngjøringer. Hvis null, vises
+        gjeldende kanal.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'Viser den gjeldende Patreon-konfigurasjonen for denne serveren.'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Angir dagen i måneden for Patreon-kunngjøringer.'
+  params:
+    - desc: >-
+        Dagen i måneden (1-28) for kunngjøringer. Hvis null, vises gjeldende dag.
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'Deaktiverer Patreon-kunngjøringer for denne serveren.'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Viser Patreon-modulinfo og tilgjengelige plassholdere.'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Kobler en Discord-bruker til en Patreon-støttespiller.'
+  params:
+    - desc: Discord-brukeren som skal kobles.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: Patreon-bruker-IDen som skal kobles til.
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Angir en egendefinert melding for Patreon-kunngjøringer.
+  params:
+    - desc: >-
+        Den egendefinerte meldingen. Bruk plassholdere som %server.name%,
+        %month%, osv. Bruk "-" for å tilbakestille til standard.
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'Sender anerkjennelsesmeldinger for nye støttespillere.'
+  params:
+    - desc: Kanalen for å sende anerkjennelsesmeldinger.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Lister Patreon-tier-rolle-tilordninger.'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'Slår automatisk rollesynkronisering på/av.'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Viser Patreon-støttespiller-statistikk.'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'Lister aktive Patreon-støttespillere.'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'Setter sikkert opp Patreon OAuth-integrasjon.'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'Synkroniserer roller for alle koblede støttespillere.'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Tilordner en Patreon-tier til en Discord-rolle.'
+  params:
+    - desc: Patreon-tier-IDen.
+      name: tierId
+      optional: false
+      type: string
+    - desc: Discord-rollen som skal tilordnes tieren.
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Slår Patreon-kunngjøringer på eller av.'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'Viser topp Patreon-støttespillere.'
+  params:
+    - desc: Antall topp-støttespillere å vise (1-20).
+      name: count
+      optional: true
+      type: int

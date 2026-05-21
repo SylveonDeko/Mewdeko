@@ -1,0 +1,23 @@
+{
+  "highlight_added": "Dodato {0} u vaše naglaske!",
+  "highlight_already_exists": "To je već u vašim naglascima!",
+  "highlight_cannot_delete": "Ne može se obrisati jer nemate postavljene naglaske!",
+  "highlight_disabled": "Naglaske onemogućene.",
+  "highlight_empty_delete": "Ne može se obrisati prazan naglasak.",
+  "highlight_empty_match": "Ne može se uporediti prazan naglasak.",
+  "highlight_enabled": "Naglaske omogućene!",
+  "highlight_ignored_channel_added": "Dodato {0} u ignorisane kanale!",
+  "highlight_ignored_channel_removed": "Uklonjeno {0} iz ignorisanih kanala!",
+  "highlight_ignored_user_added": "Dodato {0} u ignorisane korisnike!",
+  "highlight_ignored_user_removed": "Uklonjeno {0} iz ignorisanih korisnika!",
+  "highlight_list_title": "{0} Naglasci",
+  "highlight_no_highlights": "Nemate postavljene naglaske!",
+  "highlight_no_match_found": "Nema pronađenih podudaranja.",
+  "highlight_no_matches": "Nema naglasaka za upoređivanje.",
+  "highlight_not_exist": "Taj naglasak ne postoji!",
+  "highlight_not_found": "Ovo nije u vašim naglascima!",
+  "highlight_phrase_required": "Morate navesti frazu za naglašavanje.",
+  "highlight_removed": "Uspešno uklonjeno {0} iz vaših naglasaka.",
+  "highlight_toggle_invalid": "To mora biti tačno ili netačno, ništa drugo.",
+  "highlight_user_channel_not_found": "Taj korisnik ili kanal nije pronađen!"
+}

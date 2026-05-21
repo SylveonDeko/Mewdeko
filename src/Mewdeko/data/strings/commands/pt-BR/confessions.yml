@@ -1,0 +1,157 @@
+confess:
+  args:
+    - serverid text
+  desc: 'Permite que usuários confessem anonimamente.'
+  params:
+    - &ref_139
+      desc: 'O ID do servidor.'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: 'A mensagem de confissão'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: 'Permite que usuários confessem anonimamente.'
+  params:
+    - desc: 'O ID do servidor.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'A mensagem de confissão'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: 'Permite que usuários confessem anonimamente.'
+  params:
+    - desc: 'O ID do servidor.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'A mensagem de confissão'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: 'Permite que usuários confessem anonimamente.'
+  params:
+    - desc: 'O ID do servidor.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'A mensagem de confissão'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: 'Adiciona um usuário à lista negra de confissões.'
+  params:
+    - desc: 'O usuário a colocar na lista negra de confissões.'
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: 'Define o canal de confissões.'
+  params:
+    - desc: 'O canal a definir para confissões.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: 'Adiciona ou remove um usuário da lista negra de confissões.'
+  params:
+    - &ref_141
+      desc: 'O usuário a adicionar ou remover da lista negra.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: 'Adiciona ou remove um usuário da lista negra de confissões.'
+  params:
+    - &ref_142
+      desc: 'O usuário a adicionar ou remover da lista negra.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: 'Adiciona ou remove um usuário da lista negra de confissões.'
+  params:
+    - desc: 'O usuário a adicionar ou remover da lista negra.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: 'Adiciona ou remove um usuário da lista negra de confissões.'
+  params:
+    - desc: 'O usuário a adicionar ou remover da lista negra.'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: 'Define o canal de confissões para confissões anônimas.'
+  params:
+    - desc: 'O canal de confissões (opcional).'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    Define o canal de log de confissões para registrar confissões. O uso
+    indevido deste recurso terminará comigo a 2m da sua casa.
+  params:
+    - desc: 'O canal de log de confissões (opcional).'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: 'Remove um usuário da lista negra de confissões.'
+  params:
+    - desc: 'O usuário a remover da lista negra.'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: 'Define o canal de log de confissões.'
+  params:
+    - desc: 'O canal para registrar confissões.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: 'Remove um usuário da lista negra de confissões.'
+  params:
+    - desc: 'O usuário a remover da lista negra de confissões.'
+      name: user
+      optional: false
+      type: IUser

@@ -1,0 +1,157 @@
+confess:
+  args:
+    - serverid text
+  desc: 'Позволяет пользователям анонимно признаваться.'
+  params:
+    - &ref_139
+      desc: 'ID сервера.'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: 'Сообщение признания'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: 'Позволяет пользователям анонимно признаваться.'
+  params:
+    - desc: 'ID сервера.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Сообщение признания'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: 'Позволяет пользователям анонимно признаваться.'
+  params:
+    - desc: 'ID сервера.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Сообщение признания'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: 'Позволяет пользователям анонимно признаваться.'
+  params:
+    - desc: 'ID сервера.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Сообщение признания'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: 'Добавляет пользователя в чёрный список признаний.'
+  params:
+    - desc: 'Пользователь, которого нужно занести в чёрный список признаний.'
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: 'Устанавливает канал признаний.'
+  params:
+    - desc: 'Канал, который нужно установить для признаний.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: 'Добавляет или удаляет пользователя из чёрного списка признаний.'
+  params:
+    - &ref_141
+      desc: 'Пользователь, которого нужно добавить или удалить из чёрного списка.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: 'Добавляет или удаляет пользователя из чёрного списка признаний.'
+  params:
+    - &ref_142
+      desc: 'Пользователь, которого нужно добавить или удалить из чёрного списка.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: 'Добавляет или удаляет пользователя из чёрного списка признаний.'
+  params:
+    - desc: 'Пользователь, которого нужно добавить или удалить из чёрного списка.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: 'Добавляет или удаляет пользователя из чёрного списка признаний.'
+  params:
+    - desc: 'Пользователь, которого нужно добавить или удалить из чёрного списка.'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: 'Устанавливает канал признаний для анонимных признаний.'
+  params:
+    - desc: 'Канал признаний (необязательно).'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    Устанавливает канал журнала признаний для записи признаний. Неправильное
+    использование этой функции приведёт к тому, что я окажусь в 2 м от твоего дома.
+  params:
+    - desc: 'Канал журнала признаний (необязательно).'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: 'Удаляет пользователя из чёрного списка признаний.'
+  params:
+    - desc: 'Пользователь, которого нужно удалить из чёрного списка.'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: 'Устанавливает канал журнала признаний.'
+  params:
+    - desc: 'Канал, в который записываются признания.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: 'Удаляет пользователя из чёрного списка признаний.'
+  params:
+    - desc: 'Пользователь, которого нужно убрать из чёрного списка признаний.'
+      name: user
+      optional: false
+      type: IUser

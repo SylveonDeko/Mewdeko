@@ -1,0 +1,22 @@
+{
+  "confessions_blacklisted": "Ви в чорному списку для пропозицій на цьому сервері!",
+  "confessions_blacklisted_added": "Додано {0} до чорного списку зізнань!",
+  "confessions_blacklisted_already": "Цей користувач вже у чорному списку!",
+  "confessions_blacklisted_not": "Цього користувача немає в чорному списку!",
+  "confessions_blacklisted_removed": "Видалено {0} з чорного списку зізнань!",
+  "confessions_channel_set": "Встановлено {0} як Канал Зізнань!",
+  "confessions_disabled": "Зізнання вимкнено",
+  "confessions_invalid_id": "Наданий вами ID був недійсним!",
+  "confessions_invalid_perms": "У мене немає належних дозволів там! Будь ласка, переконайтеся, що для мене увімкнено EmbedLinks та SendMessages у цьому каналі!",
+  "confessions_logging_disabled": "Ведення журналу зізнань вимкнено",
+  "confessions_missing_invite": "Не вдалося отримати запрошення через відсутність дозволів або відсутність доступних запрошень.",
+  "confessions_none": "На цьому сервері не ввімкнено зізнання!",
+  "confessions_none_any": "Ви не на жодному сервері, де ввімкнено мої зізнання!",
+  "confessions_report": "звіт",
+  "confessions_report_received": "Звіт про Зловживання Зізнаннями Отримано",
+  "confessions_report_sent": "Звіт надіслано. Якщо ви хочете приєднатися та доповнити його, скористайтеся посиланням нижче.",
+  "confessions_report_user": "повідомити про користувача",
+  "confessions_server_id": "ID Сервера",
+  "confessions_server_invite": "Запрошення на Сервер",
+  "confessions_spleen": "Set {0} as the Confession Log Channel. \n***Keep in mind if I find you misusing this function I will find out, blacklist this server. And use your spleen to take over the world"
+}

@@ -1,0 +1,542 @@
+countingban:
+  args:
+    - user channel duration reason
+  desc: 'Bir kullanicinin belirli bir kanalda saymasini yasaklar.'
+  params:
+    - desc: 'Saymasi yasaklanacak kullanici.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Yasak suresi (ornegin 1h, 1d). Kalici icin bos birakin.'
+      name: duration
+      optional: true
+      type: stoopid time
+    - desc: 'Yasagin nedeni.'
+      name: reason
+      optional: true
+      type: string
+countingconfig:
+  args:
+    - channel
+  desc: 'Bir sayim kanalinin ayarlarini yapilandirir.'
+  params:
+    - desc: 'Yapilandirmayi gostermek icin kanal. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+countingcooldown:
+  args:
+    - channel seconds
+  desc: 'Kullanici sayimlari arasindaki bekleme suresini ayarlar.'
+  params:
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Saniye cinsinden bekleme suresi (0-300).'
+      name: seconds
+      optional: true
+      type: int
+countingdisable:
+  args:
+    - channel purgeData reason
+  desc: 'Bir kanalda saymay devre disi birakir ve isteege bagli olarak tum verileri siler.'
+  params:
+    - desc: 'Sayimin devre disi birakilacagi kanal. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Bu kanalin tum sayim verilerinin silinip silinmeyecegi. Varsayilan false.'
+      name: purgeData
+      optional: true
+      type: bool
+    - desc: 'Sayimi devre disi birakmanin nedeni.'
+      name: reason
+      optional: true
+      type: string
+countingfailurechannel:
+  args:
+    - countingChannel failureChannel
+  desc: 'Sayim hatalarinin kaydedilecegi kanali ayarlar.'
+  params:
+    - desc: 'Sayim kanali.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: 'Hata gunlukleri kanali. Devre disi birakmak icin null kullanin.'
+      name: failureChannel
+      optional: true
+      type: text channel
+countingfailuremessage:
+  args:
+    - channel embed
+  desc: 'Basarisiz sayimlar icin ozel bir mesaj ayarlar.'
+  params:
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Mesaj sablonu. Varsayilana sifirlamak icin "-" kullanin.'
+      name: embed
+      optional: true
+      type: string
+countingfailurethreshold:
+  args:
+    - channel threshold
+  desc: 'Sonuclar gelmeden once hata esigini ayarlar.'
+  params:
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Islem yapilmadan once hata sayisi (1-10).'
+      name: threshold
+      optional: true
+      type: int
+countingleaderboard:
+  args:
+    - type channel
+  desc: 'Bir sayim kanalinin liderlik tablosunu gosterir.'
+  params:
+    - desc: 'Liderlik tablosu turu (contributions, streak, accuracy, totalnumbers).'
+      name: type
+      optional: true
+      type: string
+    - desc: 'Liderlik tablosunu gostermek icin kanal. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+countinglist:
+  args:
+    - ''
+  desc: 'Sunucudaki tum aktif sayim kanallarini listeler.'
+  params: [ ]
+countingmilestonechannel:
+  args:
+    - countingChannel milestoneChannel
+  desc: 'Kilometre tasi basarilarinin duyurulacagi kanali ayarlar.'
+  params:
+    - desc: 'Sayim kanali.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: 'Kilometre tasi duyurulari kanali. Devre disi birakmak icin null kullanin.'
+      name: milestoneChannel
+      optional: true
+      type: text channel
+countingmilestonemessage:
+  args:
+    - channel embed
+  desc: 'Kilometre tasi basarilari icin ozel bir mesaj ayarlar.'
+  params:
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Mesaj sablonu. Varsayilana sifirlamak icin "-" kullanin.'
+      name: embed
+      optional: true
+      type: string
+countingmilestones:
+  args:
+    - channel milestones
+  desc: 'Ozel kilometre tasi numaralari ayarlar.'
+  params:
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Virgille ayrilmis kilometre tasi numaralari (ornegin 50,100,250,500,1000).'
+      name: milestones
+      optional: true
+      type: string
+countingreset:
+  args:
+    - channel newNumber reason
+  desc: 'Bir kanaldaki sayimi belirli bir sayiya sifirlar.'
+  params:
+    - desc: 'Sifirlanacak kanal. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Sifirlanacak sayi. Varsayilan 0.'
+      name: newNumber
+      optional: true
+      type: long
+    - desc: 'Sifirlama nedeni.'
+      name: reason
+      optional: true
+      type: string
+countingrestore:
+  args:
+    - saveId channel
+  desc: 'Onceki bir kayit noktasindan saymi geri yukler.'
+  params:
+    - desc: 'Geri yuklenecek kayit noktasinin kimlik numarasi.'
+      name: saveId
+      optional: false
+      type: int
+    - desc: 'Geri yuklenecek kanal. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+countingsave:
+  args:
+    - channel reason
+  desc: 'Mevcut sayim ilerlemesi icin bir kayit noktasi olusturur.'
+  params:
+    - desc: 'Kaydedilecek kanal. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Kayit noktasi olusturmanin nedeni.'
+      name: reason
+      optional: true
+      type: string
+countingsetup:
+  args:
+    - channel startNumber increment
+  desc: 'Mevcut veya belirtilen kanalda sayimi yapilandirir.'
+  params:
+    - desc: 'Sayimin yapilandirilacagi kanal. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Sayima baslanacak sayi. Varsayilan 1.'
+      name: startNumber
+      optional: true
+      type: long
+    - desc: 'Her sayim icin artis miktari. Varsayilan 1.'
+      name: increment
+      optional: true
+      type: int
+countingstats:
+  args:
+    - user channel
+  desc: 'Bir kullanici veya kanal icin sayim istatistiklerini gosterir.'
+  params:
+    - desc: 'Istatistiklerini gostermek icin kullanici. Varsayilan sizsiniz.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Istatistikleri kontrol etmek icin kanal. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+countingstatus:
+  args:
+    - channel
+  desc: 'Bir kanaldaki mevcut sayim durumunu gosterir.'
+  params:
+    - desc: 'Kontrol edilecek kanal. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+countingsuccessmessage:
+  args:
+    - channel embed
+  desc: 'Basarili sayimlar icin ozel bir mesaj ayarlar.'
+  params:
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Mesaj sablonu. Varsayilana sifirlamak icin "-" kullanin.'
+      name: embed
+      optional: true
+      type: string
+countingtimeout:
+  args:
+    - user duration channel reason
+  desc: 'Bir kullaniciyi sayimdan gecici olarak susturur.'
+  params:
+    - desc: 'Sayimdan susturulacak kullanici.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Susturma suresi (ornegin 30m, 2h).'
+      name: duration
+      optional: false
+      type: stoopid time
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Susturma nedeni.'
+      name: reason
+      optional: true
+      type: string
+countingunban:
+  args:
+    - user channel reason
+  desc: 'Belirli bir kanaldaki kullanicinin sayim yasagini kaldirir.'
+  params:
+    - desc: 'Sayim yasagi kaldirilacak kullanici.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Yasak kaldirmanin nedeni.'
+      name: reason
+      optional: true
+      type: string
+countmodbanned:
+  args:
+    - channel roles...
+  desc: 'Saymadan yasaklanan rolleri ayarlar.'
+  params:
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Saymadan yasaklanan roller.'
+      name: roles
+      optional: true
+      type: role
+countmodclear:
+  args:
+    - user channel
+  desc: 'Bir sayim kanalindaki kullanicinin yanlis sayimlarini temizler.'
+  params:
+    - desc: 'Yanlis sayimlari temizlenecek kullanici.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+countmodclearall:
+  args:
+    - channel
+  desc: 'Bir sayim kanalindaki tum kullanicilarin yanlis sayimlarini temizler.'
+  params:
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+countmoddefaults:
+  args:
+    - enabled threshold windowHours punishment durationMinutes punishmentRole
+  desc: 'Sunucu geneli varsayilan moderasyon ayarlarini ayarlar.'
+  params:
+    - desc: 'Moderasyonun varsayilan olarak etkin olup olmadigi.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: 'Ceza oncesi varsayilan yanlis sayim esigi.'
+      name: threshold
+      optional: true
+      type: int
+    - desc: 'Yanlis sayimlari izlemek icin saat cinsinden varsayilan zaman penceresi.'
+      name: windowHours
+      optional: true
+      type: int
+    - desc: 'Uygulanacak varsayilan ceza eylemi.'
+      name: punishment
+      optional: true
+      type: punishment action
+    - desc: 'Zamanli cezalar icin dakika cinsinden varsayilan sure.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'RolEkle ceza turu icin varsayilan rol.'
+      name: punishmentRole
+      optional: true
+      type: role
+countmodedits:
+  args:
+    - punish delete channel
+  desc: 'Bir sayim kanali icin mesaj duzenleme korumasini yapilandirir.'
+  params:
+    - desc: 'Mesaj duzenlemelerinin ihlal olarak cezalandirilip cezalandirilmayacagi.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: 'Duzenlenen mesajlarin silinip silinmeyecegi.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+countmodenable:
+  args:
+    - enabled channel
+  desc: 'Belirli bir sayim kanali icin moderasyonu etkinlestirir veya devre disi birakir.'
+  params:
+    - desc: 'Moderasyonun etkinlestirilip devre disi birakilacagi.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+countmodignore:
+  args:
+    - deleteMessages channel roles...
+  desc: 'Sayimdan yoksayilacak rolleri ayarlar.'
+  params:
+    - desc: 'Yoksayilan rollerden gelen mesajlarin silinip silinmeyecegi.'
+      name: deleteMessages
+      optional: false
+      type: bool
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Sayimdan yoksayilacak roller.'
+      name: roles
+      optional: true
+      type: role
+countmodnonnumbers:
+  args:
+    - punish delete channel
+  desc: 'Bir sayim kanalinda sayi olmayan mesajlarin islemini yapilandirir.'
+  params:
+    - desc: 'Sayi olmayan mesajlarin ihlal olarak cezalandirilip cezalandirilmayacagi.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: 'Sayi olmayan mesajlarin silinip silinmeyecegi.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunish:
+  args:
+    - count punishment durationMinutes role channel
+  desc: 'Belirli sayida yanlis sayim icin kademeli bir ceza ayarlar.'
+  params:
+    - desc: 'Bu cezayi tetikleyen yanlis sayim sayisi.'
+      name: count
+      optional: false
+      type: int
+    - desc: 'Uygulanacak ceza eylemi.'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: 'Zamanli cezalar icin dakika cinsinden sure.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'RolEkle ceza turu icin rol.'
+      name: role
+      optional: true
+      type: role
+    - desc: 'Sayim kanali (sunucu varsayilanlari icin NULL).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishlist:
+  args:
+    - channel
+  desc: 'Sunucu veya belirli kanal icin tum kademeli cezalari listeler.'
+  params:
+    - desc: 'Sayim kanali (sunucu varsayilanlari icin NULL).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishment:
+  args:
+    - punishment durationMinutes role channel
+  desc: 'Yanlis sayimlar icin cezayi ayarlar.'
+  params:
+    - desc: 'Uygulanacak ceza eylemi.'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: 'Zamanli cezalar icin dakika cinsinden sure.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'RolEkle ceza turu icin rol.'
+      name: role
+      optional: true
+      type: role
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+countmodrequired:
+  args:
+    - channel roles...
+  desc: 'Sayim icin gerekli rolleri ayarlar.'
+  params:
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Sayim icin gerekli roller.'
+      name: roles
+      optional: true
+      type: role
+countmodreset:
+  args:
+    - channel
+  desc: 'Bir kanali sunucu varsayilanlarini kullanacak sekilde sifirlar.'
+  params:
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+countmodshow:
+  args:
+    - channel
+  desc: 'Sayim kanali veya sunucu varsayilanlari icin mevcut moderasyon yapilandirmasini gosterir.'
+  params:
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+countmodthreshold:
+  args:
+    - threshold channel
+  desc: 'Bir sayim kanali icin yanlis sayim esigini ayarlar.'
+  params:
+    - desc: 'Ceza oncesi yanlis sayim sayisi (1-100).'
+      name: threshold
+      optional: false
+      type: int
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel
+countmodunpunish:
+  args:
+    - count channel
+  desc: 'Belirli sayida yanlis sayim icin kademeli cezayi kaldirir.'
+  params:
+    - desc: 'Cezanin kaldirilacagi yanlis sayim sayisi.'
+      name: count
+      optional: false
+      type: int
+    - desc: 'Sayim kanali (sunucu varsayilanlari icin NULL).'
+      name: channel
+      optional: true
+      type: text channel
+countmodwindow:
+  args:
+    - hours channel
+  desc: 'Yanlis sayimlari izlemek icin zaman penceresini ayarlar.'
+  params:
+    - desc: 'Saat cinsinden zaman penceresi (1-168).'
+      name: hours
+      optional: false
+      type: int
+    - desc: 'Sayim kanali. Varsayilan mevcut kanaldir.'
+      name: channel
+      optional: true
+      type: text channel

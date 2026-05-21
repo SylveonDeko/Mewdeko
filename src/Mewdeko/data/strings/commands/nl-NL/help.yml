@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    Toont commando's voor een specifieke module. Indien null, is het een
+    alias voor modules wat een alias is voor help.
+  params:
+    - desc: 'De module om te bekijken'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    Toont commando's voor een specifieke module. Indien null, is het een
+    alias voor modules wat een alias is voor help.
+  params:
+    - desc: 'De module om te bekijken'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    Toont commando's voor een specifieke module. Indien null, is het een
+    alias voor modules wat een alias is voor help.
+  params:
+    - desc: 'De module om te bekijken'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    Toont commando's voor een specifieke module. Indien null, is het een
+    alias voor modules wat een alias is voor help.
+  params:
+    - desc: 'De module om te bekijken'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: 'Toont hoe je de bot kunt steunen.'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    Exporteert alle commando's naar een json-bestand. Voornamelijk gebruikt voor
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    Exporteert alle commando's naar een json-bestand. Voornamelijk gebruikt voor
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    Exporteert alle commando's naar een json-bestand. Voornamelijk gebruikt voor
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    Exporteert alle commando's naar een json-bestand. Voornamelijk gebruikt voor
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: 'Toont de gids voor de bot.'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: Toont hulp voor een specifiek commando.
+  params:
+    - desc: Het commando waarvoor hulp gevraagd wordt.
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: Toont hulpinformatie voor commando's.
+  params:
+    - desc: Het commando waarvoor hulp gevraagd wordt.
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: 'Toont een lijst van alle modules. Is in principe gewoon een help-alias op dit moment.'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: 'Zoekt een commando op naam of beschrijving.'
+  params:
+    - &ref_481
+      desc: 'De term om naar te zoeken'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: 'Zoekt een commando op naam of beschrijving.'
+  params:
+    - desc: 'De term om naar te zoeken'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: 'Zoekt een commando op naam of beschrijving.'
+  params:
+    - desc: 'De term om naar te zoeken'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: 'Zoekt een commando op naam of beschrijving.'
+  params:
+    - desc: 'De term om naar te zoeken'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: 'Toont de broncodelink voor de bot.'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'Toont een link om voor mewdeko te stemmen.'
+  params: [ ]

@@ -1,0 +1,8 @@
+{
+  "autoplay_disabled": "Autospil slået fra.",
+  "playlist_deleted": "Afspilningsliste slettet.",
+  "playlist_saved": "Afspilningsliste gemt",
+  "queue": "Kø",
+  "queue_cleared": "Musik køen blev tømt.",
+  "volume_set": "Lydstyrke sat til {0}%"
+}

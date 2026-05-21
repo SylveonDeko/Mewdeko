@@ -1,0 +1,81 @@
+highlight:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Vurguları ekler, listeler, kaldırır veya eşleştirir.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Seçilen eylem için parametreler'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Vurguları ekler, listeler, kaldırır veya eşleştirir.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Seçilen eylem için parametreler'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_1:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Vurguları ekler, listeler, kaldırır veya eşleştirir.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Seçilen eylem için parametreler'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_2:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Vurguları ekler, listeler, kaldırır veya eşleştirir.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Seçilen eylem için parametreler'
+      name: words
+      optional: true
+      type: string
+highlights:
+  args:
+    - action word
+  desc: Kullanıcı vurgularını yönetir.
+  params:
+    - desc: Vurgularla gerçekleştirilecek eylem.
+      name: action
+      optional: false
+      type: string
+    - desc: Vurgulanacak kelime.
+      name: word
+      optional: true
+      type: string

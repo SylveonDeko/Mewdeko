@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'Checks the status of a Minecraft server. Use a registered name, address, or leave blank for default. Don''t expect anything fancy!'
+  params:
+    - desc: 'The registered server name or direct address (e.g. play.example.com:25565). Pay attention!'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: 'Adds a Minecraft server to the guild. Prefix bedrock: for Bedrock. Don''t mess up the format!'
+  params:
+    - desc: 'A label for the server. Make it memorable!'
+      name: name
+      optional: false
+      type: string
+    - desc: 'The server address, optionally with port. Get it right or it won''t work!'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: 'Removes a Minecraft server from the guild. Are you sure about that?'
+  params:
+    - desc: 'The name of the server to remove. Don''t pick the wrong one!'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: 'Lists all registered Minecraft servers for this guild. Look for yourself!'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: 'Sets a server as default for status commands. Hmph, decisions are hard, huh?'
+  params:
+    - desc: 'The name of the server to set as default. Pick the right one!'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: 'Sets a channel to receive periodic status updates. Omit to disable, baka!'
+  params:
+    - desc: 'The name of the server to watch.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'The channel to post updates in. Pick wisely!'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: 'Sets how server status is displayed. Don''t pick a weird option!'
+  params:
+    - desc: 'The name of the server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'The watch mode: Embed, ChannelTopic, or Both. Read carefully!'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: 'Sets a custom embed template. Use "-" to reset. Placeholders: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%. Don''t typo them!'
+  params:
+    - desc: 'The name of the server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'The embed template JSON, or "-" to reset. Don''t break the format!'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: 'Looks up a Minecraft player. I-it''s not like I want to see their skin or anything!'
+  params:
+    - desc: 'The Minecraft username to look up. Spell it correctly!'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'Displays a Minecraft player''s skin render. Hmph, it''s just pixels!'
+  params:
+    - desc: 'The Minecraft username.'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: 'Sends an RCON command. Don''t use this irresponsibly! RCON must be configured first.'
+  params:
+    - desc: 'The name of the server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'The command to execute on the server. Type carefully!'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'Manages whitelist via RCON. Requires RCON to be configured. D-don''t ban me or anything!'
+  params:
+    - desc: 'The name of the server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'The action: add, remove, list, on, off, reload. Pick one!'
+      name: action
+      optional: false
+      type: string
+    - desc: 'The player name (for add/remove). Spell it right!'
+      name: playerName
+      optional: true
+      type: string

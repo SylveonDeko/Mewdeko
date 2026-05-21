@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'उपयोगकर्ता के लिए जन्मदिन की घोषणाओं को टॉगल करता है।'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'जन्मदिन घोषणा चैनल सेट करता है।'
+  params:
+    - desc: >-
+        घोषणाओं के लिए उपयोग करने के लिए टेक्स्ट चैनल। यदि निर्दिष्ट नहीं
+        किया गया है तो वर्तमान चैनल डिफ़ॉल्ट है।
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'वर्तमान जन्मदिन कॉन्फ़िगरेशन देखता है।'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'सर्वर में आने वाले जन्मदिन दिखाता है।'
+  params:
+    - desc: कितने दिन आगे देखना है। डिफ़ॉल्ट 7, अधिकतम 30।
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'एक कस्टम जन्मदिन संदेश टेम्पलेट सेट करता है।'
+  params:
+    - desc: >-
+        संदेश टेम्पलेट। उपयोगकर्ता को मेंशन करने के लिए {user} का उपयोग करें।
+        यदि खाली छोड़ दिया जाए तो वर्तमान संदेश दिखाता है।
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'जन्मदिन की घोषणा करते समय पिंग करने के लिए भूमिका सेट करता है।'
+  params:
+    - desc: पिंग करने के लिए भूमिका। अक्षम करने के लिए कोई भूमिका न दें।
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'जन्मदिन की भूमिका सेट करता है जो उपयोगकर्ताओं को उनके जन्मदिन पर मिलती है।'
+  params:
+    - desc: उपयोगकर्ता के जन्मदिन पर असाइन करने की भूमिका। अक्षम करने के लिए कोई भूमिका न दें।
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'जन्मदिन गणना के लिए उपयोगकर्ता का समय क्षेत्र सेट करता है।'
+  params:
+    - desc: सेट करने के लिए समय क्षेत्र (जैसे "America/New_York")।
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'आज के जन्मदिन दिखाता है।'
+  params: [ ]

@@ -1,0 +1,20 @@
+{
+  "aar_none": "Usuários não recebem nenhum cargo ao entrar nesse servidor.",
+  "aar_roles": "Os seguintes cargos são aplicados aos usuários que entram nesse servidor: {0}",
+  "aar_role_removed": "Usuários não receberão mais o cargo {0} ao entrar nesse servidor.",
+  "aabr_none": "Bots receberão cargos normais ao entrar.",
+  "aabr_roles": "Os seguintes cargos são aplicados aos bots que entram nesse servidor: {0}",
+  "aabr_role_removed": "Bots não receberão mais o cargo {0} ao entrar nesse servidor.",
+  "aabr_disabled": "**Atribuição automática de cargo para bots** ao entrarem está agora **desativada**.",
+  "aar_disabled": "**Atribuição automática de cargo** a novos usuários foi **desabilitada**.",
+  "acm_disable": "O uso de TODOS OS MÓDULOS foi desabilitado no canal {0}.",
+  "acm_enable": "O uso de TODOS OS MÓDULOS foi habilitado no canal {0}.",
+  "perm_not_found": "Não foi possível encontrar a permissão no índice #{0}",
+  "perm_out_of_range": "Nenhuma permissão encontrada nesse índice.",
+  "perm_override": "Os usuários precisarão da permissão {0} para executar o comando {1}.",
+  "perm_prevent": "A permissão número #{0} {1} está impedindo essa ação.",
+  "perm_override_page_none": "Nenhuma substituição nessa página.",
+  "perm_override_all": "Todas as substituições de permissão do Discord foram removidas.",
+  "perm_override_all_confirm": "Tem certeza de que deseja remover **TODAS** as substituições de permissão do Discord nesse servidor? Essa ação é irreversível.",
+  "perm_override_reset": "As substituições de permissão do Discord para esse comando foram removidas."
+}

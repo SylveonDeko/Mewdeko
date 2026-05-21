@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'يتحقق من حالة خادم Minecraft. استخدم اسم خادم مسجل أو عنوان مباشر، أو اتركه فارغاً للخادم الافتراضي.'
+  params:
+    - desc: 'اسم الخادم المسجل أو العنوان المباشر (مثل play.example.com:25565).'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: 'يضيف خادم Minecraft إلى النقابة. ضع بادئة bedrock: للعنوان لخوادم Bedrock.'
+  params:
+    - desc: 'تسمية للخادم.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'عنوان الخادم، اختياريًا مع المنفذ (مثل play.example.com:25565 أو bedrock:play.example.com).'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: 'يزيل خادم Minecraft من النقابة.'
+  params:
+    - desc: 'اسم الخادم المراد إزالته.'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: 'يسرد جميع خوادم Minecraft المسجلة لهذه النقابة.'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: 'يضبط خادماً كافتراضي لأوامر الحالة.'
+  params:
+    - desc: 'اسم الخادم المراد ضبطه كافتراضي.'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: 'يضبط قناة لتلقي تحديثات الحالة الدورية للخادم. احذف القناة للتعطيل.'
+  params:
+    - desc: 'اسم الخادم المراد مراقبته.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'القناة لنشر التحديثات فيها.'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: 'يضبط طريقة عرض حالة الخادم: embed (تحرير في المكان)، موضوع القناة، أو كليهما.'
+  params:
+    - desc: 'اسم الخادم.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'وضع المراقبة: Embed أو ChannelTopic أو Both.'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: 'يضبط قالب embed مخصص لخادم مراقب. استخدم "-" لإعادة الضبط. العناصر النائبة: %mc.server.name%، %mc.players.online%، %mc.players.max%، %mc.motd%، %mc.version%، %mc.latency%، %mc.online%، %mc.favicon%.'
+  params:
+    - desc: 'اسم الخادم.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'JSON قالب embed، أو "-" لإعادة الضبط للافتراضي.'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: 'يبحث عن لاعب Minecraft باسم المستخدم ويعرض ملفه الشخصي وجلده.'
+  params:
+    - desc: 'اسم مستخدم Minecraft للبحث عنه.'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'يعرض رسم جلد لاعب Minecraft.'
+  params:
+    - desc: 'اسم مستخدم Minecraft.'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: 'يرسل أمر RCON إلى خادم Minecraft مسجل. يجب تكوين RCON عبر لوحة التحكم.'
+  params:
+    - desc: 'اسم الخادم.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'الأمر المراد تنفيذه على الخادم.'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'يدير القائمة البيضاء على خادم Minecraft عبر RCON. يتطلب تكوين RCON.'
+  params:
+    - desc: 'اسم الخادم.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'الإجراء: add أو remove أو list أو on أو off أو reload.'
+      name: action
+      optional: false
+      type: string
+    - desc: 'اسم اللاعب (لـ add/remove).'
+      name: playerName
+      optional: true
+      type: string

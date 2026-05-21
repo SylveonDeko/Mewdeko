@@ -1,0 +1,470 @@
+addrolestorolestate:
+  args:
+    - '@user @role'
+  desc: 'Voegt rollen toe aan de rolstatus van een gebruiker.'
+  params:
+    - &ref_26
+      desc: 'De gebruiker wiens rolstatus moet worden gewijzigd.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_25
+      desc: 'De rollen die aan de rolstatus van de gebruiker moeten worden toegevoegd.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Voegt rollen toe aan de rolstatus van een gebruiker.'
+  params:
+    - &ref_27
+      desc: 'De gebruiker wiens rolstatus moet worden gewijzigd.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'De rollen die aan de rolstatus van de gebruiker moeten worden toegevoegd.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Voegt rollen toe aan de rolstatus van een gebruiker.'
+  params:
+    - desc: 'De gebruiker wiens rolstatus moet worden gewijzigd.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'De rollen die aan de rolstatus van de gebruiker moeten worden toegevoegd.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Voegt rollen toe aan de rolstatus van een gebruiker.'
+  params:
+    - desc: 'De gebruiker wiens rolstatus moet worden gewijzigd.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'De rollen die aan de rolstatus van de gebruiker moeten worden toegevoegd.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteuserrolestate:
+  args:
+    - '@user'
+  desc: 'Verwijdert de rolstatus van een specifieke gebruiker.'
+  params:
+    - &ref_191
+      desc: 'De gebruiker wiens rolstatus moet worden verwijderd.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Verwijdert de rolstatus van een specifieke gebruiker.'
+  params:
+    - desc: 'De gebruiker wiens rolstatus moet worden verwijderd.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Verwijdert de rolstatus van een specifieke gebruiker.'
+  params:
+    - desc: 'De gebruiker wiens rolstatus moet worden verwijderd.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Verwijdert de rolstatus van een specifieke gebruiker.'
+  params:
+    - desc: 'De gebruiker wiens rolstatus moet worden verwijderd.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IUser:
+  args:
+    - '@user'
+  desc: 'Verwijdert de rolstatus van een specifieke gebruiker.'
+  params:
+    - desc: 'De gebruiker wiens rolstatus moet worden verwijderd.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_1:
+  args:
+    - '@user'
+  desc: 'Verwijdert de rolstatus van een specifieke gebruiker.'
+  params:
+    - desc: 'De gebruiker wiens rolstatus moet worden verwijderd.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_2:
+  args:
+    - '@user'
+  desc: 'Verwijdert de rolstatus van een specifieke gebruiker.'
+  params:
+    - desc: 'De gebruiker wiens rolstatus moet worden verwijderd.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_3:
+  args:
+    - '@user'
+  desc: 'Verwijdert de rolstatus van een specifieke gebruiker.'
+  params:
+    - desc: 'De gebruiker wiens rolstatus moet worden verwijderd.'
+      name: user
+      optional: false
+      type: IUser
+removerolesfromrolestate:
+  args:
+    - '@user @role'
+  desc: 'Verwijdert rollen uit de rolstatus van een gebruiker.'
+  params:
+    - desc: 'De gebruiker wiens rolstatus moet worden gewijzigd.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_414
+      desc: 'De rollen die uit de rolstatus van de gebruiker moeten worden verwijderd.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Verwijdert rollen uit de rolstatus van een gebruiker.'
+  params:
+    - desc: 'De gebruiker wiens rolstatus moet worden gewijzigd.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'De rollen die uit de rolstatus van de gebruiker moeten worden verwijderd.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Verwijdert rollen uit de rolstatus van een gebruiker.'
+  params:
+    - desc: 'De gebruiker wiens rolstatus moet worden gewijzigd.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'De rollen die uit de rolstatus van de gebruiker moeten worden verwijderd.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Verwijdert rollen uit de rolstatus van een gebruiker.'
+  params:
+    - desc: 'De gebruiker wiens rolstatus moet worden gewijzigd.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'De rollen die uit de rolstatus van de gebruiker moeten worden verwijderd.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole:
+  args:
+    - '@role'
+  desc: 'Voegt rollen toe aan de weigeringslijst van de rolstatus-functie.'
+  params:
+    - &ref_463
+      desc: 'De rollen die aan de weigeringslijst moeten worden toegevoegd.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]:
+  args:
+    - '@role'
+  desc: 'Voegt rollen toe aan de weigeringslijst van de rolstatus-functie.'
+  params:
+    - desc: 'De rollen die aan de weigeringslijst moeten worden toegevoegd.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Voegt rollen toe aan de weigeringslijst van de rolstatus-functie.'
+  params:
+    - desc: 'De rollen die aan de weigeringslijst moeten worden toegevoegd.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Voegt rollen toe aan de weigeringslijst van de rolstatus-functie.'
+  params:
+    - desc: 'De rollen die aan de weigeringslijst moeten worden toegevoegd.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyuser:
+  args:
+    - '@user'
+  desc: 'Voegt gebruikers toe aan de weigeringslijst van de rolstatus-functie.'
+  params:
+    - &ref_464
+      desc: 'De gebruikers die aan de weigeringslijst moeten worden toegevoegd.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Voegt gebruikers toe aan de weigeringslijst van de rolstatus-functie.'
+  params:
+    - desc: 'De gebruikers die aan de weigeringslijst moeten worden toegevoegd.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Voegt gebruikers toe aan de weigeringslijst van de rolstatus-functie.'
+  params:
+    - desc: 'De gebruikers die aan de weigeringslijst moeten worden toegevoegd.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Voegt gebruikers toe aan de weigeringslijst van de rolstatus-functie.'
+  params:
+    - desc: 'De gebruikers die aan de weigeringslijst moeten worden toegevoegd.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremoveadduser:
+  args:
+    - user
+  desc: 'Verwijdert of weigert een gebruiker uit rolstatussen.'
+  params:
+    - desc: 'De gebruiker die uit rolstatussen moet worden verwijderd/geweigerd.'
+      name: user
+      optional: false
+      type: IUser
+rolestatesremovedenyrole:
+  args:
+    - '@role'
+  desc: 'Verwijdert rollen uit de weigeringslijst van de rolstatus-functie.'
+  params:
+    - &ref_465
+      desc: 'De rollen die uit de weigeringslijst moeten worden verwijderd.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]:
+  args:
+    - '@role'
+  desc: 'Verwijdert rollen uit de weigeringslijst van de rolstatus-functie.'
+  params:
+    - desc: 'De rollen die uit de weigeringslijst moeten worden verwijderd.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Verwijdert rollen uit de weigeringslijst van de rolstatus-functie.'
+  params:
+    - desc: 'De rollen die uit de weigeringslijst moeten worden verwijderd.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Verwijdert rollen uit de weigeringslijst van de rolstatus-functie.'
+  params:
+    - desc: 'De rollen die uit de weigeringslijst moeten worden verwijderd.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyuser:
+  args:
+    - '@user'
+  desc: 'Verwijdert gebruikers uit de weigeringslijst van de rolstatus-functie.'
+  params:
+    - &ref_466
+      desc: 'De gebruikers die uit de weigeringslijst moeten worden verwijderd.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Verwijdert gebruikers uit de weigeringslijst van de rolstatus-functie.'
+  params:
+    - desc: 'De gebruikers die uit de weigeringslijst moeten worden verwijderd.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Verwijdert gebruikers uit de weigeringslijst van de rolstatus-functie.'
+  params:
+    - desc: 'De gebruikers die uit de weigeringslijst moeten worden verwijderd.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Verwijdert gebruikers uit de weigeringslijst van de rolstatus-functie.'
+  params:
+    - desc: 'De gebruikers die uit de weigeringslijst moeten worden verwijderd.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+saveallrolestates:
+  args:
+    - ''
+  desc: 'Slaat rolstatussen op voor alle gebruikers op de server.'
+  params: [ ]
+setuserrolestate:
+  args:
+    - '@user @role'
+  desc: 'Stelt de rolstatus in voor een specifieke gebruiker.'
+  params:
+    - &ref_529
+      desc: 'De gebruiker wiens rolstatus moet worden ingesteld.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_530
+      desc: 'De rollen die moeten worden opgenomen in de rolstatus van de gebruiker.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Stelt de rolstatus in voor een specifieke gebruiker.'
+  params:
+    - &ref_531
+      desc: 'De gebruiker wiens rolstatus moet worden ingesteld.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'De rollen die moeten worden opgenomen in de rolstatus van de gebruiker.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Stelt de rolstatus in voor een specifieke gebruiker.'
+  params:
+    - desc: 'De gebruiker wiens rolstatus moet worden ingesteld.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'De rollen die moeten worden opgenomen in de rolstatus van de gebruiker.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Stelt de rolstatus in voor een specifieke gebruiker.'
+  params:
+    - desc: 'De gebruiker wiens rolstatus moet worden ingesteld.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'De rollen die moeten worden opgenomen in de rolstatus van de gebruiker.'
+      name: roles
+      optional: false
+      type: IRole[]
+togglerolestates:
+  args:
+    - ''
+  desc: 'Schakelt de rolstatus-functie in of uit.'
+  params: [ ]
+togglerolestatesclearonban:
+  args:
+    - ''
+  desc: 'Bepaalt of rolstatussen moeten worden gewist wanneer een gebruiker wordt verbannen.'
+  params: [ ]
+togglerolestatesignorebots:
+  args:
+    - ''
+  desc: 'Bepaalt of bots moeten worden genegeerd door de rolstatus-functie.'
+  params: [ ]
+togglerolestatesskipautoassign:
+  args:
+    - ''
+  desc: 'Bepaalt of automatisch toegewezen rollen moeten worden overgeslagen voor gebruikers met opgeslagen rolstatussen.'
+  params: [ ]
+transferrolestates:
+  args:
+    - serverid
+  desc: 'Verplaatst rolstatussen van de huidige server naar een andere server.'
+  params:
+    - &ref_627
+      desc: 'Het ID van de doelserver.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong:
+  args:
+    - serverid
+  desc: 'Verplaatst rolstatussen van de huidige server naar een andere server.'
+  params:
+    - desc: 'Het ID van de doelserver.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong_1:
+  args:
+    - serverid
+  desc: 'Verplaatst rolstatussen van de huidige server naar een andere server.'
+  params:
+    - desc: 'Het ID van de doelserver.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong_2:
+  args:
+    - serverid
+  desc: 'Verplaatst rolstatussen van de huidige server naar een andere server.'
+  params:
+    - desc: 'Het ID van de doelserver.'
+      name: serverId
+      optional: false
+      type: ulong
+viewrolestates:
+  args:
+    - ''
+  desc: 'Bekijkt alle gebruikersrolstatussen op de server.'
+  params: [ ]
+viewrolestatessettings:
+  args:
+    - ''
+  desc: 'Geeft de huidige instellingen van de rolstatus-functie weer.'
+  params: [ ]
+viewuserrolestates:
+  args:
+    - ''
+  desc: 'Geeft de rolstatussen van alle gebruikers weer.'
+  params: [ ]

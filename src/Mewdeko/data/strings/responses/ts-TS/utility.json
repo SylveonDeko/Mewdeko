@@ -1,0 +1,19 @@
+{
+  "invite_filter_channel_off": "Yes yes I'll stop.",
+  "invite_filter_channel_on": "Gah, so many special wishes. I'll only try to eliminate the Pest on this channel.",
+  "invite_filter_server_off": "Eh? Okay, I'll stop eliminating the pests' tries on this server.",
+  "invite_filter_server_on": "I'll eliminate the pests' tries to get more people on this server!",
+  "channel_topic": "Channel Topic",
+  "convert": "{0} {1} is {2} {3}",
+  "convert_not_found": "I can't convert {0} to {1}: No idea what that is supposed to be.",
+  "convert_type_error": "I can't convert {0} to {1}: This isn't how this works, as expected of you",
+  "remind": "I will remind {0} to {1} {2}",
+  "remind_invalid_format": "Not a valid time format. Check the commandlist.",
+  "remind_too_long": "I'm reminding you that the time has exceeded it's limit.",
+  "repeat_invoke_none": "Nothing to see here, you are probably too selfish to give others information.",
+  "serverid": "Not even objects are safe from you... {0} of the server is {1}",
+  "reminder_list": "List of reminders",
+  "reminder_deleted": "I have erased Reminder #{0}.",
+  "reminder_not_exist": "I'm impressed with how you can ask for something that doesn't exist without feeling stupid.",
+  "invite_deleted": "Invite {0} has been deleted."
+}

@@ -1,0 +1,136 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: '詳細な Patreon 分析を表示します。'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'Patreon のアナウンスを手動でトリガーします。'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Patreon のアナウンスチャンネルを設定または表示します。
+  params:
+    - desc: >-
+        Patreon アナウンスに設定するチャンネル。null の場合、現在の
+        チャンネルを表示します。
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'このサーバーの現在の Patreon 設定を表示します。'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Patreon アナウンスの月の日を設定します。'
+  params:
+    - desc: >-
+        アナウンス用の月の日 (1-28)。null の場合、現在の日を表示します。
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'このサーバーの Patreon アナウンスを無効にします。'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Patreon モジュール情報と使用可能なプレースホルダーを表示します。'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Discord ユーザーを Patreon サポーターにリンクします。'
+  params:
+    - desc: リンクする Discord ユーザー。
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: リンクする Patreon ユーザー ID。
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Patreon アナウンスのカスタムメッセージを設定します。
+  params:
+    - desc: >-
+        カスタムメッセージ。%server.name%、%month% などのプレースホルダーを
+        使用してください。デフォルトにリセットするには "-" を使用してください。
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: '新規サポーターのための認知メッセージを送信します。'
+  params:
+    - desc: 認知メッセージを送信するチャンネル。
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Patreon のティアとロールのマッピングを一覧表示します。'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: '自動ロール同期を切り替えます。'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Patreon サポーターの統計を表示します。'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'アクティブな Patreon サポーターを一覧表示します。'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: '安全に Patreon OAuth 統合を設定します。'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'リンクされたすべてのサポーターのロールを同期します。'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Patreon ティアを Discord ロールにマップします。'
+  params:
+    - desc: Patreon ティア ID。
+      name: tierId
+      optional: false
+      type: string
+    - desc: ティアにマップする Discord ロール。
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Patreon アナウンスのオン/オフを切り替えます。'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'Patreon の上位サポーターを表示します。'
+  params:
+    - desc: 表示する上位サポーター数 (1-20)。
+      name: count
+      optional: true
+      type: int

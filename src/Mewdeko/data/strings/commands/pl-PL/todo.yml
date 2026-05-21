@@ -1,0 +1,326 @@
+todoadd:
+  args:
+    - listId
+    - title
+    - description
+  desc: 'Dodaje nowy element do okreslonej listy zadan'
+  params:
+    - desc: 'ID listy zadan.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Tytul elementu zadania.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Opcjonalny opis elementu.'
+      name: description
+      optional: true
+      type: string
+todoaddpriority:
+  args:
+    - listId
+    - priority
+    - title
+    - description
+  desc: 'Dodaje element zadania z priorytetem i opcjonalna data wykonania'
+  params:
+    - desc: 'ID listy zadan.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Poziom priorytetu (1=Niski, 2=Sredni, 3=Wysoki, 4=Krytyczny).'
+      name: priority
+      optional: false
+      type: int
+    - desc: 'Tytul elementu zadania.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Opcjonalny opis elementu.'
+      name: description
+      optional: true
+      type: string
+todoaddtag:
+  args:
+    - itemId
+    - tag
+  desc: 'Dodaje tag do elementu zadania'
+  params:
+    - desc: 'ID elementu zadania.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Tag do dodania.'
+      name: tag
+      optional: false
+      type: string
+todocleardue:
+  args:
+    - itemId
+  desc: 'Usuwa date wykonania elementu zadania'
+  params:
+    - desc: 'ID elementu zadania.'
+      name: itemId
+      optional: false
+      type: int
+todoclearreminder:
+  args:
+    - itemId
+  desc: 'Usuwa przypomnienie elementu zadania'
+  params:
+    - desc: 'ID elementu zadania.'
+      name: itemId
+      optional: false
+      type: int
+todocomplete:
+  args:
+    - itemId
+  desc: 'Oznacza element zadania jako ukonczone'
+  params:
+    - desc: 'ID elementu zadania.'
+      name: itemId
+      optional: false
+      type: int
+todocreatelist:
+  args:
+    - name
+    - description
+  desc: 'Tworzy nowa liste zadan'
+  params:
+    - desc: 'Nazwa listy zadan.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Opcjonalny opis listy.'
+      name: description
+      optional: true
+      type: string
+todocreateserverlist:
+  args:
+    - name
+    - description
+  desc: 'Tworzy nowa ogolnoserwerowa liste zadan (tylko administratorzy)'
+  params:
+    - desc: 'Nazwa serwerowej listy zadan.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Opcjonalny opis listy.'
+      name: description
+      optional: true
+      type: string
+tododelete:
+  args:
+    - itemId
+  desc: 'Usuwa element zadania'
+  params:
+    - desc: 'ID elementu zadania.'
+      name: itemId
+      optional: false
+      type: int
+tododeletelist:
+  args:
+    - listId
+  desc: 'Usuwa cala liste zadan'
+  params:
+    - desc: 'ID listy zadan.'
+      name: listId
+      optional: false
+      type: int
+todoedit:
+  args:
+    - itemId
+    - title
+    - description
+  desc: 'Edytuje tytul i opis elementu zadania'
+  params:
+    - desc: 'ID elementu zadania.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Nowy tytul.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Nowy opis.'
+      name: description
+      optional: true
+      type: string
+todofilter:
+  args:
+    - listId
+    - filter
+    - value
+  desc: 'Filtruje elementy zadan wedlug tagu lub priorytetu'
+  params:
+    - desc: 'ID listy zadan.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Typ filtru (tag lub priorytet).'
+      name: filter
+      optional: false
+      type: string
+    - desc: 'Wartosc do filtrowania.'
+      name: value
+      optional: true
+      type: string
+todogrant:
+  args:
+    - listId
+    - '@user'
+    - permissions
+  desc: 'Przyznaje uzytkownikowi uprawnienia do listy zadan (tylko wlasciciel listy/administrator)'
+  params:
+    - desc: 'ID listy zadan.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Uzytkownik, ktoremu przyznawane sa uprawnienia.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Uprawnienia oddzielone przecinkami (view,add,edit,complete,delete,manage,all).'
+      name: permissions
+      optional: false
+      type: string
+todolists:
+  args:
+    - includeServer
+  desc: 'Wyswietla wszystkie listy zadan dostepne dla uzytkownika'
+  params:
+    - desc: 'Czy uwzglednic ogolnoserwerowe listy.'
+      name: includeServer
+      optional: true
+      type: bool
+todopermissions:
+  args:
+    - listId
+  desc: 'Wyswietla wszystkie uprawnienia listy zadan'
+  params:
+    - desc: 'ID listy zadan.'
+      name: listId
+      optional: false
+      type: int
+todoremovetag:
+  args:
+    - itemId
+    - tag
+  desc: 'Usuwa tag z elementu zadania'
+  params:
+    - desc: 'ID elementu zadania.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Tag do usuniecia.'
+      name: tag
+      optional: false
+      type: string
+todoreorder:
+  args:
+    - itemId
+    - newPosition
+  desc: 'Przenosi element zadania na nowa pozycje'
+  params:
+    - desc: 'ID elementu zadania.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Nowa pozycja (od 1).'
+      name: newPosition
+      optional: false
+      type: int
+todorevoke:
+  args:
+    - listId
+    - '@user'
+  desc: 'Odbiera uzytkownikowi wszystkie uprawnienia do listy zadan'
+  params:
+    - desc: 'ID listy zadan.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Uzytkownik, ktoremu odbierane sa uprawnienia.'
+      name: user
+      optional: false
+      type: IUser
+todosearch:
+  args:
+    - listId
+    - query
+  desc: 'Wyszukuje elementy zadan w liscie'
+  params:
+    - desc: 'ID listy zadan.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Zapytanie wyszukiwania.'
+      name: query
+      optional: false
+      type: string
+todosetcolor:
+  args:
+    - listId
+    - color
+  desc: 'Ustawia kolor listy zadan'
+  params:
+    - desc: 'ID listy zadan.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Szesnastkowy kod koloru (np.,'
+      name: color
+      optional: false
+      type: string
+todosetdue:
+  args:
+    - itemId
+    - dateString
+  desc: 'Ustawia date wykonania elementu zadania'
+  params:
+    - desc: 'ID elementu zadania.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Data i godzina wykonania.'
+      name: dateString
+      optional: false
+      type: string
+todosetreminder:
+  args:
+    - itemId
+    - dateString
+  desc: 'Ustawia czas przypomnienia dla elementu zadania'
+  params:
+    - desc: 'ID elementu zadania.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Data i godzina przypomnienia.'
+      name: dateString
+      optional: false
+      type: string
+todoshow:
+  args:
+    - listId
+    - includeCompleted
+  desc: 'Wyswietla wszystkie elementy listy zadan'
+  params:
+    - desc: 'ID listy zadan.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Czy uwzglednic ukonczone elementy.'
+      name: includeCompleted
+      optional: true
+      type: bool
+todotoggleprivacy:
+  args:
+    - listId
+  desc: 'Przelacza ustawienie prywatnosci listy zadan'
+  params:
+    - desc: 'ID listy zadan.'
+      name: listId
+      optional: false
+      type: int

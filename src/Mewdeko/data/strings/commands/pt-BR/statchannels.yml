@@ -1,0 +1,95 @@
+statchannelcreate:
+  args:
+    - 'TotalMembers [template]'
+  desc: 'Cria um novo canal de voz bloqueado exibindo uma estatística do servidor. O bot criará e gerenciará o canal.'
+  params:
+    - desc: 'O tipo de estatística a exibir.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'O modelo de exibição. Use %count% para o valor.'
+      name: template
+      optional: true
+      type: string
+statchanneladd:
+  args:
+    - '#voice-channel TotalMembers [template]'
+  desc: 'Adiciona um canal de voz como canal de estatísticas. Tipos: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
+  params:
+    - desc: 'O canal de voz a usar.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'O tipo de estatística a exibir.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'O modelo de exibição. Use %count% para o valor.'
+      name: template
+      optional: true
+      type: string
+statchannelrole:
+  args:
+    - '#voice-channel @role [template]'
+  desc: 'Adiciona um canal de estatísticas mostrando quantos membros têm um cargo específico.'
+  params:
+    - desc: 'O canal de voz a usar.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'O cargo cujos membros contar.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'O modelo de exibição. Use %count% e %role.name%.'
+      name: template
+      optional: true
+      type: string
+statchannelcountdown:
+  args:
+    - '#voice-channel 2026-12-31 [template]'
+  desc: 'Adiciona um canal de contagem regressiva. Use os placeholders %days% e %hours%.'
+  params:
+    - desc: 'O canal de voz a usar.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'A data alvo para a contagem regressiva.'
+      name: date
+      optional: false
+      type: DateTime
+    - desc: 'O modelo de exibição. Use %days% e %hours%.'
+      name: template
+      optional: true
+      type: string
+statchannelgoal:
+  args:
+    - '#voice-channel 1000 [template]'
+  desc: 'Adiciona um canal de meta de membros. Use %count%, %goal% e %goal.percent%.'
+  params:
+    - desc: 'O canal de voz a usar.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'O número alvo de membros.'
+      name: goal
+      optional: false
+      type: int
+    - desc: 'O modelo de exibição. Use %count%, %goal%, %goal.percent%.'
+      name: template
+      optional: true
+      type: string
+statchannelremove:
+  args:
+    - '#voice-channel'
+  desc: 'Remove um canal de estatísticas.'
+  params:
+    - desc: 'O canal de voz a remover.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+statchannellist:
+  args:
+    - ''
+  desc: 'Lista todos os canais de estatísticas deste servidor.'
+  params: [ ]

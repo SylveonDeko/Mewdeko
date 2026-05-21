@@ -1,0 +1,8 @@
+{
+  "autoplay_disabled": "Autoplay disabled.",
+  "playlist_deleted": "*throws the playlist note into fire*",
+  "playlist_saved": "Playlist note Saved",
+  "queue": "Queue",
+  "queue_cleared": "Music queue cleared.",
+  "volume_set": "Volume set to {0}%"
+}

@@ -1,0 +1,252 @@
+votechannel:
+  args:
+    - channel
+  desc: >-
+    Stelt het opgegeven tekstkanaal in als stemkanaal waar alle
+    stembevestigingen naartoe worden gestuurd.
+  params:
+    - &ref_646
+      desc: 'Het tekstkanaal dat als stemkanaal ingesteld moet worden.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel:
+  args:
+    - channel
+  desc: >-
+    Stelt het opgegeven tekstkanaal in als stemkanaal waar alle
+    stembevestigingen naartoe worden gestuurd.
+  params:
+    - desc: 'Het tekstkanaal dat als stemkanaal ingesteld moet worden.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel_1:
+  args:
+    - channel
+  desc: >-
+    Stelt het opgegeven tekstkanaal in als stemkanaal waar alle
+    stembevestigingen naartoe worden gestuurd.
+  params:
+    - desc: 'Het tekstkanaal dat als stemkanaal ingesteld moet worden.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votechannel_ITextChannel_2:
+  args:
+    - channel
+  desc: >-
+    Stelt het opgegeven tekstkanaal in als stemkanaal waar alle
+    stembevestigingen naartoe worden gestuurd.
+  params:
+    - desc: 'Het tekstkanaal dat als stemkanaal ingesteld moet worden.'
+      name: channel
+      optional: false
+      type: ITextChannel
+votemessage:
+  args:
+    - '[message]'
+  desc: >-
+    Stelt een aangepast bericht in dat wordt verzonden wanneer een gebruiker
+    stemt, of toont een voorbeeld van het huidige stembericht.
+  params:
+    - desc: 'Het aangepaste bericht voor stemmen. Gebruik "-" om terug te zetten naar de standaard. Als leeg, toont een voorbeeld van het huidige stembericht.'
+      name: message
+      optional: true
+      type: string
+votepassword:
+  args:
+    - ''
+  desc: >-
+    Start een bevestigingsproces voor het instellen van een nieuw stemwachtwoord
+    en waarschuwt de gebruiker over de beveiliging.
+  params: [ ]
+voteroleadd:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Voegt een rol toe die wordt toegekend aan gebruikers wanneer ze stemmen,
+    met een optionele duur voor automatische verwijdering van de rol.
+  params:
+    - desc: 'De rol die als stembeloning wordt toegevoegd.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'De duur waarvoor de rol wordt toegekend. Null voor onbepaalde tijd.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Voegt een rol toe die wordt toegekend aan gebruikers wanneer ze stemmen,
+    met een optionele duur voor automatische verwijdering van de rol.
+  params:
+    - desc: 'De rol die als stembeloning wordt toegevoegd.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'De duur waarvoor de rol wordt toegekend. Null voor onbepaalde tijd.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=_1:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Voegt een rol toe die wordt toegekend aan gebruikers wanneer ze stemmen,
+    met een optionele duur voor automatische verwijdering van de rol.
+  params:
+    - desc: 'De rol die als stembeloning wordt toegevoegd.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'De duur waarvoor de rol wordt toegekend. Null voor onbepaalde tijd.'
+      name: time
+      optional: true
+      type: duration
+voteroleadd_IRole_=_2:
+  args:
+    - '@role [time]'
+    - '@role'
+  desc: >-
+    Voegt een rol toe die wordt toegekend aan gebruikers wanneer ze stemmen,
+    met een optionele duur voor automatische verwijdering van de rol.
+  params:
+    - desc: 'De rol die als stembeloning wordt toegevoegd.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'De duur waarvoor de rol wordt toegekend. Null voor onbepaalde tijd.'
+      name: time
+      optional: true
+      type: duration
+voteroleedit:
+  args:
+    - '@role time'
+  desc: 'Bewerkt de duur waarvoor een stemrol aan gebruikers wordt toegekend.'
+  params:
+    - &ref_648
+      desc: 'De te bewerken rol.'
+      name: role
+      optional: false
+      type: IRole
+    - &ref_649
+      desc: 'De nieuwe duur waarvoor de rol wordt toegekend.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime:
+  args:
+    - '@role time'
+  desc: 'Bewerkt de duur waarvoor een stemrol aan gebruikers wordt toegekend.'
+  params:
+    - desc: 'De te bewerken rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'De nieuwe duur waarvoor de rol wordt toegekend.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime_1:
+  args:
+    - '@role time'
+  desc: 'Bewerkt de duur waarvoor een stemrol aan gebruikers wordt toegekend.'
+  params:
+    - desc: 'De te bewerken rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'De nieuwe duur waarvoor de rol wordt toegekend.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleedit_IRole_StoopidTime_2:
+  args:
+    - '@role time'
+  desc: 'Bewerkt de duur waarvoor een stemrol aan gebruikers wordt toegekend.'
+  params:
+    - desc: 'De te bewerken rol.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'De nieuwe duur waarvoor de rol wordt toegekend.'
+      name: time
+      optional: false
+      type: StoopidTime
+voteroleremove:
+  args:
+    - '@role'
+  desc: 'Verwijdert een rol uit de lijst van rollen die worden toegekend aan gebruikers wanneer ze stemmen.'
+  params:
+    - &ref_650
+      desc: 'De rol die uit de stembeloningen wordt verwijderd.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole:
+  args:
+    - '@role'
+  desc: 'Verwijdert een rol uit de lijst van rollen die worden toegekend aan gebruikers wanneer ze stemmen.'
+  params:
+    - desc: 'De rol die uit de stembeloningen wordt verwijderd.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole_1:
+  args:
+    - '@role'
+  desc: 'Verwijdert een rol uit de lijst van rollen die worden toegekend aan gebruikers wanneer ze stemmen.'
+  params:
+    - desc: 'De rol die uit de stembeloningen wordt verwijderd.'
+      name: role
+      optional: false
+      type: IRole
+voteroleremove_IRole_2:
+  args:
+    - '@role'
+  desc: 'Verwijdert een rol uit de lijst van rollen die worden toegekend aan gebruikers wanneer ze stemmen.'
+  params:
+    - desc: 'De rol die uit de stembeloningen wordt verwijderd.'
+      name: role
+      optional: false
+      type: IRole
+voterolesclear:
+  args:
+    - ''
+  desc: 'Wist alle rollen die worden toegekend aan gebruikers wanneer ze stemmen.'
+  params: [ ]
+voteroleslist:
+  args:
+    - ''
+  desc: 'Geeft een lijst van alle rollen die worden toegekend aan gebruikers wanneer ze stemmen.'
+  params: [ ]
+votes:
+  args:
+    - '[@user]'
+  desc: >-
+    Toont het totale aantal stemmen uitgebracht door een specifieke gebruiker
+    of de uitvoerder van het commando.
+  params:
+    - desc: 'De gebruiker wiens stemmen geteld moeten worden. Als leeg, telt de stemmen van de uitvoerder van het commando.'
+      name: user
+      optional: true
+      type: user
+votesleaderboard:
+  args:
+    - false
+  desc: >-
+    Toont een ranglijst van gebruikers op basis van hun stemmen, met optionele
+    filtering op stemmen van de huidige maand.
+  params:
+    - desc: >-
+        Toont een ranglijst van gebruikers op basis van hun stemmen, met optionele
+        filtering op stemmen van de huidige maand.
+      name: false
+      optional: false
+      type: '='

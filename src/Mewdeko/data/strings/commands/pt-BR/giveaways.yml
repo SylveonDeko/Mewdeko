@@ -1,0 +1,326 @@
+gbanner:
+  args:
+    - text
+  desc: 'Define o banner padrao do sorteio.'
+  params:
+    - &ref_221
+      desc: 'Define o banner padrao do sorteio.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string:
+  args:
+    - text
+  desc: 'Define o banner padrao do sorteio.'
+  params:
+    - desc: 'Define o banner padrao do sorteio.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_1:
+  args:
+    - text
+  desc: 'Define o banner padrao do sorteio.'
+  params:
+    - desc: 'Define o banner padrao do sorteio.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_2:
+  args:
+    - text
+  desc: 'Define o banner padrao do sorteio.'
+  params:
+    - desc: 'Define o banner padrao do sorteio.'
+      name: banner
+      optional: false
+      type: string
+gdm:
+  args:
+    - ''
+  desc: 'Define se deve enviar DM ao vencedor de um sorteio.'
+  params: [ ]
+gdmmessage:
+  args:
+    - '[message]'
+  desc: 'Define a mensagem de DM enviada aos usuarios quando ganham um sorteio.'
+  params:
+    - desc: 'Define a mensagem de DM enviada aos usuarios quando ganham um sorteio.'
+      name: message
+      optional: true
+      type: string
+gembedcolor:
+  args:
+    - text
+  desc: 'Define a cor do embed para sorteios.'
+  params:
+    - &ref_223
+      desc: 'A cor em hexadecimal.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string:
+  args:
+    - text
+  desc: 'Define a cor do embed para sorteios.'
+  params:
+    - desc: 'A cor em hexadecimal.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_1:
+  args:
+    - text
+  desc: 'Define a cor do embed para sorteios.'
+  params:
+    - desc: 'A cor em hexadecimal.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_2:
+  args:
+    - text
+  desc: 'Define a cor do embed para sorteios.'
+  params:
+    - desc: 'A cor em hexadecimal.'
+      name: color
+      optional: false
+      type: string
+gemote:
+  args:
+    - emote
+  desc: 'Define o emote usado para sorteios.'
+  params:
+    - &ref_224
+      desc: 'O emote a ser definido.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote:
+  args:
+    - emote
+  desc: 'Define o emote usado para sorteios.'
+  params:
+    - desc: 'O emote a ser definido.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_1:
+  args:
+    - emote
+  desc: 'Define o emote usado para sorteios.'
+  params:
+    - desc: 'O emote a ser definido.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_2:
+  args:
+    - emote
+  desc: 'Define o emote usado para sorteios.'
+  params:
+    - desc: 'O emote a ser definido.'
+      name: emote
+      optional: false
+      type: IEmote
+gend:
+  args:
+    - messageid
+  desc: 'Encerra um sorteio.'
+  params:
+    - &ref_225
+      desc: 'O ID da mensagem do sorteio a encerrar'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong:
+  args:
+    - messageid
+  desc: 'Encerra um sorteio.'
+  params:
+    - desc: 'O ID da mensagem do sorteio a encerrar'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_1:
+  args:
+    - messageid
+  desc: 'Encerra um sorteio.'
+  params:
+    - desc: 'O ID da mensagem do sorteio a encerrar'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_2:
+  args:
+    - messageid
+  desc: 'Encerra um sorteio.'
+  params:
+    - desc: 'O ID da mensagem do sorteio a encerrar'
+      name: messageid
+      optional: false
+      type: ulong
+glist:
+  args:
+    - ''
+  desc: 'Lista todos os sorteios ativos.'
+  params: [ ]
+greroll:
+  args:
+    - messageid
+  desc: 'Resorteia um sorteio.'
+  params:
+    - &ref_237
+      desc: 'O ID da mensagem de um sorteio'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong:
+  args:
+    - messageid
+  desc: 'Resorteia um sorteio.'
+  params:
+    - desc: 'O ID da mensagem de um sorteio'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_1:
+  args:
+    - messageid
+  desc: 'Resorteia um sorteio.'
+  params:
+    - desc: 'O ID da mensagem de um sorteio'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_2:
+  args:
+    - messageid
+  desc: 'Resorteia um sorteio.'
+  params:
+    - desc: 'O ID da mensagem de um sorteio'
+      name: messageid
+      optional: false
+      type: ulong
+gstart:
+  args:
+    - chan time number text
+  desc: 'Inicio de sorteio mais detalhado, permite definir um banner, cargo de mencao e mais.'
+  params:
+    - &ref_238
+      desc: 'O canal para iniciar o sorteio'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - &ref_239
+      desc: 'A duracao do sorteio'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_240
+      desc: 'A quantidade de vencedores'
+      name: winners
+      optional: false
+      type: int
+    - &ref_241
+      desc: 'O item a ser sorteado'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string:
+  args:
+    - chan time number text
+  desc: 'Inicio de sorteio mais detalhado, permite definir um banner, cargo de mencao e mais.'
+  params:
+    - desc: 'O canal para iniciar o sorteio'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'A duracao do sorteio'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'A quantidade de vencedores'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'O item a ser sorteado'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_1:
+  args:
+    - chan time number text
+  desc: 'Inicio de sorteio mais detalhado, permite definir um banner, cargo de mencao e mais.'
+  params:
+    - desc: 'O canal para iniciar o sorteio'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'A duracao do sorteio'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'A quantidade de vencedores'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'O item a ser sorteado'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_2:
+  args:
+    - chan time number text
+  desc: 'Inicio de sorteio mais detalhado, permite definir um banner, cargo de mencao e mais.'
+  params:
+    - desc: 'O canal para iniciar o sorteio'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'A duracao do sorteio'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'A quantidade de vencedores'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'O item a ser sorteado'
+      name: what
+      optional: false
+      type: string
+gstart_noparams:
+  args:
+    - ''
+  desc: 'Inicio de sorteio mais detalhado, permite definir um banner, cargo de mencao e mais.'
+  params: [ ]
+gstart_noparams_1:
+  args:
+    - ''
+  desc: 'Inicio de sorteio mais detalhado, permite definir um banner, cargo de mencao e mais.'
+  params: [ ]
+gstart_noparams_2:
+  args:
+    - ''
+  desc: 'Inicio de sorteio mais detalhado, permite definir um banner, cargo de mencao e mais.'
+  params: [ ]
+gstart_noparams_3:
+  args:
+    - ''
+  desc: 'Inicio de sorteio mais detalhado, permite definir um banner, cargo de mencao e mais.'
+  params: [ ]
+gstats:
+  args:
+    - ''
+  desc: 'Exibe as estatisticas dos sorteios.'
+  params: [ ]
+gwinembedcolor:
+  args:
+    - text
+  desc: 'Define a cor para o embed do vencedor.'
+  params:
+    - desc: 'A cor em hexadecimal.'
+      name: color
+      optional: false
+      type: string

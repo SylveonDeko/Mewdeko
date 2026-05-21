@@ -1,0 +1,23 @@
+{
+  "highlight_added": "Додано {0} до ваших виділень!",
+  "highlight_already_exists": "Це вже у ваших виділеннях!",
+  "highlight_cannot_delete": "Не можна видалити, оскільки у вас немає встановлених виділень!",
+  "highlight_disabled": "Виділення вимкнено.",
+  "highlight_empty_delete": "Не можна видалити порожнє виділення.",
+  "highlight_empty_match": "Не можна знайти збіг для порожнього виділення.",
+  "highlight_enabled": "Виділення увімкнено!",
+  "highlight_ignored_channel_added": "Додано {0} до ігнорованих каналів!",
+  "highlight_ignored_channel_removed": "Видалено {0} з ігнорованих каналів!",
+  "highlight_ignored_user_added": "Додано {0} до ігнорованих користувачів!",
+  "highlight_ignored_user_removed": "Видалено {0} з ігнорованих користувачів!",
+  "highlight_list_title": "Виділення {0}",
+  "highlight_no_highlights": "У вас немає встановлених виділень!",
+  "highlight_no_match_found": "Збігів не знайдено.",
+  "highlight_no_matches": "Немає виділень для пошуку збігів.",
+  "highlight_not_exist": "Цього виділення не існує!",
+  "highlight_not_found": "Цього немає у ваших виділеннях!",
+  "highlight_phrase_required": "Вам потрібно вказати фразу для виділення.",
+  "highlight_removed": "Успішно видалено {0} з ваших виділень.",
+  "highlight_toggle_invalid": "Це має бути true або false, нічого іншого.",
+  "highlight_user_channel_not_found": "Цього користувача або каналу не знайдено!"
+}

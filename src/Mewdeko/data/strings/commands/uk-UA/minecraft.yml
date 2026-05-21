@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'Перевіряє статус сервера Minecraft. Використовуйте зареєстроване ім''я сервера, пряму адресу, або залиште порожнім для сервера за замовчуванням.'
+  params:
+    - desc: 'Зареєстроване ім''я сервера або пряма адреса (напр. play.example.com:25565).'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: 'Додає сервер Minecraft до гільдії. Додайте префікс bedrock: до адреси для серверів Bedrock.'
+  params:
+    - desc: 'Мітка для сервера.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Адреса сервера, опціонально з портом (напр. play.example.com:25565 або bedrock:play.example.com).'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: 'Видаляє сервер Minecraft з гільдії.'
+  params:
+    - desc: 'Ім''я сервера для видалення.'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: 'Перелічує всі зареєстровані сервери Minecraft для цієї гільдії.'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: 'Встановлює сервер як стандартний для команд статусу.'
+  params:
+    - desc: 'Ім''я сервера для встановлення як стандартний.'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: 'Встановлює канал для отримання періодичних оновлень статусу сервера. Опустіть канал для вимкнення.'
+  params:
+    - desc: 'Ім''я сервера для спостереження.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Канал для публікації оновлень.'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: 'Встановлює спосіб відображення статусу сервера: embed (редагування на місці), тема каналу, або обидва.'
+  params:
+    - desc: 'Ім''я сервера.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Режим спостереження: Embed, ChannelTopic, або Both.'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: 'Встановлює власний embed-шаблон для серверу, який відстежується. Використовуйте "-" для скидання. Заповнювачі: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
+  params:
+    - desc: 'Ім''я сервера.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'JSON embed-шаблону, або "-" для скидання до стандартного.'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: 'Шукає гравця Minecraft за іменем користувача та відображає його профіль і скін.'
+  params:
+    - desc: 'Ім''я користувача Minecraft для пошуку.'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'Відображає рендер скіна гравця Minecraft.'
+  params:
+    - desc: 'Ім''я користувача Minecraft.'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: 'Надсилає команду RCON на зареєстрований сервер Minecraft. RCON має бути налаштований через панель.'
+  params:
+    - desc: 'Ім''я сервера.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Команда для виконання на сервері.'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'Керує whitelist на сервері Minecraft через RCON. Вимагає налаштованого RCON.'
+  params:
+    - desc: 'Ім''я сервера.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Дія: add, remove, list, on, off, reload.'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Ім''я гравця (для add/remove).'
+      name: playerName
+      optional: true
+      type: string

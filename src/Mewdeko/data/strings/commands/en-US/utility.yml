@@ -4557,3 +4557,33 @@ whosplaying_string_2:
       name: game
       optional: true
       type: string
+vote:
+  args:
+    - ''
+  desc: 'Shows a link to vote for mewdeko.'
+  params: [ ]
+serverid:
+  args:
+    - ''
+  desc: 'Gets the server id of the current server.'
+  params: [ ]
+invites:
+  args:
+    - '[user]'
+    - user
+  desc: 'Displays the number of invites for a user.'
+  params:
+    - desc: 'The user to check invites for. If null, checks for the command user.'
+      name: user
+      optional: true
+      type: IUser
+usermessages:
+  args:
+    - '[user]'
+    - user
+  desc: 'Retrieves message statistics for a specific user.'
+  params:
+    - desc: 'The user to get message statistics for. If null, uses the command invoker.'
+      name: user
+      optional: true
+      type: IUser

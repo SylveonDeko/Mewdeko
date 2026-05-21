@@ -1,0 +1,19 @@
+{
+  "invite_filter_channel_off": "Penyaringan undangan dinonaktifkan di channel ini.",
+  "invite_filter_channel_on": "Penyaringan undangan diaktifkan di server ini.",
+  "invite_filter_server_off": "Penyaringan undangan dinonaktifkan di server ini.",
+  "invite_filter_server_on": "Penyaringan undangan diaktifkan di server ini.",
+  "channel_topic": "Topik channel",
+  "convert": "{0} {1} sama dengan {2} {3}",
+  "convert_not_found": "Tidak bisa mengubah {0} menjadi {1}: satuan tidak ditemukan",
+  "convert_type_error": "Tidak dapat mengubah {0} ke {1}: tipe untuk tidak sama",
+  "remind": "I will remind {0} to {1} {2}",
+  "remind_invalid_format": "Bukan format waktu yang benar. Silakan periksa daftar perintah.",
+  "remind_too_long": "Waktu mengingatkan telah melewati maksimum.",
+  "repeat_invoke_none": "Tidak ada pesan mengulang ditemukan di server ini.",
+  "serverid": "{0} pada server ini adalah {1}",
+  "reminder_list": "Daftar Reminder",
+  "reminder_deleted": "Pengingat #{0} telah dihapus.",
+  "reminder_not_exist": "Pengingat di indeks itu tidak ada",
+  "invite_deleted": "Invite {0} has been deleted."
+}

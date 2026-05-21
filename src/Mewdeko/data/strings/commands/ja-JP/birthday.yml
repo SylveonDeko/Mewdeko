@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'ユーザーの誕生日通知を切り替えます。'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: '誕生日通知チャンネルを設定します。'
+  params:
+    - desc: >-
+        通知に使用するテキストチャンネル。指定されない場合は現在の
+        チャンネルがデフォルトになります。
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: '現在の誕生日設定を表示します。'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'サーバー内の今後の誕生日を表示します。'
+  params:
+    - desc: 何日先まで見るか。デフォルトは 7、最大は 30 です。
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'カスタム誕生日メッセージテンプレートを設定します。'
+  params:
+    - desc: >-
+        メッセージテンプレート。{user} を使用してユーザーをメンション
+        します。空のままにすると現在のメッセージが表示されます。
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: '誕生日を通知する際にメンションするロールを設定します。'
+  params:
+    - desc: メンションするロール。無効にするにはロールを指定しないでください。
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'ユーザーが誕生日に取得する誕生日ロールを設定します。'
+  params:
+    - desc: ユーザーの誕生日に割り当てるロール。無効にするにはロールを指定しないでください。
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: '誕生日の計算用にユーザーのタイムゾーンを設定します。'
+  params:
+    - desc: '設定するタイムゾーン (例: "America/New_York")。'
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: '今日の誕生日を表示します。'
+  params: [ ]

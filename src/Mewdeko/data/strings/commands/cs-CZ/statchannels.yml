@@ -1,0 +1,95 @@
+statchannelcreate:
+  args:
+    - 'TotalMembers [template]'
+  desc: 'Vytvoří nový uzamčený hlasový kanál zobrazující statistiku serveru. Bot vytvoří a bude spravovat kanál.'
+  params:
+    - desc: 'Typ statistiky k zobrazení.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'Šablona zobrazení. Použijte %count% pro hodnotu.'
+      name: template
+      optional: true
+      type: string
+statchanneladd:
+  args:
+    - '#voice-channel TotalMembers [template]'
+  desc: 'Přidá hlasový kanál jako statistický kanál. Typy: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
+  params:
+    - desc: 'Hlasový kanál k použití.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Typ statistiky k zobrazení.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'Šablona zobrazení. Použijte %count% pro hodnotu.'
+      name: template
+      optional: true
+      type: string
+statchannelrole:
+  args:
+    - '#voice-channel @role [template]'
+  desc: 'Přidá statistický kanál zobrazující, kolik členů má konkrétní roli.'
+  params:
+    - desc: 'Hlasový kanál k použití.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Role, jejíž členy počítat.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Šablona zobrazení. Použijte %count% a %role.name%.'
+      name: template
+      optional: true
+      type: string
+statchannelcountdown:
+  args:
+    - '#voice-channel 2026-12-31 [template]'
+  desc: 'Přidá statistický kanál odpočtu. Použijte zástupné symboly %days% a %hours%.'
+  params:
+    - desc: 'Hlasový kanál k použití.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Cílové datum pro odpočet.'
+      name: date
+      optional: false
+      type: DateTime
+    - desc: 'Šablona zobrazení. Použijte %days% a %hours%.'
+      name: template
+      optional: true
+      type: string
+statchannelgoal:
+  args:
+    - '#voice-channel 1000 [template]'
+  desc: 'Přidá statistický kanál cíle členů. Použijte %count%, %goal% a %goal.percent%.'
+  params:
+    - desc: 'Hlasový kanál k použití.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Cílový počet členů.'
+      name: goal
+      optional: false
+      type: int
+    - desc: 'Šablona zobrazení. Použijte %count%, %goal%, %goal.percent%.'
+      name: template
+      optional: true
+      type: string
+statchannelremove:
+  args:
+    - '#voice-channel'
+  desc: 'Odstraní statistický kanál.'
+  params:
+    - desc: 'Hlasový kanál k odstranění.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+statchannellist:
+  args:
+    - ''
+  desc: 'Vypíše všechny statistické kanály pro tento server.'
+  params: [ ]

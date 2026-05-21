@@ -1,0 +1,18 @@
+{
+  "boost_on": "",
+  "boost_off": "",
+  "boostmsg_cur": "Current boost message: {0}",
+  "boostmsg_enable": "Enable boost messages by typing {0}",
+  "boostmsg_new": "",
+  "boostdel_off": "",
+  "boostdel_on": "Boost messages will be deleted after {0} seconds.",
+  "bandm": "You have been kicked out to space from {0},\nfor {1}",
+  "banmsg_default": "",
+  "byedel_off": "Honestly, I wasn't gonna delete that many messages in a server that makes so many people wanna leave anyways...",
+  "byedel_on": "I'll get rid of bye messages after {0} seconds.",
+  "byemsg_cur": "Current departure message: {0}",
+  "byemsg_enable": "Now ya gotta turn on byemessages by typing {0}!",
+  "byemsg_new": "Changed the byemessage!",
+  "bye_off": "No more byemessages.",
+  "bye_on": "Turning on byemessages for this channel~!"
+}

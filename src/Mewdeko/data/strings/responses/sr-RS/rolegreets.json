@@ -1,0 +1,18 @@
+{
+  "rolegreet_add_success": "Dodat {0} za pozdrav u {1}!",
+  "rolegreet_button_preview": "Pregled",
+  "rolegreet_button_regular": "Regularno",
+  "rolegreet_confirm_remove": "Da li ste sigurni da želite ukloniti sve RoleGreet-ove za ovu ulogu?",
+  "rolegreet_confirm_removed": "RoleGreet-ovi uklonjeni!",
+  "rolegreet_delete_disabled": "RoleGreet #{0} se više neće brisati",
+  "rolegreet_delete_success": "Uspešno ažuriran RoleGreet #{0} da se briše nakon {1}",
+  "rolegreet_disable_status": "RoleGreet {0} postavljen na {1}",
+  "rolegreet_greetbots_set": "RoleGreet {0} GreetBots postavljen na {1}",
+  "rolegreet_max_limit": "Izgleda da ste dostigli maksimum od 10 RoleGreet-ova! Molimo uklonite jedan da biste dodali drugi.",
+  "rolegreet_message_preview_prompt": "Da li želite da pogledate ovo kao običan tekst ili želite da vidite kako stvarno izgleda?",
+  "rolegreet_message_set": "RoleGreet Poruka za RoleGreet #{0} postavljena!",
+  "rolegreet_no_delete": "RoleGreet #{0} se više neće brisati.",
+  "rolegreet_no_greets_for_role": "Nema pozdrava za tu ulogu!",
+  "rolegreet_webhook_disabled": "Veb-kuka onemogućena za RoleGreet #{0}!",
+  "rolegreet_webhook_invalid_avatar": "URL avatara koji se koristi nije direktan URL ili je nevažeći! Molimo koristite drugi URL."
+}

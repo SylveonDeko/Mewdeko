@@ -1,0 +1,542 @@
+countingban:
+  args:
+    - user channel duration reason
+  desc: 'Forbyr en bruker fra å telle i en bestemt kanal.'
+  params:
+    - desc: 'Brukeren som forbys fra å telle.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Varighet på forbudet (f.eks. 1h, 1d). La stå tomt for permanent.'
+      name: duration
+      optional: true
+      type: stoopid time
+    - desc: 'Årsaken til forbudet.'
+      name: reason
+      optional: true
+      type: string
+countingconfig:
+  args:
+    - channel
+  desc: 'Konfigurerer innstillingene for en tellekanal.'
+  params:
+    - desc: 'Kanalen for å vise konfigurasjonen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countingcooldown:
+  args:
+    - channel seconds
+  desc: 'Angir ventetiden mellom brukernes tellinger.'
+  params:
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Ventetid i sekunder (0-300).'
+      name: seconds
+      optional: true
+      type: int
+countingdisable:
+  args:
+    - channel purgeData reason
+  desc: 'Deaktiverer telling i en kanal og sletter eventuelt alle data.'
+  params:
+    - desc: 'Kanalen der telling skal deaktiveres. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Om alle telledata for denne kanalen skal slettes. Standard er false.'
+      name: purgeData
+      optional: true
+      type: bool
+    - desc: 'Årsaken til å deaktivere telling.'
+      name: reason
+      optional: true
+      type: string
+countingfailurechannel:
+  args:
+    - countingChannel failureChannel
+  desc: 'Angir kanalen der tellingsfeil registreres.'
+  params:
+    - desc: 'Tellekanalen.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: 'Kanalen for feillogger. Bruk null for å deaktivere.'
+      name: failureChannel
+      optional: true
+      type: text channel
+countingfailuremessage:
+  args:
+    - channel embed
+  desc: 'Angir en tilpasset melding for mislykkede tellinger.'
+  params:
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Meldingsmalen. Bruk "-" for å tilbakestille til standard.'
+      name: embed
+      optional: true
+      type: string
+countingfailurethreshold:
+  args:
+    - channel threshold
+  desc: 'Angir feilterskelen før konsekvenser.'
+  params:
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Antall feil før handling (1-10).'
+      name: threshold
+      optional: true
+      type: int
+countingleaderboard:
+  args:
+    - type channel
+  desc: 'Viser poengtavlen for en tellekanal.'
+  params:
+    - desc: 'Typen poengtavle (contributions, streak, accuracy, totalnumbers).'
+      name: type
+      optional: true
+      type: string
+    - desc: 'Kanalen for å vise poengtavlen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countinglist:
+  args:
+    - ''
+  desc: 'Viser alle aktive tellekanaler på serveren.'
+  params: [ ]
+countingmilestonechannel:
+  args:
+    - countingChannel milestoneChannel
+  desc: 'Angir kanalen der milepælprestasjoner kunngjøres.'
+  params:
+    - desc: 'Tellekanalen.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: 'Kanalen for milepælkunngjøringer. Bruk null for å deaktivere.'
+      name: milestoneChannel
+      optional: true
+      type: text channel
+countingmilestonemessage:
+  args:
+    - channel embed
+  desc: 'Angir en tilpasset melding for milepælprestasjoner.'
+  params:
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Meldingsmalen. Bruk "-" for å tilbakestille til standard.'
+      name: embed
+      optional: true
+      type: string
+countingmilestones:
+  args:
+    - channel milestones
+  desc: 'Angir egendefinerte milepæltall.'
+  params:
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Kommaseparerte milepæltall (f.eks. 50,100,250,500,1000).'
+      name: milestones
+      optional: true
+      type: string
+countingreset:
+  args:
+    - channel newNumber reason
+  desc: 'Tilbakestiller tellingen i en kanal til et bestemt tall.'
+  params:
+    - desc: 'Kanalen som skal tilbakestilles. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Tallet å tilbakestille til. Standard er 0.'
+      name: newNumber
+      optional: true
+      type: long
+    - desc: 'Årsaken til tilbakestillingen.'
+      name: reason
+      optional: true
+      type: string
+countingrestore:
+  args:
+    - saveId channel
+  desc: 'Gjenoppretter tellingen fra et tidligere lagringspunkt.'
+  params:
+    - desc: 'IDen til lagringspunktet som skal gjenopprettes.'
+      name: saveId
+      optional: false
+      type: int
+    - desc: 'Kanalen som skal gjenopprettes. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countingsave:
+  args:
+    - channel reason
+  desc: 'Oppretter et lagringspunkt for gjeldende telleframdrift.'
+  params:
+    - desc: 'Kanalen som skal lagres. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Årsaken til å opprette lagringspunktet.'
+      name: reason
+      optional: true
+      type: string
+countingsetup:
+  args:
+    - channel startNumber increment
+  desc: 'Konfigurerer telling i gjeldende eller en angitt kanal.'
+  params:
+    - desc: 'Kanalen der telling skal konfigureres. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Tallet å begynne å telle fra. Standard er 1.'
+      name: startNumber
+      optional: true
+      type: long
+    - desc: 'Økningen for hver telling. Standard er 1.'
+      name: increment
+      optional: true
+      type: int
+countingstats:
+  args:
+    - user channel
+  desc: 'Viser tellestatistikk for en bruker eller kanal.'
+  params:
+    - desc: 'Brukeren å vise statistikk for. Standard er deg.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Kanalen å sjekke statistikk i. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countingstatus:
+  args:
+    - channel
+  desc: 'Viser gjeldende tellestatus i en kanal.'
+  params:
+    - desc: 'Kanalen å sjekke. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countingsuccessmessage:
+  args:
+    - channel embed
+  desc: 'Angir en tilpasset melding for vellykkede tellinger.'
+  params:
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Meldingsmalen. Bruk "-" for å tilbakestille til standard.'
+      name: embed
+      optional: true
+      type: string
+countingtimeout:
+  args:
+    - user duration channel reason
+  desc: 'Demper midlertidig en bruker fra telling.'
+  params:
+    - desc: 'Brukeren som skal dempes fra telling.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Varigheten på dempingen (f.eks. 30m, 2h).'
+      name: duration
+      optional: false
+      type: stoopid time
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Årsaken til dempingen.'
+      name: reason
+      optional: true
+      type: string
+countingunban:
+  args:
+    - user channel reason
+  desc: 'Opphever telleforbudet til en bruker i en bestemt kanal.'
+  params:
+    - desc: 'Brukeren hvis tellingsforbud skal oppheves.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Årsaken til opphevingen av forbudet.'
+      name: reason
+      optional: true
+      type: string
+countmodbanned:
+  args:
+    - channel roles...
+  desc: 'Angir roller som er utestengt fra å telle.'
+  params:
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Roller utestengt fra å telle.'
+      name: roles
+      optional: true
+      type: role
+countmodclear:
+  args:
+    - user channel
+  desc: 'Fjerner feiltellingene til en bruker i en tellekanal.'
+  params:
+    - desc: 'Brukeren hvis feiltellinger skal fjernes.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodclearall:
+  args:
+    - channel
+  desc: 'Fjerner feiltellingene til alle brukere i en tellekanal.'
+  params:
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countmoddefaults:
+  args:
+    - enabled threshold windowHours punishment durationMinutes punishmentRole
+  desc: 'Angir standard modereringsinnstillinger for hele serveren.'
+  params:
+    - desc: 'Om moderering er aktivert som standard.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: 'Standard feiltellings-terskel før straff.'
+      name: threshold
+      optional: true
+      type: int
+    - desc: 'Standard tidsvindu i timer for å spore feiltellinger.'
+      name: windowHours
+      optional: true
+      type: int
+    - desc: 'Standard straffhandling å bruke.'
+      name: punishment
+      optional: true
+      type: punishment action
+    - desc: 'Standard varighet for tidsbestemte straffer i minutter.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Standardrolle for strafftypen LeggTilRolle.'
+      name: punishmentRole
+      optional: true
+      type: role
+countmodedits:
+  args:
+    - punish delete channel
+  desc: 'Konfigurerer meldingsredigeringsbeskyttelse for en tellekanal.'
+  params:
+    - desc: 'Om meldingsredigeringer skal straffes som overtredelser.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: 'Om redigerte meldinger skal slettes.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodenable:
+  args:
+    - enabled channel
+  desc: 'Aktiverer eller deaktiverer moderering for en bestemt tellekanal.'
+  params:
+    - desc: 'Om moderering skal aktiveres eller deaktiveres.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodignore:
+  args:
+    - deleteMessages channel roles...
+  desc: 'Angir roller som skal ignoreres fra telling.'
+  params:
+    - desc: 'Om meldinger fra ignorerte roller skal slettes.'
+      name: deleteMessages
+      optional: false
+      type: bool
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Roller som skal ignoreres fra telling.'
+      name: roles
+      optional: true
+      type: role
+countmodnonnumbers:
+  args:
+    - punish delete channel
+  desc: 'Konfigurerer håndteringen av ikke-numeriske meldinger i en tellekanal.'
+  params:
+    - desc: 'Om ikke-numeriske meldinger skal straffes som overtredelser.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: 'Om ikke-numeriske meldinger skal slettes.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunish:
+  args:
+    - count punishment durationMinutes role channel
+  desc: 'Angir en trinnvis straff for et bestemt antall feiltellinger.'
+  params:
+    - desc: 'Antall feiltellinger som utløser denne straffen.'
+      name: count
+      optional: false
+      type: int
+    - desc: 'Straffhandlingen å bruke.'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: 'Varighet for tidsbestemte straffer i minutter.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Rolle for strafftypen LeggTilRolle.'
+      name: role
+      optional: true
+      type: role
+    - desc: 'Tellekanalen (NULL for serverstandarder).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishlist:
+  args:
+    - channel
+  desc: 'Viser alle trinnvise straffer for serveren eller en bestemt kanal.'
+  params:
+    - desc: 'Tellekanalen (NULL for serverstandarder).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishment:
+  args:
+    - punishment durationMinutes role channel
+  desc: 'Angir straffen for feiltellinger.'
+  params:
+    - desc: 'Straffhandlingen å bruke.'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: 'Varighet for tidsbestemte straffer i minutter.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Rolle for strafftypen LeggTilRolle.'
+      name: role
+      optional: true
+      type: role
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodrequired:
+  args:
+    - channel roles...
+  desc: 'Angir roller som kreves for å telle.'
+  params:
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Roller som kreves for å telle.'
+      name: roles
+      optional: true
+      type: role
+countmodreset:
+  args:
+    - channel
+  desc: 'Tilbakestiller en kanal til å bruke serverstandarder.'
+  params:
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodshow:
+  args:
+    - channel
+  desc: 'Viser gjeldende modereringskonfigurasjon for tellekanalen eller serverstandardene.'
+  params:
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodthreshold:
+  args:
+    - threshold channel
+  desc: 'Angir terskelen for feiltellinger for en tellekanal.'
+  params:
+    - desc: 'Antall feiltellinger før straff (1-100).'
+      name: threshold
+      optional: false
+      type: int
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodunpunish:
+  args:
+    - count channel
+  desc: 'Fjerner en trinnvis straff for et bestemt antall feiltellinger.'
+  params:
+    - desc: 'Antall feiltellinger å fjerne straffen for.'
+      name: count
+      optional: false
+      type: int
+    - desc: 'Tellekanalen (NULL for serverstandarder).'
+      name: channel
+      optional: true
+      type: text channel
+countmodwindow:
+  args:
+    - hours channel
+  desc: 'Angir tidsvinduet for å spore feiltellinger.'
+  params:
+    - desc: 'Tidsvindu i timer (1-168).'
+      name: hours
+      optional: false
+      type: int
+    - desc: 'Tellekanalen. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: text channel

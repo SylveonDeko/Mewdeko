@@ -1,0 +1,434 @@
+rolegreetadd:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Belirtilen bir rol icin yeni bir rol karsilama mesaji ekler. Kanal belirtilmezse gecerli kanal kullanilir.'
+  params:
+    - desc: 'Karsilama mesajinin ayarlandigi rol.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Karsilama mesajinin gonderilecegi metin kanali. Ihtiyari.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Belirtilen bir rol icin yeni bir rol karsilama mesaji ekler. Kanal belirtilmezse gecerli kanal kullanilir.'
+  params:
+    - desc: 'Karsilama mesajinin ayarlandigi rol.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Karsilama mesajinin gonderilecegi metin kanali. Ihtiyari.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=_1:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Belirtilen bir rol icin yeni bir rol karsilama mesaji ekler. Kanal belirtilmezse gecerli kanal kullanilir.'
+  params:
+    - desc: 'Karsilama mesajinin ayarlandigi rol.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Karsilama mesajinin gonderilecegi metin kanali. Ihtiyari.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=_2:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Belirtilen bir rol icin yeni bir rol karsilama mesaji ekler. Kanal belirtilmezse gecerli kanal kullanilir.'
+  params:
+    - desc: 'Karsilama mesajinin ayarlandigi rol.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Karsilama mesajinin gonderilecegi metin kanali. Ihtiyari.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetdelete:
+  args:
+    - number time
+  desc: 'Bir rol karsilama mesajini belirtilen sureden sonra otomatik silinecek sekilde gunceller.'
+  params:
+    - &ref_448
+      desc: 'Guncellenecek rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: id
+      optional: false
+      type: int
+    - &ref_450
+      desc: 'Bir rol karsilama mesajini belirtilen sureden sonra otomatik silinecek sekilde gunceller.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime:
+  args:
+    - number time
+  desc: 'Bir rol karsilama mesajini belirtilen sureden sonra otomatik silinecek sekilde gunceller.'
+  params:
+    - desc: 'Guncellenecek rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Bir rol karsilama mesajini belirtilen sureden sonra otomatik silinecek sekilde gunceller.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'Bir rol karsilama mesajini belirtilen sureden sonra otomatik silinecek sekilde gunceller.'
+  params:
+    - desc: 'Guncellenecek rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Bir rol karsilama mesajini belirtilen sureden sonra otomatik silinecek sekilde gunceller.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'Bir rol karsilama mesajini belirtilen sureden sonra otomatik silinecek sekilde gunceller.'
+  params:
+    - desc: 'Guncellenecek rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Bir rol karsilama mesajini belirtilen sureden sonra otomatik silinecek sekilde gunceller.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_int:
+  args:
+    - number number
+  desc: 'Bir rol karsilama mesajini belirtilen sureden sonra otomatik silinecek sekilde gunceller.'
+  params:
+    - desc: 'Guncellenecek rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: id
+      optional: false
+      type: int
+    - &ref_449
+      desc: 'Karsilama mesajinin silinecegi sure (saniye cinsinden).'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_1:
+  args:
+    - number number
+  desc: 'Bir rol karsilama mesajini belirtilen sureden sonra otomatik silinecek sekilde gunceller.'
+  params:
+    - desc: 'Guncellenecek rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Karsilama mesajinin silinecegi sure (saniye cinsinden).'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_2:
+  args:
+    - number number
+  desc: 'Bir rol karsilama mesajini belirtilen sureden sonra otomatik silinecek sekilde gunceller.'
+  params:
+    - desc: 'Guncellenecek rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Karsilama mesajinin silinecegi sure (saniye cinsinden).'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_3:
+  args:
+    - number number
+  desc: 'Bir rol karsilama mesajini belirtilen sureden sonra otomatik silinecek sekilde gunceller.'
+  params:
+    - desc: 'Guncellenecek rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Karsilama mesajinin silinecegi sure (saniye cinsinden).'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdisable:
+  args:
+    - number true|false
+  desc: 'Bir rol karsilama mesajini etkinlestirir veya devre disi birakir.'
+  params:
+    - &ref_451
+      desc: 'Guncellenecek rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: num
+      optional: false
+      type: int
+    - &ref_452
+      desc: 'Karsilama mesajinin etkinlestirilip etkinlestirilmeyecegi.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool:
+  args:
+    - number true|false
+  desc: 'Bir rol karsilama mesajini etkinlestirir veya devre disi birakir.'
+  params:
+    - desc: 'Guncellenecek rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Karsilama mesajinin etkinlestirilip etkinlestirilmeyecegi.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Bir rol karsilama mesajini etkinlestirir veya devre disi birakir.'
+  params:
+    - desc: 'Guncellenecek rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Karsilama mesajinin etkinlestirilip etkinlestirilmeyecegi.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Bir rol karsilama mesajini etkinlestirir veya devre disi birakir.'
+  params:
+    - desc: 'Guncellenecek rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Karsilama mesajinin etkinlestirilip etkinlestirilmeyecegi.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots:
+  args:
+    - number true|false
+  desc: 'Belirli bir rol karsilamasi tarafindan botlarin karsilanmasini etkinlestirir veya devre disi birakir.'
+  params:
+    - desc: 'Guncellenecek rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: num
+      optional: false
+      type: int
+    - &ref_453
+      desc: 'Bot karsilamasinin etkinlestirilip etkinlestirilmeyecegi.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool:
+  args:
+    - number true|false
+  desc: 'Belirli bir rol karsilamasi tarafindan botlarin karsilanmasini etkinlestirir veya devre disi birakir.'
+  params:
+    - desc: 'Guncellenecek rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Bot karsilamasinin etkinlestirilip etkinlestirilmeyecegi.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Belirli bir rol karsilamasi tarafindan botlarin karsilanmasini etkinlestirir veya devre disi birakir.'
+  params:
+    - desc: 'Guncellenecek rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Bot karsilamasinin etkinlestirilip etkinlestirilmeyecegi.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Belirli bir rol karsilamasi tarafindan botlarin karsilanmasini etkinlestirir veya devre disi birakir.'
+  params:
+    - desc: 'Guncellenecek rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Bot karsilamasinin etkinlestirilip etkinlestirilmeyecegi.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetlist:
+  args:
+    - ''
+  desc: 'Sunucuda ayarlanan tum rol karsilamalarini listeler ve her biri hakkinda ayrintili bilgi saglar.'
+  params: [ ]
+rolegreetmessage:
+  args:
+    - '<id> [message]'
+    - number
+  desc: 'Bir rol karsilamasinin mesaj icerigini gunceller. Mesaj belirtilmezse mevcut mesaji onizleme veya duz metin olarak goruntuleme secenekleri sunulur.'
+  params:
+    - desc: 'Guncellenecek rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Yeni mesaj icerigi. Ihtiyari.'
+      name: message
+      optional: true
+      type: string
+rolegreetremove:
+  args:
+    - number
+  desc: Verilen rol ID''siyle iliskilendirilmis rol karsilamalarini kaldirir
+  params:
+    - &ref_454
+      desc: Verilen rol ID''siyle iliskilendirilmis rol karsilamalarini kaldirir
+      name: id
+      optional: false
+      type: int
+rolegreetremove_IRole:
+  args:
+    - '@role'
+  desc: Verilen rol ID''siyle iliskilendirilmis rol karsilamalarini kaldirir
+  params:
+    - desc: 'Rol karsilamalarinin silinecegi rol.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_1:
+  args:
+    - '@role'
+  desc: Verilen rol ID''siyle iliskilendirilmis rol karsilamalarini kaldirir
+  params:
+    - desc: 'Rol karsilamalarinin silinecegi rol.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_2:
+  args:
+    - '@role'
+  desc: Verilen rol ID''siyle iliskilendirilmis rol karsilamalarini kaldirir
+  params:
+    - desc: 'Rol karsilamalarinin silinecegi rol.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_3:
+  args:
+    - '@role'
+  desc: Verilen rol ID''siyle iliskilendirilmis rol karsilamalarini kaldirir
+  params:
+    - desc: 'Rol karsilamalarinin silinecegi rol.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_int:
+  args:
+    - number
+  desc: Verilen rol ID''siyle iliskilendirilmis rol karsilamalarini kaldirir
+  params:
+    - desc: Verilen rol ID''siyle iliskilendirilmis rol karsilamalarini kaldirir
+      name: id
+      optional: false
+      type: int
+rolegreetremove_int_1:
+  args:
+    - number
+  desc: Verilen rol ID''siyle iliskilendirilmis rol karsilamalarini kaldirir
+  params:
+    - desc: Verilen rol ID''siyle iliskilendirilmis rol karsilamalarini kaldirir
+      name: id
+      optional: false
+      type: int
+rolegreetremove_int_2:
+  args:
+    - number
+  desc: Verilen rol ID''siyle iliskilendirilmis rol karsilamalarini kaldirir
+  params:
+    - desc: Verilen rol ID''siyle iliskilendirilmis rol karsilamalarini kaldirir
+      name: id
+      optional: false
+      type: int
+rolegreetwebhook:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Rol karsilama mesaji icin ozel ad ve avatarla bir webhook yapilandirir. Ad belirtilmezse webhook devre disi birakilir.'
+  params:
+    - desc: 'Webhook yapilandirilacak rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Webhook adi. Ihtiyari.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Webhook icin avatar URL''si. Ihtiyari.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Rol karsilama mesaji icin ozel ad ve avatarla bir webhook yapilandirir. Ad belirtilmezse webhook devre disi birakilir.'
+  params:
+    - desc: 'Webhook yapilandirilacak rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Webhook adi. Ihtiyari.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Webhook icin avatar URL''si. Ihtiyari.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=_1:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Rol karsilama mesaji icin ozel ad ve avatarla bir webhook yapilandirir. Ad belirtilmezse webhook devre disi birakilir.'
+  params:
+    - desc: 'Webhook yapilandirilacak rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Webhook adi. Ihtiyari.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Webhook icin avatar URL''si. Ihtiyari.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=_2:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Rol karsilama mesaji icin ozel ad ve avatarla bir webhook yapilandirir. Ad belirtilmezse webhook devre disi birakilir.'
+  params:
+    - desc: 'Webhook yapilandirilacak rol karsilamasinin ID''si (tum rol karsilamalari listesindeki konumuna gore).'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Webhook adi. Ihtiyari.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Webhook icin avatar URL''si. Ihtiyari.'
+      name: avatar
+      optional: true
+      type: string

@@ -1,0 +1,134 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: '顯示詳細的 Patreon 分析資料。'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: '手動觸發 Patreon 公告。'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: 設定或顯示 Patreon 公告頻道。
+  params:
+    - desc: >-
+        要設定為 Patreon 公告的頻道。如果為空，則顯示目前頻道。
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: '顯示此伺服器的目前 Patreon 設定。'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: '設定每月發布 Patreon 公告的日期。'
+  params:
+    - desc: >-
+        每月發布公告的日期（1-28）。如果為空，則顯示目前日期。
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: '為此伺服器停用 Patreon 公告。'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: '顯示 Patreon 模組資訊和可用預留位置。'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: '將 Discord 使用者連結到 Patreon 支持者。'
+  params:
+    - desc: 要連結的 Discord 使用者。
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 要連結的 Patreon 使用者 ID。
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: 為 Patreon 公告設定自訂訊息。
+  params:
+    - desc: >-
+        自訂訊息。使用 %server.name%、%month% 等預留位置。使用 "-" 重設為預設。
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: '為新支持者發送表彰訊息。'
+  params:
+    - desc: 發送表彰訊息的頻道。
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: '列出 Patreon 等級與身分組對應。'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: '切換身分組自動同步。'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: '顯示 Patreon 支持者統計資料。'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: '列出目前活躍的 Patreon 支持者。'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: '安全設定 Patreon OAuth 整合。'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: '為所有已連結的支持者同步身分組。'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: '將 Patreon 等級對應到 Discord 身分組。'
+  params:
+    - desc: Patreon 等級 ID。
+      name: tierId
+      optional: false
+      type: string
+    - desc: 要對應到該等級的 Discord 身分組。
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: '開啟或關閉 Patreon 公告。'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: '顯示頂級 Patreon 支持者。'
+  params:
+    - desc: 要顯示的頂級支持者數量（1-20）。
+      name: count
+      optional: true
+      type: int

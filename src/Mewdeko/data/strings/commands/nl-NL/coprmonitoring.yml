@@ -1,0 +1,168 @@
+coprmonitoradd:
+  args:
+    - '<ownerProject> [channel] [packages]'
+    - '<ownerProject> [channel] [packages]'
+    - ownerProject
+  desc: 'Voegt een COPR-projectmonitor toe aan de server.'
+  params:
+    - desc: 'Het COPR-project in het formaat owner/project (bijv. linux4switch/l4s).'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Optioneel kanaal voor meldingen. Standaard is het huidige kanaal.'
+      name: channel
+      optional: true
+      type: ITextChannel
+    - desc: 'Optionele door komma gescheiden lijst van te bewaken pakketten (bijv. mesa,kernel).'
+      name: packages
+      optional: true
+      type: string
+coprmonitorremove:
+  args:
+    - '<ownerProject> [channel]'
+    - ownerProject
+  desc: 'Verwijdert een COPR-projectmonitor van de server.'
+  params:
+    - desc: 'Het COPR-project in het formaat owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Optioneel kanaal om een specifieke monitor te verwijderen.'
+      name: channel
+      optional: true
+      type: ITextChannel
+coprmonitorlist:
+  args:
+    - ''
+  desc: 'Geeft een lijst van alle COPR-monitors die op de server zijn geconfigureerd.'
+  params: [ ]
+coprmonitortoggle:
+  args:
+    - ownerProject
+  desc: 'Schakelt een COPR-monitor in of uit.'
+  params:
+    - desc: 'Het COPR-project in het formaat owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+coprnotify:
+  args:
+    - ownerProject status enabled
+  desc: 'Configureert welke bouwstatussen meldingen activeren voor een monitor.'
+  params:
+    - desc: 'Het COPR-project in het formaat owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'De te configureren bouwstatus.'
+      name: status
+      optional: false
+      type: CoprBuildStatus
+    - desc: 'Of meldingen voor deze status in- of uitgeschakeld moeten worden.'
+      name: enabled
+      optional: false
+      type: bool
+coprfilter:
+  args:
+    - ownerProject text
+  desc: 'Stelt het pakketfilter in voor een COPR-monitor.'
+  params:
+    - desc: 'Het COPR-project in het formaat owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Door komma gescheiden lijst van pakketten, of "all" om alles te bewaken.'
+      name: packages
+      optional: false
+      type: string
+coprsucceededmessage:
+  args:
+    - ownerProject text
+  desc: 'Stelt het bericht in dat wordt weergegeven wanneer een COPR-build slaagt.'
+  params:
+    - desc: 'Het COPR-project in het formaat owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Het bericht of embed-code. Gebruik "-" om te resetten naar standaard.'
+      name: message
+      optional: false
+      type: string
+coprfailedmessage:
+  args:
+    - ownerProject text
+  desc: 'Stelt het bericht in dat wordt weergegeven wanneer een COPR-build mislukt.'
+  params:
+    - desc: 'Het COPR-project in het formaat owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Het bericht of embed-code. Gebruik "-" om te resetten naar standaard.'
+      name: message
+      optional: false
+      type: string
+coprcanceledmessage:
+  args:
+    - ownerProject text
+  desc: 'Stelt het bericht in dat wordt weergegeven wanneer een COPR-build wordt geannuleerd.'
+  params:
+    - desc: 'Het COPR-project in het formaat owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Het bericht of embed-code. Gebruik "-" om te resetten naar standaard.'
+      name: message
+      optional: false
+      type: string
+coprpendingmessage:
+  args:
+    - ownerProject text
+  desc: 'Stelt het bericht in dat wordt weergegeven wanneer een COPR-build in behandeling is.'
+  params:
+    - desc: 'Het COPR-project in het formaat owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Het bericht of embed-code. Gebruik "-" om te resetten naar standaard.'
+      name: message
+      optional: false
+      type: string
+coprrunningmessage:
+  args:
+    - ownerProject text
+  desc: 'Stelt het bericht in dat wordt weergegeven wanneer een COPR-build wordt uitgevoerd.'
+  params:
+    - desc: 'Het COPR-project in het formaat owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Het bericht of embed-code. Gebruik "-" om te resetten naar standaard.'
+      name: message
+      optional: false
+      type: string
+coprskippedmessage:
+  args:
+    - ownerProject text
+  desc: 'Stelt het bericht in dat wordt weergegeven wanneer een COPR-build wordt overgeslagen.'
+  params:
+    - desc: 'Het COPR-project in het formaat owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Het bericht of embed-code. Gebruik "-" om te resetten naar standaard.'
+      name: message
+      optional: false
+      type: string
+coprdefaultmessage:
+  args:
+    - ownerProject text
+  desc: 'Stelt het standaardbericht in voor alle andere bouwstatussen.'
+  params:
+    - desc: 'Het COPR-project in het formaat owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Het bericht of embed-code. Gebruik "-" om te resetten naar standaard.'
+      name: message
+      optional: false
+      type: string

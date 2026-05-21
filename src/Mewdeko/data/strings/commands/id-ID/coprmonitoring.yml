@@ -1,0 +1,168 @@
+coprmonitoradd:
+  args:
+    - '<ownerProject> [channel] [packages]'
+    - '<ownerProject> [channel] [packages]'
+    - ownerProject
+  desc: 'Menambahkan monitor proyek COPR ke server.'
+  params:
+    - desc: 'Proyek COPR dalam format owner/project (mis. linux4switch/l4s).'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Saluran opsional untuk notifikasi. Default adalah saluran saat ini.'
+      name: channel
+      optional: true
+      type: ITextChannel
+    - desc: 'Daftar paket yang dipisahkan koma untuk dipantau (mis. mesa,kernel).'
+      name: packages
+      optional: true
+      type: string
+coprmonitorremove:
+  args:
+    - '<ownerProject> [channel]'
+    - ownerProject
+  desc: 'Menghapus monitor proyek COPR dari server.'
+  params:
+    - desc: 'Proyek COPR dalam format owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Saluran opsional untuk menghapus monitor tertentu.'
+      name: channel
+      optional: true
+      type: ITextChannel
+coprmonitorlist:
+  args:
+    - ''
+  desc: 'Mencantumkan semua monitor COPR yang dikonfigurasi di server.'
+  params: [ ]
+coprmonitortoggle:
+  args:
+    - ownerProject
+  desc: 'Mengaktifkan atau menonaktifkan monitor COPR.'
+  params:
+    - desc: 'Proyek COPR dalam format owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+coprnotify:
+  args:
+    - ownerProject status enabled
+  desc: 'Mengonfigurasi status build mana yang memicu notifikasi untuk monitor.'
+  params:
+    - desc: 'Proyek COPR dalam format owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Status build yang akan dikonfigurasi.'
+      name: status
+      optional: false
+      type: CoprBuildStatus
+    - desc: 'Apakah akan mengaktifkan atau menonaktifkan notifikasi untuk status ini.'
+      name: enabled
+      optional: false
+      type: bool
+coprfilter:
+  args:
+    - ownerProject text
+  desc: 'Menetapkan filter paket untuk monitor COPR.'
+  params:
+    - desc: 'Proyek COPR dalam format owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Daftar paket yang dipisahkan koma, atau "all" untuk memantau semua.'
+      name: packages
+      optional: false
+      type: string
+coprsucceededmessage:
+  args:
+    - ownerProject text
+  desc: 'Menetapkan pesan yang ditampilkan saat build COPR berhasil.'
+  params:
+    - desc: 'Proyek COPR dalam format owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Pesan atau kode embed. Gunakan "-" untuk mereset ke default.'
+      name: message
+      optional: false
+      type: string
+coprfailedmessage:
+  args:
+    - ownerProject text
+  desc: 'Menetapkan pesan yang ditampilkan saat build COPR gagal.'
+  params:
+    - desc: 'Proyek COPR dalam format owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Pesan atau kode embed. Gunakan "-" untuk mereset ke default.'
+      name: message
+      optional: false
+      type: string
+coprcanceledmessage:
+  args:
+    - ownerProject text
+  desc: 'Menetapkan pesan yang ditampilkan saat build COPR dibatalkan.'
+  params:
+    - desc: 'Proyek COPR dalam format owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Pesan atau kode embed. Gunakan "-" untuk mereset ke default.'
+      name: message
+      optional: false
+      type: string
+coprpendingmessage:
+  args:
+    - ownerProject text
+  desc: 'Menetapkan pesan yang ditampilkan saat build COPR menunggu.'
+  params:
+    - desc: 'Proyek COPR dalam format owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Pesan atau kode embed. Gunakan "-" untuk mereset ke default.'
+      name: message
+      optional: false
+      type: string
+coprrunningmessage:
+  args:
+    - ownerProject text
+  desc: 'Menetapkan pesan yang ditampilkan saat build COPR sedang berjalan.'
+  params:
+    - desc: 'Proyek COPR dalam format owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Pesan atau kode embed. Gunakan "-" untuk mereset ke default.'
+      name: message
+      optional: false
+      type: string
+coprskippedmessage:
+  args:
+    - ownerProject text
+  desc: 'Menetapkan pesan yang ditampilkan saat build COPR dilewati.'
+  params:
+    - desc: 'Proyek COPR dalam format owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Pesan atau kode embed. Gunakan "-" untuk mereset ke default.'
+      name: message
+      optional: false
+      type: string
+coprdefaultmessage:
+  args:
+    - ownerProject text
+  desc: 'Menetapkan pesan default untuk semua status build lainnya.'
+  params:
+    - desc: 'Proyek COPR dalam format owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Pesan atau kode embed. Gunakan "-" untuk mereset ke default.'
+      name: message
+      optional: false
+      type: string

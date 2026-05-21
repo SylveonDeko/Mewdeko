@@ -1,0 +1,157 @@
+confess:
+  args:
+    - serverid text
+  desc: 'Дозволяє користувачам анонімно сповідатися.'
+  params:
+    - &ref_139
+      desc: 'ID сервера.'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: 'Повідомлення сповіді'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: 'Дозволяє користувачам анонімно сповідатися.'
+  params:
+    - desc: 'ID сервера.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Повідомлення сповіді'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: 'Дозволяє користувачам анонімно сповідатися.'
+  params:
+    - desc: 'ID сервера.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Повідомлення сповіді'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: 'Дозволяє користувачам анонімно сповідатися.'
+  params:
+    - desc: 'ID сервера.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Повідомлення сповіді'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: 'Додає користувача до чорного списку сповідей.'
+  params:
+    - desc: 'Користувач для внесення до чорного списку сповідей.'
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: 'Встановлює канал сповідей.'
+  params:
+    - desc: 'Канал для встановлення для сповідей.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: 'Додає або видаляє користувача з чорного списку сповідей.'
+  params:
+    - &ref_141
+      desc: 'Користувач для додавання або видалення з чорного списку.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: 'Додає або видаляє користувача з чорного списку сповідей.'
+  params:
+    - &ref_142
+      desc: 'Користувач для додавання або видалення з чорного списку.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: 'Додає або видаляє користувача з чорного списку сповідей.'
+  params:
+    - desc: 'Користувач для додавання або видалення з чорного списку.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: 'Додає або видаляє користувача з чорного списку сповідей.'
+  params:
+    - desc: 'Користувач для додавання або видалення з чорного списку.'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: 'Встановлює канал сповідей для анонімних сповідей.'
+  params:
+    - desc: 'Канал сповідей (необов''язково).'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    Встановлює канал журналу сповідей для запису сповідей. Зловживання цією
+    функцією закінчиться тим, що я буду за 2м від вашого будинку.
+  params:
+    - desc: 'Канал журналу сповідей (необов''язково).'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: 'Видаляє користувача з чорного списку сповідей.'
+  params:
+    - desc: 'Користувач для видалення з чорного списку.'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: 'Встановлює канал журналу сповідей.'
+  params:
+    - desc: 'Канал для запису сповідей.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: 'Видаляє користувача з чорного списку сповідей.'
+  params:
+    - desc: 'Користувач для видалення з чорного списку сповідей.'
+      name: user
+      optional: false
+      type: IUser

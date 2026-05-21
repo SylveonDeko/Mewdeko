@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'Controleert de status van een Minecraft-server. Gebruik een geregistreerde servernaam, een direct adres, of laat leeg voor de standaardserver.'
+  params:
+    - desc: 'De geregistreerde servernaam of directe adres (bijv. play.example.com:25565).'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: 'Voegt een Minecraft-server toe aan de guild. Voeg bedrock: toe aan het adres voor Bedrock-servers.'
+  params:
+    - desc: 'Een label voor de server.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Het serveradres, optioneel met poort (bijv. play.example.com:25565 of bedrock:play.example.com).'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: 'Verwijdert een Minecraft-server uit de guild.'
+  params:
+    - desc: 'De naam van de te verwijderen server.'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: 'Lijst alle geregistreerde Minecraft-servers voor deze guild.'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: 'Stelt een server in als standaard voor statuscommando''s.'
+  params:
+    - desc: 'De naam van de server om als standaard in te stellen.'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: 'Stelt een kanaal in om periodieke statusupdates voor een server te ontvangen. Laat het kanaal weg om uit te schakelen.'
+  params:
+    - desc: 'De naam van de te bekijken server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Het kanaal om updates in te plaatsen.'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: 'Stelt in hoe de serverstatus wordt weergegeven: embed (ter plaatse bewerken), kanaalonderwerp, of beide.'
+  params:
+    - desc: 'De naam van de server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'De bekijkmodus: Embed, ChannelTopic, of Both.'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: 'Stelt een aangepast embed-sjabloon in voor een bekeken server. Gebruik "-" om te resetten. Placeholders: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
+  params:
+    - desc: 'De naam van de server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'De embed-sjabloon JSON, of "-" om te resetten naar standaard.'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: 'Zoekt een Minecraft-speler op gebruikersnaam op en toont profiel en skin.'
+  params:
+    - desc: 'De op te zoeken Minecraft-gebruikersnaam.'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'Toont de skin-render van een Minecraft-speler.'
+  params:
+    - desc: 'De Minecraft-gebruikersnaam.'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: 'Stuurt een RCON-commando naar een geregistreerde Minecraft-server. RCON moet via het dashboard worden geconfigureerd.'
+  params:
+    - desc: 'De naam van de server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Het commando om uit te voeren op de server.'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'Beheert de whitelist op een Minecraft-server via RCON. Vereist geconfigureerde RCON.'
+  params:
+    - desc: 'De naam van de server.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'De actie: add, remove, list, on, off, reload.'
+      name: action
+      optional: false
+      type: string
+    - desc: 'De spelernaam (voor add/remove).'
+      name: playerName
+      optional: true
+      type: string

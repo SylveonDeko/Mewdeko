@@ -1,0 +1,15 @@
+{
+  "autohentai_started": "Autohentai pokrenut. Ponovno objavljivanje svakih {0}s sa jednim od sledećih tagova:\n{1}",
+  "autohentai_stopped": "Autohentai zaustavljen.",
+  "nsfw_api_fetch_error": "Nije moguće preuzeti nsfw subreddit. Molimo proverite konzolu ili prijavite problem na https://discord.gg/mewdeko",
+  "nsfw_autohentai_started": "Automatsko NSFW objavljivanje pokrenuto. Interval: {0}s | Tagovi: {1}",
+  "nsfw_autohentai_stopped": "Automatsko NSFW objavljivanje je zaustavljeno",
+  "nsfw_blacklist_title": "Zabranjeni NSFW Tagovi",
+  "nsfw_file_too_large": "Datoteka Prevelika",
+  "nsfw_loading_subreddit": "Pokušavam da dobijem post iz `{0}`...",
+  "nsfw_loli_shota_content": "Ova manga sadrži loli/shota sadržaj i nije dozvoljena Discord TOS-om!",
+  "nsfw_search_no_results": "Pretraga nije vratila rezultate. Pokušajte ponovo sa drugim upitom!",
+  "nsfw_set_false": "NSFW je onemogućen na ovom kanalu.",
+  "nsfw_set_true": "NSFW je omogućen na ovom kanalu.",
+  "nsfw_title_format": "{0} - {1} stranica"
+}

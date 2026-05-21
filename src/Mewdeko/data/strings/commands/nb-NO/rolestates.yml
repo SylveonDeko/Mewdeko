@@ -1,0 +1,470 @@
+addrolestorolestate:
+  args:
+    - '@user @role'
+  desc: 'Legger til roller i en brukers rollestatus.'
+  params:
+    - &ref_26
+      desc: 'Brukeren hvis rollestatus skal endres.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_25
+      desc: 'Rollene som skal legges til brukerens rollestatus.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Legger til roller i en brukers rollestatus.'
+  params:
+    - &ref_27
+      desc: 'Brukeren hvis rollestatus skal endres.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Rollene som skal legges til brukerens rollestatus.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Legger til roller i en brukers rollestatus.'
+  params:
+    - desc: 'Brukeren hvis rollestatus skal endres.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Rollene som skal legges til brukerens rollestatus.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Legger til roller i en brukers rollestatus.'
+  params:
+    - desc: 'Brukeren hvis rollestatus skal endres.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Rollene som skal legges til brukerens rollestatus.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteuserrolestate:
+  args:
+    - '@user'
+  desc: 'Sletter rollestatusen for en bestemt bruker.'
+  params:
+    - &ref_191
+      desc: 'Brukeren hvis rollestatus skal slettes.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Sletter rollestatusen for en bestemt bruker.'
+  params:
+    - desc: 'Brukeren hvis rollestatus skal slettes.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Sletter rollestatusen for en bestemt bruker.'
+  params:
+    - desc: 'Brukeren hvis rollestatus skal slettes.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Sletter rollestatusen for en bestemt bruker.'
+  params:
+    - desc: 'Brukeren hvis rollestatus skal slettes.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IUser:
+  args:
+    - '@user'
+  desc: 'Sletter rollestatusen for en bestemt bruker.'
+  params:
+    - desc: 'Brukeren hvis rollestatus skal slettes.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_1:
+  args:
+    - '@user'
+  desc: 'Sletter rollestatusen for en bestemt bruker.'
+  params:
+    - desc: 'Brukeren hvis rollestatus skal slettes.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_2:
+  args:
+    - '@user'
+  desc: 'Sletter rollestatusen for en bestemt bruker.'
+  params:
+    - desc: 'Brukeren hvis rollestatus skal slettes.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_3:
+  args:
+    - '@user'
+  desc: 'Sletter rollestatusen for en bestemt bruker.'
+  params:
+    - desc: 'Brukeren hvis rollestatus skal slettes.'
+      name: user
+      optional: false
+      type: IUser
+removerolesfromrolestate:
+  args:
+    - '@user @role'
+  desc: 'Fjerner roller fra en brukers rollestatus.'
+  params:
+    - desc: 'Brukeren hvis rollestatus skal endres.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_414
+      desc: 'Rollene som skal fjernes fra brukerens rollestatus.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Fjerner roller fra en brukers rollestatus.'
+  params:
+    - desc: 'Brukeren hvis rollestatus skal endres.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Rollene som skal fjernes fra brukerens rollestatus.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Fjerner roller fra en brukers rollestatus.'
+  params:
+    - desc: 'Brukeren hvis rollestatus skal endres.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Rollene som skal fjernes fra brukerens rollestatus.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Fjerner roller fra en brukers rollestatus.'
+  params:
+    - desc: 'Brukeren hvis rollestatus skal endres.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Rollene som skal fjernes fra brukerens rollestatus.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole:
+  args:
+    - '@role'
+  desc: 'Legger til roller i avslaglisten for rollestatus-funksjonen.'
+  params:
+    - &ref_463
+      desc: 'Rollene som skal legges til i avslaglisten.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]:
+  args:
+    - '@role'
+  desc: 'Legger til roller i avslaglisten for rollestatus-funksjonen.'
+  params:
+    - desc: 'Rollene som skal legges til i avslaglisten.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Legger til roller i avslaglisten for rollestatus-funksjonen.'
+  params:
+    - desc: 'Rollene som skal legges til i avslaglisten.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Legger til roller i avslaglisten for rollestatus-funksjonen.'
+  params:
+    - desc: 'Rollene som skal legges til i avslaglisten.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyuser:
+  args:
+    - '@user'
+  desc: 'Legger til brukere i avslaglisten for rollestatus-funksjonen.'
+  params:
+    - &ref_464
+      desc: 'Brukerne som skal legges til i avslaglisten.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Legger til brukere i avslaglisten for rollestatus-funksjonen.'
+  params:
+    - desc: 'Brukerne som skal legges til i avslaglisten.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Legger til brukere i avslaglisten for rollestatus-funksjonen.'
+  params:
+    - desc: 'Brukerne som skal legges til i avslaglisten.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Legger til brukere i avslaglisten for rollestatus-funksjonen.'
+  params:
+    - desc: 'Brukerne som skal legges til i avslaglisten.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremoveadduser:
+  args:
+    - user
+  desc: 'Fjerner eller avslår en bruker fra rollestatuser.'
+  params:
+    - desc: 'Brukeren som skal fjernes/avslås fra rollestatuser.'
+      name: user
+      optional: false
+      type: IUser
+rolestatesremovedenyrole:
+  args:
+    - '@role'
+  desc: 'Fjerner roller fra avslaglisten for rollestatus-funksjonen.'
+  params:
+    - &ref_465
+      desc: 'Rollene som skal fjernes fra avslaglisten.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]:
+  args:
+    - '@role'
+  desc: 'Fjerner roller fra avslaglisten for rollestatus-funksjonen.'
+  params:
+    - desc: 'Rollene som skal fjernes fra avslaglisten.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Fjerner roller fra avslaglisten for rollestatus-funksjonen.'
+  params:
+    - desc: 'Rollene som skal fjernes fra avslaglisten.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Fjerner roller fra avslaglisten for rollestatus-funksjonen.'
+  params:
+    - desc: 'Rollene som skal fjernes fra avslaglisten.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyuser:
+  args:
+    - '@user'
+  desc: 'Fjerner brukere fra avslaglisten for rollestatus-funksjonen.'
+  params:
+    - &ref_466
+      desc: 'Brukerne som skal fjernes fra avslaglisten.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Fjerner brukere fra avslaglisten for rollestatus-funksjonen.'
+  params:
+    - desc: 'Brukerne som skal fjernes fra avslaglisten.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Fjerner brukere fra avslaglisten for rollestatus-funksjonen.'
+  params:
+    - desc: 'Brukerne som skal fjernes fra avslaglisten.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Fjerner brukere fra avslaglisten for rollestatus-funksjonen.'
+  params:
+    - desc: 'Brukerne som skal fjernes fra avslaglisten.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+saveallrolestates:
+  args:
+    - ''
+  desc: 'Lagrer rollestatuser for alle brukere på serveren.'
+  params: [ ]
+setuserrolestate:
+  args:
+    - '@user @role'
+  desc: 'Angir rollestatusen for en bestemt bruker.'
+  params:
+    - &ref_529
+      desc: 'Brukeren hvis rollestatus skal angis.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_530
+      desc: 'Rollene som skal inkluderes i brukerens rollestatus.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Angir rollestatusen for en bestemt bruker.'
+  params:
+    - &ref_531
+      desc: 'Brukeren hvis rollestatus skal angis.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Rollene som skal inkluderes i brukerens rollestatus.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Angir rollestatusen for en bestemt bruker.'
+  params:
+    - desc: 'Brukeren hvis rollestatus skal angis.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Rollene som skal inkluderes i brukerens rollestatus.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Angir rollestatusen for en bestemt bruker.'
+  params:
+    - desc: 'Brukeren hvis rollestatus skal angis.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Rollene som skal inkluderes i brukerens rollestatus.'
+      name: roles
+      optional: false
+      type: IRole[]
+togglerolestates:
+  args:
+    - ''
+  desc: 'Slår rollestatus-funksjonen av eller på.'
+  params: [ ]
+togglerolestatesclearonban:
+  args:
+    - ''
+  desc: 'Veksler om rollestatuser skal tømmes når en bruker blir utestengt.'
+  params: [ ]
+togglerolestatesignorebots:
+  args:
+    - ''
+  desc: 'Veksler om botter skal ignoreres av rollestatus-funksjonen.'
+  params: [ ]
+togglerolestatesskipautoassign:
+  args:
+    - ''
+  desc: 'Veksler om automatisk tildelte roller skal hoppes over for brukere med lagrede rollestatuser.'
+  params: [ ]
+transferrolestates:
+  args:
+    - serverid
+  desc: 'Overfører rollestatuser fra gjeldende server til en annen server.'
+  params:
+    - &ref_627
+      desc: 'ID-en til målserveren.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong:
+  args:
+    - serverid
+  desc: 'Overfører rollestatuser fra gjeldende server til en annen server.'
+  params:
+    - desc: 'ID-en til målserveren.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong_1:
+  args:
+    - serverid
+  desc: 'Overfører rollestatuser fra gjeldende server til en annen server.'
+  params:
+    - desc: 'ID-en til målserveren.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong_2:
+  args:
+    - serverid
+  desc: 'Overfører rollestatuser fra gjeldende server til en annen server.'
+  params:
+    - desc: 'ID-en til målserveren.'
+      name: serverId
+      optional: false
+      type: ulong
+viewrolestates:
+  args:
+    - ''
+  desc: 'Viser alle brukerrollestatuser på serveren.'
+  params: [ ]
+viewrolestatessettings:
+  args:
+    - ''
+  desc: 'Viser gjeldende innstillinger for rollestatus-funksjonen.'
+  params: [ ]
+viewuserrolestates:
+  args:
+    - ''
+  desc: 'Viser rollestatuser for alle brukere.'
+  params: [ ]

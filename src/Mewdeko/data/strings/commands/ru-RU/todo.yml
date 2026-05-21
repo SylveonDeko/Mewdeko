@@ -1,0 +1,326 @@
+todoadd:
+  args:
+    - listId
+    - title
+    - description
+  desc: 'Добавляет новый элемент в указанный список задач'
+  params:
+    - desc: 'ID списка задач.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Заголовок элемента задачи.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Необязательное описание элемента.'
+      name: description
+      optional: true
+      type: string
+todoaddpriority:
+  args:
+    - listId
+    - priority
+    - title
+    - description
+  desc: 'Добавляет элемент задачи с приоритетом и необязательным сроком выполнения'
+  params:
+    - desc: 'ID списка задач.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Уровень приоритета (1=Низкий, 2=Средний, 3=Высокий, 4=Критический).'
+      name: priority
+      optional: false
+      type: int
+    - desc: 'Заголовок элемента задачи.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Необязательное описание элемента.'
+      name: description
+      optional: true
+      type: string
+todoaddtag:
+  args:
+    - itemId
+    - tag
+  desc: 'Добавляет тег к элементу задачи'
+  params:
+    - desc: 'ID элемента задачи.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Добавляемый тег.'
+      name: tag
+      optional: false
+      type: string
+todocleardue:
+  args:
+    - itemId
+  desc: 'Удаляет срок выполнения элемента задачи'
+  params:
+    - desc: 'ID элемента задачи.'
+      name: itemId
+      optional: false
+      type: int
+todoclearreminder:
+  args:
+    - itemId
+  desc: 'Удаляет напоминание для элемента задачи'
+  params:
+    - desc: 'ID элемента задачи.'
+      name: itemId
+      optional: false
+      type: int
+todocomplete:
+  args:
+    - itemId
+  desc: 'Отмечает элемент задачи как выполненный'
+  params:
+    - desc: 'ID элемента задачи.'
+      name: itemId
+      optional: false
+      type: int
+todocreatelist:
+  args:
+    - name
+    - description
+  desc: 'Создаёт новый список задач'
+  params:
+    - desc: 'Название списка задач.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Необязательное описание списка.'
+      name: description
+      optional: true
+      type: string
+todocreateserverlist:
+  args:
+    - name
+    - description
+  desc: 'Создаёт новый общесерверный список задач (только для администраторов)'
+  params:
+    - desc: 'Название серверного списка задач.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Необязательное описание списка.'
+      name: description
+      optional: true
+      type: string
+tododelete:
+  args:
+    - itemId
+  desc: 'Удаляет элемент задачи'
+  params:
+    - desc: 'ID элемента задачи.'
+      name: itemId
+      optional: false
+      type: int
+tododeletelist:
+  args:
+    - listId
+  desc: 'Удаляет весь список задач'
+  params:
+    - desc: 'ID списка задач.'
+      name: listId
+      optional: false
+      type: int
+todoedit:
+  args:
+    - itemId
+    - title
+    - description
+  desc: 'Редактирует заголовок и описание элемента задачи'
+  params:
+    - desc: 'ID элемента задачи.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Новый заголовок.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Новое описание.'
+      name: description
+      optional: true
+      type: string
+todofilter:
+  args:
+    - listId
+    - filter
+    - value
+  desc: 'Фильтрует элементы задач по тегу или приоритету'
+  params:
+    - desc: 'ID списка задач.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Тип фильтра (тег или приоритет).'
+      name: filter
+      optional: false
+      type: string
+    - desc: 'Значение для фильтрации.'
+      name: value
+      optional: true
+      type: string
+todogrant:
+  args:
+    - listId
+    - '@user'
+    - permissions
+  desc: 'Предоставляет пользователю права для списка задач (только владелец/администратор)'
+  params:
+    - desc: 'ID списка задач.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Пользователь, которому предоставляются права.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Права через запятую (view,add,edit,complete,delete,manage,all).'
+      name: permissions
+      optional: false
+      type: string
+todolists:
+  args:
+    - includeServer
+  desc: 'Перечисляет все списки задач, доступные пользователю'
+  params:
+    - desc: 'Включать ли общесерверные списки.'
+      name: includeServer
+      optional: true
+      type: bool
+todopermissions:
+  args:
+    - listId
+  desc: 'Показывает все права для списка задач'
+  params:
+    - desc: 'ID списка задач.'
+      name: listId
+      optional: false
+      type: int
+todoremovetag:
+  args:
+    - itemId
+    - tag
+  desc: 'Удаляет тег с элемента задачи'
+  params:
+    - desc: 'ID элемента задачи.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Удаляемый тег.'
+      name: tag
+      optional: false
+      type: string
+todoreorder:
+  args:
+    - itemId
+    - newPosition
+  desc: 'Переупорядочивает элемент задачи на новую позицию'
+  params:
+    - desc: 'ID элемента задачи.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Новая позиция (начиная с 1).'
+      name: newPosition
+      optional: false
+      type: int
+todorevoke:
+  args:
+    - listId
+    - '@user'
+  desc: 'Отзывает все права пользователя для списка задач'
+  params:
+    - desc: 'ID списка задач.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Пользователь, у которого отзываются права.'
+      name: user
+      optional: false
+      type: IUser
+todosearch:
+  args:
+    - listId
+    - query
+  desc: 'Ищет элементы задач в списке'
+  params:
+    - desc: 'ID списка задач.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Поисковый запрос.'
+      name: query
+      optional: false
+      type: string
+todosetcolor:
+  args:
+    - listId
+    - color
+  desc: 'Устанавливает цвет для списка задач'
+  params:
+    - desc: 'ID списка задач.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Шестнадцатеричный код цвета (напр.,'
+      name: color
+      optional: false
+      type: string
+todosetdue:
+  args:
+    - itemId
+    - dateString
+  desc: 'Устанавливает срок выполнения элемента задачи'
+  params:
+    - desc: 'ID элемента задачи.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Дата и время срока выполнения.'
+      name: dateString
+      optional: false
+      type: string
+todosetreminder:
+  args:
+    - itemId
+    - dateString
+  desc: 'Устанавливает время напоминания для элемента задачи'
+  params:
+    - desc: 'ID элемента задачи.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Дата и время напоминания.'
+      name: dateString
+      optional: false
+      type: string
+todoshow:
+  args:
+    - listId
+    - includeCompleted
+  desc: 'Показывает все элементы в списке задач'
+  params:
+    - desc: 'ID списка задач.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Включать ли выполненные элементы.'
+      name: includeCompleted
+      optional: true
+      type: bool
+todotoggleprivacy:
+  args:
+    - listId
+  desc: 'Переключает настройку конфиденциальности для списка задач'
+  params:
+    - desc: 'ID списка задач.'
+      name: listId
+      optional: false
+      type: int

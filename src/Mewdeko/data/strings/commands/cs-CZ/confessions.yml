@@ -1,0 +1,157 @@
+confess:
+  args:
+    - serverid text
+  desc: 'Umožňuje uživatelům anonymně se přiznat.'
+  params:
+    - &ref_139
+      desc: 'ID serveru.'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: 'Zpráva přiznání'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: 'Umožňuje uživatelům anonymně se přiznat.'
+  params:
+    - desc: 'ID serveru.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Zpráva přiznání'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: 'Umožňuje uživatelům anonymně se přiznat.'
+  params:
+    - desc: 'ID serveru.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Zpráva přiznání'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: 'Umožňuje uživatelům anonymně se přiznat.'
+  params:
+    - desc: 'ID serveru.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Zpráva přiznání'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: Přidá uživatele na černou listinu přiznání.
+  params:
+    - desc: Uživatel, kterého zařadit na černou listinu přiznání.
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: Nastaví kanál pro přiznání.
+  params:
+    - desc: Kanál, který nastavit pro přiznání.
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: 'Přidá nebo odebere uživatele z černé listiny přiznání.'
+  params:
+    - &ref_141
+      desc: 'Uživatel, kterého přidat nebo odebrat z černé listiny.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: 'Přidá nebo odebere uživatele z černé listiny přiznání.'
+  params:
+    - &ref_142
+      desc: 'Uživatel, kterého přidat nebo odebrat z černé listiny.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: 'Přidá nebo odebere uživatele z černé listiny přiznání.'
+  params:
+    - desc: 'Uživatel, kterého přidat nebo odebrat z černé listiny.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: 'Přidá nebo odebere uživatele z černé listiny přiznání.'
+  params:
+    - desc: 'Uživatel, kterého přidat nebo odebrat z černé listiny.'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: 'Nastaví kanál pro anonymní přiznání.'
+  params:
+    - desc: 'Kanál pro přiznání (volitelné).'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    Nastaví kanál pro logování přiznání. Zneužití této
+    funkce skončí tím, že budu 2 m od tvého domu.
+  params:
+    - desc: 'Kanál pro log přiznání (volitelné).'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: 'Odebere uživatele z černé listiny přiznání.'
+  params:
+    - desc: 'Uživatel, kterého odebrat z černé listiny.'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: Nastaví kanál pro log přiznání.
+  params:
+    - desc: Kanál, do kterého logovat přiznání.
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: Odebere uživatele z černé listiny přiznání.
+  params:
+    - desc: Uživatel, kterého vyřadit z černé listiny přiznání.
+      name: user
+      optional: false
+      type: IUser

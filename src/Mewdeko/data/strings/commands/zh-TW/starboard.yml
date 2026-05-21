@@ -1,0 +1,516 @@
+addstarboardemote:
+  args:
+    - number emote
+  desc: '向現有星榜設定新增表情符號。'
+  params:
+    - &ref_415
+      desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_516
+      desc: '要新增的表情符號。'
+      name: emote
+      optional: false
+      type: IEmote
+createstarboard:
+  args:
+    - channel emote 1
+    - channel emote
+  desc: '為伺服器建立新的星榜設定。'
+  params:
+    - &ref_156
+      desc: '加星訊息將發布的頻道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_157
+      desc: '用於給訊息加星的表情符號。'
+      name: emote
+      optional: false
+      type: IEmote
+    - desc: '為伺服器建立新的星榜設定。'
+      name: 1
+      optional: false
+      type: '='
+createstarboard_ITextChannel_IEmote_=:
+  args:
+    - channel emote 1
+    - channel emote
+  desc: '為伺服器建立新的星榜設定。'
+  params:
+    - desc: '加星訊息將發布的頻道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '用於給訊息加星的表情符號。'
+      name: emote
+      optional: false
+      type: IEmote
+    - desc: '為伺服器建立新的星榜設定。'
+      name: 1
+      optional: false
+      type: '='
+createstarboard_ITextChannel_IEmote_=_1:
+  args:
+    - channel emote 1
+    - channel emote
+  desc: '為伺服器建立新的星榜設定。'
+  params:
+    - desc: '加星訊息將發布的頻道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '用於給訊息加星的表情符號。'
+      name: emote
+      optional: false
+      type: IEmote
+    - desc: '為伺服器建立新的星榜設定。'
+      name: 1
+      optional: false
+      type: '='
+createstarboard_ITextChannel_IEmote_=_2:
+  args:
+    - channel emote 1
+    - channel emote
+  desc: '為伺服器建立新的星榜設定。'
+  params:
+    - desc: '加星訊息將發布的頻道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: '用於給訊息加星的表情符號。'
+      name: emote
+      optional: false
+      type: IEmote
+    - desc: '為伺服器建立新的星榜設定。'
+      name: 1
+      optional: false
+      type: '='
+deletestarboard:
+  args:
+    - number
+  desc: '從伺服器移除星榜設定。'
+  params:
+    - &ref_190
+      desc: '要移除的星榜 ID。'
+      name: starboardId
+      optional: false
+      type: int
+deletestarboard_int:
+  args:
+    - number
+  desc: '從伺服器移除星榜設定。'
+  params:
+    - desc: '要移除的星榜 ID。'
+      name: starboardId
+      optional: false
+      type: int
+deletestarboard_int_1:
+  args:
+    - number
+  desc: '從伺服器移除星榜設定。'
+  params:
+    - desc: '要移除的星榜 ID。'
+      name: starboardId
+      optional: false
+      type: int
+deletestarboard_int_2:
+  args:
+    - number
+  desc: '從伺服器移除星榜設定。'
+  params:
+    - desc: '要移除的星榜 ID。'
+      name: starboardId
+      optional: false
+      type: int
+liststarboards:
+  args:
+    - ''
+  desc: '列出伺服器的所有星榜設定。'
+  params: [ ]
+removestarboardemote:
+  args:
+    - number emote
+  desc: '從現有星榜設定中移除表情符號。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '要移除的表情符號。'
+      name: emote
+      optional: false
+      type: IEmote
+setrepostthreshold:
+  args:
+    - number number
+  desc: '設定星榜設定的轉發閾值。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '要設定的轉發閾值。'
+      name: threshold
+      optional: false
+      type: int
+setrepostthreshold_int_int:
+  args:
+    - number number
+  desc: '設定星榜設定的轉發閾值。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_517
+      desc: '要設定的轉發閾值。'
+      name: threshold
+      optional: false
+      type: int
+setrepostthreshold_int_int_1:
+  args:
+    - number number
+  desc: '設定星榜設定的轉發閾值。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '設定星榜設定的轉發閾值。'
+      name: emote
+      optional: false
+      type: IEmote
+setrepostthreshold_int_int_2:
+  args:
+    - number number
+  desc: '設定星榜設定的轉發閾值。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '要設定的轉發閾值。'
+      name: threshold
+      optional: false
+      type: int
+setstarthreshold:
+  args:
+    - number number
+  desc: '設定星榜設定的星星閾值。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '要設定的星星閾值。'
+      name: threshold
+      optional: false
+      type: int
+starboardallowbots:
+  args:
+    - number true|false
+  desc: '設定是否允許在特定星榜中統計機器人。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_558
+      desc: '是否允許統計機器人。'
+      name: enabled
+      optional: false
+      type: bool
+starboardallowbots_int_bool:
+  args:
+    - number true|false
+  desc: '設定是否允許在特定星榜中統計機器人。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_559
+      desc: '是否允許統計機器人。'
+      name: enabled
+      optional: false
+      type: bool
+starboardallowbots_int_bool_1:
+  args:
+    - number true|false
+  desc: '設定是否允許在特定星榜中統計機器人。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '是否允許統計機器人。'
+      name: enabled
+      optional: false
+      type: bool
+starboardallowbots_int_bool_2:
+  args:
+    - number true|false
+  desc: '設定是否允許在特定星榜中統計機器人。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '是否允許統計機器人。'
+      name: enabled
+      optional: false
+      type: bool
+starboardchtoggle:
+  args:
+    - number channel
+  desc: '切換特定星榜是否檢查某個頻道。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_560
+      desc: '要切換的頻道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+starboardchtoggle_int_ITextChannel:
+  args:
+    - number channel
+  desc: '切換特定星榜是否檢查某個頻道。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '要切換的頻道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+starboardchtoggle_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: '切換特定星榜是否檢查某個頻道。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '要切換的頻道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+starboardchtoggle_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: '切換特定星榜是否檢查某個頻道。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '要切換的頻道。'
+      name: channel
+      optional: false
+      type: ITextChannel
+starboardremoveonbelowthreshold:
+  args:
+    - number true|false
+  desc: '設定當星榜貼文低於閾值時是否刪除。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_561
+      desc: '當貼文低於閾值時是否刪除。'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveonbelowthreshold_int_bool:
+  args:
+    - number true|false
+  desc: '設定當星榜貼文低於閾值時是否刪除。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '當貼文低於閾值時是否刪除。'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveonbelowthreshold_int_bool_1:
+  args:
+    - number true|false
+  desc: '設定當星榜貼文低於閾值時是否刪除。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '當貼文低於閾值時是否刪除。'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveonbelowthreshold_int_bool_2:
+  args:
+    - number true|false
+  desc: '設定當星榜貼文低於閾值時是否刪除。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '當貼文低於閾值時是否刪除。'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveondelete:
+  args:
+    - number true|false
+  desc: '設定當原始訊息被刪除時是否刪除星榜貼文。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_562
+      desc: '當原始訊息被刪除時是否刪除貼文。'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveondelete_int_bool:
+  args:
+    - number true|false
+  desc: '設定當原始訊息被刪除時是否刪除星榜貼文。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '當原始訊息被刪除時是否刪除貼文。'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveondelete_int_bool_1:
+  args:
+    - number true|false
+  desc: '設定當原始訊息被刪除時是否刪除星榜貼文。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '當原始訊息被刪除時是否刪除貼文。'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveondelete_int_bool_2:
+  args:
+    - number true|false
+  desc: '設定當原始訊息被刪除時是否刪除星榜貼文。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '當原始訊息被刪除時是否刪除貼文。'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveonreactionsclear:
+  args:
+    - number true|false
+  desc: '設定當反應被清除時是否刪除星榜貼文。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '當反應被清除時是否刪除貼文。'
+      name: enabled
+      optional: false
+      type: bool
+starboardstats:
+  args:
+    - ''
+  desc: '顯示伺服器的星榜統計資訊。'
+  params: [ ]
+starboarduserstats:
+  args:
+    - '@user'
+    - ''
+  desc: '顯示特定使用者的星榜統計資訊。'
+  params:
+    - desc: '要顯示統計資訊的使用者。預設為指令呼叫者。'
+      name: user
+      optional: true
+      type: IUser
+starboardwlmode:
+  args:
+    - number whitelist|wl|white
+    - whitelist
+    - wl
+    - white
+  desc: '設定星榜設定的白名單/黑名單模式。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_563
+      desc: '要設定的白名單/黑名單模式。'
+      name: mode
+      optional: false
+      type: WhitelistMode
+starboardwlmode_int_WhitelistMode:
+  args:
+    - number whitelist|wl|white
+    - whitelist
+    - wl
+    - white
+  desc: '設定星榜設定的白名單/黑名單模式。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '要設定的白名單/黑名單模式。'
+      name: mode
+      optional: false
+      type: WhitelistMode
+starboardwlmode_int_WhitelistMode_1:
+  args:
+    - number whitelist|wl|white
+    - whitelist
+    - wl
+    - white
+  desc: '設定星榜設定的白名單/黑名單模式。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '要設定的白名單/黑名單模式。'
+      name: mode
+      optional: false
+      type: WhitelistMode
+starboardwlmode_int_WhitelistMode_2:
+  args:
+    - number whitelist|wl|white
+    - whitelist
+    - wl
+    - white
+  desc: '設定星榜設定的白名單/黑名單模式。'
+  params:
+    - desc: '星榜設定的 ID。'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: '要設定的白名單/黑名單模式。'
+      name: mode
+      optional: false
+      type: WhitelistMode

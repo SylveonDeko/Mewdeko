@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'Attiva o disattiva gli annunci di compleanno per l''utente.'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'Imposta il canale degli annunci di compleanno.'
+  params:
+    - desc: >-
+        Il canale testuale da usare per gli annunci. Predefinito al canale
+        corrente se non specificato.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'Visualizza la configurazione attuale dei compleanni.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'Mostra i prossimi compleanni nel server.'
+  params:
+    - desc: Quanti giorni guardare avanti. Predefinito 7, massimo 30.
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'Imposta un modello di messaggio di compleanno personalizzato.'
+  params:
+    - desc: >-
+        Il modello di messaggio. Usa {user} per menzionare l'utente.
+        Mostra il messaggio corrente se lasciato vuoto.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'Imposta il ruolo da pingare quando si annunciano i compleanni.'
+  params:
+    - desc: Il ruolo da pingare. Non fornire alcun ruolo per disabilitarlo.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'Imposta il ruolo di compleanno che gli utenti ricevono nel loro compleanno.'
+  params:
+    - desc: Il ruolo da assegnare nel compleanno dell'utente. Non fornire alcun ruolo per disabilitarlo.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'Imposta il fuso orario dell''utente per i calcoli del compleanno.'
+  params:
+    - desc: Il fuso orario da impostare (es., "America/New_York").
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'Mostra i compleanni di oggi.'
+  params: [ ]

@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'Slår på/av födelsedagsmeddelanden för användaren.'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'Ställer in kanalen för födelsedagsmeddelanden.'
+  params:
+    - desc: >-
+        Textkanalen som ska användas för meddelanden. Standard är den
+        aktuella kanalen om inget anges.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'Visar den aktuella födelsedagskonfigurationen.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'Visar kommande födelsedagar på servern.'
+  params:
+    - desc: Hur många dagar framåt att titta. Standard är 7, max 30.
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'Ställer in en anpassad födelsedagsmeddelandemall.'
+  params:
+    - desc: >-
+        Meddelandemallen. Använd {user} för att nämna användaren. Visar
+        det aktuella meddelandet om det lämnas tomt.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'Ställer in rollen som ska pingas vid födelsedagsmeddelanden.'
+  params:
+    - desc: Rollen att pinga. Ange ingen roll för att inaktivera.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'Ställer in födelsedagsrollen som användare får på sin födelsedag.'
+  params:
+    - desc: Rollen som tilldelas på en användares födelsedag. Ange ingen roll för att inaktivera.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'Ställer in användarens tidszon för födelsedagsberäkningar.'
+  params:
+    - desc: Tidszonen att ställa in (t.ex. "America/New_York").
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'Visar dagens födelsedagar.'
+  params: [ ]

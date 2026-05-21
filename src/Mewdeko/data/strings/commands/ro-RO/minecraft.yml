@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'Verifică starea unui server Minecraft. Folosește un nume de server înregistrat, o adresă directă, sau lasă gol pentru serverul implicit.'
+  params:
+    - desc: 'Numele serverului înregistrat sau adresa directă (ex. play.example.com:25565).'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: 'Adaugă un server Minecraft la breasla. Prefixează adresa cu bedrock: pentru servere Bedrock.'
+  params:
+    - desc: 'O etichetă pentru server.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Adresa serverului, opțional cu port (ex. play.example.com:25565 sau bedrock:play.example.com).'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: 'Elimină un server Minecraft din breaslă.'
+  params:
+    - desc: 'Numele serverului de eliminat.'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: 'Listează toate serverele Minecraft înregistrate pentru această breaslă.'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: 'Setează un server ca implicit pentru comenzile de stare.'
+  params:
+    - desc: 'Numele serverului de setat ca implicit.'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: 'Setează un canal pentru a primi actualizări periodice de stare ale unui server. Omite canalul pentru a dezactiva.'
+  params:
+    - desc: 'Numele serverului de monitorizat.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Canalul în care să se posteze actualizările.'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: 'Setează cum este afișată starea serverului: embed (editare pe loc), subiect canal, sau ambele.'
+  params:
+    - desc: 'Numele serverului.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Modul de monitorizare: Embed, ChannelTopic sau Both.'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: 'Setează un șablon embed personalizat pentru un server monitorizat. Folosește "-" pentru a reseta. Marcaje: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
+  params:
+    - desc: 'Numele serverului.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'JSON-ul șablonului embed, sau "-" pentru resetare la implicit.'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: 'Caută un jucător Minecraft după numele de utilizator și afișează profilul și skin-ul său.'
+  params:
+    - desc: 'Numele de utilizator Minecraft de căutat.'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'Afișează randarea skin-ului unui jucător Minecraft.'
+  params:
+    - desc: 'Numele de utilizator Minecraft.'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: 'Trimite o comandă RCON la un server Minecraft înregistrat. RCON trebuie configurat prin tabloul de bord.'
+  params:
+    - desc: 'Numele serverului.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Comanda de executat pe server.'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'Gestionează whitelist-ul pe un server Minecraft prin RCON. Necesită RCON configurat.'
+  params:
+    - desc: 'Numele serverului.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Acțiunea: add, remove, list, on, off, reload.'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Numele jucătorului (pentru add/remove).'
+      name: playerName
+      optional: true
+      type: string

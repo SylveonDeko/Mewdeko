@@ -1,0 +1,470 @@
+addrolestorolestate:
+  args:
+    - '@user @role'
+  desc: 'Adiciona cargos ao estado de cargos de um usuário.'
+  params:
+    - &ref_26
+      desc: 'O usuário cujo estado de cargos deve ser modificado.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_25
+      desc: 'Os cargos a serem adicionados ao estado de cargos do usuário.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Adiciona cargos ao estado de cargos de um usuário.'
+  params:
+    - &ref_27
+      desc: 'O usuário cujo estado de cargos deve ser modificado.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Os cargos a serem adicionados ao estado de cargos do usuário.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Adiciona cargos ao estado de cargos de um usuário.'
+  params:
+    - desc: 'O usuário cujo estado de cargos deve ser modificado.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Os cargos a serem adicionados ao estado de cargos do usuário.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Adiciona cargos ao estado de cargos de um usuário.'
+  params:
+    - desc: 'O usuário cujo estado de cargos deve ser modificado.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Os cargos a serem adicionados ao estado de cargos do usuário.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteuserrolestate:
+  args:
+    - '@user'
+  desc: 'Exclui o estado de cargos de um usuário específico.'
+  params:
+    - &ref_191
+      desc: 'O usuário cujo estado de cargos deve ser excluído.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Exclui o estado de cargos de um usuário específico.'
+  params:
+    - desc: 'O usuário cujo estado de cargos deve ser excluído.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Exclui o estado de cargos de um usuário específico.'
+  params:
+    - desc: 'O usuário cujo estado de cargos deve ser excluído.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Exclui o estado de cargos de um usuário específico.'
+  params:
+    - desc: 'O usuário cujo estado de cargos deve ser excluído.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IUser:
+  args:
+    - '@user'
+  desc: 'Exclui o estado de cargos de um usuário específico.'
+  params:
+    - desc: 'O usuário cujo estado de cargos deve ser excluído.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_1:
+  args:
+    - '@user'
+  desc: 'Exclui o estado de cargos de um usuário específico.'
+  params:
+    - desc: 'O usuário cujo estado de cargos deve ser excluído.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_2:
+  args:
+    - '@user'
+  desc: 'Exclui o estado de cargos de um usuário específico.'
+  params:
+    - desc: 'O usuário cujo estado de cargos deve ser excluído.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_3:
+  args:
+    - '@user'
+  desc: 'Exclui o estado de cargos de um usuário específico.'
+  params:
+    - desc: 'O usuário cujo estado de cargos deve ser excluído.'
+      name: user
+      optional: false
+      type: IUser
+removerolesfromrolestate:
+  args:
+    - '@user @role'
+  desc: 'Remove cargos do estado de cargos de um usuário.'
+  params:
+    - desc: 'O usuário cujo estado de cargos deve ser modificado.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_414
+      desc: 'Os cargos a serem removidos do estado de cargos do usuário.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Remove cargos do estado de cargos de um usuário.'
+  params:
+    - desc: 'O usuário cujo estado de cargos deve ser modificado.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Os cargos a serem removidos do estado de cargos do usuário.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Remove cargos do estado de cargos de um usuário.'
+  params:
+    - desc: 'O usuário cujo estado de cargos deve ser modificado.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Os cargos a serem removidos do estado de cargos do usuário.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Remove cargos do estado de cargos de um usuário.'
+  params:
+    - desc: 'O usuário cujo estado de cargos deve ser modificado.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Os cargos a serem removidos do estado de cargos do usuário.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole:
+  args:
+    - '@role'
+  desc: 'Adiciona cargos à lista de negação da função de estados de cargos.'
+  params:
+    - &ref_463
+      desc: 'Os cargos a serem adicionados à lista de negação.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]:
+  args:
+    - '@role'
+  desc: 'Adiciona cargos à lista de negação da função de estados de cargos.'
+  params:
+    - desc: 'Os cargos a serem adicionados à lista de negação.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Adiciona cargos à lista de negação da função de estados de cargos.'
+  params:
+    - desc: 'Os cargos a serem adicionados à lista de negação.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Adiciona cargos à lista de negação da função de estados de cargos.'
+  params:
+    - desc: 'Os cargos a serem adicionados à lista de negação.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyuser:
+  args:
+    - '@user'
+  desc: 'Adiciona usuários à lista de negação da função de estados de cargos.'
+  params:
+    - &ref_464
+      desc: 'Os usuários a serem adicionados à lista de negação.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Adiciona usuários à lista de negação da função de estados de cargos.'
+  params:
+    - desc: 'Os usuários a serem adicionados à lista de negação.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Adiciona usuários à lista de negação da função de estados de cargos.'
+  params:
+    - desc: 'Os usuários a serem adicionados à lista de negação.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Adiciona usuários à lista de negação da função de estados de cargos.'
+  params:
+    - desc: 'Os usuários a serem adicionados à lista de negação.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremoveadduser:
+  args:
+    - user
+  desc: 'Remove ou nega um usuário dos estados de cargos.'
+  params:
+    - desc: 'O usuário a remover/negar dos estados de cargos.'
+      name: user
+      optional: false
+      type: IUser
+rolestatesremovedenyrole:
+  args:
+    - '@role'
+  desc: 'Remove cargos da lista de negação da função de estados de cargos.'
+  params:
+    - &ref_465
+      desc: 'Os cargos a serem removidos da lista de negação.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]:
+  args:
+    - '@role'
+  desc: 'Remove cargos da lista de negação da função de estados de cargos.'
+  params:
+    - desc: 'Os cargos a serem removidos da lista de negação.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Remove cargos da lista de negação da função de estados de cargos.'
+  params:
+    - desc: 'Os cargos a serem removidos da lista de negação.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Remove cargos da lista de negação da função de estados de cargos.'
+  params:
+    - desc: 'Os cargos a serem removidos da lista de negação.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyuser:
+  args:
+    - '@user'
+  desc: 'Remove usuários da lista de negação da função de estados de cargos.'
+  params:
+    - &ref_466
+      desc: 'Os usuários a serem removidos da lista de negação.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Remove usuários da lista de negação da função de estados de cargos.'
+  params:
+    - desc: 'Os usuários a serem removidos da lista de negação.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Remove usuários da lista de negação da função de estados de cargos.'
+  params:
+    - desc: 'Os usuários a serem removidos da lista de negação.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Remove usuários da lista de negação da função de estados de cargos.'
+  params:
+    - desc: 'Os usuários a serem removidos da lista de negação.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+saveallrolestates:
+  args:
+    - ''
+  desc: 'Salva os estados de cargos de todos os usuários no servidor.'
+  params: [ ]
+setuserrolestate:
+  args:
+    - '@user @role'
+  desc: 'Define o estado de cargos de um usuário específico.'
+  params:
+    - &ref_529
+      desc: 'O usuário cujo estado de cargos deve ser definido.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_530
+      desc: 'Os cargos a serem incluídos no estado de cargos do usuário.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Define o estado de cargos de um usuário específico.'
+  params:
+    - &ref_531
+      desc: 'O usuário cujo estado de cargos deve ser definido.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Os cargos a serem incluídos no estado de cargos do usuário.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Define o estado de cargos de um usuário específico.'
+  params:
+    - desc: 'O usuário cujo estado de cargos deve ser definido.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Os cargos a serem incluídos no estado de cargos do usuário.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Define o estado de cargos de um usuário específico.'
+  params:
+    - desc: 'O usuário cujo estado de cargos deve ser definido.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Os cargos a serem incluídos no estado de cargos do usuário.'
+      name: roles
+      optional: false
+      type: IRole[]
+togglerolestates:
+  args:
+    - ''
+  desc: 'Ativa ou desativa a função de estados de cargos.'
+  params: [ ]
+togglerolestatesclearonban:
+  args:
+    - ''
+  desc: 'Alterna se os estados de cargos devem ser limpos quando um usuário é banido.'
+  params: [ ]
+togglerolestatesignorebots:
+  args:
+    - ''
+  desc: 'Alterna se os bots devem ser ignorados pela função de estados de cargos.'
+  params: [ ]
+togglerolestatesskipautoassign:
+  args:
+    - ''
+  desc: 'Alterna se os cargos de atribuição automática devem ser ignorados para usuários com estados de cargos salvos.'
+  params: [ ]
+transferrolestates:
+  args:
+    - serverid
+  desc: 'Transfere estados de cargos do servidor atual para outro servidor.'
+  params:
+    - &ref_627
+      desc: 'O ID do servidor de destino.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong:
+  args:
+    - serverid
+  desc: 'Transfere estados de cargos do servidor atual para outro servidor.'
+  params:
+    - desc: 'O ID do servidor de destino.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong_1:
+  args:
+    - serverid
+  desc: 'Transfere estados de cargos do servidor atual para outro servidor.'
+  params:
+    - desc: 'O ID do servidor de destino.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong_2:
+  args:
+    - serverid
+  desc: 'Transfere estados de cargos do servidor atual para outro servidor.'
+  params:
+    - desc: 'O ID do servidor de destino.'
+      name: serverId
+      optional: false
+      type: ulong
+viewrolestates:
+  args:
+    - ''
+  desc: 'Exibe todos os estados de cargos de usuários no servidor.'
+  params: [ ]
+viewrolestatessettings:
+  args:
+    - ''
+  desc: 'Exibe as configurações atuais da função de estados de cargos.'
+  params: [ ]
+viewuserrolestates:
+  args:
+    - ''
+  desc: 'Exibe os estados de cargos de todos os usuários.'
+  params: [ ]

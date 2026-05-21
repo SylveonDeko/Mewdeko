@@ -1,0 +1,434 @@
+rolegreetadd:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Voegt een nieuw rolbegroetingsbericht toe voor een specifieke rol. Als er geen kanaal is opgegeven, wordt het huidige kanaal gebruikt.'
+  params:
+    - desc: 'De rol waarvoor het begroetingsbericht wordt ingesteld.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Het tekstkanaal waarnaar het begroetingsbericht wordt verzonden. Optioneel.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Voegt een nieuw rolbegroetingsbericht toe voor een specifieke rol. Als er geen kanaal is opgegeven, wordt het huidige kanaal gebruikt.'
+  params:
+    - desc: 'De rol waarvoor het begroetingsbericht wordt ingesteld.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Het tekstkanaal waarnaar het begroetingsbericht wordt verzonden. Optioneel.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=_1:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Voegt een nieuw rolbegroetingsbericht toe voor een specifieke rol. Als er geen kanaal is opgegeven, wordt het huidige kanaal gebruikt.'
+  params:
+    - desc: 'De rol waarvoor het begroetingsbericht wordt ingesteld.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Het tekstkanaal waarnaar het begroetingsbericht wordt verzonden. Optioneel.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=_2:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: 'Voegt een nieuw rolbegroetingsbericht toe voor een specifieke rol. Als er geen kanaal is opgegeven, wordt het huidige kanaal gebruikt.'
+  params:
+    - desc: 'De rol waarvoor het begroetingsbericht wordt ingesteld.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'Het tekstkanaal waarnaar het begroetingsbericht wordt verzonden. Optioneel.'
+      name: channel
+      optional: true
+      type: channel
+rolegreetdelete:
+  args:
+    - number time
+  desc: 'Werkt een rolbegroetingsbericht bij zodat het automatisch wordt verwijderd na een opgegeven duur.'
+  params:
+    - &ref_448
+      desc: 'Het ID van de rolbegroeting die bijgewerkt moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: id
+      optional: false
+      type: int
+    - &ref_450
+      desc: 'Werkt een rolbegroetingsbericht bij zodat het automatisch wordt verwijderd na een opgegeven duur.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime:
+  args:
+    - number time
+  desc: 'Werkt een rolbegroetingsbericht bij zodat het automatisch wordt verwijderd na een opgegeven duur.'
+  params:
+    - desc: 'Het ID van de rolbegroeting die bijgewerkt moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Werkt een rolbegroetingsbericht bij zodat het automatisch wordt verwijderd na een opgegeven duur.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'Werkt een rolbegroetingsbericht bij zodat het automatisch wordt verwijderd na een opgegeven duur.'
+  params:
+    - desc: 'Het ID van de rolbegroeting die bijgewerkt moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Werkt een rolbegroetingsbericht bij zodat het automatisch wordt verwijderd na een opgegeven duur.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'Werkt een rolbegroetingsbericht bij zodat het automatisch wordt verwijderd na een opgegeven duur.'
+  params:
+    - desc: 'Het ID van de rolbegroeting die bijgewerkt moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Werkt een rolbegroetingsbericht bij zodat het automatisch wordt verwijderd na een opgegeven duur.'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_int:
+  args:
+    - number number
+  desc: 'Werkt een rolbegroetingsbericht bij zodat het automatisch wordt verwijderd na een opgegeven duur.'
+  params:
+    - desc: 'Het ID van de rolbegroeting die bijgewerkt moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: id
+      optional: false
+      type: int
+    - &ref_449
+      desc: 'De duur in seconden waarna het begroetingsbericht wordt verwijderd.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_1:
+  args:
+    - number number
+  desc: 'Werkt een rolbegroetingsbericht bij zodat het automatisch wordt verwijderd na een opgegeven duur.'
+  params:
+    - desc: 'Het ID van de rolbegroeting die bijgewerkt moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'De duur in seconden waarna het begroetingsbericht wordt verwijderd.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_2:
+  args:
+    - number number
+  desc: 'Werkt een rolbegroetingsbericht bij zodat het automatisch wordt verwijderd na een opgegeven duur.'
+  params:
+    - desc: 'Het ID van de rolbegroeting die bijgewerkt moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'De duur in seconden waarna het begroetingsbericht wordt verwijderd.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_3:
+  args:
+    - number number
+  desc: 'Werkt een rolbegroetingsbericht bij zodat het automatisch wordt verwijderd na een opgegeven duur.'
+  params:
+    - desc: 'Het ID van de rolbegroeting die bijgewerkt moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'De duur in seconden waarna het begroetingsbericht wordt verwijderd.'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdisable:
+  args:
+    - number true|false
+  desc: 'Schakelt een rolbegroetingsbericht in of uit.'
+  params:
+    - &ref_451
+      desc: 'Het ID van de rolbegroeting die bijgewerkt moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: num
+      optional: false
+      type: int
+    - &ref_452
+      desc: 'Of het begroetingsbericht ingeschakeld of uitgeschakeld moet worden.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool:
+  args:
+    - number true|false
+  desc: 'Schakelt een rolbegroetingsbericht in of uit.'
+  params:
+    - desc: 'Het ID van de rolbegroeting die bijgewerkt moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Of het begroetingsbericht ingeschakeld of uitgeschakeld moet worden.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Schakelt een rolbegroetingsbericht in of uit.'
+  params:
+    - desc: 'Het ID van de rolbegroeting die bijgewerkt moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Of het begroetingsbericht ingeschakeld of uitgeschakeld moet worden.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Schakelt een rolbegroetingsbericht in of uit.'
+  params:
+    - desc: 'Het ID van de rolbegroeting die bijgewerkt moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Of het begroetingsbericht ingeschakeld of uitgeschakeld moet worden.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots:
+  args:
+    - number true|false
+  desc: 'Schakelt het begroeten van bots door een specifieke rolbegroeting in of uit.'
+  params:
+    - desc: 'Het ID van de rolbegroeting die bijgewerkt moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: num
+      optional: false
+      type: int
+    - &ref_453
+      desc: 'Of het begroeten van bots ingeschakeld of uitgeschakeld moet worden.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool:
+  args:
+    - number true|false
+  desc: 'Schakelt het begroeten van bots door een specifieke rolbegroeting in of uit.'
+  params:
+    - desc: 'Het ID van de rolbegroeting die bijgewerkt moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Of het begroeten van bots ingeschakeld of uitgeschakeld moet worden.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Schakelt het begroeten van bots door een specifieke rolbegroeting in of uit.'
+  params:
+    - desc: 'Het ID van de rolbegroeting die bijgewerkt moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Of het begroeten van bots ingeschakeld of uitgeschakeld moet worden.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Schakelt het begroeten van bots door een specifieke rolbegroeting in of uit.'
+  params:
+    - desc: 'Het ID van de rolbegroeting die bijgewerkt moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Of het begroeten van bots ingeschakeld of uitgeschakeld moet worden.'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetlist:
+  args:
+    - ''
+  desc: 'Geeft een lijst van alle ingestelde rolbegroetingen op de server, met gedetailleerde informatie voor elk.'
+  params: [ ]
+rolegreetmessage:
+  args:
+    - '<id> [message]'
+    - number
+  desc: 'Werkt de berichtinhoud van een rolbegroeting bij. Als er geen bericht is opgegeven, worden opties gepresenteerd om het bericht als zodanig te bekijken of als gewone tekst.'
+  params:
+    - desc: 'Het ID van de rolbegroeting die bijgewerkt moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'De nieuwe berichtinhoud. Optioneel.'
+      name: message
+      optional: true
+      type: string
+rolegreetremove:
+  args:
+    - number
+  desc: Verwijdert rolbegroetingen die zijn gekoppeld aan het opgegeven rol-ID
+  params:
+    - &ref_454
+      desc: Verwijdert rolbegroetingen die zijn gekoppeld aan het opgegeven rol-ID
+      name: id
+      optional: false
+      type: int
+rolegreetremove_IRole:
+  args:
+    - '@role'
+  desc: Verwijdert rolbegroetingen die zijn gekoppeld aan het opgegeven rol-ID
+  params:
+    - desc: 'De rol waarvoor rolbegroetingen worden verwijderd.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_1:
+  args:
+    - '@role'
+  desc: Verwijdert rolbegroetingen die zijn gekoppeld aan het opgegeven rol-ID
+  params:
+    - desc: 'De rol waarvoor rolbegroetingen worden verwijderd.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_2:
+  args:
+    - '@role'
+  desc: Verwijdert rolbegroetingen die zijn gekoppeld aan het opgegeven rol-ID
+  params:
+    - desc: 'De rol waarvoor rolbegroetingen worden verwijderd.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_3:
+  args:
+    - '@role'
+  desc: Verwijdert rolbegroetingen die zijn gekoppeld aan het opgegeven rol-ID
+  params:
+    - desc: 'De rol waarvoor rolbegroetingen worden verwijderd.'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_int:
+  args:
+    - number
+  desc: Verwijdert rolbegroetingen die zijn gekoppeld aan het opgegeven rol-ID
+  params:
+    - desc: Verwijdert rolbegroetingen die zijn gekoppeld aan het opgegeven rol-ID
+      name: id
+      optional: false
+      type: int
+rolegreetremove_int_1:
+  args:
+    - number
+  desc: Verwijdert rolbegroetingen die zijn gekoppeld aan het opgegeven rol-ID
+  params:
+    - desc: Verwijdert rolbegroetingen die zijn gekoppeld aan het opgegeven rol-ID
+      name: id
+      optional: false
+      type: int
+rolegreetremove_int_2:
+  args:
+    - number
+  desc: Verwijdert rolbegroetingen die zijn gekoppeld aan het opgegeven rol-ID
+  params:
+    - desc: Verwijdert rolbegroetingen die zijn gekoppeld aan het opgegeven rol-ID
+      name: id
+      optional: false
+      type: int
+rolegreetwebhook:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Configureert een webhook voor een rolbegroetingsbericht met een aangepaste naam en avatar. Als er geen naam is opgegeven, wordt de webhook uitgeschakeld.'
+  params:
+    - desc: 'Het ID van de rolbegroeting waarvoor de webhook geconfigureerd moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'De naam van de webhook. Optioneel.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'De avatar-URL voor de webhook. Optioneel.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Configureert een webhook voor een rolbegroetingsbericht met een aangepaste naam en avatar. Als er geen naam is opgegeven, wordt de webhook uitgeschakeld.'
+  params:
+    - desc: 'Het ID van de rolbegroeting waarvoor de webhook geconfigureerd moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'De naam van de webhook. Optioneel.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'De avatar-URL voor de webhook. Optioneel.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=_1:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Configureert een webhook voor een rolbegroetingsbericht met een aangepaste naam en avatar. Als er geen naam is opgegeven, wordt de webhook uitgeschakeld.'
+  params:
+    - desc: 'Het ID van de rolbegroeting waarvoor de webhook geconfigureerd moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'De naam van de webhook. Optioneel.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'De avatar-URL voor de webhook. Optioneel.'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=_2:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Configureert een webhook voor een rolbegroetingsbericht met een aangepaste naam en avatar. Als er geen naam is opgegeven, wordt de webhook uitgeschakeld.'
+  params:
+    - desc: 'Het ID van de rolbegroeting waarvoor de webhook geconfigureerd moet worden, op basis van de positie in de lijst van alle rolbegroetingen.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'De naam van de webhook. Optioneel.'
+      name: name
+      optional: true
+      type: string
+    - desc: 'De avatar-URL voor de webhook. Optioneel.'
+      name: avatar
+      optional: true
+      type: string

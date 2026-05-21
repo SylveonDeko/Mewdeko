@@ -1,0 +1,305 @@
+setupvoicehub:
+  args:
+    - ''
+  desc: '커스텀 음성 채널을 만들기 위한 허브로 음성 채널을 설정합니다.'
+  params: [ ]
+setvoicehub:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: '커스텀 음성 채널을 만들기 위한 허브로 특정 음성 채널을 설정합니다.'
+  params:
+    - desc: '커스텀 음성 채널을 만들기 위한 허브로 특정 음성 채널을 설정합니다.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: '커스텀 음성 채널을 만들기 위한 허브로 특정 음성 채널을 설정합니다.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: '커스텀 음성 채널을 만들기 위한 허브로 특정 음성 채널을 설정합니다.'
+  params:
+    - desc: '커스텀 음성 채널을 만들기 위한 허브로 특정 음성 채널을 설정합니다.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: '커스텀 음성 채널을 만들기 위한 허브로 특정 음성 채널을 설정합니다.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_1:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: '커스텀 음성 채널을 만들기 위한 허브로 특정 음성 채널을 설정합니다.'
+  params:
+    - desc: '커스텀 음성 채널을 만들기 위한 허브로 특정 음성 채널을 설정합니다.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: '커스텀 음성 채널을 만들기 위한 허브로 특정 음성 채널을 설정합니다.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_2:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: '커스텀 음성 채널을 만들기 위한 허브로 특정 음성 채널을 설정합니다.'
+  params:
+    - desc: '커스텀 음성 채널을 만들기 위한 허브로 특정 음성 채널을 설정합니다.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: '커스텀 음성 채널을 만들기 위한 허브로 특정 음성 채널을 설정합니다.'
+      name: category
+      optional: true
+      type: category
+voiceallow:
+  args:
+    - '@user'
+  desc: '특정 사용자가 잠긴 음성 채널에 참여할 수 있도록 허용합니다.'
+  params:
+    - &ref_642
+      desc: '특정 사용자가 잠긴 음성 채널에 참여할 수 있도록 허용합니다.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser:
+  args:
+    - '@user'
+  desc: '특정 사용자가 잠긴 음성 채널에 참여할 수 있도록 허용합니다.'
+  params:
+    - desc: '특정 사용자가 잠긴 음성 채널에 참여할 수 있도록 허용합니다.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '특정 사용자가 잠긴 음성 채널에 참여할 수 있도록 허용합니다.'
+  params:
+    - desc: '특정 사용자가 잠긴 음성 채널에 참여할 수 있도록 허용합니다.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '특정 사용자가 잠긴 음성 채널에 참여할 수 있도록 허용합니다.'
+  params:
+    - desc: '특정 사용자가 잠긴 음성 채널에 참여할 수 있도록 허용합니다.'
+      name: target
+      optional: false
+      type: IGuildUser
+voicebitrate:
+  args:
+    - number
+  desc: '커스텀 음성 채널의 비트레이트를 설정합니다.'
+  params:
+    - &ref_643
+      desc: '커스텀 음성 채널의 비트레이트를 설정합니다.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int:
+  args:
+    - number
+  desc: '커스텀 음성 채널의 비트레이트를 설정합니다.'
+  params:
+    - desc: '커스텀 음성 채널의 비트레이트를 설정합니다.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_1:
+  args:
+    - number
+  desc: '커스텀 음성 채널의 비트레이트를 설정합니다.'
+  params:
+    - desc: '커스텀 음성 채널의 비트레이트를 설정합니다.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_2:
+  args:
+    - number
+  desc: '커스텀 음성 채널의 비트레이트를 설정합니다.'
+  params:
+    - desc: '커스텀 음성 채널의 비트레이트를 설정합니다.'
+      name: bitrate
+      optional: false
+      type: int
+voicechannels:
+  args:
+    - ''
+  desc: '활성 커스텀 음성 채널을 나열합니다.'
+  params: [ ]
+voiceclaim:
+  args:
+    - ''
+  desc: '소유자가 없는 경우 커스텀 음성 채널의 소유권을 주장합니다.'
+  params: [ ]
+voiceconfig:
+  args:
+    - '[setting] [value]'
+  desc: '커스텀 음성 설정을 구성합니다.'
+  params:
+    - desc: '커스텀 음성 설정을 구성합니다.'
+      name: setting
+      optional: true
+      type: string
+    - desc: '커스텀 음성 설정을 구성합니다.'
+      name: value
+      optional: true
+      type: string
+voicecontrols:
+  args:
+    - ''
+  desc: '커스텀 음성 채널 관리를 위한 대화형 컨트롤을 표시합니다.'
+  params: [ ]
+voicedeny:
+  args:
+    - '@user'
+  desc: '특정 사용자가 음성 채널에 참여하는 것을 거부합니다.'
+  params:
+    - desc: '특정 사용자가 음성 채널에 참여하는 것을 거부합니다.'
+      name: target
+      optional: false
+      type: IGuildUser
+voicekeepalive:
+  args:
+    - true
+  desc: '채널이 비어 있을 때도 활성 상태로 유지합니다.'
+  params:
+    - desc: '채널이 비어 있을 때도 활성 상태로 유지합니다.'
+      name: true
+      optional: false
+      type: '='
+voicelimit:
+  args:
+    - number
+  desc: '커스텀 음성 채널의 사용자 제한을 설정합니다.'
+  params:
+    - &ref_644
+      desc: '커스텀 음성 채널의 사용자 제한을 설정합니다.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int:
+  args:
+    - number
+  desc: '커스텀 음성 채널의 사용자 제한을 설정합니다.'
+  params:
+    - desc: '커스텀 음성 채널의 사용자 제한을 설정합니다.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_1:
+  args:
+    - number
+  desc: '커스텀 음성 채널의 사용자 제한을 설정합니다.'
+  params:
+    - desc: '커스텀 음성 채널의 사용자 제한을 설정합니다.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_2:
+  args:
+    - number
+  desc: '커스텀 음성 채널의 사용자 제한을 설정합니다.'
+  params:
+    - desc: '커스텀 음성 채널의 사용자 제한을 설정합니다.'
+      name: limit
+      optional: false
+      type: int
+voicelock:
+  args:
+    - true
+  desc: '커스텀 음성 채널을 잠그거나 잠금 해제합니다.'
+  params:
+    - desc: '커스텀 음성 채널을 잠그거나 잠금 해제합니다.'
+      name: true
+      optional: false
+      type: '='
+voicepreferences:
+  args:
+    - ''
+  desc: '음성 채널 기본 설정을 지정합니다.'
+  params: [ ]
+voiceprefsbitrate:
+  args:
+    - '[bitrate]'
+  desc: '커스텀 음성 채널의 기본 비트레이트를 설정합니다.'
+  params:
+    - desc: '커스텀 음성 채널의 기본 비트레이트를 설정합니다.'
+      name: bitrate
+      optional: true
+      type: int
+voiceprefskeepalive:
+  args:
+    - '[keepAlive]'
+  desc: '커스텀 음성 채널의 기본 keep-alive 상태를 설정합니다.'
+  params:
+    - desc: '커스텀 음성 채널의 기본 keep-alive 상태를 설정합니다.'
+      name: keepAlive
+      optional: true
+      type: bool
+voiceprefslimit:
+  args:
+    - '[limit]'
+  desc: '커스텀 음성 채널의 기본 사용자 제한을 설정합니다.'
+  params:
+    - desc: '커스텀 음성 채널의 기본 사용자 제한을 설정합니다.'
+      name: limit
+      optional: true
+      type: int
+voiceprefslock:
+  args:
+    - '[locked]'
+  desc: '커스텀 음성 채널의 기본 잠금 상태를 설정합니다.'
+  params:
+    - desc: '커스텀 음성 채널의 기본 잠금 상태를 설정합니다.'
+      name: locked
+      optional: true
+      type: bool
+voiceprefsname:
+  args:
+    - '[format]'
+  desc: '커스텀 음성 채널의 기본 이름 형식을 설정합니다.'
+  params:
+    - desc: '커스텀 음성 채널의 기본 이름 형식을 설정합니다.'
+      name: format
+      optional: true
+      type: string
+voiceprefsreset:
+  args:
+    - ''
+  desc: '모든 음성 채널 기본 설정을 초기화합니다.'
+  params: [ ]
+voicerename:
+  args:
+    - text
+  desc: '커스텀 음성 채널의 이름을 변경합니다.'
+  params:
+    - desc: '커스텀 음성 채널의 이름을 변경합니다.'
+      name: name
+      optional: false
+      type: string
+voicetransfer:
+  args:
+    - '@user'
+  desc: '커스텀 음성 채널의 소유권을 다른 사용자에게 이전합니다.'
+  params:
+    - desc: '커스텀 음성 채널의 소유권을 다른 사용자에게 이전합니다.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceunlock:
+  args:
+    - ''
+  desc: '커스텀 음성 채널의 잠금을 해제합니다.'
+  params: [ ]

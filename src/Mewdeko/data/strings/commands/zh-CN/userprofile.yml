@@ -1,0 +1,481 @@
+deleteuserstatsdata:
+  args:
+    - ''
+  desc: '删除用户的命令统计数据。'
+  params: [ ]
+greetdmoptout:
+  args:
+    - ''
+  desc: '允许用户切换是否接收欢迎私信。仅在加入的服务器使用 mewdeko 发送私信欢迎时有效。'
+  params: [ ]
+profile:
+  args:
+    - '[@user]'
+  desc: '显示用户的个人资料，或指定时显示其他用户的个人资料。'
+  params:
+    - desc: '要显示个人资料的用户。若为空，则显示调用者的个人资料。'
+      name: user
+      optional: true
+      type: user
+profile_=:
+  args:
+    - '[@user]'
+  desc: '显示用户的个人资料，或指定时显示其他用户的个人资料。'
+  params:
+    - desc: '要显示个人资料的用户。若为空，则显示调用者的个人资料。'
+      name: user
+      optional: true
+      type: user
+profile_=_1:
+  args:
+    - '[@user]'
+  desc: '显示用户的个人资料，或指定时显示其他用户的个人资料。'
+  params:
+    - desc: '要显示个人资料的用户。若为空，则显示调用者的个人资料。'
+      name: user
+      optional: true
+      type: user
+profile_=_2:
+  args:
+    - '[@user]'
+  desc: '显示用户的个人资料，或指定时显示其他用户的个人资料。'
+  params:
+    - desc: '要显示个人资料的用户。若为空，则显示调用者的个人资料。'
+      name: user
+      optional: true
+      type: user
+pronouns:
+  args:
+    - '[@user]'
+  desc: '显示指定用户的代词，若未指定用户则显示命令调用者的代词。'
+  params:
+    - desc: '可选。要显示代词的用户。'
+      name: user
+      optional: true
+      type: user
+pronounsforceclear:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: '通过ID强制清除用户的代词，可选择将其标记为因滥用而禁用。'
+  params:
+    - &ref_356
+      desc: '要清除代词的用户的用户ID。'
+      name: user
+      optional: true
+      type: IUser
+    - &ref_357
+      desc: '代词是否因滥用而被禁用。'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - &ref_358
+      desc: '操作原因。'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: '通过ID强制清除用户的代词，可选择将其标记为因滥用而禁用。'
+  params:
+    - desc: '要清除代词的用户的用户ID。'
+      name: user
+      optional: true
+      type: IUser
+    - desc: '代词是否因滥用而被禁用。'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: '操作原因。'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string_1:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: '通过ID强制清除用户的代词，可选择将其标记为因滥用而禁用。'
+  params:
+    - desc: '要清除代词的用户的用户ID。'
+      name: user
+      optional: true
+      type: IUser
+    - desc: '代词是否因滥用而被禁用。'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: '操作原因。'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string_2:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: '通过ID强制清除用户的代词，可选择将其标记为因滥用而禁用。'
+  params:
+    - desc: '要清除代词的用户的用户ID。'
+      name: user
+      optional: true
+      type: IUser
+    - desc: '代词是否因滥用而被禁用。'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: '操作原因。'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string:
+  args:
+    - user true|false text
+  desc: '通过ID强制清除用户的代词，可选择将其标记为因滥用而禁用。'
+  params:
+    - &ref_359
+      desc: '要清除代词的用户的用户ID。'
+      name: user
+      optional: false
+      type: ulong
+    - desc: '代词是否因滥用而被禁用。'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: '操作原因。'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_1:
+  args:
+    - user true|false text
+  desc: '通过ID强制清除用户的代词，可选择将其标记为因滥用而禁用。'
+  params:
+    - desc: '要清除代词的用户的用户ID。'
+      name: user
+      optional: false
+      type: ulong
+    - desc: '代词是否因滥用而被禁用。'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: '操作原因。'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_2:
+  args:
+    - user true|false text
+  desc: '通过ID强制清除用户的代词，可选择将其标记为因滥用而禁用。'
+  params:
+    - desc: '要清除代词的用户的用户ID。'
+      name: user
+      optional: false
+      type: ulong
+    - desc: '代词是否因滥用而被禁用。'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: '操作原因。'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_3:
+  args:
+    - user true|false text
+  desc: '通过ID强制清除用户的代词，可选择将其标记为因滥用而禁用。'
+  params:
+    - desc: '要清除代词的用户的用户ID。'
+      name: user
+      optional: false
+      type: ulong
+    - desc: '代词是否因滥用而被禁用。'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: '操作原因。'
+      name: reason
+      optional: false
+      type: string
+setbio:
+  args:
+    - text
+  desc: '设置或更新用户个人资料中的个人简介。'
+  params:
+    - &ref_490
+      desc: '个人简介文本。必须少于 2048 个字符。'
+      name: bio
+      optional: false
+      type: string
+setbio_string:
+  args:
+    - text
+  desc: '设置或更新用户个人资料中的个人简介。'
+  params:
+    - desc: '个人简介文本。必须少于 2048 个字符。'
+      name: bio
+      optional: false
+      type: string
+setbio_string_1:
+  args:
+    - text
+  desc: '设置或更新用户个人资料中的个人简介。'
+  params:
+    - desc: '个人简介文本。必须少于 2048 个字符。'
+      name: bio
+      optional: false
+      type: string
+setbio_string_2:
+  args:
+    - text
+  desc: '设置或更新用户个人资料中的个人简介。'
+  params:
+    - desc: '个人简介文本。必须少于 2048 个字符。'
+      name: bio
+      optional: false
+      type: string
+setbirthday:
+  args:
+    - time
+  desc: '在用户个人资料中设置生日。'
+  params:
+    - &ref_491
+      desc: '生日日期。'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime:
+  args:
+    - time
+  desc: '在用户个人资料中设置生日。'
+  params:
+    - desc: '生日日期。'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime_1:
+  args:
+    - time
+  desc: '在用户个人资料中设置生日。'
+  params:
+    - desc: '生日日期。'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime_2:
+  args:
+    - time
+  desc: '在用户个人资料中设置生日。'
+  params:
+    - desc: '生日日期。'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthdayprivacy:
+  args:
+    - birthdaydisplaymodeenum
+  desc: '在用户个人资料中设置生日隐私模式。'
+  params:
+    - &ref_492
+      desc: '要设置的生日显示模式。'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum:
+  args:
+    - birthdaydisplaymodeenum
+  desc: '在用户个人资料中设置生日隐私模式。'
+  params:
+    - desc: '要设置的生日显示模式。'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum_1:
+  args:
+    - birthdaydisplaymodeenum
+  desc: '在用户个人资料中设置生日隐私模式。'
+  params:
+    - desc: '要设置的生日显示模式。'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum_2:
+  args:
+    - birthdaydisplaymodeenum
+  desc: '在用户个人资料中设置生日隐私模式。'
+  params:
+    - desc: '要设置的生日显示模式。'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setprivacy:
+  args:
+    - privacyenum
+  desc: '设置用户个人资料的隐私级别。'
+  params:
+    - &ref_513
+      desc: '要应用的隐私设置。'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum:
+  args:
+    - privacyenum
+  desc: '设置用户个人资料的隐私级别。'
+  params:
+    - desc: '要应用的隐私设置。'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum_1:
+  args:
+    - privacyenum
+  desc: '设置用户个人资料的隐私级别。'
+  params:
+    - desc: '要应用的隐私设置。'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum_2:
+  args:
+    - privacyenum
+  desc: '设置用户个人资料的隐私级别。'
+  params:
+    - desc: '要应用的隐私设置。'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprofilecolor:
+  args:
+    - input
+  desc: '根据 SKColor 输入设置个人资料颜色。'
+  params:
+    - &ref_514
+      desc: '表示所需个人资料颜色的 SKColor。'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor:
+  args:
+    - input
+  desc: '根据 SKColor 输入设置个人资料颜色。'
+  params:
+    - desc: '表示所需个人资料颜色的 SKColor。'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor_1:
+  args:
+    - input
+  desc: '根据 SKColor 输入设置个人资料颜色。'
+  params:
+    - desc: '表示所需个人资料颜色的 SKColor。'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor_2:
+  args:
+    - input
+  desc: '根据 SKColor 输入设置个人资料颜色。'
+  params:
+    - desc: '表示所需个人资料颜色的 SKColor。'
+      name: input
+      optional: false
+      type: SKColor
+setprofileimage:
+  args:
+    - text
+  desc: '在用户个人资料中设置个人资料图片 URL。'
+  params:
+    - &ref_515
+      desc: '要设置为个人资料图片的图片 URL。'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string:
+  args:
+    - text
+  desc: '在用户个人资料中设置个人资料图片 URL。'
+  params:
+    - desc: '要设置为个人资料图片的图片 URL。'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string_1:
+  args:
+    - text
+  desc: '在用户个人资料中设置个人资料图片 URL。'
+  params:
+    - desc: '要设置为个人资料图片的图片 URL。'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string_2:
+  args:
+    - text
+  desc: '在用户个人资料中设置个人资料图片 URL。'
+  params:
+    - desc: '要设置为个人资料图片的图片 URL。'
+      name: url
+      optional: false
+      type: string
+setpronouns:
+  args:
+    - '[pronouns]'
+  desc: '设置或清除用户的代词。'
+  params:
+    - desc: '要设置的代词。若为空或 null，则清除现有代词。'
+      name: pronouns
+      optional: true
+      type: string
+setswitchfc:
+  args:
+    - '""'
+  desc: '在用户个人资料中设置或清除任天堂 Switch 好友代码。'
+  params:
+    - desc: '在用户个人资料中设置或清除任天堂 Switch 好友代码。'
+      name: '""'
+      optional: false
+      type: '='
+setzodiac:
+  args:
+    - text
+  desc: '在用户个人资料中设置星座。'
+  params:
+    - &ref_539
+      desc: '要设置的星座。'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string:
+  args:
+    - text
+  desc: '在用户个人资料中设置星座。'
+  params:
+    - desc: '要设置的星座。'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string_1:
+  args:
+    - text
+  desc: '在用户个人资料中设置星座。'
+  params:
+    - desc: '要设置的星座。'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string_2:
+  args:
+    - text
+  desc: '在用户个人资料中设置星座。'
+  params:
+    - desc: '要设置的星座。'
+      name: zodiac
+      optional: false
+      type: string
+userstatsoptout:
+  args:
+    - ''
+  desc: '切换用户对命令统计收集的退出状态。'
+  params: [ ]

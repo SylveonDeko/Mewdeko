@@ -1,0 +1,136 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'Afișează analize detaliate Patreon.'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'Declanșează manual un anunț Patreon.'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Setează sau afișează canalul de anunțuri Patreon.
+  params:
+    - desc: >-
+        Canalul de setat pentru anunțuri Patreon. Dacă null, afișează
+        canalul curent.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'Afișează configurația curentă Patreon pentru acest server.'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Setează ziua lunii pentru anunțurile Patreon.'
+  params:
+    - desc: >-
+        Ziua lunii (1-28) pentru anunțuri. Dacă null, afișează ziua curentă.
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'Dezactivează anunțurile Patreon pentru acest server.'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Afișează informații despre modulul Patreon și marcaje disponibile.'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Leagă un utilizator Discord de un susținător Patreon.'
+  params:
+    - desc: Utilizatorul Discord de legat.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: ID-ul utilizatorului Patreon de legat.
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Setează un mesaj personalizat pentru anunțurile Patreon.
+  params:
+    - desc: >-
+        Mesajul personalizat. Folosește marcaje precum %server.name%, %month%, etc.
+        Folosește "-" pentru a reseta la implicit.
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'Trimite mesaje de recunoaștere pentru susținători noi.'
+  params:
+    - desc: Canalul pentru a trimite mesaje de recunoaștere.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Listează asocierile nivel-rol Patreon.'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'Comută sincronizarea automată a rolurilor.'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Afișează statisticile susținătorilor Patreon.'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'Listează susținătorii Patreon activi.'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'Configurează în siguranță integrarea OAuth Patreon.'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'Sincronizează rolurile pentru toți susținătorii legați.'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Mapează un nivel Patreon la un rol Discord.'
+  params:
+    - desc: ID-ul nivelului Patreon.
+      name: tierId
+      optional: false
+      type: string
+    - desc: Rolul Discord de mapat la nivel.
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Activează sau dezactivează anunțurile Patreon.'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'Afișează susținătorii Patreon de top.'
+  params:
+    - desc: Numărul de susținători de top pentru afișare (1-20).
+      name: count
+      optional: true
+      type: int

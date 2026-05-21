@@ -1,0 +1,542 @@
+countingban:
+  args:
+    - user channel duration reason
+  desc: 'Verbiedt een gebruiker om te tellen in een specifiek kanaal.'
+  params:
+    - desc: 'De gebruiker die verboden wordt te tellen.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Duur van het verbod (bijv. 1h, 1d). Leeg laten voor permanent.'
+      name: duration
+      optional: true
+      type: stoopid time
+    - desc: 'De reden voor het verbod.'
+      name: reason
+      optional: true
+      type: string
+countingconfig:
+  args:
+    - channel
+  desc: 'Configureert de instellingen van een telkanaal.'
+  params:
+    - desc: 'Het kanaal om de configuratie te tonen. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+countingcooldown:
+  args:
+    - channel seconds
+  desc: 'Stelt de wachttijd in tussen tellingen van gebruikers.'
+  params:
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Wachttijd in seconden (0-300).'
+      name: seconds
+      optional: true
+      type: int
+countingdisable:
+  args:
+    - channel purgeData reason
+  desc: 'Schakelt tellen in een kanaal uit en verwijdert optioneel alle gegevens.'
+  params:
+    - desc: 'Het kanaal waar tellen uitgeschakeld moet worden. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Of alle telgegevens van dit kanaal verwijderd moeten worden. Standaard false.'
+      name: purgeData
+      optional: true
+      type: bool
+    - desc: 'De reden om tellen uit te schakelen.'
+      name: reason
+      optional: true
+      type: string
+countingfailurechannel:
+  args:
+    - countingChannel failureChannel
+  desc: 'Stelt het kanaal in waar telfouten worden geregistreerd.'
+  params:
+    - desc: 'Het telkanaal.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: 'Het kanaal voor foutlogboeken. Gebruik null om uit te schakelen.'
+      name: failureChannel
+      optional: true
+      type: text channel
+countingfailuremessage:
+  args:
+    - channel embed
+  desc: 'Stelt een aangepast bericht in voor mislukte tellingen.'
+  params:
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Het berichtsjabloon. Gebruik "-" om te resetten naar standaard.'
+      name: embed
+      optional: true
+      type: string
+countingfailurethreshold:
+  args:
+    - channel threshold
+  desc: 'Stelt de foutdrempel in voor consequenties.'
+  params:
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Aantal fouten voor actie (1-10).'
+      name: threshold
+      optional: true
+      type: int
+countingleaderboard:
+  args:
+    - type channel
+  desc: 'Toont het scorebord van een telkanaal.'
+  params:
+    - desc: 'Het type scorebord (contributions, streak, accuracy, totalnumbers).'
+      name: type
+      optional: true
+      type: string
+    - desc: 'Het kanaal om het scorebord te tonen. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+countinglist:
+  args:
+    - ''
+  desc: 'Geeft een lijst van alle actieve telkanalen op de server.'
+  params: [ ]
+countingmilestonechannel:
+  args:
+    - countingChannel milestoneChannel
+  desc: 'Stelt het kanaal in waar mijlpaalresultaten worden aangekondigd.'
+  params:
+    - desc: 'Het telkanaal.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: 'Het kanaal voor mijlpaalmededelingen. Gebruik null om uit te schakelen.'
+      name: milestoneChannel
+      optional: true
+      type: text channel
+countingmilestonemessage:
+  args:
+    - channel embed
+  desc: 'Stelt een aangepast bericht in voor mijlpaalresultaten.'
+  params:
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Het berichtsjabloon. Gebruik "-" om te resetten naar standaard.'
+      name: embed
+      optional: true
+      type: string
+countingmilestones:
+  args:
+    - channel milestones
+  desc: 'Stelt aangepaste mijlpaalnummers in.'
+  params:
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Door komma gescheiden mijlpaalnummers (bijv. 50,100,250,500,1000).'
+      name: milestones
+      optional: true
+      type: string
+countingreset:
+  args:
+    - channel newNumber reason
+  desc: 'Reset het tellen in een kanaal naar een specifiek nummer.'
+  params:
+    - desc: 'Het te resetten kanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Het nummer om naar te resetten. Standaard is 0.'
+      name: newNumber
+      optional: true
+      type: long
+    - desc: 'De reden voor de reset.'
+      name: reason
+      optional: true
+      type: string
+countingrestore:
+  args:
+    - saveId channel
+  desc: 'Herstelt het tellen vanuit een eerder opslagpunt.'
+  params:
+    - desc: 'Het ID van het te herstellen opslagpunt.'
+      name: saveId
+      optional: false
+      type: int
+    - desc: 'Het te herstellen kanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+countingsave:
+  args:
+    - channel reason
+  desc: 'Maakt een opslagpunt voor de huidige telvoortgang.'
+  params:
+    - desc: 'Het op te slaan kanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'De reden voor het maken van het opslagpunt.'
+      name: reason
+      optional: true
+      type: string
+countingsetup:
+  args:
+    - channel startNumber increment
+  desc: 'Stelt tellen in het huidige of een opgegeven kanaal in.'
+  params:
+    - desc: 'Het kanaal waar tellen ingesteld moet worden. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Het nummer om mee te beginnen tellen. Standaard is 1.'
+      name: startNumber
+      optional: true
+      type: long
+    - desc: 'De verhoging voor elke telling. Standaard is 1.'
+      name: increment
+      optional: true
+      type: int
+countingstats:
+  args:
+    - user channel
+  desc: 'Toont telstatistieken voor een gebruiker of kanaal.'
+  params:
+    - desc: 'De gebruiker om statistieken van te tonen. Standaard ben jij.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Het kanaal om statistieken in te controleren. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+countingstatus:
+  args:
+    - channel
+  desc: 'Toont de huidige telstatus in een kanaal.'
+  params:
+    - desc: 'Het te controleren kanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+countingsuccessmessage:
+  args:
+    - channel embed
+  desc: 'Stelt een aangepast bericht in voor geslaagde tellingen.'
+  params:
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Het berichtsjabloon. Gebruik "-" om te resetten naar standaard.'
+      name: embed
+      optional: true
+      type: string
+countingtimeout:
+  args:
+    - user duration channel reason
+  desc: 'Stelt een gebruiker tijdelijk buiten spel van het tellen.'
+  params:
+    - desc: 'De gebruiker die buiten spel gesteld moet worden van het tellen.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Duur van de time-out (bijv. 30m, 2h).'
+      name: duration
+      optional: false
+      type: stoopid time
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'De reden voor de time-out.'
+      name: reason
+      optional: true
+      type: string
+countingunban:
+  args:
+    - user channel reason
+  desc: 'Heft het telverbod van een gebruiker op in een specifiek kanaal.'
+  params:
+    - desc: 'De gebruiker wiens telverbod opgeheven moet worden.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'De reden voor het opheffen van het verbod.'
+      name: reason
+      optional: true
+      type: string
+countmodbanned:
+  args:
+    - channel roles...
+  desc: 'Stelt de rollen in die verboden zijn van tellen.'
+  params:
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Rollen die verboden zijn van tellen.'
+      name: roles
+      optional: true
+      type: role
+countmodclear:
+  args:
+    - user channel
+  desc: 'Wist de foutieve tellingen van een gebruiker in een telkanaal.'
+  params:
+    - desc: 'De gebruiker wiens foutieve tellingen gewist moeten worden.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodclearall:
+  args:
+    - channel
+  desc: 'Wist de foutieve tellingen van alle gebruikers in een telkanaal.'
+  params:
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+countmoddefaults:
+  args:
+    - enabled threshold windowHours punishment durationMinutes punishmentRole
+  desc: 'Stelt serverwijde standaard moderatie-instellingen in.'
+  params:
+    - desc: 'Of moderatie standaard ingeschakeld is.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: 'Standaard drempel voor foutieve tellingen voor straf.'
+      name: threshold
+      optional: true
+      type: int
+    - desc: 'Standaard tijdvenster in uren voor het bijhouden van foutieve tellingen.'
+      name: windowHours
+      optional: true
+      type: int
+    - desc: 'Standaard strafactie om toe te passen.'
+      name: punishment
+      optional: true
+      type: punishment action
+    - desc: 'Standaard duur voor tijdgebonden straffen in minuten.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Standaard rol voor het straftype RolToevoegen.'
+      name: punishmentRole
+      optional: true
+      type: role
+countmodedits:
+  args:
+    - punish delete channel
+  desc: 'Configureert berichtbewerkingsbeveiliging voor een telkanaal.'
+  params:
+    - desc: 'Of berichtbewerkingen als overtredingen bestraft moeten worden.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: 'Of bewerkte berichten verwijderd moeten worden.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodenable:
+  args:
+    - enabled channel
+  desc: 'Schakelt moderatie in of uit voor een specifiek telkanaal.'
+  params:
+    - desc: 'Of moderatie in- of uitgeschakeld moet worden.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodignore:
+  args:
+    - deleteMessages channel roles...
+  desc: 'Stelt de rollen in die genegeerd worden bij het tellen.'
+  params:
+    - desc: 'Of berichten van genegeerde rollen verwijderd moeten worden.'
+      name: deleteMessages
+      optional: false
+      type: bool
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Rollen om te negeren bij het tellen.'
+      name: roles
+      optional: true
+      type: role
+countmodnonnumbers:
+  args:
+    - punish delete channel
+  desc: 'Configureert de verwerking van niet-numerieke berichten in een telkanaal.'
+  params:
+    - desc: 'Of niet-numerieke berichten als overtredingen bestraft moeten worden.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: 'Of niet-numerieke berichten verwijderd moeten worden.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunish:
+  args:
+    - count punishment durationMinutes role channel
+  desc: 'Stelt een gelaagde straf in voor een specifiek aantal foutieve tellingen.'
+  params:
+    - desc: 'Het aantal foutieve tellingen dat deze straf activeert.'
+      name: count
+      optional: false
+      type: int
+    - desc: 'De strafactie om toe te passen.'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: 'Duur voor tijdgebonden straffen in minuten.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Rol voor het straftype RolToevoegen.'
+      name: role
+      optional: true
+      type: role
+    - desc: 'Het telkanaal (NULL voor serverstandaarden).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishlist:
+  args:
+    - channel
+  desc: 'Geeft een lijst van alle gelaagde straffen voor de server of een specifiek kanaal.'
+  params:
+    - desc: 'Het telkanaal (NULL voor serverstandaarden).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishment:
+  args:
+    - punishment durationMinutes role channel
+  desc: 'Stelt de straf in voor foutieve tellingen.'
+  params:
+    - desc: 'De strafactie om toe te passen.'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: 'Duur voor tijdgebonden straffen in minuten.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Rol voor het straftype RolToevoegen.'
+      name: role
+      optional: true
+      type: role
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodrequired:
+  args:
+    - channel roles...
+  desc: 'Stelt de vereiste rollen in om te tellen.'
+  params:
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Rollen vereist om te tellen.'
+      name: roles
+      optional: true
+      type: role
+countmodreset:
+  args:
+    - channel
+  desc: 'Reset een kanaal om serverstandaarden te gebruiken.'
+  params:
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodshow:
+  args:
+    - channel
+  desc: 'Toont de huidige moderatieconfiguratie voor het telkanaal of serverstandaarden.'
+  params:
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodthreshold:
+  args:
+    - threshold channel
+  desc: 'Stelt de drempel voor foutieve tellingen in voor een telkanaal.'
+  params:
+    - desc: 'Aantal foutieve tellingen voor straf (1-100).'
+      name: threshold
+      optional: false
+      type: int
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodunpunish:
+  args:
+    - count channel
+  desc: 'Verwijdert een gelaagde straf voor een specifiek aantal foutieve tellingen.'
+  params:
+    - desc: 'Het aantal foutieve tellingen waarvoor de straf verwijderd moet worden.'
+      name: count
+      optional: false
+      type: int
+    - desc: 'Het telkanaal (NULL voor serverstandaarden).'
+      name: channel
+      optional: true
+      type: text channel
+countmodwindow:
+  args:
+    - hours channel
+  desc: 'Stelt het tijdvenster in voor het bijhouden van foutieve tellingen.'
+  params:
+    - desc: 'Tijdvenster in uren (1-168).'
+      name: hours
+      optional: false
+      type: int
+    - desc: 'Het telkanaal. Standaard het huidige kanaal.'
+      name: channel
+      optional: true
+      type: text channel

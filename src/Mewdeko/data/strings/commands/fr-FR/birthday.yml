@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'Active ou désactive les annonces d''anniversaire pour l''utilisateur.'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'Définit le canal des annonces d''anniversaire.'
+  params:
+    - desc: >-
+        Le canal textuel à utiliser pour les annonces. Par défaut le canal
+        actuel si non spécifié.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'Affiche la configuration actuelle des anniversaires.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'Affiche les anniversaires à venir dans le serveur.'
+  params:
+    - desc: Combien de jours regarder en avance. Par défaut 7, maximum 30.
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'Définit un modèle de message d''anniversaire personnalisé.'
+  params:
+    - desc: >-
+        Le modèle de message. Utilisez {user} pour mentionner l'utilisateur.
+        Affiche le message actuel si laissé vide.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'Définit le rôle à mentionner lors de l''annonce des anniversaires.'
+  params:
+    - desc: Le rôle à mentionner. Ne fournissez aucun rôle pour désactiver.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'Définit le rôle d''anniversaire que les utilisateurs reçoivent le jour de leur anniversaire.'
+  params:
+    - desc: Le rôle à attribuer le jour d'anniversaire d'un utilisateur. Ne fournissez aucun rôle pour désactiver.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'Définit le fuseau horaire de l''utilisateur pour le calcul des anniversaires.'
+  params:
+    - desc: Le fuseau horaire à définir (ex., "America/New_York").
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'Affiche les anniversaires d''aujourd''hui.'
+  params: [ ]

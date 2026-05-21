@@ -1,0 +1,156 @@
+confess:
+  args:
+    - serverid text
+  desc: 'ユーザーが匿名で告白できるようにします。'
+  params:
+    - &ref_139
+      desc: 'サーバーのID。'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: '告白メッセージ'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: 'ユーザーが匿名で告白できるようにします。'
+  params:
+    - desc: 'サーバーのID。'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: '告白メッセージ'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: 'ユーザーが匿名で告白できるようにします。'
+  params:
+    - desc: 'サーバーのID。'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: '告白メッセージ'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: 'ユーザーが匿名で告白できるようにします。'
+  params:
+    - desc: 'サーバーのID。'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: '告白メッセージ'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: 'ユーザーを告白ブラックリストに追加します。'
+  params:
+    - desc: '告白からブラックリストするユーザー。'
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: '告白チャンネルを設定します。'
+  params:
+    - desc: '告白用に設定するチャンネル。'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: 'ユーザーを告白ブラックリストに追加または削除します。'
+  params:
+    - &ref_141
+      desc: 'ブラックリストに追加または削除するユーザー。'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: 'ユーザーを告白ブラックリストに追加または削除します。'
+  params:
+    - &ref_142
+      desc: 'ブラックリストに追加または削除するユーザー。'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: 'ユーザーを告白ブラックリストに追加または削除します。'
+  params:
+    - desc: 'ブラックリストに追加または削除するユーザー。'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: 'ユーザーを告白ブラックリストに追加または削除します。'
+  params:
+    - desc: 'ブラックリストに追加または削除するユーザー。'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: '匿名告白用の告白チャンネルを設定します。'
+  params:
+    - desc: '告白チャンネル（オプション）。'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    告白を記録するための告白ログチャンネルを設定します。この機能を悪用すると、私はあなたの家から2mの場所にいることになります。
+  params:
+    - desc: '告白ログチャンネル（オプション）。'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: '告白ブラックリストからユーザーを削除します。'
+  params:
+    - desc: 'ブラックリストから削除するユーザー。'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: '告白ログチャンネルを設定します。'
+  params:
+    - desc: '告白を記録するチャンネル。'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: '告白ブラックリストからユーザーを削除します。'
+  params:
+    - desc: '告白からブラックリスト解除するユーザー。'
+      name: user
+      optional: false
+      type: IUser

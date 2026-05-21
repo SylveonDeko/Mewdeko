@@ -1,0 +1,8 @@
+kaladont_current_word
+kaladont_not_your_turn
+kaladont_setup_success
+kaladont_setup_failed
+modal_response_format
+ticket_create_failed
+ticket_created_response
+ticket_information

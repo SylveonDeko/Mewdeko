@@ -1,0 +1,18 @@
+{
+  "boost_on": "",
+  "boost_off": "",
+  "boostmsg_cur": "Current boost message: {0}",
+  "boostmsg_enable": "Enable boost messages by typing {0}",
+  "boostmsg_new": "",
+  "boostdel_off": "",
+  "boostdel_on": "Boost messages will be deleted after {0} seconds.",
+  "bandm": "Du har blivit bannad från {0} server. anledning: {1}",
+  "banmsg_default": "",
+  "byedel_off": "Automastisk radering av avskeds meddelanden har blivit avaktiverat.",
+  "byedel_on": "Avskeds meddelanden kommer bli raderade efter {0} sekunder.",
+  "byemsg_cur": "Nuvarande avskeds meddelande: {0}",
+  "byemsg_enable": "Aktivera avskeds meddelanden genom att skriva {0}",
+  "byemsg_new": "Nytt avskeds meddelande satt.",
+  "bye_off": "Avskeds meddelande inaktiverat.",
+  "bye_on": "Avskeds meddelanden aktiverad på denna kanal."
+}

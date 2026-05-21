@@ -1,0 +1,20 @@
+{
+  "aar_none": "",
+  "aar_roles": "The following roles are applied to users that join this server: {0}",
+  "aar_role_removed": "Users will no longer receive {0} role when they join this server.",
+  "aabr_none": "",
+  "aabr_roles": "The following roles are applied to bots that join this server: {0}",
+  "aabr_role_removed": "Bots will no longer receive {0} role when they join this server.",
+  "aabr_disabled": "**Auto assign bot role** on bot join is now **disabled**.",
+  "aar_disabled": "**Auto tilldela roll** på användare som ansluter sig är nu **inaktiverad**.",
+  "acm_disable": "Avaktiverat användning av alla MODULER på kanalen {0}.",
+  "acm_enable": "Aktiverat användning av alla MODULER på kanalen {0}.",
+  "perm_not_found": "Can't find permission at index #{0}",
+  "perm_out_of_range": "Inga behörigheter funna i den indexen.",
+  "perm_override": "Users will need {0} permission in order to run {1} command.",
+  "perm_prevent": "Permission number #{0} {1} is preventing this action.",
+  "perm_override_page_none": "",
+  "perm_override_all": "",
+  "perm_override_all_confirm": "Are you sure that you want to remove **ALL** discord permission overrides on this server? This action is irreversible.",
+  "perm_override_reset": ""
+}

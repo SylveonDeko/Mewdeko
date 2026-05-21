@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'Mengaktifkan/menonaktifkan pengumuman ulang tahun untuk pengguna.'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'Mengatur saluran pengumuman ulang tahun.'
+  params:
+    - desc: >-
+        Saluran teks yang digunakan untuk pengumuman. Default ke saluran
+        saat ini jika tidak ditentukan.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'Melihat konfigurasi ulang tahun saat ini.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'Menampilkan ulang tahun yang akan datang di server.'
+  params:
+    - desc: Berapa hari ke depan untuk dilihat. Default 7, maksimum 30.
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'Mengatur template pesan ulang tahun kustom.'
+  params:
+    - desc: >-
+        Template pesan. Gunakan {user} untuk menyebut pengguna. Menampilkan
+        pesan saat ini jika dibiarkan kosong.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'Mengatur peran yang di-ping saat mengumumkan ulang tahun.'
+  params:
+    - desc: Peran yang di-ping. Tidak memberikan peran untuk menonaktifkan.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'Mengatur peran ulang tahun yang diterima pengguna pada hari ulang tahun mereka.'
+  params:
+    - desc: Peran yang diberikan pada hari ulang tahun pengguna. Tidak memberikan peran untuk menonaktifkan.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'Mengatur zona waktu pengguna untuk perhitungan ulang tahun.'
+  params:
+    - desc: Zona waktu untuk diatur (misalnya "America/New_York").
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'Menampilkan ulang tahun hari ini.'
+  params: [ ]

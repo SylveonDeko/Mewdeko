@@ -1,0 +1,542 @@
+countingban:
+  args:
+    - user channel duration reason
+  desc: 'Zakazuje użytkownikowi liczenia w określonym kanale.'
+  params:
+    - desc: 'Użytkownik, któremu zakazuje się liczenia.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Czas trwania zakazu (np. 1h, 1d). Zostaw puste dla stałego.'
+      name: duration
+      optional: true
+      type: stoopid time
+    - desc: 'Powód zakazu.'
+      name: reason
+      optional: true
+      type: string
+countingconfig:
+  args:
+    - channel
+  desc: 'Konfiguruje ustawienia kanału liczenia.'
+  params:
+    - desc: 'Kanał do wyświetlenia konfiguracji. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+countingcooldown:
+  args:
+    - channel seconds
+  desc: 'Ustawia czas oczekiwania między liczeniami użytkowników.'
+  params:
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Czas oczekiwania w sekundach (0-300).'
+      name: seconds
+      optional: true
+      type: int
+countingdisable:
+  args:
+    - channel purgeData reason
+  desc: 'Wyłącza liczenie w kanale i opcjonalnie usuwa wszystkie dane.'
+  params:
+    - desc: 'Kanał, w którym wyłączyć liczenie. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Czy usunąć wszystkie dane liczenia tego kanału. Domyślnie false.'
+      name: purgeData
+      optional: true
+      type: bool
+    - desc: 'Powód wyłączenia liczenia.'
+      name: reason
+      optional: true
+      type: string
+countingfailurechannel:
+  args:
+    - countingChannel failureChannel
+  desc: 'Ustawia kanał, w którym rejestrowane są błędy liczenia.'
+  params:
+    - desc: 'Kanał liczenia.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: 'Kanał dla dzienników błędów. Użyj null, aby wyłączyć.'
+      name: failureChannel
+      optional: true
+      type: text channel
+countingfailuremessage:
+  args:
+    - channel embed
+  desc: 'Ustawia niestandardową wiadomość dla nieudanych liczeń.'
+  params:
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Szablon wiadomości. Użyj "-", aby zresetować do wartości domyślnej.'
+      name: embed
+      optional: true
+      type: string
+countingfailurethreshold:
+  args:
+    - channel threshold
+  desc: 'Ustawia próg błędów przed konsekwencjami.'
+  params:
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Liczba błędów przed podjęciem działania (1-10).'
+      name: threshold
+      optional: true
+      type: int
+countingleaderboard:
+  args:
+    - type channel
+  desc: 'Wyświetla tablicę wyników kanału liczenia.'
+  params:
+    - desc: 'Typ tablicy (contributions, streak, accuracy, totalnumbers).'
+      name: type
+      optional: true
+      type: string
+    - desc: 'Kanał do wyświetlenia tablicy. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+countinglist:
+  args:
+    - ''
+  desc: 'Wyświetla wszystkie aktywne kanały liczenia na serwerze.'
+  params: [ ]
+countingmilestonechannel:
+  args:
+    - countingChannel milestoneChannel
+  desc: 'Ustawia kanał, w którym ogłaszane są osiągnięcia kamieni milowych.'
+  params:
+    - desc: 'Kanał liczenia.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: 'Kanał dla ogłoszeń kamieni milowych. Użyj null, aby wyłączyć.'
+      name: milestoneChannel
+      optional: true
+      type: text channel
+countingmilestonemessage:
+  args:
+    - channel embed
+  desc: 'Ustawia niestandardową wiadomość dla kamieni milowych.'
+  params:
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Szablon wiadomości. Użyj "-", aby zresetować do wartości domyślnej.'
+      name: embed
+      optional: true
+      type: string
+countingmilestones:
+  args:
+    - channel milestones
+  desc: 'Ustawia niestandardowe numery kamieni milowych.'
+  params:
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Numery kamieni milowych oddzielone przecinkami (np. 50,100,250,500,1000).'
+      name: milestones
+      optional: true
+      type: string
+countingreset:
+  args:
+    - channel newNumber reason
+  desc: 'Resetuje liczenie w kanale do określonej liczby.'
+  params:
+    - desc: 'Kanał do zresetowania. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Liczba, do której zresetować. Domyślnie 0.'
+      name: newNumber
+      optional: true
+      type: long
+    - desc: 'Powód resetu.'
+      name: reason
+      optional: true
+      type: string
+countingrestore:
+  args:
+    - saveId channel
+  desc: 'Przywraca liczenie z poprzedniego punktu zapisu.'
+  params:
+    - desc: 'ID punktu zapisu do przywrócenia.'
+      name: saveId
+      optional: false
+      type: int
+    - desc: 'Kanał do przywrócenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+countingsave:
+  args:
+    - channel reason
+  desc: 'Tworzy punkt zapisu dla bieżącego postępu liczenia.'
+  params:
+    - desc: 'Kanał do zapisania. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Powód utworzenia punktu zapisu.'
+      name: reason
+      optional: true
+      type: string
+countingsetup:
+  args:
+    - channel startNumber increment
+  desc: 'Konfiguruje liczenie w bieżącym lub określonym kanale.'
+  params:
+    - desc: 'Kanał, w którym skonfigurować liczenie. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Liczba, od której rozpocząć liczenie. Domyślnie 1.'
+      name: startNumber
+      optional: true
+      type: long
+    - desc: 'Przyrost dla każdego liczenia. Domyślnie 1.'
+      name: increment
+      optional: true
+      type: int
+countingstats:
+  args:
+    - user channel
+  desc: 'Wyświetla statystyki liczenia dla użytkownika lub kanału.'
+  params:
+    - desc: 'Użytkownik, którego statystyki wyświetlić. Domyślnie ty.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Kanał do sprawdzenia statystyk. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+countingstatus:
+  args:
+    - channel
+  desc: 'Wyświetla bieżący stan liczenia w kanale.'
+  params:
+    - desc: 'Kanał do sprawdzenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+countingsuccessmessage:
+  args:
+    - channel embed
+  desc: 'Ustawia niestandardową wiadomość dla udanych liczeń.'
+  params:
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Szablon wiadomości. Użyj "-", aby zresetować do wartości domyślnej.'
+      name: embed
+      optional: true
+      type: string
+countingtimeout:
+  args:
+    - user duration channel reason
+  desc: 'Tymczasowo wycisza użytkownika od liczenia.'
+  params:
+    - desc: 'Użytkownik do wyciszenia od liczenia.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Czas trwania wyciszenia (np. 30m, 2h).'
+      name: duration
+      optional: false
+      type: stoopid time
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Powód wyciszenia.'
+      name: reason
+      optional: true
+      type: string
+countingunban:
+  args:
+    - user channel reason
+  desc: 'Usuwa zakaz liczenia użytkownika w określonym kanale.'
+  params:
+    - desc: 'Użytkownik, któremu usunąć zakaz liczenia.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Powód usunięcia zakazu.'
+      name: reason
+      optional: true
+      type: string
+countmodbanned:
+  args:
+    - channel roles...
+  desc: 'Ustawia role zakazane od liczenia.'
+  params:
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Role zakazane od liczenia.'
+      name: roles
+      optional: true
+      type: role
+countmodclear:
+  args:
+    - user channel
+  desc: 'Czyści błędne liczenia użytkownika w kanale liczenia.'
+  params:
+    - desc: 'Użytkownik, którego błędne liczenia wyczyścić.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+countmodclearall:
+  args:
+    - channel
+  desc: 'Czyści błędne liczenia wszystkich użytkowników w kanale liczenia.'
+  params:
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+countmoddefaults:
+  args:
+    - enabled threshold windowHours punishment durationMinutes punishmentRole
+  desc: 'Ustawia domyślne ustawienia moderacji dla całego serwera.'
+  params:
+    - desc: 'Czy moderacja jest domyślnie włączona.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: 'Domyślny próg błędnych liczeń przed karą.'
+      name: threshold
+      optional: true
+      type: int
+    - desc: 'Domyślne okno czasowe w godzinach do śledzenia błędnych liczeń.'
+      name: windowHours
+      optional: true
+      type: int
+    - desc: 'Domyślna akcja kary do zastosowania.'
+      name: punishment
+      optional: true
+      type: punishment action
+    - desc: 'Domyślny czas trwania dla kar czasowych w minutach.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Domyślna rola dla typu kary DodajRolę.'
+      name: punishmentRole
+      optional: true
+      type: role
+countmodedits:
+  args:
+    - punish delete channel
+  desc: 'Konfiguruje ochronę przed edytowaniem wiadomości w kanale liczenia.'
+  params:
+    - desc: 'Czy karać edytowanie wiadomości jako naruszenia.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: 'Czy usuwać edytowane wiadomości.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+countmodenable:
+  args:
+    - enabled channel
+  desc: 'Włącza lub wyłącza moderację dla określonego kanału liczenia.'
+  params:
+    - desc: 'Czy włączyć lub wyłączyć moderację.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+countmodignore:
+  args:
+    - deleteMessages channel roles...
+  desc: 'Ustawia role ignorowane od liczenia.'
+  params:
+    - desc: 'Czy usuwać wiadomości od ignorowanych ról.'
+      name: deleteMessages
+      optional: false
+      type: bool
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Role do ignorowania od liczenia.'
+      name: roles
+      optional: true
+      type: role
+countmodnonnumbers:
+  args:
+    - punish delete channel
+  desc: 'Konfiguruje obsługę wiadomości nienumerycznych w kanale liczenia.'
+  params:
+    - desc: 'Czy karać wiadomości nienumeryczne jako naruszenia.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: 'Czy usuwać wiadomości nienumeryczne.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunish:
+  args:
+    - count punishment durationMinutes role channel
+  desc: 'Ustawia stopniową karę za określoną liczbę błędnych liczeń.'
+  params:
+    - desc: 'Liczba błędnych liczeń wyzwalająca tę karę.'
+      name: count
+      optional: false
+      type: int
+    - desc: 'Akcja kary do zastosowania.'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: 'Czas trwania kar czasowych w minutach.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Rola dla typu kary DodajRolę.'
+      name: role
+      optional: true
+      type: role
+    - desc: 'Kanał liczenia (NULL dla domyślnych serwera).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishlist:
+  args:
+    - channel
+  desc: 'Wyświetla wszystkie stopniowe kary serwera lub określonego kanału.'
+  params:
+    - desc: 'Kanał liczenia (NULL dla domyślnych serwera).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishment:
+  args:
+    - punishment durationMinutes role channel
+  desc: 'Ustawia karę za błędne liczenia.'
+  params:
+    - desc: 'Akcja kary do zastosowania.'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: 'Czas trwania kar czasowych w minutach.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Rola dla typu kary DodajRolę.'
+      name: role
+      optional: true
+      type: role
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+countmodrequired:
+  args:
+    - channel roles...
+  desc: 'Ustawia role wymagane do liczenia.'
+  params:
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Role wymagane do liczenia.'
+      name: roles
+      optional: true
+      type: role
+countmodreset:
+  args:
+    - channel
+  desc: 'Resetuje kanał do używania domyślnych serwera.'
+  params:
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+countmodshow:
+  args:
+    - channel
+  desc: 'Wyświetla bieżącą konfigurację moderacji dla kanału liczenia lub domyślnych serwera.'
+  params:
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+countmodthreshold:
+  args:
+    - threshold channel
+  desc: 'Ustawia próg błędnych liczeń dla kanału liczenia.'
+  params:
+    - desc: 'Liczba błędnych liczeń przed karą (1-100).'
+      name: threshold
+      optional: false
+      type: int
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel
+countmodunpunish:
+  args:
+    - count channel
+  desc: 'Usuwa stopniową karę za określoną liczbę błędnych liczeń.'
+  params:
+    - desc: 'Liczba błędnych liczeń, dla której usunąć karę.'
+      name: count
+      optional: false
+      type: int
+    - desc: 'Kanał liczenia (NULL dla domyślnych serwera).'
+      name: channel
+      optional: true
+      type: text channel
+countmodwindow:
+  args:
+    - hours channel
+  desc: 'Ustawia okno czasowe do śledzenia błędnych liczeń.'
+  params:
+    - desc: 'Okno czasowe w godzinach (1-168).'
+      name: hours
+      optional: false
+      type: int
+    - desc: 'Kanał liczenia. Domyślnie bieżący kanał.'
+      name: channel
+      optional: true
+      type: text channel

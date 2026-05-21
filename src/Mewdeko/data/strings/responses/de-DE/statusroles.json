@@ -1,0 +1,18 @@
+{
+  "status_role_channel_set": "Kanal auf {0} gesetzt",
+  "status": "Status",
+  "status_addrole_successfully_removed": "{0} Folgende Rollen erfolgreich aus AddRoles entfernt\n{1}",
+  "status_addroles_none_removed": "{0} Keine AddRoles entfernt, keine der angegebenen Rollen befindet sich in der Liste.",
+  "status_embed_channel_already_set": "{0} Das ist bereits dein StatusEmbedChannel.",
+  "status_embed_channel_set": "{0} StatusEmbedChannel erfolgreich auf {1} gesetzt!",
+  "status_readd_removed_now": "{0} ReaddRemoved ist jetzt `{1}`",
+  "status_remove_added_now": "{0} RemoveAdded ist jetzt `{1}`",
+  "status_removerole_none_removed": "{0} Keine RemoveRoles entfernt, keine der angegebenen Rollen befindet sich in der Liste.",
+  "status_removerole_successfully_removed": "{0} Folgende Rollen erfolgreich aus RemoveRoles entfernt\n{1}",
+  "status_role_config_added": "StatusRole-Konfiguration hinzugefügt! Bitte konfiguriere sie mit den anderen Befehlen.",
+  "status_role_exists": "{0} Diese StatusRole existiert bereits!",
+  "status_role_text_select": "{0} Bitte wähle aus, was du mit dem aktuellen StatusRole-Text tun möchtest",
+  "status_roles_added": "{0} Dieser Status fügt jetzt folgende Rollen hinzu:\n{1}",
+  "status_roles_removed": "{0} Dieser Status entfernt jetzt folgende Rollen:\n{1}",
+  "status_too_long": "{0} Das ist zu lang, um in einen normalen Status zu passen. Versuche es erneut."
+}

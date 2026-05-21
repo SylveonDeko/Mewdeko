@@ -1,0 +1,137 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'Részletes Patreon analitikát jelenít meg.'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'Manuálisan elindít egy Patreon bejelentést.'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Beállítja vagy megjeleníti a Patreon bejelentési csatornát.
+  params:
+    - desc: >-
+        A Patreon bejelentésekhez beállítandó csatorna. Ha null, az aktuális
+        csatornát jeleníti meg.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'Megjeleníti a szerver jelenlegi Patreon konfigurációját.'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Beállítja a hónap napját Patreon bejelentésekhez.'
+  params:
+    - desc: >-
+        A hónap napja (1-28) bejelentésekhez. Ha null, az aktuális napot
+        jeleníti meg.
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'Letiltja a Patreon bejelentéseket ehhez a szerverhez.'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Megjeleníti a Patreon modul információit és az elérhető helyőrzőket.'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Hozzákapcsol egy Discord felhasználót egy Patreon támogatóhoz.'
+  params:
+    - desc: A hozzákapcsolandó Discord felhasználó.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: A hozzákapcsolandó Patreon felhasználó ID.
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Egyéni üzenetet állít be Patreon bejelentésekhez.
+  params:
+    - desc: >-
+        Az egyéni üzenet. Használj helyőrzőket, mint %server.name%, %month%,
+        stb. Használd a "-"-t az alapértelmezettre való visszaállításhoz.
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'Elismerő üzeneteket küld új támogatóknak.'
+  params:
+    - desc: A csatorna, ahová elismerő üzeneteket küld.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Felsorolja a Patreon szint-rang hozzárendeléseket.'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'Be- vagy kikapcsolja az automatikus rangszinkronizációt.'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Megjeleníti a Patreon támogatói statisztikákat.'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'Felsorolja az aktív Patreon támogatókat.'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'Biztonságosan beállítja a Patreon OAuth integrációt.'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'Szinkronizálja a rangokat minden összekapcsolt támogatóhoz.'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Egy Patreon szintet egy Discord ranghoz rendel.'
+  params:
+    - desc: A Patreon szint ID.
+      name: tierId
+      optional: false
+      type: string
+    - desc: A szinthez rendelendő Discord rang.
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Be- vagy kikapcsolja a Patreon bejelentéseket.'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'Megjeleníti a top Patreon támogatókat.'
+  params:
+    - desc: A megjelenítendő top támogatók száma (1-20).
+      name: count
+      optional: true
+      type: int

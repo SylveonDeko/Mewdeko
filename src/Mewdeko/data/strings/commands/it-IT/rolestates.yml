@@ -1,0 +1,470 @@
+addrolestorolestate:
+  args:
+    - '@user @role'
+  desc: 'Aggiunge ruoli allo stato dei ruoli di un utente.'
+  params:
+    - &ref_26
+      desc: 'L''utente il cui stato dei ruoli deve essere modificato.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_25
+      desc: 'I ruoli da aggiungere allo stato dei ruoli dell''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Aggiunge ruoli allo stato dei ruoli di un utente.'
+  params:
+    - &ref_27
+      desc: 'L''utente il cui stato dei ruoli deve essere modificato.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'I ruoli da aggiungere allo stato dei ruoli dell''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Aggiunge ruoli allo stato dei ruoli di un utente.'
+  params:
+    - desc: 'L''utente il cui stato dei ruoli deve essere modificato.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'I ruoli da aggiungere allo stato dei ruoli dell''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Aggiunge ruoli allo stato dei ruoli di un utente.'
+  params:
+    - desc: 'L''utente il cui stato dei ruoli deve essere modificato.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'I ruoli da aggiungere allo stato dei ruoli dell''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteuserrolestate:
+  args:
+    - '@user'
+  desc: 'Elimina lo stato dei ruoli di un utente specifico.'
+  params:
+    - &ref_191
+      desc: 'L''utente il cui stato dei ruoli deve essere eliminato.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Elimina lo stato dei ruoli di un utente specifico.'
+  params:
+    - desc: 'L''utente il cui stato dei ruoli deve essere eliminato.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Elimina lo stato dei ruoli di un utente specifico.'
+  params:
+    - desc: 'L''utente il cui stato dei ruoli deve essere eliminato.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Elimina lo stato dei ruoli di un utente specifico.'
+  params:
+    - desc: 'L''utente il cui stato dei ruoli deve essere eliminato.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IUser:
+  args:
+    - '@user'
+  desc: 'Elimina lo stato dei ruoli di un utente specifico.'
+  params:
+    - desc: 'L''utente il cui stato dei ruoli deve essere eliminato.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_1:
+  args:
+    - '@user'
+  desc: 'Elimina lo stato dei ruoli di un utente specifico.'
+  params:
+    - desc: 'L''utente il cui stato dei ruoli deve essere eliminato.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_2:
+  args:
+    - '@user'
+  desc: 'Elimina lo stato dei ruoli di un utente specifico.'
+  params:
+    - desc: 'L''utente il cui stato dei ruoli deve essere eliminato.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_3:
+  args:
+    - '@user'
+  desc: 'Elimina lo stato dei ruoli di un utente specifico.'
+  params:
+    - desc: 'L''utente il cui stato dei ruoli deve essere eliminato.'
+      name: user
+      optional: false
+      type: IUser
+removerolesfromrolestate:
+  args:
+    - '@user @role'
+  desc: 'Rimuove ruoli dallo stato dei ruoli di un utente.'
+  params:
+    - desc: 'L''utente il cui stato dei ruoli deve essere modificato.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_414
+      desc: 'I ruoli da rimuovere dallo stato dei ruoli dell''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Rimuove ruoli dallo stato dei ruoli di un utente.'
+  params:
+    - desc: 'L''utente il cui stato dei ruoli deve essere modificato.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'I ruoli da rimuovere dallo stato dei ruoli dell''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Rimuove ruoli dallo stato dei ruoli di un utente.'
+  params:
+    - desc: 'L''utente il cui stato dei ruoli deve essere modificato.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'I ruoli da rimuovere dallo stato dei ruoli dell''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Rimuove ruoli dallo stato dei ruoli di un utente.'
+  params:
+    - desc: 'L''utente il cui stato dei ruoli deve essere modificato.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'I ruoli da rimuovere dallo stato dei ruoli dell''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole:
+  args:
+    - '@role'
+  desc: 'Aggiunge ruoli alla lista di rifiuto della funzione stati dei ruoli.'
+  params:
+    - &ref_463
+      desc: 'I ruoli da aggiungere alla lista di rifiuto.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]:
+  args:
+    - '@role'
+  desc: 'Aggiunge ruoli alla lista di rifiuto della funzione stati dei ruoli.'
+  params:
+    - desc: 'I ruoli da aggiungere alla lista di rifiuto.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Aggiunge ruoli alla lista di rifiuto della funzione stati dei ruoli.'
+  params:
+    - desc: 'I ruoli da aggiungere alla lista di rifiuto.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Aggiunge ruoli alla lista di rifiuto della funzione stati dei ruoli.'
+  params:
+    - desc: 'I ruoli da aggiungere alla lista di rifiuto.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyuser:
+  args:
+    - '@user'
+  desc: 'Aggiunge utenti alla lista di rifiuto della funzione stati dei ruoli.'
+  params:
+    - &ref_464
+      desc: 'Gli utenti da aggiungere alla lista di rifiuto.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Aggiunge utenti alla lista di rifiuto della funzione stati dei ruoli.'
+  params:
+    - desc: 'Gli utenti da aggiungere alla lista di rifiuto.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Aggiunge utenti alla lista di rifiuto della funzione stati dei ruoli.'
+  params:
+    - desc: 'Gli utenti da aggiungere alla lista di rifiuto.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Aggiunge utenti alla lista di rifiuto della funzione stati dei ruoli.'
+  params:
+    - desc: 'Gli utenti da aggiungere alla lista di rifiuto.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremoveadduser:
+  args:
+    - user
+  desc: 'Rimuove o nega a un utente l''accesso agli stati dei ruoli.'
+  params:
+    - desc: 'L''utente da rimuovere/negare dagli stati dei ruoli.'
+      name: user
+      optional: false
+      type: IUser
+rolestatesremovedenyrole:
+  args:
+    - '@role'
+  desc: 'Rimuove ruoli dalla lista di rifiuto della funzione stati dei ruoli.'
+  params:
+    - &ref_465
+      desc: 'I ruoli da rimuovere dalla lista di rifiuto.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]:
+  args:
+    - '@role'
+  desc: 'Rimuove ruoli dalla lista di rifiuto della funzione stati dei ruoli.'
+  params:
+    - desc: 'I ruoli da rimuovere dalla lista di rifiuto.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Rimuove ruoli dalla lista di rifiuto della funzione stati dei ruoli.'
+  params:
+    - desc: 'I ruoli da rimuovere dalla lista di rifiuto.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Rimuove ruoli dalla lista di rifiuto della funzione stati dei ruoli.'
+  params:
+    - desc: 'I ruoli da rimuovere dalla lista di rifiuto.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyuser:
+  args:
+    - '@user'
+  desc: 'Rimuove utenti dalla lista di rifiuto della funzione stati dei ruoli.'
+  params:
+    - &ref_466
+      desc: 'Gli utenti da rimuovere dalla lista di rifiuto.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Rimuove utenti dalla lista di rifiuto della funzione stati dei ruoli.'
+  params:
+    - desc: 'Gli utenti da rimuovere dalla lista di rifiuto.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Rimuove utenti dalla lista di rifiuto della funzione stati dei ruoli.'
+  params:
+    - desc: 'Gli utenti da rimuovere dalla lista di rifiuto.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Rimuove utenti dalla lista di rifiuto della funzione stati dei ruoli.'
+  params:
+    - desc: 'Gli utenti da rimuovere dalla lista di rifiuto.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+saveallrolestates:
+  args:
+    - ''
+  desc: 'Salva gli stati dei ruoli per tutti gli utenti del server.'
+  params: [ ]
+setuserrolestate:
+  args:
+    - '@user @role'
+  desc: 'Imposta lo stato dei ruoli per un utente specifico.'
+  params:
+    - &ref_529
+      desc: 'L''utente per cui impostare lo stato dei ruoli.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_530
+      desc: 'I ruoli da includere nello stato dei ruoli dell''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Imposta lo stato dei ruoli per un utente specifico.'
+  params:
+    - &ref_531
+      desc: 'L''utente per cui impostare lo stato dei ruoli.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'I ruoli da includere nello stato dei ruoli dell''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Imposta lo stato dei ruoli per un utente specifico.'
+  params:
+    - desc: 'L''utente per cui impostare lo stato dei ruoli.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'I ruoli da includere nello stato dei ruoli dell''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Imposta lo stato dei ruoli per un utente specifico.'
+  params:
+    - desc: 'L''utente per cui impostare lo stato dei ruoli.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'I ruoli da includere nello stato dei ruoli dell''utente.'
+      name: roles
+      optional: false
+      type: IRole[]
+togglerolestates:
+  args:
+    - ''
+  desc: 'Attiva o disattiva la funzione stati dei ruoli.'
+  params: [ ]
+togglerolestatesclearonban:
+  args:
+    - ''
+  desc: 'Alterna se gli stati dei ruoli devono essere cancellati quando un utente viene bannato.'
+  params: [ ]
+togglerolestatesignorebots:
+  args:
+    - ''
+  desc: 'Alterna se i bot devono essere ignorati dalla funzione stati dei ruoli.'
+  params: [ ]
+togglerolestatesskipautoassign:
+  args:
+    - ''
+  desc: 'Alterna se i ruoli di assegnazione automatica devono essere saltati per gli utenti con stati dei ruoli salvati.'
+  params: [ ]
+transferrolestates:
+  args:
+    - serverid
+  desc: 'Trasferisce gli stati dei ruoli dal server attuale a un altro server.'
+  params:
+    - &ref_627
+      desc: 'L''ID del server di destinazione.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong:
+  args:
+    - serverid
+  desc: 'Trasferisce gli stati dei ruoli dal server attuale a un altro server.'
+  params:
+    - desc: 'L''ID del server di destinazione.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong_1:
+  args:
+    - serverid
+  desc: 'Trasferisce gli stati dei ruoli dal server attuale a un altro server.'
+  params:
+    - desc: 'L''ID del server di destinazione.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong_2:
+  args:
+    - serverid
+  desc: 'Trasferisce gli stati dei ruoli dal server attuale a un altro server.'
+  params:
+    - desc: 'L''ID del server di destinazione.'
+      name: serverId
+      optional: false
+      type: ulong
+viewrolestates:
+  args:
+    - ''
+  desc: 'Visualizza tutti gli stati dei ruoli degli utenti nel server.'
+  params: [ ]
+viewrolestatessettings:
+  args:
+    - ''
+  desc: 'Mostra le impostazioni correnti della funzione stati dei ruoli.'
+  params: [ ]
+viewuserrolestates:
+  args:
+    - ''
+  desc: 'Mostra gli stati dei ruoli di tutti gli utenti.'
+  params: [ ]

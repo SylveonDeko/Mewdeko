@@ -1,0 +1,542 @@
+countingban:
+  args:
+    - user channel duration reason
+  desc: 'Запрещает пользователю считать в определённом канале.'
+  params:
+    - desc: 'Пользователь, которому запрещается считать.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Длительность запрета (например, 1h, 1d). Оставьте пустым для постоянного.'
+      name: duration
+      optional: true
+      type: stoopid time
+    - desc: 'Причина запрета.'
+      name: reason
+      optional: true
+      type: string
+countingconfig:
+  args:
+    - channel
+  desc: 'Настраивает параметры канала счёта.'
+  params:
+    - desc: 'Канал для отображения конфигурации. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+countingcooldown:
+  args:
+    - channel seconds
+  desc: 'Устанавливает время ожидания между подсчётами пользователей.'
+  params:
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Время ожидания в секундах (0-300).'
+      name: seconds
+      optional: true
+      type: int
+countingdisable:
+  args:
+    - channel purgeData reason
+  desc: 'Отключает счёт в канале и опционально удаляет все данные.'
+  params:
+    - desc: 'Канал, в котором нужно отключить счёт. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Удалить ли все данные счёта этого канала. По умолчанию false.'
+      name: purgeData
+      optional: true
+      type: bool
+    - desc: 'Причина отключения счёта.'
+      name: reason
+      optional: true
+      type: string
+countingfailurechannel:
+  args:
+    - countingChannel failureChannel
+  desc: 'Устанавливает канал, в котором регистрируются ошибки счёта.'
+  params:
+    - desc: 'Канал счёта.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: 'Канал для журналов ошибок. Используйте null для отключения.'
+      name: failureChannel
+      optional: true
+      type: text channel
+countingfailuremessage:
+  args:
+    - channel embed
+  desc: 'Устанавливает пользовательское сообщение для неудачных подсчётов.'
+  params:
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Шаблон сообщения. Используйте "-" для сброса к значению по умолчанию.'
+      name: embed
+      optional: true
+      type: string
+countingfailurethreshold:
+  args:
+    - channel threshold
+  desc: 'Устанавливает порог ошибок до последствий.'
+  params:
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Количество ошибок до действия (1-10).'
+      name: threshold
+      optional: true
+      type: int
+countingleaderboard:
+  args:
+    - type channel
+  desc: 'Отображает таблицу лидеров канала счёта.'
+  params:
+    - desc: 'Тип таблицы лидеров (contributions, streak, accuracy, totalnumbers).'
+      name: type
+      optional: true
+      type: string
+    - desc: 'Канал для отображения таблицы. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+countinglist:
+  args:
+    - ''
+  desc: 'Выводит список всех активных каналов счёта на сервере.'
+  params: [ ]
+countingmilestonechannel:
+  args:
+    - countingChannel milestoneChannel
+  desc: 'Устанавливает канал, в котором объявляются достижения этапов.'
+  params:
+    - desc: 'Канал счёта.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: 'Канал для объявлений этапов. Используйте null для отключения.'
+      name: milestoneChannel
+      optional: true
+      type: text channel
+countingmilestonemessage:
+  args:
+    - channel embed
+  desc: 'Устанавливает пользовательское сообщение для достижений этапов.'
+  params:
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Шаблон сообщения. Используйте "-" для сброса к значению по умолчанию.'
+      name: embed
+      optional: true
+      type: string
+countingmilestones:
+  args:
+    - channel milestones
+  desc: 'Устанавливает пользовательские числа этапов.'
+  params:
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Числа этапов, разделённые запятыми (например, 50,100,250,500,1000).'
+      name: milestones
+      optional: true
+      type: string
+countingreset:
+  args:
+    - channel newNumber reason
+  desc: 'Сбрасывает счёт в канале до определённого числа.'
+  params:
+    - desc: 'Канал для сброса. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Число, до которого нужно сбросить. По умолчанию 0.'
+      name: newNumber
+      optional: true
+      type: long
+    - desc: 'Причина сброса.'
+      name: reason
+      optional: true
+      type: string
+countingrestore:
+  args:
+    - saveId channel
+  desc: 'Восстанавливает счёт из предыдущей точки сохранения.'
+  params:
+    - desc: 'Идентификатор точки сохранения для восстановления.'
+      name: saveId
+      optional: false
+      type: int
+    - desc: 'Канал для восстановления. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+countingsave:
+  args:
+    - channel reason
+  desc: 'Создаёт точку сохранения для текущего прогресса счёта.'
+  params:
+    - desc: 'Канал для сохранения. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Причина создания точки сохранения.'
+      name: reason
+      optional: true
+      type: string
+countingsetup:
+  args:
+    - channel startNumber increment
+  desc: 'Настраивает счёт в текущем или указанном канале.'
+  params:
+    - desc: 'Канал, в котором нужно настроить счёт. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Число, с которого начинать счёт. По умолчанию 1.'
+      name: startNumber
+      optional: true
+      type: long
+    - desc: 'Шаг для каждого подсчёта. По умолчанию 1.'
+      name: increment
+      optional: true
+      type: int
+countingstats:
+  args:
+    - user channel
+  desc: 'Показывает статистику счёта для пользователя или канала.'
+  params:
+    - desc: 'Пользователь, чью статистику показать. По умолчанию вы.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Канал для проверки статистики. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+countingstatus:
+  args:
+    - channel
+  desc: 'Показывает текущий статус счёта в канале.'
+  params:
+    - desc: 'Канал для проверки. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+countingsuccessmessage:
+  args:
+    - channel embed
+  desc: 'Устанавливает пользовательское сообщение для успешных подсчётов.'
+  params:
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Шаблон сообщения. Используйте "-" для сброса к значению по умолчанию.'
+      name: embed
+      optional: true
+      type: string
+countingtimeout:
+  args:
+    - user duration channel reason
+  desc: 'Временно отключает пользователя от счёта.'
+  params:
+    - desc: 'Пользователь, которого нужно отключить от счёта.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Длительность отключения (например, 30m, 2h).'
+      name: duration
+      optional: false
+      type: stoopid time
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Причина отключения.'
+      name: reason
+      optional: true
+      type: string
+countingunban:
+  args:
+    - user channel reason
+  desc: 'Снимает запрет на счёт с пользователя в определённом канале.'
+  params:
+    - desc: 'Пользователь, с которого снимается запрет на счёт.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Причина снятия запрета.'
+      name: reason
+      optional: true
+      type: string
+countmodbanned:
+  args:
+    - channel roles...
+  desc: 'Устанавливает роли, которым запрещено считать.'
+  params:
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Роли, которым запрещено считать.'
+      name: roles
+      optional: true
+      type: role
+countmodclear:
+  args:
+    - user channel
+  desc: 'Очищает неверные подсчёты пользователя в канале счёта.'
+  params:
+    - desc: 'Пользователь, чьи неверные подсчёты нужно очистить.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+countmodclearall:
+  args:
+    - channel
+  desc: 'Очищает неверные подсчёты всех пользователей в канале счёта.'
+  params:
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+countmoddefaults:
+  args:
+    - enabled threshold windowHours punishment durationMinutes punishmentRole
+  desc: 'Устанавливает настройки модерации по умолчанию для всего сервера.'
+  params:
+    - desc: 'Включена ли модерация по умолчанию.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: 'Порог неверных подсчётов по умолчанию до наказания.'
+      name: threshold
+      optional: true
+      type: int
+    - desc: 'Временное окно по умолчанию в часах для отслеживания неверных подсчётов.'
+      name: windowHours
+      optional: true
+      type: int
+    - desc: 'Действие наказания по умолчанию.'
+      name: punishment
+      optional: true
+      type: punishment action
+    - desc: 'Длительность по умолчанию для временных наказаний в минутах.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Роль по умолчанию для типа наказания ДобавитьРоль.'
+      name: punishmentRole
+      optional: true
+      type: role
+countmodedits:
+  args:
+    - punish delete channel
+  desc: 'Настраивает защиту от редактирования сообщений для канала счёта.'
+  params:
+    - desc: 'Наказывать ли редактирование сообщений как нарушения.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: 'Удалять ли отредактированные сообщения.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+countmodenable:
+  args:
+    - enabled channel
+  desc: 'Включает или отключает модерацию для определённого канала счёта.'
+  params:
+    - desc: 'Включить или отключить модерацию.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+countmodignore:
+  args:
+    - deleteMessages channel roles...
+  desc: 'Устанавливает роли, которые нужно игнорировать при счёте.'
+  params:
+    - desc: 'Удалять ли сообщения от игнорируемых ролей.'
+      name: deleteMessages
+      optional: false
+      type: bool
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Роли, которые нужно игнорировать при счёте.'
+      name: roles
+      optional: true
+      type: role
+countmodnonnumbers:
+  args:
+    - punish delete channel
+  desc: 'Настраивает обработку не числовых сообщений в канале счёта.'
+  params:
+    - desc: 'Наказывать ли не числовые сообщения как нарушения.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: 'Удалять ли не числовые сообщения.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunish:
+  args:
+    - count punishment durationMinutes role channel
+  desc: 'Устанавливает ступенчатое наказание за определённое количество неверных подсчётов.'
+  params:
+    - desc: 'Количество неверных подсчётов, которое запускает это наказание.'
+      name: count
+      optional: false
+      type: int
+    - desc: 'Действие наказания для применения.'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: 'Длительность для временных наказаний в минутах.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Роль для типа наказания ДобавитьРоль.'
+      name: role
+      optional: true
+      type: role
+    - desc: 'Канал счёта (NULL для настроек сервера по умолчанию).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishlist:
+  args:
+    - channel
+  desc: 'Выводит список всех ступенчатых наказаний сервера или определённого канала.'
+  params:
+    - desc: 'Канал счёта (NULL для настроек сервера по умолчанию).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishment:
+  args:
+    - punishment durationMinutes role channel
+  desc: 'Устанавливает наказание за неверные подсчёты.'
+  params:
+    - desc: 'Действие наказания для применения.'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: 'Длительность для временных наказаний в минутах.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Роль для типа наказания ДобавитьРоль.'
+      name: role
+      optional: true
+      type: role
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+countmodrequired:
+  args:
+    - channel roles...
+  desc: 'Устанавливает роли, необходимые для счёта.'
+  params:
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Роли, необходимые для счёта.'
+      name: roles
+      optional: true
+      type: role
+countmodreset:
+  args:
+    - channel
+  desc: 'Сбрасывает канал для использования настроек сервера по умолчанию.'
+  params:
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+countmodshow:
+  args:
+    - channel
+  desc: 'Показывает текущую конфигурацию модерации для канала счёта или настройки сервера по умолчанию.'
+  params:
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+countmodthreshold:
+  args:
+    - threshold channel
+  desc: 'Устанавливает порог неверных подсчётов для канала счёта.'
+  params:
+    - desc: 'Количество неверных подсчётов до наказания (1-100).'
+      name: threshold
+      optional: false
+      type: int
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel
+countmodunpunish:
+  args:
+    - count channel
+  desc: 'Удаляет ступенчатое наказание для определённого количества неверных подсчётов.'
+  params:
+    - desc: 'Количество неверных подсчётов, для которого удаляется наказание.'
+      name: count
+      optional: false
+      type: int
+    - desc: 'Канал счёта (NULL для настроек сервера по умолчанию).'
+      name: channel
+      optional: true
+      type: text channel
+countmodwindow:
+  args:
+    - hours channel
+  desc: 'Устанавливает временное окно для отслеживания неверных подсчётов.'
+  params:
+    - desc: 'Временное окно в часах (1-168).'
+      name: hours
+      optional: false
+      type: int
+    - desc: 'Канал счёта. По умолчанию текущий канал.'
+      name: channel
+      optional: true
+      type: text channel

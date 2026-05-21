@@ -1,0 +1,22 @@
+{
+  "confessions_blacklisted": "Du bist bei Vorschlägen auf dem schwarze Liste-Status auf diesem Server!",
+  "confessions_blacklisted_added": "{0} zur Beichte-Schwarzen-Liste hinzugefügt!!",
+  "confessions_blacklisted_already": "Dieser Benutzer ist bereits auf der schwarzen Liste!",
+  "confessions_blacklisted_not": "Dieser Benutzer ist nicht auf der schwarzen Liste!",
+  "confessions_blacklisted_removed": "{0} von der Beichte-Schwarzen-Liste entfernt!!",
+  "confessions_channel_set": "{0} als Beichte-Kanal gesetzt!",
+  "confessions_disabled": "Beichten deaktiviert",
+  "confessions_invalid_id": "Die ID, die du angegeben hast, war ungültig!",
+  "confessions_invalid_perms": "Ich habe dort nicht die richtigen Berechtigungen! Bitte stelle sicher, dass du EmbedLinks und SendMessages in diesem Kanal für mich aktiviert hast!",
+  "confessions_logging_disabled": "Beichte-Protokollierung deaktiviert",
+  "confessions_missing_invite": "Kann Einladung nicht erhalten aufgrund fehlender Berechtigungen oder keiner verfügbaren Einladungen.",
+  "confessions_none": "Dieser Server hat keine Beichten aktiviert!",
+  "confessions_none_any": "Du bist in keinen Servern, die meine Beichten aktiviert haben!",
+  "confessions_report": "Bericht",
+  "confessions_report_received": "Beichte-Missbrauch-Bericht erhalten",
+  "confessions_report_sent": "Bericht gesendet. Wenn du beitreten und hinzufügen möchtest, verwende den Link unten.",
+  "confessions_report_user": "Benutzer melden",
+  "confessions_server_id": "Server-ID",
+  "confessions_server_invite": "Server-Einladung",
+  "confessions_spleen": "{0} als Beichte-Protokoll-Kanal gesetzt. \n***Denk dran, wenn ich herausfinde, dass du diese Funktion missbrauchst, werde ich herausfinden, diesen Server auf die schwarze Liste setzen. Und deine Milz verwenden, um die Welt zu übernehmen"
+}

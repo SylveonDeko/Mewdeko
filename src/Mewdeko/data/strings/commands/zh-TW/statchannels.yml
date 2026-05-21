@@ -1,0 +1,95 @@
+statchannelcreate:
+  args:
+    - 'TotalMembers [template]'
+  desc: '建立一個新的鎖定語音頻道以顯示伺服器統計。機器人將建立並管理該頻道。'
+  params:
+    - desc: '要顯示的統計類型。'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: '顯示範本。使用 %count% 表示數值。'
+      name: template
+      optional: true
+      type: string
+statchanneladd:
+  args:
+    - '#voice-channel TotalMembers [template]'
+  desc: '將語音頻道新增為統計頻道。類型：TotalMembers、HumanMembers、BotCount、OnlineMembers、ChannelCount、RoleCount、BoostCount、BoostLevel、EmojiCount。'
+  params:
+    - desc: '要使用的語音頻道。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: '要顯示的統計類型。'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: '顯示範本。使用 %count% 表示數值。'
+      name: template
+      optional: true
+      type: string
+statchannelrole:
+  args:
+    - '#voice-channel @role [template]'
+  desc: '新增顯示擁有特定身分組的成員數量的統計頻道。'
+  params:
+    - desc: '要使用的語音頻道。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: '要計數成員的身分組。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '顯示範本。使用 %count% 和 %role.name%。'
+      name: template
+      optional: true
+      type: string
+statchannelcountdown:
+  args:
+    - '#voice-channel 2026-12-31 [template]'
+  desc: '新增倒數統計頻道。使用 %days% 和 %hours% 預留位置。'
+  params:
+    - desc: '要使用的語音頻道。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: '倒數的目標日期。'
+      name: date
+      optional: false
+      type: DateTime
+    - desc: '顯示範本。使用 %days% 和 %hours%。'
+      name: template
+      optional: true
+      type: string
+statchannelgoal:
+  args:
+    - '#voice-channel 1000 [template]'
+  desc: '新增成員目標統計頻道。使用 %count%、%goal% 和 %goal.percent%。'
+  params:
+    - desc: '要使用的語音頻道。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: '目標成員數。'
+      name: goal
+      optional: false
+      type: int
+    - desc: '顯示範本。使用 %count%、%goal%、%goal.percent%。'
+      name: template
+      optional: true
+      type: string
+statchannelremove:
+  args:
+    - '#voice-channel'
+  desc: '移除統計頻道。'
+  params:
+    - desc: '要移除的語音頻道。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+statchannellist:
+  args:
+    - ''
+  desc: '列出此伺服器的所有統計頻道。'
+  params: [ ]

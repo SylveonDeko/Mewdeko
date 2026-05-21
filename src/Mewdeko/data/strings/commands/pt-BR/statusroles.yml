@@ -1,0 +1,273 @@
+addstatusrole:
+  args:
+    - text
+  desc: 'Adiciona uma configuração de cargo de status.'
+  params:
+    - &ref_32
+      desc: 'O status a ser adicionado.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string:
+  args:
+    - text
+  desc: 'Adiciona uma configuração de cargo de status.'
+  params:
+    - desc: 'O status a ser adicionado.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_1:
+  args:
+    - text
+  desc: 'Adiciona uma configuração de cargo de status.'
+  params:
+    - desc: 'O status a ser adicionado.'
+      name: status
+      optional: false
+      type: string
+addstatusrole_string_2:
+  args:
+    - text
+  desc: 'Adiciona uma configuração de cargo de status.'
+  params:
+    - desc: 'O status a ser adicionado.'
+      name: status
+      optional: false
+      type: string
+liststatusroles:
+  args:
+    - ''
+  desc: 'Lista todos os cargos de status atuais com seus detalhes.'
+  params: [ ]
+removeaddroles:
+  args:
+    - number @role
+  desc: 'Define os cargos a serem removidos quando um usuário tem o status selecionado.'
+  params:
+    - &ref_390
+      desc: 'O índice do cargo de status.'
+      name: index
+      optional: false
+      type: int
+    - &ref_391
+      desc: 'Os cargos a serem removidos.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: 'Define os cargos a serem removidos quando um usuário tem o status selecionado.'
+  params:
+    - desc: 'O índice do cargo de status.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Os cargos a serem removidos.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: 'Define os cargos a serem removidos quando um usuário tem o status selecionado.'
+  params:
+    - desc: 'O índice do cargo de status.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Os cargos a serem removidos.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: 'Define os cargos a serem removidos quando um usuário tem o status selecionado.'
+  params:
+    - desc: 'O índice do cargo de status.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Os cargos a serem removidos.'
+      name: roles
+      optional: false
+      type: IRole[]
+removeremoveroles:
+  args:
+    - number @role
+  desc: >-
+    Remove um ou mais cargos dos cargos adicionados quando um usuário tem o
+    status selecionado.
+  params:
+    - desc: 'O índice do cargo de status.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Os cargos a serem removidos.'
+      name: roles
+      optional: false
+      type: IRole[]
+removestatusrole:
+  args:
+    - number
+  desc: 'Remove uma configuração de cargo de status.'
+  params:
+    - desc: 'O índice do cargo de status a ser removido.'
+      name: index
+      optional: false
+      type: int
+setaddroles:
+  args:
+    - number @role
+  desc: 'Define os cargos a serem adicionados quando um usuário tem o status selecionado.'
+  params:
+    - desc: 'O índice do cargo de status.'
+      name: index
+      optional: false
+      type: int
+    - &ref_486
+      desc: 'Os cargos a serem adicionados.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]:
+  args:
+    - number @role
+  desc: 'Define os cargos a serem adicionados quando um usuário tem o status selecionado.'
+  params:
+    - desc: 'O índice do cargo de status.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Os cargos a serem adicionados.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_1:
+  args:
+    - number @role
+  desc: 'Define os cargos a serem adicionados quando um usuário tem o status selecionado.'
+  params:
+    - desc: 'O índice do cargo de status.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Os cargos a serem adicionados.'
+      name: roles
+      optional: false
+      type: IRole[]
+setaddroles_int_IRole[]_2:
+  args:
+    - number @role
+  desc: 'Define os cargos a serem adicionados quando um usuário tem o status selecionado.'
+  params:
+    - desc: 'O índice do cargo de status.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Os cargos a serem adicionados.'
+      name: roles
+      optional: false
+      type: IRole[]
+setremoveroles:
+  args:
+    - number @role
+  desc: 'Define os cargos a serem removidos quando um usuário tem o status selecionado.'
+  params:
+    - desc: 'O índice do cargo de status.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'Os cargos a serem removidos.'
+      name: roles
+      optional: false
+      type: IRole[]
+setstatusrolechannel:
+  args:
+    - number channel
+  desc: 'Define o canal para um cargo de status específico.'
+  params:
+    - desc: 'O índice do cargo de status.'
+      name: index
+      optional: false
+      type: int
+    - &ref_527
+      desc: 'O canal a ser definido.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel:
+  args:
+    - number channel
+  desc: 'Define o canal para um cargo de status específico.'
+  params:
+    - desc: 'O índice do cargo de status.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'O canal a ser definido.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: 'Define o canal para um cargo de status específico.'
+  params:
+    - desc: 'O índice do cargo de status.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'O canal a ser definido.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusrolechannel_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: 'Define o canal para um cargo de status específico.'
+  params:
+    - desc: 'O índice do cargo de status.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'O canal a ser definido.'
+      name: channel
+      optional: false
+      type: ITextChannel
+setstatusroleembed:
+  args:
+    - '<index> [embedText]'
+    - number
+  desc: 'Define ou visualiza o texto do embed para um cargo de status específico.'
+  params:
+    - desc: 'O índice do cargo de status.'
+      name: index
+      optional: false
+      type: int
+    - desc: 'O texto do embed a ser definido.'
+      name: embedText
+      optional: true
+      type: string
+togglereaddremoved:
+  args:
+    - number
+  desc: 'Alterna se os cargos adicionados são removidos quando um status é removido.'
+  params:
+    - desc: 'O índice do cargo de status.'
+      name: index
+      optional: false
+      type: int
+toggleremoveadded:
+  args:
+    - number
+  desc: >-
+    Alterna se os cargos adicionados são removidos quando um usuário não tem
+    mais o status pelo índice fornecido.
+  params:
+    - desc: 'O índice do cargo de status.'
+      name: index
+      optional: false
+      type: int

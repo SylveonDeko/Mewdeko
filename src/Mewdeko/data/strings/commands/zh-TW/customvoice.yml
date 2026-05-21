@@ -1,0 +1,305 @@
+setupvoicehub:
+  args:
+    - ''
+  desc: '將語音頻道設定為創建自訂語音頻道的樞紐。'
+  params: [ ]
+setvoicehub:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: '將特定語音頻道設定為創建自訂語音頻道的樞紐。'
+  params:
+    - desc: '將特定語音頻道設定為創建自訂語音頻道的樞紐。'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: '將特定語音頻道設定為創建自訂語音頻道的樞紐。'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: '將特定語音頻道設定為創建自訂語音頻道的樞紐。'
+  params:
+    - desc: '將特定語音頻道設定為創建自訂語音頻道的樞紐。'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: '將特定語音頻道設定為創建自訂語音頻道的樞紐。'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_1:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: '將特定語音頻道設定為創建自訂語音頻道的樞紐。'
+  params:
+    - desc: '將特定語音頻道設定為創建自訂語音頻道的樞紐。'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: '將特定語音頻道設定為創建自訂語音頻道的樞紐。'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_2:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: '將特定語音頻道設定為創建自訂語音頻道的樞紐。'
+  params:
+    - desc: '將特定語音頻道設定為創建自訂語音頻道的樞紐。'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: '將特定語音頻道設定為創建自訂語音頻道的樞紐。'
+      name: category
+      optional: true
+      type: category
+voiceallow:
+  args:
+    - '@user'
+  desc: '允許特定用戶加入您已鎖定的語音頻道。'
+  params:
+    - &ref_642
+      desc: '允許特定用戶加入您已鎖定的語音頻道。'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser:
+  args:
+    - '@user'
+  desc: '允許特定用戶加入您已鎖定的語音頻道。'
+  params:
+    - desc: '允許特定用戶加入您已鎖定的語音頻道。'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '允許特定用戶加入您已鎖定的語音頻道。'
+  params:
+    - desc: '允許特定用戶加入您已鎖定的語音頻道。'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '允許特定用戶加入您已鎖定的語音頻道。'
+  params:
+    - desc: '允許特定用戶加入您已鎖定的語音頻道。'
+      name: target
+      optional: false
+      type: IGuildUser
+voicebitrate:
+  args:
+    - number
+  desc: '設定您的自訂語音頻道的位元率。'
+  params:
+    - &ref_643
+      desc: '設定您的自訂語音頻道的位元率。'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int:
+  args:
+    - number
+  desc: '設定您的自訂語音頻道的位元率。'
+  params:
+    - desc: '設定您的自訂語音頻道的位元率。'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_1:
+  args:
+    - number
+  desc: '設定您的自訂語音頻道的位元率。'
+  params:
+    - desc: '設定您的自訂語音頻道的位元率。'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_2:
+  args:
+    - number
+  desc: '設定您的自訂語音頻道的位元率。'
+  params:
+    - desc: '設定您的自訂語音頻道的位元率。'
+      name: bitrate
+      optional: false
+      type: int
+voicechannels:
+  args:
+    - ''
+  desc: '列出活躍的自訂語音頻道。'
+  params: [ ]
+voiceclaim:
+  args:
+    - ''
+  desc: '如果頻道所有者不在，則聲明對自訂語音頻道的所有權。'
+  params: [ ]
+voiceconfig:
+  args:
+    - '[setting] [value]'
+  desc: '配置自訂語音設定。'
+  params:
+    - desc: '配置自訂語音設定。'
+      name: setting
+      optional: true
+      type: string
+    - desc: '配置自訂語音設定。'
+      name: value
+      optional: true
+      type: string
+voicecontrols:
+  args:
+    - ''
+  desc: '顯示用於管理您的自訂語音頻道的互動式控件。'
+  params: [ ]
+voicedeny:
+  args:
+    - '@user'
+  desc: '拒絕特定用戶加入您的語音頻道。'
+  params:
+    - desc: '拒絕特定用戶加入您的語音頻道。'
+      name: target
+      optional: false
+      type: IGuildUser
+voicekeepalive:
+  args:
+    - true
+  desc: '即使頻道為空也保持其活躍狀態。'
+  params:
+    - desc: '即使頻道為空也保持其活躍狀態。'
+      name: true
+      optional: false
+      type: '='
+voicelimit:
+  args:
+    - number
+  desc: '設定您的自訂語音頻道的使用者限制。'
+  params:
+    - &ref_644
+      desc: '設定您的自訂語音頻道的使用者限制。'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int:
+  args:
+    - number
+  desc: '設定您的自訂語音頻道的使用者限制。'
+  params:
+    - desc: '設定您的自訂語音頻道的使用者限制。'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_1:
+  args:
+    - number
+  desc: '設定您的自訂語音頻道的使用者限制。'
+  params:
+    - desc: '設定您的自訂語音頻道的使用者限制。'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_2:
+  args:
+    - number
+  desc: '設定您的自訂語音頻道的使用者限制。'
+  params:
+    - desc: '設定您的自訂語音頻道的使用者限制。'
+      name: limit
+      optional: false
+      type: int
+voicelock:
+  args:
+    - true
+  desc: '鎖定或解鎖您的自訂語音頻道。'
+  params:
+    - desc: '鎖定或解鎖您的自訂語音頻道。'
+      name: true
+      optional: false
+      type: '='
+voicepreferences:
+  args:
+    - ''
+  desc: '設定您的語音頻道偏好設定。'
+  params: [ ]
+voiceprefsbitrate:
+  args:
+    - '[bitrate]'
+  desc: '設定您對自訂語音頻道的首選位元率。'
+  params:
+    - desc: '設定您對自訂語音頻道的首選位元率。'
+      name: bitrate
+      optional: true
+      type: int
+voiceprefskeepalive:
+  args:
+    - '[keepAlive]'
+  desc: '設定您對自訂語音頻道的首選保活狀態。'
+  params:
+    - desc: '設定您對自訂語音頻道的首選保活狀態。'
+      name: keepAlive
+      optional: true
+      type: bool
+voiceprefslimit:
+  args:
+    - '[limit]'
+  desc: '設定您對自訂語音頻道的首選使用者限制。'
+  params:
+    - desc: '設定您對自訂語音頻道的首選使用者限制。'
+      name: limit
+      optional: true
+      type: int
+voiceprefslock:
+  args:
+    - '[locked]'
+  desc: '設定您對自訂語音頻道的首選鎖定狀態。'
+  params:
+    - desc: '設定您對自訂語音頻道的首選鎖定狀態。'
+      name: locked
+      optional: true
+      type: bool
+voiceprefsname:
+  args:
+    - '[format]'
+  desc: '設定您對自訂語音頻道的首選名稱格式。'
+  params:
+    - desc: '設定您對自訂語音頻道的首選名稱格式。'
+      name: format
+      optional: true
+      type: string
+voiceprefsreset:
+  args:
+    - ''
+  desc: '重置您所有的語音頻道偏好設定。'
+  params: [ ]
+voicerename:
+  args:
+    - text
+  desc: '重新命名您的自訂語音頻道。'
+  params:
+    - desc: '重新命名您的自訂語音頻道。'
+      name: name
+      optional: false
+      type: string
+voicetransfer:
+  args:
+    - '@user'
+  desc: '將您的自訂語音頻道的所有權轉讓給另一個用戶。'
+  params:
+    - desc: '將您的自訂語音頻道的所有權轉讓給另一個用戶。'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceunlock:
+  args:
+    - ''
+  desc: '解鎖您的自訂語音頻道。'
+  params: [ ]

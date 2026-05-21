@@ -1,0 +1,326 @@
+gbanner:
+  args:
+    - text
+  desc: 'Ustawia domyslny baner rozdania.'
+  params:
+    - &ref_221
+      desc: 'Ustawia domyslny baner rozdania.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string:
+  args:
+    - text
+  desc: 'Ustawia domyslny baner rozdania.'
+  params:
+    - desc: 'Ustawia domyslny baner rozdania.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_1:
+  args:
+    - text
+  desc: 'Ustawia domyslny baner rozdania.'
+  params:
+    - desc: 'Ustawia domyslny baner rozdania.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_2:
+  args:
+    - text
+  desc: 'Ustawia domyslny baner rozdania.'
+  params:
+    - desc: 'Ustawia domyslny baner rozdania.'
+      name: banner
+      optional: false
+      type: string
+gdm:
+  args:
+    - ''
+  desc: 'Ustawia, czy wysylac PW do zwyciezcy rozdania.'
+  params: [ ]
+gdmmessage:
+  args:
+    - '[message]'
+  desc: 'Ustawia wiadomosc PW wysylana do uzytkownikow po wygraniu rozdania.'
+  params:
+    - desc: 'Ustawia wiadomosc PW wysylana do uzytkownikow po wygraniu rozdania.'
+      name: message
+      optional: true
+      type: string
+gembedcolor:
+  args:
+    - text
+  desc: 'Ustawia kolor embeda dla rozdania.'
+  params:
+    - &ref_223
+      desc: 'Kolor w formacie hex.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string:
+  args:
+    - text
+  desc: 'Ustawia kolor embeda dla rozdania.'
+  params:
+    - desc: 'Kolor w formacie hex.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_1:
+  args:
+    - text
+  desc: 'Ustawia kolor embeda dla rozdania.'
+  params:
+    - desc: 'Kolor w formacie hex.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_2:
+  args:
+    - text
+  desc: 'Ustawia kolor embeda dla rozdania.'
+  params:
+    - desc: 'Kolor w formacie hex.'
+      name: color
+      optional: false
+      type: string
+gemote:
+  args:
+    - emote
+  desc: 'Ustawia emotke uzywana w rozdaniach.'
+  params:
+    - &ref_224
+      desc: 'Emotka do ustawienia.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote:
+  args:
+    - emote
+  desc: 'Ustawia emotke uzywana w rozdaniach.'
+  params:
+    - desc: 'Emotka do ustawienia.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_1:
+  args:
+    - emote
+  desc: 'Ustawia emotke uzywana w rozdaniach.'
+  params:
+    - desc: 'Emotka do ustawienia.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_2:
+  args:
+    - emote
+  desc: 'Ustawia emotke uzywana w rozdaniach.'
+  params:
+    - desc: 'Emotka do ustawienia.'
+      name: emote
+      optional: false
+      type: IEmote
+gend:
+  args:
+    - messageid
+  desc: 'Konczy rozdanie.'
+  params:
+    - &ref_225
+      desc: 'ID wiadomosci rozdania do zakonczenia'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong:
+  args:
+    - messageid
+  desc: 'Konczy rozdanie.'
+  params:
+    - desc: 'ID wiadomosci rozdania do zakonczenia'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_1:
+  args:
+    - messageid
+  desc: 'Konczy rozdanie.'
+  params:
+    - desc: 'ID wiadomosci rozdania do zakonczenia'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_2:
+  args:
+    - messageid
+  desc: 'Konczy rozdanie.'
+  params:
+    - desc: 'ID wiadomosci rozdania do zakonczenia'
+      name: messageid
+      optional: false
+      type: ulong
+glist:
+  args:
+    - ''
+  desc: 'Wyswietla wszystkie aktywne rozdania.'
+  params: [ ]
+greroll:
+  args:
+    - messageid
+  desc: 'Ponownie losuje rozdanie.'
+  params:
+    - &ref_237
+      desc: 'ID wiadomosci rozdania'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong:
+  args:
+    - messageid
+  desc: 'Ponownie losuje rozdanie.'
+  params:
+    - desc: 'ID wiadomosci rozdania'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_1:
+  args:
+    - messageid
+  desc: 'Ponownie losuje rozdanie.'
+  params:
+    - desc: 'ID wiadomosci rozdania'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_2:
+  args:
+    - messageid
+  desc: 'Ponownie losuje rozdanie.'
+  params:
+    - desc: 'ID wiadomosci rozdania'
+      name: messageid
+      optional: false
+      type: ulong
+gstart:
+  args:
+    - chan time number text
+  desc: 'Bardziej szczegolowe uruchamianie rozdania, umozliwia ustawienie banera, roli do pingowania i wiecej.'
+  params:
+    - &ref_238
+      desc: 'Kanal do uruchomienia rozdania'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - &ref_239
+      desc: 'Czas trwania rozdania'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_240
+      desc: 'Liczba zwyciezcow'
+      name: winners
+      optional: false
+      type: int
+    - &ref_241
+      desc: 'Przedmiot do wylosowania'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string:
+  args:
+    - chan time number text
+  desc: 'Bardziej szczegolowe uruchamianie rozdania, umozliwia ustawienie banera, roli do pingowania i wiecej.'
+  params:
+    - desc: 'Kanal do uruchomienia rozdania'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Czas trwania rozdania'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Liczba zwyciezcow'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Przedmiot do wylosowania'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_1:
+  args:
+    - chan time number text
+  desc: 'Bardziej szczegolowe uruchamianie rozdania, umozliwia ustawienie banera, roli do pingowania i wiecej.'
+  params:
+    - desc: 'Kanal do uruchomienia rozdania'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Czas trwania rozdania'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Liczba zwyciezcow'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Przedmiot do wylosowania'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_2:
+  args:
+    - chan time number text
+  desc: 'Bardziej szczegolowe uruchamianie rozdania, umozliwia ustawienie banera, roli do pingowania i wiecej.'
+  params:
+    - desc: 'Kanal do uruchomienia rozdania'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Czas trwania rozdania'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Liczba zwyciezcow'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Przedmiot do wylosowania'
+      name: what
+      optional: false
+      type: string
+gstart_noparams:
+  args:
+    - ''
+  desc: 'Bardziej szczegolowe uruchamianie rozdania, umozliwia ustawienie banera, roli do pingowania i wiecej.'
+  params: [ ]
+gstart_noparams_1:
+  args:
+    - ''
+  desc: 'Bardziej szczegolowe uruchamianie rozdania, umozliwia ustawienie banera, roli do pingowania i wiecej.'
+  params: [ ]
+gstart_noparams_2:
+  args:
+    - ''
+  desc: 'Bardziej szczegolowe uruchamianie rozdania, umozliwia ustawienie banera, roli do pingowania i wiecej.'
+  params: [ ]
+gstart_noparams_3:
+  args:
+    - ''
+  desc: 'Bardziej szczegolowe uruchamianie rozdania, umozliwia ustawienie banera, roli do pingowania i wiecej.'
+  params: [ ]
+gstats:
+  args:
+    - ''
+  desc: 'Wyswietla statystyki rozdania.'
+  params: [ ]
+gwinembedcolor:
+  args:
+    - text
+  desc: 'Ustawia kolor dla embeda zwyciezcy.'
+  params:
+    - desc: 'Kolor w formacie hex.'
+      name: color
+      optional: false
+      type: string

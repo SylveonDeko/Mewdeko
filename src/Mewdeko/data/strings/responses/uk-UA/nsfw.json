@@ -1,0 +1,15 @@
+{
+  "autohentai_started": "Автохентай розпочато. Повторна публікація кожні {0} с з одним із наступних тегів:\n{1}",
+  "autohentai_stopped": "Автохентай зупинено.",
+  "nsfw_api_fetch_error": "Не вдалося отримати nsfw сабреддіт. Будь ласка, перевірте консоль або повідомте про проблему на https://discord.gg/mewdeko",
+  "nsfw_autohentai_started": "Автоматична публікація NSFW розпочата. Інтервал: {0} с | Теги: {1}",
+  "nsfw_autohentai_stopped": "Автоматичну публікацію NSFW зупинено",
+  "nsfw_blacklist_title": "Заблоковані Теги NSFW",
+  "nsfw_file_too_large": "Файл Занадто Великий",
+  "nsfw_loading_subreddit": "Спроба отримати публікацію з `{0}`...",
+  "nsfw_loli_shota_content": "Ця манга містить вміст loli/shota і заборонена TOS Discord!",
+  "nsfw_search_no_results": "Пошук не дав результатів. Спробуйте ще раз з іншим запитом!",
+  "nsfw_set_false": "NSFW вимкнено на цьому каналі.",
+  "nsfw_set_true": "NSFW увімкнено на цьому каналі.",
+  "nsfw_title_format": "{0} - {1} сторінок"
+}

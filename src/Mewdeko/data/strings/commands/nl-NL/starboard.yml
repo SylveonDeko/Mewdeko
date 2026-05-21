@@ -1,0 +1,516 @@
+addstarboardemote:
+  args:
+    - number emote
+  desc: 'Voegt een emote toe aan een bestaande starboard-configuratie.'
+  params:
+    - &ref_415
+      desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_516
+      desc: 'De toe te voegen emote.'
+      name: emote
+      optional: false
+      type: IEmote
+createstarboard:
+  args:
+    - channel emote 1
+    - channel emote
+  desc: 'Maakt een nieuwe starboard-configuratie aan voor de server.'
+  params:
+    - &ref_156
+      desc: 'Het kanaal waar gemarkeerde berichten worden geplaatst.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - &ref_157
+      desc: 'De emote om berichten mee te markeren.'
+      name: emote
+      optional: false
+      type: IEmote
+    - desc: 'Maakt een nieuwe starboard-configuratie aan voor de server.'
+      name: 1
+      optional: false
+      type: '='
+createstarboard_ITextChannel_IEmote_=:
+  args:
+    - channel emote 1
+    - channel emote
+  desc: 'Maakt een nieuwe starboard-configuratie aan voor de server.'
+  params:
+    - desc: 'Het kanaal waar gemarkeerde berichten worden geplaatst.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'De emote om berichten mee te markeren.'
+      name: emote
+      optional: false
+      type: IEmote
+    - desc: 'Maakt een nieuwe starboard-configuratie aan voor de server.'
+      name: 1
+      optional: false
+      type: '='
+createstarboard_ITextChannel_IEmote_=_1:
+  args:
+    - channel emote 1
+    - channel emote
+  desc: 'Maakt een nieuwe starboard-configuratie aan voor de server.'
+  params:
+    - desc: 'Het kanaal waar gemarkeerde berichten worden geplaatst.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'De emote om berichten mee te markeren.'
+      name: emote
+      optional: false
+      type: IEmote
+    - desc: 'Maakt een nieuwe starboard-configuratie aan voor de server.'
+      name: 1
+      optional: false
+      type: '='
+createstarboard_ITextChannel_IEmote_=_2:
+  args:
+    - channel emote 1
+    - channel emote
+  desc: 'Maakt een nieuwe starboard-configuratie aan voor de server.'
+  params:
+    - desc: 'Het kanaal waar gemarkeerde berichten worden geplaatst.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'De emote om berichten mee te markeren.'
+      name: emote
+      optional: false
+      type: IEmote
+    - desc: 'Maakt een nieuwe starboard-configuratie aan voor de server.'
+      name: 1
+      optional: false
+      type: '='
+deletestarboard:
+  args:
+    - number
+  desc: 'Verwijdert een starboard-configuratie van de server.'
+  params:
+    - &ref_190
+      desc: 'Het ID van het te verwijderen starboard.'
+      name: starboardId
+      optional: false
+      type: int
+deletestarboard_int:
+  args:
+    - number
+  desc: 'Verwijdert een starboard-configuratie van de server.'
+  params:
+    - desc: 'Het ID van het te verwijderen starboard.'
+      name: starboardId
+      optional: false
+      type: int
+deletestarboard_int_1:
+  args:
+    - number
+  desc: 'Verwijdert een starboard-configuratie van de server.'
+  params:
+    - desc: 'Het ID van het te verwijderen starboard.'
+      name: starboardId
+      optional: false
+      type: int
+deletestarboard_int_2:
+  args:
+    - number
+  desc: 'Verwijdert een starboard-configuratie van de server.'
+  params:
+    - desc: 'Het ID van het te verwijderen starboard.'
+      name: starboardId
+      optional: false
+      type: int
+liststarboards:
+  args:
+    - ''
+  desc: 'Geeft een lijst van alle starboard-configuraties in de server.'
+  params: [ ]
+removestarboardemote:
+  args:
+    - number emote
+  desc: 'Verwijdert een emote uit een bestaande starboard-configuratie.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'De te verwijderen emote.'
+      name: emote
+      optional: false
+      type: IEmote
+setrepostthreshold:
+  args:
+    - number number
+  desc: 'Stelt de repost-drempel in voor een starboard-configuratie.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'De in te stellen repost-drempel.'
+      name: threshold
+      optional: false
+      type: int
+setrepostthreshold_int_int:
+  args:
+    - number number
+  desc: 'Stelt de repost-drempel in voor een starboard-configuratie.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_517
+      desc: 'De in te stellen repost-drempel.'
+      name: threshold
+      optional: false
+      type: int
+setrepostthreshold_int_int_1:
+  args:
+    - number number
+  desc: 'Stelt de repost-drempel in voor een starboard-configuratie.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Stelt de repost-drempel in voor een starboard-configuratie.'
+      name: emote
+      optional: false
+      type: IEmote
+setrepostthreshold_int_int_2:
+  args:
+    - number number
+  desc: 'Stelt de repost-drempel in voor een starboard-configuratie.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'De in te stellen repost-drempel.'
+      name: threshold
+      optional: false
+      type: int
+setstarthreshold:
+  args:
+    - number number
+  desc: 'Stelt de ster-drempel in voor een starboard-configuratie.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'De in te stellen ster-drempel.'
+      name: threshold
+      optional: false
+      type: int
+starboardallowbots:
+  args:
+    - number true|false
+  desc: 'Stelt in of bots mogen worden meegeteld voor een specifiek starboard.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_558
+      desc: 'Of bots mogen worden meegeteld.'
+      name: enabled
+      optional: false
+      type: bool
+starboardallowbots_int_bool:
+  args:
+    - number true|false
+  desc: 'Stelt in of bots mogen worden meegeteld voor een specifiek starboard.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_559
+      desc: 'Of bots mogen worden meegeteld.'
+      name: enabled
+      optional: false
+      type: bool
+starboardallowbots_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Stelt in of bots mogen worden meegeteld voor een specifiek starboard.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Of bots mogen worden meegeteld.'
+      name: enabled
+      optional: false
+      type: bool
+starboardallowbots_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Stelt in of bots mogen worden meegeteld voor een specifiek starboard.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Of bots mogen worden meegeteld.'
+      name: enabled
+      optional: false
+      type: bool
+starboardchtoggle:
+  args:
+    - number channel
+  desc: 'Schakelt in of een kanaal wordt gecontroleerd voor een specifiek starboard.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_560
+      desc: 'Het te schakelen kanaal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+starboardchtoggle_int_ITextChannel:
+  args:
+    - number channel
+  desc: 'Schakelt in of een kanaal wordt gecontroleerd voor een specifiek starboard.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Het te schakelen kanaal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+starboardchtoggle_int_ITextChannel_1:
+  args:
+    - number channel
+  desc: 'Schakelt in of een kanaal wordt gecontroleerd voor een specifiek starboard.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Het te schakelen kanaal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+starboardchtoggle_int_ITextChannel_2:
+  args:
+    - number channel
+  desc: 'Schakelt in of een kanaal wordt gecontroleerd voor een specifiek starboard.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Het te schakelen kanaal.'
+      name: channel
+      optional: false
+      type: ITextChannel
+starboardremoveonbelowthreshold:
+  args:
+    - number true|false
+  desc: 'Stelt in of starboard-berichten worden verwijderd als ze onder de drempel vallen.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_561
+      desc: 'Of berichten worden verwijderd als ze onder de drempel vallen.'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveonbelowthreshold_int_bool:
+  args:
+    - number true|false
+  desc: 'Stelt in of starboard-berichten worden verwijderd als ze onder de drempel vallen.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Of berichten worden verwijderd als ze onder de drempel vallen.'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveonbelowthreshold_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Stelt in of starboard-berichten worden verwijderd als ze onder de drempel vallen.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Of berichten worden verwijderd als ze onder de drempel vallen.'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveonbelowthreshold_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Stelt in of starboard-berichten worden verwijderd als ze onder de drempel vallen.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Of berichten worden verwijderd als ze onder de drempel vallen.'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveondelete:
+  args:
+    - number true|false
+  desc: 'Stelt in of starboard-berichten worden verwijderd als het originele bericht wordt verwijderd.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_562
+      desc: 'Of berichten worden verwijderd als het originele bericht wordt verwijderd.'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveondelete_int_bool:
+  args:
+    - number true|false
+  desc: 'Stelt in of starboard-berichten worden verwijderd als het originele bericht wordt verwijderd.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Of berichten worden verwijderd als het originele bericht wordt verwijderd.'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveondelete_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Stelt in of starboard-berichten worden verwijderd als het originele bericht wordt verwijderd.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Of berichten worden verwijderd als het originele bericht wordt verwijderd.'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveondelete_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Stelt in of starboard-berichten worden verwijderd als het originele bericht wordt verwijderd.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Of berichten worden verwijderd als het originele bericht wordt verwijderd.'
+      name: enabled
+      optional: false
+      type: bool
+starboardremoveonreactionsclear:
+  args:
+    - number true|false
+  desc: 'Stelt in of starboard-berichten worden verwijderd als reacties worden gewist.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'Of berichten worden verwijderd als reacties worden gewist.'
+      name: enabled
+      optional: false
+      type: bool
+starboardstats:
+  args:
+    - ''
+  desc: 'Toont starboard-statistieken voor de server.'
+  params: [ ]
+starboarduserstats:
+  args:
+    - '@user'
+    - ''
+  desc: 'Toont starboard-statistieken voor een specifieke gebruiker.'
+  params:
+    - desc: 'De gebruiker om statistieken voor te tonen. Standaard is de opdracht-aanroeper.'
+      name: user
+      optional: true
+      type: IUser
+starboardwlmode:
+  args:
+    - number whitelist|wl|white
+    - whitelist
+    - wl
+    - white
+  desc: 'Stelt de whitelist/blacklist-modus in voor een starboard-configuratie.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - &ref_563
+      desc: 'De in te stellen whitelist/blacklist-modus.'
+      name: mode
+      optional: false
+      type: WhitelistMode
+starboardwlmode_int_WhitelistMode:
+  args:
+    - number whitelist|wl|white
+    - whitelist
+    - wl
+    - white
+  desc: 'Stelt de whitelist/blacklist-modus in voor een starboard-configuratie.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'De in te stellen whitelist/blacklist-modus.'
+      name: mode
+      optional: false
+      type: WhitelistMode
+starboardwlmode_int_WhitelistMode_1:
+  args:
+    - number whitelist|wl|white
+    - whitelist
+    - wl
+    - white
+  desc: 'Stelt de whitelist/blacklist-modus in voor een starboard-configuratie.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'De in te stellen whitelist/blacklist-modus.'
+      name: mode
+      optional: false
+      type: WhitelistMode
+starboardwlmode_int_WhitelistMode_2:
+  args:
+    - number whitelist|wl|white
+    - whitelist
+    - wl
+    - white
+  desc: 'Stelt de whitelist/blacklist-modus in voor een starboard-configuratie.'
+  params:
+    - desc: 'Het ID van de starboard-configuratie.'
+      name: starboardId
+      optional: false
+      type: int
+    - desc: 'De in te stellen whitelist/blacklist-modus.'
+      name: mode
+      optional: false
+      type: WhitelistMode

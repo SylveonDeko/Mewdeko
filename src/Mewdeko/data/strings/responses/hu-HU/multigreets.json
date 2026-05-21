@@ -1,0 +1,10 @@
+{
+  "bandm": "Ki lettél tiltva a {0} szerverről.\nOk: {1}",
+  "byedel_off": "Elköszönő üzenet törlése letiltva.",
+  "byedel_on": "Elköszönő üzenet {0} másodperc múlva törlődik.",
+  "byemsg_cur": "Jelenlegi elköszönő üzenet: {0}",
+  "byemsg_enable": "Elköszönő üzenetek engedélyezése {0} beírásával",
+  "byemsg_new": "Új elköszönő üzenet beállítva.",
+  "bye_off": "Elköszönő üzenetek letiltva.",
+  "bye_on": "Elköszönő üzenetek engedélyezése ezen a csatornán."
+}

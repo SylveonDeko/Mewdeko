@@ -1,0 +1,19 @@
+{
+  "invite_filter_channel_off": "",
+  "invite_filter_channel_on": "",
+  "invite_filter_server_off": "",
+  "invite_filter_server_on": "",
+  "channel_topic": "",
+  "convert": "{0} {1} is equal to {2} {3}",
+  "convert_not_found": "Cannot convert {0} to {1}: units not found",
+  "convert_type_error": "Cannot convert {0} to {1}: types of unit are not equal",
+  "remind": "I will remind {0} to {1} {2}",
+  "remind_invalid_format": "",
+  "remind_too_long": "",
+  "repeat_invoke_none": "",
+  "serverid": "{0} of this server is {1}",
+  "reminder_list": "",
+  "reminder_deleted": "Reminder #{0} was deleted.",
+  "reminder_not_exist": "",
+  "invite_deleted": "Invite {0} has been deleted."
+}

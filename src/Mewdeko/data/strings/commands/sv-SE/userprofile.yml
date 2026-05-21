@@ -1,0 +1,481 @@
+deleteuserstatsdata:
+  args:
+    - ''
+  desc: 'Tar bort anvandaren kommandostatistikdata.'
+  params: [ ]
+greetdmoptout:
+  args:
+    - ''
+  desc: 'Ger en anvandare mojlighet att vaxla avanmalan fran valkomst-DM. Fungerar bara om servern de gar med i anvander mewdeko for DM-halsningar.'
+  params: [ ]
+profile:
+  args:
+    - '[@user]'
+  desc: 'Visar anvandarens profil eller en annan anvandares profil om angiven.'
+  params:
+    - desc: 'Anvandaren vars profil ska visas. Om null visas den anropandes profil.'
+      name: user
+      optional: true
+      type: user
+profile_=:
+  args:
+    - '[@user]'
+  desc: 'Visar anvandarens profil eller en annan anvandares profil om angiven.'
+  params:
+    - desc: 'Anvandaren vars profil ska visas. Om null visas den anropandes profil.'
+      name: user
+      optional: true
+      type: user
+profile_=_1:
+  args:
+    - '[@user]'
+  desc: 'Visar anvandarens profil eller en annan anvandares profil om angiven.'
+  params:
+    - desc: 'Anvandaren vars profil ska visas. Om null visas den anropandes profil.'
+      name: user
+      optional: true
+      type: user
+profile_=_2:
+  args:
+    - '[@user]'
+  desc: 'Visar anvandarens profil eller en annan anvandares profil om angiven.'
+  params:
+    - desc: 'Anvandaren vars profil ska visas. Om null visas den anropandes profil.'
+      name: user
+      optional: true
+      type: user
+pronouns:
+  args:
+    - '[@user]'
+  desc: 'Visar pronounen for den angivna anvandaren eller kommandoanroparen om ingen anvandare anges.'
+  params:
+    - desc: 'Valfritt. Anvandaren vars pronomen ska visas.'
+      name: user
+      optional: true
+      type: user
+pronounsforceclear:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Tvangsar bort pronounen for en anvandare via ID, eventuellt markerat som inaktiverat pa grund av missbruk.'
+  params:
+    - &ref_356
+      desc: 'Anvandar-ID for anvandaren vars pronomen ska rensas.'
+      name: user
+      optional: true
+      type: IUser
+    - &ref_357
+      desc: 'Om pronounen inaktiveras pa grund av missbruk.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - &ref_358
+      desc: 'Anledningen till atgareden.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Tvangsar bort pronounen for en anvandare via ID, eventuellt markerat som inaktiverat pa grund av missbruk.'
+  params:
+    - desc: 'Anvandar-ID for anvandaren vars pronomen ska rensas.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Om pronounen inaktiveras pa grund av missbruk.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Anledningen till atgareden.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string_1:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Tvangsar bort pronounen for en anvandare via ID, eventuellt markerat som inaktiverat pa grund av missbruk.'
+  params:
+    - desc: 'Anvandar-ID for anvandaren vars pronomen ska rensas.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Om pronounen inaktiveras pa grund av missbruk.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Anledningen till atgareden.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string_2:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Tvangsar bort pronounen for en anvandare via ID, eventuellt markerat som inaktiverat pa grund av missbruk.'
+  params:
+    - desc: 'Anvandar-ID for anvandaren vars pronomen ska rensas.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Om pronounen inaktiveras pa grund av missbruk.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Anledningen till atgareden.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string:
+  args:
+    - user true|false text
+  desc: 'Tvangsar bort pronounen for en anvandare via ID, eventuellt markerat som inaktiverat pa grund av missbruk.'
+  params:
+    - &ref_359
+      desc: 'Anvandar-ID for anvandaren vars pronomen ska rensas.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Om pronounen inaktiveras pa grund av missbruk.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Anledningen till atgareden.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_1:
+  args:
+    - user true|false text
+  desc: 'Tvangsar bort pronounen for en anvandare via ID, eventuellt markerat som inaktiverat pa grund av missbruk.'
+  params:
+    - desc: 'Anvandar-ID for anvandaren vars pronomen ska rensas.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Om pronounen inaktiveras pa grund av missbruk.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Anledningen till atgareden.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_2:
+  args:
+    - user true|false text
+  desc: 'Tvangsar bort pronounen for en anvandare via ID, eventuellt markerat som inaktiverat pa grund av missbruk.'
+  params:
+    - desc: 'Anvandar-ID for anvandaren vars pronomen ska rensas.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Om pronounen inaktiveras pa grund av missbruk.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Anledningen till atgareden.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_3:
+  args:
+    - user true|false text
+  desc: 'Tvangsar bort pronounen for en anvandare via ID, eventuellt markerat som inaktiverat pa grund av missbruk.'
+  params:
+    - desc: 'Anvandar-ID for anvandaren vars pronomen ska rensas.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Om pronounen inaktiveras pa grund av missbruk.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Anledningen till atgareden.'
+      name: reason
+      optional: false
+      type: string
+setbio:
+  args:
+    - text
+  desc: 'Anger eller uppdaterar biografin i anvandarens profil.'
+  params:
+    - &ref_490
+      desc: 'Biografiteksten. Maste vara under 2048 tecken.'
+      name: bio
+      optional: false
+      type: string
+setbio_string:
+  args:
+    - text
+  desc: 'Anger eller uppdaterar biografin i anvandarens profil.'
+  params:
+    - desc: 'Biografiteksten. Maste vara under 2048 tecken.'
+      name: bio
+      optional: false
+      type: string
+setbio_string_1:
+  args:
+    - text
+  desc: 'Anger eller uppdaterar biografin i anvandarens profil.'
+  params:
+    - desc: 'Biografiteksten. Maste vara under 2048 tecken.'
+      name: bio
+      optional: false
+      type: string
+setbio_string_2:
+  args:
+    - text
+  desc: 'Anger eller uppdaterar biografin i anvandarens profil.'
+  params:
+    - desc: 'Biografiteksten. Maste vara under 2048 tecken.'
+      name: bio
+      optional: false
+      type: string
+setbirthday:
+  args:
+    - time
+  desc: 'Anger fodelsedagen i anvandarens profil.'
+  params:
+    - &ref_491
+      desc: 'Fodelsedagsdatumet.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime:
+  args:
+    - time
+  desc: 'Anger fodelsedagen i anvandarens profil.'
+  params:
+    - desc: 'Fodelsedagsdatumet.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime_1:
+  args:
+    - time
+  desc: 'Anger fodelsedagen i anvandarens profil.'
+  params:
+    - desc: 'Fodelsedagsdatumet.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime_2:
+  args:
+    - time
+  desc: 'Anger fodelsedagen i anvandarens profil.'
+  params:
+    - desc: 'Fodelsedagsdatumet.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthdayprivacy:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Anger sekretesslagen for fodelsedagen i anvandarens profil.'
+  params:
+    - &ref_492
+      desc: 'Visningslagen for fodelsedagen som ska anges.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Anger sekretesslagen for fodelsedagen i anvandarens profil.'
+  params:
+    - desc: 'Visningslagen for fodelsedagen som ska anges.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum_1:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Anger sekretesslagen for fodelsedagen i anvandarens profil.'
+  params:
+    - desc: 'Visningslagen for fodelsedagen som ska anges.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum_2:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Anger sekretesslagen for fodelsedagen i anvandarens profil.'
+  params:
+    - desc: 'Visningslagen for fodelsedagen som ska anges.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setprivacy:
+  args:
+    - privacyenum
+  desc: 'Anger sekretessnivan for anvandarens profil.'
+  params:
+    - &ref_513
+      desc: 'Sekretessinstellningen som ska tillämpas.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum:
+  args:
+    - privacyenum
+  desc: 'Anger sekretessnivan for anvandarens profil.'
+  params:
+    - desc: 'Sekretessinstellningen som ska tillämpas.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum_1:
+  args:
+    - privacyenum
+  desc: 'Anger sekretessnivan for anvandarens profil.'
+  params:
+    - desc: 'Sekretessinstellningen som ska tillämpas.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum_2:
+  args:
+    - privacyenum
+  desc: 'Anger sekretessnivan for anvandarens profil.'
+  params:
+    - desc: 'Sekretessinstellningen som ska tillämpas.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprofilecolor:
+  args:
+    - input
+  desc: 'Anger profilfärgen baserat pa en SKColor-inmatning.'
+  params:
+    - &ref_514
+      desc: 'SKColor som representerar den onskade profilfärgen.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor:
+  args:
+    - input
+  desc: 'Anger profilfärgen baserat pa en SKColor-inmatning.'
+  params:
+    - desc: 'SKColor som representerar den onskade profilfärgen.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor_1:
+  args:
+    - input
+  desc: 'Anger profilfärgen baserat pa en SKColor-inmatning.'
+  params:
+    - desc: 'SKColor som representerar den onskade profilfärgen.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor_2:
+  args:
+    - input
+  desc: 'Anger profilfärgen baserat pa en SKColor-inmatning.'
+  params:
+    - desc: 'SKColor som representerar den onskade profilfärgen.'
+      name: input
+      optional: false
+      type: SKColor
+setprofileimage:
+  args:
+    - text
+  desc: 'Anger profilbildens URL i anvandarens profil.'
+  params:
+    - &ref_515
+      desc: 'URL till bilden som ska anges som profilbild.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string:
+  args:
+    - text
+  desc: 'Anger profilbildens URL i anvandarens profil.'
+  params:
+    - desc: 'URL till bilden som ska anges som profilbild.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string_1:
+  args:
+    - text
+  desc: 'Anger profilbildens URL i anvandarens profil.'
+  params:
+    - desc: 'URL till bilden som ska anges som profilbild.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string_2:
+  args:
+    - text
+  desc: 'Anger profilbildens URL i anvandarens profil.'
+  params:
+    - desc: 'URL till bilden som ska anges som profilbild.'
+      name: url
+      optional: false
+      type: string
+setpronouns:
+  args:
+    - '[pronouns]'
+  desc: 'Anger eller rensar anvandarens pronomen.'
+  params:
+    - desc: 'Pronounen som ska anges. Om null eller tomt rensas befintliga pronomen.'
+      name: pronouns
+      optional: true
+      type: string
+setswitchfc:
+  args:
+    - '""'
+  desc: 'Anger eller rensar Nintendo Switch-vankoden i anvandarens profil.'
+  params:
+    - desc: 'Anger eller rensar Nintendo Switch-vankoden i anvandarens profil.'
+      name: '""'
+      optional: false
+      type: '='
+setzodiac:
+  args:
+    - text
+  desc: 'Anger stjarntecknet i anvandarens profil.'
+  params:
+    - &ref_539
+      desc: 'Stjarntecknet som ska anges.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string:
+  args:
+    - text
+  desc: 'Anger stjarntecknet i anvandarens profil.'
+  params:
+    - desc: 'Stjarntecknet som ska anges.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string_1:
+  args:
+    - text
+  desc: 'Anger stjarntecknet i anvandarens profil.'
+  params:
+    - desc: 'Stjarntecknet som ska anges.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string_2:
+  args:
+    - text
+  desc: 'Anger stjarntecknet i anvandarens profil.'
+  params:
+    - desc: 'Stjarntecknet som ska anges.'
+      name: zodiac
+      optional: false
+      type: string
+userstatsoptout:
+  args:
+    - ''
+  desc: 'Vaxlar anvandarens avanmalningsstatus for insamling av kommandostatistik.'
+  params: [ ]

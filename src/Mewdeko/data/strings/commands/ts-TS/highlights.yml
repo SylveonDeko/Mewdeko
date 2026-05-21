@@ -1,0 +1,81 @@
+highlight:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Adds, lists, removes, or matches highlights. Hmph!'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parameters for the selected action. Pay attention!'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Adds, lists, removes, or matches highlights. Hmph!'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parameters for the selected action. Pay attention!'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_1:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Adds, lists, removes, or matches highlights. Hmph!'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parameters for the selected action. Pay attention!'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_2:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Adds, lists, removes, or matches highlights. Hmph!'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parameters for the selected action. Pay attention!'
+      name: words
+      optional: true
+      type: string
+highlights:
+  args:
+    - action word
+  desc: Manages user highlights. Don't get any ideas!
+  params:
+    - desc: The action to perform with highlights. Be specific, dummy!
+      name: action
+      optional: false
+      type: string
+    - desc: The word to highlight. Spell it right!
+      name: word
+      optional: true
+      type: string

@@ -1,0 +1,326 @@
+gbanner:
+  args:
+    - text
+  desc: 'Definit la banniere de giveaway par defaut.'
+  params:
+    - &ref_221
+      desc: 'Definit la banniere de giveaway par defaut.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string:
+  args:
+    - text
+  desc: 'Definit la banniere de giveaway par defaut.'
+  params:
+    - desc: 'Definit la banniere de giveaway par defaut.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_1:
+  args:
+    - text
+  desc: 'Definit la banniere de giveaway par defaut.'
+  params:
+    - desc: 'Definit la banniere de giveaway par defaut.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_2:
+  args:
+    - text
+  desc: 'Definit la banniere de giveaway par defaut.'
+  params:
+    - desc: 'Definit la banniere de giveaway par defaut.'
+      name: banner
+      optional: false
+      type: string
+gdm:
+  args:
+    - ''
+  desc: 'Definit si un MP doit etre envoye au gagnant d''un giveaway.'
+  params: [ ]
+gdmmessage:
+  args:
+    - '[message]'
+  desc: 'Definit le message MP envoye aux utilisateurs lorsqu''ils gagnent un giveaway.'
+  params:
+    - desc: 'Definit le message MP envoye aux utilisateurs lorsqu''ils gagnent un giveaway.'
+      name: message
+      optional: true
+      type: string
+gembedcolor:
+  args:
+    - text
+  desc: 'Definit la couleur de l''embed pour les giveaways.'
+  params:
+    - &ref_223
+      desc: 'La couleur en hexadecimal.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string:
+  args:
+    - text
+  desc: 'Definit la couleur de l''embed pour les giveaways.'
+  params:
+    - desc: 'La couleur en hexadecimal.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_1:
+  args:
+    - text
+  desc: 'Definit la couleur de l''embed pour les giveaways.'
+  params:
+    - desc: 'La couleur en hexadecimal.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_2:
+  args:
+    - text
+  desc: 'Definit la couleur de l''embed pour les giveaways.'
+  params:
+    - desc: 'La couleur en hexadecimal.'
+      name: color
+      optional: false
+      type: string
+gemote:
+  args:
+    - emote
+  desc: 'Definit l''emote utilise pour les giveaways.'
+  params:
+    - &ref_224
+      desc: 'L''emote a definir.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote:
+  args:
+    - emote
+  desc: 'Definit l''emote utilise pour les giveaways.'
+  params:
+    - desc: 'L''emote a definir.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_1:
+  args:
+    - emote
+  desc: 'Definit l''emote utilise pour les giveaways.'
+  params:
+    - desc: 'L''emote a definir.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_2:
+  args:
+    - emote
+  desc: 'Definit l''emote utilise pour les giveaways.'
+  params:
+    - desc: 'L''emote a definir.'
+      name: emote
+      optional: false
+      type: IEmote
+gend:
+  args:
+    - messageid
+  desc: 'Termine un giveaway.'
+  params:
+    - &ref_225
+      desc: 'L''ID du message du giveaway a terminer'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong:
+  args:
+    - messageid
+  desc: 'Termine un giveaway.'
+  params:
+    - desc: 'L''ID du message du giveaway a terminer'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_1:
+  args:
+    - messageid
+  desc: 'Termine un giveaway.'
+  params:
+    - desc: 'L''ID du message du giveaway a terminer'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_2:
+  args:
+    - messageid
+  desc: 'Termine un giveaway.'
+  params:
+    - desc: 'L''ID du message du giveaway a terminer'
+      name: messageid
+      optional: false
+      type: ulong
+glist:
+  args:
+    - ''
+  desc: 'Liste tous les giveaways actifs.'
+  params: [ ]
+greroll:
+  args:
+    - messageid
+  desc: 'Relance un giveaway.'
+  params:
+    - &ref_237
+      desc: 'L''ID du message d''un giveaway'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong:
+  args:
+    - messageid
+  desc: 'Relance un giveaway.'
+  params:
+    - desc: 'L''ID du message d''un giveaway'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_1:
+  args:
+    - messageid
+  desc: 'Relance un giveaway.'
+  params:
+    - desc: 'L''ID du message d''un giveaway'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_2:
+  args:
+    - messageid
+  desc: 'Relance un giveaway.'
+  params:
+    - desc: 'L''ID du message d''un giveaway'
+      name: messageid
+      optional: false
+      type: ulong
+gstart:
+  args:
+    - chan time number text
+  desc: 'Demarrage de giveaway plus detaille, permet de definir une banniere, un role de ping et plus encore.'
+  params:
+    - &ref_238
+      desc: 'Le canal pour demarrer le giveaway'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - &ref_239
+      desc: 'La duree du giveaway'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_240
+      desc: 'Le nombre de gagnants'
+      name: winners
+      optional: false
+      type: int
+    - &ref_241
+      desc: 'L''objet a offrir'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string:
+  args:
+    - chan time number text
+  desc: 'Demarrage de giveaway plus detaille, permet de definir une banniere, un role de ping et plus encore.'
+  params:
+    - desc: 'Le canal pour demarrer le giveaway'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'La duree du giveaway'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Le nombre de gagnants'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'L''objet a offrir'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_1:
+  args:
+    - chan time number text
+  desc: 'Demarrage de giveaway plus detaille, permet de definir une banniere, un role de ping et plus encore.'
+  params:
+    - desc: 'Le canal pour demarrer le giveaway'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'La duree du giveaway'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Le nombre de gagnants'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'L''objet a offrir'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_2:
+  args:
+    - chan time number text
+  desc: 'Demarrage de giveaway plus detaille, permet de definir une banniere, un role de ping et plus encore.'
+  params:
+    - desc: 'Le canal pour demarrer le giveaway'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'La duree du giveaway'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Le nombre de gagnants'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'L''objet a offrir'
+      name: what
+      optional: false
+      type: string
+gstart_noparams:
+  args:
+    - ''
+  desc: 'Demarrage de giveaway plus detaille, permet de definir une banniere, un role de ping et plus encore.'
+  params: [ ]
+gstart_noparams_1:
+  args:
+    - ''
+  desc: 'Demarrage de giveaway plus detaille, permet de definir une banniere, un role de ping et plus encore.'
+  params: [ ]
+gstart_noparams_2:
+  args:
+    - ''
+  desc: 'Demarrage de giveaway plus detaille, permet de definir une banniere, un role de ping et plus encore.'
+  params: [ ]
+gstart_noparams_3:
+  args:
+    - ''
+  desc: 'Demarrage de giveaway plus detaille, permet de definir une banniere, un role de ping et plus encore.'
+  params: [ ]
+gstats:
+  args:
+    - ''
+  desc: 'Affiche les statistiques des giveaways.'
+  params: [ ]
+gwinembedcolor:
+  args:
+    - text
+  desc: 'Definit la couleur pour l''embed gagnant.'
+  params:
+    - desc: 'La couleur en hexadecimal.'
+      name: color
+      optional: false
+      type: string

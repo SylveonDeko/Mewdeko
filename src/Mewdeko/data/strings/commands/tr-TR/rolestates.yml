@@ -1,0 +1,470 @@
+addrolestorolestate:
+  args:
+    - '@user @role'
+  desc: 'Bir kullanicinin rol durumuna roller ekler.'
+  params:
+    - &ref_26
+      desc: 'Rol durumu degistirilecek kullanici.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_25
+      desc: 'Kullanicinin rol durumuna eklenecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Bir kullanicinin rol durumuna roller ekler.'
+  params:
+    - &ref_27
+      desc: 'Rol durumu degistirilecek kullanici.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Kullanicinin rol durumuna eklenecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Bir kullanicinin rol durumuna roller ekler.'
+  params:
+    - desc: 'Rol durumu degistirilecek kullanici.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Kullanicinin rol durumuna eklenecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+addrolestorolestate_IUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Bir kullanicinin rol durumuna roller ekler.'
+  params:
+    - desc: 'Rol durumu degistirilecek kullanici.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Kullanicinin rol durumuna eklenecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+deleteuserrolestate:
+  args:
+    - '@user'
+  desc: 'Belirli bir kullanicinin rol durumunu siler.'
+  params:
+    - &ref_191
+      desc: 'Rol durumu silinecek kullanici.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Belirli bir kullanicinin rol durumunu siler.'
+  params:
+    - desc: 'Rol durumu silinecek kullanici.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Belirli bir kullanicinin rol durumunu siler.'
+  params:
+    - desc: 'Rol durumu silinecek kullanici.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Belirli bir kullanicinin rol durumunu siler.'
+  params:
+    - desc: 'Rol durumu silinecek kullanici.'
+      name: user
+      optional: false
+      type: IGuildUser
+deleteuserrolestate_IUser:
+  args:
+    - '@user'
+  desc: 'Belirli bir kullanicinin rol durumunu siler.'
+  params:
+    - desc: 'Rol durumu silinecek kullanici.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_1:
+  args:
+    - '@user'
+  desc: 'Belirli bir kullanicinin rol durumunu siler.'
+  params:
+    - desc: 'Rol durumu silinecek kullanici.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_2:
+  args:
+    - '@user'
+  desc: 'Belirli bir kullanicinin rol durumunu siler.'
+  params:
+    - desc: 'Rol durumu silinecek kullanici.'
+      name: user
+      optional: false
+      type: IUser
+deleteuserrolestate_IUser_3:
+  args:
+    - '@user'
+  desc: 'Belirli bir kullanicinin rol durumunu siler.'
+  params:
+    - desc: 'Rol durumu silinecek kullanici.'
+      name: user
+      optional: false
+      type: IUser
+removerolesfromrolestate:
+  args:
+    - '@user @role'
+  desc: 'Bir kullanicinin rol durumundan roller kaldirir.'
+  params:
+    - desc: 'Rol durumu degistirilecek kullanici.'
+      name: user
+      optional: false
+      type: IUser
+    - &ref_414
+      desc: 'Kullanicinin rol durumundan kaldirilacak roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Bir kullanicinin rol durumundan roller kaldirir.'
+  params:
+    - desc: 'Rol durumu degistirilecek kullanici.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Kullanicinin rol durumundan kaldirilacak roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Bir kullanicinin rol durumundan roller kaldirir.'
+  params:
+    - desc: 'Rol durumu degistirilecek kullanici.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Kullanicinin rol durumundan kaldirilacak roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+removerolesfromrolestate_IUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Bir kullanicinin rol durumundan roller kaldirir.'
+  params:
+    - desc: 'Rol durumu degistirilecek kullanici.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Kullanicinin rol durumundan kaldirilacak roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole:
+  args:
+    - '@role'
+  desc: 'Rol durumlari ozelliginin ret listesine roller ekler.'
+  params:
+    - &ref_463
+      desc: 'Ret listesine eklenecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]:
+  args:
+    - '@role'
+  desc: 'Rol durumlari ozelliginin ret listesine roller ekler.'
+  params:
+    - desc: 'Ret listesine eklenecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Rol durumlari ozelliginin ret listesine roller ekler.'
+  params:
+    - desc: 'Ret listesine eklenecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyrole_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Rol durumlari ozelliginin ret listesine roller ekler.'
+  params:
+    - desc: 'Ret listesine eklenecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesadddenyuser:
+  args:
+    - '@user'
+  desc: 'Rol durumlari ozelliginin ret listesine kullanicilar ekler.'
+  params:
+    - &ref_464
+      desc: 'Ret listesine eklenecek kullanicilar.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Rol durumlari ozelliginin ret listesine kullanicilar ekler.'
+  params:
+    - desc: 'Ret listesine eklenecek kullanicilar.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Rol durumlari ozelliginin ret listesine kullanicilar ekler.'
+  params:
+    - desc: 'Ret listesine eklenecek kullanicilar.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesadddenyuser_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Rol durumlari ozelliginin ret listesine kullanicilar ekler.'
+  params:
+    - desc: 'Ret listesine eklenecek kullanicilar.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremoveadduser:
+  args:
+    - user
+  desc: 'Bir kullaniciyi rol durumlarindan kaldirir veya reddeder.'
+  params:
+    - desc: 'Rol durumlarindan kaldirilacak/reddedilecek kullanici.'
+      name: user
+      optional: false
+      type: IUser
+rolestatesremovedenyrole:
+  args:
+    - '@role'
+  desc: 'Rol durumlari ozelliginin ret listesinden roller kaldirir.'
+  params:
+    - &ref_465
+      desc: 'Ret listesinden kaldirilacak roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]:
+  args:
+    - '@role'
+  desc: 'Rol durumlari ozelliginin ret listesinden roller kaldirir.'
+  params:
+    - desc: 'Ret listesinden kaldirilacak roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]_1:
+  args:
+    - '@role'
+  desc: 'Rol durumlari ozelliginin ret listesinden roller kaldirir.'
+  params:
+    - desc: 'Ret listesinden kaldirilacak roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyrole_IRole[]_2:
+  args:
+    - '@role'
+  desc: 'Rol durumlari ozelliginin ret listesinden roller kaldirir.'
+  params:
+    - desc: 'Ret listesinden kaldirilacak roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+rolestatesremovedenyuser:
+  args:
+    - '@user'
+  desc: 'Rol durumlari ozelliginin ret listesinden kullanicilar kaldirir.'
+  params:
+    - &ref_466
+      desc: 'Ret listesinden kaldirilacak kullanicilar.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]:
+  args:
+    - '@user'
+  desc: 'Rol durumlari ozelliginin ret listesinden kullanicilar kaldirir.'
+  params:
+    - desc: 'Ret listesinden kaldirilacak kullanicilar.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: 'Rol durumlari ozelliginin ret listesinden kullanicilar kaldirir.'
+  params:
+    - desc: 'Ret listesinden kaldirilacak kullanicilar.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+rolestatesremovedenyuser_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: 'Rol durumlari ozelliginin ret listesinden kullanicilar kaldirir.'
+  params:
+    - desc: 'Ret listesinden kaldirilacak kullanicilar.'
+      name: users
+      optional: false
+      type: IGuildUser[]
+saveallrolestates:
+  args:
+    - ''
+  desc: 'Sunucudaki tum kullanicilar icin rol durumlarini kaydeder.'
+  params: [ ]
+setuserrolestate:
+  args:
+    - '@user @role'
+  desc: 'Belirli bir kullanici icin rol durumunu ayarlar.'
+  params:
+    - &ref_529
+      desc: 'Rol durumu ayarlanacak kullanici.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - &ref_530
+      desc: 'Kullanicinin rol durumuna dahil edilecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]:
+  args:
+    - '@user @role'
+  desc: 'Belirli bir kullanici icin rol durumunu ayarlar.'
+  params:
+    - &ref_531
+      desc: 'Rol durumu ayarlanacak kullanici.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Kullanicinin rol durumuna dahil edilecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]_1:
+  args:
+    - '@user @role'
+  desc: 'Belirli bir kullanici icin rol durumunu ayarlar.'
+  params:
+    - desc: 'Rol durumu ayarlanacak kullanici.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Kullanicinin rol durumuna dahil edilecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+setuserrolestate_IGuildUser_IRole[]_2:
+  args:
+    - '@user @role'
+  desc: 'Belirli bir kullanici icin rol durumunu ayarlar.'
+  params:
+    - desc: 'Rol durumu ayarlanacak kullanici.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Kullanicinin rol durumuna dahil edilecek roller.'
+      name: roles
+      optional: false
+      type: IRole[]
+togglerolestates:
+  args:
+    - ''
+  desc: 'Rol durumlari ozelligini acip kapatir.'
+  params: [ ]
+togglerolestatesclearonban:
+  args:
+    - ''
+  desc: 'Kullanici banlandiginda rol durumlarinin temizlenip temizlenmeyecegini degistirir.'
+  params: [ ]
+togglerolestatesignorebots:
+  args:
+    - ''
+  desc: 'Rol durumlari ozelligi tarafindan botlarin yok sayilip sayilmayacagini degistirir.'
+  params: [ ]
+togglerolestatesskipautoassign:
+  args:
+    - ''
+  desc: 'Kaydedilmis rol durumlarina sahip kullanicilar icin otomatik atama rollerinin atlanip atlanmayacagini degistirir.'
+  params: [ ]
+transferrolestates:
+  args:
+    - serverid
+  desc: 'Mevcut sunucudan baska bir sunucuya rol durumlarini aktarir.'
+  params:
+    - &ref_627
+      desc: 'Hedef sunucunun ID''si.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong:
+  args:
+    - serverid
+  desc: 'Mevcut sunucudan baska bir sunucuya rol durumlarini aktarir.'
+  params:
+    - desc: 'Hedef sunucunun ID''si.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong_1:
+  args:
+    - serverid
+  desc: 'Mevcut sunucudan baska bir sunucuya rol durumlarini aktarir.'
+  params:
+    - desc: 'Hedef sunucunun ID''si.'
+      name: serverId
+      optional: false
+      type: ulong
+transferrolestates_ulong_2:
+  args:
+    - serverid
+  desc: 'Mevcut sunucudan baska bir sunucuya rol durumlarini aktarir.'
+  params:
+    - desc: 'Hedef sunucunun ID''si.'
+      name: serverId
+      optional: false
+      type: ulong
+viewrolestates:
+  args:
+    - ''
+  desc: 'Sunucudaki tum kullanici rol durumlarini goruntüler.'
+  params: [ ]
+viewrolestatessettings:
+  args:
+    - ''
+  desc: 'Rol durumlari ozelliginin mevcut ayarlarini goruntüler.'
+  params: [ ]
+viewuserrolestates:
+  args:
+    - ''
+  desc: 'Tum kullanicilarin rol durumlarini goruntüler.'
+  params: [ ]

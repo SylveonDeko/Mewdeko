@@ -1,0 +1,137 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'Toont gedetailleerde Patreon-analyses.'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'Activeert handmatig een Patreon-aankondiging.'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Stelt het Patreon-aankondigingskanaal in of toont het.
+  params:
+    - desc: >-
+        Het kanaal voor Patreon-aankondigingen. Indien null, toont het
+        huidige kanaal.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'Toont de huidige Patreon-configuratie voor deze server.'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Stelt de dag van de maand in voor Patreon-aankondigingen.'
+  params:
+    - desc: >-
+        De dag van de maand (1-28) voor aankondigingen. Indien null, toont
+        de huidige dag.
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'Schakelt Patreon-aankondigingen uit voor deze server.'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Toont Patreon-module-informatie en beschikbare placeholders.'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Koppelt een Discord-gebruiker aan een Patreon-supporter.'
+  params:
+    - desc: De te koppelen Discord-gebruiker.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: De te koppelen Patreon-gebruikers-ID.
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Stelt een aangepast bericht in voor Patreon-aankondigingen.
+  params:
+    - desc: >-
+        Het aangepaste bericht. Gebruik placeholders zoals %server.name%,
+        %month%, enz. Gebruik "-" om naar standaard te resetten.
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'Stuurt erkenningsberichten voor nieuwe supporters.'
+  params:
+    - desc: Het kanaal om erkenningsberichten naartoe te sturen.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Lijst Patreon tier-rol toewijzingen.'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'Schakelt automatische rolsynchronisatie aan/uit.'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Toont Patreon-supporter-statistieken.'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'Lijst actieve Patreon-supporters.'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'Stelt Patreon OAuth-integratie veilig in.'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'Synchroniseert rollen voor alle gekoppelde supporters.'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Wijst een Patreon-tier toe aan een Discord-rol.'
+  params:
+    - desc: De Patreon-tier-ID.
+      name: tierId
+      optional: false
+      type: string
+    - desc: De Discord-rol om aan de tier toe te wijzen.
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Schakelt Patreon-aankondigingen aan of uit.'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'Toont de top Patreon-supporters.'
+  params:
+    - desc: Aantal top-supporters om te tonen (1-20).
+      name: count
+      optional: true
+      type: int

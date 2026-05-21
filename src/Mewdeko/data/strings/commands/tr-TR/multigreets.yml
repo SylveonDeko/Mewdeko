@@ -1,0 +1,384 @@
+multigreetadd:
+  args:
+    - '[@channel]'
+  desc: 'Coklu Selamlama kanali ekler.'
+  params:
+    - desc: 'Eklenecek kanal'
+      name: channel
+      optional: true
+      type: channel
+multigreetdelete:
+  args:
+    - number time
+  desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+  params:
+    - &ref_303
+      desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+      name: id
+      optional: false
+      type: int
+    - &ref_305
+      desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime:
+  args:
+    - number time
+  desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+  params:
+    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+  params:
+    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+  params:
+    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_int:
+  args:
+    - number number
+  desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+  params:
+    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+      name: id
+      optional: false
+      type: int
+    - &ref_304
+      desc: 'Mesajin silinecegi sure (saniye)'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_1:
+  args:
+    - number number
+  desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+  params:
+    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Mesajin silinecegi sure (saniye)'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_2:
+  args:
+    - number number
+  desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+  params:
+    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Mesajin silinecegi sure (saniye)'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_3:
+  args:
+    - number number
+  desc: 'Coklu Selamlama mesajinin silme suresini saniye cinsinden degistirir.'
+  params:
+    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Mesajin silinecegi sure (saniye)'
+      name: howlong
+      optional: false
+      type: int
+multigreetdisable:
+  args:
+    - number true|false
+  desc: 'Coklu Selamlama devre disi birakilir.'
+  params:
+    - &ref_306
+      desc: 'Devre disi birakilacak Coklu Selamlama kimlik numarasi'
+      name: num
+      optional: false
+      type: int
+    - &ref_307
+      desc: 'Coklu Selamlama devre disi birakilsin mi'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool:
+  args:
+    - number true|false
+  desc: 'Coklu Selamlama devre disi birakilir.'
+  params:
+    - desc: 'Devre disi birakilacak Coklu Selamlama kimlik numarasi'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Coklu Selamlama devre disi birakilsin mi'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Coklu Selamlama devre disi birakilir.'
+  params:
+    - desc: 'Devre disi birakilacak Coklu Selamlama kimlik numarasi'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Coklu Selamlama devre disi birakilsin mi'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Coklu Selamlama devre disi birakilir.'
+  params:
+    - desc: 'Devre disi birakilacak Coklu Selamlama kimlik numarasi'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Coklu Selamlama devre disi birakilsin mi'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots:
+  args:
+    - number true|false
+  desc: 'Coklu Selamlama botlari selamlayip selamlayamayacagini degistirir.'
+  params:
+    - &ref_308
+      desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+      name: num
+      optional: false
+      type: int
+    - &ref_309
+      desc: 'Botlar selamlansin mi'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool:
+  args:
+    - number true|false
+  desc: 'Coklu Selamlama botlari selamlayip selamlayamayacagini degistirir.'
+  params:
+    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Botlar selamlansin mi'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Coklu Selamlama botlari selamlayip selamlayamayacagini degistirir.'
+  params:
+    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Botlar selamlansin mi'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Coklu Selamlama botlari selamlayip selamlayamayacagini degistirir.'
+  params:
+    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Botlar selamlansin mi'
+      name: enabled
+      optional: false
+      type: bool
+multigreetlist:
+  args:
+    - ''
+  desc: 'Tum Coklu Selamalari listeler.'
+  params: [ ]
+multigreetmessage:
+  args:
+    - '<id> [embedTemplate]'
+    - number
+  desc: 'Coklu Selamlama mesajini degistirir.'
+  params:
+    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Ayarlanacak mesaj/gomulu sablon'
+      name: embedTemplate
+      optional: true
+      type: embedtemplateresult
+multigreetremove:
+  args:
+    - number
+  desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+  params:
+    - &ref_310
+      desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_ITextChannel:
+  args:
+    - channel
+  desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+  params:
+    - &ref_311
+      desc: 'Coklu Selamalarin kaldirilacagi kanal'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+  params:
+    - desc: 'Coklu Selamalarin kaldirilacagi kanal'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+  params:
+    - desc: 'Coklu Selamalarin kaldirilacagi kanal'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_3:
+  args:
+    - channel
+  desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+  params:
+    - desc: 'Coklu Selamalarin kaldirilacagi kanal'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_int:
+  args:
+    - number
+  desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+  params:
+    - desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_int_1:
+  args:
+    - number
+  desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+  params:
+    - desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_int_2:
+  args:
+    - number
+  desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+  params:
+    - desc: 'Bir kanaldan tum Coklu Selamalari kaldirir.'
+      name: id
+      optional: false
+      type: int
+multigreettype:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Coklu Selamlama turunu degistirir.'
+  params:
+    - &ref_312
+      desc: 'Ayarlanacak Coklu Selamlama turu'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Coklu Selamlama turunu degistirir.'
+  params:
+    - desc: 'Ayarlanacak Coklu Selamlama turu'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes_1:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Coklu Selamlama turunu degistirir.'
+  params:
+    - desc: 'Ayarlanacak Coklu Selamlama turu'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes_2:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Coklu Selamlama turunu degistirir.'
+  params:
+    - desc: 'Ayarlanacak Coklu Selamlama turu'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreetwebhook:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Coklu Selamlama webhook adresini degistirir.'
+  params:
+    - desc: 'Degistirilecek Coklu Selamlama kimlik numarasi'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Webhook adi'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Webhook avatari'
+      name: avatar
+      optional: true
+      type: string

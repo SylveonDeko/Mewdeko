@@ -1,0 +1,476 @@
+afk:
+  args:
+    - message
+  desc: 'AFK 상태를 설정합니다.'
+  params:
+    - desc: '표시할 AFK 메시지.'
+      name: message
+      optional: true
+      type: string
+afkdel:
+  args:
+    - ''
+  desc: 'AFK 메시지의 자동 삭제 시간을 설정합니다.'
+  params: [ ]
+afkdel_int:
+  args:
+    - number
+  desc: 'AFK 메시지의 자동 삭제 시간을 설정합니다.'
+  params:
+    - &ref_49
+      desc: '초 단위의 시간. 자동 삭제를 비활성화하려면 0으로 설정하세요.'
+      name: num
+      optional: false
+      type: int
+afkdel_int_1:
+  args:
+    - number
+  desc: 'AFK 메시지의 자동 삭제 시간을 설정합니다.'
+  params:
+    - desc: '초 단위의 시간. 자동 삭제를 비활성화하려면 0으로 설정하세요.'
+      name: num
+      optional: false
+      type: int
+afkdel_int_2:
+  args:
+    - number
+  desc: 'AFK 메시지의 자동 삭제 시간을 설정합니다.'
+  params:
+    - desc: '초 단위의 시간. 자동 삭제를 비활성화하려면 0으로 설정하세요.'
+      name: num
+      optional: false
+      type: int
+afkdel_int_3:
+  args:
+    - number
+  desc: 'AFK 메시지의 자동 삭제 시간을 설정합니다.'
+  params:
+    - desc: '초 단위의 시간. 자동 삭제를 비활성화하려면 0으로 설정하세요.'
+      name: num
+      optional: false
+      type: int
+afkdel_noparams:
+  args:
+    - ''
+  desc: 'AFK 메시지의 자동 삭제 시간을 설정합니다.'
+  params: [ ]
+afkdel_noparams_1:
+  args:
+    - ''
+  desc: 'AFK 메시지의 자동 삭제 시간을 설정합니다.'
+  params: [ ]
+afkdel_noparams_2:
+  args:
+    - ''
+  desc: 'AFK 메시지의 자동 삭제 시간을 설정합니다.'
+  params: [ ]
+afkdisable:
+  args:
+    - chan
+  desc: 'AFK 메시지가 표시되지 않을 채널을 설정합니다.'
+  params:
+    - &ref_50
+      desc: 'AFK 메시지 블랙리스트에 추가할 채널.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]:
+  args:
+    - chan
+  desc: 'AFK 메시지가 표시되지 않을 채널을 설정합니다.'
+  params:
+    - desc: 'AFK 메시지 블랙리스트에 추가할 채널.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]_1:
+  args:
+    - chan
+  desc: 'AFK 메시지가 표시되지 않을 채널을 설정합니다.'
+  params:
+    - desc: 'AFK 메시지 블랙리스트에 추가할 채널.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisable_ITextChannel[]_2:
+  args:
+    - chan
+  desc: 'AFK 메시지가 표시되지 않을 채널을 설정합니다.'
+  params:
+    - desc: 'AFK 메시지 블랙리스트에 추가할 채널.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkdisabledlist:
+  args:
+    - ''
+  desc: 'AFK 메시지가 표시되지 않는 텍스트 채널 목록을 표시합니다.'
+  params: [ ]
+afklength:
+  args:
+    - number
+  desc: '모든 AFK 메시지의 최대 길이를 설정합니다.'
+  params:
+    - &ref_51
+      desc: '설정할 최대 길이.'
+      name: num
+      optional: false
+      type: int
+afklength_int:
+  args:
+    - number
+  desc: '모든 AFK 메시지의 최대 길이를 설정합니다.'
+  params:
+    - desc: '설정할 최대 길이.'
+      name: num
+      optional: false
+      type: int
+afklength_int_1:
+  args:
+    - number
+  desc: '모든 AFK 메시지의 최대 길이를 설정합니다.'
+  params:
+    - desc: '설정할 최대 길이.'
+      name: num
+      optional: false
+      type: int
+afklength_int_2:
+  args:
+    - number
+  desc: '모든 AFK 메시지의 최대 길이를 설정합니다.'
+  params:
+    - desc: '설정할 최대 길이.'
+      name: num
+      optional: false
+      type: int
+afkremove:
+  args:
+    - '@user'
+  desc: '한 명 이상의 사용자의 AFK 상태를 제거합니다.'
+  params:
+    - &ref_52
+      desc: 'AFK 상태를 제거할 사용자.'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]:
+  args:
+    - '@user'
+  desc: '한 명 이상의 사용자의 AFK 상태를 제거합니다.'
+  params:
+    - desc: 'AFK 상태를 제거할 사용자.'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]_1:
+  args:
+    - '@user'
+  desc: '한 명 이상의 사용자의 AFK 상태를 제거합니다.'
+  params:
+    - desc: 'AFK 상태를 제거할 사용자.'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkremove_IGuildUser[]_2:
+  args:
+    - '@user'
+  desc: '한 명 이상의 사용자의 AFK 상태를 제거합니다.'
+  params:
+    - desc: 'AFK 상태를 제거할 사용자.'
+      name: user
+      optional: false
+      type: IGuildUser[]
+afkrm:
+  args:
+    - ''
+  desc: '당신의 AFK 상태를 제거합니다.'
+  params: [ ]
+afktimeout:
+  args:
+    - time
+  desc: >-
+    사용자가 더 이상 AFK로 간주되지 않을 때까지의 타임아웃 시간을 설정합니다.
+    사용자가 메시지를 보내거나 채널에서 타이핑할 때 발동됩니다.
+  params:
+    - &ref_53
+      desc: 'AFK 상태의 타임아웃 시간.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime:
+  args:
+    - time
+  desc: >-
+    사용자가 더 이상 AFK로 간주되지 않을 때까지의 타임아웃 시간을 설정합니다.
+    사용자가 메시지를 보내거나 채널에서 타이핑할 때 발동됩니다.
+  params:
+    - desc: 'AFK 상태의 타임아웃 시간.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime_1:
+  args:
+    - time
+  desc: >-
+    사용자가 더 이상 AFK로 간주되지 않을 때까지의 타임아웃 시간을 설정합니다.
+    사용자가 메시지를 보내거나 채널에서 타이핑할 때 발동됩니다.
+  params:
+    - desc: 'AFK 상태의 타임아웃 시간.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktimeout_StoopidTime_2:
+  args:
+    - time
+  desc: >-
+    사용자가 더 이상 AFK로 간주되지 않을 때까지의 타임아웃 시간을 설정합니다.
+    사용자가 메시지를 보내거나 채널에서 타이핑할 때 발동됩니다.
+  params:
+    - desc: 'AFK 상태의 타임아웃 시간.'
+      name: time
+      optional: false
+      type: StoopidTime
+afktype:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: '서버의 AFK 동작 유형을 설정합니다.'
+  params:
+    - &ref_54
+      desc: '설정할 AFK 동작 유형. <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: '서버의 AFK 동작 유형을 설정합니다.'
+  params:
+    - desc: '설정할 AFK 동작 유형. <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum_1:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: '서버의 AFK 동작 유형을 설정합니다.'
+  params:
+    - desc: '설정할 AFK 동작 유형. <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afktype_AfkTypeEnum_2:
+  args:
+    - selfdisable|onmessage|ontype
+    - selfdisable
+    - onmessage
+    - ontype
+  desc: '서버의 AFK 동작 유형을 설정합니다.'
+  params:
+    - desc: '설정할 AFK 동작 유형. <see cref="AfkTypeEnum" />'
+      name: afkTypeEnum
+      optional: false
+      type: AfkTypeEnum
+afkundisable:
+  args:
+    - chan
+  desc: '지정된 채널을 AFK 메시지 블랙리스트에서 제거합니다.'
+  params:
+    - &ref_55
+      desc: 'AFK 메시지 블랙리스트에서 제거할 텍스트 채널.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]:
+  args:
+    - chan
+  desc: '지정된 채널을 AFK 메시지 블랙리스트에서 제거합니다.'
+  params:
+    - desc: 'AFK 메시지 블랙리스트에서 제거할 텍스트 채널.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]_1:
+  args:
+    - chan
+  desc: '지정된 채널을 AFK 메시지 블랙리스트에서 제거합니다.'
+  params:
+    - desc: 'AFK 메시지 블랙리스트에서 제거할 텍스트 채널.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkundisable_ITextChannel[]_2:
+  args:
+    - chan
+  desc: '지정된 채널을 AFK 메시지 블랙리스트에서 제거합니다.'
+  params:
+    - desc: 'AFK 메시지 블랙리스트에서 제거할 텍스트 채널.'
+      name: chan
+      optional: false
+      type: ITextChannel[]
+afkview:
+  args:
+    - '@user'
+  desc: '특정 사용자의 AFK 상태를 표시합니다.'
+  params:
+    - &ref_56
+      desc: 'AFK 상태를 확인할 사용자.'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser:
+  args:
+    - '@user'
+  desc: '특정 사용자의 AFK 상태를 표시합니다.'
+  params:
+    - desc: 'AFK 상태를 확인할 사용자.'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '특정 사용자의 AFK 상태를 표시합니다.'
+  params:
+    - desc: 'AFK 상태를 확인할 사용자.'
+      name: user
+      optional: true
+      type: IGuildUser
+afkview_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '특정 사용자의 AFK 상태를 표시합니다.'
+  params:
+    - desc: 'AFK 상태를 확인할 사용자.'
+      name: user
+      optional: true
+      type: IGuildUser
+customafkmessage:
+  args:
+    - text
+  desc: >-
+    사용자가 AFK일 때 표시될 커스텀 AFK 임베드를 설정합니다.
+    기본 임베드로 재설정하려면 "-"를 사용하세요.
+    임베드 빌더는 https://eb.mewdeko.tech ,
+    플레이스홀더는 http://mewdeko.tech/placeholders 를 참조하세요.
+  params:
+    - &ref_175
+      desc: '설정할 커스텀 메시지. 기본 메시지로 재설정하려면 "-"를 사용하세요.'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string:
+  args:
+    - text
+  desc: >-
+    사용자가 AFK일 때 표시될 커스텀 AFK 임베드를 설정합니다.
+    기본 임베드로 재설정하려면 "-"를 사용하세요.
+    임베드 빌더는 https://eb.mewdeko.tech ,
+    플레이스홀더는 http://mewdeko.tech/placeholders 를 참조하세요.
+  params:
+    - desc: '설정할 커스텀 메시지. 기본 메시지로 재설정하려면 "-"를 사용하세요.'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string_1:
+  args:
+    - text
+  desc: >-
+    사용자가 AFK일 때 표시될 커스텀 AFK 임베드를 설정합니다.
+    기본 임베드로 재설정하려면 "-"를 사용하세요.
+    임베드 빌더는 https://eb.mewdeko.tech ,
+    플레이스홀더는 http://mewdeko.tech/placeholders 를 참조하세요.
+  params:
+    - desc: '설정할 커스텀 메시지. 기본 메시지로 재설정하려면 "-"를 사용하세요.'
+      name: embedCode
+      optional: false
+      type: string
+customafkmessage_string_2:
+  args:
+    - text
+  desc: >-
+    사용자가 AFK일 때 표시될 커스텀 AFK 임베드를 설정합니다.
+    기본 임베드로 재설정하려면 "-"를 사용하세요.
+    임베드 빌더는 https://eb.mewdeko.tech ,
+    플레이스홀더는 http://mewdeko.tech/placeholders 를 참조하세요.
+  params:
+    - desc: '설정할 커스텀 메시지. 기본 메시지로 재설정하려면 "-"를 사용하세요.'
+      name: embedCode
+      optional: false
+      type: string
+getactiveafks:
+  args:
+    - ''
+  desc: '현재 AFK 상태인 활성 사용자 목록을 표시합니다.'
+  params: [ ]
+setafk:
+  args:
+    - '[message]'
+  desc: '선택적 메시지와 함께 사용자의 AFK 상태를 설정합니다.'
+  params:
+    - desc: 'AFK 메시지. 제공되지 않으면 사용자의 AFK 상태가 토글됩니다.'
+      name: message
+      optional: true
+      type: string
+timedafk:
+  args:
+    - time text
+  desc: '커스텀 메시지와 함께 시간 제한 AFK 상태를 설정합니다.'
+  params:
+    - &ref_621
+      desc: 'AFK 상태의 지속 시간.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_622
+      desc: 'AFK 상태의 커스텀 메시지.'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string:
+  args:
+    - time text
+  desc: '커스텀 메시지와 함께 시간 제한 AFK 상태를 설정합니다.'
+  params:
+    - desc: 'AFK 상태의 지속 시간.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'AFK 상태의 커스텀 메시지.'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string_1:
+  args:
+    - time text
+  desc: '커스텀 메시지와 함께 시간 제한 AFK 상태를 설정합니다.'
+  params:
+    - desc: 'AFK 상태의 지속 시간.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'AFK 상태의 커스텀 메시지.'
+      name: message
+      optional: false
+      type: string
+timedafk_StoopidTime_string_2:
+  args:
+    - time text
+  desc: '커스텀 메시지와 함께 시간 제한 AFK 상태를 설정합니다.'
+  params:
+    - desc: 'AFK 상태의 지속 시간.'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'AFK 상태의 커스텀 메시지.'
+      name: message
+      optional: false
+      type: string

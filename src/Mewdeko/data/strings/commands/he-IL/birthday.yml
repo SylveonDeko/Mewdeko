@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'מחליף הכרזות יום הולדת עבור המשתמש.'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'מגדיר את ערוץ הכרזות יום הולדת.'
+  params:
+    - desc: >-
+        ערוץ הטקסט לשימוש להכרזות. ברירת המחדל היא הערוץ הנוכחי
+        אם לא צוין.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'מציג את תצורת ימי ההולדת הנוכחית.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'מציג ימי הולדת קרובים בשרת.'
+  params:
+    - desc: כמה ימים קדימה להסתכל. ברירת מחדל 7, מקסימום 30.
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'מגדיר תבנית הודעת יום הולדת מותאמת אישית.'
+  params:
+    - desc: >-
+        תבנית ההודעה. השתמש ב-{user} כדי לאזכר את המשתמש. מציג את
+        ההודעה הנוכחית אם מושאר ריק.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'מגדיר את התפקיד לאזכור בעת הכרזת ימי הולדת.'
+  params:
+    - desc: התפקיד לאזכור. אל תספק תפקיד כדי לבטל.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'מגדיר את תפקיד יום ההולדת שמשתמשים מקבלים ביום הולדתם.'
+  params:
+    - desc: התפקיד להקצאה ביום הולדת המשתמש. אל תספק תפקיד כדי לבטל.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'מגדיר את אזור הזמן של המשתמש לחישובי יום הולדת.'
+  params:
+    - desc: אזור הזמן להגדרה (למשל "America/New_York").
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'מציג את ימי ההולדת של היום.'
+  params: [ ]

@@ -1,0 +1,22 @@
+{
+  "eval_compiling": "Evaluando...",
+  "eval_no_code": "No se proporcionó código. Por favor, incluye código dentro de bloques de código o adjunta un archivo .cs",
+  "eval_output_blank": "La salida estaba en blanco",
+  "eval_read_error": "Fallo al leer el archivo adjunto: {0}",
+  "eval_too_large": "El archivo adjunto es demasiado grande. Por favor, asegúrate de que sea inferior a 100 KB",
+  "instance_added": "Instancia Añadida",
+  "instance_command_count": "Recuento de Comandos: {0}",
+  "instance_modules_count": "Recuento de Módulos: {0}",
+  "instance_not_added": "Fallo al añadir instancia: {0}",
+  "instance_not_found": "Instancia con puerto {0} no encontrada. Por favor, inténtalo de nuevo.",
+  "instance_offline": "La instancia está desconectada",
+  "instance_removed": "Instancia en el puerto {0} eliminada con éxito",
+  "instance_status": "Estado de la Instancia",
+  "instance_user_count": "Recuento de Usuarios {0}",
+  "instance_version": "Versión de la Instancia: {0}",
+  "owner": "Propietario",
+  "owner_config_error": "Hubo un error al configurar o imprimir la configuración, por favor, revisa los registros.",
+  "owner_ids": "IDs del Propietario",
+  "owner_setting_title": "⚙️ {0}",
+  "user_stats": "Estadísticas de Usuario"
+}

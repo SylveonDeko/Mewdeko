@@ -1,0 +1,157 @@
+confess:
+  args:
+    - serverid text
+  desc: 'Lar brukere tilstå anonymt.'
+  params:
+    - &ref_139
+      desc: 'IDen til serveren.'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: 'Tilståelsesmeldingen'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: 'Lar brukere tilstå anonymt.'
+  params:
+    - desc: 'IDen til serveren.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Tilståelsesmeldingen'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: 'Lar brukere tilstå anonymt.'
+  params:
+    - desc: 'IDen til serveren.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Tilståelsesmeldingen'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: 'Lar brukere tilstå anonymt.'
+  params:
+    - desc: 'IDen til serveren.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Tilståelsesmeldingen'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: 'Legger til en bruker i tilståelsens svarteliste.'
+  params:
+    - desc: 'Brukeren som skal svartelistes fra tilståelser.'
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: 'Setter tilståelseskanalen.'
+  params:
+    - desc: 'Kanalen som skal settes for tilståelser.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: 'Legger til eller fjerner en bruker fra tilståelsens svarteliste.'
+  params:
+    - &ref_141
+      desc: 'Brukeren som skal legges til eller fjernes fra svartelisten.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: 'Legger til eller fjerner en bruker fra tilståelsens svarteliste.'
+  params:
+    - &ref_142
+      desc: 'Brukeren som skal legges til eller fjernes fra svartelisten.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: 'Legger til eller fjerner en bruker fra tilståelsens svarteliste.'
+  params:
+    - desc: 'Brukeren som skal legges til eller fjernes fra svartelisten.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: 'Legger til eller fjerner en bruker fra tilståelsens svarteliste.'
+  params:
+    - desc: 'Brukeren som skal legges til eller fjernes fra svartelisten.'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: 'Setter tilståelseskanalen for anonyme tilståelser.'
+  params:
+    - desc: 'Tilståelseskanalen (valgfri).'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    Setter tilståelsens loggkanal for å logge tilståelser. Misbruk av denne
+    funksjonen ender med at jeg er 2m unna huset ditt.
+  params:
+    - desc: 'Tilståelsens loggkanal (valgfri).'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: 'Fjerner en bruker fra tilståelsens svarteliste.'
+  params:
+    - desc: 'Brukeren som skal fjernes fra svartelisten.'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: 'Setter tilståelsens loggkanal.'
+  params:
+    - desc: 'Kanalen for å logge tilståelser til.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: 'Fjerner en bruker fra tilståelsens svarteliste.'
+  params:
+    - desc: 'Brukeren som skal fjernes fra tilståelsens svarteliste.'
+      name: user
+      optional: false
+      type: IUser

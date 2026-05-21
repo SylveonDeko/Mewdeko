@@ -1,0 +1,434 @@
+rolegreetadd:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: '為指定身分組新增身分組問候訊息。如果未指定頻道，則使用目前頻道。'
+  params:
+    - desc: '要設定問候訊息的身分組。'
+      name: role
+      optional: false
+      type: role
+    - desc: '發送問候訊息的文字頻道。可選。'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: '為指定身分組新增身分組問候訊息。如果未指定頻道，則使用目前頻道。'
+  params:
+    - desc: '要設定問候訊息的身分組。'
+      name: role
+      optional: false
+      type: role
+    - desc: '發送問候訊息的文字頻道。可選。'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=_1:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: '為指定身分組新增身分組問候訊息。如果未指定頻道，則使用目前頻道。'
+  params:
+    - desc: '要設定問候訊息的身分組。'
+      name: role
+      optional: false
+      type: role
+    - desc: '發送問候訊息的文字頻道。可選。'
+      name: channel
+      optional: true
+      type: channel
+rolegreetadd_IRole_=_2:
+  args:
+    - '@role [@channel]'
+    - '@role'
+  desc: '為指定身分組新增身分組問候訊息。如果未指定頻道，則使用目前頻道。'
+  params:
+    - desc: '要設定問候訊息的身分組。'
+      name: role
+      optional: false
+      type: role
+    - desc: '發送問候訊息的文字頻道。可選。'
+      name: channel
+      optional: true
+      type: channel
+rolegreetdelete:
+  args:
+    - number time
+  desc: '更新身分組問候訊息，使其在指定時間後自動刪除。'
+  params:
+    - &ref_448
+      desc: '要更新的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: id
+      optional: false
+      type: int
+    - &ref_450
+      desc: '更新身分組問候訊息，使其在指定時間後自動刪除。'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime:
+  args:
+    - number time
+  desc: '更新身分組問候訊息，使其在指定時間後自動刪除。'
+  params:
+    - desc: '要更新的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: id
+      optional: false
+      type: int
+    - desc: '更新身分組問候訊息，使其在指定時間後自動刪除。'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime_1:
+  args:
+    - number time
+  desc: '更新身分組問候訊息，使其在指定時間後自動刪除。'
+  params:
+    - desc: '要更新的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: id
+      optional: false
+      type: int
+    - desc: '更新身分組問候訊息，使其在指定時間後自動刪除。'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_StoopidTime_2:
+  args:
+    - number time
+  desc: '更新身分組問候訊息，使其在指定時間後自動刪除。'
+  params:
+    - desc: '要更新的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: id
+      optional: false
+      type: int
+    - desc: '更新身分組問候訊息，使其在指定時間後自動刪除。'
+      name: time
+      optional: false
+      type: StoopidTime
+rolegreetdelete_int_int:
+  args:
+    - number number
+  desc: '更新身分組問候訊息，使其在指定時間後自動刪除。'
+  params:
+    - desc: '要更新的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: id
+      optional: false
+      type: int
+    - &ref_449
+      desc: '問候訊息被刪除前的時長（秒）。'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_1:
+  args:
+    - number number
+  desc: '更新身分組問候訊息，使其在指定時間後自動刪除。'
+  params:
+    - desc: '要更新的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: id
+      optional: false
+      type: int
+    - desc: '問候訊息被刪除前的時長（秒）。'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_2:
+  args:
+    - number number
+  desc: '更新身分組問候訊息，使其在指定時間後自動刪除。'
+  params:
+    - desc: '要更新的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: id
+      optional: false
+      type: int
+    - desc: '問候訊息被刪除前的時長（秒）。'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdelete_int_int_3:
+  args:
+    - number number
+  desc: '更新身分組問候訊息，使其在指定時間後自動刪除。'
+  params:
+    - desc: '要更新的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: id
+      optional: false
+      type: int
+    - desc: '問候訊息被刪除前的時長（秒）。'
+      name: howlong
+      optional: false
+      type: int
+rolegreetdisable:
+  args:
+    - number true|false
+  desc: '啟用或停用身分組問候訊息。'
+  params:
+    - &ref_451
+      desc: '要更新的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: num
+      optional: false
+      type: int
+    - &ref_452
+      desc: '是否啟用或停用問候訊息。'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool:
+  args:
+    - number true|false
+  desc: '啟用或停用身分組問候訊息。'
+  params:
+    - desc: '要更新的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: num
+      optional: false
+      type: int
+    - desc: '是否啟用或停用問候訊息。'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool_1:
+  args:
+    - number true|false
+  desc: '啟用或停用身分組問候訊息。'
+  params:
+    - desc: '要更新的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: num
+      optional: false
+      type: int
+    - desc: '是否啟用或停用問候訊息。'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetdisable_int_bool_2:
+  args:
+    - number true|false
+  desc: '啟用或停用身分組問候訊息。'
+  params:
+    - desc: '要更新的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: num
+      optional: false
+      type: int
+    - desc: '是否啟用或停用問候訊息。'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots:
+  args:
+    - number true|false
+  desc: '啟用或停用特定身分組問候對機器人的問候。'
+  params:
+    - desc: '要更新的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: num
+      optional: false
+      type: int
+    - &ref_453
+      desc: '是否啟用或停用對機器人的問候。'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool:
+  args:
+    - number true|false
+  desc: '啟用或停用特定身分組問候對機器人的問候。'
+  params:
+    - desc: '要更新的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: num
+      optional: false
+      type: int
+    - desc: '是否啟用或停用對機器人的問候。'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool_1:
+  args:
+    - number true|false
+  desc: '啟用或停用特定身分組問候對機器人的問候。'
+  params:
+    - desc: '要更新的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: num
+      optional: false
+      type: int
+    - desc: '是否啟用或停用對機器人的問候。'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetgreetbots_int_bool_2:
+  args:
+    - number true|false
+  desc: '啟用或停用特定身分組問候對機器人的問候。'
+  params:
+    - desc: '要更新的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: num
+      optional: false
+      type: int
+    - desc: '是否啟用或停用對機器人的問候。'
+      name: enabled
+      optional: false
+      type: bool
+rolegreetlist:
+  args:
+    - ''
+  desc: '列出伺服器中設定的所有身分組問候，並提供每個問候的詳細資訊。'
+  params: [ ]
+rolegreetmessage:
+  args:
+    - '<id> [message]'
+    - number
+  desc: '更新身分組問候的訊息內容。如果未提供訊息，則顯示預覽目前訊息或以純文字查看的選項。'
+  params:
+    - desc: '要更新的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: id
+      optional: false
+      type: int
+    - desc: '新的訊息內容。可選。'
+      name: message
+      optional: true
+      type: string
+rolegreetremove:
+  args:
+    - number
+  desc: 刪除與指定身分組ID相關聯的身分組問候
+  params:
+    - &ref_454
+      desc: 刪除與指定身分組ID相關聯的身分組問候
+      name: id
+      optional: false
+      type: int
+rolegreetremove_IRole:
+  args:
+    - '@role'
+  desc: 刪除與指定身分組ID相關聯的身分組問候
+  params:
+    - desc: '要刪除身分組問候的身分組。'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_1:
+  args:
+    - '@role'
+  desc: 刪除與指定身分組ID相關聯的身分組問候
+  params:
+    - desc: '要刪除身分組問候的身分組。'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_2:
+  args:
+    - '@role'
+  desc: 刪除與指定身分組ID相關聯的身分組問候
+  params:
+    - desc: '要刪除身分組問候的身分組。'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_IRole_3:
+  args:
+    - '@role'
+  desc: 刪除與指定身分組ID相關聯的身分組問候
+  params:
+    - desc: '要刪除身分組問候的身分組。'
+      name: role
+      optional: false
+      type: IRole
+rolegreetremove_int:
+  args:
+    - number
+  desc: 刪除與指定身分組ID相關聯的身分組問候
+  params:
+    - desc: 刪除與指定身分組ID相關聯的身分組問候
+      name: id
+      optional: false
+      type: int
+rolegreetremove_int_1:
+  args:
+    - number
+  desc: 刪除與指定身分組ID相關聯的身分組問候
+  params:
+    - desc: 刪除與指定身分組ID相關聯的身分組問候
+      name: id
+      optional: false
+      type: int
+rolegreetremove_int_2:
+  args:
+    - number
+  desc: 刪除與指定身分組ID相關聯的身分組問候
+  params:
+    - desc: 刪除與指定身分組ID相關聯的身分組問候
+      name: id
+      optional: false
+      type: int
+rolegreetwebhook:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: '為身分組問候訊息設定自訂名稱和頭像的 Webhook。如果未提供名稱，則停用 Webhook。'
+  params:
+    - desc: '要設定 Webhook 的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Webhook 的名稱。可選。'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Webhook 頭像的 URL。可選。'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: '為身分組問候訊息設定自訂名稱和頭像的 Webhook。如果未提供名稱，則停用 Webhook。'
+  params:
+    - desc: '要設定 Webhook 的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Webhook 的名稱。可選。'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Webhook 頭像的 URL。可選。'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=_1:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: '為身分組問候訊息設定自訂名稱和頭像的 Webhook。如果未提供名稱，則停用 Webhook。'
+  params:
+    - desc: '要設定 Webhook 的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Webhook 的名稱。可選。'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Webhook 頭像的 URL。可選。'
+      name: avatar
+      optional: true
+      type: string
+rolegreetwebhook_int_=_=_2:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: '為身分組問候訊息設定自訂名稱和頭像的 Webhook。如果未提供名稱，則停用 Webhook。'
+  params:
+    - desc: '要設定 Webhook 的身分組問候的ID（依據其在所有身分組問候清單中的位置）。'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Webhook 的名稱。可選。'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Webhook 頭像的 URL。可選。'
+      name: avatar
+      optional: true
+      type: string

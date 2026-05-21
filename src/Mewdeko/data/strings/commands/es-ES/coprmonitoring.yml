@@ -1,0 +1,168 @@
+coprmonitoradd:
+  args:
+    - '<ownerProject> [channel] [packages]'
+    - '<ownerProject> [channel] [packages]'
+    - ownerProject
+  desc: 'Añade un monitor de proyecto COPR al servidor.'
+  params:
+    - desc: 'El proyecto COPR en formato owner/project (p.ej. linux4switch/l4s).'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Canal opcional para notificaciones. Por defecto es el canal actual.'
+      name: channel
+      optional: true
+      type: ITextChannel
+    - desc: 'Lista opcional de paquetes separados por comas a monitorear (p.ej. mesa,kernel).'
+      name: packages
+      optional: true
+      type: string
+coprmonitorremove:
+  args:
+    - '<ownerProject> [channel]'
+    - ownerProject
+  desc: 'Elimina un monitor de proyecto COPR del servidor.'
+  params:
+    - desc: 'El proyecto COPR en formato owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Canal opcional para eliminar un monitor específico.'
+      name: channel
+      optional: true
+      type: ITextChannel
+coprmonitorlist:
+  args:
+    - ''
+  desc: 'Lista todos los monitores COPR configurados en el servidor.'
+  params: [ ]
+coprmonitortoggle:
+  args:
+    - ownerProject
+  desc: 'Activa o desactiva un monitor COPR.'
+  params:
+    - desc: 'El proyecto COPR en formato owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+coprnotify:
+  args:
+    - ownerProject status enabled
+  desc: 'Configura qué estados de compilación activan notificaciones para un monitor.'
+  params:
+    - desc: 'El proyecto COPR en formato owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'El estado de compilación a configurar.'
+      name: status
+      optional: false
+      type: CoprBuildStatus
+    - desc: 'Si habilitar o deshabilitar notificaciones para este estado.'
+      name: enabled
+      optional: false
+      type: bool
+coprfilter:
+  args:
+    - ownerProject text
+  desc: 'Establece el filtro de paquetes para un monitor COPR.'
+  params:
+    - desc: 'El proyecto COPR en formato owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Lista de paquetes separados por comas, o "all" para monitorear todo.'
+      name: packages
+      optional: false
+      type: string
+coprsucceededmessage:
+  args:
+    - ownerProject text
+  desc: 'Establece el mensaje mostrado cuando una compilación COPR tiene éxito.'
+  params:
+    - desc: 'El proyecto COPR en formato owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'El mensaje o código de embed. Usa "-" para restablecer al valor predeterminado.'
+      name: message
+      optional: false
+      type: string
+coprfailedmessage:
+  args:
+    - ownerProject text
+  desc: 'Establece el mensaje mostrado cuando falla una compilación COPR.'
+  params:
+    - desc: 'El proyecto COPR en formato owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'El mensaje o código de embed. Usa "-" para restablecer al valor predeterminado.'
+      name: message
+      optional: false
+      type: string
+coprcanceledmessage:
+  args:
+    - ownerProject text
+  desc: 'Establece el mensaje mostrado cuando se cancela una compilación COPR.'
+  params:
+    - desc: 'El proyecto COPR en formato owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'El mensaje o código de embed. Usa "-" para restablecer al valor predeterminado.'
+      name: message
+      optional: false
+      type: string
+coprpendingmessage:
+  args:
+    - ownerProject text
+  desc: 'Establece el mensaje mostrado cuando una compilación COPR está pendiente.'
+  params:
+    - desc: 'El proyecto COPR en formato owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'El mensaje o código de embed. Usa "-" para restablecer al valor predeterminado.'
+      name: message
+      optional: false
+      type: string
+coprrunningmessage:
+  args:
+    - ownerProject text
+  desc: 'Establece el mensaje mostrado cuando una compilación COPR está en curso.'
+  params:
+    - desc: 'El proyecto COPR en formato owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'El mensaje o código de embed. Usa "-" para restablecer al valor predeterminado.'
+      name: message
+      optional: false
+      type: string
+coprskippedmessage:
+  args:
+    - ownerProject text
+  desc: 'Establece el mensaje mostrado cuando se omite una compilación COPR.'
+  params:
+    - desc: 'El proyecto COPR en formato owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'El mensaje o código de embed. Usa "-" para restablecer al valor predeterminado.'
+      name: message
+      optional: false
+      type: string
+coprdefaultmessage:
+  args:
+    - ownerProject text
+  desc: 'Establece el mensaje predeterminado para todos los demás estados de compilación.'
+  params:
+    - desc: 'El proyecto COPR en formato owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'El mensaje o código de embed. Usa "-" para restablecer al valor predeterminado.'
+      name: message
+      optional: false
+      type: string

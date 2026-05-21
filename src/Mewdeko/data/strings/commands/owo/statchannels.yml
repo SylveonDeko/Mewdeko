@@ -1,0 +1,95 @@
+statchannelcreate:
+  args:
+    - 'TotalMembers [template]'
+  desc: 'Cweates a nyew wocked voice channyew dispwaying a sewvew stat. Da bot wiww cweate and manyage da channyew. uwu'
+  params:
+    - desc: 'Da stat type to dispway. owo'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'Da dispway tempwate. Use %count% fow da vawue. uwu'
+      name: template
+      optional: true
+      type: string
+statchanneladd:
+  args:
+    - '#voice-channel TotalMembers [template]'
+  desc: 'Adds a voice channyew as a stat channyew. Types: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount. ^w^'
+  params:
+    - desc: 'Da voice channyew to use. uwu'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Da stat type to dispway. owo'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'Da dispway tempwate. Use %count% fow da vawue. uwu'
+      name: template
+      optional: true
+      type: string
+statchannelrole:
+  args:
+    - '#voice-channel @role [template]'
+  desc: 'Adds a stat channyew showing how many membews have a specific wowe. owo'
+  params:
+    - desc: 'Da voice channyew to use. uwu'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Da wowe to count membews fow. ^w^'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Da dispway tempwate. Use %count% and %role.name%. uwu'
+      name: template
+      optional: true
+      type: string
+statchannelcountdown:
+  args:
+    - '#voice-channel 2026-12-31 [template]'
+  desc: 'Adds a countdown stat channyew. Use %days% and %hours% pwacehowdews. owo'
+  params:
+    - desc: 'Da voice channyew to use. uwu'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Da tawget date fow da countdown. ^w^'
+      name: date
+      optional: false
+      type: DateTime
+    - desc: 'Da dispway tempwate. Use %days% and %hours%. uwu'
+      name: template
+      optional: true
+      type: string
+statchannelgoal:
+  args:
+    - '#voice-channel 1000 [template]'
+  desc: 'Adds a membew goaw stat channyew. Use %count%, %goal%, and %goal.percent%. owo'
+  params:
+    - desc: 'Da voice channyew to use. uwu'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Da tawget membew count. ^w^'
+      name: goal
+      optional: false
+      type: int
+    - desc: 'Da dispway tempwate. Use %count%, %goal%, %goal.percent%. uwu'
+      name: template
+      optional: true
+      type: string
+statchannelremove:
+  args:
+    - '#voice-channel'
+  desc: 'Wemoves a stat channyew. uwu'
+  params:
+    - desc: 'Da voice channyew to wemove. ^w^'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+statchannellist:
+  args:
+    - ''
+  desc: 'Wists aww stat channyews fow this sewvew. owo'
+  params: [ ]

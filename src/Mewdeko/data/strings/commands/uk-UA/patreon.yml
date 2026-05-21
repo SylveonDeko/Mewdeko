@@ -1,0 +1,136 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'Показує детальну аналітику Patreon.'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'Вручну запускає оголошення Patreon.'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Встановлює або показує канал оголошень Patreon.
+  params:
+    - desc: >-
+        Канал для встановлення як канал оголошень Patreon. Якщо null,
+        показує поточний канал.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'Показує поточну конфігурацію Patreon для цього сервера.'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Встановлює день місяця для оголошень Patreon.'
+  params:
+    - desc: >-
+        День місяця (1-28) для оголошень. Якщо null, показує поточний день.
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'Вимикає оголошення Patreon для цього сервера.'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Показує інформацію про модуль Patreon та доступні заповнювачі.'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Зв''язує користувача Discord з прихильником Patreon.'
+  params:
+    - desc: Користувач Discord для зв''язування.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: ID користувача Patreon для зв''язування.
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Встановлює власне повідомлення для оголошень Patreon.
+  params:
+    - desc: >-
+        Власне повідомлення. Використовуйте заповнювачі, як %server.name%,
+        %month%, тощо. Використовуйте "-" для скидання до стандартного.
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'Надсилає повідомлення подяки для нових прихильників.'
+  params:
+    - desc: Канал для надсилання повідомлень подяки.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Перелічує співставлення рівень-роль Patreon.'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'Перемикає автоматичну синхронізацію ролей.'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Показує статистику прихильників Patreon.'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'Перелічує активних прихильників Patreon.'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'Безпечно налаштовує інтеграцію OAuth Patreon.'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'Синхронізує ролі для всіх пов''язаних прихильників.'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Зіставляє рівень Patreon з роллю Discord.'
+  params:
+    - desc: ID рівня Patreon.
+      name: tierId
+      optional: false
+      type: string
+    - desc: Роль Discord для зіставлення з рівнем.
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Вмикає або вимикає оголошення Patreon.'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'Показує топ прихильників Patreon.'
+  params:
+    - desc: Кількість топ прихильників для показу (1-20).
+      name: count
+      optional: true
+      type: int

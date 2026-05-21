@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    显示特定模块的命令。如果为 null，则是 modules 的别名，而 modules
+    又是 help 的别名。
+  params:
+    - desc: '要查看的模块'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    显示特定模块的命令。如果为 null，则是 modules 的别名，而 modules
+    又是 help 的别名。
+  params:
+    - desc: '要查看的模块'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    显示特定模块的命令。如果为 null，则是 modules 的别名，而 modules
+    又是 help 的别名。
+  params:
+    - desc: '要查看的模块'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    显示特定模块的命令。如果为 null，则是 modules 的别名，而 modules
+    又是 help 的别名。
+  params:
+    - desc: '要查看的模块'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: '显示如何支持本机器人。'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    将所有命令导出到 json 文件。主要用于
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    将所有命令导出到 json 文件。主要用于
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    将所有命令导出到 json 文件。主要用于
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    将所有命令导出到 json 文件。主要用于
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: '显示本机器人的指南。'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: 显示特定命令的帮助。
+  params:
+    - desc: 要获取帮助的命令。
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: 显示命令的帮助信息。
+  params:
+    - desc: 要获取帮助的命令。
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: '显示所有模块的列表。基本上现在只是 help 的别名。'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: '按名称或描述搜索命令。'
+  params:
+    - &ref_481
+      desc: '要搜索的词'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: '按名称或描述搜索命令。'
+  params:
+    - desc: '要搜索的词'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: '按名称或描述搜索命令。'
+  params:
+    - desc: '要搜索的词'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: '按名称或描述搜索命令。'
+  params:
+    - desc: '要搜索的词'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: '显示本机器人的源代码链接。'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: '显示为 Mewdeko 投票的链接。'
+  params: [ ]

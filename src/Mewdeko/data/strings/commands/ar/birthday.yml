@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'تبديل إعلانات أعياد الميلاد للمستخدم.'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'تعيين قناة إعلانات أعياد الميلاد.'
+  params:
+    - desc: >-
+        القناة النصية المستخدمة للإعلانات. الافتراضي هو القناة الحالية
+        إذا لم يتم تحديدها.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'عرض تكوين أعياد الميلاد الحالي.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'عرض أعياد الميلاد القادمة في الخادم.'
+  params:
+    - desc: كم يوماً للنظر إلى الأمام. الافتراضي 7، الحد الأقصى 30.
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'تعيين قالب رسالة عيد ميلاد مخصص.'
+  params:
+    - desc: >-
+        قالب الرسالة. استخدم {user} للإشارة إلى المستخدم. يعرض الرسالة
+        الحالية إذا تُرك فارغاً.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'تعيين الدور للإشارة إليه عند الإعلان عن أعياد الميلاد.'
+  params:
+    - desc: الدور للإشارة إليه. لا توفر أي دور للتعطيل.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'تعيين دور عيد الميلاد الذي يحصل عليه المستخدمون في عيد ميلادهم.'
+  params:
+    - desc: الدور الذي يتم تعيينه في عيد ميلاد المستخدم. لا توفر أي دور للتعطيل.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'تعيين المنطقة الزمنية للمستخدم لحسابات أعياد الميلاد.'
+  params:
+    - desc: المنطقة الزمنية المراد تعيينها (مثل "America/New_York").
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'عرض أعياد الميلاد اليوم.'
+  params: [ ]

@@ -1,0 +1,326 @@
+gbanner:
+  args:
+    - text
+  desc: 'Staller in standardbannern for utlottningar.'
+  params:
+    - &ref_221
+      desc: 'Staller in standardbannern for utlottningar.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string:
+  args:
+    - text
+  desc: 'Staller in standardbannern for utlottningar.'
+  params:
+    - desc: 'Staller in standardbannern for utlottningar.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_1:
+  args:
+    - text
+  desc: 'Staller in standardbannern for utlottningar.'
+  params:
+    - desc: 'Staller in standardbannern for utlottningar.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_2:
+  args:
+    - text
+  desc: 'Staller in standardbannern for utlottningar.'
+  params:
+    - desc: 'Staller in standardbannern for utlottningar.'
+      name: banner
+      optional: false
+      type: string
+gdm:
+  args:
+    - ''
+  desc: 'Staller in om vinnaren av en utlottning ska fa ett DM.'
+  params: [ ]
+gdmmessage:
+  args:
+    - '[message]'
+  desc: 'Staller in DM-meddelandet som skickas till anvandare nar de vinner en utlottning.'
+  params:
+    - desc: 'Staller in DM-meddelandet som skickas till anvandare nar de vinner en utlottning.'
+      name: message
+      optional: true
+      type: string
+gembedcolor:
+  args:
+    - text
+  desc: 'Staller in fargen pa embedden for utlottningar.'
+  params:
+    - &ref_223
+      desc: 'Fargen i hexadecimalt.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string:
+  args:
+    - text
+  desc: 'Staller in fargen pa embedden for utlottningar.'
+  params:
+    - desc: 'Fargen i hexadecimalt.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_1:
+  args:
+    - text
+  desc: 'Staller in fargen pa embedden for utlottningar.'
+  params:
+    - desc: 'Fargen i hexadecimalt.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_2:
+  args:
+    - text
+  desc: 'Staller in fargen pa embedden for utlottningar.'
+  params:
+    - desc: 'Fargen i hexadecimalt.'
+      name: color
+      optional: false
+      type: string
+gemote:
+  args:
+    - emote
+  desc: 'Staller in emoten som anvands for utlottningar.'
+  params:
+    - &ref_224
+      desc: 'Emoten att stalla in.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote:
+  args:
+    - emote
+  desc: 'Staller in emoten som anvands for utlottningar.'
+  params:
+    - desc: 'Emoten att stalla in.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_1:
+  args:
+    - emote
+  desc: 'Staller in emoten som anvands for utlottningar.'
+  params:
+    - desc: 'Emoten att stalla in.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_2:
+  args:
+    - emote
+  desc: 'Staller in emoten som anvands for utlottningar.'
+  params:
+    - desc: 'Emoten att stalla in.'
+      name: emote
+      optional: false
+      type: IEmote
+gend:
+  args:
+    - messageid
+  desc: 'Avslutar en utlottning.'
+  params:
+    - &ref_225
+      desc: 'Meddelande-IDt for utlottningen som ska avslutas'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong:
+  args:
+    - messageid
+  desc: 'Avslutar en utlottning.'
+  params:
+    - desc: 'Meddelande-IDt for utlottningen som ska avslutas'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_1:
+  args:
+    - messageid
+  desc: 'Avslutar en utlottning.'
+  params:
+    - desc: 'Meddelande-IDt for utlottningen som ska avslutas'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_2:
+  args:
+    - messageid
+  desc: 'Avslutar en utlottning.'
+  params:
+    - desc: 'Meddelande-IDt for utlottningen som ska avslutas'
+      name: messageid
+      optional: false
+      type: ulong
+glist:
+  args:
+    - ''
+  desc: 'Listar alla aktiva utlottningar.'
+  params: [ ]
+greroll:
+  args:
+    - messageid
+  desc: 'Drar om en utlottning.'
+  params:
+    - &ref_237
+      desc: 'Meddelande-IDt for en utlottning'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong:
+  args:
+    - messageid
+  desc: 'Drar om en utlottning.'
+  params:
+    - desc: 'Meddelande-IDt for en utlottning'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_1:
+  args:
+    - messageid
+  desc: 'Drar om en utlottning.'
+  params:
+    - desc: 'Meddelande-IDt for en utlottning'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_2:
+  args:
+    - messageid
+  desc: 'Drar om en utlottning.'
+  params:
+    - desc: 'Meddelande-IDt for en utlottning'
+      name: messageid
+      optional: false
+      type: ulong
+gstart:
+  args:
+    - chan time number text
+  desc: 'Mer detaljerad utlottningsstart, later dig stalla in en banner, pingrollen och mer.'
+  params:
+    - &ref_238
+      desc: 'Kanalen att starta utlottningen i'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - &ref_239
+      desc: 'Hur lange utlottningen ska paga'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_240
+      desc: 'Antalet vinnare'
+      name: winners
+      optional: false
+      type: int
+    - &ref_241
+      desc: 'Det som lottas bort'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string:
+  args:
+    - chan time number text
+  desc: 'Mer detaljerad utlottningsstart, later dig stalla in en banner, pingrollen och mer.'
+  params:
+    - desc: 'Kanalen att starta utlottningen i'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Hur lange utlottningen ska paga'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Antalet vinnare'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Det som lottas bort'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_1:
+  args:
+    - chan time number text
+  desc: 'Mer detaljerad utlottningsstart, later dig stalla in en banner, pingrollen och mer.'
+  params:
+    - desc: 'Kanalen att starta utlottningen i'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Hur lange utlottningen ska paga'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Antalet vinnare'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Det som lottas bort'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_2:
+  args:
+    - chan time number text
+  desc: 'Mer detaljerad utlottningsstart, later dig stalla in en banner, pingrollen och mer.'
+  params:
+    - desc: 'Kanalen att starta utlottningen i'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Hur lange utlottningen ska paga'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Antalet vinnare'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Det som lottas bort'
+      name: what
+      optional: false
+      type: string
+gstart_noparams:
+  args:
+    - ''
+  desc: 'Mer detaljerad utlottningsstart, later dig stalla in en banner, pingrollen och mer.'
+  params: [ ]
+gstart_noparams_1:
+  args:
+    - ''
+  desc: 'Mer detaljerad utlottningsstart, later dig stalla in en banner, pingrollen och mer.'
+  params: [ ]
+gstart_noparams_2:
+  args:
+    - ''
+  desc: 'Mer detaljerad utlottningsstart, later dig stalla in en banner, pingrollen och mer.'
+  params: [ ]
+gstart_noparams_3:
+  args:
+    - ''
+  desc: 'Mer detaljerad utlottningsstart, later dig stalla in en banner, pingrollen och mer.'
+  params: [ ]
+gstats:
+  args:
+    - ''
+  desc: 'Visar statistiken for utlottningar.'
+  params: [ ]
+gwinembedcolor:
+  args:
+    - text
+  desc: 'Staller in fargen for vinnar-embedden.'
+  params:
+    - desc: 'Fargen i hexadecimalt.'
+      name: color
+      optional: false
+      type: string

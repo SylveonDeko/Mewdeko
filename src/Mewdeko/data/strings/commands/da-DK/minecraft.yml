@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'Kontrollerer status for en Minecraft-server. Brug et registreret servernavn, en direkte adresse, eller lad det være tomt for standardserveren.'
+  params:
+    - desc: 'Det registrerede servernavn eller direkte adresse (f.eks. play.example.com:25565).'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: 'Tilføjer en Minecraft-server til guilden. Præfiks adressen med bedrock: for Bedrock-servere.'
+  params:
+    - desc: 'En etiket for serveren.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Serveradressen, eventuelt med port (f.eks. play.example.com:25565 eller bedrock:play.example.com).'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: 'Fjerner en Minecraft-server fra guilden.'
+  params:
+    - desc: 'Navnet på serveren der skal fjernes.'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: 'Lister alle registrerede Minecraft-servere for denne guild.'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: 'Indstiller en server som standard for statuskommandoer.'
+  params:
+    - desc: 'Navnet på serveren der skal indstilles som standard.'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: 'Indstiller en kanal til at modtage periodiske statusopdateringer for en server. Udelad kanalen for at deaktivere.'
+  params:
+    - desc: 'Navnet på serveren der skal overvåges.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Kanalen at poste opdateringer i.'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: 'Indstiller hvordan serverstatus vises: embed (rediger på stedet), kanalemne, eller begge.'
+  params:
+    - desc: 'Navnet på serveren.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Overvågningstilstanden: Embed, ChannelTopic, eller Both.'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: 'Indstiller en brugerdefineret embed-skabelon for en overvåget server. Brug "-" til at nulstille. Pladsholdere: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
+  params:
+    - desc: 'Navnet på serveren.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Embed-skabelonens JSON, eller "-" for at nulstille til standard.'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: 'Slår en Minecraft-spiller op via brugernavn og viser deres profil og skin.'
+  params:
+    - desc: 'Minecraft-brugernavnet at slå op.'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'Viser en Minecraft-spillers skin-render.'
+  params:
+    - desc: 'Minecraft-brugernavnet.'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: 'Sender en RCON-kommando til en registreret Minecraft-server. RCON skal konfigureres via dashboardet.'
+  params:
+    - desc: 'Navnet på serveren.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Kommandoen der skal udføres på serveren.'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'Administrerer whitelisten på en Minecraft-server via RCON. Kræver konfigureret RCON.'
+  params:
+    - desc: 'Navnet på serveren.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Handlingen: add, remove, list, on, off, reload.'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Spillernavnet (til add/remove).'
+      name: playerName
+      optional: true
+      type: string

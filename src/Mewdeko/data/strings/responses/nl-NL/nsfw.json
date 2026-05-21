@@ -1,0 +1,15 @@
+{
+  "autohentai_stopped": "Autohentai gestopt.",
+  "autohentai_started": "Autohentai gestart. Er wordt elke {0} seconden een foto geplaatst met de volgende labels:\n{1}",
+  "nsfw_autohentai_started": "Auto NSFW posting started. Interval: {0}s | Tags: {1}",
+  "nsfw_autohentai_stopped": "Auto NSFW posting heeft been stopped",
+  "nsfw_blacklist_title": "Blacklisted NSFW Tags",
+  "nsfw_loli_shota_content": "This manga contains loli/shota content en is not allowed door discord TOS!",
+  "nsfw_set_false": "NSFW heeft been Uitgeschakeld op this Kanaal.",
+  "nsfw_set_true": "NSFW heeft been Ingeschakeld op this Kanaal.",
+  "nsfw_api_fetch_error": "Unable naar fetch nsfw subreddit. Please check console of report de issue at https://discord.gg/mewdeko",
+  "nsfw_file_too_large": "File Too Large",
+  "nsfw_loading_subreddit": "Trying naar get een post van `{0}`...",
+  "nsfw_search_no_results": "de search returned geen results. Try again met een different query!",
+  "nsfw_title_format": "{0} - {1} pages"
+}

@@ -1,0 +1,326 @@
+gbanner:
+  args:
+    - text
+  desc: 'Stelt de standaard giveaway-banner in.'
+  params:
+    - &ref_221
+      desc: 'Stelt de standaard giveaway-banner in.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string:
+  args:
+    - text
+  desc: 'Stelt de standaard giveaway-banner in.'
+  params:
+    - desc: 'Stelt de standaard giveaway-banner in.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_1:
+  args:
+    - text
+  desc: 'Stelt de standaard giveaway-banner in.'
+  params:
+    - desc: 'Stelt de standaard giveaway-banner in.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_2:
+  args:
+    - text
+  desc: 'Stelt de standaard giveaway-banner in.'
+  params:
+    - desc: 'Stelt de standaard giveaway-banner in.'
+      name: banner
+      optional: false
+      type: string
+gdm:
+  args:
+    - ''
+  desc: 'Stelt in of de winnaar van een giveaway een DM ontvangt.'
+  params: [ ]
+gdmmessage:
+  args:
+    - '[message]'
+  desc: 'Stelt het DM-bericht in dat naar gebruikers wordt gestuurd wanneer ze een giveaway winnen.'
+  params:
+    - desc: 'Stelt het DM-bericht in dat naar gebruikers wordt gestuurd wanneer ze een giveaway winnen.'
+      name: message
+      optional: true
+      type: string
+gembedcolor:
+  args:
+    - text
+  desc: 'Stelt de kleur van de embed voor giveaways in.'
+  params:
+    - &ref_223
+      desc: 'De kleur in hexadecimaal.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string:
+  args:
+    - text
+  desc: 'Stelt de kleur van de embed voor giveaways in.'
+  params:
+    - desc: 'De kleur in hexadecimaal.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_1:
+  args:
+    - text
+  desc: 'Stelt de kleur van de embed voor giveaways in.'
+  params:
+    - desc: 'De kleur in hexadecimaal.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_2:
+  args:
+    - text
+  desc: 'Stelt de kleur van de embed voor giveaways in.'
+  params:
+    - desc: 'De kleur in hexadecimaal.'
+      name: color
+      optional: false
+      type: string
+gemote:
+  args:
+    - emote
+  desc: 'Stelt de emote in die wordt gebruikt voor giveaways.'
+  params:
+    - &ref_224
+      desc: 'De in te stellen emote.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote:
+  args:
+    - emote
+  desc: 'Stelt de emote in die wordt gebruikt voor giveaways.'
+  params:
+    - desc: 'De in te stellen emote.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_1:
+  args:
+    - emote
+  desc: 'Stelt de emote in die wordt gebruikt voor giveaways.'
+  params:
+    - desc: 'De in te stellen emote.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_2:
+  args:
+    - emote
+  desc: 'Stelt de emote in die wordt gebruikt voor giveaways.'
+  params:
+    - desc: 'De in te stellen emote.'
+      name: emote
+      optional: false
+      type: IEmote
+gend:
+  args:
+    - messageid
+  desc: 'Beëindigt een giveaway.'
+  params:
+    - &ref_225
+      desc: 'Het bericht-ID van de te beëindigen giveaway'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong:
+  args:
+    - messageid
+  desc: 'Beëindigt een giveaway.'
+  params:
+    - desc: 'Het bericht-ID van de te beëindigen giveaway'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_1:
+  args:
+    - messageid
+  desc: 'Beëindigt een giveaway.'
+  params:
+    - desc: 'Het bericht-ID van de te beëindigen giveaway'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_2:
+  args:
+    - messageid
+  desc: 'Beëindigt een giveaway.'
+  params:
+    - desc: 'Het bericht-ID van de te beëindigen giveaway'
+      name: messageid
+      optional: false
+      type: ulong
+glist:
+  args:
+    - ''
+  desc: 'Geeft een lijst van alle actieve giveaways.'
+  params: [ ]
+greroll:
+  args:
+    - messageid
+  desc: 'Hertrekt een giveaway.'
+  params:
+    - &ref_237
+      desc: 'Het bericht-ID van een giveaway'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong:
+  args:
+    - messageid
+  desc: 'Hertrekt een giveaway.'
+  params:
+    - desc: 'Het bericht-ID van een giveaway'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_1:
+  args:
+    - messageid
+  desc: 'Hertrekt een giveaway.'
+  params:
+    - desc: 'Het bericht-ID van een giveaway'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_2:
+  args:
+    - messageid
+  desc: 'Hertrekt een giveaway.'
+  params:
+    - desc: 'Het bericht-ID van een giveaway'
+      name: messageid
+      optional: false
+      type: ulong
+gstart:
+  args:
+    - chan time number text
+  desc: 'Gedetailleerdere giveaway-start, kunt een banner, ping-rol en meer instellen.'
+  params:
+    - &ref_238
+      desc: 'Het kanaal om de giveaway in te starten'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - &ref_239
+      desc: 'De duur van de giveaway'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_240
+      desc: 'Het aantal winnaars'
+      name: winners
+      optional: false
+      type: int
+    - &ref_241
+      desc: 'Het weg te geven item'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string:
+  args:
+    - chan time number text
+  desc: 'Gedetailleerdere giveaway-start, kunt een banner, ping-rol en meer instellen.'
+  params:
+    - desc: 'Het kanaal om de giveaway in te starten'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'De duur van de giveaway'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Het aantal winnaars'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Het weg te geven item'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_1:
+  args:
+    - chan time number text
+  desc: 'Gedetailleerdere giveaway-start, kunt een banner, ping-rol en meer instellen.'
+  params:
+    - desc: 'Het kanaal om de giveaway in te starten'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'De duur van de giveaway'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Het aantal winnaars'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Het weg te geven item'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_2:
+  args:
+    - chan time number text
+  desc: 'Gedetailleerdere giveaway-start, kunt een banner, ping-rol en meer instellen.'
+  params:
+    - desc: 'Het kanaal om de giveaway in te starten'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'De duur van de giveaway'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Het aantal winnaars'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Het weg te geven item'
+      name: what
+      optional: false
+      type: string
+gstart_noparams:
+  args:
+    - ''
+  desc: 'Gedetailleerdere giveaway-start, kunt een banner, ping-rol en meer instellen.'
+  params: [ ]
+gstart_noparams_1:
+  args:
+    - ''
+  desc: 'Gedetailleerdere giveaway-start, kunt een banner, ping-rol en meer instellen.'
+  params: [ ]
+gstart_noparams_2:
+  args:
+    - ''
+  desc: 'Gedetailleerdere giveaway-start, kunt een banner, ping-rol en meer instellen.'
+  params: [ ]
+gstart_noparams_3:
+  args:
+    - ''
+  desc: 'Gedetailleerdere giveaway-start, kunt een banner, ping-rol en meer instellen.'
+  params: [ ]
+gstats:
+  args:
+    - ''
+  desc: 'Toont de statistieken voor giveaways.'
+  params: [ ]
+gwinembedcolor:
+  args:
+    - text
+  desc: 'Stelt de kleur voor de winnaar-embed in.'
+  params:
+    - desc: 'De kleur in hexadecimaal.'
+      name: color
+      optional: false
+      type: string

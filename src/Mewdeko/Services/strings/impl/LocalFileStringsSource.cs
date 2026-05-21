@@ -27,23 +27,55 @@ public class LocalFileStringsSource : IStringsSource
 
     /// <summary>
     ///     Gets the response strings from the local files.
+    ///     Supports both single-file format (responses.en-US.json) and split-file format (en-US/*.json).
     /// </summary>
     /// <returns>A dictionary containing response strings for each locale.</returns>
     public Dictionary<string, Dictionary<string, string>> GetResponseStrings()
     {
         var outputDict = new Dictionary<string, Dictionary<string, string>>();
-        foreach (var file in Directory.GetFiles(responsesPath))
+
+        foreach (var file in Directory.GetFiles(responsesPath, "*.json"))
         {
             try
             {
                 var langDict = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(file));
                 var localeName = GetLocaleName(file);
-                outputDict[localeName] = langDict;
+                if (langDict != null)
+                    outputDict[localeName] = langDict;
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Error loading {FileName} response strings: {ErrorMessage}", file, ex.Message);
             }
+        }
+
+        foreach (var localeDir in Directory.GetDirectories(responsesPath))
+        {
+            var localeName = Path.GetFileName(localeDir);
+            var mergedDict = outputDict.TryGetValue(localeName, out var existing)
+                ? existing
+                : new Dictionary<string, string>();
+
+            foreach (var file in Directory.GetFiles(localeDir, "*.json"))
+            {
+                try
+                {
+                    var moduleDict = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(file));
+                    if (moduleDict == null)
+                        continue;
+
+                    foreach (var (key, value) in moduleDict)
+                        mergedDict[key] = value;
+
+                    Log.Debug("Loaded {Count} responses from {File}", moduleDict.Count, Path.GetFileName(file));
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "Error loading {FileName} response strings: {ErrorMessage}", file, ex.Message);
+                }
+            }
+
+            outputDict[localeName] = mergedDict;
         }
 
         return outputDict;

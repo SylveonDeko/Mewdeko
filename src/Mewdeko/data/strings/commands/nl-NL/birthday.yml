@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'Schakelt verjaardagsmeldingen voor de gebruiker in of uit.'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'Stelt het kanaal voor verjaardagsmeldingen in.'
+  params:
+    - desc: >-
+        Het tekstkanaal voor meldingen. Standaard het huidige kanaal als
+        niet opgegeven.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'Bekijkt de huidige verjaardagsconfiguratie.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'Toont aankomende verjaardagen in de server.'
+  params:
+    - desc: Hoeveel dagen vooruit te kijken. Standaard 7, maximum 30.
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'Stelt een aangepast verjaardagsbericht-sjabloon in.'
+  params:
+    - desc: >-
+        Het berichtsjabloon. Gebruik {user} om de gebruiker te noemen.
+        Toont het huidige bericht indien leeg gelaten.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'Stelt de rol in die wordt gepingd bij het aankondigen van verjaardagen.'
+  params:
+    - desc: De te pingen rol. Geen rol opgeven om uit te schakelen.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'Stelt de verjaardagsrol in die gebruikers krijgen op hun verjaardag.'
+  params:
+    - desc: De rol die op de verjaardag van een gebruiker wordt toegewezen. Geen rol opgeven om uit te schakelen.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'Stelt de tijdzone van de gebruiker in voor verjaardagsberekeningen.'
+  params:
+    - desc: De in te stellen tijdzone (bijv. "America/New_York").
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'Toont de verjaardagen van vandaag.'
+  params: [ ]

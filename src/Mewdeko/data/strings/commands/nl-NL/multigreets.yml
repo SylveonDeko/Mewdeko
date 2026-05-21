@@ -1,0 +1,384 @@
+multigreetadd:
+  args:
+    - '[@channel]'
+  desc: 'Voegt een MeerBegroeting-kanaal toe.'
+  params:
+    - desc: 'Het kanaal om toe te voegen'
+      name: channel
+      optional: true
+      type: channel
+multigreetdelete:
+  args:
+    - number time
+  desc: 'Wijzigt de verwijdertijd van een MeerBegroeting-bericht in seconden.'
+  params:
+    - &ref_303
+      desc: 'Het ID van de MeerBegroeting om te wijzigen'
+      name: id
+      optional: false
+      type: int
+    - &ref_305
+      desc: 'Wijzigt de verwijdertijd van een MeerBegroeting-bericht in seconden.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime:
+  args:
+    - number time
+  desc: 'Wijzigt de verwijdertijd van een MeerBegroeting-bericht in seconden.'
+  params:
+    - desc: 'Het ID van de MeerBegroeting om te wijzigen'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Wijzigt de verwijdertijd van een MeerBegroeting-bericht in seconden.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'Wijzigt de verwijdertijd van een MeerBegroeting-bericht in seconden.'
+  params:
+    - desc: 'Het ID van de MeerBegroeting om te wijzigen'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Wijzigt de verwijdertijd van een MeerBegroeting-bericht in seconden.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'Wijzigt de verwijdertijd van een MeerBegroeting-bericht in seconden.'
+  params:
+    - desc: 'Het ID van de MeerBegroeting om te wijzigen'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Wijzigt de verwijdertijd van een MeerBegroeting-bericht in seconden.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_int:
+  args:
+    - number number
+  desc: 'Wijzigt de verwijdertijd van een MeerBegroeting-bericht in seconden.'
+  params:
+    - desc: 'Het ID van de MeerBegroeting om te wijzigen'
+      name: id
+      optional: false
+      type: int
+    - &ref_304
+      desc: 'De tijd in seconden waarna het bericht wordt verwijderd'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_1:
+  args:
+    - number number
+  desc: 'Wijzigt de verwijdertijd van een MeerBegroeting-bericht in seconden.'
+  params:
+    - desc: 'Het ID van de MeerBegroeting om te wijzigen'
+      name: id
+      optional: false
+      type: int
+    - desc: 'De tijd in seconden waarna het bericht wordt verwijderd'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_2:
+  args:
+    - number number
+  desc: 'Wijzigt de verwijdertijd van een MeerBegroeting-bericht in seconden.'
+  params:
+    - desc: 'Het ID van de MeerBegroeting om te wijzigen'
+      name: id
+      optional: false
+      type: int
+    - desc: 'De tijd in seconden waarna het bericht wordt verwijderd'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_3:
+  args:
+    - number number
+  desc: 'Wijzigt de verwijdertijd van een MeerBegroeting-bericht in seconden.'
+  params:
+    - desc: 'Het ID van de MeerBegroeting om te wijzigen'
+      name: id
+      optional: false
+      type: int
+    - desc: 'De tijd in seconden waarna het bericht wordt verwijderd'
+      name: howlong
+      optional: false
+      type: int
+multigreetdisable:
+  args:
+    - number true|false
+  desc: 'Schakelt een MeerBegroeting uit.'
+  params:
+    - &ref_306
+      desc: 'Het ID van de MeerBegroeting om uit te schakelen'
+      name: num
+      optional: false
+      type: int
+    - &ref_307
+      desc: 'Of de MeerBegroeting uitgeschakeld moet worden'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool:
+  args:
+    - number true|false
+  desc: 'Schakelt een MeerBegroeting uit.'
+  params:
+    - desc: 'Het ID van de MeerBegroeting om uit te schakelen'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Of de MeerBegroeting uitgeschakeld moet worden'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Schakelt een MeerBegroeting uit.'
+  params:
+    - desc: 'Het ID van de MeerBegroeting om uit te schakelen'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Of de MeerBegroeting uitgeschakeld moet worden'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Schakelt een MeerBegroeting uit.'
+  params:
+    - desc: 'Het ID van de MeerBegroeting om uit te schakelen'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Of de MeerBegroeting uitgeschakeld moet worden'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots:
+  args:
+    - number true|false
+  desc: 'Wijzigt of een MeerBegroeting bots begroet.'
+  params:
+    - &ref_308
+      desc: 'Het ID van de MeerBegroeting om te wijzigen'
+      name: num
+      optional: false
+      type: int
+    - &ref_309
+      desc: 'Of bots begroet moeten worden'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool:
+  args:
+    - number true|false
+  desc: 'Wijzigt of een MeerBegroeting bots begroet.'
+  params:
+    - desc: 'Het ID van de MeerBegroeting om te wijzigen'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Of bots begroet moeten worden'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Wijzigt of een MeerBegroeting bots begroet.'
+  params:
+    - desc: 'Het ID van de MeerBegroeting om te wijzigen'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Of bots begroet moeten worden'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Wijzigt of een MeerBegroeting bots begroet.'
+  params:
+    - desc: 'Het ID van de MeerBegroeting om te wijzigen'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Of bots begroet moeten worden'
+      name: enabled
+      optional: false
+      type: bool
+multigreetlist:
+  args:
+    - ''
+  desc: 'Toont alle MeerBegroetingen.'
+  params: [ ]
+multigreetmessage:
+  args:
+    - '<id> [embedTemplate]'
+    - number
+  desc: 'Wijzigt het bericht van een MeerBegroeting.'
+  params:
+    - desc: 'Het ID van de MeerBegroeting om te wijzigen'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Het bericht/embed-sjabloon om in te stellen'
+      name: embedTemplate
+      optional: true
+      type: embedtemplateresult
+multigreetremove:
+  args:
+    - number
+  desc: 'Verwijdert alle MeerBegroetingen uit een kanaal.'
+  params:
+    - &ref_310
+      desc: 'Verwijdert alle MeerBegroetingen uit een kanaal.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_ITextChannel:
+  args:
+    - channel
+  desc: 'Verwijdert alle MeerBegroetingen uit een kanaal.'
+  params:
+    - &ref_311
+      desc: 'Het kanaal waaruit MeerBegroetingen verwijderd worden'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Verwijdert alle MeerBegroetingen uit een kanaal.'
+  params:
+    - desc: 'Het kanaal waaruit MeerBegroetingen verwijderd worden'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Verwijdert alle MeerBegroetingen uit een kanaal.'
+  params:
+    - desc: 'Het kanaal waaruit MeerBegroetingen verwijderd worden'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_3:
+  args:
+    - channel
+  desc: 'Verwijdert alle MeerBegroetingen uit een kanaal.'
+  params:
+    - desc: 'Het kanaal waaruit MeerBegroetingen verwijderd worden'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_int:
+  args:
+    - number
+  desc: 'Verwijdert alle MeerBegroetingen uit een kanaal.'
+  params:
+    - desc: 'Verwijdert alle MeerBegroetingen uit een kanaal.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_int_1:
+  args:
+    - number
+  desc: 'Verwijdert alle MeerBegroetingen uit een kanaal.'
+  params:
+    - desc: 'Verwijdert alle MeerBegroetingen uit een kanaal.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_int_2:
+  args:
+    - number
+  desc: 'Verwijdert alle MeerBegroetingen uit een kanaal.'
+  params:
+    - desc: 'Verwijdert alle MeerBegroetingen uit een kanaal.'
+      name: id
+      optional: false
+      type: int
+multigreettype:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Wijzigt het type MeerBegroeting.'
+  params:
+    - &ref_312
+      desc: 'Het type MeerBegroeting om in te stellen'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Wijzigt het type MeerBegroeting.'
+  params:
+    - desc: 'Het type MeerBegroeting om in te stellen'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes_1:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Wijzigt het type MeerBegroeting.'
+  params:
+    - desc: 'Het type MeerBegroeting om in te stellen'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes_2:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Wijzigt het type MeerBegroeting.'
+  params:
+    - desc: 'Het type MeerBegroeting om in te stellen'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreetwebhook:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Wijzigt de webhook van een MeerBegroeting.'
+  params:
+    - desc: 'Het ID van de MeerBegroeting om te wijzigen'
+      name: id
+      optional: false
+      type: int
+    - desc: 'De naam van de webhook'
+      name: name
+      optional: true
+      type: string
+    - desc: 'De avatar van de webhook'
+      name: avatar
+      optional: true
+      type: string

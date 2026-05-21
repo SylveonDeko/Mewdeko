@@ -1,0 +1,136 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'Показывает подробную аналитику Patreon.'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'Вручную запускает анонс Patreon.'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Устанавливает или показывает канал анонсов Patreon.
+  params:
+    - desc: >-
+        Канал для установки в качестве канала анонсов Patreon. Если null,
+        показывает текущий канал.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'Показывает текущую конфигурацию Patreon для этого сервера.'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Устанавливает день месяца для анонсов Patreon.'
+  params:
+    - desc: >-
+        День месяца (1-28) для анонсов. Если null, показывает текущий день.
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'Отключает анонсы Patreon для этого сервера.'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Показывает информацию о модуле Patreon и доступные плейсхолдеры.'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Связывает пользователя Discord со сторонником Patreon.'
+  params:
+    - desc: Пользователь Discord для связывания.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: ID пользователя Patreon для связывания.
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Устанавливает пользовательское сообщение для анонсов Patreon.
+  params:
+    - desc: >-
+        Пользовательское сообщение. Используйте плейсхолдеры вроде %server.name%,
+        %month% и т.д. Используйте "-" для сброса по умолчанию.
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'Отправляет сообщения признания для новых сторонников.'
+  params:
+    - desc: Канал для отправки сообщений признания.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Перечисляет сопоставления уровней Patreon с ролями.'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'Переключает автоматическую синхронизацию ролей.'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Показывает статистику сторонников Patreon.'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'Перечисляет активных сторонников Patreon.'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'Безопасно настраивает интеграцию OAuth Patreon.'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'Синхронизирует роли для всех связанных сторонников.'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Сопоставляет уровень Patreon с ролью Discord.'
+  params:
+    - desc: ID уровня Patreon.
+      name: tierId
+      optional: false
+      type: string
+    - desc: Роль Discord для сопоставления с уровнем.
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Включает или выключает анонсы Patreon.'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'Показывает топ сторонников Patreon.'
+  params:
+    - desc: Количество топ сторонников для показа (1-20).
+      name: count
+      optional: true
+      type: int

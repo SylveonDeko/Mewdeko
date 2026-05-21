@@ -1,0 +1,481 @@
+deleteuserstatsdata:
+  args:
+    - ''
+  desc: 'Удаляет данные статистики команд пользователя.'
+  params: [ ]
+greetdmoptout:
+  args:
+    - ''
+  desc: 'Позволяет пользователю переключить отказ от получения приветственных личных сообщений. Работает только если сервер, к которому он присоединяется, использует mewdeko для приветствий в личных сообщениях.'
+  params: [ ]
+profile:
+  args:
+    - '[@user]'
+  desc: 'Отображает профиль пользователя или профиль другого пользователя, если указан.'
+  params:
+    - desc: 'Пользователь, профиль которого нужно показать. Если не указан, показывает профиль вызывающего.'
+      name: user
+      optional: true
+      type: user
+profile_=:
+  args:
+    - '[@user]'
+  desc: 'Отображает профиль пользователя или профиль другого пользователя, если указан.'
+  params:
+    - desc: 'Пользователь, профиль которого нужно показать. Если не указан, показывает профиль вызывающего.'
+      name: user
+      optional: true
+      type: user
+profile_=_1:
+  args:
+    - '[@user]'
+  desc: 'Отображает профиль пользователя или профиль другого пользователя, если указан.'
+  params:
+    - desc: 'Пользователь, профиль которого нужно показать. Если не указан, показывает профиль вызывающего.'
+      name: user
+      optional: true
+      type: user
+profile_=_2:
+  args:
+    - '[@user]'
+  desc: 'Отображает профиль пользователя или профиль другого пользователя, если указан.'
+  params:
+    - desc: 'Пользователь, профиль которого нужно показать. Если не указан, показывает профиль вызывающего.'
+      name: user
+      optional: true
+      type: user
+pronouns:
+  args:
+    - '[@user]'
+  desc: 'Отображает местоимения указанного пользователя или вызывающего команду, если пользователь не указан.'
+  params:
+    - desc: 'Необязательно. Пользователь, чьи местоимения нужно отобразить.'
+      name: user
+      optional: true
+      type: user
+pronounsforceclear:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Принудительно удаляет местоимения пользователя по ID, при необходимости помечая их как отключённые из-за злоупотребления.'
+  params:
+    - &ref_356
+      desc: 'Идентификатор пользователя, чьи местоимения нужно удалить.'
+      name: user
+      optional: true
+      type: IUser
+    - &ref_357
+      desc: 'Отключаются ли местоимения из-за злоупотребления.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - &ref_358
+      desc: 'Причина действия.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Принудительно удаляет местоимения пользователя по ID, при необходимости помечая их как отключённые из-за злоупотребления.'
+  params:
+    - desc: 'Идентификатор пользователя, чьи местоимения нужно удалить.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Отключаются ли местоимения из-за злоупотребления.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Причина действия.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string_1:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Принудительно удаляет местоимения пользователя по ID, при необходимости помечая их как отключённые из-за злоупотребления.'
+  params:
+    - desc: 'Идентификатор пользователя, чьи местоимения нужно удалить.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Отключаются ли местоимения из-за злоупотребления.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Причина действия.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string_2:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Принудительно удаляет местоимения пользователя по ID, при необходимости помечая их как отключённые из-за злоупотребления.'
+  params:
+    - desc: 'Идентификатор пользователя, чьи местоимения нужно удалить.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Отключаются ли местоимения из-за злоупотребления.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Причина действия.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string:
+  args:
+    - user true|false text
+  desc: 'Принудительно удаляет местоимения пользователя по ID, при необходимости помечая их как отключённые из-за злоупотребления.'
+  params:
+    - &ref_359
+      desc: 'Идентификатор пользователя, чьи местоимения нужно удалить.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Отключаются ли местоимения из-за злоупотребления.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Причина действия.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_1:
+  args:
+    - user true|false text
+  desc: 'Принудительно удаляет местоимения пользователя по ID, при необходимости помечая их как отключённые из-за злоупотребления.'
+  params:
+    - desc: 'Идентификатор пользователя, чьи местоимения нужно удалить.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Отключаются ли местоимения из-за злоупотребления.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Причина действия.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_2:
+  args:
+    - user true|false text
+  desc: 'Принудительно удаляет местоимения пользователя по ID, при необходимости помечая их как отключённые из-за злоупотребления.'
+  params:
+    - desc: 'Идентификатор пользователя, чьи местоимения нужно удалить.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Отключаются ли местоимения из-за злоупотребления.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Причина действия.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_3:
+  args:
+    - user true|false text
+  desc: 'Принудительно удаляет местоимения пользователя по ID, при необходимости помечая их как отключённые из-за злоупотребления.'
+  params:
+    - desc: 'Идентификатор пользователя, чьи местоимения нужно удалить.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Отключаются ли местоимения из-за злоупотребления.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'Причина действия.'
+      name: reason
+      optional: false
+      type: string
+setbio:
+  args:
+    - text
+  desc: 'Устанавливает или обновляет биографию в профиле пользователя.'
+  params:
+    - &ref_490
+      desc: 'Текст биографии. Должен содержать менее 2048 символов.'
+      name: bio
+      optional: false
+      type: string
+setbio_string:
+  args:
+    - text
+  desc: 'Устанавливает или обновляет биографию в профиле пользователя.'
+  params:
+    - desc: 'Текст биографии. Должен содержать менее 2048 символов.'
+      name: bio
+      optional: false
+      type: string
+setbio_string_1:
+  args:
+    - text
+  desc: 'Устанавливает или обновляет биографию в профиле пользователя.'
+  params:
+    - desc: 'Текст биографии. Должен содержать менее 2048 символов.'
+      name: bio
+      optional: false
+      type: string
+setbio_string_2:
+  args:
+    - text
+  desc: 'Устанавливает или обновляет биографию в профиле пользователя.'
+  params:
+    - desc: 'Текст биографии. Должен содержать менее 2048 символов.'
+      name: bio
+      optional: false
+      type: string
+setbirthday:
+  args:
+    - time
+  desc: 'Устанавливает дату рождения в профиле пользователя.'
+  params:
+    - &ref_491
+      desc: 'Дата рождения.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime:
+  args:
+    - time
+  desc: 'Устанавливает дату рождения в профиле пользователя.'
+  params:
+    - desc: 'Дата рождения.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime_1:
+  args:
+    - time
+  desc: 'Устанавливает дату рождения в профиле пользователя.'
+  params:
+    - desc: 'Дата рождения.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime_2:
+  args:
+    - time
+  desc: 'Устанавливает дату рождения в профиле пользователя.'
+  params:
+    - desc: 'Дата рождения.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthdayprivacy:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Устанавливает режим конфиденциальности дня рождения в профиле пользователя.'
+  params:
+    - &ref_492
+      desc: 'Режим отображения дня рождения для установки.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Устанавливает режим конфиденциальности дня рождения в профиле пользователя.'
+  params:
+    - desc: 'Режим отображения дня рождения для установки.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum_1:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Устанавливает режим конфиденциальности дня рождения в профиле пользователя.'
+  params:
+    - desc: 'Режим отображения дня рождения для установки.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum_2:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Устанавливает режим конфиденциальности дня рождения в профиле пользователя.'
+  params:
+    - desc: 'Режим отображения дня рождения для установки.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setprivacy:
+  args:
+    - privacyenum
+  desc: 'Устанавливает уровень конфиденциальности профиля пользователя.'
+  params:
+    - &ref_513
+      desc: 'Настройка конфиденциальности для применения.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum:
+  args:
+    - privacyenum
+  desc: 'Устанавливает уровень конфиденциальности профиля пользователя.'
+  params:
+    - desc: 'Настройка конфиденциальности для применения.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum_1:
+  args:
+    - privacyenum
+  desc: 'Устанавливает уровень конфиденциальности профиля пользователя.'
+  params:
+    - desc: 'Настройка конфиденциальности для применения.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum_2:
+  args:
+    - privacyenum
+  desc: 'Устанавливает уровень конфиденциальности профиля пользователя.'
+  params:
+    - desc: 'Настройка конфиденциальности для применения.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprofilecolor:
+  args:
+    - input
+  desc: 'Устанавливает цвет профиля на основе входных данных SKColor.'
+  params:
+    - &ref_514
+      desc: 'SKColor, представляющий желаемый цвет профиля.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor:
+  args:
+    - input
+  desc: 'Устанавливает цвет профиля на основе входных данных SKColor.'
+  params:
+    - desc: 'SKColor, представляющий желаемый цвет профиля.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor_1:
+  args:
+    - input
+  desc: 'Устанавливает цвет профиля на основе входных данных SKColor.'
+  params:
+    - desc: 'SKColor, представляющий желаемый цвет профиля.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor_2:
+  args:
+    - input
+  desc: 'Устанавливает цвет профиля на основе входных данных SKColor.'
+  params:
+    - desc: 'SKColor, представляющий желаемый цвет профиля.'
+      name: input
+      optional: false
+      type: SKColor
+setprofileimage:
+  args:
+    - text
+  desc: 'Устанавливает URL изображения профиля в профиле пользователя.'
+  params:
+    - &ref_515
+      desc: 'URL изображения для установки в качестве изображения профиля.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string:
+  args:
+    - text
+  desc: 'Устанавливает URL изображения профиля в профиле пользователя.'
+  params:
+    - desc: 'URL изображения для установки в качестве изображения профиля.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string_1:
+  args:
+    - text
+  desc: 'Устанавливает URL изображения профиля в профиле пользователя.'
+  params:
+    - desc: 'URL изображения для установки в качестве изображения профиля.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string_2:
+  args:
+    - text
+  desc: 'Устанавливает URL изображения профиля в профиле пользователя.'
+  params:
+    - desc: 'URL изображения для установки в качестве изображения профиля.'
+      name: url
+      optional: false
+      type: string
+setpronouns:
+  args:
+    - '[pronouns]'
+  desc: 'Устанавливает или очищает местоимения пользователя.'
+  params:
+    - desc: 'Местоимения для установки. Если пусто или null, очищает существующие местоимения.'
+      name: pronouns
+      optional: true
+      type: string
+setswitchfc:
+  args:
+    - '""'
+  desc: 'Устанавливает или очищает код друга Nintendo Switch в профиле пользователя.'
+  params:
+    - desc: 'Устанавливает или очищает код друга Nintendo Switch в профиле пользователя.'
+      name: '""'
+      optional: false
+      type: '='
+setzodiac:
+  args:
+    - text
+  desc: 'Устанавливает знак зодиака в профиле пользователя.'
+  params:
+    - &ref_539
+      desc: 'Знак зодиака для установки.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string:
+  args:
+    - text
+  desc: 'Устанавливает знак зодиака в профиле пользователя.'
+  params:
+    - desc: 'Знак зодиака для установки.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string_1:
+  args:
+    - text
+  desc: 'Устанавливает знак зодиака в профиле пользователя.'
+  params:
+    - desc: 'Знак зодиака для установки.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string_2:
+  args:
+    - text
+  desc: 'Устанавливает знак зодиака в профиле пользователя.'
+  params:
+    - desc: 'Знак зодиака для установки.'
+      name: zodiac
+      optional: false
+      type: string
+userstatsoptout:
+  args:
+    - ''
+  desc: 'Переключает статус отказа пользователя от сбора статистики команд.'
+  params: [ ]

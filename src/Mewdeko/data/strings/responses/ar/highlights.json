@@ -1,0 +1,23 @@
+{
+  "highlight_added": "تمت إضافة {0} إلى تنبيهاتك!",
+  "highlight_already_exists": "هذا موجود بالفعل في تنبيهاتك!",
+  "highlight_cannot_delete": "لا يمكن الحذف لأنه لا توجد تنبيهات مضبوطة!",
+  "highlight_disabled": "تم تعطيل التنبيهات.",
+  "highlight_empty_delete": "لا يمكن حذف تنبيه فارغ.",
+  "highlight_empty_match": "لا يمكن مطابقة تنبيه فارغ.",
+  "highlight_enabled": "تم تفعيل التنبيهات!",
+  "highlight_ignored_channel_added": "تمت إضافة {0} إلى القنوات المتجاهلة!",
+  "highlight_ignored_channel_removed": "تمت إزالة {0} من القنوات المتجاهلة!",
+  "highlight_ignored_user_added": "تمت إضافة {0} إلى المستخدمين المتجاهلين!",
+  "highlight_ignored_user_removed": "تمت إزالة {0} من المستخدمين المتجاهلين!",
+  "highlight_list_title": "تنبيهات {0}",
+  "highlight_no_highlights": "لا توجد تنبيهات مضبوطة!",
+  "highlight_no_match_found": "لم يتم العثور على مطابقات.",
+  "highlight_no_matches": "لا توجد تنبيهات للمطابقة.",
+  "highlight_not_exist": "هذا التنبيه غير موجود!",
+  "highlight_not_found": "هذا ليس في تنبيهاتك!",
+  "highlight_phrase_required": "تحتاج إلى تحديد عبارة للتنبيه عليها.",
+  "highlight_removed": "تمت إزالة {0} من تنبيهاتك بنجاح.",
+  "highlight_toggle_invalid": "يجب أن تكون true أو false، وليس أي شيء آخر.",
+  "highlight_user_channel_not_found": "لم يتم العثور على ذلك المستخدم أو القناة!"
+}

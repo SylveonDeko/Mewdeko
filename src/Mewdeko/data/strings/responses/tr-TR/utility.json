@@ -1,0 +1,19 @@
+{
+  "invite_filter_channel_off": "Davet filtreleme bu kanal üzerinde devre dışı.",
+  "invite_filter_channel_on": "Davet filtreleme bu kanal üzerinde etkin.",
+  "invite_filter_server_off": "Davet filtreleme bu sunucu üzerinde devre dışı.",
+  "invite_filter_server_on": "Davet filtreleme bu sunucu üzerinde etkin.",
+  "channel_topic": "Kanal konusu",
+  "convert": "{0} {1}, {2} {3} e eşit.",
+  "convert_not_found": "{0} 'ı {1}' e dönüştüremem: birimleri bulunamadım",
+  "convert_type_error": "{0} 'ı {1}' e dönüştüremiyorum: birim türleri eşit değil.",
+  "remind": "I will remind {0} to {1} {2}",
+  "remind_invalid_format": "Geçerli zaman biçimi değil. Komut listesine bakın.",
+  "remind_too_long": "",
+  "repeat_invoke_none": "Bu sunucuda tekrarlanan mesaj bulunamadı.",
+  "serverid": "Bu sunucunun {0} {1}",
+  "reminder_list": "Hatırlatıcıların listesi",
+  "reminder_deleted": "Hatırlatma #{0} silindi.",
+  "reminder_not_exist": "Bu dizinde anımsatıcı yok.",
+  "invite_deleted": "Invite {0} has been deleted."
+}

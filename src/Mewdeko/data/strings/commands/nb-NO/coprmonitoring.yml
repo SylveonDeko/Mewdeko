@@ -1,0 +1,168 @@
+coprmonitoradd:
+  args:
+    - '<ownerProject> [channel] [packages]'
+    - '<ownerProject> [channel] [packages]'
+    - ownerProject
+  desc: 'Legger til en COPR-prosjektmonitor på serveren.'
+  params:
+    - desc: 'COPR-prosjektet i formatet owner/project (f.eks. linux4switch/l4s).'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Valgfri kanal for varsler. Standard er gjeldende kanal.'
+      name: channel
+      optional: true
+      type: ITextChannel
+    - desc: 'Valgfri kommaseparert liste over pakker å overvåke (f.eks. mesa,kernel).'
+      name: packages
+      optional: true
+      type: string
+coprmonitorremove:
+  args:
+    - '<ownerProject> [channel]'
+    - ownerProject
+  desc: 'Fjerner en COPR-prosjektmonitor fra serveren.'
+  params:
+    - desc: 'COPR-prosjektet i formatet owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Valgfri kanal for å fjerne en bestemt monitor.'
+      name: channel
+      optional: true
+      type: ITextChannel
+coprmonitorlist:
+  args:
+    - ''
+  desc: 'Viser alle COPR-monitorer konfigurert på serveren.'
+  params: [ ]
+coprmonitortoggle:
+  args:
+    - ownerProject
+  desc: 'Slår en COPR-monitor på eller av.'
+  params:
+    - desc: 'COPR-prosjektet i formatet owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+coprnotify:
+  args:
+    - ownerProject status enabled
+  desc: 'Konfigurerer hvilke byggestatus som utløser varsler for en monitor.'
+  params:
+    - desc: 'COPR-prosjektet i formatet owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Byggestatusen som skal konfigureres.'
+      name: status
+      optional: false
+      type: CoprBuildStatus
+    - desc: 'Om varsler skal aktiveres eller deaktiveres for denne statusen.'
+      name: enabled
+      optional: false
+      type: bool
+coprfilter:
+  args:
+    - ownerProject text
+  desc: 'Angir pakkefilter for en COPR-monitor.'
+  params:
+    - desc: 'COPR-prosjektet i formatet owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Kommaseparert liste over pakker, eller "all" for å overvåke alt.'
+      name: packages
+      optional: false
+      type: string
+coprsucceededmessage:
+  args:
+    - ownerProject text
+  desc: 'Angir meldingen som vises når et COPR-bygg lykkes.'
+  params:
+    - desc: 'COPR-prosjektet i formatet owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Meldingen eller embed-koden. Bruk "-" for å tilbakestille til standard.'
+      name: message
+      optional: false
+      type: string
+coprfailedmessage:
+  args:
+    - ownerProject text
+  desc: 'Angir meldingen som vises når et COPR-bygg mislykkes.'
+  params:
+    - desc: 'COPR-prosjektet i formatet owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Meldingen eller embed-koden. Bruk "-" for å tilbakestille til standard.'
+      name: message
+      optional: false
+      type: string
+coprcanceledmessage:
+  args:
+    - ownerProject text
+  desc: 'Angir meldingen som vises når et COPR-bygg avbrytes.'
+  params:
+    - desc: 'COPR-prosjektet i formatet owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Meldingen eller embed-koden. Bruk "-" for å tilbakestille til standard.'
+      name: message
+      optional: false
+      type: string
+coprpendingmessage:
+  args:
+    - ownerProject text
+  desc: 'Angir meldingen som vises når et COPR-bygg venter.'
+  params:
+    - desc: 'COPR-prosjektet i formatet owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Meldingen eller embed-koden. Bruk "-" for å tilbakestille til standard.'
+      name: message
+      optional: false
+      type: string
+coprrunningmessage:
+  args:
+    - ownerProject text
+  desc: 'Angir meldingen som vises når et COPR-bygg kjører.'
+  params:
+    - desc: 'COPR-prosjektet i formatet owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Meldingen eller embed-koden. Bruk "-" for å tilbakestille til standard.'
+      name: message
+      optional: false
+      type: string
+coprskippedmessage:
+  args:
+    - ownerProject text
+  desc: 'Angir meldingen som vises når et COPR-bygg hoppes over.'
+  params:
+    - desc: 'COPR-prosjektet i formatet owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Meldingen eller embed-koden. Bruk "-" for å tilbakestille til standard.'
+      name: message
+      optional: false
+      type: string
+coprdefaultmessage:
+  args:
+    - ownerProject text
+  desc: 'Angir standardmeldingen for alle andre byggestatus.'
+  params:
+    - desc: 'COPR-prosjektet i formatet owner/project.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Meldingen eller embed-koden. Bruk "-" for å tilbakestille til standard.'
+      name: message
+      optional: false
+      type: string

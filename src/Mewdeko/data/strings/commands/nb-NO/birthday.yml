@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'Slår bursdagsannonseringer på/av for brukeren.'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'Angir kanalen for bursdagsannonseringer.'
+  params:
+    - desc: >-
+        Tekstkanalen som skal brukes for annonseringer. Standard er den
+        nåværende kanalen hvis ikke spesifisert.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'Viser den nåværende bursdagskonfigurasjonen.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'Viser kommende bursdager på serveren.'
+  params:
+    - desc: Hvor mange dager fram å se. Standard er 7, maks 30.
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'Angir en egendefinert bursdagsmeldingsmal.'
+  params:
+    - desc: >-
+        Meldingsmalen. Bruk {user} for å nevne brukeren. Viser den
+        nåværende meldingen hvis den er tom.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'Angir rollen som skal pinges når bursdager annonseres.'
+  params:
+    - desc: Rollen som skal pinges. Ikke oppgi rolle for å deaktivere.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'Angir bursdagsrollen som brukere får på bursdagen sin.'
+  params:
+    - desc: Rollen som tildeles på en brukers bursdag. Ikke oppgi rolle for å deaktivere.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'Angir brukerens tidssone for bursdagsberegninger.'
+  params:
+    - desc: Tidssonen som skal angis (f.eks. "America/New_York").
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'Viser dagens bursdager.'
+  params: [ ]

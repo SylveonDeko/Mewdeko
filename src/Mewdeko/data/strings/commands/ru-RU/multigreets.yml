@@ -1,0 +1,384 @@
+multigreetadd:
+  args:
+    - '[@channel]'
+  desc: 'Добавляет канал МногоПриветствия.'
+  params:
+    - desc: 'Канал для добавления'
+      name: channel
+      optional: true
+      type: channel
+multigreetdelete:
+  args:
+    - number time
+  desc: 'Изменяет время удаления сообщения МногоПриветствия в секундах.'
+  params:
+    - &ref_303
+      desc: 'ID изменяемого МногоПриветствия'
+      name: id
+      optional: false
+      type: int
+    - &ref_305
+      desc: 'Изменяет время удаления сообщения МногоПриветствия в секундах.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime:
+  args:
+    - number time
+  desc: 'Изменяет время удаления сообщения МногоПриветствия в секундах.'
+  params:
+    - desc: 'ID изменяемого МногоПриветствия'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Изменяет время удаления сообщения МногоПриветствия в секундах.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime_1:
+  args:
+    - number time
+  desc: 'Изменяет время удаления сообщения МногоПриветствия в секундах.'
+  params:
+    - desc: 'ID изменяемого МногоПриветствия'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Изменяет время удаления сообщения МногоПриветствия в секундах.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime_2:
+  args:
+    - number time
+  desc: 'Изменяет время удаления сообщения МногоПриветствия в секундах.'
+  params:
+    - desc: 'ID изменяемого МногоПриветствия'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Изменяет время удаления сообщения МногоПриветствия в секундах.'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_int:
+  args:
+    - number number
+  desc: 'Изменяет время удаления сообщения МногоПриветствия в секундах.'
+  params:
+    - desc: 'ID изменяемого МногоПриветствия'
+      name: id
+      optional: false
+      type: int
+    - &ref_304
+      desc: 'Время в секундах, через которое удалить сообщение'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_1:
+  args:
+    - number number
+  desc: 'Изменяет время удаления сообщения МногоПриветствия в секундах.'
+  params:
+    - desc: 'ID изменяемого МногоПриветствия'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Время в секундах, через которое удалить сообщение'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_2:
+  args:
+    - number number
+  desc: 'Изменяет время удаления сообщения МногоПриветствия в секундах.'
+  params:
+    - desc: 'ID изменяемого МногоПриветствия'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Время в секундах, через которое удалить сообщение'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_3:
+  args:
+    - number number
+  desc: 'Изменяет время удаления сообщения МногоПриветствия в секундах.'
+  params:
+    - desc: 'ID изменяемого МногоПриветствия'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Время в секундах, через которое удалить сообщение'
+      name: howlong
+      optional: false
+      type: int
+multigreetdisable:
+  args:
+    - number true|false
+  desc: 'Отключает МногоПриветствие.'
+  params:
+    - &ref_306
+      desc: 'ID отключаемого МногоПриветствия'
+      name: num
+      optional: false
+      type: int
+    - &ref_307
+      desc: 'Отключить ли МногоПриветствие'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool:
+  args:
+    - number true|false
+  desc: 'Отключает МногоПриветствие.'
+  params:
+    - desc: 'ID отключаемого МногоПриветствия'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Отключить ли МногоПриветствие'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Отключает МногоПриветствие.'
+  params:
+    - desc: 'ID отключаемого МногоПриветствия'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Отключить ли МногоПриветствие'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Отключает МногоПриветствие.'
+  params:
+    - desc: 'ID отключаемого МногоПриветствия'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Отключить ли МногоПриветствие'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots:
+  args:
+    - number true|false
+  desc: 'Изменяет, приветствует ли МногоПриветствие ботов.'
+  params:
+    - &ref_308
+      desc: 'ID изменяемого МногоПриветствия'
+      name: num
+      optional: false
+      type: int
+    - &ref_309
+      desc: 'Приветствовать ли ботов'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool:
+  args:
+    - number true|false
+  desc: 'Изменяет, приветствует ли МногоПриветствие ботов.'
+  params:
+    - desc: 'ID изменяемого МногоПриветствия'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Приветствовать ли ботов'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool_1:
+  args:
+    - number true|false
+  desc: 'Изменяет, приветствует ли МногоПриветствие ботов.'
+  params:
+    - desc: 'ID изменяемого МногоПриветствия'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Приветствовать ли ботов'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool_2:
+  args:
+    - number true|false
+  desc: 'Изменяет, приветствует ли МногоПриветствие ботов.'
+  params:
+    - desc: 'ID изменяемого МногоПриветствия'
+      name: num
+      optional: false
+      type: int
+    - desc: 'Приветствовать ли ботов'
+      name: enabled
+      optional: false
+      type: bool
+multigreetlist:
+  args:
+    - ''
+  desc: 'Перечисляет все МногоПриветствия.'
+  params: [ ]
+multigreetmessage:
+  args:
+    - '<id> [embedTemplate]'
+    - number
+  desc: 'Изменяет сообщение МногоПриветствия.'
+  params:
+    - desc: 'ID изменяемого МногоПриветствия'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Шаблон сообщения/embed для установки'
+      name: embedTemplate
+      optional: true
+      type: embedtemplateresult
+multigreetremove:
+  args:
+    - number
+  desc: 'Удаляет все МногоПриветствия из канала.'
+  params:
+    - &ref_310
+      desc: 'Удаляет все МногоПриветствия из канала.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_ITextChannel:
+  args:
+    - channel
+  desc: 'Удаляет все МногоПриветствия из канала.'
+  params:
+    - &ref_311
+      desc: 'Канал, из которого удаляются МногоПриветствия'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_1:
+  args:
+    - channel
+  desc: 'Удаляет все МногоПриветствия из канала.'
+  params:
+    - desc: 'Канал, из которого удаляются МногоПриветствия'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_2:
+  args:
+    - channel
+  desc: 'Удаляет все МногоПриветствия из канала.'
+  params:
+    - desc: 'Канал, из которого удаляются МногоПриветствия'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_3:
+  args:
+    - channel
+  desc: 'Удаляет все МногоПриветствия из канала.'
+  params:
+    - desc: 'Канал, из которого удаляются МногоПриветствия'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_int:
+  args:
+    - number
+  desc: 'Удаляет все МногоПриветствия из канала.'
+  params:
+    - desc: 'Удаляет все МногоПриветствия из канала.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_int_1:
+  args:
+    - number
+  desc: 'Удаляет все МногоПриветствия из канала.'
+  params:
+    - desc: 'Удаляет все МногоПриветствия из канала.'
+      name: id
+      optional: false
+      type: int
+multigreetremove_int_2:
+  args:
+    - number
+  desc: 'Удаляет все МногоПриветствия из канала.'
+  params:
+    - desc: 'Удаляет все МногоПриветствия из канала.'
+      name: id
+      optional: false
+      type: int
+multigreettype:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Изменяет тип МногоПриветствия.'
+  params:
+    - &ref_312
+      desc: 'Устанавливаемый тип МногоПриветствия'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Изменяет тип МногоПриветствия.'
+  params:
+    - desc: 'Устанавливаемый тип МногоПриветствия'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes_1:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Изменяет тип МногоПриветствия.'
+  params:
+    - desc: 'Устанавливаемый тип МногоПриветствия'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes_2:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: 'Изменяет тип МногоПриветствия.'
+  params:
+    - desc: 'Устанавливаемый тип МногоПриветствия'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreetwebhook:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: 'Изменяет webhook МногоПриветствия.'
+  params:
+    - desc: 'ID изменяемого МногоПриветствия'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Имя webhook'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Аватар webhook'
+      name: avatar
+      optional: true
+      type: string

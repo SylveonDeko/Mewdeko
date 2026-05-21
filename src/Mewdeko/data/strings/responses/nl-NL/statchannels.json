@@ -1,0 +1,9 @@
+{
+  "stat_channel_exists": "This kanaal is al a stat kanaal.",
+  "stat_channel_removed": "Stat kanaal **{0}** Verwijderd.",
+  "stat_channel_not_found": "That Kanaal is not een stat Kanaal.",
+  "stat_channel_list_title": "Stat kanalen",
+  "stat_channel_created": "Gemaakt stat Kanaal **{0}** met type **{1}**.",
+  "stat_channel_added": "Stat Kanaal **{0}** Toegevoegd met type **{1}**.",
+  "stat_channel_none": "geen stat Kanalen configured."
+}

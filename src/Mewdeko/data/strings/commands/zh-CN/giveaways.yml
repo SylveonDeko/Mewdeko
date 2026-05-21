@@ -1,0 +1,326 @@
+gbanner:
+  args:
+    - text
+  desc: '设置默认赠品横幅。'
+  params:
+    - &ref_221
+      desc: '设置默认赠品横幅。'
+      name: banner
+      optional: false
+      type: string
+gbanner_string:
+  args:
+    - text
+  desc: '设置默认赠品横幅。'
+  params:
+    - desc: '设置默认赠品横幅。'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_1:
+  args:
+    - text
+  desc: '设置默认赠品横幅。'
+  params:
+    - desc: '设置默认赠品横幅。'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_2:
+  args:
+    - text
+  desc: '设置默认赠品横幅。'
+  params:
+    - desc: '设置默认赠品横幅。'
+      name: banner
+      optional: false
+      type: string
+gdm:
+  args:
+    - ''
+  desc: '设置是否向赠品获奖者发送私信。'
+  params: [ ]
+gdmmessage:
+  args:
+    - '[message]'
+  desc: '设置用户赢得赠品时发送的私信消息。'
+  params:
+    - desc: '设置用户赢得赠品时发送的私信消息。'
+      name: message
+      optional: true
+      type: string
+gembedcolor:
+  args:
+    - text
+  desc: '设置赠品嵌入的颜色。'
+  params:
+    - &ref_223
+      desc: '十六进制颜色。'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string:
+  args:
+    - text
+  desc: '设置赠品嵌入的颜色。'
+  params:
+    - desc: '十六进制颜色。'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_1:
+  args:
+    - text
+  desc: '设置赠品嵌入的颜色。'
+  params:
+    - desc: '十六进制颜色。'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_2:
+  args:
+    - text
+  desc: '设置赠品嵌入的颜色。'
+  params:
+    - desc: '十六进制颜色。'
+      name: color
+      optional: false
+      type: string
+gemote:
+  args:
+    - emote
+  desc: '设置赠品使用的表情。'
+  params:
+    - &ref_224
+      desc: '要设置的表情。'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote:
+  args:
+    - emote
+  desc: '设置赠品使用的表情。'
+  params:
+    - desc: '要设置的表情。'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_1:
+  args:
+    - emote
+  desc: '设置赠品使用的表情。'
+  params:
+    - desc: '要设置的表情。'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_2:
+  args:
+    - emote
+  desc: '设置赠品使用的表情。'
+  params:
+    - desc: '要设置的表情。'
+      name: emote
+      optional: false
+      type: IEmote
+gend:
+  args:
+    - messageid
+  desc: '结束赠品活动。'
+  params:
+    - &ref_225
+      desc: '要结束的赠品消息ID'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong:
+  args:
+    - messageid
+  desc: '结束赠品活动。'
+  params:
+    - desc: '要结束的赠品消息ID'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_1:
+  args:
+    - messageid
+  desc: '结束赠品活动。'
+  params:
+    - desc: '要结束的赠品消息ID'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_2:
+  args:
+    - messageid
+  desc: '结束赠品活动。'
+  params:
+    - desc: '要结束的赠品消息ID'
+      name: messageid
+      optional: false
+      type: ulong
+glist:
+  args:
+    - ''
+  desc: '列出所有活跃的赠品活动。'
+  params: [ ]
+greroll:
+  args:
+    - messageid
+  desc: '重新抽取赠品。'
+  params:
+    - &ref_237
+      desc: '赠品的消息ID'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong:
+  args:
+    - messageid
+  desc: '重新抽取赠品。'
+  params:
+    - desc: '赠品的消息ID'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_1:
+  args:
+    - messageid
+  desc: '重新抽取赠品。'
+  params:
+    - desc: '赠品的消息ID'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_2:
+  args:
+    - messageid
+  desc: '重新抽取赠品。'
+  params:
+    - desc: '赠品的消息ID'
+      name: messageid
+      optional: false
+      type: ulong
+gstart:
+  args:
+    - chan time number text
+  desc: '更详细的赠品开始，可设置横幅、提及角色等。'
+  params:
+    - &ref_238
+      desc: '开始赠品的频道'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - &ref_239
+      desc: '赠品持续时间'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_240
+      desc: '获奖者数量'
+      name: winners
+      optional: false
+      type: int
+    - &ref_241
+      desc: '赠品物品'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string:
+  args:
+    - chan time number text
+  desc: '更详细的赠品开始，可设置横幅、提及角色等。'
+  params:
+    - desc: '开始赠品的频道'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: '赠品持续时间'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '获奖者数量'
+      name: winners
+      optional: false
+      type: int
+    - desc: '赠品物品'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_1:
+  args:
+    - chan time number text
+  desc: '更详细的赠品开始，可设置横幅、提及角色等。'
+  params:
+    - desc: '开始赠品的频道'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: '赠品持续时间'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '获奖者数量'
+      name: winners
+      optional: false
+      type: int
+    - desc: '赠品物品'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_2:
+  args:
+    - chan time number text
+  desc: '更详细的赠品开始，可设置横幅、提及角色等。'
+  params:
+    - desc: '开始赠品的频道'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: '赠品持续时间'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '获奖者数量'
+      name: winners
+      optional: false
+      type: int
+    - desc: '赠品物品'
+      name: what
+      optional: false
+      type: string
+gstart_noparams:
+  args:
+    - ''
+  desc: '更详细的赠品开始，可设置横幅、提及角色等。'
+  params: [ ]
+gstart_noparams_1:
+  args:
+    - ''
+  desc: '更详细的赠品开始，可设置横幅、提及角色等。'
+  params: [ ]
+gstart_noparams_2:
+  args:
+    - ''
+  desc: '更详细的赠品开始，可设置横幅、提及角色等。'
+  params: [ ]
+gstart_noparams_3:
+  args:
+    - ''
+  desc: '更详细的赠品开始，可设置横幅、提及角色等。'
+  params: [ ]
+gstats:
+  args:
+    - ''
+  desc: '显示赠品统计信息。'
+  params: [ ]
+gwinembedcolor:
+  args:
+    - text
+  desc: '设置获奖嵌入的颜色。'
+  params:
+    - desc: '十六进制颜色。'
+      name: color
+      optional: false
+      type: string

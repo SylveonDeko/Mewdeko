@@ -20,7 +20,8 @@ addautopublish:
   - addautopublish
   - addautopub
   - aap
-updatetopguilds:
+topserversupdate:
+  - topserversupdate
   - updatetopguilds
 addblacklistedpermission:
   - addblacklistedpermission
@@ -3507,3 +3508,23 @@ mcrcon:
 mcwhitelist:
   - mcwhitelist
   - mcwl
+lastfmlink:
+  - lastfmlink
+  - lflink
+lastfmunlink:
+  - lastfmunlink
+  - lfunlink
+lastfmtoggle:
+  - lastfmtoggle
+  - lftoggle
+lastfmstatus:
+  - lastfmstatus
+  - lfstatus
+antimasspost:
+  - antimasspost
+antipostchannel:
+  - antipostchannel
+antipostchanneladd:
+  - antipostchanneladd
+antipostchannelremove:
+  - antipostchannelremove

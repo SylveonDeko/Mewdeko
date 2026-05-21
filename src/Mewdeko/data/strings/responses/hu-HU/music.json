@@ -1,0 +1,8 @@
+{
+  "autoplay_disabled": "Automatikus lejátszás letiltva",
+  "playlist_deleted": "Lejátszási lista törölve.",
+  "playlist_saved": "Lejátszási lista mentve",
+  "queue": "Lista",
+  "queue_cleared": "Lejátszási sor törölve.",
+  "volume_set": "Hangerő {0}%-ra állítva."
+}

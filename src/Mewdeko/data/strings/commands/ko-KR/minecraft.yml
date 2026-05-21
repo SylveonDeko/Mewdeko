@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'Minecraft 서버의 상태를 확인합니다. 등록된 서버 이름, 직접 주소를 사용하거나 기본 서버는 비워두세요.'
+  params:
+    - desc: '등록된 서버 이름 또는 직접 주소 (예: play.example.com:25565).'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: '길드에 Minecraft 서버를 추가합니다. 베드락 서버는 주소 앞에 bedrock: 접두사를 붙이세요.'
+  params:
+    - desc: '서버의 라벨.'
+      name: name
+      optional: false
+      type: string
+    - desc: '서버 주소, 선택적으로 포트 포함 (예: play.example.com:25565 또는 bedrock:play.example.com).'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: '길드에서 Minecraft 서버를 제거합니다.'
+  params:
+    - desc: '제거할 서버 이름.'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: '이 길드의 등록된 모든 Minecraft 서버를 나열합니다.'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: '서버를 상태 명령의 기본값으로 설정합니다.'
+  params:
+    - desc: '기본값으로 설정할 서버 이름.'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: '서버의 주기적 상태 업데이트를 받을 채널을 설정합니다. 채널을 생략하면 비활성화됩니다.'
+  params:
+    - desc: '감시할 서버 이름.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: '업데이트를 게시할 채널.'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: '서버 상태 표시 방식 설정: embed (제자리 편집), 채널 주제, 또는 둘 다.'
+  params:
+    - desc: '서버 이름.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: '감시 모드: Embed, ChannelTopic, 또는 Both.'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: '감시되는 서버에 대한 사용자 정의 embed 템플릿을 설정합니다. "-"로 재설정. 자리표시자: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
+  params:
+    - desc: '서버 이름.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'embed 템플릿 JSON, 또는 "-"로 기본값으로 재설정.'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: '사용자 이름으로 Minecraft 플레이어를 조회하여 프로필과 스킨을 표시합니다.'
+  params:
+    - desc: '조회할 Minecraft 사용자 이름.'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'Minecraft 플레이어의 스킨 렌더를 표시합니다.'
+  params:
+    - desc: 'Minecraft 사용자 이름.'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: '등록된 Minecraft 서버에 RCON 명령을 전송합니다. 대시보드를 통해 RCON을 구성해야 합니다.'
+  params:
+    - desc: '서버 이름.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: '서버에서 실행할 명령.'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'RCON을 통해 Minecraft 서버의 화이트리스트를 관리합니다. RCON 구성이 필요합니다.'
+  params:
+    - desc: '서버 이름.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: '작업: add, remove, list, on, off, reload.'
+      name: action
+      optional: false
+      type: string
+    - desc: '플레이어 이름 (add/remove용).'
+      name: playerName
+      optional: true
+      type: string

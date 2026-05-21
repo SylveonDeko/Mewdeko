@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    Pokazuje polecenia dla określonego modułu. Jeśli null, jest aliasem
+    dla modules, który jest aliasem dla help.
+  params:
+    - desc: 'Moduł do obejrzenia'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    Pokazuje polecenia dla określonego modułu. Jeśli null, jest aliasem
+    dla modules, który jest aliasem dla help.
+  params:
+    - desc: 'Moduł do obejrzenia'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    Pokazuje polecenia dla określonego modułu. Jeśli null, jest aliasem
+    dla modules, który jest aliasem dla help.
+  params:
+    - desc: 'Moduł do obejrzenia'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    Pokazuje polecenia dla określonego modułu. Jeśli null, jest aliasem
+    dla modules, który jest aliasem dla help.
+  params:
+    - desc: 'Moduł do obejrzenia'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: 'Pokazuje, jak wesprzeć bota.'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    Eksportuje wszystkie polecenia do pliku json. Używane głównie do
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    Eksportuje wszystkie polecenia do pliku json. Używane głównie do
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    Eksportuje wszystkie polecenia do pliku json. Używane głównie do
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    Eksportuje wszystkie polecenia do pliku json. Używane głównie do
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: 'Pokazuje przewodnik bota.'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: Pokazuje pomoc dla określonego polecenia.
+  params:
+    - desc: Polecenie, dla którego uzyskać pomoc.
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: Pokazuje informacje pomocy dla poleceń.
+  params:
+    - desc: Polecenie, dla którego uzyskać pomoc.
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: 'Pokazuje listę wszystkich modułów. W zasadzie to obecnie tylko alias help.'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: 'Szuka polecenia po nazwie lub opisie.'
+  params:
+    - &ref_481
+      desc: 'Termin do wyszukania'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: 'Szuka polecenia po nazwie lub opisie.'
+  params:
+    - desc: 'Termin do wyszukania'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: 'Szuka polecenia po nazwie lub opisie.'
+  params:
+    - desc: 'Termin do wyszukania'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: 'Szuka polecenia po nazwie lub opisie.'
+  params:
+    - desc: 'Termin do wyszukania'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: 'Pokazuje link do kodu źródłowego bota.'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'Pokazuje link do głosowania na mewdeko.'
+  params: [ ]

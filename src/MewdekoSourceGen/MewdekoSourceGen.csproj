@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
@@ -14,6 +14,7 @@
 
     <RootNamespace>MewdekoSourceGen</RootNamespace>
     <PackageId>MewdekoSourceGen</PackageId>
+    <NoWarn>$(NoWarn);RS1041</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

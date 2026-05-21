@@ -1,0 +1,95 @@
+statchannelcreate:
+  args:
+    - 'TotalMembers [template]'
+  desc: 'सर्वर आँकड़ा प्रदर्शित करने वाला एक नया लॉक्ड वॉयस चैनल बनाता है। बॉट चैनल बनाएगा और प्रबंधित करेगा।'
+  params:
+    - desc: 'प्रदर्शित करने के लिए आँकड़ा प्रकार।'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'प्रदर्शन टेम्पलेट। मान के लिए %count% का उपयोग करें।'
+      name: template
+      optional: true
+      type: string
+statchanneladd:
+  args:
+    - '#voice-channel TotalMembers [template]'
+  desc: 'एक वॉयस चैनल को आँकड़ा चैनल के रूप में जोड़ता है। प्रकार: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount।'
+  params:
+    - desc: 'उपयोग करने के लिए वॉयस चैनल।'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'प्रदर्शित करने के लिए आँकड़ा प्रकार।'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'प्रदर्शन टेम्पलेट। मान के लिए %count% का उपयोग करें।'
+      name: template
+      optional: true
+      type: string
+statchannelrole:
+  args:
+    - '#voice-channel @role [template]'
+  desc: 'एक आँकड़ा चैनल जोड़ता है जो दिखाता है कि कितने सदस्यों के पास एक विशिष्ट भूमिका है।'
+  params:
+    - desc: 'उपयोग करने के लिए वॉयस चैनल।'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'जिस भूमिका के सदस्य गिनने हैं।'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'प्रदर्शन टेम्पलेट। %count% और %role.name% का उपयोग करें।'
+      name: template
+      optional: true
+      type: string
+statchannelcountdown:
+  args:
+    - '#voice-channel 2026-12-31 [template]'
+  desc: 'एक काउंटडाउन आँकड़ा चैनल जोड़ता है। %days% और %hours% प्लेसहोल्डर्स का उपयोग करें।'
+  params:
+    - desc: 'उपयोग करने के लिए वॉयस चैनल।'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'काउंटडाउन के लिए लक्ष्य तिथि।'
+      name: date
+      optional: false
+      type: DateTime
+    - desc: 'प्रदर्शन टेम्पलेट। %days% और %hours% का उपयोग करें।'
+      name: template
+      optional: true
+      type: string
+statchannelgoal:
+  args:
+    - '#voice-channel 1000 [template]'
+  desc: 'एक सदस्य लक्ष्य आँकड़ा चैनल जोड़ता है। %count%, %goal% और %goal.percent% का उपयोग करें।'
+  params:
+    - desc: 'उपयोग करने के लिए वॉयस चैनल।'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'लक्ष्य सदस्य संख्या।'
+      name: goal
+      optional: false
+      type: int
+    - desc: 'प्रदर्शन टेम्पलेट। %count%, %goal%, %goal.percent% का उपयोग करें।'
+      name: template
+      optional: true
+      type: string
+statchannelremove:
+  args:
+    - '#voice-channel'
+  desc: 'एक आँकड़ा चैनल हटाता है।'
+  params:
+    - desc: 'हटाने के लिए वॉयस चैनल।'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+statchannellist:
+  args:
+    - ''
+  desc: 'इस सर्वर के सभी आँकड़ा चैनलों को सूचीबद्ध करता है।'
+  params: [ ]

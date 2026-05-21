@@ -1,0 +1,326 @@
+todoadd:
+  args:
+    - listId
+    - title
+    - description
+  desc: 'Legger til et nytt gjorelement i en angitt liste'
+  params:
+    - desc: 'IDen til gjorelistemet.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Tittelen til gjoreelementet.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Valgfri beskrivelse av elementet.'
+      name: description
+      optional: true
+      type: string
+todoaddpriority:
+  args:
+    - listId
+    - priority
+    - title
+    - description
+  desc: 'Legger til et gjorelement med prioritet og valgfri forfallsdato'
+  params:
+    - desc: 'IDen til gjorelistemet.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Prioritetsniva (1=Lav, 2=Middels, 3=Hoy, 4=Kritisk).'
+      name: priority
+      optional: false
+      type: int
+    - desc: 'Tittelen til gjoreelementet.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Valgfri beskrivelse av elementet.'
+      name: description
+      optional: true
+      type: string
+todoaddtag:
+  args:
+    - itemId
+    - tag
+  desc: 'Legger til en tagg pa et gjorelement'
+  params:
+    - desc: 'IDen til gjoreelementet.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Taggen som skal legges til.'
+      name: tag
+      optional: false
+      type: string
+todocleardue:
+  args:
+    - itemId
+  desc: 'Fjerner forfallsdatoen fra et gjorelement'
+  params:
+    - desc: 'IDen til gjoreelementet.'
+      name: itemId
+      optional: false
+      type: int
+todoclearreminder:
+  args:
+    - itemId
+  desc: 'Fjerner paminnelsen fra et gjorelement'
+  params:
+    - desc: 'IDen til gjoreelementet.'
+      name: itemId
+      optional: false
+      type: int
+todocomplete:
+  args:
+    - itemId
+  desc: 'Markerer et gjorelement som fullfort'
+  params:
+    - desc: 'IDen til gjoreelementet.'
+      name: itemId
+      optional: false
+      type: int
+todocreatelist:
+  args:
+    - name
+    - description
+  desc: 'Oppretter en ny gjoreliste'
+  params:
+    - desc: 'Navnet pa gjorelisten.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Valgfri beskrivelse av listen.'
+      name: description
+      optional: true
+      type: string
+todocreateserverlist:
+  args:
+    - name
+    - description
+  desc: 'Oppretter en ny serveromfattende gjoreliste (kun administratorer)'
+  params:
+    - desc: 'Navnet pa server-gjorelisten.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Valgfri beskrivelse av listen.'
+      name: description
+      optional: true
+      type: string
+tododelete:
+  args:
+    - itemId
+  desc: 'Sletter et gjorelement'
+  params:
+    - desc: 'IDen til gjoreelementet.'
+      name: itemId
+      optional: false
+      type: int
+tododeletelist:
+  args:
+    - listId
+  desc: 'Sletter en hel gjoreliste'
+  params:
+    - desc: 'IDen til gjorelisten.'
+      name: listId
+      optional: false
+      type: int
+todoedit:
+  args:
+    - itemId
+    - title
+    - description
+  desc: 'Redigerer tittelen og beskrivelsen til et gjorelement'
+  params:
+    - desc: 'IDen til gjoreelementet.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Den nye tittelen.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Den nye beskrivelsen.'
+      name: description
+      optional: true
+      type: string
+todofilter:
+  args:
+    - listId
+    - filter
+    - value
+  desc: 'Filtrerer gjoreelementer etter tagg eller prioritet'
+  params:
+    - desc: 'IDen til gjorelisten.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Filtertype (tagg eller prioritet).'
+      name: filter
+      optional: false
+      type: string
+    - desc: 'Verdien det skal filtreres etter.'
+      name: value
+      optional: true
+      type: string
+todogrant:
+  args:
+    - listId
+    - '@user'
+    - permissions
+  desc: 'Gir en bruker tillatelser for en gjoreliste (kun listeeier/administrator)'
+  params:
+    - desc: 'IDen til gjorelisten.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Brukeren som far tillatelser.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Kommaseparerte tillatelser (view,add,edit,complete,delete,manage,all).'
+      name: permissions
+      optional: false
+      type: string
+todolists:
+  args:
+    - includeServer
+  desc: 'Lister alle gjorelister som er tilgjengelige for brukeren'
+  params:
+    - desc: 'Om serveromfattende lister skal inkluderes.'
+      name: includeServer
+      optional: true
+      type: bool
+todopermissions:
+  args:
+    - listId
+  desc: 'Viser alle tillatelser for en gjoreliste'
+  params:
+    - desc: 'IDen til gjorelisten.'
+      name: listId
+      optional: false
+      type: int
+todoremovetag:
+  args:
+    - itemId
+    - tag
+  desc: 'Fjerner en tagg fra et gjorelement'
+  params:
+    - desc: 'IDen til gjoreelementet.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Taggen som skal fjernes.'
+      name: tag
+      optional: false
+      type: string
+todoreorder:
+  args:
+    - itemId
+    - newPosition
+  desc: 'Sorterer et gjorelement til en ny posisjon'
+  params:
+    - desc: 'IDen til gjoreelementet.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Den nye posisjonen (1-basert).'
+      name: newPosition
+      optional: false
+      type: int
+todorevoke:
+  args:
+    - listId
+    - '@user'
+  desc: 'Tilbakekaller alle tillatelsene til en bruker pa en gjoreliste'
+  params:
+    - desc: 'IDen til gjorelisten.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Brukeren som far tillatelsene tilbakekalt.'
+      name: user
+      optional: false
+      type: IUser
+todosearch:
+  args:
+    - listId
+    - query
+  desc: 'Soker etter gjoreelementer i en liste'
+  params:
+    - desc: 'IDen til gjorelisten.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Sokeordet.'
+      name: query
+      optional: false
+      type: string
+todosetcolor:
+  args:
+    - listId
+    - color
+  desc: 'Angir fargen for en gjoreliste'
+  params:
+    - desc: 'IDen til gjorelisten.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Heksadesimal fargekode (f.eks.,'
+      name: color
+      optional: false
+      type: string
+todosetdue:
+  args:
+    - itemId
+    - dateString
+  desc: 'Angir forfallsdatoen for et gjorelement'
+  params:
+    - desc: 'IDen til gjoreelementet.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Forfallsdato og -tid.'
+      name: dateString
+      optional: false
+      type: string
+todosetreminder:
+  args:
+    - itemId
+    - dateString
+  desc: 'Angir en paminnelsestid for et gjorelement'
+  params:
+    - desc: 'IDen til gjoreelementet.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Paminnelsesdato og -tid.'
+      name: dateString
+      optional: false
+      type: string
+todoshow:
+  args:
+    - listId
+    - includeCompleted
+  desc: 'Viser alle elementer i en gjoreliste'
+  params:
+    - desc: 'IDen til gjorelisten.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Om fullforte elementer skal inkluderes.'
+      name: includeCompleted
+      optional: true
+      type: bool
+todotoggleprivacy:
+  args:
+    - listId
+  desc: 'Veksler personverninnstillingen for en gjoreliste'
+  params:
+    - desc: 'IDen til gjorelisten.'
+      name: listId
+      optional: false
+      type: int

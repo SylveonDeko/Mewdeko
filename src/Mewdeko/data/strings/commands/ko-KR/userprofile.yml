@@ -1,0 +1,481 @@
+deleteuserstatsdata:
+  args:
+    - ''
+  desc: '사용자의 명령 통계 데이터를 삭제합니다.'
+  params: [ ]
+greetdmoptout:
+  args:
+    - ''
+  desc: '사용자가 환영 DM 수신 거부를 전환할 수 있도록 합니다. 참가하는 서버가 DM 인사에 mewdeko를 사용하는 경우에만 작동합니다.'
+  params: [ ]
+profile:
+  args:
+    - '[@user]'
+  desc: '사용자의 프로필 또는 지정한 경우 다른 사용자의 프로필을 표시합니다.'
+  params:
+    - desc: '프로필을 표시할 사용자. null인 경우 호출자의 프로필을 표시합니다.'
+      name: user
+      optional: true
+      type: user
+profile_=:
+  args:
+    - '[@user]'
+  desc: '사용자의 프로필 또는 지정한 경우 다른 사용자의 프로필을 표시합니다.'
+  params:
+    - desc: '프로필을 표시할 사용자. null인 경우 호출자의 프로필을 표시합니다.'
+      name: user
+      optional: true
+      type: user
+profile_=_1:
+  args:
+    - '[@user]'
+  desc: '사용자의 프로필 또는 지정한 경우 다른 사용자의 프로필을 표시합니다.'
+  params:
+    - desc: '프로필을 표시할 사용자. null인 경우 호출자의 프로필을 표시합니다.'
+      name: user
+      optional: true
+      type: user
+profile_=_2:
+  args:
+    - '[@user]'
+  desc: '사용자의 프로필 또는 지정한 경우 다른 사용자의 프로필을 표시합니다.'
+  params:
+    - desc: '프로필을 표시할 사용자. null인 경우 호출자의 프로필을 표시합니다.'
+      name: user
+      optional: true
+      type: user
+pronouns:
+  args:
+    - '[@user]'
+  desc: '지정한 사용자 또는 사용자가 지정되지 않은 경우 명령 호출자의 대명사를 표시합니다.'
+  params:
+    - desc: '선택 사항. 대명사를 표시할 사용자.'
+      name: user
+      optional: true
+      type: user
+pronounsforceclear:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: '사용자의 대명사를 ID로 강제 초기화하며, 필요한 경우 악용으로 인해 비활성화된 것으로 표시합니다.'
+  params:
+    - &ref_356
+      desc: '대명사를 초기화할 사용자의 사용자 ID.'
+      name: user
+      optional: true
+      type: IUser
+    - &ref_357
+      desc: '악용으로 인해 대명사가 비활성화되는지 여부.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - &ref_358
+      desc: '작업의 이유.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: '사용자의 대명사를 ID로 강제 초기화하며, 필요한 경우 악용으로 인해 비활성화된 것으로 표시합니다.'
+  params:
+    - desc: '대명사를 초기화할 사용자의 사용자 ID.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: '악용으로 인해 대명사가 비활성화되는지 여부.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: '작업의 이유.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string_1:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: '사용자의 대명사를 ID로 강제 초기화하며, 필요한 경우 악용으로 인해 비활성화된 것으로 표시합니다.'
+  params:
+    - desc: '대명사를 초기화할 사용자의 사용자 ID.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: '악용으로 인해 대명사가 비활성화되는지 여부.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: '작업의 이유.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string_2:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: '사용자의 대명사를 ID로 강제 초기화하며, 필요한 경우 악용으로 인해 비활성화된 것으로 표시합니다.'
+  params:
+    - desc: '대명사를 초기화할 사용자의 사용자 ID.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: '악용으로 인해 대명사가 비활성화되는지 여부.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: '작업의 이유.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string:
+  args:
+    - user true|false text
+  desc: '사용자의 대명사를 ID로 강제 초기화하며, 필요한 경우 악용으로 인해 비활성화된 것으로 표시합니다.'
+  params:
+    - &ref_359
+      desc: '대명사를 초기화할 사용자의 사용자 ID.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: '악용으로 인해 대명사가 비활성화되는지 여부.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: '작업의 이유.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_1:
+  args:
+    - user true|false text
+  desc: '사용자의 대명사를 ID로 강제 초기화하며, 필요한 경우 악용으로 인해 비활성화된 것으로 표시합니다.'
+  params:
+    - desc: '대명사를 초기화할 사용자의 사용자 ID.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: '악용으로 인해 대명사가 비활성화되는지 여부.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: '작업의 이유.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_2:
+  args:
+    - user true|false text
+  desc: '사용자의 대명사를 ID로 강제 초기화하며, 필요한 경우 악용으로 인해 비활성화된 것으로 표시합니다.'
+  params:
+    - desc: '대명사를 초기화할 사용자의 사용자 ID.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: '악용으로 인해 대명사가 비활성화되는지 여부.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: '작업의 이유.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_3:
+  args:
+    - user true|false text
+  desc: '사용자의 대명사를 ID로 강제 초기화하며, 필요한 경우 악용으로 인해 비활성화된 것으로 표시합니다.'
+  params:
+    - desc: '대명사를 초기화할 사용자의 사용자 ID.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: '악용으로 인해 대명사가 비활성화되는지 여부.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: '작업의 이유.'
+      name: reason
+      optional: false
+      type: string
+setbio:
+  args:
+    - text
+  desc: '사용자 프로필의 자기소개를 설정하거나 업데이트합니다.'
+  params:
+    - &ref_490
+      desc: '자기소개 텍스트. 2048자 미만이어야 합니다.'
+      name: bio
+      optional: false
+      type: string
+setbio_string:
+  args:
+    - text
+  desc: '사용자 프로필의 자기소개를 설정하거나 업데이트합니다.'
+  params:
+    - desc: '자기소개 텍스트. 2048자 미만이어야 합니다.'
+      name: bio
+      optional: false
+      type: string
+setbio_string_1:
+  args:
+    - text
+  desc: '사용자 프로필의 자기소개를 설정하거나 업데이트합니다.'
+  params:
+    - desc: '자기소개 텍스트. 2048자 미만이어야 합니다.'
+      name: bio
+      optional: false
+      type: string
+setbio_string_2:
+  args:
+    - text
+  desc: '사용자 프로필의 자기소개를 설정하거나 업데이트합니다.'
+  params:
+    - desc: '자기소개 텍스트. 2048자 미만이어야 합니다.'
+      name: bio
+      optional: false
+      type: string
+setbirthday:
+  args:
+    - time
+  desc: '사용자 프로필에 생일을 설정합니다.'
+  params:
+    - &ref_491
+      desc: '생일 날짜.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime:
+  args:
+    - time
+  desc: '사용자 프로필에 생일을 설정합니다.'
+  params:
+    - desc: '생일 날짜.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime_1:
+  args:
+    - time
+  desc: '사용자 프로필에 생일을 설정합니다.'
+  params:
+    - desc: '생일 날짜.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime_2:
+  args:
+    - time
+  desc: '사용자 프로필에 생일을 설정합니다.'
+  params:
+    - desc: '생일 날짜.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthdayprivacy:
+  args:
+    - birthdaydisplaymodeenum
+  desc: '사용자 프로필의 생일 개인정보 보호 모드를 설정합니다.'
+  params:
+    - &ref_492
+      desc: '설정할 생일 표시 모드.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum:
+  args:
+    - birthdaydisplaymodeenum
+  desc: '사용자 프로필의 생일 개인정보 보호 모드를 설정합니다.'
+  params:
+    - desc: '설정할 생일 표시 모드.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum_1:
+  args:
+    - birthdaydisplaymodeenum
+  desc: '사용자 프로필의 생일 개인정보 보호 모드를 설정합니다.'
+  params:
+    - desc: '설정할 생일 표시 모드.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum_2:
+  args:
+    - birthdaydisplaymodeenum
+  desc: '사용자 프로필의 생일 개인정보 보호 모드를 설정합니다.'
+  params:
+    - desc: '설정할 생일 표시 모드.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setprivacy:
+  args:
+    - privacyenum
+  desc: '사용자 프로필의 개인정보 보호 수준을 설정합니다.'
+  params:
+    - &ref_513
+      desc: '적용할 개인정보 보호 설정.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum:
+  args:
+    - privacyenum
+  desc: '사용자 프로필의 개인정보 보호 수준을 설정합니다.'
+  params:
+    - desc: '적용할 개인정보 보호 설정.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum_1:
+  args:
+    - privacyenum
+  desc: '사용자 프로필의 개인정보 보호 수준을 설정합니다.'
+  params:
+    - desc: '적용할 개인정보 보호 설정.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum_2:
+  args:
+    - privacyenum
+  desc: '사용자 프로필의 개인정보 보호 수준을 설정합니다.'
+  params:
+    - desc: '적용할 개인정보 보호 설정.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprofilecolor:
+  args:
+    - input
+  desc: 'SKColor 입력을 기반으로 프로필 색상을 설정합니다.'
+  params:
+    - &ref_514
+      desc: '원하는 프로필 색상을 나타내는 SKColor.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor:
+  args:
+    - input
+  desc: 'SKColor 입력을 기반으로 프로필 색상을 설정합니다.'
+  params:
+    - desc: '원하는 프로필 색상을 나타내는 SKColor.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor_1:
+  args:
+    - input
+  desc: 'SKColor 입력을 기반으로 프로필 색상을 설정합니다.'
+  params:
+    - desc: '원하는 프로필 색상을 나타내는 SKColor.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor_2:
+  args:
+    - input
+  desc: 'SKColor 입력을 기반으로 프로필 색상을 설정합니다.'
+  params:
+    - desc: '원하는 프로필 색상을 나타내는 SKColor.'
+      name: input
+      optional: false
+      type: SKColor
+setprofileimage:
+  args:
+    - text
+  desc: '사용자 프로필에 프로필 이미지 URL을 설정합니다.'
+  params:
+    - &ref_515
+      desc: '프로필 이미지로 설정할 이미지의 URL.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string:
+  args:
+    - text
+  desc: '사용자 프로필에 프로필 이미지 URL을 설정합니다.'
+  params:
+    - desc: '프로필 이미지로 설정할 이미지의 URL.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string_1:
+  args:
+    - text
+  desc: '사용자 프로필에 프로필 이미지 URL을 설정합니다.'
+  params:
+    - desc: '프로필 이미지로 설정할 이미지의 URL.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string_2:
+  args:
+    - text
+  desc: '사용자 프로필에 프로필 이미지 URL을 설정합니다.'
+  params:
+    - desc: '프로필 이미지로 설정할 이미지의 URL.'
+      name: url
+      optional: false
+      type: string
+setpronouns:
+  args:
+    - '[pronouns]'
+  desc: '사용자의 대명사를 설정하거나 지웁니다.'
+  params:
+    - desc: '설정할 대명사. null이거나 비어 있으면 기존 대명사를 지웁니다.'
+      name: pronouns
+      optional: true
+      type: string
+setswitchfc:
+  args:
+    - '""'
+  desc: '사용자 프로필에서 닌텐도 스위치 친구 코드를 설정하거나 지웁니다.'
+  params:
+    - desc: '사용자 프로필에서 닌텐도 스위치 친구 코드를 설정하거나 지웁니다.'
+      name: '""'
+      optional: false
+      type: '='
+setzodiac:
+  args:
+    - text
+  desc: '사용자 프로필에 별자리를 설정합니다.'
+  params:
+    - &ref_539
+      desc: '설정할 별자리.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string:
+  args:
+    - text
+  desc: '사용자 프로필에 별자리를 설정합니다.'
+  params:
+    - desc: '설정할 별자리.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string_1:
+  args:
+    - text
+  desc: '사용자 프로필에 별자리를 설정합니다.'
+  params:
+    - desc: '설정할 별자리.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string_2:
+  args:
+    - text
+  desc: '사용자 프로필에 별자리를 설정합니다.'
+  params:
+    - desc: '설정할 별자리.'
+      name: zodiac
+      optional: false
+      type: string
+userstatsoptout:
+  args:
+    - ''
+  desc: '명령 통계 수집에 대한 사용자의 수신 거부 상태를 전환합니다.'
+  params: [ ]

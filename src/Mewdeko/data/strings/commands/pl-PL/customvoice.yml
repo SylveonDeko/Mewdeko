@@ -1,0 +1,305 @@
+setupvoicehub:
+  args:
+    - ''
+  desc: 'Konfiguruje kanał głosowy jako centrum do tworzenia niestandardowych kanałów głosowych.'
+  params: [ ]
+setvoicehub:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Ustawia określony kanał głosowy jako centrum do tworzenia niestandardowych kanałów głosowych.'
+  params:
+    - desc: 'Ustawia określony kanał głosowy jako centrum do tworzenia niestandardowych kanałów głosowych.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Ustawia określony kanał głosowy jako centrum do tworzenia niestandardowych kanałów głosowych.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Ustawia określony kanał głosowy jako centrum do tworzenia niestandardowych kanałów głosowych.'
+  params:
+    - desc: 'Ustawia określony kanał głosowy jako centrum do tworzenia niestandardowych kanałów głosowych.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Ustawia określony kanał głosowy jako centrum do tworzenia niestandardowych kanałów głosowych.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_1:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Ustawia określony kanał głosowy jako centrum do tworzenia niestandardowych kanałów głosowych.'
+  params:
+    - desc: 'Ustawia określony kanał głosowy jako centrum do tworzenia niestandardowych kanałów głosowych.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Ustawia określony kanał głosowy jako centrum do tworzenia niestandardowych kanałów głosowych.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_2:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Ustawia określony kanał głosowy jako centrum do tworzenia niestandardowych kanałów głosowych.'
+  params:
+    - desc: 'Ustawia określony kanał głosowy jako centrum do tworzenia niestandardowych kanałów głosowych.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Ustawia określony kanał głosowy jako centrum do tworzenia niestandardowych kanałów głosowych.'
+      name: category
+      optional: true
+      type: category
+voiceallow:
+  args:
+    - '@user'
+  desc: 'Zezwala określonemu użytkownikowi na dołączenie do zablokowanego kanału głosowego.'
+  params:
+    - &ref_642
+      desc: 'Zezwala określonemu użytkownikowi na dołączenie do zablokowanego kanału głosowego.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Zezwala określonemu użytkownikowi na dołączenie do zablokowanego kanału głosowego.'
+  params:
+    - desc: 'Zezwala określonemu użytkownikowi na dołączenie do zablokowanego kanału głosowego.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Zezwala określonemu użytkownikowi na dołączenie do zablokowanego kanału głosowego.'
+  params:
+    - desc: 'Zezwala określonemu użytkownikowi na dołączenie do zablokowanego kanału głosowego.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Zezwala określonemu użytkownikowi na dołączenie do zablokowanego kanału głosowego.'
+  params:
+    - desc: 'Zezwala określonemu użytkownikowi na dołączenie do zablokowanego kanału głosowego.'
+      name: target
+      optional: false
+      type: IGuildUser
+voicebitrate:
+  args:
+    - number
+  desc: 'Ustawia bitrate dla niestandardowego kanału głosowego.'
+  params:
+    - &ref_643
+      desc: 'Ustawia bitrate dla niestandardowego kanału głosowego.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int:
+  args:
+    - number
+  desc: 'Ustawia bitrate dla niestandardowego kanału głosowego.'
+  params:
+    - desc: 'Ustawia bitrate dla niestandardowego kanału głosowego.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_1:
+  args:
+    - number
+  desc: 'Ustawia bitrate dla niestandardowego kanału głosowego.'
+  params:
+    - desc: 'Ustawia bitrate dla niestandardowego kanału głosowego.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_2:
+  args:
+    - number
+  desc: 'Ustawia bitrate dla niestandardowego kanału głosowego.'
+  params:
+    - desc: 'Ustawia bitrate dla niestandardowego kanału głosowego.'
+      name: bitrate
+      optional: false
+      type: int
+voicechannels:
+  args:
+    - ''
+  desc: 'Wyświetla listę aktywnych niestandardowych kanałów głosowych.'
+  params: [ ]
+voiceclaim:
+  args:
+    - ''
+  desc: 'Przejmuje własność niestandardowego kanału głosowego, jeśli właściciel nie jest obecny.'
+  params: [ ]
+voiceconfig:
+  args:
+    - '[setting] [value]'
+  desc: 'Konfiguruje niestandardowe ustawienia głosowe.'
+  params:
+    - desc: 'Konfiguruje niestandardowe ustawienia głosowe.'
+      name: setting
+      optional: true
+      type: string
+    - desc: 'Konfiguruje niestandardowe ustawienia głosowe.'
+      name: value
+      optional: true
+      type: string
+voicecontrols:
+  args:
+    - ''
+  desc: 'Wyświetla interaktywne kontrolki do zarządzania niestandardowym kanałem głosowym.'
+  params: [ ]
+voicedeny:
+  args:
+    - '@user'
+  desc: 'Odmawia określonemu użytkownikowi dostępu do kanału głosowego.'
+  params:
+    - desc: 'Odmawia określonemu użytkownikowi dostępu do kanału głosowego.'
+      name: target
+      optional: false
+      type: IGuildUser
+voicekeepalive:
+  args:
+    - true
+  desc: 'Utrzymuje kanał aktywnym nawet gdy jest pusty.'
+  params:
+    - desc: 'Utrzymuje kanał aktywnym nawet gdy jest pusty.'
+      name: true
+      optional: false
+      type: '='
+voicelimit:
+  args:
+    - number
+  desc: 'Ustawia limit użytkowników dla niestandardowego kanału głosowego.'
+  params:
+    - &ref_644
+      desc: 'Ustawia limit użytkowników dla niestandardowego kanału głosowego.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int:
+  args:
+    - number
+  desc: 'Ustawia limit użytkowników dla niestandardowego kanału głosowego.'
+  params:
+    - desc: 'Ustawia limit użytkowników dla niestandardowego kanału głosowego.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_1:
+  args:
+    - number
+  desc: 'Ustawia limit użytkowników dla niestandardowego kanału głosowego.'
+  params:
+    - desc: 'Ustawia limit użytkowników dla niestandardowego kanału głosowego.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_2:
+  args:
+    - number
+  desc: 'Ustawia limit użytkowników dla niestandardowego kanału głosowego.'
+  params:
+    - desc: 'Ustawia limit użytkowników dla niestandardowego kanału głosowego.'
+      name: limit
+      optional: false
+      type: int
+voicelock:
+  args:
+    - true
+  desc: 'Blokuje lub odblokowuje niestandardowy kanał głosowy.'
+  params:
+    - desc: 'Blokuje lub odblokowuje niestandardowy kanał głosowy.'
+      name: true
+      optional: false
+      type: '='
+voicepreferences:
+  args:
+    - ''
+  desc: 'Ustawia preferencje kanału głosowego.'
+  params: [ ]
+voiceprefsbitrate:
+  args:
+    - '[bitrate]'
+  desc: 'Ustawia preferowany bitrate dla niestandardowych kanałów głosowych.'
+  params:
+    - desc: 'Ustawia preferowany bitrate dla niestandardowych kanałów głosowych.'
+      name: bitrate
+      optional: true
+      type: int
+voiceprefskeepalive:
+  args:
+    - '[keepAlive]'
+  desc: 'Ustawia preferowany status keep-alive dla niestandardowych kanałów głosowych.'
+  params:
+    - desc: 'Ustawia preferowany status keep-alive dla niestandardowych kanałów głosowych.'
+      name: keepAlive
+      optional: true
+      type: bool
+voiceprefslimit:
+  args:
+    - '[limit]'
+  desc: 'Ustawia preferowany limit użytkowników dla niestandardowych kanałów głosowych.'
+  params:
+    - desc: 'Ustawia preferowany limit użytkowników dla niestandardowych kanałów głosowych.'
+      name: limit
+      optional: true
+      type: int
+voiceprefslock:
+  args:
+    - '[locked]'
+  desc: 'Ustawia preferowany status blokady dla niestandardowych kanałów głosowych.'
+  params:
+    - desc: 'Ustawia preferowany status blokady dla niestandardowych kanałów głosowych.'
+      name: locked
+      optional: true
+      type: bool
+voiceprefsname:
+  args:
+    - '[format]'
+  desc: 'Ustawia preferowany format nazwy dla niestandardowych kanałów głosowych.'
+  params:
+    - desc: 'Ustawia preferowany format nazwy dla niestandardowych kanałów głosowych.'
+      name: format
+      optional: true
+      type: string
+voiceprefsreset:
+  args:
+    - ''
+  desc: 'Resetuje wszystkie preferencje kanału głosowego.'
+  params: [ ]
+voicerename:
+  args:
+    - text
+  desc: 'Zmienia nazwę niestandardowego kanału głosowego.'
+  params:
+    - desc: 'Zmienia nazwę niestandardowego kanału głosowego.'
+      name: name
+      optional: false
+      type: string
+voicetransfer:
+  args:
+    - '@user'
+  desc: 'Przenosi własność niestandardowego kanału głosowego na innego użytkownika.'
+  params:
+    - desc: 'Przenosi własność niestandardowego kanału głosowego na innego użytkownika.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceunlock:
+  args:
+    - ''
+  desc: 'Odblokowuje niestandardowy kanał głosowy.'
+  params: [ ]

@@ -1,0 +1,326 @@
+gbanner:
+  args:
+    - text
+  desc: 'Varsayilan cekilis bannerini ayarlar.'
+  params:
+    - &ref_221
+      desc: 'Varsayilan cekilis bannerini ayarlar.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string:
+  args:
+    - text
+  desc: 'Varsayilan cekilis bannerini ayarlar.'
+  params:
+    - desc: 'Varsayilan cekilis bannerini ayarlar.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_1:
+  args:
+    - text
+  desc: 'Varsayilan cekilis bannerini ayarlar.'
+  params:
+    - desc: 'Varsayilan cekilis bannerini ayarlar.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_2:
+  args:
+    - text
+  desc: 'Varsayilan cekilis bannerini ayarlar.'
+  params:
+    - desc: 'Varsayilan cekilis bannerini ayarlar.'
+      name: banner
+      optional: false
+      type: string
+gdm:
+  args:
+    - ''
+  desc: 'Cekilis kazananina DM gonderilip gonderilmeyecegini ayarlar.'
+  params: [ ]
+gdmmessage:
+  args:
+    - '[message]'
+  desc: 'Kullanicilar cekilis kazandiginda gonderilen DM mesajini ayarlar.'
+  params:
+    - desc: 'Kullanicilar cekilis kazandiginda gonderilen DM mesajini ayarlar.'
+      name: message
+      optional: true
+      type: string
+gembedcolor:
+  args:
+    - text
+  desc: 'Cekilisler icin embed rengini ayarlar.'
+  params:
+    - &ref_223
+      desc: 'Onaltilik renk.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string:
+  args:
+    - text
+  desc: 'Cekilisler icin embed rengini ayarlar.'
+  params:
+    - desc: 'Onaltilik renk.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_1:
+  args:
+    - text
+  desc: 'Cekilisler icin embed rengini ayarlar.'
+  params:
+    - desc: 'Onaltilik renk.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_2:
+  args:
+    - text
+  desc: 'Cekilisler icin embed rengini ayarlar.'
+  params:
+    - desc: 'Onaltilik renk.'
+      name: color
+      optional: false
+      type: string
+gemote:
+  args:
+    - emote
+  desc: 'Cekilisler icin kullanilan emoteyi ayarlar.'
+  params:
+    - &ref_224
+      desc: 'Ayarlanacak emote.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote:
+  args:
+    - emote
+  desc: 'Cekilisler icin kullanilan emoteyi ayarlar.'
+  params:
+    - desc: 'Ayarlanacak emote.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_1:
+  args:
+    - emote
+  desc: 'Cekilisler icin kullanilan emoteyi ayarlar.'
+  params:
+    - desc: 'Ayarlanacak emote.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_2:
+  args:
+    - emote
+  desc: 'Cekilisler icin kullanilan emoteyi ayarlar.'
+  params:
+    - desc: 'Ayarlanacak emote.'
+      name: emote
+      optional: false
+      type: IEmote
+gend:
+  args:
+    - messageid
+  desc: 'Bir cekilisi sonlandirir.'
+  params:
+    - &ref_225
+      desc: 'Sonlandirilacak cekilisin mesaj IDsi'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong:
+  args:
+    - messageid
+  desc: 'Bir cekilisi sonlandirir.'
+  params:
+    - desc: 'Sonlandirilacak cekilisin mesaj IDsi'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_1:
+  args:
+    - messageid
+  desc: 'Bir cekilisi sonlandirir.'
+  params:
+    - desc: 'Sonlandirilacak cekilisin mesaj IDsi'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_2:
+  args:
+    - messageid
+  desc: 'Bir cekilisi sonlandirir.'
+  params:
+    - desc: 'Sonlandirilacak cekilisin mesaj IDsi'
+      name: messageid
+      optional: false
+      type: ulong
+glist:
+  args:
+    - ''
+  desc: 'Tum aktif cekilisleri listeler.'
+  params: [ ]
+greroll:
+  args:
+    - messageid
+  desc: 'Bir cekilisi yeniden ceker.'
+  params:
+    - &ref_237
+      desc: 'Bir cekilisin mesaj IDsi'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong:
+  args:
+    - messageid
+  desc: 'Bir cekilisi yeniden ceker.'
+  params:
+    - desc: 'Bir cekilisin mesaj IDsi'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_1:
+  args:
+    - messageid
+  desc: 'Bir cekilisi yeniden ceker.'
+  params:
+    - desc: 'Bir cekilisin mesaj IDsi'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_2:
+  args:
+    - messageid
+  desc: 'Bir cekilisi yeniden ceker.'
+  params:
+    - desc: 'Bir cekilisin mesaj IDsi'
+      name: messageid
+      optional: false
+      type: ulong
+gstart:
+  args:
+    - chan time number text
+  desc: 'Daha ayrintili cekilis baslangici, banner, ping rolu ve daha fazlasini ayarlamaniza olanak tanir.'
+  params:
+    - &ref_238
+      desc: 'Cekilisin baslatilacagi kanal'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - &ref_239
+      desc: 'Cekilisin suresi'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_240
+      desc: 'Kazanan sayisi'
+      name: winners
+      optional: false
+      type: int
+    - &ref_241
+      desc: 'Dagitilacak odul'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string:
+  args:
+    - chan time number text
+  desc: 'Daha ayrintili cekilis baslangici, banner, ping rolu ve daha fazlasini ayarlamaniza olanak tanir.'
+  params:
+    - desc: 'Cekilisin baslatilacagi kanal'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Cekilisin suresi'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Kazanan sayisi'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Dagitilacak odul'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_1:
+  args:
+    - chan time number text
+  desc: 'Daha ayrintili cekilis baslangici, banner, ping rolu ve daha fazlasini ayarlamaniza olanak tanir.'
+  params:
+    - desc: 'Cekilisin baslatilacagi kanal'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Cekilisin suresi'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Kazanan sayisi'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Dagitilacak odul'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_2:
+  args:
+    - chan time number text
+  desc: 'Daha ayrintili cekilis baslangici, banner, ping rolu ve daha fazlasini ayarlamaniza olanak tanir.'
+  params:
+    - desc: 'Cekilisin baslatilacagi kanal'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Cekilisin suresi'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Kazanan sayisi'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Dagitilacak odul'
+      name: what
+      optional: false
+      type: string
+gstart_noparams:
+  args:
+    - ''
+  desc: 'Daha ayrintili cekilis baslangici, banner, ping rolu ve daha fazlasini ayarlamaniza olanak tanir.'
+  params: [ ]
+gstart_noparams_1:
+  args:
+    - ''
+  desc: 'Daha ayrintili cekilis baslangici, banner, ping rolu ve daha fazlasini ayarlamaniza olanak tanir.'
+  params: [ ]
+gstart_noparams_2:
+  args:
+    - ''
+  desc: 'Daha ayrintili cekilis baslangici, banner, ping rolu ve daha fazlasini ayarlamaniza olanak tanir.'
+  params: [ ]
+gstart_noparams_3:
+  args:
+    - ''
+  desc: 'Daha ayrintili cekilis baslangici, banner, ping rolu ve daha fazlasini ayarlamaniza olanak tanir.'
+  params: [ ]
+gstats:
+  args:
+    - ''
+  desc: 'Cekilisler icin istatistikleri gosterir.'
+  params: [ ]
+gwinembedcolor:
+  args:
+    - text
+  desc: 'Kazanan embed icin rengi ayarlar.'
+  params:
+    - desc: 'Onaltilik renk.'
+      name: color
+      optional: false
+      type: string

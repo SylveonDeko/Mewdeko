@@ -1,0 +1,326 @@
+todoadd:
+  args:
+    - listId
+    - title
+    - description
+  desc: 'Lagger till ett nytt uppgiftsobjekt i en specificerad lista'
+  params:
+    - desc: 'IDt for uppgiftslistan.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Titeln pa uppgiftsobjektet.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Valfri beskrivning av objektet.'
+      name: description
+      optional: true
+      type: string
+todoaddpriority:
+  args:
+    - listId
+    - priority
+    - title
+    - description
+  desc: 'Lagger till ett uppgiftsobjekt med prioritet och valfritt forfallodatum'
+  params:
+    - desc: 'IDt for uppgiftslistan.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Prioritetsniva (1=Lag, 2=Medel, 3=Hog, 4=Kritisk).'
+      name: priority
+      optional: false
+      type: int
+    - desc: 'Titeln pa uppgiftsobjektet.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Valfri beskrivning av objektet.'
+      name: description
+      optional: true
+      type: string
+todoaddtag:
+  args:
+    - itemId
+    - tag
+  desc: 'Lagger till en tagg pa ett uppgiftsobjekt'
+  params:
+    - desc: 'IDt for uppgiftsobjektet.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Taggen att lagga till.'
+      name: tag
+      optional: false
+      type: string
+todocleardue:
+  args:
+    - itemId
+  desc: 'Tar bort forfallodatumet fran ett uppgiftsobjekt'
+  params:
+    - desc: 'IDt for uppgiftsobjektet.'
+      name: itemId
+      optional: false
+      type: int
+todoclearreminder:
+  args:
+    - itemId
+  desc: 'Tar bort paminnelsen fran ett uppgiftsobjekt'
+  params:
+    - desc: 'IDt for uppgiftsobjektet.'
+      name: itemId
+      optional: false
+      type: int
+todocomplete:
+  args:
+    - itemId
+  desc: 'Markerar ett uppgiftsobjekt som klart'
+  params:
+    - desc: 'IDt for uppgiftsobjektet.'
+      name: itemId
+      optional: false
+      type: int
+todocreatelist:
+  args:
+    - name
+    - description
+  desc: 'Skapar en ny uppgiftslista'
+  params:
+    - desc: 'Namnet pa uppgiftslistan.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Valfri beskrivning av listan.'
+      name: description
+      optional: true
+      type: string
+todocreateserverlist:
+  args:
+    - name
+    - description
+  desc: 'Skapar en ny serveromfattande uppgiftslista (endast admins)'
+  params:
+    - desc: 'Namnet pa server-uppgiftslistan.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Valfri beskrivning av listan.'
+      name: description
+      optional: true
+      type: string
+tododelete:
+  args:
+    - itemId
+  desc: 'Tar bort ett uppgiftsobjekt'
+  params:
+    - desc: 'IDt for uppgiftsobjektet.'
+      name: itemId
+      optional: false
+      type: int
+tododeletelist:
+  args:
+    - listId
+  desc: 'Tar bort en hel uppgiftslista'
+  params:
+    - desc: 'IDt for uppgiftslistan.'
+      name: listId
+      optional: false
+      type: int
+todoedit:
+  args:
+    - itemId
+    - title
+    - description
+  desc: 'Redigerar titeln och beskrivningen av ett uppgiftsobjekt'
+  params:
+    - desc: 'IDt for uppgiftsobjektet.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Den nya titeln.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Den nya beskrivningen.'
+      name: description
+      optional: true
+      type: string
+todofilter:
+  args:
+    - listId
+    - filter
+    - value
+  desc: 'Filtrerar uppgiftsobjekt efter tagg eller prioritet'
+  params:
+    - desc: 'IDt for uppgiftslistan.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Filtertyp (tagg eller prioritet).'
+      name: filter
+      optional: false
+      type: string
+    - desc: 'Vardet att filtrera pa.'
+      name: value
+      optional: true
+      type: string
+todogrant:
+  args:
+    - listId
+    - '@user'
+    - permissions
+  desc: 'Ger en anvandare behorigheter for en uppgiftslista (endast listaagare/admin)'
+  params:
+    - desc: 'IDt for uppgiftslistan.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Anvandaren som far behorigheter.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Kommaseparerade behorigheter (view,add,edit,complete,delete,manage,all).'
+      name: permissions
+      optional: false
+      type: string
+todolists:
+  args:
+    - includeServer
+  desc: 'Listar alla uppgiftslistor som ar tillgangliga for anvandaren'
+  params:
+    - desc: 'Om serveromfattande listor ska inkluderas.'
+      name: includeServer
+      optional: true
+      type: bool
+todopermissions:
+  args:
+    - listId
+  desc: 'Visar alla behorigheter for en uppgiftslista'
+  params:
+    - desc: 'IDt for uppgiftslistan.'
+      name: listId
+      optional: false
+      type: int
+todoremovetag:
+  args:
+    - itemId
+    - tag
+  desc: 'Tar bort en tagg fran ett uppgiftsobjekt'
+  params:
+    - desc: 'IDt for uppgiftsobjektet.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Taggen att ta bort.'
+      name: tag
+      optional: false
+      type: string
+todoreorder:
+  args:
+    - itemId
+    - newPosition
+  desc: 'Ordnar om ett uppgiftsobjekt till en ny position'
+  params:
+    - desc: 'IDt for uppgiftsobjektet.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Den nya positionen (1-baserad).'
+      name: newPosition
+      optional: false
+      type: int
+todorevoke:
+  args:
+    - listId
+    - '@user'
+  desc: 'Aterkallar alla behorigheter for en anvandare pa en uppgiftslista'
+  params:
+    - desc: 'IDt for uppgiftslistan.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Anvandaren vars behorigheter aterkallas.'
+      name: user
+      optional: false
+      type: IUser
+todosearch:
+  args:
+    - listId
+    - query
+  desc: 'Soker efter uppgiftsobjekt i en lista'
+  params:
+    - desc: 'IDt for uppgiftslistan.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Sokfragan.'
+      name: query
+      optional: false
+      type: string
+todosetcolor:
+  args:
+    - listId
+    - color
+  desc: 'Anger fargen for en uppgiftslista'
+  params:
+    - desc: 'IDt for uppgiftslistan.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Hexadecimal fargkod (t.ex.,'
+      name: color
+      optional: false
+      type: string
+todosetdue:
+  args:
+    - itemId
+    - dateString
+  desc: 'Anger forfallodatumet for ett uppgiftsobjekt'
+  params:
+    - desc: 'IDt for uppgiftsobjektet.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Forfallodatum och -tid.'
+      name: dateString
+      optional: false
+      type: string
+todosetreminder:
+  args:
+    - itemId
+    - dateString
+  desc: 'Anger en paminnelsetid for ett uppgiftsobjekt'
+  params:
+    - desc: 'IDt for uppgiftsobjektet.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Paminnelsedatum och -tid.'
+      name: dateString
+      optional: false
+      type: string
+todoshow:
+  args:
+    - listId
+    - includeCompleted
+  desc: 'Visar alla objekt i en uppgiftslista'
+  params:
+    - desc: 'IDt for uppgiftslistan.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Om slutforda objekt ska inkluderas.'
+      name: includeCompleted
+      optional: true
+      type: bool
+todotoggleprivacy:
+  args:
+    - listId
+  desc: 'Vaxlar sekretessinstaellningen for en uppgiftslista'
+  params:
+    - desc: 'IDt for uppgiftslistan.'
+      name: listId
+      optional: false
+      type: int

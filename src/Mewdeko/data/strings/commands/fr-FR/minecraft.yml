@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'Vérifie l''état d''un serveur Minecraft. Utilisez un nom de serveur enregistré, une adresse directe, ou laissez vide pour le serveur par défaut.'
+  params:
+    - desc: 'Le nom du serveur enregistré ou l''adresse directe (ex. play.example.com:25565).'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: 'Ajoute un serveur Minecraft à la guilde. Préfixez l''adresse avec bedrock: pour les serveurs Bedrock.'
+  params:
+    - desc: 'Un libellé pour le serveur.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'L''adresse du serveur, éventuellement avec port (ex. play.example.com:25565 ou bedrock:play.example.com).'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: 'Supprime un serveur Minecraft de la guilde.'
+  params:
+    - desc: 'Le nom du serveur à supprimer.'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: 'Liste tous les serveurs Minecraft enregistrés pour cette guilde.'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: 'Définit un serveur comme défaut pour les commandes de statut.'
+  params:
+    - desc: 'Le nom du serveur à définir par défaut.'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: 'Définit un canal pour recevoir des mises à jour périodiques du statut d''un serveur. Omettez le canal pour désactiver.'
+  params:
+    - desc: 'Le nom du serveur à surveiller.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Le canal pour publier les mises à jour.'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: 'Définit comment le statut du serveur est affiché : embed (édition sur place), sujet du canal, ou les deux.'
+  params:
+    - desc: 'Le nom du serveur.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Le mode de surveillance : Embed, ChannelTopic, ou Both.'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: 'Définit un modèle embed personnalisé pour un serveur surveillé. Utilisez "-" pour réinitialiser. Espaces réservés : %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
+  params:
+    - desc: 'Le nom du serveur.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Le JSON du modèle embed, ou "-" pour réinitialiser au défaut.'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: 'Recherche un joueur Minecraft par nom d''utilisateur et affiche son profil et son skin.'
+  params:
+    - desc: 'Le nom d''utilisateur Minecraft à rechercher.'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'Affiche le rendu du skin d''un joueur Minecraft.'
+  params:
+    - desc: 'Le nom d''utilisateur Minecraft.'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: 'Envoie une commande RCON à un serveur Minecraft enregistré. RCON doit être configuré via le tableau de bord.'
+  params:
+    - desc: 'Le nom du serveur.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'La commande à exécuter sur le serveur.'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'Gère la whitelist sur un serveur Minecraft via RCON. Nécessite que RCON soit configuré.'
+  params:
+    - desc: 'Le nom du serveur.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'L''action : add, remove, list, on, off, reload.'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Le nom du joueur (pour add/remove).'
+      name: playerName
+      optional: true
+      type: string

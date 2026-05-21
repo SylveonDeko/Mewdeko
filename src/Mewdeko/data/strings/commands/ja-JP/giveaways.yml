@@ -1,0 +1,326 @@
+gbanner:
+  args:
+    - text
+  desc: 'デフォルトのプレゼントバナーを設定します。'
+  params:
+    - &ref_221
+      desc: 'デフォルトのプレゼントバナーを設定します。'
+      name: banner
+      optional: false
+      type: string
+gbanner_string:
+  args:
+    - text
+  desc: 'デフォルトのプレゼントバナーを設定します。'
+  params:
+    - desc: 'デフォルトのプレゼントバナーを設定します。'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_1:
+  args:
+    - text
+  desc: 'デフォルトのプレゼントバナーを設定します。'
+  params:
+    - desc: 'デフォルトのプレゼントバナーを設定します。'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_2:
+  args:
+    - text
+  desc: 'デフォルトのプレゼントバナーを設定します。'
+  params:
+    - desc: 'デフォルトのプレゼントバナーを設定します。'
+      name: banner
+      optional: false
+      type: string
+gdm:
+  args:
+    - ''
+  desc: 'プレゼントの当選者にDMを送るかどうかを設定します。'
+  params: [ ]
+gdmmessage:
+  args:
+    - '[message]'
+  desc: 'プレゼントに当選したユーザーに送るDMメッセージを設定します。'
+  params:
+    - desc: 'プレゼントに当選したユーザーに送るDMメッセージを設定します。'
+      name: message
+      optional: true
+      type: string
+gembedcolor:
+  args:
+    - text
+  desc: 'プレゼントのembedの色を設定します。'
+  params:
+    - &ref_223
+      desc: '16進数の色。'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string:
+  args:
+    - text
+  desc: 'プレゼントのembedの色を設定します。'
+  params:
+    - desc: '16進数の色。'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_1:
+  args:
+    - text
+  desc: 'プレゼントのembedの色を設定します。'
+  params:
+    - desc: '16進数の色。'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_2:
+  args:
+    - text
+  desc: 'プレゼントのembedの色を設定します。'
+  params:
+    - desc: '16進数の色。'
+      name: color
+      optional: false
+      type: string
+gemote:
+  args:
+    - emote
+  desc: 'プレゼントに使用する絵文字を設定します。'
+  params:
+    - &ref_224
+      desc: '設定する絵文字。'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote:
+  args:
+    - emote
+  desc: 'プレゼントに使用する絵文字を設定します。'
+  params:
+    - desc: '設定する絵文字。'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_1:
+  args:
+    - emote
+  desc: 'プレゼントに使用する絵文字を設定します。'
+  params:
+    - desc: '設定する絵文字。'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_2:
+  args:
+    - emote
+  desc: 'プレゼントに使用する絵文字を設定します。'
+  params:
+    - desc: '設定する絵文字。'
+      name: emote
+      optional: false
+      type: IEmote
+gend:
+  args:
+    - messageid
+  desc: 'プレゼントを終了します。'
+  params:
+    - &ref_225
+      desc: '終了するプレゼントのメッセージID'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong:
+  args:
+    - messageid
+  desc: 'プレゼントを終了します。'
+  params:
+    - desc: '終了するプレゼントのメッセージID'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_1:
+  args:
+    - messageid
+  desc: 'プレゼントを終了します。'
+  params:
+    - desc: '終了するプレゼントのメッセージID'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_2:
+  args:
+    - messageid
+  desc: 'プレゼントを終了します。'
+  params:
+    - desc: '終了するプレゼントのメッセージID'
+      name: messageid
+      optional: false
+      type: ulong
+glist:
+  args:
+    - ''
+  desc: 'すべてのアクティブなプレゼントを一覧表示します。'
+  params: [ ]
+greroll:
+  args:
+    - messageid
+  desc: 'プレゼントを再抽選します。'
+  params:
+    - &ref_237
+      desc: 'プレゼントのメッセージID'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong:
+  args:
+    - messageid
+  desc: 'プレゼントを再抽選します。'
+  params:
+    - desc: 'プレゼントのメッセージID'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_1:
+  args:
+    - messageid
+  desc: 'プレゼントを再抽選します。'
+  params:
+    - desc: 'プレゼントのメッセージID'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_2:
+  args:
+    - messageid
+  desc: 'プレゼントを再抽選します。'
+  params:
+    - desc: 'プレゼントのメッセージID'
+      name: messageid
+      optional: false
+      type: ulong
+gstart:
+  args:
+    - chan time number text
+  desc: 'より詳細なプレゼント開始で、バナー、ピング役職などを設定できます。'
+  params:
+    - &ref_238
+      desc: 'プレゼントを開始するチャンネル'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - &ref_239
+      desc: 'プレゼントの継続時間'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_240
+      desc: '当選者の数'
+      name: winners
+      optional: false
+      type: int
+    - &ref_241
+      desc: '提供するアイテム'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string:
+  args:
+    - chan time number text
+  desc: 'より詳細なプレゼント開始で、バナー、ピング役職などを設定できます。'
+  params:
+    - desc: 'プレゼントを開始するチャンネル'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'プレゼントの継続時間'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '当選者の数'
+      name: winners
+      optional: false
+      type: int
+    - desc: '提供するアイテム'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_1:
+  args:
+    - chan time number text
+  desc: 'より詳細なプレゼント開始で、バナー、ピング役職などを設定できます。'
+  params:
+    - desc: 'プレゼントを開始するチャンネル'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'プレゼントの継続時間'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '当選者の数'
+      name: winners
+      optional: false
+      type: int
+    - desc: '提供するアイテム'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_2:
+  args:
+    - chan time number text
+  desc: 'より詳細なプレゼント開始で、バナー、ピング役職などを設定できます。'
+  params:
+    - desc: 'プレゼントを開始するチャンネル'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'プレゼントの継続時間'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '当選者の数'
+      name: winners
+      optional: false
+      type: int
+    - desc: '提供するアイテム'
+      name: what
+      optional: false
+      type: string
+gstart_noparams:
+  args:
+    - ''
+  desc: 'より詳細なプレゼント開始で、バナー、ピング役職などを設定できます。'
+  params: [ ]
+gstart_noparams_1:
+  args:
+    - ''
+  desc: 'より詳細なプレゼント開始で、バナー、ピング役職などを設定できます。'
+  params: [ ]
+gstart_noparams_2:
+  args:
+    - ''
+  desc: 'より詳細なプレゼント開始で、バナー、ピング役職などを設定できます。'
+  params: [ ]
+gstart_noparams_3:
+  args:
+    - ''
+  desc: 'より詳細なプレゼント開始で、バナー、ピング役職などを設定できます。'
+  params: [ ]
+gstats:
+  args:
+    - ''
+  desc: 'プレゼントの統計を表示します。'
+  params: [ ]
+gwinembedcolor:
+  args:
+    - text
+  desc: '当選embedの色を設定します。'
+  params:
+    - desc: '16進数の色。'
+      name: color
+      optional: false
+      type: string

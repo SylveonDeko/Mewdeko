@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'Переключает уведомления о дне рождения для пользователя.'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'Устанавливает канал для уведомлений о дне рождения.'
+  params:
+    - desc: >-
+        Текстовый канал для уведомлений. По умолчанию используется
+        текущий канал, если не указан.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'Просмотр текущей конфигурации дней рождения.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'Показывает предстоящие дни рождения на сервере.'
+  params:
+    - desc: На сколько дней вперёд смотреть. По умолчанию 7, максимум 30.
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'Устанавливает пользовательский шаблон сообщения о дне рождения.'
+  params:
+    - desc: >-
+        Шаблон сообщения. Используйте {user} для упоминания пользователя.
+        Показывает текущее сообщение, если оставить пустым.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'Устанавливает роль для упоминания при уведомлении о днях рождения.'
+  params:
+    - desc: Роль для упоминания. Не указывайте роль, чтобы отключить.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'Устанавливает роль, которую пользователи получают в свой день рождения.'
+  params:
+    - desc: Роль для назначения в день рождения пользователя. Не указывайте, чтобы отключить.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'Устанавливает часовой пояс пользователя для расчёта дня рождения.'
+  params:
+    - desc: Часовой пояс для установки (например, "America/New_York").
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'Показывает дни рождения сегодня.'
+  params: [ ]

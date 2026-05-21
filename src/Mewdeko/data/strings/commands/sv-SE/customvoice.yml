@@ -1,0 +1,305 @@
+setupvoicehub:
+  args:
+    - ''
+  desc: 'Ställer in en röstkanal som nav för att skapa anpassade röstkanaler.'
+  params: [ ]
+setvoicehub:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Ställer in en specifik röstkanal som nav för att skapa anpassade röstkanaler.'
+  params:
+    - desc: 'Ställer in en specifik röstkanal som nav för att skapa anpassade röstkanaler.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Ställer in en specifik röstkanal som nav för att skapa anpassade röstkanaler.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Ställer in en specifik röstkanal som nav för att skapa anpassade röstkanaler.'
+  params:
+    - desc: 'Ställer in en specifik röstkanal som nav för att skapa anpassade röstkanaler.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Ställer in en specifik röstkanal som nav för att skapa anpassade röstkanaler.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_1:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Ställer in en specifik röstkanal som nav för att skapa anpassade röstkanaler.'
+  params:
+    - desc: 'Ställer in en specifik röstkanal som nav för att skapa anpassade röstkanaler.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Ställer in en specifik röstkanal som nav för att skapa anpassade röstkanaler.'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_2:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'Ställer in en specifik röstkanal som nav för att skapa anpassade röstkanaler.'
+  params:
+    - desc: 'Ställer in en specifik röstkanal som nav för att skapa anpassade röstkanaler.'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'Ställer in en specifik röstkanal som nav för att skapa anpassade röstkanaler.'
+      name: category
+      optional: true
+      type: category
+voiceallow:
+  args:
+    - '@user'
+  desc: 'Tillåter en specifik användare att gå med i din låsta röstkanal.'
+  params:
+    - &ref_642
+      desc: 'Tillåter en specifik användare att gå med i din låsta röstkanal.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser:
+  args:
+    - '@user'
+  desc: 'Tillåter en specifik användare att gå med i din låsta röstkanal.'
+  params:
+    - desc: 'Tillåter en specifik användare att gå med i din låsta röstkanal.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_1:
+  args:
+    - '@user'
+  desc: 'Tillåter en specifik användare att gå med i din låsta röstkanal.'
+  params:
+    - desc: 'Tillåter en specifik användare att gå med i din låsta röstkanal.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_2:
+  args:
+    - '@user'
+  desc: 'Tillåter en specifik användare att gå med i din låsta röstkanal.'
+  params:
+    - desc: 'Tillåter en specifik användare att gå med i din låsta röstkanal.'
+      name: target
+      optional: false
+      type: IGuildUser
+voicebitrate:
+  args:
+    - number
+  desc: 'Ställer in bithastigheten för din anpassade röstkanal.'
+  params:
+    - &ref_643
+      desc: 'Ställer in bithastigheten för din anpassade röstkanal.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int:
+  args:
+    - number
+  desc: 'Ställer in bithastigheten för din anpassade röstkanal.'
+  params:
+    - desc: 'Ställer in bithastigheten för din anpassade röstkanal.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_1:
+  args:
+    - number
+  desc: 'Ställer in bithastigheten för din anpassade röstkanal.'
+  params:
+    - desc: 'Ställer in bithastigheten för din anpassade röstkanal.'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_2:
+  args:
+    - number
+  desc: 'Ställer in bithastigheten för din anpassade röstkanal.'
+  params:
+    - desc: 'Ställer in bithastigheten för din anpassade röstkanal.'
+      name: bitrate
+      optional: false
+      type: int
+voicechannels:
+  args:
+    - ''
+  desc: 'Listar aktiva anpassade röstkanaler.'
+  params: [ ]
+voiceclaim:
+  args:
+    - ''
+  desc: 'Gör anspråk på äganderätten till en anpassad röstkanal om ägaren inte är närvarande.'
+  params: [ ]
+voiceconfig:
+  args:
+    - '[setting] [value]'
+  desc: 'Konfigurerar de anpassade röstinställningarna.'
+  params:
+    - desc: 'Konfigurerar de anpassade röstinställningarna.'
+      name: setting
+      optional: true
+      type: string
+    - desc: 'Konfigurerar de anpassade röstinställningarna.'
+      name: value
+      optional: true
+      type: string
+voicecontrols:
+  args:
+    - ''
+  desc: 'Visar interaktiva kontroller för att hantera din anpassade röstkanal.'
+  params: [ ]
+voicedeny:
+  args:
+    - '@user'
+  desc: 'Nekar en specifik användare från att gå med i din röstkanal.'
+  params:
+    - desc: 'Nekar en specifik användare från att gå med i din röstkanal.'
+      name: target
+      optional: false
+      type: IGuildUser
+voicekeepalive:
+  args:
+    - true
+  desc: 'Håller kanalen aktiv även när den är tom.'
+  params:
+    - desc: 'Håller kanalen aktiv även när den är tom.'
+      name: true
+      optional: false
+      type: '='
+voicelimit:
+  args:
+    - number
+  desc: 'Ställer in användargränsen för din anpassade röstkanal.'
+  params:
+    - &ref_644
+      desc: 'Ställer in användargränsen för din anpassade röstkanal.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int:
+  args:
+    - number
+  desc: 'Ställer in användargränsen för din anpassade röstkanal.'
+  params:
+    - desc: 'Ställer in användargränsen för din anpassade röstkanal.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_1:
+  args:
+    - number
+  desc: 'Ställer in användargränsen för din anpassade röstkanal.'
+  params:
+    - desc: 'Ställer in användargränsen för din anpassade röstkanal.'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_2:
+  args:
+    - number
+  desc: 'Ställer in användargränsen för din anpassade röstkanal.'
+  params:
+    - desc: 'Ställer in användargränsen för din anpassade röstkanal.'
+      name: limit
+      optional: false
+      type: int
+voicelock:
+  args:
+    - true
+  desc: 'Låser eller låser upp din anpassade röstkanal.'
+  params:
+    - desc: 'Låser eller låser upp din anpassade röstkanal.'
+      name: true
+      optional: false
+      type: '='
+voicepreferences:
+  args:
+    - ''
+  desc: 'Ställer in dina röstkanals preferenser.'
+  params: [ ]
+voiceprefsbitrate:
+  args:
+    - '[bitrate]'
+  desc: 'Ställer in din föredragna bithastighet för anpassade röstkanaler.'
+  params:
+    - desc: 'Ställer in din föredragna bithastighet för anpassade röstkanaler.'
+      name: bitrate
+      optional: true
+      type: int
+voiceprefskeepalive:
+  args:
+    - '[keepAlive]'
+  desc: 'Ställer in din föredragna keep-alive-status för anpassade röstkanaler.'
+  params:
+    - desc: 'Ställer in din föredragna keep-alive-status för anpassade röstkanaler.'
+      name: keepAlive
+      optional: true
+      type: bool
+voiceprefslimit:
+  args:
+    - '[limit]'
+  desc: 'Ställer in din föredragna användargräns för anpassade röstkanaler.'
+  params:
+    - desc: 'Ställer in din föredragna användargräns för anpassade röstkanaler.'
+      name: limit
+      optional: true
+      type: int
+voiceprefslock:
+  args:
+    - '[locked]'
+  desc: 'Ställer in din föredragna låsstatus för anpassade röstkanaler.'
+  params:
+    - desc: 'Ställer in din föredragna låsstatus för anpassade röstkanaler.'
+      name: locked
+      optional: true
+      type: bool
+voiceprefsname:
+  args:
+    - '[format]'
+  desc: 'Ställer in ditt föredragna namnformat för anpassade röstkanaler.'
+  params:
+    - desc: 'Ställer in ditt föredragna namnformat för anpassade röstkanaler.'
+      name: format
+      optional: true
+      type: string
+voiceprefsreset:
+  args:
+    - ''
+  desc: 'Återställer alla dina röstkanals preferenser.'
+  params: [ ]
+voicerename:
+  args:
+    - text
+  desc: 'Byter namn på din anpassade röstkanal.'
+  params:
+    - desc: 'Byter namn på din anpassade röstkanal.'
+      name: name
+      optional: false
+      type: string
+voicetransfer:
+  args:
+    - '@user'
+  desc: 'Överför äganderätten till din anpassade röstkanal till en annan användare.'
+  params:
+    - desc: 'Överför äganderätten till din anpassade röstkanal till en annan användare.'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceunlock:
+  args:
+    - ''
+  desc: 'Låser upp din anpassade röstkanal.'
+  params: [ ]

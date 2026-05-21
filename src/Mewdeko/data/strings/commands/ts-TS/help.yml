@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    Shows commands for a specific module. If null, it''s an alias for modules
+    which is an alias for help. Hmph, just look it up!
+  params:
+    - desc: 'The module to look at. Don''t pick a weird one!'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    Shows commands for a specific module. If null, it''s an alias for modules
+    which is an alias for help. Hmph, just look it up!
+  params:
+    - desc: 'The module to look at. Don''t pick a weird one!'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    Shows commands for a specific module. If null, it''s an alias for modules
+    which is an alias for help. Hmph, just look it up!
+  params:
+    - desc: 'The module to look at. Don''t pick a weird one!'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    Shows commands for a specific module. If null, it''s an alias for modules
+    which is an alias for help. Hmph, just look it up!
+  params:
+    - desc: 'The module to look at. Don''t pick a weird one!'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: 'Shows how to support the bot. Y-you don''t have to donate, you know!'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    Exports all commands to a json file. Used mainly for... whatever you need!
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    Exports all commands to a json file. Used mainly for... whatever you need!
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    Exports all commands to a json file. Used mainly for... whatever you need!
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    Exports all commands to a json file. Used mainly for... whatever you need!
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: 'Shows the guide for the bot. R-read it carefully!'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: Shows help for a specific command. Hmph!
+  params:
+    - desc: The command to get help for. Spell it right!
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: Shows help information for commands. Don''t bother me with simple stuff!
+  params:
+    - desc: The command to get help for. Spell it right!
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: 'Shows a list of all modules. It''s basically just a help alias at this point, baka!'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: 'Searches for a command by name or description. Use it wisely!'
+  params:
+    - &ref_481
+      desc: 'The term to search for. D-don''t typo!'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: 'Searches for a command by name or description. Use it wisely!'
+  params:
+    - desc: 'The term to search for. D-don''t typo!'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: 'Searches for a command by name or description. Use it wisely!'
+  params:
+    - desc: 'The term to search for. D-don''t typo!'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: 'Searches for a command by name or description. Use it wisely!'
+  params:
+    - desc: 'The term to search for. D-don''t typo!'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: 'Shows the source code link for the bot. Don''t steal anything!'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'Shows a link to vote for mewdeko. I-it''s not like I want your vote!'
+  params: [ ]

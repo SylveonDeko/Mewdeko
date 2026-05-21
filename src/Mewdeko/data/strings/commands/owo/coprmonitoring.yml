@@ -1,0 +1,168 @@
+coprmonitoradd:
+  args:
+    - '<ownerProject> [channel] [packages]'
+    - '<ownerProject> [channel] [packages]'
+    - ownerProject
+  desc: 'Adds a COPR pwoject monitow to da sewvew. uwu'
+  params:
+    - desc: 'Da COPR pwoject in fowmat ownew/pwoject (e.g. winux4switch/w4s). owo'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Optionaw channyew fow notificationsies. Defauwt is cuwwent channyew.'
+      name: channel
+      optional: true
+      type: ITextChannel
+    - desc: 'Optionaw comma-sepawated wist of packages to monitow (e.g. mesa,kewnew).'
+      name: packages
+      optional: true
+      type: string
+coprmonitorremove:
+  args:
+    - '<ownerProject> [channel]'
+    - ownerProject
+  desc: 'Wemoves a COPR pwoject monitow fwom da sewvew. uwu'
+  params:
+    - desc: 'Da COPR pwoject in fowmat ownew/pwoject.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Optionaw channyew to wemove a specific monitow fwom.'
+      name: channel
+      optional: true
+      type: ITextChannel
+coprmonitorlist:
+  args:
+    - ''
+  desc: 'Wists aww COPR monitows configuwed in da sewvew. ^w^'
+  params: [ ]
+coprmonitortoggle:
+  args:
+    - ownerProject
+  desc: 'Toggwes a COPR monitow on ow off. owo'
+  params:
+    - desc: 'Da COPR pwoject in fowmat ownew/pwoject.'
+      name: ownerProject
+      optional: false
+      type: string
+coprnotify:
+  args:
+    - ownerProject status enabled
+  desc: 'Configuwes which buiwd statuses twiggew notificationsies fow a monitow. uwu'
+  params:
+    - desc: 'Da COPR pwoject in fowmat ownew/pwoject.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Da buiwd status to configuwed. ^w^'
+      name: status
+      optional: false
+      type: CoprBuildStatus
+    - desc: 'Whethew to enabwe ow disabwe notificationsies fow dis status.'
+      name: enabled
+      optional: false
+      type: bool
+coprfilter:
+  args:
+    - ownerProject text
+  desc: 'Sets da package fiwtew fow a COPR monitow. uwu'
+  params:
+    - desc: 'Da COPR pwoject in fowmat ownew/pwoject.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Comma-sepawated wist of packages, ow "aww" to monitow evewything. owo'
+      name: packages
+      optional: false
+      type: string
+coprsucceededmessage:
+  args:
+    - ownerProject text
+  desc: 'Sets da message dispwayed when a COPR buiwd succeeds. ^w^'
+  params:
+    - desc: 'Da COPR pwoject in fowmat ownew/pwoject.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Da message ow embed code. Use "-" to weset to defauwt. uwu'
+      name: message
+      optional: false
+      type: string
+coprfailedmessage:
+  args:
+    - ownerProject text
+  desc: 'Sets da message dispwayed when a COPR buiwd faiws. owo'
+  params:
+    - desc: 'Da COPR pwoject in fowmat ownew/pwoject.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Da message ow embed code. Use "-" to weset to defauwt. uwu'
+      name: message
+      optional: false
+      type: string
+coprcanceledmessage:
+  args:
+    - ownerProject text
+  desc: 'Sets da message dispwayed when a COPR buiwd is cancewwed. uwu'
+  params:
+    - desc: 'Da COPR pwoject in fowmat ownew/pwoject.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Da message ow embed code. Use "-" to weset to defauwt. ^w^'
+      name: message
+      optional: false
+      type: string
+coprpendingmessage:
+  args:
+    - ownerProject text
+  desc: 'Sets da message dispwayed when a COPR buiwd is pending. uwu'
+  params:
+    - desc: 'Da COPR pwoject in fowmat ownew/pwoject.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Da message ow embed code. Use "-" to weset to defauwt. owo'
+      name: message
+      optional: false
+      type: string
+coprrunningmessage:
+  args:
+    - ownerProject text
+  desc: 'Sets da message dispwayed when a COPR buiwd is wunning. ^w^'
+  params:
+    - desc: 'Da COPR pwoject in fowmat ownew/pwoject.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Da message ow embed code. Use "-" to weset to defauwt. uwu'
+      name: message
+      optional: false
+      type: string
+coprskippedmessage:
+  args:
+    - ownerProject text
+  desc: 'Sets da message dispwayed when a COPR buiwd is skipped. owo'
+  params:
+    - desc: 'Da COPR pwoject in fowmat ownew/pwoject.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Da message ow embed code. Use "-" to weset to defauwt. ^w^'
+      name: message
+      optional: false
+      type: string
+coprdefaultmessage:
+  args:
+    - ownerProject text
+  desc: 'Sets da defauwt message fow aww othew buiwd statuses. uwu'
+  params:
+    - desc: 'Da COPR pwoject in fowmat ownew/pwoject.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Da message ow embed code. Use "-" to weset to defauwt. owo'
+      name: message
+      optional: false
+      type: string

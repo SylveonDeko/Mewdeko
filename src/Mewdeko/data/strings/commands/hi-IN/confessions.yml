@@ -1,0 +1,157 @@
+confess:
+  args:
+    - serverid text
+  desc: 'उपयोगकर्ताओं को गुमनाम रूप से स्वीकारोक्ति करने की अनुमति देता है।'
+  params:
+    - &ref_139
+      desc: 'सर्वर का आईडी।'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: 'स्वीकारोक्ति संदेश'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: 'उपयोगकर्ताओं को गुमनाम रूप से स्वीकारोक्ति करने की अनुमति देता है।'
+  params:
+    - desc: 'सर्वर का आईडी।'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'स्वीकारोक्ति संदेश'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: 'उपयोगकर्ताओं को गुमनाम रूप से स्वीकारोक्ति करने की अनुमति देता है।'
+  params:
+    - desc: 'सर्वर का आईडी।'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'स्वीकारोक्ति संदेश'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: 'उपयोगकर्ताओं को गुमनाम रूप से स्वीकारोक्ति करने की अनुमति देता है।'
+  params:
+    - desc: 'सर्वर का आईडी।'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'स्वीकारोक्ति संदेश'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: 'किसी उपयोगकर्ता को स्वीकारोक्ति ब्लैकलिस्ट में जोड़ता है।'
+  params:
+    - desc: 'स्वीकारोक्ति से ब्लैकलिस्ट किए जाने वाले उपयोगकर्ता।'
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: 'स्वीकारोक्ति चैनल सेट करता है।'
+  params:
+    - desc: 'स्वीकारोक्ति के लिए सेट करने वाला चैनल।'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: 'किसी उपयोगकर्ता को स्वीकारोक्ति ब्लैकलिस्ट से जोड़ता या हटाता है।'
+  params:
+    - &ref_141
+      desc: 'ब्लैकलिस्ट से जोड़ने या हटाने वाला उपयोगकर्ता।'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: 'किसी उपयोगकर्ता को स्वीकारोक्ति ब्लैकलिस्ट से जोड़ता या हटाता है।'
+  params:
+    - &ref_142
+      desc: 'ब्लैकलिस्ट से जोड़ने या हटाने वाला उपयोगकर्ता।'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: 'किसी उपयोगकर्ता को स्वीकारोक्ति ब्लैकलिस्ट से जोड़ता या हटाता है।'
+  params:
+    - desc: 'ब्लैकलिस्ट से जोड़ने या हटाने वाला उपयोगकर्ता।'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: 'किसी उपयोगकर्ता को स्वीकारोक्ति ब्लैकलिस्ट से जोड़ता या हटाता है।'
+  params:
+    - desc: 'ब्लैकलिस्ट से जोड़ने या हटाने वाला उपयोगकर्ता।'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: 'गुमनाम स्वीकारोक्ति के लिए स्वीकारोक्ति चैनल सेट करता है।'
+  params:
+    - desc: 'स्वीकारोक्ति चैनल (वैकल्पिक)।'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    स्वीकारोक्ति लॉग चैनल सेट करता है। इस सुविधा का दुरुपयोग करने पर मैं
+    आपके घर से 2 मीटर दूर खड़ा होऊंगा।
+  params:
+    - desc: 'स्वीकारोक्ति लॉग चैनल (वैकल्पिक)।'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: 'किसी उपयोगकर्ता को स्वीकारोक्ति ब्लैकलिस्ट से हटाता है।'
+  params:
+    - desc: 'ब्लैकलिस्ट से हटाने वाला उपयोगकर्ता।'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: 'स्वीकारोक्ति लॉग चैनल सेट करता है।'
+  params:
+    - desc: 'स्वीकारोक्ति लॉग करने वाला चैनल।'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: 'किसी उपयोगकर्ता को स्वीकारोक्ति ब्लैकलिस्ट से हटाता है।'
+  params:
+    - desc: 'स्वीकारोक्ति से अनब्लैकलिस्ट करने वाला उपयोगकर्ता।'
+      name: user
+      optional: false
+      type: IUser

@@ -1,0 +1,81 @@
+highlight:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Voegt highlights toe, vermeldt, verwijdert of matcht ze.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parameters voor de geselecteerde actie'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Voegt highlights toe, vermeldt, verwijdert of matcht ze.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parameters voor de geselecteerde actie'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_1:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Voegt highlights toe, vermeldt, verwijdert of matcht ze.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parameters voor de geselecteerde actie'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_2:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'Voegt highlights toe, vermeldt, verwijdert of matcht ze.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'Parameters voor de geselecteerde actie'
+      name: words
+      optional: true
+      type: string
+highlights:
+  args:
+    - action word
+  desc: Beheert gebruikershighlights.
+  params:
+    - desc: De actie om uit te voeren met highlights.
+      name: action
+      optional: false
+      type: string
+    - desc: Het woord om te markeren.
+      name: word
+      optional: true
+      type: string

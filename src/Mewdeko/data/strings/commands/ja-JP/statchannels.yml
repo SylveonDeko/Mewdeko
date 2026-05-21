@@ -1,0 +1,95 @@
+statchannelcreate:
+  args:
+    - 'TotalMembers [template]'
+  desc: 'サーバー統計を表示する新しいロックされたボイスチャンネルを作成します。ボットがチャンネルを作成し管理します。'
+  params:
+    - desc: '表示する統計タイプ。'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: '表示テンプレート。値には %count% を使用してください。'
+      name: template
+      optional: true
+      type: string
+statchanneladd:
+  args:
+    - '#voice-channel TotalMembers [template]'
+  desc: 'ボイスチャンネルを統計チャンネルとして追加します。タイプ：TotalMembers、HumanMembers、BotCount、OnlineMembers、ChannelCount、RoleCount、BoostCount、BoostLevel、EmojiCount。'
+  params:
+    - desc: '使用するボイスチャンネル。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: '表示する統計タイプ。'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: '表示テンプレート。値には %count% を使用してください。'
+      name: template
+      optional: true
+      type: string
+statchannelrole:
+  args:
+    - '#voice-channel @role [template]'
+  desc: '特定のロールを持つメンバー数を表示する統計チャンネルを追加します。'
+  params:
+    - desc: '使用するボイスチャンネル。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'メンバー数を数えるロール。'
+      name: role
+      optional: false
+      type: IRole
+    - desc: '表示テンプレート。%count% と %role.name% を使用してください。'
+      name: template
+      optional: true
+      type: string
+statchannelcountdown:
+  args:
+    - '#voice-channel 2026-12-31 [template]'
+  desc: 'カウントダウン統計チャンネルを追加します。%days% と %hours% プレースホルダーを使用してください。'
+  params:
+    - desc: '使用するボイスチャンネル。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'カウントダウンの対象日付。'
+      name: date
+      optional: false
+      type: DateTime
+    - desc: '表示テンプレート。%days% と %hours% を使用してください。'
+      name: template
+      optional: true
+      type: string
+statchannelgoal:
+  args:
+    - '#voice-channel 1000 [template]'
+  desc: 'メンバー目標統計チャンネルを追加します。%count%、%goal%、%goal.percent% を使用してください。'
+  params:
+    - desc: '使用するボイスチャンネル。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: '目標メンバー数。'
+      name: goal
+      optional: false
+      type: int
+    - desc: '表示テンプレート。%count%、%goal%、%goal.percent% を使用してください。'
+      name: template
+      optional: true
+      type: string
+statchannelremove:
+  args:
+    - '#voice-channel'
+  desc: '統計チャンネルを削除します。'
+  params:
+    - desc: '削除するボイスチャンネル。'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+statchannellist:
+  args:
+    - ''
+  desc: 'このサーバーのすべての統計チャンネルを一覧表示します。'
+  params: [ ]

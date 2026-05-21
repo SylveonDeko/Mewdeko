@@ -1,0 +1,157 @@
+confess:
+  args:
+    - serverid text
+  desc: 'يسمح للمستخدمين بالاعتراف بشكل مجهول.'
+  params:
+    - &ref_139
+      desc: 'معرف الخادم.'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: 'رسالة الاعتراف'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: 'يسمح للمستخدمين بالاعتراف بشكل مجهول.'
+  params:
+    - desc: 'معرف الخادم.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'رسالة الاعتراف'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: 'يسمح للمستخدمين بالاعتراف بشكل مجهول.'
+  params:
+    - desc: 'معرف الخادم.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'رسالة الاعتراف'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: 'يسمح للمستخدمين بالاعتراف بشكل مجهول.'
+  params:
+    - desc: 'معرف الخادم.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'رسالة الاعتراف'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: يضيف مستخدمًا إلى القائمة السوداء للاعترافات.
+  params:
+    - desc: المستخدم المراد إدراجه في القائمة السوداء للاعترافات.
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: يحدد قناة الاعترافات.
+  params:
+    - desc: القناة المراد تعيينها للاعترافات.
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: 'يضيف أو يزيل مستخدمًا من القائمة السوداء للاعترافات.'
+  params:
+    - &ref_141
+      desc: 'المستخدم المراد إضافته أو إزالته من القائمة السوداء.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: 'يضيف أو يزيل مستخدمًا من القائمة السوداء للاعترافات.'
+  params:
+    - &ref_142
+      desc: 'المستخدم المراد إضافته أو إزالته من القائمة السوداء.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: 'يضيف أو يزيل مستخدمًا من القائمة السوداء للاعترافات.'
+  params:
+    - desc: 'المستخدم المراد إضافته أو إزالته من القائمة السوداء.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: 'يضيف أو يزيل مستخدمًا من القائمة السوداء للاعترافات.'
+  params:
+    - desc: 'المستخدم المراد إضافته أو إزالته من القائمة السوداء.'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: 'يحدد قناة الاعترافات للاعترافات المجهولة.'
+  params:
+    - desc: 'قناة الاعترافات (اختياري).'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    يحدد قناة سجل الاعترافات لتسجيل الاعترافات. سوء استخدام هذه
+    الميزة سينتهي بي على بعد مترين من منزلك.
+  params:
+    - desc: 'قناة سجل الاعترافات (اختياري).'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: 'يزيل مستخدمًا من القائمة السوداء للاعترافات.'
+  params:
+    - desc: 'المستخدم المراد إزالته من القائمة السوداء.'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: يحدد قناة سجل الاعترافات.
+  params:
+    - desc: القناة المراد تسجيل الاعترافات فيها.
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: يزيل مستخدمًا من القائمة السوداء للاعترافات.
+  params:
+    - desc: المستخدم المراد إزالته من القائمة السوداء للاعترافات.
+      name: user
+      optional: false
+      type: IUser

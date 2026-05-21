@@ -1,0 +1,22 @@
+{
+  "owner": "Eigenaar",
+  "owner_ids": "Eigenaar IDs",
+  "eval_compiling": "Evaluating...",
+  "eval_no_code": "geen code provided. Please include code within code blocks of attach een .cs file",
+  "instance_added": "Instance Toegevoegd",
+  "instance_not_found": "Instance met port {0} Niet gevonden. Please try again.",
+  "instance_offline": "Instance is offline",
+  "instance_removed": "Met succes Verwijderd instance op port {0}",
+  "instance_status": "Instance Status",
+  "instance_version": "Instance Version: {0}",
+  "user_stats": "gebruiker Statistics",
+  "eval_output_blank": "de output was blank",
+  "eval_read_error": "Mislukt naar read de attached file: {0}",
+  "eval_too_large": "de attached file is too large. Please ensure it's under 100 KB",
+  "instance_command_count": "Commands Count: {0}",
+  "instance_modules_count": "Modules Count: {0}",
+  "instance_not_added": "Mislukt naar add instance: {0}",
+  "instance_user_count": "Gebruiker Count {0}",
+  "owner_config_error": "There was an Fout setting of printing de config, please check de logs.",
+  "owner_setting_title": "⚙️ {0}"
+}

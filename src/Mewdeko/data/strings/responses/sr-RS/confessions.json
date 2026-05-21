@@ -1,0 +1,22 @@
+{
+  "confessions_blacklisted": "Zabranjeno vam je davanje predloga na tom serveru!",
+  "confessions_blacklisted_added": "Dodat {0} na crnu listu za ispovesti!!",
+  "confessions_blacklisted_already": "Ovaj korisnik je već na crnoj listi!",
+  "confessions_blacklisted_not": "Ovaj korisnik nije na crnoj listi!",
+  "confessions_blacklisted_removed": "Uklonjen {0} sa crne liste za ispovesti!!",
+  "confessions_channel_set": "Postavljen {0} kao Kanal za Ispovesti!",
+  "confessions_disabled": "Ispovesti onemogućene",
+  "confessions_invalid_id": "ID koji ste dali je nevažeći!",
+  "confessions_invalid_perms": "Nemam odgovarajuće dozvole tamo! Molimo proverite da li su omogućeni EmbedLinks i SendMessages u tom kanalu za mene!",
+  "confessions_logging_disabled": "Logovanje ispovesti onemogućeno",
+  "confessions_missing_invite": "Nije moguće dobiti poziv zbog nedostatka dozvola ili nepostojanja dostupnih poziva.",
+  "confessions_none": "Ovaj server nema omogućene ispovesti!",
+  "confessions_none_any": "Niste ni na jednom serveru koji ima omogućene moje ispovesti!",
+  "confessions_report": "prijava",
+  "confessions_report_received": "Prijava zloupotrebe ispovesti primljena",
+  "confessions_report_sent": "Prijava poslata. Ako želite da se pridružite i dodate, koristite link ispod.",
+  "confessions_report_user": "prijavi korisnika",
+  "confessions_server_id": "ID Servera",
+  "confessions_server_invite": "Poziv na Server",
+  "confessions_spleen": "Postavljen {0} kao Kanal za Log Ispovesti. \n***Imajte na umu da ako otkrijem da zloupotrebljavate ovu funkciju, saznaću, staviću ovaj server na crnu listu. I koristiću vašu slezinu da preuzmem svet."
+}

@@ -1,0 +1,23 @@
+{
+  "highlight_added": "¡Añadido {0} a tus destacados!",
+  "highlight_already_exists": "¡Eso ya está en tus destacados!",
+  "highlight_cannot_delete": "¡No se puede eliminar porque no tienes destacados establecidos!",
+  "highlight_disabled": "Destacados deshabilitados.",
+  "highlight_empty_delete": "No se puede eliminar un destacado vacío.",
+  "highlight_empty_match": "No se puede hacer coincidir un destacado vacío.",
+  "highlight_enabled": "¡Destacados habilitados!",
+  "highlight_ignored_channel_added": "¡Añadido {0} a canales ignorados!",
+  "highlight_ignored_channel_removed": "¡Eliminado {0} de canales ignorados!",
+  "highlight_ignored_user_added": "¡Añadido {0} a usuarios ignorados!",
+  "highlight_ignored_user_removed": "¡Eliminado {0} de usuarios ignorados!",
+  "highlight_list_title": "Destacados de {0}",
+  "highlight_no_highlights": "¡No tienes destacados establecidos!",
+  "highlight_no_match_found": "No se encontraron coincidencias.",
+  "highlight_no_matches": "No hay destacados para hacer coincidir.",
+  "highlight_not_exist": "¡Ese destacado no existe!",
+  "highlight_not_found": "¡Esto no está en tus destacados!",
+  "highlight_phrase_required": "Necesitas especificar una frase para destacar.",
+  "highlight_removed": "Eliminado con éxito {0} de tus destacados.",
+  "highlight_toggle_invalid": "Eso tiene que ser verdadero o falso, nada más.",
+  "highlight_user_channel_not_found": "¡Ese usuario o canal no fue encontrado!"
+}

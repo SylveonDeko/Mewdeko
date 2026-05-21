@@ -1,0 +1,542 @@
+countingban:
+  args:
+    - user channel duration reason
+  desc: '禁止使用者在特定頻道中計數。'
+  params:
+    - desc: '要禁止計數的使用者。'
+      name: user
+      optional: false
+      type: guild user
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '禁止時長（例如：1h、1d）。留空為永久。'
+      name: duration
+      optional: true
+      type: stoopid time
+    - desc: '禁止的原因。'
+      name: reason
+      optional: true
+      type: string
+countingconfig:
+  args:
+    - channel
+  desc: '設定計數頻道的設定。'
+  params:
+    - desc: '顯示設定的頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+countingcooldown:
+  args:
+    - channel seconds
+  desc: '設定使用者計數之間的冷卻時間。'
+  params:
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '冷卻時間（秒，0-300）。'
+      name: seconds
+      optional: true
+      type: int
+countingdisable:
+  args:
+    - channel purgeData reason
+  desc: '停用頻道中的計數，並可選擇清除所有資料。'
+  params:
+    - desc: '要停用計數的頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '是否刪除此頻道的所有計數資料。預設為 false。'
+      name: purgeData
+      optional: true
+      type: bool
+    - desc: '停用計數的原因。'
+      name: reason
+      optional: true
+      type: string
+countingfailurechannel:
+  args:
+    - countingChannel failureChannel
+  desc: '設定記錄計數失敗的頻道。'
+  params:
+    - desc: '計數頻道。'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: '失敗記錄頻道。使用 null 停用。'
+      name: failureChannel
+      optional: true
+      type: text channel
+countingfailuremessage:
+  args:
+    - channel embed
+  desc: '設定計數失敗的自訂訊息。'
+  params:
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '訊息範本。使用 "-" 重設為預設值。'
+      name: embed
+      optional: true
+      type: string
+countingfailurethreshold:
+  args:
+    - channel threshold
+  desc: '設定觸發後果前的失敗閾值。'
+  params:
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '觸發動作前的失敗次數（1-10）。'
+      name: threshold
+      optional: true
+      type: int
+countingleaderboard:
+  args:
+    - type channel
+  desc: '顯示計數頻道的排行榜。'
+  params:
+    - desc: '排行榜類型（contributions、streak、accuracy、totalnumbers）。'
+      name: type
+      optional: true
+      type: string
+    - desc: '顯示排行榜的頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+countinglist:
+  args:
+    - ''
+  desc: '列出伺服器中所有活躍的計數頻道。'
+  params: [ ]
+countingmilestonechannel:
+  args:
+    - countingChannel milestoneChannel
+  desc: '設定發布里程碑成就的頻道。'
+  params:
+    - desc: '計數頻道。'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: '里程碑公告頻道。使用 null 停用。'
+      name: milestoneChannel
+      optional: true
+      type: text channel
+countingmilestonemessage:
+  args:
+    - channel embed
+  desc: '設定里程碑成就的自訂訊息。'
+  params:
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '訊息範本。使用 "-" 重設為預設值。'
+      name: embed
+      optional: true
+      type: string
+countingmilestones:
+  args:
+    - channel milestones
+  desc: '設定自訂里程碑數字。'
+  params:
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '以逗號分隔的里程碑數字（例如：50,100,250,500,1000）。'
+      name: milestones
+      optional: true
+      type: string
+countingreset:
+  args:
+    - channel newNumber reason
+  desc: '將頻道的計數重設為特定數字。'
+  params:
+    - desc: '要重設的頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '要重設到的數字。預設為 0。'
+      name: newNumber
+      optional: true
+      type: long
+    - desc: '重設的原因。'
+      name: reason
+      optional: true
+      type: string
+countingrestore:
+  args:
+    - saveId channel
+  desc: '從之前的存檔點恢復計數。'
+  params:
+    - desc: '要恢復的存檔點 ID。'
+      name: saveId
+      optional: false
+      type: int
+    - desc: '要恢復的頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+countingsave:
+  args:
+    - channel reason
+  desc: '為目前計數進度建立存檔點。'
+  params:
+    - desc: '要儲存的頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '建立存檔點的原因。'
+      name: reason
+      optional: true
+      type: string
+countingsetup:
+  args:
+    - channel startNumber increment
+  desc: '在目前或指定頻道中設定計數。'
+  params:
+    - desc: '設定計數的頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '開始計數的數字。預設為 1。'
+      name: startNumber
+      optional: true
+      type: long
+    - desc: '每次計數的增量。預設為 1。'
+      name: increment
+      optional: true
+      type: int
+countingstats:
+  args:
+    - user channel
+  desc: '顯示使用者或頻道的計數統計資料。'
+  params:
+    - desc: '要顯示統計資料的使用者。預設為你自己。'
+      name: user
+      optional: true
+      type: user
+    - desc: '查看統計資料的頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+countingstatus:
+  args:
+    - channel
+  desc: '顯示頻道的目前計數狀態。'
+  params:
+    - desc: '要檢查的頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+countingsuccessmessage:
+  args:
+    - channel embed
+  desc: '設定計數成功的自訂訊息。'
+  params:
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '訊息範本。使用 "-" 重設為預設值。'
+      name: embed
+      optional: true
+      type: string
+countingtimeout:
+  args:
+    - user duration channel reason
+  desc: '暫時將使用者從計數中禁止。'
+  params:
+    - desc: '要從計數中禁止的使用者。'
+      name: user
+      optional: false
+      type: guild user
+    - desc: '禁止時長（例如：30m、2h）。'
+      name: duration
+      optional: false
+      type: stoopid time
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '禁止的原因。'
+      name: reason
+      optional: true
+      type: string
+countingunban:
+  args:
+    - user channel reason
+  desc: '解除特定頻道中使用者的計數禁止。'
+  params:
+    - desc: '要解除計數禁止的使用者。'
+      name: user
+      optional: false
+      type: guild user
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '解除禁止的原因。'
+      name: reason
+      optional: true
+      type: string
+countmodbanned:
+  args:
+    - channel roles...
+  desc: '設定禁止計數的身分組。'
+  params:
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '禁止計數的身分組。'
+      name: roles
+      optional: true
+      type: role
+countmodclear:
+  args:
+    - user channel
+  desc: '清除計數頻道中使用者的錯誤計數。'
+  params:
+    - desc: '要清除錯誤計數的使用者。'
+      name: user
+      optional: false
+      type: user
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+countmodclearall:
+  args:
+    - channel
+  desc: '清除計數頻道中所有使用者的錯誤計數。'
+  params:
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+countmoddefaults:
+  args:
+    - enabled threshold windowHours punishment durationMinutes punishmentRole
+  desc: '設定全伺服器預設審核設定。'
+  params:
+    - desc: '審核是否預設啟用。'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: '懲罰前的預設錯誤計數閾值。'
+      name: threshold
+      optional: true
+      type: int
+    - desc: '追蹤錯誤計數的預設時間視窗（小時）。'
+      name: windowHours
+      optional: true
+      type: int
+    - desc: '要套用的預設懲罰動作。'
+      name: punishment
+      optional: true
+      type: punishment action
+    - desc: '計時懲罰的預設時長（分鐘）。'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: '新增身分組懲罰類型的預設身分組。'
+      name: punishmentRole
+      optional: true
+      type: role
+countmodedits:
+  args:
+    - punish delete channel
+  desc: '為計數頻道設定訊息編輯保護。'
+  params:
+    - desc: '是否將訊息編輯視為違規進行懲罰。'
+      name: punish
+      optional: false
+      type: bool
+    - desc: '是否刪除已編輯的訊息。'
+      name: delete
+      optional: true
+      type: bool
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+countmodenable:
+  args:
+    - enabled channel
+  desc: '為特定計數頻道啟用或停用審核。'
+  params:
+    - desc: '是否啟用或停用審核。'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+countmodignore:
+  args:
+    - deleteMessages channel roles...
+  desc: '設定從計數中忽略的身分組。'
+  params:
+    - desc: '是否刪除被忽略身分組的訊息。'
+      name: deleteMessages
+      optional: false
+      type: bool
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '從計數中忽略的身分組。'
+      name: roles
+      optional: true
+      type: role
+countmodnonnumbers:
+  args:
+    - punish delete channel
+  desc: '設定計數頻道中非數字訊息的處理方式。'
+  params:
+    - desc: '是否將非數字訊息視為違規進行懲罰。'
+      name: punish
+      optional: false
+      type: bool
+    - desc: '是否刪除非數字訊息。'
+      name: delete
+      optional: true
+      type: bool
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunish:
+  args:
+    - count punishment durationMinutes role channel
+  desc: '為特定錯誤計數數量設定階梯式懲罰。'
+  params:
+    - desc: '觸發此懲罰的錯誤計數數量。'
+      name: count
+      optional: false
+      type: int
+    - desc: '要套用的懲罰動作。'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: '計時懲罰的時長（分鐘）。'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: '新增身分組懲罰類型的身分組。'
+      name: role
+      optional: true
+      type: role
+    - desc: '計數頻道（伺服器預設值使用 NULL）。'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishlist:
+  args:
+    - channel
+  desc: '列出伺服器或特定頻道的所有階梯式懲罰。'
+  params:
+    - desc: '計數頻道（伺服器預設值使用 NULL）。'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishment:
+  args:
+    - punishment durationMinutes role channel
+  desc: '設定錯誤計數的懲罰。'
+  params:
+    - desc: '要套用的懲罰動作。'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: '計時懲罰的時長（分鐘）。'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: '新增身分組懲罰類型的身分組。'
+      name: role
+      optional: true
+      type: role
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+countmodrequired:
+  args:
+    - channel roles...
+  desc: '設定計數所需的身分組。'
+  params:
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: '計數所需的身分組。'
+      name: roles
+      optional: true
+      type: role
+countmodreset:
+  args:
+    - channel
+  desc: '重設頻道以使用伺服器預設值。'
+  params:
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+countmodshow:
+  args:
+    - channel
+  desc: '顯示計數頻道或伺服器預設值的目前審核設定。'
+  params:
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+countmodthreshold:
+  args:
+    - threshold channel
+  desc: '設定計數頻道的錯誤計數閾值。'
+  params:
+    - desc: '懲罰前的錯誤計數數量（1-100）。'
+      name: threshold
+      optional: false
+      type: int
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel
+countmodunpunish:
+  args:
+    - count channel
+  desc: '刪除特定錯誤計數數量的階梯式懲罰。'
+  params:
+    - desc: '要刪除懲罰的錯誤計數數量。'
+      name: count
+      optional: false
+      type: int
+    - desc: '計數頻道（伺服器預設值使用 NULL）。'
+      name: channel
+      optional: true
+      type: text channel
+countmodwindow:
+  args:
+    - hours channel
+  desc: '設定追蹤錯誤計數的時間視窗。'
+  params:
+    - desc: '時間視窗（小時，1-168）。'
+      name: hours
+      optional: false
+      type: int
+    - desc: '計數頻道。預設為目前頻道。'
+      name: channel
+      optional: true
+      type: text channel

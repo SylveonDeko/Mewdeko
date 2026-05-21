@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'Przełącza ogłoszenia urodzinowe dla użytkownika.'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'Ustawia kanał ogłoszeń urodzinowych.'
+  params:
+    - desc: >-
+        Kanał tekstowy używany do ogłoszeń. Domyślnie kanał aktualny,
+        jeśli nie określono.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'Wyświetla aktualną konfigurację urodzin.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'Pokazuje nadchodzące urodziny na serwerze.'
+  params:
+    - desc: Ile dni do przodu sprawdzić. Domyślnie 7, maksymalnie 30.
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'Ustawia niestandardowy szablon wiadomości urodzinowej.'
+  params:
+    - desc: >-
+        Szablon wiadomości. Użyj {user} aby wspomnieć użytkownika.
+        Pokazuje aktualną wiadomość, jeśli zostawione puste.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'Ustawia rolę do pingnięcia podczas ogłaszania urodzin.'
+  params:
+    - desc: Rola do pingnięcia. Nie podawaj roli, aby wyłączyć.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'Ustawia rolę urodzinową, którą użytkownicy otrzymują w swoje urodziny.'
+  params:
+    - desc: Rola przypisywana w urodziny użytkownika. Nie podawaj roli, aby wyłączyć.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'Ustawia strefę czasową użytkownika do obliczeń urodzin.'
+  params:
+    - desc: Strefa czasowa do ustawienia (np. "America/New_York").
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'Pokazuje dzisiejsze urodziny.'
+  params: [ ]

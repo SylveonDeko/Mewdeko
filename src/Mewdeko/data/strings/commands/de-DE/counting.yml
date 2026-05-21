@@ -1,0 +1,542 @@
+countingban:
+  args:
+    - user channel duration reason
+  desc: 'Sperrt einen Benutzer vom Zählen in einem bestimmten Kanal.'
+  params:
+    - desc: 'Der Benutzer, der vom Zählen gesperrt werden soll.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Dauer der Sperre (z.B. 1h, 1d). Leer lassen für dauerhaft.'
+      name: duration
+      optional: true
+      type: stoopid time
+    - desc: 'Der Grund für die Sperre.'
+      name: reason
+      optional: true
+      type: string
+countingconfig:
+  args:
+    - channel
+  desc: 'Konfiguriert die Einstellungen für einen Zählkanal.'
+  params:
+    - desc: 'Der Kanal zur Anzeige der Konfiguration. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countingcooldown:
+  args:
+    - channel seconds
+  desc: 'Legt die Abklingzeit zwischen Benutzerzählungen fest.'
+  params:
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Abklingzeit in Sekunden (0-300).'
+      name: seconds
+      optional: true
+      type: int
+countingdisable:
+  args:
+    - channel purgeData reason
+  desc: 'Deaktiviert das Zählen in einem Kanal und löscht optional alle Daten.'
+  params:
+    - desc: 'Der Kanal, in dem das Zählen deaktiviert werden soll. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Ob alle Zähldaten dieses Kanals gelöscht werden sollen. Standard ist false.'
+      name: purgeData
+      optional: true
+      type: bool
+    - desc: 'Der Grund für die Deaktivierung des Zählens.'
+      name: reason
+      optional: true
+      type: string
+countingfailurechannel:
+  args:
+    - countingChannel failureChannel
+  desc: 'Legt den Kanal fest, in dem Zählfehler protokolliert werden.'
+  params:
+    - desc: 'Der Zählkanal.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: 'Der Kanal für Fehlerprotokolle. Null verwenden zum Deaktivieren.'
+      name: failureChannel
+      optional: true
+      type: text channel
+countingfailuremessage:
+  args:
+    - channel embed
+  desc: 'Legt eine benutzerdefinierte Nachricht für fehlgeschlagene Zählungen fest.'
+  params:
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Die Nachrichtenvorlage. Verwende "-" zum Zurücksetzen auf den Standard.'
+      name: embed
+      optional: true
+      type: string
+countingfailurethreshold:
+  args:
+    - channel threshold
+  desc: 'Legt den Fehlerschwellenwert vor den Konsequenzen fest.'
+  params:
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Anzahl der Fehler vor einer Aktion (1-10).'
+      name: threshold
+      optional: true
+      type: int
+countingleaderboard:
+  args:
+    - type channel
+  desc: 'Zeigt die Bestenliste eines Zählkanals an.'
+  params:
+    - desc: 'Der Typ der Bestenliste (contributions, streak, accuracy, totalnumbers).'
+      name: type
+      optional: true
+      type: string
+    - desc: 'Der Kanal zur Anzeige der Bestenliste. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countinglist:
+  args:
+    - ''
+  desc: 'Listet alle aktiven Zählkanäle auf dem Server auf.'
+  params: [ ]
+countingmilestonechannel:
+  args:
+    - countingChannel milestoneChannel
+  desc: 'Legt den Kanal fest, in dem Meilenstein-Erfolge angekündigt werden.'
+  params:
+    - desc: 'Der Zählkanal.'
+      name: countingChannel
+      optional: true
+      type: text channel
+    - desc: 'Der Kanal für Meilensteinankündigungen. Null verwenden zum Deaktivieren.'
+      name: milestoneChannel
+      optional: true
+      type: text channel
+countingmilestonemessage:
+  args:
+    - channel embed
+  desc: 'Legt eine benutzerdefinierte Nachricht für Meilenstein-Erfolge fest.'
+  params:
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Die Nachrichtenvorlage. Verwende "-" zum Zurücksetzen auf den Standard.'
+      name: embed
+      optional: true
+      type: string
+countingmilestones:
+  args:
+    - channel milestones
+  desc: 'Legt benutzerdefinierte Meilensteinzahlen fest.'
+  params:
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Durch Komma getrennte Meilensteinzahlen (z.B. 50,100,250,500,1000).'
+      name: milestones
+      optional: true
+      type: string
+countingreset:
+  args:
+    - channel newNumber reason
+  desc: 'Setzt den Zähler in einem Kanal auf eine bestimmte Zahl zurück.'
+  params:
+    - desc: 'Der zurückzusetzende Kanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Die Zahl, auf die zurückgesetzt werden soll. Standard ist 0.'
+      name: newNumber
+      optional: true
+      type: long
+    - desc: 'Der Grund für das Zurücksetzen.'
+      name: reason
+      optional: true
+      type: string
+countingrestore:
+  args:
+    - saveId channel
+  desc: 'Stellt den Zähler aus einem vorherigen Speicherpunkt wieder her.'
+  params:
+    - desc: 'Die ID des wiederherzustellenden Speicherpunkts.'
+      name: saveId
+      optional: false
+      type: int
+    - desc: 'Der wiederherzustellende Kanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countingsave:
+  args:
+    - channel reason
+  desc: 'Erstellt einen Speicherpunkt für den aktuellen Zählfortschritt.'
+  params:
+    - desc: 'Der zu speichernde Kanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Der Grund für die Erstellung des Speicherpunkts.'
+      name: reason
+      optional: true
+      type: string
+countingsetup:
+  args:
+    - channel startNumber increment
+  desc: 'Richtet das Zählen im aktuellen oder einem angegebenen Kanal ein.'
+  params:
+    - desc: 'Der Kanal, in dem das Zählen eingerichtet werden soll. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Die Zahl, mit der das Zählen beginnt. Standard ist 1.'
+      name: startNumber
+      optional: true
+      type: long
+    - desc: 'Die Schrittweite für jede Zählung. Standard ist 1.'
+      name: increment
+      optional: true
+      type: int
+countingstats:
+  args:
+    - user channel
+  desc: 'Zeigt Zählstatistiken für einen Benutzer oder Kanal an.'
+  params:
+    - desc: 'Der Benutzer, dessen Statistiken angezeigt werden sollen. Standard bist du.'
+      name: user
+      optional: true
+      type: user
+    - desc: 'Der Kanal, in dem die Statistiken überprüft werden sollen. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countingstatus:
+  args:
+    - channel
+  desc: 'Zeigt den aktuellen Zählstatus in einem Kanal an.'
+  params:
+    - desc: 'Der zu überprüfende Kanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countingsuccessmessage:
+  args:
+    - channel embed
+  desc: 'Legt eine benutzerdefinierte Nachricht für erfolgreiche Zählungen fest.'
+  params:
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Die Nachrichtenvorlage. Verwende "-" zum Zurücksetzen auf den Standard.'
+      name: embed
+      optional: true
+      type: string
+countingtimeout:
+  args:
+    - user duration channel reason
+  desc: 'Stellt einen Benutzer vom Zählen vorübergehend stumm.'
+  params:
+    - desc: 'Der Benutzer, der vom Zählen stummgestellt werden soll.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Dauer der Stummschaltung (z.B. 30m, 2h).'
+      name: duration
+      optional: false
+      type: stoopid time
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Der Grund für die Stummschaltung.'
+      name: reason
+      optional: true
+      type: string
+countingunban:
+  args:
+    - user channel reason
+  desc: 'Hebt die Zählsperre eines Benutzers in einem bestimmten Kanal auf.'
+  params:
+    - desc: 'Der Benutzer, dessen Zählsperre aufgehoben werden soll.'
+      name: user
+      optional: false
+      type: guild user
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Der Grund für die Aufhebung der Sperre.'
+      name: reason
+      optional: true
+      type: string
+countmodbanned:
+  args:
+    - channel roles...
+  desc: 'Legt die vom Zählen gesperrten Rollen fest.'
+  params:
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Vom Zählen gesperrte Rollen.'
+      name: roles
+      optional: true
+      type: role
+countmodclear:
+  args:
+    - user channel
+  desc: 'Löscht die falschen Zählungen eines Benutzers in einem Zählkanal.'
+  params:
+    - desc: 'Der Benutzer, dessen falsche Zählungen gelöscht werden sollen.'
+      name: user
+      optional: false
+      type: user
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodclearall:
+  args:
+    - channel
+  desc: 'Löscht die falschen Zählungen aller Benutzer in einem Zählkanal.'
+  params:
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countmoddefaults:
+  args:
+    - enabled threshold windowHours punishment durationMinutes punishmentRole
+  desc: 'Legt die serverweiten Standard-Moderationseinstellungen fest.'
+  params:
+    - desc: 'Ob die Moderation standardmäßig aktiviert ist.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: 'Standard-Schwellenwert für falsche Zählungen vor der Strafe.'
+      name: threshold
+      optional: true
+      type: int
+    - desc: 'Standard-Zeitfenster in Stunden zum Verfolgen falscher Zählungen.'
+      name: windowHours
+      optional: true
+      type: int
+    - desc: 'Standard-Strafaktion, die angewendet werden soll.'
+      name: punishment
+      optional: true
+      type: punishment action
+    - desc: 'Standarddauer für zeitlich begrenzte Strafen in Minuten.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Standardrolle für den Straftyp RolleHinzufügen.'
+      name: punishmentRole
+      optional: true
+      type: role
+countmodedits:
+  args:
+    - punish delete channel
+  desc: 'Konfiguriert den Bearbeitungsschutz für Nachrichten in einem Zählkanal.'
+  params:
+    - desc: 'Ob Nachrichtenbearbeitungen als Verstöße bestraft werden sollen.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: 'Ob bearbeitete Nachrichten gelöscht werden sollen.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodenable:
+  args:
+    - enabled channel
+  desc: 'Aktiviert oder deaktiviert die Moderation für einen bestimmten Zählkanal.'
+  params:
+    - desc: 'Ob die Moderation aktiviert oder deaktiviert werden soll.'
+      name: enabled
+      optional: false
+      type: bool
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodignore:
+  args:
+    - deleteMessages channel roles...
+  desc: 'Legt die vom Zählen ignorierten Rollen fest.'
+  params:
+    - desc: 'Ob Nachrichten von ignorierten Rollen gelöscht werden sollen.'
+      name: deleteMessages
+      optional: false
+      type: bool
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Vom Zählen zu ignorierende Rollen.'
+      name: roles
+      optional: true
+      type: role
+countmodnonnumbers:
+  args:
+    - punish delete channel
+  desc: 'Konfiguriert die Behandlung von Nicht-Zahlen-Nachrichten in einem Zählkanal.'
+  params:
+    - desc: 'Ob Nicht-Zahlen-Nachrichten als Verstöße bestraft werden sollen.'
+      name: punish
+      optional: false
+      type: bool
+    - desc: 'Ob Nicht-Zahlen-Nachrichten gelöscht werden sollen.'
+      name: delete
+      optional: true
+      type: bool
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunish:
+  args:
+    - count punishment durationMinutes role channel
+  desc: 'Legt eine gestufte Strafe für eine bestimmte Anzahl falscher Zählungen fest.'
+  params:
+    - desc: 'Die Anzahl falscher Zählungen, die diese Strafe auslöst.'
+      name: count
+      optional: false
+      type: int
+    - desc: 'Die anzuwendende Strafaktion.'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: 'Dauer für zeitlich begrenzte Strafen in Minuten.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Rolle für den Straftyp RolleHinzufügen.'
+      name: role
+      optional: true
+      type: role
+    - desc: 'Der Zählkanal (NULL für Serverstandards).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishlist:
+  args:
+    - channel
+  desc: 'Listet alle gestuften Strafen für den Server oder einen bestimmten Kanal auf.'
+  params:
+    - desc: 'Der Zählkanal (NULL für Serverstandards).'
+      name: channel
+      optional: true
+      type: text channel
+countmodpunishment:
+  args:
+    - punishment durationMinutes role channel
+  desc: 'Legt die Strafe für falsche Zählungen fest.'
+  params:
+    - desc: 'Die anzuwendende Strafaktion.'
+      name: punishment
+      optional: false
+      type: punishment action
+    - desc: 'Dauer für zeitlich begrenzte Strafen in Minuten.'
+      name: durationMinutes
+      optional: true
+      type: int
+    - desc: 'Rolle für den Straftyp RolleHinzufügen.'
+      name: role
+      optional: true
+      type: role
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodrequired:
+  args:
+    - channel roles...
+  desc: 'Legt die zum Zählen erforderlichen Rollen fest.'
+  params:
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+    - desc: 'Zum Zählen erforderliche Rollen.'
+      name: roles
+      optional: true
+      type: role
+countmodreset:
+  args:
+    - channel
+  desc: 'Setzt einen Kanal zurück, um die Serverstandards zu verwenden.'
+  params:
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodshow:
+  args:
+    - channel
+  desc: 'Zeigt die aktuelle Moderationskonfiguration für den Zählkanal oder die Serverstandards an.'
+  params:
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodthreshold:
+  args:
+    - threshold channel
+  desc: 'Legt den Schwellenwert für falsche Zählungen in einem Zählkanal fest.'
+  params:
+    - desc: 'Anzahl falscher Zählungen vor der Strafe (1-100).'
+      name: threshold
+      optional: false
+      type: int
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel
+countmodunpunish:
+  args:
+    - count channel
+  desc: 'Entfernt eine gestufte Strafe für eine bestimmte Anzahl falscher Zählungen.'
+  params:
+    - desc: 'Die Anzahl falscher Zählungen, für die die Strafe entfernt werden soll.'
+      name: count
+      optional: false
+      type: int
+    - desc: 'Der Zählkanal (NULL für Serverstandards).'
+      name: channel
+      optional: true
+      type: text channel
+countmodwindow:
+  args:
+    - hours channel
+  desc: 'Legt das Zeitfenster zum Verfolgen falscher Zählungen fest.'
+  params:
+    - desc: 'Zeitfenster in Stunden (1-168).'
+      name: hours
+      optional: false
+      type: int
+    - desc: 'Der Zählkanal. Standard ist der aktuelle Kanal.'
+      name: channel
+      optional: true
+      type: text channel

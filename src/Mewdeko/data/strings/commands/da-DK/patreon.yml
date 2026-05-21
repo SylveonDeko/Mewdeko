@@ -1,0 +1,135 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'Viser detaljerede Patreon-analyser.'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'Udløser manuelt en Patreon-meddelelse.'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Indstiller eller viser Patreon-meddelelseskanalen.
+  params:
+    - desc: >-
+        Kanalen til Patreon-meddelelser. Hvis null, viser den aktuelle kanal.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'Viser den aktuelle Patreon-konfiguration for denne server.'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Indstiller dagen i måneden for Patreon-meddelelser.'
+  params:
+    - desc: >-
+        Dagen i måneden (1-28) for meddelelser. Hvis null, viser den aktuelle dag.
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'Deaktiverer Patreon-meddelelser for denne server.'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Viser Patreon-modulinfo og tilgængelige pladsholdere.'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Forbinder en Discord-bruger til en Patreon-supporter.'
+  params:
+    - desc: Discord-brugeren der skal forbindes.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: Patreon-bruger-ID at forbinde til.
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Indstiller en brugerdefineret besked til Patreon-meddelelser.
+  params:
+    - desc: >-
+        Den brugerdefinerede besked. Brug pladsholdere som %server.name%,
+        %month% osv. Brug "-" til at nulstille til standard.
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'Sender anerkendelsesbeskeder til nye supportere.'
+  params:
+    - desc: Kanalen at sende anerkendelsesbeskeder til.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Lister Patreon tier-rolle-tilknytninger.'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'Slår automatisk rollesynkronisering til/fra.'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Viser statistik for Patreon-supportere.'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'Lister aktive Patreon-supportere.'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'Konfigurerer sikkert Patreon OAuth-integration.'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'Synkroniserer roller for alle forbundne supportere.'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Tilknytter en Patreon-tier til en Discord-rolle.'
+  params:
+    - desc: Patreon-tier-ID.
+      name: tierId
+      optional: false
+      type: string
+    - desc: Discord-rollen der skal tilknyttes tieren.
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Slår Patreon-meddelelser til eller fra.'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'Viser top Patreon-supportere.'
+  params:
+    - desc: Antal top-supportere at vise (1-20).
+      name: count
+      optional: true
+      type: int

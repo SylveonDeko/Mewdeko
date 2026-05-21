@@ -1,0 +1,95 @@
+statchannelcreate:
+  args:
+    - 'TotalMembers [template]'
+  desc: 'Membuat saluran suara terkunci baru yang menampilkan statistik server. Bot akan membuat dan mengelola saluran.'
+  params:
+    - desc: 'Tipe statistik yang akan ditampilkan.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'Template tampilan. Gunakan %count% untuk nilai.'
+      name: template
+      optional: true
+      type: string
+statchanneladd:
+  args:
+    - '#voice-channel TotalMembers [template]'
+  desc: 'Menambahkan saluran suara sebagai saluran statistik. Tipe: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
+  params:
+    - desc: 'Saluran suara yang digunakan.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Tipe statistik yang akan ditampilkan.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'Template tampilan. Gunakan %count% untuk nilai.'
+      name: template
+      optional: true
+      type: string
+statchannelrole:
+  args:
+    - '#voice-channel @role [template]'
+  desc: 'Menambahkan saluran statistik yang menunjukkan berapa banyak anggota memiliki peran tertentu.'
+  params:
+    - desc: 'Saluran suara yang digunakan.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Peran yang anggotanya dihitung.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Template tampilan. Gunakan %count% dan %role.name%.'
+      name: template
+      optional: true
+      type: string
+statchannelcountdown:
+  args:
+    - '#voice-channel 2026-12-31 [template]'
+  desc: 'Menambahkan saluran statistik hitung mundur. Gunakan placeholder %days% dan %hours%.'
+  params:
+    - desc: 'Saluran suara yang digunakan.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Tanggal target untuk hitung mundur.'
+      name: date
+      optional: false
+      type: DateTime
+    - desc: 'Template tampilan. Gunakan %days% dan %hours%.'
+      name: template
+      optional: true
+      type: string
+statchannelgoal:
+  args:
+    - '#voice-channel 1000 [template]'
+  desc: 'Menambahkan saluran statistik target anggota. Gunakan %count%, %goal% dan %goal.percent%.'
+  params:
+    - desc: 'Saluran suara yang digunakan.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Jumlah anggota target.'
+      name: goal
+      optional: false
+      type: int
+    - desc: 'Template tampilan. Gunakan %count%, %goal%, %goal.percent%.'
+      name: template
+      optional: true
+      type: string
+statchannelremove:
+  args:
+    - '#voice-channel'
+  desc: 'Menghapus saluran statistik.'
+  params:
+    - desc: 'Saluran suara yang akan dihapus.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+statchannellist:
+  args:
+    - ''
+  desc: 'Daftar semua saluran statistik untuk server ini.'
+  params: [ ]

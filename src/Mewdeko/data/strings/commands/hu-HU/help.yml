@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    Megjeleníti egy adott modul parancsait. Ha null, ez egy alias a
+    modules-ra, ami egy alias a help-re.
+  params:
+    - desc: 'A megtekintendő modul'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    Megjeleníti egy adott modul parancsait. Ha null, ez egy alias a
+    modules-ra, ami egy alias a help-re.
+  params:
+    - desc: 'A megtekintendő modul'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    Megjeleníti egy adott modul parancsait. Ha null, ez egy alias a
+    modules-ra, ami egy alias a help-re.
+  params:
+    - desc: 'A megtekintendő modul'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    Megjeleníti egy adott modul parancsait. Ha null, ez egy alias a
+    modules-ra, ami egy alias a help-re.
+  params:
+    - desc: 'A megtekintendő modul'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: 'Megmutatja, hogyan támogathatod a botot.'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    Exportálja az összes parancsot json fájlba. Főleg ehhez használt
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    Exportálja az összes parancsot json fájlba. Főleg ehhez használt
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    Exportálja az összes parancsot json fájlba. Főleg ehhez használt
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    Exportálja az összes parancsot json fájlba. Főleg ehhez használt
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: 'Megjeleníti a bot útmutatóját.'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: Megjeleníti egy adott parancs súgóját.
+  params:
+    - desc: A parancs, amelyhez súgót szeretnél.
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: Megjeleníti a parancsok súgóinformációit.
+  params:
+    - desc: A parancs, amelyhez súgót szeretnél.
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: 'Megjelenít egy listát az összes modulról. Jelenleg gyakorlatilag csak egy help alias.'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: 'Keres egy parancsot név vagy leírás alapján.'
+  params:
+    - &ref_481
+      desc: 'A keresett kifejezés'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: 'Keres egy parancsot név vagy leírás alapján.'
+  params:
+    - desc: 'A keresett kifejezés'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: 'Keres egy parancsot név vagy leírás alapján.'
+  params:
+    - desc: 'A keresett kifejezés'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: 'Keres egy parancsot név vagy leírás alapján.'
+  params:
+    - desc: 'A keresett kifejezés'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: 'Megjeleníti a bot forráskód linkjét.'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'Megjelenít egy linket a Mewdeko-ra szavazáshoz.'
+  params: [ ]

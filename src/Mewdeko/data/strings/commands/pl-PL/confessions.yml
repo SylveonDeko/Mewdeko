@@ -1,0 +1,157 @@
+confess:
+  args:
+    - serverid text
+  desc: 'Pozwala użytkownikom anonimowo się spowiadać.'
+  params:
+    - &ref_139
+      desc: 'ID serwera.'
+      name: serverId
+      optional: false
+      type: ulong
+    - &ref_140
+      desc: 'Wiadomość spowiedzi'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string:
+  args:
+    - serverid text
+  desc: 'Pozwala użytkownikom anonimowo się spowiadać.'
+  params:
+    - desc: 'ID serwera.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Wiadomość spowiedzi'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_1:
+  args:
+    - serverid text
+  desc: 'Pozwala użytkownikom anonimowo się spowiadać.'
+  params:
+    - desc: 'ID serwera.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Wiadomość spowiedzi'
+      name: confession
+      optional: false
+      type: string
+confess_ulong_string_2:
+  args:
+    - serverid text
+  desc: 'Pozwala użytkownikom anonimowo się spowiadać.'
+  params:
+    - desc: 'ID serwera.'
+      name: serverId
+      optional: false
+      type: ulong
+    - desc: 'Wiadomość spowiedzi'
+      name: confession
+      optional: false
+      type: string
+confessblacklist:
+  args:
+    - user
+  desc: 'Dodaje użytkownika do czarnej listy spowiedzi.'
+  params:
+    - desc: 'Użytkownik do umieszczenia na czarnej liście spowiedzi.'
+      name: user
+      optional: false
+      type: IUser
+confesschannel:
+  args:
+    - channel
+  desc: 'Ustawia kanał spowiedzi.'
+  params:
+    - desc: 'Kanał, który ma zostać ustawiony dla spowiedzi.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessionblacklist:
+  args:
+    - '@user'
+  desc: 'Dodaje lub usuwa użytkownika z czarnej listy spowiedzi.'
+  params:
+    - &ref_141
+      desc: 'Użytkownik do dodania lub usunięcia z czarnej listy.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser:
+  args:
+    - '@user'
+  desc: 'Dodaje lub usuwa użytkownika z czarnej listy spowiedzi.'
+  params:
+    - &ref_142
+      desc: 'Użytkownik do dodania lub usunięcia z czarnej listy.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_1:
+  args:
+    - '@user'
+  desc: 'Dodaje lub usuwa użytkownika z czarnej listy spowiedzi.'
+  params:
+    - desc: 'Użytkownik do dodania lub usunięcia z czarnej listy.'
+      name: user
+      optional: false
+      type: IUser
+confessionblacklist_IUser_2:
+  args:
+    - '@user'
+  desc: 'Dodaje lub usuwa użytkownika z czarnej listy spowiedzi.'
+  params:
+    - desc: 'Użytkownik do dodania lub usunięcia z czarnej listy.'
+      name: user
+      optional: false
+      type: IUser
+confessionchannel:
+  args:
+    - '[@channel]'
+  desc: 'Ustawia kanał spowiedzi dla anonimowych spowiedzi.'
+  params:
+    - desc: 'Kanał spowiedzi (opcjonalny).'
+      name: channel
+      optional: true
+      type: channel
+confessionlogchannel:
+  args:
+    - '[@channel]'
+  desc: >-
+    Ustawia kanał logu spowiedzi do logowania spowiedzi. Niewłaściwe użycie tej
+    funkcji skończy się tym, że będę 2 m od twojego domu.
+  params:
+    - desc: 'Kanał logu spowiedzi (opcjonalny).'
+      name: channel
+      optional: true
+      type: channel
+confessionunblacklist:
+  args:
+    - '@user'
+  desc: 'Usuwa użytkownika z czarnej listy spowiedzi.'
+  params:
+    - desc: 'Użytkownik do usunięcia z czarnej listy.'
+      name: user
+      optional: false
+      type: IUser
+confesslogchannel:
+  args:
+    - channel
+  desc: 'Ustawia kanał logu spowiedzi.'
+  params:
+    - desc: 'Kanał, na którym mają być logowane spowiedzi.'
+      name: channel
+      optional: true
+      type: ITextChannel
+confessunblacklist:
+  args:
+    - user
+  desc: 'Usuwa użytkownika z czarnej listy spowiedzi.'
+  params:
+    - desc: 'Użytkownik do usunięcia z czarnej listy spowiedzi.'
+      name: user
+      optional: false
+      type: IUser

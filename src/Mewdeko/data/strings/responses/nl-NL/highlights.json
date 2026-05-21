@@ -1,0 +1,23 @@
+{
+  "highlight_already_exists": "That's Al in je highlights!",
+  "highlight_disabled": "Highlights uitgeschakeld.",
+  "highlight_enabled": "Highlights ingeschakeld!",
+  "highlight_ignored_channel_removed": "Verwijderd {0} from ignored kanalen!",
+  "highlight_not_found": "This is not in je highlights!",
+  "highlight_added": "Toegevoegd {0} naar je highlights!",
+  "highlight_cannot_delete": "Cannot delete because je hebben geen highlights set!",
+  "highlight_empty_delete": "Cannot delete an Leeg highlight.",
+  "highlight_empty_match": "Cannot match an Leeg highlight.",
+  "highlight_ignored_channel_added": "Toegevoegd {0} to ignored Kanalen!",
+  "highlight_ignored_user_added": "Toegevoegd {0} to ignored Gebruikers!",
+  "highlight_ignored_user_removed": "Verwijderd {0} from ignored Gebruikers!",
+  "highlight_list_title": "{0} Highlights",
+  "highlight_no_highlights": "je hebben geen highlights set!",
+  "highlight_no_match_found": "geen matches found.",
+  "highlight_no_matches": "There zijn geen highlights naar match naar.",
+  "highlight_not_exist": "That highlight does not exist!",
+  "highlight_phrase_required": "je need naar specify een phrase naar highlight.",
+  "highlight_removed": "Met succes Verwijderd {0} from your highlights.",
+  "highlight_toggle_invalid": "That's gonna be true of false, not anything else.",
+  "highlight_user_channel_not_found": "That Gebruiker of Kanaal wasn't found!"
+}

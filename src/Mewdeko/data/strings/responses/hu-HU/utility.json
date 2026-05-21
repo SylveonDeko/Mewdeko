@@ -1,0 +1,18 @@
+{
+  "invite_filter_channel_off": "A meghívás szűrése le van tiltva ebben a szobában.",
+  "invite_filter_channel_on": "Meghívás-szűrés bekapcsolva a csatornán.",
+  "invite_filter_server_off": "Meghívás-szűrés kikapcsolva a csatornán.",
+  "invite_filter_server_on": "Meghívás-szűrés bekapcsolva a szerveren.",
+  "channel_topic": "A szoba témája",
+  "convert": "{0} {1} egyenlő {2} {3}",
+  "convert_not_found": "Nem lehetséges az átváltás {0} és {1} között: nem találhatók ilyen mértékegységek",
+  "convert_type_error": "Nem lehetséges az átváltás {0} és {1} között: a mértékegységek nem azonos csoportba tartoznak",
+  "remind": "I will remind {0} to {1} {2}",
+  "remind_invalid_format": "Nem érvényes idő formátum. Ellenőrizd a command listát.",
+  "repeat_invoke_none": "Nincs ismétlődő üzenet a szerveren.",
+  "serverid": "A szerver {0}-ja/-je {1}",
+  "reminder_list": "Emlékeztetők listája",
+  "reminder_deleted": "#{0} emlékeztető törölve.",
+  "reminder_not_exist": "Emlékeztető az adott indexen nem létezik.",
+  "remind_too_long": ""
+}

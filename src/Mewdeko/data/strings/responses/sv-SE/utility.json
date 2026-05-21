@@ -1,0 +1,19 @@
+{
+  "invite_filter_channel_off": "Inbjuds filtrering avaktiverad på denna kanal.",
+  "invite_filter_channel_on": "Inbjuds filtrering aktiverad på denna kanal.",
+  "invite_filter_server_off": "Inbjuds filtrering avaktiverad på denna server.",
+  "invite_filter_server_on": "Inbjuds filtrering aktiverad på denna server.",
+  "channel_topic": "Kanal ämne",
+  "convert": "{0} {1} är samma som {2} {3}",
+  "convert_not_found": "Kan inte konvertera {0} till {1}: enheter inte funna.",
+  "convert_type_error": "Kan inte konvertera {0} till {1}: typer av enheter är inte lika värda.",
+  "remind": "I will remind {0} to {1} {2}",
+  "remind_invalid_format": "Inte en giltig tids format. Kolla kommandolistan.",
+  "remind_too_long": "",
+  "repeat_invoke_none": "Inga repeterande medelanden funna på denna server.",
+  "serverid": "Denna servers {0} är {1}",
+  "reminder_list": "",
+  "reminder_deleted": "Reminder #{0} was deleted.",
+  "reminder_not_exist": "",
+  "invite_deleted": "Invite {0} has been deleted."
+}

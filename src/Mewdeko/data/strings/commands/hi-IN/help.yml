@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    एक विशिष्ट मॉड्यूल के लिए कमांड दिखाता है। यदि null है, तो यह modules
+    का उपनाम है जो help का उपनाम है।
+  params:
+    - desc: 'देखने के लिए मॉड्यूल'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    एक विशिष्ट मॉड्यूल के लिए कमांड दिखाता है। यदि null है, तो यह modules
+    का उपनाम है जो help का उपनाम है।
+  params:
+    - desc: 'देखने के लिए मॉड्यूल'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    एक विशिष्ट मॉड्यूल के लिए कमांड दिखाता है। यदि null है, तो यह modules
+    का उपनाम है जो help का उपनाम है।
+  params:
+    - desc: 'देखने के लिए मॉड्यूल'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    एक विशिष्ट मॉड्यूल के लिए कमांड दिखाता है। यदि null है, तो यह modules
+    का उपनाम है जो help का उपनाम है।
+  params:
+    - desc: 'देखने के लिए मॉड्यूल'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: 'बॉट का समर्थन करने का तरीका दिखाता है।'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    सभी कमांड को json फ़ाइल में निर्यात करता है। मुख्य रूप से उपयोग किया जाता है
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    सभी कमांड को json फ़ाइल में निर्यात करता है। मुख्य रूप से उपयोग किया जाता है
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    सभी कमांड को json फ़ाइल में निर्यात करता है। मुख्य रूप से उपयोग किया जाता है
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    सभी कमांड को json फ़ाइल में निर्यात करता है। मुख्य रूप से उपयोग किया जाता है
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: 'बॉट के लिए गाइड दिखाता है।'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: किसी विशिष्ट कमांड के लिए मदद दिखाता है।
+  params:
+    - desc: मदद प्राप्त करने के लिए कमांड।
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: कमांड के लिए मदद की जानकारी दिखाता है।
+  params:
+    - desc: मदद प्राप्त करने के लिए कमांड।
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: 'सभी मॉड्यूल की सूची दिखाता है। मूल रूप से इस समय यह बस help का उपनाम है।'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: 'नाम या विवरण द्वारा कमांड खोजता है।'
+  params:
+    - &ref_481
+      desc: 'खोजने के लिए शब्द'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: 'नाम या विवरण द्वारा कमांड खोजता है।'
+  params:
+    - desc: 'खोजने के लिए शब्द'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: 'नाम या विवरण द्वारा कमांड खोजता है।'
+  params:
+    - desc: 'खोजने के लिए शब्द'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: 'नाम या विवरण द्वारा कमांड खोजता है।'
+  params:
+    - desc: 'खोजने के लिए शब्द'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: 'बॉट के स्रोत कोड लिंक को दिखाता है।'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'mewdeko के लिए वोट करने का लिंक दिखाता है।'
+  params: [ ]

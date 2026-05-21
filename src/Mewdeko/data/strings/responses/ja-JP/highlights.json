@@ -1,0 +1,23 @@
+{
+  "highlight_added": "{0}をハイライトに追加しました！",
+  "highlight_already_exists": "それはすでにハイライトに登録されています！",
+  "highlight_cannot_delete": "ハイライトが設定されていないため削除できません！",
+  "highlight_disabled": "ハイライトを無効にしました。",
+  "highlight_empty_delete": "空のハイライトは削除できません。",
+  "highlight_empty_match": "空のハイライトはマッチできません。",
+  "highlight_enabled": "ハイライトを有効にしました！",
+  "highlight_ignored_channel_added": "{0}を無視チャンネルに追加しました！",
+  "highlight_ignored_channel_removed": "{0}を無視チャンネルから削除しました！",
+  "highlight_ignored_user_added": "{0}を無視ユーザーに追加しました！",
+  "highlight_ignored_user_removed": "{0}を無視ユーザーから削除しました！",
+  "highlight_list_title": "{0}のハイライト",
+  "highlight_no_highlights": "ハイライトが設定されていません！",
+  "highlight_no_match_found": "一致が見つかりませんでした。",
+  "highlight_no_matches": "マッチするハイライトがありません。",
+  "highlight_not_exist": "そのハイライトは存在しません！",
+  "highlight_not_found": "それはあなたのハイライトにありません！",
+  "highlight_phrase_required": "ハイライトするフレーズを指定してください。",
+  "highlight_removed": "{0}をハイライトから削除しました。",
+  "highlight_toggle_invalid": "trueかfalseのどちらかを指定してください。",
+  "highlight_user_channel_not_found": "そのユーザーまたはチャンネルが見つかりませんでした！"
+}

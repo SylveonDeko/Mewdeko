@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'Minecraft サーバーのステータスを確認します。登録されたサーバー名、直接アドレスを使用するか、デフォルトサーバーの場合は空白のままにしてください。'
+  params:
+    - desc: '登録されたサーバー名または直接アドレス (例: play.example.com:25565)。'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: 'ギルドに Minecraft サーバーを追加します。Bedrock サーバーの場合はアドレスの前に bedrock: プレフィックスを付けます。'
+  params:
+    - desc: 'サーバーのラベル。'
+      name: name
+      optional: false
+      type: string
+    - desc: 'サーバーアドレス、任意でポート付き (例: play.example.com:25565 または bedrock:play.example.com)。'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: 'ギルドから Minecraft サーバーを削除します。'
+  params:
+    - desc: '削除するサーバーの名前。'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: 'このギルドの登録されたすべての Minecraft サーバーを一覧表示します。'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: 'サーバーをステータスコマンドのデフォルトとして設定します。'
+  params:
+    - desc: 'デフォルトとして設定するサーバーの名前。'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: 'サーバーの定期的なステータス更新を受信するチャンネルを設定します。チャンネルを省略すると無効になります。'
+  params:
+    - desc: '監視するサーバーの名前。'
+      name: serverName
+      optional: false
+      type: string
+    - desc: '更新を投稿するチャンネル。'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: 'サーバーステータスの表示方法を設定します: embed (その場で編集)、チャンネルトピック、または両方。'
+  params:
+    - desc: 'サーバーの名前。'
+      name: serverName
+      optional: false
+      type: string
+    - desc: '監視モード: Embed、ChannelTopic、または Both。'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: '監視されているサーバーのカスタム embed テンプレートを設定します。"-" でリセット。プレースホルダー: %mc.server.name%、%mc.players.online%、%mc.players.max%、%mc.motd%、%mc.version%、%mc.latency%、%mc.online%、%mc.favicon%。'
+  params:
+    - desc: 'サーバーの名前。'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'embed テンプレート JSON、または "-" でデフォルトにリセット。'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: 'ユーザー名で Minecraft プレイヤーを検索し、プロフィールとスキンを表示します。'
+  params:
+    - desc: '検索する Minecraft ユーザー名。'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'Minecraft プレイヤーのスキンレンダーを表示します。'
+  params:
+    - desc: 'Minecraft ユーザー名。'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: '登録された Minecraft サーバーに RCON コマンドを送信します。RCON はダッシュボードで構成する必要があります。'
+  params:
+    - desc: 'サーバーの名前。'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'サーバーで実行するコマンド。'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'RCON を介して Minecraft サーバーのホワイトリストを管理します。RCON の構成が必要です。'
+  params:
+    - desc: 'サーバーの名前。'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'アクション: add、remove、list、on、off、reload。'
+      name: action
+      optional: false
+      type: string
+    - desc: 'プレイヤー名 (add/remove 用)。'
+      name: playerName
+      optional: true
+      type: string

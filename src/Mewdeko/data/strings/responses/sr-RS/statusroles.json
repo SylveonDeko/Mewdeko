@@ -1,0 +1,18 @@
+{
+  "status_role_channel_set": "Kanal postavljen na {0}",
+  "status": "Status",
+  "status_addrole_successfully_removed": "{0} Uspešno uklonjene sledeće uloge iz AddRoles\n{1}",
+  "status_addroles_none_removed": "{0} Nijedna AddRoles uloga nije uklonjena, nijedna od navedenih uloga nije na listi.",
+  "status_embed_channel_already_set": "{0} To je već vaš StatusEmbedKanal.",
+  "status_embed_channel_set": "{0} Uspešno postavljen StatusEmbedKanal na {1}!",
+  "status_readd_removed_now": "{0} ReaddRemoved je sada `{1}`",
+  "status_remove_added_now": "{0} RemoveAdded je sada `{1}`",
+  "status_removerole_none_removed": "{0} Nijedna RemoveRoles uloga nije uklonjena, nijedna od navedenih uloga nije na listi.",
+  "status_removerole_successfully_removed": "{0} Uspešno uklonjene sledeće uloge iz RemoveRoles\n{1}",
+  "status_role_config_added": "Dodata konfiguracija StatusRole! Molimo konfigurišite je sa ostalim komandama.",
+  "status_role_exists": "{0} Ta StatusRole već postoji!",
+  "status_role_text_select": "{0} Molimo izaberite šta želite da uradite sa trenutnim tekstom StatusRole",
+  "status_roles_added": "{0} Imajte ovaj status će sada dodati sledeće uloge:\n{1}",
+  "status_roles_removed": "{0} Imajte ovaj status će sada ukloniti sledeće uloge:\n{1}",
+  "status_too_long": "{0} To je predugačko da stane čak i u normalan status. Pokušajte ponovo."
+}

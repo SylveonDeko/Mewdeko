@@ -1,0 +1,326 @@
+gbanner:
+  args:
+    - text
+  desc: '기본 경품 배너를 설정합니다.'
+  params:
+    - &ref_221
+      desc: '기본 경품 배너를 설정합니다.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string:
+  args:
+    - text
+  desc: '기본 경품 배너를 설정합니다.'
+  params:
+    - desc: '기본 경품 배너를 설정합니다.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_1:
+  args:
+    - text
+  desc: '기본 경품 배너를 설정합니다.'
+  params:
+    - desc: '기본 경품 배너를 설정합니다.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_2:
+  args:
+    - text
+  desc: '기본 경품 배너를 설정합니다.'
+  params:
+    - desc: '기본 경품 배너를 설정합니다.'
+      name: banner
+      optional: false
+      type: string
+gdm:
+  args:
+    - ''
+  desc: '경품 당첨자에게 DM을 보낼지 여부를 설정합니다.'
+  params: [ ]
+gdmmessage:
+  args:
+    - '[message]'
+  desc: '경품에 당첨된 사용자에게 보내는 DM 메시지를 설정합니다.'
+  params:
+    - desc: '경품에 당첨된 사용자에게 보내는 DM 메시지를 설정합니다.'
+      name: message
+      optional: true
+      type: string
+gembedcolor:
+  args:
+    - text
+  desc: '경품 embed의 색상을 설정합니다.'
+  params:
+    - &ref_223
+      desc: '16진수 색상.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string:
+  args:
+    - text
+  desc: '경품 embed의 색상을 설정합니다.'
+  params:
+    - desc: '16진수 색상.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_1:
+  args:
+    - text
+  desc: '경품 embed의 색상을 설정합니다.'
+  params:
+    - desc: '16진수 색상.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_2:
+  args:
+    - text
+  desc: '경품 embed의 색상을 설정합니다.'
+  params:
+    - desc: '16진수 색상.'
+      name: color
+      optional: false
+      type: string
+gemote:
+  args:
+    - emote
+  desc: '경품에 사용할 이모트를 설정합니다.'
+  params:
+    - &ref_224
+      desc: '설정할 이모트.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote:
+  args:
+    - emote
+  desc: '경품에 사용할 이모트를 설정합니다.'
+  params:
+    - desc: '설정할 이모트.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_1:
+  args:
+    - emote
+  desc: '경품에 사용할 이모트를 설정합니다.'
+  params:
+    - desc: '설정할 이모트.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_2:
+  args:
+    - emote
+  desc: '경품에 사용할 이모트를 설정합니다.'
+  params:
+    - desc: '설정할 이모트.'
+      name: emote
+      optional: false
+      type: IEmote
+gend:
+  args:
+    - messageid
+  desc: '경품을 종료합니다.'
+  params:
+    - &ref_225
+      desc: '종료할 경품의 메시지 ID'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong:
+  args:
+    - messageid
+  desc: '경품을 종료합니다.'
+  params:
+    - desc: '종료할 경품의 메시지 ID'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_1:
+  args:
+    - messageid
+  desc: '경품을 종료합니다.'
+  params:
+    - desc: '종료할 경품의 메시지 ID'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_2:
+  args:
+    - messageid
+  desc: '경품을 종료합니다.'
+  params:
+    - desc: '종료할 경품의 메시지 ID'
+      name: messageid
+      optional: false
+      type: ulong
+glist:
+  args:
+    - ''
+  desc: '모든 활성 경품을 나열합니다.'
+  params: [ ]
+greroll:
+  args:
+    - messageid
+  desc: '경품을 다시 추첨합니다.'
+  params:
+    - &ref_237
+      desc: '경품의 메시지 ID'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong:
+  args:
+    - messageid
+  desc: '경품을 다시 추첨합니다.'
+  params:
+    - desc: '경품의 메시지 ID'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_1:
+  args:
+    - messageid
+  desc: '경품을 다시 추첨합니다.'
+  params:
+    - desc: '경품의 메시지 ID'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_2:
+  args:
+    - messageid
+  desc: '경품을 다시 추첨합니다.'
+  params:
+    - desc: '경품의 메시지 ID'
+      name: messageid
+      optional: false
+      type: ulong
+gstart:
+  args:
+    - chan time number text
+  desc: '더 자세한 경품 시작으로 배너, 핑 역할 등을 설정할 수 있습니다.'
+  params:
+    - &ref_238
+      desc: '경품을 시작할 채널'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - &ref_239
+      desc: '경품 진행 시간'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_240
+      desc: '당첨자 수'
+      name: winners
+      optional: false
+      type: int
+    - &ref_241
+      desc: '경품 항목'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string:
+  args:
+    - chan time number text
+  desc: '더 자세한 경품 시작으로 배너, 핑 역할 등을 설정할 수 있습니다.'
+  params:
+    - desc: '경품을 시작할 채널'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: '경품 진행 시간'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '당첨자 수'
+      name: winners
+      optional: false
+      type: int
+    - desc: '경품 항목'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_1:
+  args:
+    - chan time number text
+  desc: '더 자세한 경품 시작으로 배너, 핑 역할 등을 설정할 수 있습니다.'
+  params:
+    - desc: '경품을 시작할 채널'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: '경품 진행 시간'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '당첨자 수'
+      name: winners
+      optional: false
+      type: int
+    - desc: '경품 항목'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_2:
+  args:
+    - chan time number text
+  desc: '더 자세한 경품 시작으로 배너, 핑 역할 등을 설정할 수 있습니다.'
+  params:
+    - desc: '경품을 시작할 채널'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: '경품 진행 시간'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: '당첨자 수'
+      name: winners
+      optional: false
+      type: int
+    - desc: '경품 항목'
+      name: what
+      optional: false
+      type: string
+gstart_noparams:
+  args:
+    - ''
+  desc: '더 자세한 경품 시작으로 배너, 핑 역할 등을 설정할 수 있습니다.'
+  params: [ ]
+gstart_noparams_1:
+  args:
+    - ''
+  desc: '더 자세한 경품 시작으로 배너, 핑 역할 등을 설정할 수 있습니다.'
+  params: [ ]
+gstart_noparams_2:
+  args:
+    - ''
+  desc: '더 자세한 경품 시작으로 배너, 핑 역할 등을 설정할 수 있습니다.'
+  params: [ ]
+gstart_noparams_3:
+  args:
+    - ''
+  desc: '더 자세한 경품 시작으로 배너, 핑 역할 등을 설정할 수 있습니다.'
+  params: [ ]
+gstats:
+  args:
+    - ''
+  desc: '경품 통계를 표시합니다.'
+  params: [ ]
+gwinembedcolor:
+  args:
+    - text
+  desc: '당첨 embed의 색상을 설정합니다.'
+  params:
+    - desc: '16진수 색상.'
+      name: color
+      optional: false
+      type: string

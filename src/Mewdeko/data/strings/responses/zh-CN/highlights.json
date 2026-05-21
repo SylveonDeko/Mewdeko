@@ -1,0 +1,23 @@
+{
+  "highlight_added": "已将 {0} 添加到您的高亮列表！",
+  "highlight_already_exists": "这已在您的高亮列表中！",
+  "highlight_cannot_delete": "无法删除，因为您没有设置任何高亮！",
+  "highlight_disabled": "高亮功能已禁用。",
+  "highlight_empty_delete": "无法删除空的高亮词。",
+  "highlight_empty_match": "无法匹配空的高亮词。",
+  "highlight_enabled": "高亮功能已启用！",
+  "highlight_ignored_channel_added": "已将 {0} 添加到忽略频道！",
+  "highlight_ignored_channel_removed": "已从忽略频道中移除 {0}！",
+  "highlight_ignored_user_added": "已将 {0} 添加到忽略用户！",
+  "highlight_ignored_user_removed": "已从忽略用户中移除 {0}！",
+  "highlight_list_title": "{0} 的高亮词",
+  "highlight_no_highlights": "您没有设置任何高亮词！",
+  "highlight_no_match_found": "未找到匹配项。",
+  "highlight_no_matches": "没有高亮词可以匹配。",
+  "highlight_not_exist": "该高亮词不存在！",
+  "highlight_not_found": "这不在您的高亮列表中！",
+  "highlight_phrase_required": "您需要指定要高亮的短语。",
+  "highlight_removed": "已成功从您的高亮列表中移除 {0}。",
+  "highlight_toggle_invalid": "只能是 true 或 false，不能是其他值。",
+  "highlight_user_channel_not_found": "未找到该用户或频道！"
+}

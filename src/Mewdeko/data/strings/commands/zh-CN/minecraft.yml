@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: '检查 Minecraft 服务器状态。可使用已注册的服务器名称、直接地址，或留空使用默认服务器。'
+  params:
+    - desc: '已注册的服务器名称或直接地址（例如 play.example.com:25565）。'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: '将 Minecraft 服务器添加到此公会。基岩版服务器请在地址前加 bedrock: 前缀。'
+  params:
+    - desc: '服务器标签。'
+      name: name
+      optional: false
+      type: string
+    - desc: '服务器地址，可选含端口（例如 play.example.com:25565 或 bedrock:play.example.com）。'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: '从此公会移除 Minecraft 服务器。'
+  params:
+    - desc: '要移除的服务器名称。'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: '列出此公会所有已注册的 Minecraft 服务器。'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: '将服务器设为状态命令的默认服务器。'
+  params:
+    - desc: '要设为默认的服务器名称。'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: '设置一个频道接收服务器的定期状态更新。省略频道则禁用。'
+  params:
+    - desc: '要监视的服务器名称。'
+      name: serverName
+      optional: false
+      type: string
+    - desc: '发布更新的频道。'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: '设置服务器状态的显示方式：embed（原地编辑）、频道主题或两者。'
+  params:
+    - desc: '服务器名称。'
+      name: serverName
+      optional: false
+      type: string
+    - desc: '监视模式：Embed、ChannelTopic 或 Both。'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: '为监视的服务器设置自定义 embed 模板。使用 "-" 重置。占位符：%mc.server.name%、%mc.players.online%、%mc.players.max%、%mc.motd%、%mc.version%、%mc.latency%、%mc.online%、%mc.favicon%。'
+  params:
+    - desc: '服务器名称。'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'embed 模板 JSON，或 "-" 重置为默认值。'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: '通过用户名查找 Minecraft 玩家并显示其个人资料和皮肤。'
+  params:
+    - desc: '要查找的 Minecraft 用户名。'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: '显示 Minecraft 玩家的皮肤渲染图。'
+  params:
+    - desc: 'Minecraft 用户名。'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: '向已注册的 Minecraft 服务器发送 RCON 命令。必须通过仪表板配置 RCON。'
+  params:
+    - desc: '服务器名称。'
+      name: serverName
+      optional: false
+      type: string
+    - desc: '要在服务器上执行的命令。'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: '通过 RCON 管理 Minecraft 服务器的白名单。需要先配置 RCON。'
+  params:
+    - desc: '服务器名称。'
+      name: serverName
+      optional: false
+      type: string
+    - desc: '操作：add、remove、list、on、off、reload。'
+      name: action
+      optional: false
+      type: string
+    - desc: '玩家名称（用于 add/remove）。'
+      name: playerName
+      optional: true
+      type: string

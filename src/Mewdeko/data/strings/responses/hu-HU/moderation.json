@@ -1,0 +1,17 @@
+{
+  "mute_error": "Valószínűleg nem rendelkezem az ehhez szükséges jogokkal.",
+  "mute_role_set": "Új némítási rang került beállításra.",
+  "user_chat_mute": "**tiltotta** {0} felhasználót az írásban való csevegéstől.",
+  "user_chat_unmute": "**engedélyezte** {0} számára az írásban való csevegést.",
+  "user_muted": "{0} **megfosztva** a szöveges és a beszélgető szobákban való kommunikációtól.",
+  "user_unmuted": "{0} has been **unmuted** from text and voice chat.",
+  "user_voice_mute": "**tiltotta** {0} felhasználót a szóban való csevegéstől.",
+  "user_voice_unmute": "**engedélyezte** {0} számára a szóban való csevegést.",
+  "user_muted_time": "{0} **némítva** lett a szöveges és beszélgető szobákból {1} percre.",
+  "user_warned": "{0} felhasználó figyelmeztetve.",
+  "user_warned_and_punished": "{0} felhasználó figyelmeztetve, és {1} büntetés alkalmazva.",
+  "warn_cleared_by": "tisztítva {0} által",
+  "warn_punish_list": "Figyelmeztetésekért járó büntetések",
+  "warn_punish_rem": "{0} figyelmeztetésért többé nem jár büntetés.",
+  "warn_punish_set": "{0} büntetést fogok alkalmazni {1} figyelmeztetéssel rendelkező felhasználókon."
+}

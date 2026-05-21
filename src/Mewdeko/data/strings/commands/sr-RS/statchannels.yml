@@ -1,0 +1,95 @@
+statchannelcreate:
+  args:
+    - 'TotalMembers [template]'
+  desc: 'Креира нови закључани гласовни канал који приказује статистику сервера. Бот ће креирати и управљати каналом.'
+  params:
+    - desc: 'Тип статистике за приказ.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'Шаблон приказа. Користите %count% за вредност.'
+      name: template
+      optional: true
+      type: string
+statchanneladd:
+  args:
+    - '#voice-channel TotalMembers [template]'
+  desc: 'Додаје гласовни канал као статистички канал. Типови: TotalMembers, HumanMembers, BotCount, OnlineMembers, ChannelCount, RoleCount, BoostCount, BoostLevel, EmojiCount.'
+  params:
+    - desc: 'Гласовни канал за коришћење.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Тип статистике за приказ.'
+      name: type
+      optional: false
+      type: StatChannelType
+    - desc: 'Шаблон приказа. Користите %count% за вредност.'
+      name: template
+      optional: true
+      type: string
+statchannelrole:
+  args:
+    - '#voice-channel @role [template]'
+  desc: 'Додаје статистички канал који приказује колико чланова има одређену улогу.'
+  params:
+    - desc: 'Гласовни канал за коришћење.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Улога чији се чланови броје.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Шаблон приказа. Користите %count% и %role.name%.'
+      name: template
+      optional: true
+      type: string
+statchannelcountdown:
+  args:
+    - '#voice-channel 2026-12-31 [template]'
+  desc: 'Додаје статистички канал одбројавања. Користите ознаке %days% и %hours%.'
+  params:
+    - desc: 'Гласовни канал за коришћење.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Циљни датум за одбројавање.'
+      name: date
+      optional: false
+      type: DateTime
+    - desc: 'Шаблон приказа. Користите %days% и %hours%.'
+      name: template
+      optional: true
+      type: string
+statchannelgoal:
+  args:
+    - '#voice-channel 1000 [template]'
+  desc: 'Додаје статистички канал циља чланова. Користите %count%, %goal% и %goal.percent%.'
+  params:
+    - desc: 'Гласовни канал за коришћење.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+    - desc: 'Циљни број чланова.'
+      name: goal
+      optional: false
+      type: int
+    - desc: 'Шаблон приказа. Користите %count%, %goal%, %goal.percent%.'
+      name: template
+      optional: true
+      type: string
+statchannelremove:
+  args:
+    - '#voice-channel'
+  desc: 'Уклања статистички канал.'
+  params:
+    - desc: 'Гласовни канал за уклањање.'
+      name: channel
+      optional: false
+      type: IVoiceChannel
+statchannellist:
+  args:
+    - ''
+  desc: 'Наводи све статистичке канале за овај сервер.'
+  params: [ ]

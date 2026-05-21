@@ -1,0 +1,22 @@
+{
+  "eval_compiling": "正在求值...",
+  "eval_no_code": "未提供代码。请将代码放在代码块内或附加 .cs 文件",
+  "eval_output_blank": "输出为空",
+  "eval_read_error": "读取附加文件失败：{0}",
+  "eval_too_large": "附加的文件过大。请确保文件小于 100 KB",
+  "instance_added": "实例已添加",
+  "instance_command_count": "命令数量：{0}",
+  "instance_modules_count": "模块数量：{0}",
+  "instance_not_added": "添加实例失败：{0}",
+  "instance_not_found": "未找到端口为 {0} 的实例。请重试。",
+  "instance_offline": "实例已离线",
+  "instance_removed": "已成功移除端口 {0} 上的实例",
+  "instance_status": "实例状态",
+  "instance_user_count": "用户数量 {0}",
+  "instance_version": "实例版本：{0}",
+  "owner": "所有者",
+  "owner_config_error": "设置或显示配置时出错，请检查日志。",
+  "owner_ids": "所有者 ID",
+  "owner_setting_title": "⚙️ {0}",
+  "user_stats": "用户统计"
+}

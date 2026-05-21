@@ -1,0 +1,132 @@
+mcstatus:
+  args:
+    - '[server name or address]'
+  desc: 'Kontrollerar statusen för en Minecraft-server. Använd ett registrerat servernamn, en direktadress, eller lämna tomt för standardservern.'
+  params:
+    - desc: 'Det registrerade servernamnet eller direktadressen (t.ex. play.example.com:25565).'
+      name: serverName
+      optional: true
+      type: string
+mcadd:
+  args:
+    - name address
+  desc: 'Lägger till en Minecraft-server till gillet. Sätt bedrock: före adressen för Bedrock-servrar.'
+  params:
+    - desc: 'En etikett för servern.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Serveradressen, eventuellt med port (t.ex. play.example.com:25565 eller bedrock:play.example.com).'
+      name: address
+      optional: false
+      type: string
+mcremove:
+  args:
+    - name
+  desc: 'Tar bort en Minecraft-server från gillet.'
+  params:
+    - desc: 'Namnet på servern som ska tas bort.'
+      name: name
+      optional: false
+      type: string
+mclist:
+  args:
+    - ''
+  desc: 'Listar alla registrerade Minecraft-servrar för detta gille.'
+  params: [ ]
+mcdefault:
+  args:
+    - name
+  desc: 'Ställer in en server som standard för statuskommandon.'
+  params:
+    - desc: 'Namnet på servern att ställa in som standard.'
+      name: name
+      optional: false
+      type: string
+mcwatch:
+  args:
+    - name '#channel'
+  desc: 'Ställer in en kanal för att ta emot periodiska statusuppdateringar för en server. Utelämna kanalen för att inaktivera.'
+  params:
+    - desc: 'Namnet på servern att övervaka.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Kanalen att posta uppdateringar i.'
+      name: channel
+      optional: true
+      type: ITextChannel
+mcwatchmode:
+  args:
+    - name embed|topic|both
+  desc: 'Ställer in hur serverstatus visas: embed (redigera på plats), kanalämne, eller båda.'
+  params:
+    - desc: 'Namnet på servern.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Övervakningsläget: Embed, ChannelTopic, eller Both.'
+      name: mode
+      optional: false
+      type: McWatchMode
+mcembed:
+  args:
+    - name template
+  desc: 'Ställer in en anpassad embed-mall för en övervakad server. Använd "-" för att återställa. Platshållare: %mc.server.name%, %mc.players.online%, %mc.players.max%, %mc.motd%, %mc.version%, %mc.latency%, %mc.online%, %mc.favicon%.'
+  params:
+    - desc: 'Namnet på servern.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Embed-mallens JSON, eller "-" för att återställa till standard.'
+      name: template
+      optional: true
+      type: string
+mcplayer:
+  args:
+    - username
+  desc: 'Söker upp en Minecraft-spelare via användarnamn och visar deras profil och skin.'
+  params:
+    - desc: 'Minecraft-användarnamnet att söka upp.'
+      name: username
+      optional: false
+      type: string
+mcskin:
+  args:
+    - username
+  desc: 'Visar en Minecraft-spelares skin-rendering.'
+  params:
+    - desc: 'Minecraft-användarnamnet.'
+      name: username
+      optional: false
+      type: string
+mcrcon:
+  args:
+    - name command
+  desc: 'Skickar ett RCON-kommando till en registrerad Minecraft-server. RCON måste konfigureras via instrumentpanelen.'
+  params:
+    - desc: 'Namnet på servern.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Kommandot att köra på servern.'
+      name: command
+      optional: false
+      type: string
+mcwhitelist:
+  args:
+    - name add|remove|list|on|off|reload [player]
+  desc: 'Hanterar whitelisten på en Minecraft-server via RCON. Kräver konfigurerad RCON.'
+  params:
+    - desc: 'Namnet på servern.'
+      name: serverName
+      optional: false
+      type: string
+    - desc: 'Åtgärden: add, remove, list, on, off, reload.'
+      name: action
+      optional: false
+      type: string
+    - desc: 'Spelarnamnet (för add/remove).'
+      name: playerName
+      optional: true
+      type: string

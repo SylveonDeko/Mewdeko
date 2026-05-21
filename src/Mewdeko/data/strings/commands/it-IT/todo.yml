@@ -1,0 +1,326 @@
+todoadd:
+  args:
+    - listId
+    - title
+    - description
+  desc: 'Aggiunge un nuovo elemento a una lista di cose da fare specificata'
+  params:
+    - desc: 'L''ID della lista di cose da fare.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Il titolo dell''elemento.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Descrizione opzionale dell''elemento.'
+      name: description
+      optional: true
+      type: string
+todoaddpriority:
+  args:
+    - listId
+    - priority
+    - title
+    - description
+  desc: 'Aggiunge un elemento con priorita e scadenza opzionale'
+  params:
+    - desc: 'L''ID della lista di cose da fare.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Livello di priorita (1=Basso, 2=Medio, 3=Alto, 4=Critico).'
+      name: priority
+      optional: false
+      type: int
+    - desc: 'Il titolo dell''elemento.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'Descrizione opzionale dell''elemento.'
+      name: description
+      optional: true
+      type: string
+todoaddtag:
+  args:
+    - itemId
+    - tag
+  desc: 'Aggiunge un tag a un elemento'
+  params:
+    - desc: 'L''ID dell''elemento.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Il tag da aggiungere.'
+      name: tag
+      optional: false
+      type: string
+todocleardue:
+  args:
+    - itemId
+  desc: 'Rimuove la scadenza da un elemento'
+  params:
+    - desc: 'L''ID dell''elemento.'
+      name: itemId
+      optional: false
+      type: int
+todoclearreminder:
+  args:
+    - itemId
+  desc: 'Rimuove il promemoria da un elemento'
+  params:
+    - desc: 'L''ID dell''elemento.'
+      name: itemId
+      optional: false
+      type: int
+todocomplete:
+  args:
+    - itemId
+  desc: 'Segna un elemento come completato'
+  params:
+    - desc: 'L''ID dell''elemento.'
+      name: itemId
+      optional: false
+      type: int
+todocreatelist:
+  args:
+    - name
+    - description
+  desc: 'Crea una nuova lista di cose da fare'
+  params:
+    - desc: 'Il nome della lista.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Descrizione opzionale della lista.'
+      name: description
+      optional: true
+      type: string
+todocreateserverlist:
+  args:
+    - name
+    - description
+  desc: 'Crea una nuova lista di cose da fare a livello server (solo admin)'
+  params:
+    - desc: 'Il nome della lista del server.'
+      name: name
+      optional: false
+      type: string
+    - desc: 'Descrizione opzionale della lista.'
+      name: description
+      optional: true
+      type: string
+tododelete:
+  args:
+    - itemId
+  desc: 'Elimina un elemento'
+  params:
+    - desc: 'L''ID dell''elemento.'
+      name: itemId
+      optional: false
+      type: int
+tododeletelist:
+  args:
+    - listId
+  desc: 'Elimina un''intera lista di cose da fare'
+  params:
+    - desc: 'L''ID della lista.'
+      name: listId
+      optional: false
+      type: int
+todoedit:
+  args:
+    - itemId
+    - title
+    - description
+  desc: 'Modifica il titolo e la descrizione di un elemento'
+  params:
+    - desc: 'L''ID dell''elemento.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Il nuovo titolo.'
+      name: title
+      optional: false
+      type: string
+    - desc: 'La nuova descrizione.'
+      name: description
+      optional: true
+      type: string
+todofilter:
+  args:
+    - listId
+    - filter
+    - value
+  desc: 'Filtra gli elementi per tag o priorita'
+  params:
+    - desc: 'L''ID della lista.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Tipo di filtro (tag o priorita).'
+      name: filter
+      optional: false
+      type: string
+    - desc: 'Il valore per cui filtrare.'
+      name: value
+      optional: true
+      type: string
+todogrant:
+  args:
+    - listId
+    - '@user'
+    - permissions
+  desc: 'Concede permessi a un utente per una lista (solo proprietario/admin)'
+  params:
+    - desc: 'L''ID della lista.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'L''utente a cui concedere i permessi.'
+      name: user
+      optional: false
+      type: IUser
+    - desc: 'Permessi separati da virgole (view,add,edit,complete,delete,manage,all).'
+      name: permissions
+      optional: false
+      type: string
+todolists:
+  args:
+    - includeServer
+  desc: 'Elenca tutte le liste accessibili all''utente'
+  params:
+    - desc: 'Se includere le liste a livello server.'
+      name: includeServer
+      optional: true
+      type: bool
+todopermissions:
+  args:
+    - listId
+  desc: 'Mostra tutti i permessi di una lista'
+  params:
+    - desc: 'L''ID della lista.'
+      name: listId
+      optional: false
+      type: int
+todoremovetag:
+  args:
+    - itemId
+    - tag
+  desc: 'Rimuove un tag da un elemento'
+  params:
+    - desc: 'L''ID dell''elemento.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'Il tag da rimuovere.'
+      name: tag
+      optional: false
+      type: string
+todoreorder:
+  args:
+    - itemId
+    - newPosition
+  desc: 'Riordina un elemento in una nuova posizione'
+  params:
+    - desc: 'L''ID dell''elemento.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'La nuova posizione (basata su 1).'
+      name: newPosition
+      optional: false
+      type: int
+todorevoke:
+  args:
+    - listId
+    - '@user'
+  desc: 'Revoca tutti i permessi di un utente su una lista'
+  params:
+    - desc: 'L''ID della lista.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'L''utente a cui revocare i permessi.'
+      name: user
+      optional: false
+      type: IUser
+todosearch:
+  args:
+    - listId
+    - query
+  desc: 'Cerca elementi in una lista'
+  params:
+    - desc: 'L''ID della lista.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'La query di ricerca.'
+      name: query
+      optional: false
+      type: string
+todosetcolor:
+  args:
+    - listId
+    - color
+  desc: 'Imposta il colore di una lista'
+  params:
+    - desc: 'L''ID della lista.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Codice colore esadecimale (es.,'
+      name: color
+      optional: false
+      type: string
+todosetdue:
+  args:
+    - itemId
+    - dateString
+  desc: 'Imposta la scadenza di un elemento'
+  params:
+    - desc: 'L''ID dell''elemento.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'La data e l''ora di scadenza.'
+      name: dateString
+      optional: false
+      type: string
+todosetreminder:
+  args:
+    - itemId
+    - dateString
+  desc: 'Imposta un promemoria per un elemento'
+  params:
+    - desc: 'L''ID dell''elemento.'
+      name: itemId
+      optional: false
+      type: int
+    - desc: 'La data e l''ora del promemoria.'
+      name: dateString
+      optional: false
+      type: string
+todoshow:
+  args:
+    - listId
+    - includeCompleted
+  desc: 'Mostra tutti gli elementi di una lista'
+  params:
+    - desc: 'L''ID della lista.'
+      name: listId
+      optional: false
+      type: int
+    - desc: 'Se includere gli elementi completati.'
+      name: includeCompleted
+      optional: true
+      type: bool
+todotoggleprivacy:
+  args:
+    - listId
+  desc: 'Attiva/disattiva l''impostazione di privacy di una lista'
+  params:
+    - desc: 'L''ID della lista.'
+      name: listId
+      optional: false
+      type: int

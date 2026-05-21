@@ -1,0 +1,136 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'Exibe análises detalhadas do Patreon.'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'Aciona manualmente um anúncio do Patreon.'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Define ou exibe o canal de anúncios do Patreon.
+  params:
+    - desc: >-
+        O canal a ser definido para anúncios do Patreon. Se null, exibe
+        o canal atual.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'Exibe a configuração atual do Patreon para este servidor.'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Define o dia do mês para anúncios do Patreon.'
+  params:
+    - desc: >-
+        O dia do mês (1-28) para anúncios. Se null, exibe o dia atual.
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'Desativa os anúncios do Patreon para este servidor.'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Exibe informações do módulo Patreon e placeholders disponíveis.'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Vincula um usuário do Discord a um apoiador do Patreon.'
+  params:
+    - desc: O usuário do Discord a vincular.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: O ID de usuário do Patreon a vincular.
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Define uma mensagem personalizada para anúncios do Patreon.
+  params:
+    - desc: >-
+        A mensagem personalizada. Use placeholders como %server.name%,
+        %month%, etc. Use "-" para resetar ao padrão.
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'Envia mensagens de reconhecimento para novos apoiadores.'
+  params:
+    - desc: O canal para enviar mensagens de reconhecimento.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Lista os mapeamentos de nível-cargo do Patreon.'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'Ativa ou desativa a sincronização automática de cargos.'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Exibe estatísticas dos apoiadores do Patreon.'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'Lista os apoiadores do Patreon ativos.'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'Configura com segurança a integração OAuth do Patreon.'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'Sincroniza cargos para todos os apoiadores vinculados.'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Mapeia um nível do Patreon para um cargo do Discord.'
+  params:
+    - desc: O ID do nível do Patreon.
+      name: tierId
+      optional: false
+      type: string
+    - desc: O cargo do Discord a mapear para o nível.
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Ativa ou desativa os anúncios do Patreon.'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'Exibe os principais apoiadores do Patreon.'
+  params:
+    - desc: Número de principais apoiadores para exibir (1-20).
+      name: count
+      optional: true
+      type: int

@@ -1,0 +1,305 @@
+setupvoicehub:
+  args:
+    - ''
+  desc: 'カスタム音声チャンネルを作成するためのハブとして音声チャンネルを設定します。'
+  params: [ ]
+setvoicehub:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'カスタム音声チャンネルを作成するためのハブとして特定の音声チャンネルを設定します。'
+  params:
+    - desc: 'カスタム音声チャンネルを作成するためのハブとして特定の音声チャンネルを設定します。'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'カスタム音声チャンネルを作成するためのハブとして特定の音声チャンネルを設定します。'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'カスタム音声チャンネルを作成するためのハブとして特定の音声チャンネルを設定します。'
+  params:
+    - desc: 'カスタム音声チャンネルを作成するためのハブとして特定の音声チャンネルを設定します。'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'カスタム音声チャンネルを作成するためのハブとして特定の音声チャンネルを設定します。'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_1:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'カスタム音声チャンネルを作成するためのハブとして特定の音声チャンネルを設定します。'
+  params:
+    - desc: 'カスタム音声チャンネルを作成するためのハブとして特定の音声チャンネルを設定します。'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'カスタム音声チャンネルを作成するためのハブとして特定の音声チャンネルを設定します。'
+      name: category
+      optional: true
+      type: category
+setvoicehub_IVoiceChannel_=_2:
+  args:
+    - '<channel> [category]'
+    - channel
+  desc: 'カスタム音声チャンネルを作成するためのハブとして特定の音声チャンネルを設定します。'
+  params:
+    - desc: 'カスタム音声チャンネルを作成するためのハブとして特定の音声チャンネルを設定します。'
+      name: channel
+      optional: false
+      type: voice channel
+    - desc: 'カスタム音声チャンネルを作成するためのハブとして特定の音声チャンネルを設定します。'
+      name: category
+      optional: true
+      type: category
+voiceallow:
+  args:
+    - '@user'
+  desc: '特定のユーザーがロックされた音声チャンネルに参加できるようにします。'
+  params:
+    - &ref_642
+      desc: '特定のユーザーがロックされた音声チャンネルに参加できるようにします。'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser:
+  args:
+    - '@user'
+  desc: '特定のユーザーがロックされた音声チャンネルに参加できるようにします。'
+  params:
+    - desc: '特定のユーザーがロックされた音声チャンネルに参加できるようにします。'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_1:
+  args:
+    - '@user'
+  desc: '特定のユーザーがロックされた音声チャンネルに参加できるようにします。'
+  params:
+    - desc: '特定のユーザーがロックされた音声チャンネルに参加できるようにします。'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceallow_IGuildUser_2:
+  args:
+    - '@user'
+  desc: '特定のユーザーがロックされた音声チャンネルに参加できるようにします。'
+  params:
+    - desc: '特定のユーザーがロックされた音声チャンネルに参加できるようにします。'
+      name: target
+      optional: false
+      type: IGuildUser
+voicebitrate:
+  args:
+    - number
+  desc: 'カスタム音声チャンネルのビットレートを設定します。'
+  params:
+    - &ref_643
+      desc: 'カスタム音声チャンネルのビットレートを設定します。'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int:
+  args:
+    - number
+  desc: 'カスタム音声チャンネルのビットレートを設定します。'
+  params:
+    - desc: 'カスタム音声チャンネルのビットレートを設定します。'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_1:
+  args:
+    - number
+  desc: 'カスタム音声チャンネルのビットレートを設定します。'
+  params:
+    - desc: 'カスタム音声チャンネルのビットレートを設定します。'
+      name: bitrate
+      optional: false
+      type: int
+voicebitrate_int_2:
+  args:
+    - number
+  desc: 'カスタム音声チャンネルのビットレートを設定します。'
+  params:
+    - desc: 'カスタム音声チャンネルのビットレートを設定します。'
+      name: bitrate
+      optional: false
+      type: int
+voicechannels:
+  args:
+    - ''
+  desc: 'アクティブなカスタム音声チャンネルを一覧表示します。'
+  params: [ ]
+voiceclaim:
+  args:
+    - ''
+  desc: 'オーナーが不在の場合、カスタム音声チャンネルの所有権を引き継ぎます。'
+  params: [ ]
+voiceconfig:
+  args:
+    - '[setting] [value]'
+  desc: 'カスタム音声設定を構成します。'
+  params:
+    - desc: 'カスタム音声設定を構成します。'
+      name: setting
+      optional: true
+      type: string
+    - desc: 'カスタム音声設定を構成します。'
+      name: value
+      optional: true
+      type: string
+voicecontrols:
+  args:
+    - ''
+  desc: 'カスタム音声チャンネルを管理するためのインタラクティブなコントロールを表示します。'
+  params: [ ]
+voicedeny:
+  args:
+    - '@user'
+  desc: '特定のユーザーが音声チャンネルに参加するのを拒否します。'
+  params:
+    - desc: '特定のユーザーが音声チャンネルに参加するのを拒否します。'
+      name: target
+      optional: false
+      type: IGuildUser
+voicekeepalive:
+  args:
+    - true
+  desc: 'チャンネルが空の場合でもアクティブに保ちます。'
+  params:
+    - desc: 'チャンネルが空の場合でもアクティブに保ちます。'
+      name: true
+      optional: false
+      type: '='
+voicelimit:
+  args:
+    - number
+  desc: 'カスタム音声チャンネルのユーザー制限を設定します。'
+  params:
+    - &ref_644
+      desc: 'カスタム音声チャンネルのユーザー制限を設定します。'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int:
+  args:
+    - number
+  desc: 'カスタム音声チャンネルのユーザー制限を設定します。'
+  params:
+    - desc: 'カスタム音声チャンネルのユーザー制限を設定します。'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_1:
+  args:
+    - number
+  desc: 'カスタム音声チャンネルのユーザー制限を設定します。'
+  params:
+    - desc: 'カスタム音声チャンネルのユーザー制限を設定します。'
+      name: limit
+      optional: false
+      type: int
+voicelimit_int_2:
+  args:
+    - number
+  desc: 'カスタム音声チャンネルのユーザー制限を設定します。'
+  params:
+    - desc: 'カスタム音声チャンネルのユーザー制限を設定します。'
+      name: limit
+      optional: false
+      type: int
+voicelock:
+  args:
+    - true
+  desc: 'カスタム音声チャンネルをロックまたはロック解除します。'
+  params:
+    - desc: 'カスタム音声チャンネルをロックまたはロック解除します。'
+      name: true
+      optional: false
+      type: '='
+voicepreferences:
+  args:
+    - ''
+  desc: '音声チャンネルの設定を行います。'
+  params: [ ]
+voiceprefsbitrate:
+  args:
+    - '[bitrate]'
+  desc: 'カスタム音声チャンネルの優先ビットレートを設定します。'
+  params:
+    - desc: 'カスタム音声チャンネルの優先ビットレートを設定します。'
+      name: bitrate
+      optional: true
+      type: int
+voiceprefskeepalive:
+  args:
+    - '[keepAlive]'
+  desc: 'カスタム音声チャンネルの優先キープアライブ状態を設定します。'
+  params:
+    - desc: 'カスタム音声チャンネルの優先キープアライブ状態を設定します。'
+      name: keepAlive
+      optional: true
+      type: bool
+voiceprefslimit:
+  args:
+    - '[limit]'
+  desc: 'カスタム音声チャンネルの優先ユーザー制限を設定します。'
+  params:
+    - desc: 'カスタム音声チャンネルの優先ユーザー制限を設定します。'
+      name: limit
+      optional: true
+      type: int
+voiceprefslock:
+  args:
+    - '[locked]'
+  desc: 'カスタム音声チャンネルの優先ロック状態を設定します。'
+  params:
+    - desc: 'カスタム音声チャンネルの優先ロック状態を設定します。'
+      name: locked
+      optional: true
+      type: bool
+voiceprefsname:
+  args:
+    - '[format]'
+  desc: 'カスタム音声チャンネルの優先名前フォーマットを設定します。'
+  params:
+    - desc: 'カスタム音声チャンネルの優先名前フォーマットを設定します。'
+      name: format
+      optional: true
+      type: string
+voiceprefsreset:
+  args:
+    - ''
+  desc: 'すべての音声チャンネル設定をリセットします。'
+  params: [ ]
+voicerename:
+  args:
+    - text
+  desc: 'カスタム音声チャンネルの名前を変更します。'
+  params:
+    - desc: 'カスタム音声チャンネルの名前を変更します。'
+      name: name
+      optional: false
+      type: string
+voicetransfer:
+  args:
+    - '@user'
+  desc: 'カスタム音声チャンネルの所有権を別のユーザーに譲渡します。'
+  params:
+    - desc: 'カスタム音声チャンネルの所有権を別のユーザーに譲渡します。'
+      name: target
+      optional: false
+      type: IGuildUser
+voiceunlock:
+  args:
+    - ''
+  desc: 'カスタム音声チャンネルのロックを解除します。'
+  params: [ ]

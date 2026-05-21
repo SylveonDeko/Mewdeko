@@ -1,0 +1,8 @@
+{
+  "autoplay_disabled": "Automatyczne odtwarzanie wyłączone.",
+  "playlist_deleted": "Playlista usunięta.",
+  "playlist_saved": "Playlista zapisana",
+  "queue": "Kolejka",
+  "queue_cleared": "Kolejka wyczyszczona.",
+  "volume_set": "Głośność ustawiona na {0}%"
+}

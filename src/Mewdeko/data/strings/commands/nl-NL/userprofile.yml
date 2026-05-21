@@ -1,0 +1,481 @@
+deleteuserstatsdata:
+  args:
+    - ''
+  desc: 'Verwijdert de opdrachtstatistiekgegevens van de gebruiker.'
+  params: [ ]
+greetdmoptout:
+  args:
+    - ''
+  desc: 'Hiermee kan een gebruiker zich afmelden voor welkomst-DM-berichten. Werkt alleen als de server waaraan ze deelnemen mewdeko gebruikt voor DM-welkomstberichten.'
+  params: [ ]
+profile:
+  args:
+    - '[@user]'
+  desc: 'Toont het profiel van de gebruiker of het profiel van een andere gebruiker indien opgegeven.'
+  params:
+    - desc: 'De gebruiker wiens profiel moet worden weergegeven. Als null, wordt het profiel van de aanroeper getoond.'
+      name: user
+      optional: true
+      type: user
+profile_=:
+  args:
+    - '[@user]'
+  desc: 'Toont het profiel van de gebruiker of het profiel van een andere gebruiker indien opgegeven.'
+  params:
+    - desc: 'De gebruiker wiens profiel moet worden weergegeven. Als null, wordt het profiel van de aanroeper getoond.'
+      name: user
+      optional: true
+      type: user
+profile_=_1:
+  args:
+    - '[@user]'
+  desc: 'Toont het profiel van de gebruiker of het profiel van een andere gebruiker indien opgegeven.'
+  params:
+    - desc: 'De gebruiker wiens profiel moet worden weergegeven. Als null, wordt het profiel van de aanroeper getoond.'
+      name: user
+      optional: true
+      type: user
+profile_=_2:
+  args:
+    - '[@user]'
+  desc: 'Toont het profiel van de gebruiker of het profiel van een andere gebruiker indien opgegeven.'
+  params:
+    - desc: 'De gebruiker wiens profiel moet worden weergegeven. Als null, wordt het profiel van de aanroeper getoond.'
+      name: user
+      optional: true
+      type: user
+pronouns:
+  args:
+    - '[@user]'
+  desc: 'Toont de voornaamwoorden van de opgegeven gebruiker of van de aanroeper als er geen gebruiker is opgegeven.'
+  params:
+    - desc: 'Optioneel. De gebruiker wiens voornaamwoorden worden weergegeven.'
+      name: user
+      optional: true
+      type: user
+pronounsforceclear:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Wist geforceerd de voornaamwoorden van een gebruiker op ID, optioneel gemarkeerd als uitgeschakeld wegens misbruik.'
+  params:
+    - &ref_356
+      desc: 'Het gebruikers-ID van de gebruiker wiens voornaamwoorden worden gewist.'
+      name: user
+      optional: true
+      type: IUser
+    - &ref_357
+      desc: 'Of de voornaamwoorden worden uitgeschakeld wegens misbruik.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - &ref_358
+      desc: 'De reden voor de actie.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Wist geforceerd de voornaamwoorden van een gebruiker op ID, optioneel gemarkeerd als uitgeschakeld wegens misbruik.'
+  params:
+    - desc: 'Het gebruikers-ID van de gebruiker wiens voornaamwoorden worden gewist.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Of de voornaamwoorden worden uitgeschakeld wegens misbruik.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'De reden voor de actie.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string_1:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Wist geforceerd de voornaamwoorden van een gebruiker op ID, optioneel gemarkeerd als uitgeschakeld wegens misbruik.'
+  params:
+    - desc: 'Het gebruikers-ID van de gebruiker wiens voornaamwoorden worden gewist.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Of de voornaamwoorden worden uitgeschakeld wegens misbruik.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'De reden voor de actie.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_IUser_bool_string_2:
+  args:
+    - '@user true|false text'
+    - true|false text
+  desc: 'Wist geforceerd de voornaamwoorden van een gebruiker op ID, optioneel gemarkeerd als uitgeschakeld wegens misbruik.'
+  params:
+    - desc: 'Het gebruikers-ID van de gebruiker wiens voornaamwoorden worden gewist.'
+      name: user
+      optional: true
+      type: IUser
+    - desc: 'Of de voornaamwoorden worden uitgeschakeld wegens misbruik.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'De reden voor de actie.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string:
+  args:
+    - user true|false text
+  desc: 'Wist geforceerd de voornaamwoorden van een gebruiker op ID, optioneel gemarkeerd als uitgeschakeld wegens misbruik.'
+  params:
+    - &ref_359
+      desc: 'Het gebruikers-ID van de gebruiker wiens voornaamwoorden worden gewist.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Of de voornaamwoorden worden uitgeschakeld wegens misbruik.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'De reden voor de actie.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_1:
+  args:
+    - user true|false text
+  desc: 'Wist geforceerd de voornaamwoorden van een gebruiker op ID, optioneel gemarkeerd als uitgeschakeld wegens misbruik.'
+  params:
+    - desc: 'Het gebruikers-ID van de gebruiker wiens voornaamwoorden worden gewist.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Of de voornaamwoorden worden uitgeschakeld wegens misbruik.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'De reden voor de actie.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_2:
+  args:
+    - user true|false text
+  desc: 'Wist geforceerd de voornaamwoorden van een gebruiker op ID, optioneel gemarkeerd als uitgeschakeld wegens misbruik.'
+  params:
+    - desc: 'Het gebruikers-ID van de gebruiker wiens voornaamwoorden worden gewist.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Of de voornaamwoorden worden uitgeschakeld wegens misbruik.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'De reden voor de actie.'
+      name: reason
+      optional: false
+      type: string
+pronounsforceclear_ulong_bool_string_3:
+  args:
+    - user true|false text
+  desc: 'Wist geforceerd de voornaamwoorden van een gebruiker op ID, optioneel gemarkeerd als uitgeschakeld wegens misbruik.'
+  params:
+    - desc: 'Het gebruikers-ID van de gebruiker wiens voornaamwoorden worden gewist.'
+      name: user
+      optional: false
+      type: ulong
+    - desc: 'Of de voornaamwoorden worden uitgeschakeld wegens misbruik.'
+      name: pronounsDisabledAbuse
+      optional: false
+      type: bool
+    - desc: 'De reden voor de actie.'
+      name: reason
+      optional: false
+      type: string
+setbio:
+  args:
+    - text
+  desc: 'Stelt de biografie in het profiel van de gebruiker in of werkt deze bij.'
+  params:
+    - &ref_490
+      desc: 'De biografietekst. Moet minder dan 2048 tekens bevatten.'
+      name: bio
+      optional: false
+      type: string
+setbio_string:
+  args:
+    - text
+  desc: 'Stelt de biografie in het profiel van de gebruiker in of werkt deze bij.'
+  params:
+    - desc: 'De biografietekst. Moet minder dan 2048 tekens bevatten.'
+      name: bio
+      optional: false
+      type: string
+setbio_string_1:
+  args:
+    - text
+  desc: 'Stelt de biografie in het profiel van de gebruiker in of werkt deze bij.'
+  params:
+    - desc: 'De biografietekst. Moet minder dan 2048 tekens bevatten.'
+      name: bio
+      optional: false
+      type: string
+setbio_string_2:
+  args:
+    - text
+  desc: 'Stelt de biografie in het profiel van de gebruiker in of werkt deze bij.'
+  params:
+    - desc: 'De biografietekst. Moet minder dan 2048 tekens bevatten.'
+      name: bio
+      optional: false
+      type: string
+setbirthday:
+  args:
+    - time
+  desc: 'Stelt de verjaardag in het profiel van de gebruiker in.'
+  params:
+    - &ref_491
+      desc: 'De verjaardagsdatum.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime:
+  args:
+    - time
+  desc: 'Stelt de verjaardag in het profiel van de gebruiker in.'
+  params:
+    - desc: 'De verjaardagsdatum.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime_1:
+  args:
+    - time
+  desc: 'Stelt de verjaardag in het profiel van de gebruiker in.'
+  params:
+    - desc: 'De verjaardagsdatum.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthday_DateTime_2:
+  args:
+    - time
+  desc: 'Stelt de verjaardag in het profiel van de gebruiker in.'
+  params:
+    - desc: 'De verjaardagsdatum.'
+      name: dateTime
+      optional: false
+      type: DateTime
+setbirthdayprivacy:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Stelt de privacymodus voor verjaardagen in het profiel van de gebruiker in.'
+  params:
+    - &ref_492
+      desc: 'De weergavemodus voor verjaardagen die moet worden ingesteld.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Stelt de privacymodus voor verjaardagen in het profiel van de gebruiker in.'
+  params:
+    - desc: 'De weergavemodus voor verjaardagen die moet worden ingesteld.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum_1:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Stelt de privacymodus voor verjaardagen in het profiel van de gebruiker in.'
+  params:
+    - desc: 'De weergavemodus voor verjaardagen die moet worden ingesteld.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setbirthdayprivacy_BirthdayDisplayModeEnum_2:
+  args:
+    - birthdaydisplaymodeenum
+  desc: 'Stelt de privacymodus voor verjaardagen in het profiel van de gebruiker in.'
+  params:
+    - desc: 'De weergavemodus voor verjaardagen die moet worden ingesteld.'
+      name: birthdayDisplayModeEnum
+      optional: false
+      type: BirthdayDisplayModeEnum
+setprivacy:
+  args:
+    - privacyenum
+  desc: 'Stelt het privacyniveau van het profiel van de gebruiker in.'
+  params:
+    - &ref_513
+      desc: 'De privacyinstelling die moet worden toegepast.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum:
+  args:
+    - privacyenum
+  desc: 'Stelt het privacyniveau van het profiel van de gebruiker in.'
+  params:
+    - desc: 'De privacyinstelling die moet worden toegepast.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum_1:
+  args:
+    - privacyenum
+  desc: 'Stelt het privacyniveau van het profiel van de gebruiker in.'
+  params:
+    - desc: 'De privacyinstelling die moet worden toegepast.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprivacy_ProfilePrivacyEnum_2:
+  args:
+    - privacyenum
+  desc: 'Stelt het privacyniveau van het profiel van de gebruiker in.'
+  params:
+    - desc: 'De privacyinstelling die moet worden toegepast.'
+      name: privacyEnum
+      optional: false
+      type: ProfilePrivacyEnum
+setprofilecolor:
+  args:
+    - input
+  desc: 'Stelt de profielkleur in op basis van een SKColor-invoer.'
+  params:
+    - &ref_514
+      desc: 'De SKColor die de gewenste profielkleur vertegenwoordigt.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor:
+  args:
+    - input
+  desc: 'Stelt de profielkleur in op basis van een SKColor-invoer.'
+  params:
+    - desc: 'De SKColor die de gewenste profielkleur vertegenwoordigt.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor_1:
+  args:
+    - input
+  desc: 'Stelt de profielkleur in op basis van een SKColor-invoer.'
+  params:
+    - desc: 'De SKColor die de gewenste profielkleur vertegenwoordigt.'
+      name: input
+      optional: false
+      type: SKColor
+setprofilecolor_SKColor_2:
+  args:
+    - input
+  desc: 'Stelt de profielkleur in op basis van een SKColor-invoer.'
+  params:
+    - desc: 'De SKColor die de gewenste profielkleur vertegenwoordigt.'
+      name: input
+      optional: false
+      type: SKColor
+setprofileimage:
+  args:
+    - text
+  desc: 'Stelt de profielafbeelding-URL in het profiel van de gebruiker in.'
+  params:
+    - &ref_515
+      desc: 'De URL van de afbeelding die als profielafbeelding moet worden ingesteld.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string:
+  args:
+    - text
+  desc: 'Stelt de profielafbeelding-URL in het profiel van de gebruiker in.'
+  params:
+    - desc: 'De URL van de afbeelding die als profielafbeelding moet worden ingesteld.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string_1:
+  args:
+    - text
+  desc: 'Stelt de profielafbeelding-URL in het profiel van de gebruiker in.'
+  params:
+    - desc: 'De URL van de afbeelding die als profielafbeelding moet worden ingesteld.'
+      name: url
+      optional: false
+      type: string
+setprofileimage_string_2:
+  args:
+    - text
+  desc: 'Stelt de profielafbeelding-URL in het profiel van de gebruiker in.'
+  params:
+    - desc: 'De URL van de afbeelding die als profielafbeelding moet worden ingesteld.'
+      name: url
+      optional: false
+      type: string
+setpronouns:
+  args:
+    - '[pronouns]'
+  desc: 'Stelt de voornaamwoorden van de gebruiker in of wist ze.'
+  params:
+    - desc: 'De voornaamwoorden om in te stellen. Als null of leeg, worden bestaande voornaamwoorden gewist.'
+      name: pronouns
+      optional: true
+      type: string
+setswitchfc:
+  args:
+    - '""'
+  desc: 'Stelt de Nintendo Switch-vriendcode in het profiel van de gebruiker in of wist deze.'
+  params:
+    - desc: 'Stelt de Nintendo Switch-vriendcode in het profiel van de gebruiker in of wist deze.'
+      name: '""'
+      optional: false
+      type: '='
+setzodiac:
+  args:
+    - text
+  desc: 'Stelt het sterrenbeeldteken in het profiel van de gebruiker in.'
+  params:
+    - &ref_539
+      desc: 'Het sterrenbeeldteken om in te stellen.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string:
+  args:
+    - text
+  desc: 'Stelt het sterrenbeeldteken in het profiel van de gebruiker in.'
+  params:
+    - desc: 'Het sterrenbeeldteken om in te stellen.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string_1:
+  args:
+    - text
+  desc: 'Stelt het sterrenbeeldteken in het profiel van de gebruiker in.'
+  params:
+    - desc: 'Het sterrenbeeldteken om in te stellen.'
+      name: zodiac
+      optional: false
+      type: string
+setzodiac_string_2:
+  args:
+    - text
+  desc: 'Stelt het sterrenbeeldteken in het profiel van de gebruiker in.'
+  params:
+    - desc: 'Het sterrenbeeldteken om in te stellen.'
+      name: zodiac
+      optional: false
+      type: string
+userstatsoptout:
+  args:
+    - ''
+  desc: 'Schakelt de afmeldingsstatus van de gebruiker voor het verzamelen van opdrachtstatistieken in of uit.'
+  params: [ ]

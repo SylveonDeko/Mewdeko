@@ -1,0 +1,18 @@
+{
+  "rolegreet_add_success": "{0} ajouté pour les salutations dans {1} !",
+  "rolegreet_button_preview": "Aperçu",
+  "rolegreet_button_regular": "Standard",
+  "rolegreet_confirm_remove": "Êtes-vous sûr de vouloir supprimer tous les RoleGreets pour ce rôle ?",
+  "rolegreet_confirm_removed": "RoleGreets supprimés !",
+  "rolegreet_delete_disabled": "Le RoleGreet #{0} ne supprimera plus",
+  "rolegreet_delete_success": "RoleGreet #{0} mis à jour avec succès pour supprimer après {1}",
+  "rolegreet_disable_status": "RoleGreet {0} défini à {1}",
+  "rolegreet_greetbots_set": "GreetBots du RoleGreet {0} défini à {1}",
+  "rolegreet_max_limit": "Il semble que vous ayez atteint votre limite de 10 RoleGreets ! Veuillez en supprimer un avant d'en ajouter un autre.",
+  "rolegreet_message_preview_prompt": "Souhaitez-vous voir cela en texte brut ou prévisualiser son apparence réelle ?",
+  "rolegreet_message_set": "Message du RoleGreet #{0} défini !",
+  "rolegreet_no_delete": "Le RoleGreet #{0} ne supprimera plus.",
+  "rolegreet_no_greets_for_role": "Aucune salutation pour ce rôle !",
+  "rolegreet_webhook_disabled": "Webhook désactivé pour le RoleGreet #{0} !",
+  "rolegreet_webhook_invalid_avatar": "L'URL de l'avatar utilisé n'est pas une URL directe ou est invalide ! Veuillez utiliser une URL différente."
+}

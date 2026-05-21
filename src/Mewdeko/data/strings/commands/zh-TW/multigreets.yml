@@ -1,0 +1,384 @@
+multigreetadd:
+  args:
+    - '[@channel]'
+  desc: '新增多重問候頻道。'
+  params:
+    - desc: '要新增的頻道'
+      name: channel
+      optional: true
+      type: channel
+multigreetdelete:
+  args:
+    - number time
+  desc: '變更多重問候訊息的刪除時間（秒）。'
+  params:
+    - &ref_303
+      desc: '要變更的多重問候的ID'
+      name: id
+      optional: false
+      type: int
+    - &ref_305
+      desc: '變更多重問候訊息的刪除時間（秒）。'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime:
+  args:
+    - number time
+  desc: '變更多重問候訊息的刪除時間（秒）。'
+  params:
+    - desc: '要變更的多重問候的ID'
+      name: id
+      optional: false
+      type: int
+    - desc: '變更多重問候訊息的刪除時間（秒）。'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime_1:
+  args:
+    - number time
+  desc: '變更多重問候訊息的刪除時間（秒）。'
+  params:
+    - desc: '要變更的多重問候的ID'
+      name: id
+      optional: false
+      type: int
+    - desc: '變更多重問候訊息的刪除時間（秒）。'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_StoopidTime_2:
+  args:
+    - number time
+  desc: '變更多重問候訊息的刪除時間（秒）。'
+  params:
+    - desc: '要變更的多重問候的ID'
+      name: id
+      optional: false
+      type: int
+    - desc: '變更多重問候訊息的刪除時間（秒）。'
+      name: time
+      optional: false
+      type: StoopidTime
+multigreetdelete_int_int:
+  args:
+    - number number
+  desc: '變更多重問候訊息的刪除時間（秒）。'
+  params:
+    - desc: '要變更的多重問候的ID'
+      name: id
+      optional: false
+      type: int
+    - &ref_304
+      desc: '刪除訊息的秒數'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_1:
+  args:
+    - number number
+  desc: '變更多重問候訊息的刪除時間（秒）。'
+  params:
+    - desc: '要變更的多重問候的ID'
+      name: id
+      optional: false
+      type: int
+    - desc: '刪除訊息的秒數'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_2:
+  args:
+    - number number
+  desc: '變更多重問候訊息的刪除時間（秒）。'
+  params:
+    - desc: '要變更的多重問候的ID'
+      name: id
+      optional: false
+      type: int
+    - desc: '刪除訊息的秒數'
+      name: howlong
+      optional: false
+      type: int
+multigreetdelete_int_int_3:
+  args:
+    - number number
+  desc: '變更多重問候訊息的刪除時間（秒）。'
+  params:
+    - desc: '要變更的多重問候的ID'
+      name: id
+      optional: false
+      type: int
+    - desc: '刪除訊息的秒數'
+      name: howlong
+      optional: false
+      type: int
+multigreetdisable:
+  args:
+    - number true|false
+  desc: '停用多重問候。'
+  params:
+    - &ref_306
+      desc: '要停用的多重問候的ID'
+      name: num
+      optional: false
+      type: int
+    - &ref_307
+      desc: '是否停用多重問候'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool:
+  args:
+    - number true|false
+  desc: '停用多重問候。'
+  params:
+    - desc: '要停用的多重問候的ID'
+      name: num
+      optional: false
+      type: int
+    - desc: '是否停用多重問候'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool_1:
+  args:
+    - number true|false
+  desc: '停用多重問候。'
+  params:
+    - desc: '要停用的多重問候的ID'
+      name: num
+      optional: false
+      type: int
+    - desc: '是否停用多重問候'
+      name: enabled
+      optional: false
+      type: bool
+multigreetdisable_int_bool_2:
+  args:
+    - number true|false
+  desc: '停用多重問候。'
+  params:
+    - desc: '要停用的多重問候的ID'
+      name: num
+      optional: false
+      type: int
+    - desc: '是否停用多重問候'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots:
+  args:
+    - number true|false
+  desc: '變更多重問候是否問候機器人。'
+  params:
+    - &ref_308
+      desc: '要變更的多重問候的ID'
+      name: num
+      optional: false
+      type: int
+    - &ref_309
+      desc: '是否問候機器人'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool:
+  args:
+    - number true|false
+  desc: '變更多重問候是否問候機器人。'
+  params:
+    - desc: '要變更的多重問候的ID'
+      name: num
+      optional: false
+      type: int
+    - desc: '是否問候機器人'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool_1:
+  args:
+    - number true|false
+  desc: '變更多重問候是否問候機器人。'
+  params:
+    - desc: '要變更的多重問候的ID'
+      name: num
+      optional: false
+      type: int
+    - desc: '是否問候機器人'
+      name: enabled
+      optional: false
+      type: bool
+multigreetgreetbots_int_bool_2:
+  args:
+    - number true|false
+  desc: '變更多重問候是否問候機器人。'
+  params:
+    - desc: '要變更的多重問候的ID'
+      name: num
+      optional: false
+      type: int
+    - desc: '是否問候機器人'
+      name: enabled
+      optional: false
+      type: bool
+multigreetlist:
+  args:
+    - ''
+  desc: '列出所有多重問候。'
+  params: [ ]
+multigreetmessage:
+  args:
+    - '<id> [embedTemplate]'
+    - number
+  desc: '變更多重問候的訊息。'
+  params:
+    - desc: '要變更的多重問候的ID'
+      name: id
+      optional: false
+      type: int
+    - desc: '要設定的訊息/嵌入範本'
+      name: embedTemplate
+      optional: true
+      type: embedtemplateresult
+multigreetremove:
+  args:
+    - number
+  desc: '從頻道中移除所有多重問候。'
+  params:
+    - &ref_310
+      desc: '從頻道中移除所有多重問候。'
+      name: id
+      optional: false
+      type: int
+multigreetremove_ITextChannel:
+  args:
+    - channel
+  desc: '從頻道中移除所有多重問候。'
+  params:
+    - &ref_311
+      desc: '要移除多重問候的頻道'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_1:
+  args:
+    - channel
+  desc: '從頻道中移除所有多重問候。'
+  params:
+    - desc: '要移除多重問候的頻道'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_2:
+  args:
+    - channel
+  desc: '從頻道中移除所有多重問候。'
+  params:
+    - desc: '要移除多重問候的頻道'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_ITextChannel_3:
+  args:
+    - channel
+  desc: '從頻道中移除所有多重問候。'
+  params:
+    - desc: '要移除多重問候的頻道'
+      name: channel
+      optional: false
+      type: ITextChannel
+multigreetremove_int:
+  args:
+    - number
+  desc: '從頻道中移除所有多重問候。'
+  params:
+    - desc: '從頻道中移除所有多重問候。'
+      name: id
+      optional: false
+      type: int
+multigreetremove_int_1:
+  args:
+    - number
+  desc: '從頻道中移除所有多重問候。'
+  params:
+    - desc: '從頻道中移除所有多重問候。'
+      name: id
+      optional: false
+      type: int
+multigreetremove_int_2:
+  args:
+    - number
+  desc: '從頻道中移除所有多重問候。'
+  params:
+    - desc: '從頻道中移除所有多重問候。'
+      name: id
+      optional: false
+      type: int
+multigreettype:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: '變更多重問候的類型。'
+  params:
+    - &ref_312
+      desc: '要設定的多重問候類型'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: '變更多重問候的類型。'
+  params:
+    - desc: '要設定的多重問候類型'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes_1:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: '變更多重問候的類型。'
+  params:
+    - desc: '要設定的多重問候類型'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreettype_MultiGreetTypes_2:
+  args:
+    - multigreet|randomgreet|off
+    - multigreet
+    - randomgreet
+    - 'off'
+  desc: '變更多重問候的類型。'
+  params:
+    - desc: '要設定的多重問候類型'
+      name: types
+      optional: false
+      type: MultiGreetTypes
+multigreetwebhook:
+  args:
+    - '<id> [name] [avatar]'
+    - number
+  desc: '變更多重問候的Webhook。'
+  params:
+    - desc: '要變更的多重問候的ID'
+      name: id
+      optional: false
+      type: int
+    - desc: 'Webhook的名稱'
+      name: name
+      optional: true
+      type: string
+    - desc: 'Webhook的頭像'
+      name: avatar
+      optional: true
+      type: string

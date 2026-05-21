@@ -1,0 +1,71 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: '為使用者切換生日公告。'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: '設定生日公告頻道。'
+  params:
+    - desc: >-
+        用於發布公告的文字頻道。如未指定，則預設為目前頻道。
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: '檢視目前生日設定。'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: '顯示伺服器中即將到來的生日。'
+  params:
+    - desc: 向前查看多少天。預設 7，最多 30。
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: '設定自訂生日訊息範本。'
+  params:
+    - desc: >-
+        訊息範本。使用 {user} 提及使用者。留空則顯示目前訊息。
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: '設定在公告生日時要提及的身分組。'
+  params:
+    - desc: 要提及的身分組。不提供則停用。
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: '設定使用者在生日當天獲得的身分組。'
+  params:
+    - desc: 在使用者生日當天指派的身分組。不提供則停用。
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: '設定使用者用於生日計算的時區。'
+  params:
+    - desc: 要設定的時區（例如 "America/New_York"）。
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: '顯示今天的生日。'
+  params: [ ]

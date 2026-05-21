@@ -1,0 +1,81 @@
+highlight:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'מוסיף, מציג, מסיר או מתאים הדגשות.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'פרמטרים לפעולה הנבחרת'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'מוסיף, מציג, מסיר או מתאים הדגשות.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'פרמטרים לפעולה הנבחרת'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_1:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'מוסיף, מציג, מסיר או מתאים הדגשות.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'פרמטרים לפעולה הנבחרת'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_2:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'מוסיף, מציג, מסיר או מתאים הדגשות.'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'פרמטרים לפעולה הנבחרת'
+      name: words
+      optional: true
+      type: string
+highlights:
+  args:
+    - action word
+  desc: מנהל את הדגשות המשתמש.
+  params:
+    - desc: הפעולה לביצוע עם ההדגשות.
+      name: action
+      optional: false
+      type: string
+    - desc: המילה להדגשה.
+      name: word
+      optional: true
+      type: string

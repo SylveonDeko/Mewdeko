@@ -1,0 +1,136 @@
+patreonanalytics:
+  args:
+    - ''
+  desc: 'Приказује детаљну Patreon аналитику.'
+  params: [ ]
+patreonannounce:
+  args:
+    - ''
+  desc: 'Ручно покреће Patreon најаву.'
+  params: [ ]
+patreonch:
+  args:
+    - '#channel'
+  desc: Поставља или приказује канал Patreon најава.
+  params:
+    - desc: >-
+        Канал за постављање као канал Patreon најава. Ако је null, приказује
+        тренутни канал.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonconfig:
+  args:
+    - ''
+  desc: 'Приказује тренутну Patreon конфигурацију за овај сервер.'
+  params: [ ]
+patreonday:
+  args:
+    - number
+  desc: 'Поставља дан у месецу за Patreon најаве.'
+  params:
+    - desc: >-
+        Дан у месецу (1-28) за најаве. Ако је null, приказује тренутни дан.
+      name: day
+      optional: true
+      type: int?
+patreondisable:
+  args:
+    - ''
+  desc: 'Онемогућава Patreon најаве за овај сервер.'
+  params: [ ]
+patreonhelp:
+  args:
+    - ''
+  desc: 'Приказује информације о Patreon модулу и доступне чуваре места.'
+  params: [ ]
+patreonlink:
+  args:
+    - '@user text'
+  desc: 'Повезује Discord корисника са Patreon подржавачем.'
+  params:
+    - desc: Discord корисник за повезивање.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: ID Patreon корисника за повезивање.
+      name: patreonUserId
+      optional: false
+      type: string
+patreonmsg:
+  args:
+    - text
+  desc: Поставља прилагођену поруку за Patreon најаве.
+  params:
+    - desc: >-
+        Прилагођена порука. Користите чуваре места као %server.name%, %month%, итд.
+        Користите "-" за ресетовање на подразумевано.
+      name: message
+      optional: true
+      type: string?
+patreonrecognize:
+  args:
+    - '#channel'
+  desc: 'Шаље поруке признања за нове подржаваче.'
+  params:
+    - desc: Канал за слање порука признања.
+      name: channel
+      optional: true
+      type: ITextChannel?
+patreonroles:
+  args:
+    - ''
+  desc: 'Наводи мапирања нивоа-улоге Patreon-а.'
+  params: [ ]
+patreonrolesync:
+  args:
+    - ''
+  desc: 'Укључује/искључује аутоматску синхронизацију улога.'
+  params: [ ]
+patreonstats:
+  args:
+    - ''
+  desc: 'Приказује статистику Patreon подржавача.'
+  params: [ ]
+patreonsupporters:
+  args:
+    - ''
+  desc: 'Наводи активне Patreon подржаваче.'
+  params: [ ]
+patreonsync:
+  args:
+    - ''
+  desc: 'Безбедно подешава Patreon OAuth интеграцију.'
+  params: [ ]
+patreonsyncall:
+  args:
+    - ''
+  desc: 'Синхронизује улоге за све повезане подржаваче.'
+  params: [ ]
+patreontiermap:
+  args:
+    - text @role
+  desc: 'Мапира Patreon ниво на Discord улогу.'
+  params:
+    - desc: ID Patreon нивоа.
+      name: tierId
+      optional: false
+      type: string
+    - desc: Discord улога за мапирање на ниво.
+      name: role
+      optional: false
+      type: IRole
+patreontoggle:
+  args:
+    - ''
+  desc: 'Укључује или искључује Patreon најаве.'
+  params: [ ]
+patreontop:
+  args:
+    - number
+  desc: 'Приказује топ Patreon подржаваче.'
+  params:
+    - desc: Број топ подржавача за приказ (1-20).
+      name: count
+      optional: true
+      type: int

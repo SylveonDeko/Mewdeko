@@ -1,0 +1,18 @@
+{
+  "boost_on": "Boost announecments enwabled on this chwannel. meow",
+  "boost_off": "Boost announcements disbwled.",
+  "boostmsg_cur": "Cuwwent boost message: {0}",
+  "boostmsg_enable": "Enabwle boost messages by typing {0}",
+  "boostmsg_new": "New bwoost meswage set.",
+  "boostdel_off": "A-Automatwic deleteion of bwoost messagwes has been disabwled.",
+  "boostdel_on": "Boost messagwes will be deweted after {0} seconds.",
+  "bandm": "You have been banned from {0} server.\nReason: {1}",
+  "banmsg_default": "",
+  "byedel_off": "",
+  "byedel_on": "Bye messages will be deleted after {0} seconds.",
+  "byemsg_cur": "Current bye message: {0}",
+  "byemsg_enable": "Enable bye messages by typing {0}",
+  "byemsg_new": "",
+  "bye_off": "",
+  "bye_on": ""
+}

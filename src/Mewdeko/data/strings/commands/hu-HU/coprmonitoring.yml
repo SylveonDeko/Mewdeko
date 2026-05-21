@@ -1,0 +1,168 @@
+coprmonitoradd:
+  args:
+    - '<ownerProject> [channel] [packages]'
+    - '<ownerProject> [channel] [packages]'
+    - ownerProject
+  desc: 'COPR projekt monitort ad a szerverhez.'
+  params:
+    - desc: 'A COPR projekt owner/project formátumban (pl. linux4switch/l4s).'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Opcionális csatorna értesítésekhez. Alapértelmezett az aktuális csatorna.'
+      name: channel
+      optional: true
+      type: ITextChannel
+    - desc: 'Opcionális vesszővel elválasztott csomaglista monitorozáshoz (pl. mesa,kernel).'
+      name: packages
+      optional: true
+      type: string
+coprmonitorremove:
+  args:
+    - '<ownerProject> [channel]'
+    - ownerProject
+  desc: 'COPR projekt monitort távolít el a szerverről.'
+  params:
+    - desc: 'A COPR projekt owner/project formátumban.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Opcionális csatorna egy adott monitor eltávolításához.'
+      name: channel
+      optional: true
+      type: ITextChannel
+coprmonitorlist:
+  args:
+    - ''
+  desc: 'Felsorolja a szerveren beállított összes COPR monitort.'
+  params: [ ]
+coprmonitortoggle:
+  args:
+    - ownerProject
+  desc: 'Be- vagy kikapcsol egy COPR monitort.'
+  params:
+    - desc: 'A COPR projekt owner/project formátumban.'
+      name: ownerProject
+      optional: false
+      type: string
+coprnotify:
+  args:
+    - ownerProject status enabled
+  desc: 'Beállítja, mely build állapotok indítanak értesítéseket egy monitorhoz.'
+  params:
+    - desc: 'A COPR projekt owner/project formátumban.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'A beállítandó build állapot.'
+      name: status
+      optional: false
+      type: CoprBuildStatus
+    - desc: 'Értesítések engedélyezése vagy letiltása ennél az állapotnál.'
+      name: enabled
+      optional: false
+      type: bool
+coprfilter:
+  args:
+    - ownerProject text
+  desc: 'Beállítja a csomag szűrőt egy COPR monitorhoz.'
+  params:
+    - desc: 'A COPR projekt owner/project formátumban.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Vesszővel elválasztott csomaglista, vagy "all" minden monitorozásához.'
+      name: packages
+      optional: false
+      type: string
+coprsucceededmessage:
+  args:
+    - ownerProject text
+  desc: 'Beállítja a sikeres COPR build esetén megjelenő üzenetet.'
+  params:
+    - desc: 'A COPR projekt owner/project formátumban.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Az üzenet vagy embed kód. Használj "-"-t az alapértelmezett visszaállításához.'
+      name: message
+      optional: false
+      type: string
+coprfailedmessage:
+  args:
+    - ownerProject text
+  desc: 'Beállítja a sikertelen COPR build esetén megjelenő üzenetet.'
+  params:
+    - desc: 'A COPR projekt owner/project formátumban.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Az üzenet vagy embed kód. Használj "-"-t az alapértelmezett visszaállításához.'
+      name: message
+      optional: false
+      type: string
+coprcanceledmessage:
+  args:
+    - ownerProject text
+  desc: 'Beállítja a törölt COPR build esetén megjelenő üzenetet.'
+  params:
+    - desc: 'A COPR projekt owner/project formátumban.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Az üzenet vagy embed kód. Használj "-"-t az alapértelmezett visszaállításához.'
+      name: message
+      optional: false
+      type: string
+coprpendingmessage:
+  args:
+    - ownerProject text
+  desc: 'Beállítja a függőben lévő COPR build esetén megjelenő üzenetet.'
+  params:
+    - desc: 'A COPR projekt owner/project formátumban.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Az üzenet vagy embed kód. Használj "-"-t az alapértelmezett visszaállításához.'
+      name: message
+      optional: false
+      type: string
+coprrunningmessage:
+  args:
+    - ownerProject text
+  desc: 'Beállítja a futó COPR build esetén megjelenő üzenetet.'
+  params:
+    - desc: 'A COPR projekt owner/project formátumban.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Az üzenet vagy embed kód. Használj "-"-t az alapértelmezett visszaállításához.'
+      name: message
+      optional: false
+      type: string
+coprskippedmessage:
+  args:
+    - ownerProject text
+  desc: 'Beállítja az átugrott COPR build esetén megjelenő üzenetet.'
+  params:
+    - desc: 'A COPR projekt owner/project formátumban.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Az üzenet vagy embed kód. Használj "-"-t az alapértelmezett visszaállításához.'
+      name: message
+      optional: false
+      type: string
+coprdefaultmessage:
+  args:
+    - ownerProject text
+  desc: 'Beállítja az alapértelmezett üzenetet az összes többi build állapotra.'
+  params:
+    - desc: 'A COPR projekt owner/project formátumban.'
+      name: ownerProject
+      optional: false
+      type: string
+    - desc: 'Az üzenet vagy embed kód. Használj "-"-t az alapértelmezett visszaállításához.'
+      name: message
+      optional: false
+      type: string

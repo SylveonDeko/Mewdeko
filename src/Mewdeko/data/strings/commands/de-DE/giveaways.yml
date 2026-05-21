@@ -1,0 +1,326 @@
+gbanner:
+  args:
+    - text
+  desc: 'Legt das Standard-Gewinnspiel-Banner fest.'
+  params:
+    - &ref_221
+      desc: 'Legt das Standard-Gewinnspiel-Banner fest.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string:
+  args:
+    - text
+  desc: 'Legt das Standard-Gewinnspiel-Banner fest.'
+  params:
+    - desc: 'Legt das Standard-Gewinnspiel-Banner fest.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_1:
+  args:
+    - text
+  desc: 'Legt das Standard-Gewinnspiel-Banner fest.'
+  params:
+    - desc: 'Legt das Standard-Gewinnspiel-Banner fest.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_2:
+  args:
+    - text
+  desc: 'Legt das Standard-Gewinnspiel-Banner fest.'
+  params:
+    - desc: 'Legt das Standard-Gewinnspiel-Banner fest.'
+      name: banner
+      optional: false
+      type: string
+gdm:
+  args:
+    - ''
+  desc: 'Legt fest, ob der Gewinner eines Gewinnspiels eine DM erhaelt.'
+  params: [ ]
+gdmmessage:
+  args:
+    - '[message]'
+  desc: 'Legt die DM-Nachricht fest, die an Nutzer gesendet wird, wenn sie ein Gewinnspiel gewinnen.'
+  params:
+    - desc: 'Legt die DM-Nachricht fest, die an Nutzer gesendet wird, wenn sie ein Gewinnspiel gewinnen.'
+      name: message
+      optional: true
+      type: string
+gembedcolor:
+  args:
+    - text
+  desc: 'Legt die Farbe des Embeds fuer Gewinnspiele fest.'
+  params:
+    - &ref_223
+      desc: 'Die Farbe in Hexadezimal.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string:
+  args:
+    - text
+  desc: 'Legt die Farbe des Embeds fuer Gewinnspiele fest.'
+  params:
+    - desc: 'Die Farbe in Hexadezimal.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_1:
+  args:
+    - text
+  desc: 'Legt die Farbe des Embeds fuer Gewinnspiele fest.'
+  params:
+    - desc: 'Die Farbe in Hexadezimal.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_2:
+  args:
+    - text
+  desc: 'Legt die Farbe des Embeds fuer Gewinnspiele fest.'
+  params:
+    - desc: 'Die Farbe in Hexadezimal.'
+      name: color
+      optional: false
+      type: string
+gemote:
+  args:
+    - emote
+  desc: 'Legt den Emote fuer Gewinnspiele fest.'
+  params:
+    - &ref_224
+      desc: 'Der zu setzende Emote.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote:
+  args:
+    - emote
+  desc: 'Legt den Emote fuer Gewinnspiele fest.'
+  params:
+    - desc: 'Der zu setzende Emote.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_1:
+  args:
+    - emote
+  desc: 'Legt den Emote fuer Gewinnspiele fest.'
+  params:
+    - desc: 'Der zu setzende Emote.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_2:
+  args:
+    - emote
+  desc: 'Legt den Emote fuer Gewinnspiele fest.'
+  params:
+    - desc: 'Der zu setzende Emote.'
+      name: emote
+      optional: false
+      type: IEmote
+gend:
+  args:
+    - messageid
+  desc: 'Beendet ein Gewinnspiel.'
+  params:
+    - &ref_225
+      desc: 'Die Nachrichten-ID des zu beendenden Gewinnspiels'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong:
+  args:
+    - messageid
+  desc: 'Beendet ein Gewinnspiel.'
+  params:
+    - desc: 'Die Nachrichten-ID des zu beendenden Gewinnspiels'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_1:
+  args:
+    - messageid
+  desc: 'Beendet ein Gewinnspiel.'
+  params:
+    - desc: 'Die Nachrichten-ID des zu beendenden Gewinnspiels'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_2:
+  args:
+    - messageid
+  desc: 'Beendet ein Gewinnspiel.'
+  params:
+    - desc: 'Die Nachrichten-ID des zu beendenden Gewinnspiels'
+      name: messageid
+      optional: false
+      type: ulong
+glist:
+  args:
+    - ''
+  desc: 'Listet alle aktiven Gewinnspiele auf.'
+  params: [ ]
+greroll:
+  args:
+    - messageid
+  desc: 'Fuehrt ein Gewinnspiel neu aus.'
+  params:
+    - &ref_237
+      desc: 'Die Nachrichten-ID eines Gewinnspiels'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong:
+  args:
+    - messageid
+  desc: 'Fuehrt ein Gewinnspiel neu aus.'
+  params:
+    - desc: 'Die Nachrichten-ID eines Gewinnspiels'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_1:
+  args:
+    - messageid
+  desc: 'Fuehrt ein Gewinnspiel neu aus.'
+  params:
+    - desc: 'Die Nachrichten-ID eines Gewinnspiels'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_2:
+  args:
+    - messageid
+  desc: 'Fuehrt ein Gewinnspiel neu aus.'
+  params:
+    - desc: 'Die Nachrichten-ID eines Gewinnspiels'
+      name: messageid
+      optional: false
+      type: ulong
+gstart:
+  args:
+    - chan time number text
+  desc: 'Detaillierterer Gewinnspielbeginn, ermoeglicht das Setzen eines Banners, einer Ping-Rolle und mehr.'
+  params:
+    - &ref_238
+      desc: 'Der Kanal, in dem das Gewinnspiel startet'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - &ref_239
+      desc: 'Die Dauer des Gewinnspiels'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_240
+      desc: 'Die Anzahl der Gewinner'
+      name: winners
+      optional: false
+      type: int
+    - &ref_241
+      desc: 'Der zu gewinnende Gegenstand'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string:
+  args:
+    - chan time number text
+  desc: 'Detaillierterer Gewinnspielbeginn, ermoeglicht das Setzen eines Banners, einer Ping-Rolle und mehr.'
+  params:
+    - desc: 'Der Kanal, in dem das Gewinnspiel startet'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Die Dauer des Gewinnspiels'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Die Anzahl der Gewinner'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Der zu gewinnende Gegenstand'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_1:
+  args:
+    - chan time number text
+  desc: 'Detaillierterer Gewinnspielbeginn, ermoeglicht das Setzen eines Banners, einer Ping-Rolle und mehr.'
+  params:
+    - desc: 'Der Kanal, in dem das Gewinnspiel startet'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Die Dauer des Gewinnspiels'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Die Anzahl der Gewinner'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Der zu gewinnende Gegenstand'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_2:
+  args:
+    - chan time number text
+  desc: 'Detaillierterer Gewinnspielbeginn, ermoeglicht das Setzen eines Banners, einer Ping-Rolle und mehr.'
+  params:
+    - desc: 'Der Kanal, in dem das Gewinnspiel startet'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'Die Dauer des Gewinnspiels'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'Die Anzahl der Gewinner'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'Der zu gewinnende Gegenstand'
+      name: what
+      optional: false
+      type: string
+gstart_noparams:
+  args:
+    - ''
+  desc: 'Detaillierterer Gewinnspielbeginn, ermoeglicht das Setzen eines Banners, einer Ping-Rolle und mehr.'
+  params: [ ]
+gstart_noparams_1:
+  args:
+    - ''
+  desc: 'Detaillierterer Gewinnspielbeginn, ermoeglicht das Setzen eines Banners, einer Ping-Rolle und mehr.'
+  params: [ ]
+gstart_noparams_2:
+  args:
+    - ''
+  desc: 'Detaillierterer Gewinnspielbeginn, ermoeglicht das Setzen eines Banners, einer Ping-Rolle und mehr.'
+  params: [ ]
+gstart_noparams_3:
+  args:
+    - ''
+  desc: 'Detaillierterer Gewinnspielbeginn, ermoeglicht das Setzen eines Banners, einer Ping-Rolle und mehr.'
+  params: [ ]
+gstats:
+  args:
+    - ''
+  desc: 'Zeigt die Statistiken fuer Gewinnspiele.'
+  params: [ ]
+gwinembedcolor:
+  args:
+    - text
+  desc: 'Legt die Farbe fuer das Gewinner-Embed fest.'
+  params:
+    - desc: 'Die Farbe in Hexadezimal.'
+      name: color
+      optional: false
+      type: string

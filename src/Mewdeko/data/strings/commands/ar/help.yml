@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    يعرض أوامر وحدة محددة. إذا كانت null، فهو اسم بديل لـ modules
+    والذي هو اسم بديل لـ help.
+  params:
+    - desc: 'الوحدة المراد الاطلاع عليها'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    يعرض أوامر وحدة محددة. إذا كانت null، فهو اسم بديل لـ modules
+    والذي هو اسم بديل لـ help.
+  params:
+    - desc: 'الوحدة المراد الاطلاع عليها'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    يعرض أوامر وحدة محددة. إذا كانت null، فهو اسم بديل لـ modules
+    والذي هو اسم بديل لـ help.
+  params:
+    - desc: 'الوحدة المراد الاطلاع عليها'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    يعرض أوامر وحدة محددة. إذا كانت null، فهو اسم بديل لـ modules
+    والذي هو اسم بديل لـ help.
+  params:
+    - desc: 'الوحدة المراد الاطلاع عليها'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: 'يعرض كيفية دعم البوت.'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    يصدّر جميع الأوامر إلى ملف json. يُستخدم بشكل رئيسي لـ
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    يصدّر جميع الأوامر إلى ملف json. يُستخدم بشكل رئيسي لـ
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    يصدّر جميع الأوامر إلى ملف json. يُستخدم بشكل رئيسي لـ
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    يصدّر جميع الأوامر إلى ملف json. يُستخدم بشكل رئيسي لـ
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: 'يعرض دليل البوت.'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: يعرض المساعدة لأمر محدد.
+  params:
+    - desc: الأمر المراد الحصول على المساعدة بشأنه.
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: يعرض معلومات المساعدة للأوامر.
+  params:
+    - desc: الأمر المراد الحصول على المساعدة بشأنه.
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: 'يعرض قائمة بجميع الوحدات. في الأساس مجرد اسم بديل لـ help في هذه المرحلة.'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: 'يبحث عن أمر بالاسم أو الوصف.'
+  params:
+    - &ref_481
+      desc: 'المصطلح المراد البحث عنه'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: 'يبحث عن أمر بالاسم أو الوصف.'
+  params:
+    - desc: 'المصطلح المراد البحث عنه'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: 'يبحث عن أمر بالاسم أو الوصف.'
+  params:
+    - desc: 'المصطلح المراد البحث عنه'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: 'يبحث عن أمر بالاسم أو الوصف.'
+  params:
+    - desc: 'المصطلح المراد البحث عنه'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: 'يعرض رابط الكود المصدري للبوت.'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'يعرض رابطاً للتصويت لـ Mewdeko.'
+  params: [ ]

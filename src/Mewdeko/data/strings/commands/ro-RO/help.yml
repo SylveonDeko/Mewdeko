@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    Afișează comenzile pentru un modul specific. Dacă null, este un alias
+    pentru modules care este un alias pentru help.
+  params:
+    - desc: 'Modulul de consultat'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    Afișează comenzile pentru un modul specific. Dacă null, este un alias
+    pentru modules care este un alias pentru help.
+  params:
+    - desc: 'Modulul de consultat'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    Afișează comenzile pentru un modul specific. Dacă null, este un alias
+    pentru modules care este un alias pentru help.
+  params:
+    - desc: 'Modulul de consultat'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    Afișează comenzile pentru un modul specific. Dacă null, este un alias
+    pentru modules care este un alias pentru help.
+  params:
+    - desc: 'Modulul de consultat'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: 'Afișează cum să susțineți botul.'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    Exportă toate comenzile într-un fișier json. Folosit în principal pentru
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    Exportă toate comenzile într-un fișier json. Folosit în principal pentru
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    Exportă toate comenzile într-un fișier json. Folosit în principal pentru
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    Exportă toate comenzile într-un fișier json. Folosit în principal pentru
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: 'Afișează ghidul pentru bot.'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: Afișează ajutor pentru o comandă specifică.
+  params:
+    - desc: Comanda pentru care să obțineți ajutor.
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: Afișează informații de ajutor pentru comenzi.
+  params:
+    - desc: Comanda pentru care să obțineți ajutor.
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: 'Afișează o listă cu toate modulele. Este practic doar un alias help în acest moment.'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: 'Caută o comandă după nume sau descriere.'
+  params:
+    - &ref_481
+      desc: 'Termenul de căutat'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: 'Caută o comandă după nume sau descriere.'
+  params:
+    - desc: 'Termenul de căutat'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: 'Caută o comandă după nume sau descriere.'
+  params:
+    - desc: 'Termenul de căutat'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: 'Caută o comandă după nume sau descriere.'
+  params:
+    - desc: 'Termenul de căutat'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: 'Afișează linkul codului sursă pentru bot.'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'Afișează un link pentru a vota mewdeko.'
+  params: [ ]

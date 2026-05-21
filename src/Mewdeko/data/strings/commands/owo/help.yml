@@ -1,0 +1,148 @@
+commands:
+  args:
+    - '[module]'
+  desc: >-
+    Shows commands fow a specific moduwe. If nyuww, is an awias fow modules
+    which is an awias fow hewp. uwu
+  params:
+    - desc: 'Da moduwe to wook at owo'
+      name: module
+      optional: true
+      type: string
+commands_=:
+  args:
+    - '[module]'
+  desc: >-
+    Shows commands fow a specific moduwe. If nyuww, is an awias fow modules
+    which is an awias fow hewp. uwu
+  params:
+    - desc: 'Da moduwe to wook at owo'
+      name: module
+      optional: true
+      type: string
+commands_=_1:
+  args:
+    - '[module]'
+  desc: >-
+    Shows commands fow a specific moduwe. If nyuww, is an awias fow modules
+    which is an awias fow hewp. uwu
+  params:
+    - desc: 'Da moduwe to wook at owo'
+      name: module
+      optional: true
+      type: string
+commands_=_2:
+  args:
+    - '[module]'
+  desc: >-
+    Shows commands fow a specific moduwe. If nyuww, is an awias fow modules
+    which is an awias fow hewp. uwu
+  params:
+    - desc: 'Da moduwe to wook at owo'
+      name: module
+      optional: true
+      type: string
+donate:
+  args:
+    - ''
+  desc: 'Shows how to suppowt da bot. uwu'
+  params: [ ]
+exportcommandsjson:
+  args:
+    - ''
+  desc: >-
+    Expowts aww commands to a json fiwe. Used mainwy fow ^w^
+  params: [ ]
+exportcommandsjson_noparams:
+  args:
+    - ''
+  desc: >-
+    Expowts aww commands to a json fiwe. Used mainwy fow ^w^
+  params: [ ]
+exportcommandsjson_noparams_1:
+  args:
+    - ''
+  desc: >-
+    Expowts aww commands to a json fiwe. Used mainwy fow ^w^
+  params: [ ]
+exportcommandsjson_noparams_2:
+  args:
+    - ''
+  desc: >-
+    Expowts aww commands to a json fiwe. Used mainwy fow ^w^
+  params: [ ]
+guide:
+  args:
+    - ''
+  desc: 'Shows da guide fow da bot. owo'
+  params: [ ]
+h:
+  args:
+    - command
+  desc: Shows hewp fow a specific command. uwu
+  params:
+    - desc: Da command to get hewp fow. ^w^
+      name: command
+      optional: true
+      type: string
+help:
+  args:
+    - command
+  desc: Shows hewp infowmation fow commands. uwu
+  params:
+    - desc: Da command to get hewp fow. ^w^
+      name: command
+      optional: true
+      type: string
+modules:
+  args:
+    - ''
+  desc: 'Shows a wist of aww moduwes. Is basicawwy just a hewp awias at this point. owo'
+  params: [ ]
+searchcommand:
+  args:
+    - text
+  desc: 'Seawches fow a command by nyame ow descwiption. uwu'
+  params:
+    - &ref_481
+      desc: 'Da tewm to seawch fow ^w^'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string:
+  args:
+    - text
+  desc: 'Seawches fow a command by nyame ow descwiption. uwu'
+  params:
+    - desc: 'Da tewm to seawch fow ^w^'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_1:
+  args:
+    - text
+  desc: 'Seawches fow a command by nyame ow descwiption. uwu'
+  params:
+    - desc: 'Da tewm to seawch fow ^w^'
+      name: commandname
+      optional: false
+      type: string
+searchcommand_string_2:
+  args:
+    - text
+  desc: 'Seawches fow a command by nyame ow descwiption. uwu'
+  params:
+    - desc: 'Da tewm to seawch fow ^w^'
+      name: commandname
+      optional: false
+      type: string
+source:
+  args:
+    - ''
+  desc: 'Shows da souwce code wink fow da bot. uwu'
+  params: [ ]
+vote:
+  args:
+    - ''
+  desc: 'Shows a wink to vote fow mewdeko. ^w^'
+  params: [ ]

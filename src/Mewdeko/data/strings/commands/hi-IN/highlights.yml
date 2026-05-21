@@ -1,0 +1,81 @@
+highlight:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'हाइलाइट्स को जोड़ता, सूचीबद्ध करता, हटाता या मिलाता है।'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'चयनित क्रिया के लिए पैरामीटर'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'हाइलाइट्स को जोड़ता, सूचीबद्ध करता, हटाता या मिलाता है।'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'चयनित क्रिया के लिए पैरामीटर'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_1:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'हाइलाइट्स को जोड़ता, सूचीबद्ध करता, हटाता या मिलाता है।'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'चयनित क्रिया के लिए पैरामीटर'
+      name: words
+      optional: true
+      type: string
+highlight_HighlightActions_=_2:
+  args:
+    - '<action> [words]'
+    - add|list|delete
+    - add
+    - list
+    - delete
+  desc: 'हाइलाइट्स को जोड़ता, सूचीबद्ध करता, हटाता या मिलाता है।'
+  params:
+    - desc: '<see cref="HighlightActions" />'
+      name: action
+      optional: false
+      type: highlightactions
+    - desc: 'चयनित क्रिया के लिए पैरामीटर'
+      name: words
+      optional: true
+      type: string
+highlights:
+  args:
+    - action word
+  desc: उपयोगकर्ता हाइलाइट्स का प्रबंधन करता है।
+  params:
+    - desc: हाइलाइट्स के साथ करने की क्रिया।
+      name: action
+      optional: false
+      type: string
+    - desc: हाइलाइट करने के लिए शब्द।
+      name: word
+      optional: true
+      type: string

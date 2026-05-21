@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'Укључује/искључује најаве рођендана за корисника.'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'Поставља канал за најаве рођендана.'
+  params:
+    - desc: >-
+        Текстуални канал који се користи за најаве. Подразумевано је
+        тренутни канал ако није наведен.
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'Приказује тренутну конфигурацију рођендана.'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'Приказује предстојеће рођендане на серверу.'
+  params:
+    - desc: Колико дана унапред погледати. Подразумевано 7, максимум 30.
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'Поставља прилагођени шаблон рођенданске поруке.'
+  params:
+    - desc: >-
+        Шаблон поруке. Користите {user} да поменете корисника. Приказује
+        тренутну поруку ако је остављена празна.
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'Поставља улогу за обавештавање при најави рођендана.'
+  params:
+    - desc: Улога за обавештавање. Не наведите улогу за онемогућавање.
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'Поставља рођенданску улогу коју корисници добијају на свој рођендан.'
+  params:
+    - desc: Улога која се додељује на рођендан корисника. Не наведите улогу за онемогућавање.
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'Поставља временску зону корисника за прорачуне рођендана.'
+  params:
+    - desc: Временска зона за постављање (нпр. "America/New_York").
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'Приказује данашње рођендане.'
+  params: [ ]

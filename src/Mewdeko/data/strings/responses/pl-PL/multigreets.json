@@ -1,0 +1,10 @@
+{
+  "bandm": "Zostałeś zbanowany z serwera {0}.\nPowód: {1}",
+  "byedel_off": "Automatyczne usuwanie wiadomości pożegnalnych zostało wyłączone.",
+  "byedel_on": "Wiadomości pożegnalne będą usuwane po {0} sekundach.",
+  "byemsg_cur": "Obecna wiadomość pożegnalna: {0}",
+  "byemsg_enable": "Włącz wiadomości pożegnalne wpisując {0}",
+  "byemsg_new": "Nowa wiadomość pożegnalna ustawiona.",
+  "bye_off": "Powiadomienia pożegnalne wyłączone.",
+  "bye_on": "Powiadomienia pożegnalne są włączone na tym kanale."
+}

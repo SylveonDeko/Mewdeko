@@ -1,0 +1,326 @@
+gbanner:
+  args:
+    - text
+  desc: 'Establece el banner predeterminado del sorteo.'
+  params:
+    - &ref_221
+      desc: 'Establece el banner predeterminado del sorteo.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string:
+  args:
+    - text
+  desc: 'Establece el banner predeterminado del sorteo.'
+  params:
+    - desc: 'Establece el banner predeterminado del sorteo.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_1:
+  args:
+    - text
+  desc: 'Establece el banner predeterminado del sorteo.'
+  params:
+    - desc: 'Establece el banner predeterminado del sorteo.'
+      name: banner
+      optional: false
+      type: string
+gbanner_string_2:
+  args:
+    - text
+  desc: 'Establece el banner predeterminado del sorteo.'
+  params:
+    - desc: 'Establece el banner predeterminado del sorteo.'
+      name: banner
+      optional: false
+      type: string
+gdm:
+  args:
+    - ''
+  desc: 'Establece si enviar un MD al ganador de un sorteo.'
+  params: [ ]
+gdmmessage:
+  args:
+    - '[message]'
+  desc: 'Establece el mensaje de MD enviado a los usuarios cuando ganan un sorteo.'
+  params:
+    - desc: 'Establece el mensaje de MD enviado a los usuarios cuando ganan un sorteo.'
+      name: message
+      optional: true
+      type: string
+gembedcolor:
+  args:
+    - text
+  desc: 'Establece el color del embed para los sorteos.'
+  params:
+    - &ref_223
+      desc: 'El color en hexadecimal.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string:
+  args:
+    - text
+  desc: 'Establece el color del embed para los sorteos.'
+  params:
+    - desc: 'El color en hexadecimal.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_1:
+  args:
+    - text
+  desc: 'Establece el color del embed para los sorteos.'
+  params:
+    - desc: 'El color en hexadecimal.'
+      name: color
+      optional: false
+      type: string
+gembedcolor_string_2:
+  args:
+    - text
+  desc: 'Establece el color del embed para los sorteos.'
+  params:
+    - desc: 'El color en hexadecimal.'
+      name: color
+      optional: false
+      type: string
+gemote:
+  args:
+    - emote
+  desc: 'Establece el emoticono usado para los sorteos.'
+  params:
+    - &ref_224
+      desc: 'El emoticono a establecer.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote:
+  args:
+    - emote
+  desc: 'Establece el emoticono usado para los sorteos.'
+  params:
+    - desc: 'El emoticono a establecer.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_1:
+  args:
+    - emote
+  desc: 'Establece el emoticono usado para los sorteos.'
+  params:
+    - desc: 'El emoticono a establecer.'
+      name: emote
+      optional: false
+      type: IEmote
+gemote_IEmote_2:
+  args:
+    - emote
+  desc: 'Establece el emoticono usado para los sorteos.'
+  params:
+    - desc: 'El emoticono a establecer.'
+      name: emote
+      optional: false
+      type: IEmote
+gend:
+  args:
+    - messageid
+  desc: 'Finaliza un sorteo.'
+  params:
+    - &ref_225
+      desc: 'El ID del mensaje del sorteo a finalizar'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong:
+  args:
+    - messageid
+  desc: 'Finaliza un sorteo.'
+  params:
+    - desc: 'El ID del mensaje del sorteo a finalizar'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_1:
+  args:
+    - messageid
+  desc: 'Finaliza un sorteo.'
+  params:
+    - desc: 'El ID del mensaje del sorteo a finalizar'
+      name: messageid
+      optional: false
+      type: ulong
+gend_ulong_2:
+  args:
+    - messageid
+  desc: 'Finaliza un sorteo.'
+  params:
+    - desc: 'El ID del mensaje del sorteo a finalizar'
+      name: messageid
+      optional: false
+      type: ulong
+glist:
+  args:
+    - ''
+  desc: 'Lista todos los sorteos activos.'
+  params: [ ]
+greroll:
+  args:
+    - messageid
+  desc: 'Repite el sorteo de un premio.'
+  params:
+    - &ref_237
+      desc: 'El ID del mensaje de un sorteo'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong:
+  args:
+    - messageid
+  desc: 'Repite el sorteo de un premio.'
+  params:
+    - desc: 'El ID del mensaje de un sorteo'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_1:
+  args:
+    - messageid
+  desc: 'Repite el sorteo de un premio.'
+  params:
+    - desc: 'El ID del mensaje de un sorteo'
+      name: messageid
+      optional: false
+      type: ulong
+greroll_ulong_2:
+  args:
+    - messageid
+  desc: 'Repite el sorteo de un premio.'
+  params:
+    - desc: 'El ID del mensaje de un sorteo'
+      name: messageid
+      optional: false
+      type: ulong
+gstart:
+  args:
+    - chan time number text
+  desc: 'Inicio de sorteo mas detallado, permite establecer un banner, rol de mencion y mas.'
+  params:
+    - &ref_238
+      desc: 'El canal para iniciar el sorteo'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - &ref_239
+      desc: 'La duracion del sorteo'
+      name: time
+      optional: false
+      type: StoopidTime
+    - &ref_240
+      desc: 'La cantidad de ganadores'
+      name: winners
+      optional: false
+      type: int
+    - &ref_241
+      desc: 'El objeto a rifar'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string:
+  args:
+    - chan time number text
+  desc: 'Inicio de sorteo mas detallado, permite establecer un banner, rol de mencion y mas.'
+  params:
+    - desc: 'El canal para iniciar el sorteo'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'La duracion del sorteo'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'La cantidad de ganadores'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'El objeto a rifar'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_1:
+  args:
+    - chan time number text
+  desc: 'Inicio de sorteo mas detallado, permite establecer un banner, rol de mencion y mas.'
+  params:
+    - desc: 'El canal para iniciar el sorteo'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'La duracion del sorteo'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'La cantidad de ganadores'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'El objeto a rifar'
+      name: what
+      optional: false
+      type: string
+gstart_ITextChannel_StoopidTime_int_string_2:
+  args:
+    - chan time number text
+  desc: 'Inicio de sorteo mas detallado, permite establecer un banner, rol de mencion y mas.'
+  params:
+    - desc: 'El canal para iniciar el sorteo'
+      name: chan
+      optional: false
+      type: ITextChannel
+    - desc: 'La duracion del sorteo'
+      name: time
+      optional: false
+      type: StoopidTime
+    - desc: 'La cantidad de ganadores'
+      name: winners
+      optional: false
+      type: int
+    - desc: 'El objeto a rifar'
+      name: what
+      optional: false
+      type: string
+gstart_noparams:
+  args:
+    - ''
+  desc: 'Inicio de sorteo mas detallado, permite establecer un banner, rol de mencion y mas.'
+  params: [ ]
+gstart_noparams_1:
+  args:
+    - ''
+  desc: 'Inicio de sorteo mas detallado, permite establecer un banner, rol de mencion y mas.'
+  params: [ ]
+gstart_noparams_2:
+  args:
+    - ''
+  desc: 'Inicio de sorteo mas detallado, permite establecer un banner, rol de mencion y mas.'
+  params: [ ]
+gstart_noparams_3:
+  args:
+    - ''
+  desc: 'Inicio de sorteo mas detallado, permite establecer un banner, rol de mencion y mas.'
+  params: [ ]
+gstats:
+  args:
+    - ''
+  desc: 'Muestra las estadisticas de los sorteos.'
+  params: [ ]
+gwinembedcolor:
+  args:
+    - text
+  desc: 'Establece el color para el embed ganador.'
+  params:
+    - desc: 'El color en hexadecimal.'
+      name: color
+      optional: false
+      type: string

@@ -1,0 +1,73 @@
+birthdayannouncements:
+  args:
+    - ''
+  desc: 'Toggwes biwfday announcements fow da usew. uwu'
+  params: [ ]
+birthdaychannel:
+  args:
+    - '#channel'
+  desc: 'Sets da biwfday announcement channyew. owo'
+  params:
+    - desc: >-
+        Da text channyew to use fow announcements. Defauwts to da cuwwent
+        channyew if not specified. ^w^
+      name: channel
+      optional: true
+      type: ITextChannel
+birthdayconfig:
+  args:
+    - ''
+  desc: 'Views da cuwwent biwfday configuwation. uwu'
+  params: [ ]
+birthdaylist:
+  args:
+    - days
+  desc: 'Shows upcoming biwfdays in da sewvew. owo'
+  params:
+    - desc: How many days to wook ahead. Defauwt is 7, max is 30. uwu
+      name: days
+      optional: true
+      type: int
+birthdaymessage:
+  args:
+    - message
+  desc: 'Sets a custom biwfday message tempwate. ^w^'
+  params:
+    - desc: >-
+        Da message tempwate. Use {user} to mention da usew. Shows da
+        cuwwent message if weft empty. uwu
+      name: message
+      optional: true
+      type: string
+birthdaypingrole:
+  args:
+    - '@role'
+  desc: 'Sets da wowe to ping when announcing biwfdays. owo'
+  params:
+    - desc: Da wowe to ping. Pwovide no wowe to disabwe it. uwu
+      name: role
+      optional: true
+      type: IRole
+birthdayrole:
+  args:
+    - '@role'
+  desc: 'Sets da biwfday wowe that usews get on theiw biwfday. ^w^'
+  params:
+    - desc: Da wowe to assign on a usew''s biwfday. Pwovide no wowe to disabwe it. uwu
+      name: role
+      optional: true
+      type: IRole
+birthdaytimezone:
+  args:
+    - timezone
+  desc: 'Sets da usew''s timezone fow biwfday cawcuwations. owo'
+  params:
+    - desc: Da timezone to set (e.g., "America/New_York"). uwu
+      name: timezone
+      optional: false
+      type: string
+birthdaytoday:
+  args:
+    - ''
+  desc: 'Shows today''s biwfdays. ^w^'
+  params: [ ]
