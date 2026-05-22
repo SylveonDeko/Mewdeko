@@ -269,10 +269,15 @@ public partial class UtilityService : INService
                     if (!en.Contains("discord")) continue;
                     var eb = string.Join("", e.Segments).Split("/");
                     if (!eb.Contains("channels")) continue;
+                    if (eb.Length < 5
+                        || !ulong.TryParse(eb[2], out var linkGuildId)
+                        || !ulong.TryParse(eb[3], out var linkChannelId)
+                        || !ulong.TryParse(eb[4], out var linkMessageId))
+                        continue;
                     SocketGuild guild;
-                    if (gid.Id != Convert.ToUInt64(eb[2]))
+                    if (gid.Id != linkGuildId)
                     {
-                        guild = client.GetGuild(Convert.ToUInt64(eb[2]));
+                        guild = client.GetGuild(linkGuildId);
                         if (guild is null) return;
                     }
                     else
@@ -282,9 +287,9 @@ public partial class UtilityService : INService
 
                     if (guild != t.Guild)
                         return;
-                    var em = await ((IGuild)guild).GetTextChannelAsync(Convert.ToUInt64(eb[3])).ConfigureAwait(false);
+                    var em = await ((IGuild)guild).GetTextChannelAsync(linkChannelId).ConfigureAwait(false);
                     if (em == null) return;
-                    var msg2 = await em.GetMessageAsync(Convert.ToUInt64(eb[4])).ConfigureAwait(false);
+                    var msg2 = await em.GetMessageAsync(linkMessageId).ConfigureAwait(false);
                     if (msg2 is null) return;
                     var en2 = new EmbedBuilder
                     {

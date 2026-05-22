@@ -792,7 +792,7 @@ public class LogCommandService(
         await Task.Delay(500);
         var auditLogs = await arsg2.Guild.GetAuditLogsAsync(1, actionType: ActionType.MemberRoleUpdated).FlattenAsync();
         var auditLog = auditLogs.LastOrDefault();
-        if (auditLog == null) return;
+        if (auditLog?.User == null) return;
 
         var components = new ComponentBuilderV2()
             .WithContainer([
@@ -832,7 +832,7 @@ public class LogCommandService(
         await Task.Delay(500);
         var auditLogs = await arsg2.Guild.GetAuditLogsAsync(1, actionType: ActionType.MemberRoleUpdated).FlattenAsync();
         var auditLog = auditLogs.LastOrDefault();
-        if (auditLog == null) return;
+        if (auditLog?.User == null) return;
 
         var components = new ComponentBuilderV2()
             .WithContainer([
@@ -856,7 +856,7 @@ public class LogCommandService(
     /// <param name="arsg2">The user after they updated their username.</param>
     private async Task OnUsernameUpdated(SocketUser args, SocketUser arsg2)
     {
-        if (args.Username.Equals(arsg2.Username))
+        if (string.Equals(args.Username, arsg2.Username))
             return;
 
         // Find relevant guilds

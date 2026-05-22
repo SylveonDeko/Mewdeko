@@ -2016,13 +2016,13 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         await Task.CompletedTask.ConfigureAwait(false);
         if (maybeGuildId is { } guildId and not 0) // Check if a valid guild ID is provided
         {
-            return newGuildReactions.TryGetValue(guildId, out var cts) // Retrieve triggers for the guild
+            return newGuildReactions != null && newGuildReactions.TryGetValue(guildId, out var cts)
                 ? cts
                 : []; // Return an empty array if no triggers found
         }
 
 
-        return globalReactions; // Return global triggers if no guild ID specified
+        return globalReactions ?? []; // Return global triggers if no guild ID specified
     }
 
 

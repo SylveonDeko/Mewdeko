@@ -138,7 +138,9 @@ public class PollButtonService : MewdekoSlashModuleBase<PollService>
     [ComponentInteraction("poll:manage:*:*")]
     public async Task HandlePollManage(string pollId, string action)
     {
-        await DeferAsync();
+        var opensModal = action.Equals("delete", StringComparison.OrdinalIgnoreCase);
+        if (!opensModal)
+            await DeferAsync();
         if (!int.TryParse(pollId, out var pollIdInt))
         {
             await ctx.Interaction.SendEphemeralErrorAsync(Strings.PollInvalid(ctx.Guild.Id), config);
