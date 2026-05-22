@@ -26,7 +26,7 @@ public class AuditLogFilter(
     /// </summary>
     private static readonly HashSet<string> ExcludedControllers = new(StringComparer.OrdinalIgnoreCase)
     {
-        "AuditLog", "InstanceManagement", "SystemInfo", "Performance", "BotStatus"
+        "AuditLog", "InstanceManagement", "SystemInfo", "Performance", "BotStatus", "ClientOperations"
     };
 
     /// <inheritdoc />

@@ -62,7 +62,7 @@ public class AuditLogController(DashboardAuditService auditService) : Controller
         HttpMethod = entry.HttpMethod,
         Changes = ParseChanges(entry.Changes),
         UserAgent = entry.UserAgent,
-        DateAdded = entry.DateAdded
+        DateAdded = DateTime.SpecifyKind(entry.DateAdded, DateTimeKind.Utc)
     };
 
     private static JsonNode? ParseChanges(string? changes)
