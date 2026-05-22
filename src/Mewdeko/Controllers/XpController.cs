@@ -287,24 +287,24 @@ public class XpController(
     ///     Removes a role reward
     /// </summary>
     /// <param name="guildId">The guild ID</param>
-    /// <param name="rewardId">The reward ID to remove</param>
+    /// <param name="level">The level of the role reward to remove</param>
     /// <returns>A 200 status code if successful</returns>
-    [HttpDelete("rewards/roles/{rewardId}")]
-    public async Task<IActionResult> RemoveRoleReward(ulong guildId, int rewardId)
+    [HttpDelete("rewards/roles/{level}")]
+    public async Task<IActionResult> RemoveRoleReward(ulong guildId, int level)
     {
         await using var db = await dbFactory.CreateConnectionAsync();
         // Check if the reward exists
         var exists = await db.XpRoleRewards
-            .AnyAsync(r => r.Id == rewardId && r.GuildId == guildId);
+            .AnyAsync(r => r.Level == level && r.GuildId == guildId);
 
         if (!exists)
             return NotFound();
 
         auditContext.RecordBefore(await db.XpRoleRewards
-            .FirstOrDefaultAsync(r => r.Id == rewardId && r.GuildId == guildId));
+            .FirstOrDefaultAsync(r => r.Level == level && r.GuildId == guildId));
 
         await db.XpRoleRewards
-            .Where(r => r.Id == rewardId && r.GuildId == guildId)
+            .Where(r => r.Level == level && r.GuildId == guildId)
             .DeleteAsync();
 
         return Ok();
@@ -347,24 +347,24 @@ public class XpController(
     ///     Removes a currency reward
     /// </summary>
     /// <param name="guildId">The guild ID</param>
-    /// <param name="rewardId">The reward ID to remove</param>
+    /// <param name="level">The level of the currency reward to remove</param>
     /// <returns>A 200 status code if successful</returns>
-    [HttpDelete("rewards/currency/{rewardId}")]
-    public async Task<IActionResult> RemoveCurrencyReward(ulong guildId, int rewardId)
+    [HttpDelete("rewards/currency/{level}")]
+    public async Task<IActionResult> RemoveCurrencyReward(ulong guildId, int level)
     {
         await using var db = await dbFactory.CreateConnectionAsync();
         // Check if the reward exists
         var exists = await db.XpCurrencyRewards
-            .AnyAsync(r => r.Id == rewardId && r.GuildId == guildId);
+            .AnyAsync(r => r.Level == level && r.GuildId == guildId);
 
         if (!exists)
             return NotFound();
 
         auditContext.RecordBefore(await db.XpCurrencyRewards
-            .FirstOrDefaultAsync(r => r.Id == rewardId && r.GuildId == guildId));
+            .FirstOrDefaultAsync(r => r.Level == level && r.GuildId == guildId));
 
         await db.XpCurrencyRewards
-            .Where(r => r.Id == rewardId && r.GuildId == guildId)
+            .Where(r => r.Level == level && r.GuildId == guildId)
             .DeleteAsync();
 
         return Ok();
