@@ -385,3 +385,7 @@ api/*
 /api
 /src/Mewdeko/Generated/System.Text.RegularExpressions.Generator/System.Text.RegularExpressions.Generator.RegexGenerator/RegexGenerator.g.cs
 /src/Mewdeko/Generated/
+
+# Fedora Messaging client credentials - provision out-of-band, never commit
+/src/Mewdeko/certs/fedora-key.pem
+/src/Mewdeko/certs/fedora-cert.pem
