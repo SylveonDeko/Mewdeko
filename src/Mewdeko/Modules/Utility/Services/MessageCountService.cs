@@ -15,7 +15,7 @@ namespace Mewdeko.Modules.Utility.Services;
 /// <summary>
 ///     Service for counting messages
 /// </summary>
-public class MessageCountService : INService
+public class MessageCountService : INService, IDisposable
 {
     /// <summary>
     ///     Whether the query is for a channel, user, or guild
@@ -639,5 +639,16 @@ public class MessageCountService : INService
             logger.LogError(ex, "Failed to reset message counts for guild {GuildId}", guildId);
             return false;
         }
+    }
+
+    /// <summary>
+    ///     Cancels background processing and releases the cancellation token source and update lock.
+    /// </summary>
+    public void Dispose()
+    {
+        cts.Cancel();
+        cts.Dispose();
+        updateLock.Dispose();
+        GC.SuppressFinalize(this);
     }
 }

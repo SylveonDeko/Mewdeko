@@ -13,7 +13,7 @@ namespace Mewdeko.Modules.Games.Services;
 /// <summary>
 /// Service that manages scheduled poll creation and execution.
 /// </summary>
-public class PollSchedulerService : INService, IReadyExecutor
+public class PollSchedulerService : INService, IReadyExecutor, IDisposable
 {
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;

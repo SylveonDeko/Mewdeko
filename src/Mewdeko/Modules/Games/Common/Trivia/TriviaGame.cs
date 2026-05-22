@@ -93,6 +93,7 @@ public class TriviaGame
         while (!ShouldStopGame)
         {
             // reset the cancellation source
+            triviaCancelSource?.Dispose();
             triviaCancelSource = new CancellationTokenSource();
             showHowToQuit = !showHowToQuit;
 
@@ -207,6 +208,8 @@ public class TriviaGame
 
             await Task.Delay(5000).ConfigureAwait(false);
         }
+
+        triviaCancelSource?.Dispose();
     }
 
     /// <summary>

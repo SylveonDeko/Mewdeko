@@ -243,7 +243,7 @@ public partial class Administration
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.ManageGuild)]
-        public async Task GreetDmMsg([Remainder] string? text = null)
+        public async Task GreetDmMsg([Remainder] string? text)
         {
             if (string.IsNullOrWhiteSpace(text))
             {

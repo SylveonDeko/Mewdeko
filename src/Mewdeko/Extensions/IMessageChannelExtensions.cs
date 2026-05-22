@@ -114,17 +114,6 @@ public static class MessageChannelExtensions
     }
 
     /// <summary>
-    ///     Sends a confirmation message to the message channel asynchronously.
-    /// </summary>
-    /// <param name="ch">The message channel to send the message to.</param>
-    /// <param name="text">The text content of the confirmation message.</param>
-    /// <returns>A task representing the asynchronous operation, returning the sent user message.</returns>
-    public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string? text)
-    {
-        return ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build());
-    }
-
-    /// <summary>
     ///     Sends a confirmation reply message to the original message asynchronously.
     /// </summary>
     /// <param name="msg">The original message to reply to.</param>

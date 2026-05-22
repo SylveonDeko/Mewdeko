@@ -10,7 +10,7 @@ namespace Mewdeko.Modules.Games.Services;
 /// <summary>
 /// Background service that manages automatic poll closure based on expiration times.
 /// </summary>
-public class PollTimerService : INService, IReadyExecutor
+public class PollTimerService : INService, IReadyExecutor, IDisposable
 {
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
