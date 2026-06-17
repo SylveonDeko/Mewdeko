@@ -35,6 +35,18 @@ public class CommentGatheringTypeInspector : TypeInspectorSkeleton
     }
 
     /// <inheritdoc />
+    public override bool HasParseMethod(Type type)
+    {
+        return innerTypeDescriptor.HasParseMethod(type);
+    }
+
+    /// <inheritdoc />
+    public override object? Parse(string value, Type type)
+    {
+        return innerTypeDescriptor.Parse(value, type);
+    }
+
+    /// <inheritdoc />
     public override IEnumerable<IPropertyDescriptor> GetProperties(Type type, object? container)
     {
         return innerTypeDescriptor

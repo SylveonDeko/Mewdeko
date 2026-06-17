@@ -24,8 +24,10 @@ namespace DataModel
 		[Column("notifyuser"                                                                                      )] public bool      NotifyUser      { get; set; } // boolean
 		[Column("punishduration"                                                                                  )] public int       PunishDuration  { get; set; } // integer
 		[Column("roleid"                                                                                          )] public ulong?    RoleId          { get; set; } // numeric(20,0)
-		[Column("ignorebots"                                                                                      )] public bool      IgnoreBots      { get; set; } // boolean
-		[Column("dateadded"                                                                                       )] public DateTime? DateAdded       { get; set; } // timestamp
+		[Column("ignorebots"                                                                                      )] public bool      IgnoreBots        { get; set; } // boolean
+		[Column("dateadded"                                                                                       )] public DateTime? DateAdded         { get; set; } // timestamp
+		[Column("statusmessageid"                                                                                 )] public ulong?    StatusMessageId   { get; set; } // numeric(20,0)
+		[Column("statuschannelid"                                                                                 )] public ulong?    StatusChannelId   { get; set; } // numeric(20,0)
 
 		#region Associations
 		/// <summary>

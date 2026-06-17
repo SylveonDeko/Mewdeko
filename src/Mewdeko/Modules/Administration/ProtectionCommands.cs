@@ -1131,7 +1131,8 @@ public partial class Administration
                 null, // roleId
                 true, // deleteMessages
                 true, // notifyUser
-                true // ignoreBots
+                true, // ignoreBots
+                ctx.Channel.Id
             ).ConfigureAwait(false);
 
             if (result != null)
@@ -1140,6 +1141,7 @@ public partial class Administration
                 await ReplyConfirmAsync(
                     Strings.AntiPostChannelEnabled(ctx.Guild.Id, action.ToString(), durationText)
                 ).ConfigureAwait(false);
+                await Service.UpdateAntiPostChannelStatusEmbedAsync(ctx.Guild.Id).ConfigureAwait(false);
             }
             else
             {

@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Concurrent;
+using System.Threading;
 using DataModel;
 using Mewdeko.Common.Collections;
 
@@ -79,7 +80,7 @@ public class AntiSpamStats
     /// <summary>
     ///     Gets or sets the statistics for each user involved in spamming.
     /// </summary>
-    public ConcurrentDictionary<ulong, UserSpamStats> UserStats { get; set; }
+    public NonBlocking.ConcurrentDictionary<ulong, UserSpamStats> UserStats { get; set; }
         = new();
 }
 
@@ -177,7 +178,7 @@ public class AntiMassMentionStats
     /// <summary>
     ///     Tracks the mention counts per user.
     /// </summary>
-    public ConcurrentDictionary<ulong, UserMentionStats> UserStats { get; } = new();
+    public NonBlocking.ConcurrentDictionary<ulong, UserMentionStats> UserStats { get; } = new();
 }
 
 /// <summary>
@@ -327,7 +328,7 @@ public class AntiMassPostStats
     /// <summary>
     ///     Tracks user message history across channels.
     /// </summary>
-    public ConcurrentDictionary<ulong, UserMassPostStats> UserStats { get; } = new();
+    public NonBlocking.ConcurrentDictionary<ulong, UserMassPostStats> UserStats { get; } = new();
 
     /// <summary>
     ///     Gets the action to be taken against mass posting.
@@ -536,6 +537,12 @@ public class AntiPostChannelStats
     ///     Gets or sets the anti-post-channel settings.
     /// </summary>
     public AntiPostChannelSetting AntiPostChannelSettings { get; set; }
+
+    /// <summary>
+    ///     Stores the last 10 users punished for posting in a honeypot channel (userId, username).
+    /// </summary>
+    public ConcurrentQueue<(ulong UserId, string Username, DateTimeOffset PunishedAt)> RecentViolations { get; } =
+        new();
 
     /// <summary>
     ///     Gets the action to be taken when posting in honeypot channels.

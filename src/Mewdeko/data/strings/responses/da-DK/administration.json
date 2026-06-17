@@ -36,5 +36,12 @@
   "self_assign_level_req": "Self assignable role {0} now requires at least server level {1}.",
   "self_assign_not_level": "That self-assignable role requires at least server level {0}.",
   "mass_kill_in_progress": "Mass Banning and Blacklisting of {0} users is in progress...",
-  "mass_kill_completed": "Mass Banning and Blacklisting of {0} users is complete."
+  "mass_kill_completed": "Mass Banning and Blacklisting of {0} users is complete.",
+  "anti_post_channel_status_action": "Action",
+  "anti_post_channel_status_channels": "Honeypot Channels",
+  "anti_post_channel_status_total": "Total Punishments",
+  "anti_post_channel_status_delete": "Delete Messages",
+  "anti_post_channel_status_notify": "Notify User",
+  "anti_post_channel_status_violations": "Recent Violations",
+  "anti_post_channel_status_warning": "⚠️ Do not post in the honeypot channels or you will be automatically {0}."
 }

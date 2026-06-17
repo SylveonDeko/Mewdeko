@@ -36,5 +36,12 @@
   "self_assign_level_req": "Kendinden atanabilir rol {0} şimdi en azından sunucu düzeyi {1} gerektiriyor.",
   "self_assign_not_level": "Bu kendinden atanabilir rol, en azından {0} sunucu düzeyini gerektirir.",
   "mass_kill_in_progress": "Kitlesel Yasaklama ve {0} kullanıcılarının Kara Listeleme işlemleri sürüyor...",
-  "mass_kill_completed": "Kitle Yasaklaması ve {0} kullanıcısının Kara Listeleme işlemi tamamlandı."
+  "mass_kill_completed": "Kitle Yasaklaması ve {0} kullanıcısının Kara Listeleme işlemi tamamlandı.",
+  "anti_post_channel_status_action": "Action",
+  "anti_post_channel_status_channels": "Honeypot Channels",
+  "anti_post_channel_status_total": "Total Punishments",
+  "anti_post_channel_status_delete": "Delete Messages",
+  "anti_post_channel_status_notify": "Notify User",
+  "anti_post_channel_status_violations": "Recent Violations",
+  "anti_post_channel_status_warning": "⚠️ Do not post in the honeypot channels or you will be automatically {0}."
 }

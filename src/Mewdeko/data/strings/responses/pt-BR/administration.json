@@ -36,5 +36,12 @@
   "self_assign_level_req": "O cargo auto-atribuível {0} agora requer pelo menos nível de servidor {1}.",
   "self_assign_not_level": "Esse cargo auto-atribuível requer pelo menos nível de servidor {0}.",
   "mass_kill_in_progress": "Banimento em massa de {0} usuários em andamento...",
-  "mass_kill_completed": "Banimento em massa de {0} usuários concluído."
+  "mass_kill_completed": "Banimento em massa de {0} usuários concluído.",
+  "anti_post_channel_status_action": "Action",
+  "anti_post_channel_status_channels": "Honeypot Channels",
+  "anti_post_channel_status_total": "Total Punishments",
+  "anti_post_channel_status_delete": "Delete Messages",
+  "anti_post_channel_status_notify": "Notify User",
+  "anti_post_channel_status_violations": "Recent Violations",
+  "anti_post_channel_status_warning": "⚠️ Do not post in the honeypot channels or you will be automatically {0}."
 }
