@@ -233,9 +233,7 @@ public class ClientOperations(DiscordShardedClient client) : Controller
             })
             .ToList();
 
-        if (mutuals.Count != 0)
-            return Ok(mutuals);
-        return NotFound();
+        return Ok(mutuals);
     }
 
     /// <summary>
