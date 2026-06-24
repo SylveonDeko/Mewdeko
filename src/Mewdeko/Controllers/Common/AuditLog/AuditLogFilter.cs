@@ -1,7 +1,6 @@
 using System.Text.Json.Nodes;
 using Mewdeko.AuthHandlers;
 using Mewdeko.Database.Enums;
-using Mewdeko.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -26,7 +25,12 @@ public class AuditLogFilter(
     /// </summary>
     private static readonly HashSet<string> ExcludedControllers = new(StringComparer.OrdinalIgnoreCase)
     {
-        "AuditLog", "InstanceManagement", "SystemInfo", "Performance", "BotStatus", "ClientOperations"
+        "AuditLog",
+        "InstanceManagement",
+        "SystemInfo",
+        "Performance",
+        "BotStatus",
+        "ClientOperations"
     };
 
     /// <inheritdoc />
@@ -54,14 +58,6 @@ public class AuditLogFilter(
     {
         var http = context.HttpContext;
 
-        var authResult = await http.AuthenticateAsync(DashJwtConstants.SchemeName);
-        if (!authResult.Succeeded || authResult.Principal is not { } principal)
-            return;
-
-        var userIdClaim = principal.FindFirst(DashJwtConstants.UserIdClaim)?.Value;
-        if (!ulong.TryParse(userIdClaim, out var userId))
-            return;
-
         if (context.ActionDescriptor is not ControllerActionDescriptor descriptor)
             return;
 
@@ -71,6 +67,17 @@ public class AuditLogFilter(
 
         if (descriptor.MethodInfo.GetCustomAttributes(typeof(SkipAuditAttribute), true).Length > 0 ||
             descriptor.ControllerTypeInfo.GetCustomAttributes(typeof(SkipAuditAttribute), true).Length > 0)
+            return;
+
+        if (!http.Request.Headers.Authorization.ToString().StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+            return;
+
+        var authResult = await http.AuthenticateAsync(DashJwtConstants.SchemeName);
+        if (!authResult.Succeeded || authResult.Principal is not { } principal)
+            return;
+
+        var userIdClaim = principal.FindFirst(DashJwtConstants.UserIdClaim)?.Value;
+        if (!ulong.TryParse(userIdClaim, out var userId))
             return;
 
         var method = http.Request.Method;
