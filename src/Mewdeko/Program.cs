@@ -1,4 +1,3 @@
-using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -11,10 +10,10 @@ using Lavalink4NET.Extensions;
 using MartineApiNet;
 using Mewdeko.AuthHandlers;
 using Mewdeko.Common.Configs;
-using Mewdeko.Controllers.Common.AuditLog;
 using Mewdeko.Common.Constraints;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
+using Mewdeko.Controllers.Common.AuditLog;
 using Mewdeko.Database.Impl;
 using Mewdeko.Modules.Currency.Services;
 using Mewdeko.Modules.Currency.Services.Impl;
@@ -25,10 +24,8 @@ using Mewdeko.Services.Impl;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.Strings;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -37,6 +34,7 @@ using Microsoft.OpenApi;
 using NekosBestApiNet;
 using Prometheus;
 using Serilog;
+using Serilog.Events;
 using ZiggyCreatures.Caching.Fusion;
 using RunMode = Discord.Commands.RunMode;
 
@@ -299,29 +297,22 @@ public class Program
             {
                 options.IncludeQueryInRequestPath = true;
                 options.MessageTemplate =
-                    "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms\n{RequestBody}";
+                    "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
+                options.GetLevel = (httpContext, elapsed, ex) =>
+                {
+                    if (ex != null || httpContext.Response.StatusCode >= 500)
+                        return LogEventLevel.Error;
+
+                    if (httpContext.Request.Path.StartsWithSegments("/metrics"))
+                        return LogEventLevel.Debug;
+
+                    return elapsed >= 1000 || httpContext.Response.StatusCode >= 400
+                        ? LogEventLevel.Warning
+                        : LogEventLevel.Debug;
+                };
                 options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
                 {
-                    try
-                    {
-                        var requestBody = string.Empty;
-                        if (httpContext.Request.ContentLength > 0)
-                        {
-                            httpContext.Request.EnableBuffering();
-                            using var reader = new StreamReader(httpContext.Request.Body, Encoding.UTF8, false, -1,
-                                true);
-                            requestBody = reader.ReadToEndAsync().Result;
-                            httpContext.Request.Body.Position = 0;
-                        }
-
-                        diagnosticContext.Set("RequestBody", requestBody);
-                        diagnosticContext.Set("QueryString", httpContext.Request.QueryString);
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error(ex, "Error reading request body for logging");
-                        diagnosticContext.Set("RequestBody", "Error reading request body");
-                    }
+                    diagnosticContext.Set("QueryString", httpContext.Request.QueryString);
                 };
             });
 

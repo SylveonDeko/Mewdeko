@@ -163,9 +163,16 @@ public class MessageCountController(
                 enabled = false,
                 topUsers = Array.Empty<object>(),
                 topChannels = Array.Empty<object>(),
+                leastActiveUser = (object?)null,
+                leastActiveChannel = (object?)null,
+                busiestHours = Array.Empty<object>(),
+                busiestDays = Array.Empty<object>(),
                 dailyMessages = 0,
                 totalMessages = 0
             });
+
+        var totalMessages = counts.Sum(c => (long)c.Count);
+        var dayCutoff = DateTime.UtcNow.AddDays(-1);
 
         // Get top users
         var topUsers = counts.GroupBy(c => c.UserId)
@@ -173,10 +180,10 @@ public class MessageCountController(
             {
                 userId = g.Key.ToString(),
                 totalMessages = g.Sum(x => (long)x.Count),
-                dailyMessages = g.Where(x => x.DateAdded >= DateTime.UtcNow.AddDays(-1)).Sum(x => (long)x.Count)
+                dailyMessages = g.Where(x => x.DateAdded >= dayCutoff).Sum(x => (long)x.Count),
+                percentage = totalMessages > 0 ? Math.Round(g.Sum(x => (long)x.Count) * 100.0 / totalMessages, 2) : 0
             })
             .OrderByDescending(u => u.totalMessages)
-            .Take(10)
             .ToArray();
 
         // Get top channels
@@ -187,20 +194,39 @@ public class MessageCountController(
                 channelId = g.Key.ToString(),
                 channelName = guild.GetTextChannel(g.Key)?.Name ?? "Unknown Channel",
                 totalMessages = g.Sum(x => (long)x.Count),
-                dailyMessages = g.Where(x => x.DateAdded >= DateTime.UtcNow.AddDays(-1)).Sum(x => (long)x.Count)
+                dailyMessages = g.Where(x => x.DateAdded >= dayCutoff).Sum(x => (long)x.Count),
+                percentage = totalMessages > 0 ? Math.Round(g.Sum(x => (long)x.Count) * 100.0 / totalMessages, 2) : 0
             })
             .OrderByDescending(c => c.totalMessages)
-            .Take(10)
             .ToArray();
 
-        var totalMessages = counts.Sum(c => (long)c.Count);
-        var dailyMessages = counts.Where(c => c.DateAdded >= DateTime.UtcNow.AddDays(-1)).Sum(c => (long)c.Count);
+        var busiestHours = (await messageCountService.GetBusiestHours(guildId))
+            .OrderBy(h => h.Hour)
+            .Select(h => new
+            {
+                hour = h.Hour, messageCount = h.Count
+            })
+            .ToArray();
+
+        var busiestDays = (await messageCountService.GetBusiestDays(guildId))
+            .OrderBy(d => (int)d.Day)
+            .Select(d => new
+            {
+                day = d.Day.ToString(), messageCount = d.Count
+            })
+            .ToArray();
+
+        var dailyMessages = counts.Where(c => c.DateAdded >= dayCutoff).Sum(c => (long)c.Count);
 
         return Ok(new
         {
             enabled = true,
-            topUsers,
-            topChannels,
+            topUsers = topUsers.Take(10),
+            topChannels = topChannels.Take(10),
+            leastActiveUser = topUsers.LastOrDefault(),
+            leastActiveChannel = topChannels.LastOrDefault(),
+            busiestHours,
+            busiestDays,
             dailyMessages,
             totalMessages,
             lastUpdated = DateTime.UtcNow
@@ -265,7 +291,7 @@ public class MessageCountController(
 
         try
         {
-            await messageCountService.ResetCount(guildId, userId, channelId);
+            var removedAny = await messageCountService.ResetCount(guildId, userId, channelId);
 
             var message = (userId, channelId) switch
             {
@@ -277,7 +303,7 @@ public class MessageCountController(
 
             return Ok(new
             {
-                message
+                message, removedAny
             });
         }
         catch (Exception ex)
