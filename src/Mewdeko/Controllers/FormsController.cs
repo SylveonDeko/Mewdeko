@@ -20,12 +20,12 @@ namespace Mewdeko.Controllers;
 [Authorize("ApiKeyPolicy")]
 public class FormsController : Controller
 {
+    private readonly IDashboardAuditContext auditContext;
     private readonly DiscordShardedClient client;
     private readonly BotCredentials creds;
     private readonly HttpClient httpClient;
     private readonly ILogger<FormsController> logger;
     private readonly FormsService service;
-    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="FormsController" /> class.
@@ -1013,17 +1013,37 @@ public class FormsController : Controller
 
     #region Share Links
 
+    private static string? GetInstanceIdentifier(JsonElement request)
+    {
+        return request.ValueKind switch
+        {
+            JsonValueKind.String => request.GetString(),
+            JsonValueKind.Object when request.TryGetProperty("instanceIdentifier", out var identifier) &&
+                                      identifier.ValueKind == JsonValueKind.String => identifier.GetString(),
+            JsonValueKind.Object when request.TryGetProperty("InstanceIdentifier", out var identifier) &&
+                                      identifier.ValueKind == JsonValueKind.String => identifier.GetString(),
+            _ => null
+        };
+    }
+
     /// <summary>
     ///     Generates a share link for a form.
     /// </summary>
     /// <param name="formId">The form ID.</param>
-    /// <param name="instanceIdentifier">The instance identifier (port or name).</param>
+    /// <param name="request">The share link request body.</param>
     /// <returns>The share code.</returns>
     [HttpPost("{formId:int}/share-link")]
-    public async Task<IActionResult> GenerateShareLink(int formId, [FromBody] string instanceIdentifier)
+    public async Task<IActionResult> GenerateShareLink(int formId, [FromBody] JsonElement request)
     {
         try
         {
+            var instanceIdentifier = GetInstanceIdentifier(request)?.Trim();
+            if (string.IsNullOrWhiteSpace(instanceIdentifier))
+                return BadRequest(new
+                {
+                    message = "Instance identifier is required"
+                });
+
             var shareCode = await service.GenerateShareLinkAsync(formId, instanceIdentifier);
             return Ok(new
             {

@@ -1266,6 +1266,10 @@ public class FormsService : INService
     /// <returns>The share code.</returns>
     public async Task<string> GenerateShareLinkAsync(int formId, string instanceIdentifier)
     {
+        if (string.IsNullOrWhiteSpace(instanceIdentifier))
+            throw new ArgumentException("Instance identifier is required", nameof(instanceIdentifier));
+
+        instanceIdentifier = instanceIdentifier.Trim();
         await using var db = await dbFactory.CreateConnectionAsync();
 
         // Check if an active share link already exists
