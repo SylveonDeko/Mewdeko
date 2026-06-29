@@ -2,7 +2,7 @@
 
 A feature-rich, customizable Discord bot built with .NET and Discord.Net.
 
-[![Discord Server](https://discordapp.com/api/guilds/843489716674494475/widget.png)](https://discord.gg/mewdeko)
+[![Discord Server](https://discordapp.com/api/guilds/843489716674494475/widget.png)](https://discord.gg/nh9WWPvnde)
 [![License: AGPL v3](https://img.shields.io/badge/license-AGPLv3-pink)](https://opensource.org/licenses/AGPL-3.0)
 [![Add to Discord](https://img.shields.io/badge/discord-add%20mewdeko-pink)](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands)
 [![top.gg](https://img.shields.io/badge/top.gg-mewdeko-pink)](https://top.gg/bot/752236274261426212)
@@ -116,7 +116,7 @@ All contributions are licensed under the AGPLv3. By contributing, you agree that
 
 ## Support
 
-- [Discord Server](https://discord.gg/mewdeko)
+- [Discord Server](https://discord.gg/nh9WWPvnde)
 - [GitHub Issues](https://github.com/Sylveon76/Mewdeko/issues)
 
 ## License

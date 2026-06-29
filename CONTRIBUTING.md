@@ -148,7 +148,7 @@ If you deploy a modified version of Mewdeko:
 
 ## Community
 
-- [Discord Server](https://discord.gg/mewdeko) for discussion and support
+- [Discord Server](https://discord.gg/nh9WWPvnde) for discussion and support
 - [GitHub Issues](https://github.com/Sylveon76/Mewdeko/issues) for bug reports and feature requests
 
 ## Questions

@@ -81,23 +81,33 @@ public class LocalizationGenerator : IIncrementalGenerator
             return (locale, responses);
         });
 
-        // Merge per-locale fragments into a single dictionary per locale before generating
-        var combinedSource = localeResponses.Collect().Select((items, _) =>
-        {
-            var merged = new Dictionary<string, Dictionary<string, string>>();
-            foreach (var (locale, responses) in items)
-            {
-                if (!merged.TryGetValue(locale, out var dict))
-                {
-                    dict = new Dictionary<string, string>();
-                    merged[locale] = dict;
-                }
-                foreach (var kvp in responses)
-                    dict[kvp.Key] = kvp.Value;
-            }
+        var rootNamespaceProvider = context.AnalyzerConfigOptionsProvider
+            .Select((provider, _) =>
+                provider.GlobalOptions.TryGetValue("build_property.RootNamespace", out var rootNamespace)
+                    ? rootNamespace
+                    : "Mewdeko");
 
-            return GenerateSource(merged.Select(kvp => (kvp.Key, kvp.Value)).ToImmutableArray());
-        });
+        // Merge per-locale fragments into a single dictionary per locale before generating
+        var combinedSource = localeResponses.Collect()
+            .Combine(rootNamespaceProvider)
+            .Select((tuple, _) =>
+            {
+                var (items, rootNamespace) = tuple;
+                var merged = new Dictionary<string, Dictionary<string, string>>();
+                foreach (var (locale, responses) in items)
+                {
+                    if (!merged.TryGetValue(locale, out var dict))
+                    {
+                        dict = new Dictionary<string, string>();
+                        merged[locale] = dict;
+                    }
+
+                    foreach (var kvp in responses)
+                        dict[kvp.Key] = kvp.Value;
+                }
+
+                return GenerateSource(merged.Select(kvp => (kvp.Key, kvp.Value)).ToImmutableArray(), rootNamespace);
+            });
 
         context.RegisterSourceOutput(combinedSource, (sourceProductionContext, source) =>
         {
@@ -118,52 +128,55 @@ public class LocalizationGenerator : IIncrementalGenerator
     ///     4. Documentation including locale support information
     /// </remarks>
     private static SourceText GenerateSource(
-        ImmutableArray<(string locale, Dictionary<string, string> responses)> allResponses)
+        ImmutableArray<(string locale, Dictionary<string, string> responses)> allResponses,
+        string rootNamespace)
     {
-        var sourceBuilder = new StringBuilder("""
+        var guildIdType = rootNamespace == "MewdekoStoat" ? "string" : "ulong?";
+        var sourceBuilder = new StringBuilder($$"""
+                                                #nullable disable
 
-                                              using System;
-                                              using System.Globalization;
-                                              using Mewdeko.Services.strings;
+                                                using System;
+                                                using System.Globalization;
+                                                using {{rootNamespace}}.Services.strings;
 
-                                              namespace Mewdeko.Services.Strings
-                                              {
-                                                  /// <summary>
-                                                  /// Provides strongly-typed access to localization strings.
-                                                  /// Generated from responses.*.json files
-                                                  /// </summary>
-                                                  /// <remarks>
-                                                  /// This class wraps the IBotStrings interface to provide:
-                                                  /// - Strongly-typed access to localization keys
-                                                  /// - Guild-specific language support
-                                                  /// - Explicit culture specification
-                                                  /// - Proper fallback behavior
-                                                  /// </remarks>
-                                                  public partial class GeneratedBotStrings
-                                                  {
-                                                      private readonly IBotStrings _strings;
-                                                      private readonly ILocalization _localization;
+                                                namespace {{rootNamespace}}.Services.Strings
+                                                {
+                                                    /// <summary>
+                                                    /// Provides strongly-typed access to localization strings.
+                                                    /// Generated from responses.*.json files
+                                                    /// </summary>
+                                                    /// <remarks>
+                                                    /// This class wraps the IBotStrings interface to provide:
+                                                    /// - Strongly-typed access to localization keys
+                                                    /// - Guild-specific language support
+                                                    /// - Explicit culture specification
+                                                    /// - Proper fallback behavior
+                                                    /// </remarks>
+                                                    public partial class GeneratedBotStrings
+                                                    {
+                                                        private readonly IBotStrings _strings;
+                                                        private readonly ILocalization _localization;
 
-                                                      /// <summary>
-                                                      /// Initializes a new instance of the <see cref="GeneratedBotStrings"/> class.
-                                                      /// </summary>
-                                                      /// <param name="strings">The bot strings service that provides localization.</param>
-                                                      /// <param name="localization">The localization service that handles culture resolution.</param>
-                                                      public GeneratedBotStrings(IBotStrings strings, ILocalization localization)
-                                                      {
-                                                          _strings = strings;
-                                                          _localization = localization;
-                                                      }
+                                                        /// <summary>
+                                                        /// Initializes a new instance of the <see cref="GeneratedBotStrings"/> class.
+                                                        /// </summary>
+                                                        /// <param name="strings">The bot strings service that provides localization.</param>
+                                                        /// <param name="localization">The localization service that handles culture resolution.</param>
+                                                        public GeneratedBotStrings(IBotStrings strings, ILocalization localization)
+                                                        {
+                                                            _strings = strings;
+                                                            _localization = localization;
+                                                        }
 
-                                                      /// <summary>
-                                                      /// Gets the appropriate culture info for the specified guild.
-                                                      /// </summary>
-                                                      /// <param name="guildId">The ID of the guild, or null for default culture.</param>
-                                                      /// <returns>The resolved CultureInfo for the guild or default.</returns>
-                                                      private CultureInfo GetCultureInfo(ulong? guildId = null) =>
-                                                          _localization.GetCultureInfo(guildId);
+                                                        /// <summary>
+                                                        /// Gets the appropriate culture info for the specified guild.
+                                                        /// </summary>
+                                                        /// <param name="guildId">The ID of the guild, or null for default culture.</param>
+                                                        /// <returns>The resolved CultureInfo for the guild or default.</returns>
+                                                        private CultureInfo GetCultureInfo({{guildIdType}} guildId = null) =>
+                                                            _localization.GetCultureInfo(guildId);
 
-                                              """);
+                                                """);
 
         // Get all unique keys across all locales
         var allKeys = allResponses.SelectMany(x => x.responses.Keys).Distinct().OrderBy(x => x);
@@ -199,21 +212,21 @@ public class LocalizationGenerator : IIncrementalGenerator
             if (paramCount == 0)
             {
                 // No parameters
-                parametersList = "ulong? guildId";
+                parametersList = $"{guildIdType} guildId";
                 argumentsList = "Array.Empty<object>()";
             }
             else if (sequential)
             {
                 // Sequential parameters
                 parametersList =
-                    $"ulong? guildId, {string.Join(", ", Enumerable.Range(0, paramCount).Select(i => $"object param{i}"))}";
+                    $"{guildIdType} guildId, {string.Join(", ", Enumerable.Range(0, paramCount).Select(i => $"object param{i}"))}";
                 argumentsList =
                     $"new object[] {{ {string.Join(", ", Enumerable.Range(0, paramCount).Select(i => $"param{i}"))} }}";
             }
             else
             {
                 // Non-sequential parameters
-                parametersList = "ulong? guildId, params object[] data";
+                parametersList = $"{guildIdType} guildId, params object[] data";
                 argumentsList = "data";
             }
 

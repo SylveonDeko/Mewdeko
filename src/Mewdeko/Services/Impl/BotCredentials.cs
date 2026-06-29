@@ -264,6 +264,16 @@ public class BotCredentials : IBotCredentials
     public string TwitchClientSecret { get; set; }
 
     /// <summary>
+    ///     Gets or sets the Twitch username the bot uses for IRC chat.
+    /// </summary>
+    public string TwitchBotUsername { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the OAuth token for Twitch IRC (format: oauth:xxxxx).
+    /// </summary>
+    public string TwitchBotOAuthToken { get; set; }
+
+    /// <summary>
     ///     Gets or sets the Trovo client ID.
     /// </summary>
     public string TrovoClientId { get; set; }
@@ -520,6 +530,8 @@ public class BotCredentials : IBotCredentials
             OsuApiKey = data[nameof(OsuApiKey)];
             TwitchClientId = data[nameof(TwitchClientId)];
             TwitchClientSecret = data[nameof(TwitchClientSecret)];
+            TwitchBotUsername = data[nameof(TwitchBotUsername)];
+            TwitchBotOAuthToken = data[nameof(TwitchBotOAuthToken)];
             LavalinkUrl = data[nameof(LavalinkUrl)];
             TrovoClientId = data[nameof(TrovoClientId)];
             KickClientId = data[nameof(KickClientId)];
@@ -535,7 +547,6 @@ public class BotCredentials : IBotCredentials
 
 
             TotalShards = int.TryParse(data[nameof(TotalShards)], out var ts) && ts > 0 ? ts : 1;
-            TwitchClientId = data[nameof(TwitchClientId)] ?? "http://localhost:5000";
             RedisConnections = data[nameof(RedisConnections)];
 
             DebugGuildId = ulong.TryParse(data[nameof(DebugGuildId)], out var dgid) ? dgid : 843489716674494475;
@@ -697,6 +708,8 @@ public class BotCredentials : IBotCredentials
         public string TwitchClientId { get; } = "";
         public int TotalShards { get; } = 1;
         public string TwitchClientSecret { get; } = "";
+        public string TwitchBotUsername { get; } = "";
+        public string TwitchBotOAuthToken { get; } = "";
         public string VotesToken { get; } = "";
         public string OpenMeteoApiUrl { get; } = "https://api.open-meteo.com";
         public ulong ConfessionReportChannelId { get; } = 942825117820530709;

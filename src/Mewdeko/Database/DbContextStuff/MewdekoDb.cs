@@ -1366,4 +1366,26 @@ public class MewdekoDb : DataConnection
             return this.GetTable<StatChannel>();
         }
     }
+
+    /// <summary>
+    ///     Gets the Twitch guild configurations table.
+    /// </summary>
+    public ITable<TwitchGuildConfig> TwitchGuildConfigs
+    {
+        get
+        {
+            return this.GetTable<TwitchGuildConfig>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the Twitch account links table.
+    /// </summary>
+    public ITable<TwitchAccountLink> TwitchAccountLinks
+    {
+        get
+        {
+            return this.GetTable<TwitchAccountLink>();
+        }
+    }
 }

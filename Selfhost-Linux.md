@@ -211,7 +211,24 @@ If you prefer to install manually or the script does not support your distributi
    - `SpotifyClientId` and `SpotifyClientSecret`: For Spotify integration
    - `LastFmApiKey`: For Last.fm integration
 
-4. For a detailed credentials guide, see: https://blog.mewdeko.tech/credentials-guide/
+4. Fill in the required and optional fields:
+
+   | Field | Required | Description |
+   |---|---|---|
+   | `Token` | Yes | Discord bot token from the [Developer Portal](https://discord.com/developers/applications) |
+   | `PsqlConnectionString` | Yes | PostgreSQL connection string (e.g. `Host=localhost;Port=5432;Database=mewdeko;Username=mewdeko;Password=yourpassword`) |
+   | `OwnerIds` | Yes | Array of Discord user IDs with owner-level access |
+   | `RedisConnections` | Yes | Redis address, default `127.0.0.1:6379` |
+   | `IsApiEnabled` | Dashboard | Set to `true` if running the web dashboard |
+   | `ApiPort` | Dashboard | Port the bot API listens on, default `5001` |
+   | `ApiKey` | Dashboard | Secret key the dashboard uses to authenticate with the bot API |
+   | `JwtSecret` | Dashboard | Secret used to sign dashboard user tokens (must match `BOT_JWT_SECRET` in the dashboard `.env`) |
+   | `LavalinkUrl` | Music | URL of your Lavalink server, default `http://localhost:2334` |
+   | `GoogleApiKey` | Optional | Enables YouTube search |
+   | `SpotifyClientId` / `SpotifyClientSecret` | Optional | Enables Spotify integration |
+   | `LastFmApiKey` | Optional | Enables Last.fm scrobbling |
+   | `TwitchClientId` / `TwitchClientSecret` | Optional | Enables Twitch stream notifications |
+   | `OsuApiKey` | Optional | Enables osu! integration |
 
 ### Running the Bot
 
@@ -352,5 +369,5 @@ Database migrations are handled automatically on startup.
 
 ### Getting Help
 
-- Join the [Discord Server](https://discord.gg/mewdeko) for community support
+- Join the [Discord Server](https://discord.gg/nh9WWPvnde) for community support
 - Open an issue on [GitHub](https://github.com/Sylveon76/Mewdeko/issues) for bugs

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Serilog;
 using YamlDotNet.Serialization;
 
@@ -10,6 +11,14 @@ namespace Mewdeko.Services.strings.impl;
 /// </summary>
 public class LocalFileStringsSource : IStringsSource
 {
+    private static readonly JsonSerializerOptions LenientOptions = new()
+    {
+        Converters =
+        {
+            new NullableStringDictionaryConverter()
+        }
+    };
+
     private readonly string commandsPath;
     private readonly string responsesPath;
 
@@ -38,7 +47,8 @@ public class LocalFileStringsSource : IStringsSource
         {
             try
             {
-                var langDict = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(file));
+                var langDict =
+                    JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(file), LenientOptions);
                 var localeName = GetLocaleName(file);
                 if (langDict != null)
                     outputDict[localeName] = langDict;
@@ -60,7 +70,8 @@ public class LocalFileStringsSource : IStringsSource
             {
                 try
                 {
-                    var moduleDict = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(file));
+                    var moduleDict =
+                        JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(file), LenientOptions);
                     if (moduleDict == null)
                         continue;
 
@@ -151,5 +162,36 @@ public class LocalFileStringsSource : IStringsSource
         var dotIndex = fileName.IndexOf('.') + 1;
         var secondDotIndex = fileName.LastIndexOf('.');
         return fileName.Substring(dotIndex, secondDotIndex - dotIndex);
+    }
+}
+
+/// <summary>
+///     Deserializes a string dictionary, treating non-string values (e.g. 0 placeholders) as absent entries.
+/// </summary>
+internal sealed class NullableStringDictionaryConverter : JsonConverter<Dictionary<string, string>>
+{
+    public override Dictionary<string, string> Read(ref Utf8JsonReader reader, Type typeToConvert,
+        JsonSerializerOptions options)
+    {
+        var dict = new Dictionary<string, string>();
+        if (reader.TokenType != JsonTokenType.StartObject)
+            throw new JsonException("Expected StartObject");
+
+        while (reader.Read() && reader.TokenType != JsonTokenType.EndObject)
+        {
+            var key = reader.GetString()!;
+            reader.Read();
+            if (reader.TokenType == JsonTokenType.String)
+                dict[key] = reader.GetString()!;
+            else
+                reader.Skip();
+        }
+
+        return dict;
+    }
+
+    public override void Write(Utf8JsonWriter writer, Dictionary<string, string> value, JsonSerializerOptions options)
+    {
+        JsonSerializer.Serialize(writer, value);
     }
 }

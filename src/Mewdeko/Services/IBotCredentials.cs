@@ -60,6 +60,16 @@ public interface IBotCredentials
     public string TwitchClientSecret { get; }
 
     /// <summary>
+    ///     Gets the Twitch username the bot uses for IRC chat (the bot account on Twitch).
+    /// </summary>
+    public string TwitchBotUsername { get; }
+
+    /// <summary>
+    ///     Gets the OAuth token for Twitch IRC (format: oauth:xxxxx).
+    /// </summary>
+    public string TwitchBotOAuthToken { get; }
+
+    /// <summary>
     ///     Gets the bot's Trovo client ID.
     /// </summary>
     public string TrovoClientId { get; }

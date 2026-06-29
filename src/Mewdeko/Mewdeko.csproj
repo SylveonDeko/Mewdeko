@@ -117,6 +117,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.1"/>
     <PackageReference Include="System.Drawing.Common" Version="10.0.8"/>
     <PackageReference Include="TwitchLib.Api" Version="3.10.2"/>
+    <PackageReference Include="TwitchLib.Client" Version="4.0.0"/>
+    <PackageReference Include="TwitchLib.Communication" Version="2.0.0-preview-6cc076d87969e75c536fb86616f9cab9debfb44c"/>
     <PackageReference Include="VirusTotalNet" Version="2.2.0"/>
     <PackageReference Include="YamlDotNet" Version="18.0.0"/>
   </ItemGroup>
