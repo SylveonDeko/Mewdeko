@@ -2,6 +2,7 @@
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Administration.Common;
 using StackExchange.Redis;
 
@@ -13,6 +14,8 @@ namespace Mewdeko.Modules.Server_Management.Services;
 /// </summary>
 public class ChannelCommandService : INService, IReadyExecutor
 {
+    private const string JoinBlockedGuildsKey = "join-blocked-guilds";
+    private const string JoinBlockedActionsKey = "join-blocked-guild-actions";
     private readonly DiscordShardedClient client;
     private readonly IDataCache dataCache;
     private readonly IDataConnectionFactory dbFactory;
@@ -37,16 +40,21 @@ public class ChannelCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    ///     Called when the bot is ready. Updates the list of join-blocked guilds from Redis and checks the database for
-    ///     additional lockdowns.
-    ///     Determines whether the guild is in Joins, Readonly, or Full lockdown based on Redis and database information.
+    ///     Called when the bot is ready. Updates the list of join-blocked guilds from the database and Redis cache, then
+    ///     checks the database for additional readonly/full lockdowns.
+    ///     Determines whether the guild is in Joins, Readonly, or Full lockdown based on stored join settings and
+    ///     channel permission snapshots.
     /// </summary>
     public async Task OnReadyAsync()
     {
         var redisDb = dataCache.Redis.GetDatabase();
-        var redisJoinBlockedGuilds = await redisDb.SetMembersAsync("join-blocked-guilds").ConfigureAwait(false);
+        var redisJoinBlockedGuilds = await redisDb.SetMembersAsync(JoinBlockedGuildsKey).ConfigureAwait(false);
 
         await using var context = await dbFactory.CreateConnectionAsync();
+
+        var dbJoinLockdownSettings = await context.LockdownJoinSettings.ToListAsync().ConfigureAwait(false);
+        var dbJoinLockdowns = dbJoinLockdownSettings.ToDictionary(x => x.GuildId,
+            x => NormalizeJoinLockdownAction((PunishmentAction)x.PunishmentAction));
 
         // Fetch all guilds from the database that have lockdown channel permissions stored
         var dbLockdownGuilds = await context.LockdownChannelPermissions
@@ -58,18 +66,28 @@ public class ChannelCommandService : INService, IReadyExecutor
         {
             var guildId = guild.Id;
             var isInRedis = redisJoinBlockedGuilds.Any(g => g == (RedisValue)guildId.ToString());
-            var isInDb = dbLockdownGuilds.Contains(guildId);
-            if (!isInRedis && !isInDb)
+            var hasJoinLockdown = dbJoinLockdowns.TryGetValue(guildId, out var dbJoinAction);
+            var hasChannelLockdown = dbLockdownGuilds.Contains(guildId);
+            if (!isInRedis && !hasJoinLockdown && !hasChannelLockdown)
                 continue;
 
-            lockdownGuilds[guildId] = isInRedis switch
+            PunishmentAction? action = hasJoinLockdown
+                ? dbJoinAction
+                : isInRedis
+                    ? await GetStoredJoinLockdownAction(redisDb, guildId).ConfigureAwait(false)
+                    : null;
+
+            if (action is not null)
             {
-                // If the guild is only in Redis, it's in Joins lockdown
-                true when !isInDb => (ServerManagement.LockdownType.Joins, null),
-                // If the guild is only in the database, it's in Readonly lockdown
-                false when isInDb => (ServerManagement.LockdownType.Readonly, null),
-                // If the guild is in both Redis and the database, it's in Full lockdown
-                true when isInDb => (ServerManagement.LockdownType.Full, null),
+                await PersistJoinLockdown(context, guildId, action.Value).ConfigureAwait(false);
+                await CacheJoinLockdown(redisDb, guildId, action.Value).ConfigureAwait(false);
+            }
+
+            lockdownGuilds[guildId] = (action is not null, hasChannelLockdown) switch
+            {
+                (true, true) => (ServerManagement.LockdownType.Full, action),
+                (true, false) => (ServerManagement.LockdownType.Joins, action),
+                (false, true) => (ServerManagement.LockdownType.Readonly, null),
                 _ => lockdownGuilds[guildId]
             };
         }
@@ -82,7 +100,8 @@ public class ChannelCommandService : INService, IReadyExecutor
         {
             if (!lockdownGuilds.ContainsKey(guildId))
             {
-                await redisDb.SetRemoveAsync("join-blocked-guilds", guildId).ConfigureAwait(false);
+                await redisDb.SetRemoveAsync(JoinBlockedGuildsKey, guildId).ConfigureAwait(false);
+                await redisDb.HashDeleteAsync(JoinBlockedActionsKey, guildId).ConfigureAwait(false);
             }
         }
     }
@@ -99,12 +118,19 @@ public class ChannelCommandService : INService, IReadyExecutor
         if (lockdownGuilds.TryGetValue(guild.Id, out var lockdownGuild))
             return (true, lockdownGuild.Item1);
 
+        if (lockdownType is ServerManagement.LockdownType.Joins or ServerManagement.LockdownType.Full)
+            action = NormalizeJoinLockdownAction(action);
+
         lockdownGuilds[guild.Id] = (lockdownType, action);
 
         if (lockdownType is not (ServerManagement.LockdownType.Joins or ServerManagement.LockdownType.Full))
             return (false, lockdownType);
+
+        await using var context = await dbFactory.CreateConnectionAsync();
+        await PersistJoinLockdown(context, guild.Id, action.Value).ConfigureAwait(false);
+
         var redisDb = dataCache.Redis.GetDatabase();
-        await redisDb.SetAddAsync("join-blocked-guilds", guild.Id);
+        await CacheJoinLockdown(redisDb, guild.Id, action.Value).ConfigureAwait(false);
 
         return (false, lockdownType);
     }
@@ -120,7 +146,14 @@ public class ChannelCommandService : INService, IReadyExecutor
             lockdownInfo.Item1 != ServerManagement.LockdownType.Full) return;
 
         var redisDb = dataCache.Redis.GetDatabase();
-        await redisDb.SetRemoveAsync("join-blocked-guilds", guild.Id);
+        await redisDb.SetRemoveAsync(JoinBlockedGuildsKey, guild.Id);
+        await redisDb.HashDeleteAsync(JoinBlockedActionsKey, guild.Id);
+
+        await using var context = await dbFactory.CreateConnectionAsync();
+        await context.LockdownJoinSettings
+            .Where(x => x.GuildId == guild.Id)
+            .DeleteAsync()
+            .ConfigureAwait(false);
     }
 
     /// <summary>
@@ -134,13 +167,25 @@ public class ChannelCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
+    ///     Checks if the guild is in the specified lockdown type.
+    /// </summary>
+    /// <param name="guild">The guild to check.</param>
+    /// <param name="lockdownType">The lockdown type to check for.</param>
+    /// <returns>True if the guild is in the specified lockdown type, otherwise false.</returns>
+    public bool IsGuildInLockdown(IGuild guild, ServerManagement.LockdownType lockdownType)
+    {
+        return lockdownGuilds.TryGetValue(guild.Id, out var info) &&
+               (info.Item1 == lockdownType || info.Item1 == ServerManagement.LockdownType.Full);
+    }
+
+    /// <summary>
     ///     Gets the type of lockdown and action (if any) for the guild.
     /// </summary>
     /// <param name="guild">The guild to retrieve the lockdown info from.</param>
     /// <returns>A tuple containing the lockdown type and action, or null if the guild is not in lockdown.</returns>
     public (ServerManagement.LockdownType lockdownType, PunishmentAction? action)? GetLockdownInfo(IGuild guild)
     {
-        return lockdownGuilds.TryGetValue(guild.Id, out var lockdownInfo) ? lockdownInfo : (default, default);
+        return lockdownGuilds.TryGetValue(guild.Id, out var lockdownInfo) ? lockdownInfo : null;
     }
 
     /// <summary>
@@ -168,6 +213,30 @@ public class ChannelCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
+    ///     Checks if the bot can apply the requested join lockdown action to newly joined users.
+    /// </summary>
+    /// <param name="guild">The guild where the join lockdown will run.</param>
+    /// <param name="action">The punishment action to apply to new joins.</param>
+    /// <returns>A list of missing permissions, if any.</returns>
+    public async Task<List<string>> CheckJoinLockdownActionPermissions(IGuild guild, PunishmentAction action)
+    {
+        var missingPermissions = new List<string>();
+        var botUser = await guild.GetCurrentUserAsync().ConfigureAwait(false);
+
+        switch (action)
+        {
+            case PunishmentAction.Kick when !botUser.GuildPermissions.KickMembers:
+                missingPermissions.Add("Kick Members (to kick users who join during lockdown)");
+                break;
+            case PunishmentAction.Ban when !botUser.GuildPermissions.BanMembers:
+                missingPermissions.Add("Ban Members (to ban users who join during lockdown)");
+                break;
+        }
+
+        return missingPermissions;
+    }
+
+    /// <summary>
     ///     Handles the event when a user joins a guild during a lockdown.
     /// </summary>
     /// <param name="user">The user that has joined the guild.</param>
@@ -177,7 +246,7 @@ public class ChannelCommandService : INService, IReadyExecutor
         if (lockdownGuilds.TryGetValue(user.Guild.Id, out var lockdownInfo) &&
             lockdownInfo.Item1 is ServerManagement.LockdownType.Joins or ServerManagement.LockdownType.Full)
         {
-            var action = lockdownInfo.Item2;
+            var action = NormalizeJoinLockdownAction(lockdownInfo.Item2);
             switch (action)
             {
                 case PunishmentAction.Kick:
@@ -188,6 +257,48 @@ public class ChannelCommandService : INService, IReadyExecutor
                     break;
             }
         }
+    }
+
+    private static PunishmentAction NormalizeJoinLockdownAction(PunishmentAction? action)
+    {
+        return action is PunishmentAction.Kick or PunishmentAction.Ban ? action.Value : PunishmentAction.Ban;
+    }
+
+    private static async Task<PunishmentAction> GetStoredJoinLockdownAction(IDatabase redisDb, ulong guildId)
+    {
+        var storedAction = await redisDb.HashGetAsync(JoinBlockedActionsKey, guildId).ConfigureAwait(false);
+        return Enum.TryParse<PunishmentAction>(storedAction, true, out var action)
+            ? NormalizeJoinLockdownAction(action)
+            : PunishmentAction.Ban;
+    }
+
+    private static async Task CacheJoinLockdown(IDatabase redisDb, ulong guildId, PunishmentAction action)
+    {
+        await redisDb.SetAddAsync(JoinBlockedGuildsKey, guildId).ConfigureAwait(false);
+        await redisDb.HashSetAsync(JoinBlockedActionsKey, guildId, action.ToString()).ConfigureAwait(false);
+    }
+
+    private static async Task PersistJoinLockdown(MewdekoDb context, ulong guildId, PunishmentAction action)
+    {
+        var existing = await context.LockdownJoinSettings
+            .FirstOrDefaultAsync(x => x.GuildId == guildId)
+            .ConfigureAwait(false);
+
+        if (existing is null)
+        {
+            await context.InsertAsync(new LockdownJoinSetting
+            {
+                GuildId = guildId,
+                PunishmentAction = (int)action,
+                DateAdded = DateTime.UtcNow,
+                DateUpdated = DateTime.UtcNow
+            }).ConfigureAwait(false);
+            return;
+        }
+
+        existing.PunishmentAction = (int)action;
+        existing.DateUpdated = DateTime.UtcNow;
+        await context.UpdateAsync(existing).ConfigureAwait(false);
     }
 
     /// <summary>

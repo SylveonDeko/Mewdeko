@@ -66,6 +66,28 @@ public partial class ServerManagement
 
             var loadingMessage = await ctx.Channel.SendMessageAsync(embed: embed.Build()).ConfigureAwait(false);
 
+            if (lockdownType is LockdownType.Joins or LockdownType.Full)
+            {
+                if (action is not (PunishmentAction.Kick or PunishmentAction.Ban))
+                {
+                    embed.WithDescription("Join lockdown action must be `Kick` or `Ban`.")
+                        .WithErrorColor();
+                    await loadingMessage.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
+                    return;
+                }
+
+                var missingActionPermissions =
+                    await Service.CheckJoinLockdownActionPermissions(ctx.Guild, action).ConfigureAwait(false);
+                if (missingActionPermissions.Count != 0)
+                {
+                    var missingPermsText = string.Join(", ", missingActionPermissions);
+                    embed.WithDescription(Strings.LockdownPermCheckFail(ctx.Guild.Id, missingPermsText))
+                        .WithErrorColor();
+                    await loadingMessage.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
+                    return;
+                }
+            }
+
             if (lockdownType is LockdownType.Full or LockdownType.Readonly)
             {
                 var missingPermissions =
@@ -145,7 +167,7 @@ public partial class ServerManagement
             switch (lockdownType)
             {
                 case LockdownType.Joins:
-                    if (Service.IsGuildInLockdown(ctx.Guild))
+                    if (Service.IsGuildInLockdown(ctx.Guild, LockdownType.Joins))
                     {
                         await Service.LiftLockdown(ctx.Guild);
                         embed.WithDescription(Strings.LockdownJoinsDisabled(ctx.Guild.Id,

@@ -498,6 +498,17 @@ public class MewdekoDb : DataConnection
     public ITable<LockdownChannelPermission> LockdownChannelPermissions => this.GetTable<LockdownChannelPermission>();
 
     /// <summary>
+    ///     Gets the join lockdown settings table.
+    /// </summary>
+    public ITable<LockdownJoinSetting> LockdownJoinSettings
+    {
+        get
+        {
+            return this.GetTable<LockdownJoinSetting>();
+        }
+    }
+
+    /// <summary>
     ///     Gets the LoggingV2 table.
     /// </summary>
     public ITable<LoggingV2> LoggingV2 => this.GetTable<LoggingV2>();

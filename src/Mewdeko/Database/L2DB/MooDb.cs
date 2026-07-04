@@ -100,6 +100,7 @@ namespace DataModel
 		public ITable<JoinLeaveLog>              JoinLeaveLogs              => this.GetTable<JoinLeaveLog>();
 		public ITable<LastFmUser>                LastFmUsers                => this.GetTable<LastFmUser>();
 		public ITable<LockdownChannelPermission> LockdownChannelPermissions => this.GetTable<LockdownChannelPermission>();
+		public ITable<LockdownJoinSetting>       LockdownJoinSettings       => this.GetTable<LockdownJoinSetting>();
 		public ITable<LoggingV2>                 LoggingV2                  => this.GetTable<LoggingV2>();
 		public ITable<MessageCount>              MessageCounts              => this.GetTable<MessageCount>();
 		public ITable<MessageTimestamp>          MessageTimestamps          => this.GetTable<MessageTimestamp>();
@@ -753,6 +754,16 @@ namespace DataModel
 		}
 
 		public static Task<LockdownChannelPermission?> FindAsync(this ITable<LockdownChannelPermission> table, int id, CancellationToken cancellationToken = default)
+		{
+			return table.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+		}
+
+		public static LockdownJoinSetting? Find(this ITable<LockdownJoinSetting> table, int id)
+		{
+			return table.FirstOrDefault(e => e.Id == id);
+		}
+
+		public static Task<LockdownJoinSetting?> FindAsync(this ITable<LockdownJoinSetting> table, int id, CancellationToken cancellationToken = default)
 		{
 			return table.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 		}
