@@ -45,6 +45,12 @@ public class LocalBotStringsProvider : IBotStringsProvider
         commandStrings = source.GetCommandStrings();
     }
 
+    /// <inheritdoc />
+    public IReadOnlyCollection<string> GetAvailableLocales()
+    {
+        return responseStrings.Keys.ToArray();
+    }
+
     /// <summary>
     ///     Gets the command strings for the specified locale and command name.
     /// </summary>

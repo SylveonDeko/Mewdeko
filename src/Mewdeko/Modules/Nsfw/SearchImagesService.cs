@@ -226,7 +226,7 @@ public class SearchImagesService : ISearchImagesService, INService
             var task = await Task.WhenAny(tasks).ConfigureAwait(false);
 
             // get its result
-            var result = task.GetAwaiter().GetResult();
+            var result = await task.ConfigureAwait(false);
             if (string.IsNullOrEmpty(result.Error))
             {
                 // if we have a non-error result, cancel other searches and return the result

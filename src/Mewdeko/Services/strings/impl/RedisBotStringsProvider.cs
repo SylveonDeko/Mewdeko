@@ -13,6 +13,7 @@ public class RedisBotStringsProvider : IBotStringsProvider
     private readonly IBotCredentials creds;
     private readonly ConnectionMultiplexer redis;
     private readonly IStringsSource source;
+    private IReadOnlyCollection<string> availableLocales = Array.Empty<string>();
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="RedisBotStringsProvider" /> class.
@@ -92,7 +93,10 @@ public class RedisBotStringsProvider : IBotStringsProvider
     public void Reload()
     {
         var redisDb = redis.GetDatabase();
-        foreach (var (localeName, localeStrings) in source.GetResponseStrings())
+        var responseStrings = source.GetResponseStrings();
+        availableLocales = responseStrings.Keys.ToArray();
+
+        foreach (var (localeName, localeStrings) in responseStrings)
         {
             var hashFields = localeStrings
                 .Select(x => new HashEntry(x.Key, x.Value))
@@ -177,6 +181,12 @@ public class RedisBotStringsProvider : IBotStringsProvider
 
             redisDb.HashSet($"{creds.RedisKey()}:commands:{localeName}", hashFields.ToArray());
         }
+    }
+
+    /// <inheritdoc />
+    public IReadOnlyCollection<string> GetAvailableLocales()
+    {
+        return availableLocales;
     }
 
     /// <summary>

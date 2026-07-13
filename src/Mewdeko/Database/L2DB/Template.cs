@@ -36,6 +36,8 @@ namespace DataModel
 		[Column("TemplateClubId"                                                                                       )] public int       TemplateClubId      { get; set; } // integer
 		[Column("TemplateBarId"                                                                                        )] public int       TemplateBarId       { get; set; } // integer
 		[Column("DateAdded"                                                                                            )] public DateTime? DateAdded           { get; set; } // timestamp (6) without time zone
+		[Column("CustomElementsJson"                                                                                    )] public string?   CustomElementsJson  { get; set; } // text
+		[Column("BuiltInOrderJson"                                                                                      )] public string?   BuiltInOrderJson     { get; set; } // text
 
 		#region Associations
 		/// <summary>

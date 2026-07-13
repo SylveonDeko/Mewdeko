@@ -69,7 +69,8 @@ public class AfkService : INService, IReadyExecutor, IDisposable
         this.eventHandler.Subscribe("MessageUpdated", "AFKService", MessageUpdated);
         this.eventHandler.Subscribe("UserIsTyping", "AFKService", UserTyping);
 
-        cleanupTimer = new Timer(_ => CleanupTimers(), null, TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(30));
+        cleanupTimer = new Timer(async _ => await CleanupTimersAsync().ConfigureAwait(false), null,
+            TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(30));
 
         _ = InitializeTimedAfksAsync();
     }
@@ -488,7 +489,7 @@ public class AfkService : INService, IReadyExecutor, IDisposable
         public ulong UserId { get; set; }
     }
 
-    private void CleanupTimers()
+    private async Task CleanupTimersAsync()
     {
         try
         {
@@ -505,9 +506,8 @@ public class AfkService : INService, IReadyExecutor, IDisposable
             foreach (var timerEntry in timersToCheck)
             {
                 var (guildId, userId) = timerEntry.Key;
-                var afkTask = cache.GetOrDefaultAsync<DataModel.Afk>($"{guildId}:{userId}");
-                // Await task result synchronously in timer callback context (careful)
-                var afk = afkTask.GetAwaiter().GetResult();
+                var afk = await cache.GetOrDefaultAsync<DataModel.Afk>($"{guildId}:{userId}")
+                    .ConfigureAwait(false);
 
                 if (afk == null || afk.When.HasValue && afk.When.Value < now)
                 {

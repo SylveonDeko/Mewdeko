@@ -438,11 +438,10 @@ public class GoogleApiService : IGoogleApiService
 
         try
         {
-            var credentialJson = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "gcreds.json"));
-#pragma warning disable CS0618
-            var credential = GoogleCredential.FromJson(credentialJson)
+            var credentialPath = Path.Combine(Directory.GetCurrentDirectory(), "gcreds.json");
+            var credential = CredentialFactory.FromFile<ServiceAccountCredential>(credentialPath)
+                .ToGoogleCredential()
                 .CreateScoped(ImageAnnotatorClient.DefaultScopes);
-#pragma warning restore CS0618
 
             visionClient = new ImageAnnotatorClientBuilder
             {

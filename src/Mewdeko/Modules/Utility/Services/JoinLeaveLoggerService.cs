@@ -289,7 +289,8 @@ public class JoinLeaveLoggerService : INService, IDisposable
             var labelWidth = labelFont.MeasureText(label, textPaint);
             var lineHeight = labelFont.Size;
 
-            canvas.DrawText(label, padding - labelWidth - 10, y + lineHeight / 2, labelFont, textPaint);
+            canvas.DrawText(label, padding - labelWidth - 10, y + lineHeight / 2, SKTextAlign.Left, labelFont,
+                textPaint);
         }
 
         // Draw vertical grid lines and x-axis labels
@@ -304,7 +305,8 @@ public class JoinLeaveLoggerService : INService, IDisposable
             var labelWidth = labelFont.MeasureText(label, textPaint);
             var lineHeight = labelFont.Size;
 
-            canvas.DrawText(label, x - labelWidth / 2, height - padding + lineHeight + 5, labelFont, textPaint);
+            canvas.DrawText(label, x - labelWidth / 2, height - padding + lineHeight + 5, SKTextAlign.Left, labelFont,
+                textPaint);
         }
 
         // Draw border lines for grid (bottom and left lines)
@@ -312,10 +314,10 @@ public class JoinLeaveLoggerService : INService, IDisposable
         canvas.DrawLine(padding, padding, padding, height - padding, gridPaint);
 
         // Draw the graph line using a smooth curve
-        using var path = new SKPath();
+        var pathBuilder = new SKPathBuilder();
         if (dailyLogs.Any())
         {
-            path.MoveTo(padding, height - padding - dailyLogs[0].Count * scaleY);
+            pathBuilder.MoveTo(padding, height - padding - dailyLogs[0].Count * scaleY);
 
             for (var i = 1; i < dailyLogs.Count; i++)
             {
@@ -323,12 +325,14 @@ public class JoinLeaveLoggerService : INService, IDisposable
                 var current = dailyLogs[i];
                 var midX = padding + (i - 0.5f) * scaleX;
                 var midY = height - padding - (prev.Count + current.Count) / 2f * scaleY;
-                path.QuadTo(padding + (i - 1) * scaleX, height - padding - prev.Count * scaleY, midX, midY);
-                path.QuadTo(padding + i * scaleX, height - padding - current.Count * scaleY, padding + i * scaleX,
+                pathBuilder.QuadTo(padding + (i - 1) * scaleX, height - padding - prev.Count * scaleY, midX, midY);
+                pathBuilder.QuadTo(padding + i * scaleX, height - padding - current.Count * scaleY,
+                    padding + i * scaleX,
                     height - padding - current.Count * scaleY);
             }
         }
 
+        using var path = pathBuilder.Detach();
         canvas.DrawPath(path, linePaint);
 
         // Draw data points

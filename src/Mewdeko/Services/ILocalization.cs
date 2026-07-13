@@ -49,4 +49,14 @@ public interface ILocalization : INService
     /// <param name="guild">The guild to set culture information for.</param>
     /// <param name="ci">The culture information to associate with the guild.</param>
     public void SetGuildCulture(IGuild guild, CultureInfo? ci);
+
+    /// <summary>
+    ///     Attempts to resolve a locale name (e.g. "en-US", or a neutral culture like "en") to a culture we
+    ///     actually have string data for. Neutral cultures are mapped to their default specific culture
+    ///     (e.g. "en" -&gt; "en-US") when that specific culture is supported.
+    /// </summary>
+    /// <param name="name">The locale name to resolve.</param>
+    /// <param name="resolved">The resolved, supported culture, if resolution succeeded.</param>
+    /// <returns>True if <paramref name="name" /> resolved to a supported culture.</returns>
+    public bool TryResolveCulture(string? name, out CultureInfo? resolved);
 }

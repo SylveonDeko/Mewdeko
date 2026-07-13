@@ -78,7 +78,14 @@ public class BotStrings : IBotStrings
     /// <param name="cultureInfo">The cultureInfo parameter.</param>
     public CommandStrings GetCommandStrings(string commandName, CultureInfo? cultureInfo)
     {
-        var cmdStrings = stringsProvider.GetCommandStrings(cultureInfo.Name, commandName);
+        var lookupName = cultureInfo.Name;
+        var cmdStrings = stringsProvider.GetCommandStrings(lookupName, commandName);
+
+        if (cmdStrings is null && TryCreateSpecificCulture(cultureInfo, out var specificCulture))
+        {
+            lookupName = specificCulture.Name;
+            cmdStrings = stringsProvider.GetCommandStrings(lookupName, commandName);
+        }
 
         if (cmdStrings is not null)
         {
@@ -99,7 +106,7 @@ public class BotStrings : IBotStrings
         }
 
         // Try to get overloads if available
-        var overloadedCmdStrings = stringsProvider.GetCommandOverloads(cultureInfo.Name, commandName);
+        var overloadedCmdStrings = stringsProvider.GetCommandOverloads(lookupName, commandName);
         if (overloadedCmdStrings is { Count: > 0 })
         {
             // Construct a unified CommandStrings from overloads
@@ -153,7 +160,39 @@ public class BotStrings : IBotStrings
 
     private string? GetString(string? key, CultureInfo? cultureInfo)
     {
-        return stringsProvider.GetText(cultureInfo.Name, key);
+        var text = stringsProvider.GetText(cultureInfo.Name, key);
+        if (!string.IsNullOrWhiteSpace(text))
+            return text;
+
+        // e.g. a guild/default locale of "en" (neutral) should fall back to "en-US" (specific)
+        // before we give up and log a missing-key warning, since our string files are keyed
+        // by specific culture names except where the locale itself is neutral (e.g. "ar").
+        return TryCreateSpecificCulture(cultureInfo, out var specificCulture)
+            ? stringsProvider.GetText(specificCulture.Name, key)
+            : text;
+    }
+
+    /// <summary>
+    ///     Attempts to resolve the default specific culture for a neutral culture (e.g. "en" -&gt; "en-US"),
+    ///     used as a secondary lookup when the exact culture name has no matching strings.
+    /// </summary>
+    private static bool TryCreateSpecificCulture(CultureInfo cultureInfo, out CultureInfo specificCulture)
+    {
+        specificCulture = null!;
+
+        // "owo"/"ts-TS" are custom pseudo-locales, not real neutral cultures - leave them alone.
+        if (!cultureInfo.IsNeutralCulture || cultureInfo.Name == "owo")
+            return false;
+
+        try
+        {
+            specificCulture = CultureInfo.CreateSpecificCulture(cultureInfo.Name);
+            return true;
+        }
+        catch (CultureNotFoundException)
+        {
+            return false;
+        }
     }
 
     /// <summary>

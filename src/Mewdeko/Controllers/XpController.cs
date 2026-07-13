@@ -502,6 +502,8 @@ public class XpController(
             existingTemplate.AwardedFontSize = template.AwardedFontSize;
             existingTemplate.AwardedColor = template.AwardedColor;
             existingTemplate.ShowAwarded = template.ShowAwarded;
+            existingTemplate.CustomElementsJson = template.CustomElementsJson;
+            existingTemplate.BuiltInOrderJson = template.BuiltInOrderJson;
 
             // Update Template User properties
             if (template.TemplateUser != null)

@@ -4,7 +4,6 @@ using DataModel;
 using Discord.Commands;
 using LinqToDB;
 using LinqToDB.Async;
-using LinqToDB.Data;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Moderation.Common;
@@ -371,14 +370,14 @@ public class UserPunishService : INService, IDisposable
 
         foreach (var config in relevantGuildConfigs.Where(g => g.WarnExpireAction == (int)WarnExpireAction.Clear))
         {
-            var expiredWarnings = await dbContext.Warnings
+            var expiredWarningIds = await dbContext.Warnings
                 .Where(w => w.GuildId == config.GuildId &&
                             !w.Forgiven &&
                             w.DateAdded < now.AddHours(-config.WarnExpireHours))
                 .Select(w => w.Id)
                 .ToListAsync();
 
-            warningIdsToClear.AddRange(expiredWarnings);
+            warningIdsToClear.AddRange(expiredWarningIds);
         }
 
         // Process warnings to be deleted (WarnExpireAction.Delete)
@@ -398,16 +397,11 @@ public class UserPunishService : INService, IDisposable
         // Now update only the warnings that need changes
         if (warningIdsToClear.Count != 0)
         {
-            // Fetch only the warnings we need to update
-            var warningsToClear = await dbContext.Warnings
+            await dbContext.Warnings
                 .Where(w => warningIdsToClear.Contains(w.Id))
-                .ToListAsync();
-
-            foreach (var warning in warningsToClear)
-            {
-                warning.Forgiven = true;
-                warning.ForgivenBy = "Expiry";
-            }
+                .Set(w => w.Forgiven, true)
+                .Set(w => w.ForgivenBy, "Expiry")
+                .UpdateAsync();
         }
 
         if (warningIdsToDelete.Count != 0)
@@ -436,26 +430,23 @@ public class UserPunishService : INService, IDisposable
         if (config.WarnExpireHours == 0)
             return;
 
-        var interval = -config.WarnExpireHours;
+        var expiryDate = DateTime.UtcNow.AddHours(-config.WarnExpireHours);
 
         switch ((WarnExpireAction)config.WarnExpireAction)
         {
             case WarnExpireAction.Clear:
-                await dbContext.ExecuteAsync($"""
-                                              UPDATE "Warnings"
-                                                          SET "Forgiven" = 1,
-                                                              "ForgivenBy" = 'Expiry'
-                                                          WHERE "GuildId"={guildId}
-                                                              AND "Forgiven" = 0
-                                                              AND "DateAdded" < NOW() - MAKE_INTERVAL(hours := {interval})
-                                              """).ConfigureAwait(false);
+                await dbContext.Warnings
+                    .Where(w => w.GuildId == guildId && !w.Forgiven && w.DateAdded < expiryDate)
+                    .Set(w => w.Forgiven, true)
+                    .Set(w => w.ForgivenBy, "Expiry")
+                    .UpdateAsync()
+                    .ConfigureAwait(false);
                 break;
             case WarnExpireAction.Delete:
-                await dbContext.ExecuteAsync($"""
-                                              DELETE FROM "Warnings"
-                                                          WHERE "GuildId"={guildId}
-                                                              AND "DateAdded" < NOW() - MAKE_INTERVAL(hours := {interval})
-                                              """).ConfigureAwait(false);
+                await dbContext.Warnings
+                    .Where(w => w.GuildId == guildId && w.DateAdded < expiryDate)
+                    .DeleteAsync()
+                    .ConfigureAwait(false);
                 break;
         }
     }
@@ -471,11 +462,11 @@ public class UserPunishService : INService, IDisposable
     {
         try
         {
-            await using var dbContext = await dbFactory.CreateConnectionAsync();
             var config = await guildSettings.GetGuildConfig(guildId);
 
             config.WarnExpireHours = days * 24;
             config.WarnExpireAction = (int)action;
+            await guildSettings.UpdateGuildConfig(guildId, config).ConfigureAwait(false);
 
             // no need to check for warn expires
             if (config.WarnExpireHours == 0)
@@ -608,7 +599,9 @@ public class UserPunishService : INService, IDisposable
 
         if (p != null)
         {
-            await dbContext.WarningPunishments.Select(x => p).DeleteAsync();
+            await dbContext.WarningPunishments
+                .Where(x => x.GuildId == guildId && x.Count == number)
+                .DeleteAsync();
         }
 
         return true;

@@ -3528,3 +3528,24 @@ antipostchanneladd:
   - antipostchanneladd
 antipostchannelremove:
   - antipostchannelremove
+antiimagehash:
+  - antiimagehash
+  - aih
+antiimagehashignore:
+  - antiimagehashignore
+  - aihignore
+antiimagehashpreset:
+  - antiimagehashpreset
+  - aihpreset
+  - blockcommonscams
+blockimage:
+  - blockimage
+  - banimage
+unblockimage:
+  - unblockimage
+  - unbanimage
+blockedimages:
+  - blockedimages
+  - blockedimagelist
+imagehash:
+  - imagehash

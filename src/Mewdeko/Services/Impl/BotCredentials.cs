@@ -263,15 +263,8 @@ public class BotCredentials : IBotCredentials
     /// </summary>
     public string TwitchClientSecret { get; set; }
 
-    /// <summary>
-    ///     Gets or sets the Twitch username the bot uses for IRC chat.
-    /// </summary>
-    public string TwitchBotUsername { get; set; }
-
-    /// <summary>
-    ///     Gets or sets the OAuth token for Twitch IRC (format: oauth:xxxxx).
-    /// </summary>
-    public string TwitchBotOAuthToken { get; set; }
+    /// <summary>Gets or sets the secret used to verify Twitch EventSub webhook signatures.</summary>
+    public string TwitchEventSubSecret { get; set; }
 
     /// <summary>
     ///     Gets or sets the Trovo client ID.
@@ -530,8 +523,7 @@ public class BotCredentials : IBotCredentials
             OsuApiKey = data[nameof(OsuApiKey)];
             TwitchClientId = data[nameof(TwitchClientId)];
             TwitchClientSecret = data[nameof(TwitchClientSecret)];
-            TwitchBotUsername = data[nameof(TwitchBotUsername)];
-            TwitchBotOAuthToken = data[nameof(TwitchBotOAuthToken)];
+            TwitchEventSubSecret = data[nameof(TwitchEventSubSecret)];
             LavalinkUrl = data[nameof(LavalinkUrl)];
             TrovoClientId = data[nameof(TrovoClientId)];
             KickClientId = data[nameof(KickClientId)];
@@ -708,8 +700,7 @@ public class BotCredentials : IBotCredentials
         public string TwitchClientId { get; } = "";
         public int TotalShards { get; } = 1;
         public string TwitchClientSecret { get; } = "";
-        public string TwitchBotUsername { get; } = "";
-        public string TwitchBotOAuthToken { get; } = "";
+        public string TwitchEventSubSecret { get; } = "";
         public string VotesToken { get; } = "";
         public string OpenMeteoApiUrl { get; } = "https://api.open-meteo.com";
         public ulong ConfessionReportChannelId { get; } = 942825117820530709;

@@ -504,9 +504,11 @@ public class GiveawayService : INService, IDisposable
             }
 
             // Filter out bots
-            var eligibleUsers = participants
+            var eligibleUserTasks = participants
                 .Where(x => !x.IsBot)
-                .Select(x => guild.GetUserAsync(x.Id).GetAwaiter().GetResult())
+                .Select(x => guild.GetUserAsync(x.Id))
+                .ToArray();
+            var eligibleUsers = (await Task.WhenAll(eligibleUserTasks).ConfigureAwait(false))
                 .Where(x => x is not null)
                 .ToList();
 

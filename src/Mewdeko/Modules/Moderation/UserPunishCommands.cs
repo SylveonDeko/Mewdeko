@@ -108,7 +108,7 @@ public partial class Moderation : MewdekoModule
         [BotPerm(GuildPermission.Administrator)]
         public async Task DehoistAll(bool onlyDehoistNicks = false)
         {
-            var dehoistedUsers = new Dictionary<IGuildUser, string>();
+            var dehoistedUsers = new ConcurrentDictionary<IGuildUser, string>();
             var users = (await ctx.Guild.GetUsersAsync()).ToList();
             Parallel.ForEach(users, user =>
             {
@@ -118,12 +118,12 @@ public partial class Moderation : MewdekoModule
                 if (onlyDehoistNicks)
                 {
                     if (newNickname != user.Nickname)
-                        dehoistedUsers.Add(user, newNickname);
+                        dehoistedUsers.TryAdd(user, newNickname);
                 }
                 else
                 {
                     if (newNickname != user.Username && user.Nickname != newNickname)
-                        dehoistedUsers.Add(user, newNickname);
+                        dehoistedUsers.TryAdd(user, newNickname);
                 }
             });
 
@@ -442,8 +442,6 @@ public partial class Moderation : MewdekoModule
                 embed.WithDescription(Strings.UserWarnedAndPunished(ctx.Guild.Id, Format.Bold(user.ToString()),
                     Format.Bold(punishment.Punishment.ToString())));
             }
-
-            if (dmFailed) embed.WithFooter($"⚠️ {Strings.UnableToDmUser(ctx.Guild.Id)}");
 
             if (dmFailed) embed.WithFooter($"⚠️ {Strings.UnableToDmUser(ctx.Guild.Id)}");
 

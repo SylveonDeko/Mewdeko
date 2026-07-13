@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
 using DataModel;
+using Discord.Net;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
@@ -47,6 +48,14 @@ public class MinecraftService(
     private const string SnapshotsCacheKey = "mc_snapshots_{0}_{1}";
     private const string QueryRateLimitKey = "mc_ratelimit_{0}";
     private const int MaxQueriesPerMinute = 10;
+
+    /// <summary>
+    ///     Discord allows only 2 channel name/topic edits per 10 minutes per channel. Editing more
+    ///     often than this (e.g. right after a bot restart, before the process knows when the last
+    ///     edit happened) walks straight into that server-side rate limit.
+    /// </summary>
+    private static readonly TimeSpan MinTopicEditInterval = TimeSpan.FromMinutes(5);
+
     private readonly ConcurrentDictionary<int, Timer> watchTimers = new();
     private bool isDisposed;
 
@@ -1141,7 +1150,7 @@ public class MinecraftService(
                 await UpdateWatchEmbedAsync(server, status, guild, channel, db);
 
             if (watchMode is McWatchMode.ChannelTopic or McWatchMode.Both)
-                await UpdateWatchTopicAsync(server, status, guild, channel);
+                await UpdateWatchTopicAsync(server, status, guild, channel, db);
 
             if (wasOnline.HasValue && wasOnline.Value && !status.IsOnline)
                 await SendAlertMessageAsync(channel, server, status, guild, false);
@@ -1185,14 +1194,15 @@ public class MinecraftService(
                 });
                 return;
             }
-            catch (Discord.Net.HttpException ex) when (ex.HttpCode == System.Net.HttpStatusCode.NotFound
-                                                       || ex.HttpCode == System.Net.HttpStatusCode.Forbidden)
+            catch (HttpException ex) when (ex.HttpCode == HttpStatusCode.NotFound
+                                           || ex.HttpCode == HttpStatusCode.Forbidden)
             {
                 // Message was actually deleted or we lost access — fall through and post a new one
             }
             catch (Exception ex)
             {
-                logger.LogDebug(ex, "Failed to edit watch message {MessageId} for server {ServerId}, will retry next tick",
+                logger.LogDebug(ex,
+                    "Failed to edit watch message {MessageId} for server {ServerId}, will retry next tick",
                     server.WatchMessageId.Value, server.Id);
                 return;
             }
@@ -1211,7 +1221,7 @@ public class MinecraftService(
     }
 
     private async Task UpdateWatchTopicAsync(MinecraftServer server, McServerStatus status, IGuild guild,
-        ITextChannel channel)
+        ITextChannel channel, MewdekoDb db)
     {
         try
         {
@@ -1233,8 +1243,23 @@ public class MinecraftService(
                 topic = $"{server.Name}: Offline";
             }
 
-            if (channel.Topic != topic)
-                await channel.ModifyAsync(c => c.Topic = topic);
+            if (channel.Topic == topic)
+                return;
+
+            if (server.LastTopicUpdate.HasValue &&
+                DateTime.UtcNow - server.LastTopicUpdate.Value < MinTopicEditInterval)
+            {
+                return;
+            }
+
+            await channel.ModifyAsync(c => c.Topic = topic);
+
+            var now = DateTime.UtcNow;
+            server.LastTopicUpdate = now;
+            await db.MinecraftServers
+                .Where(s => s.Id == server.Id)
+                .Set(s => s.LastTopicUpdate, now)
+                .UpdateAsync();
         }
         catch (Exception ex)
         {

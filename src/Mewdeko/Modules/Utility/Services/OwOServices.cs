@@ -108,8 +108,12 @@ public class OwoServices
         Defaults.ForEach(x => input = input.Replace(x.Key, x.Value, StringComparison.InvariantCultureIgnoreCase));
         input = string.Join(' ', input.Split(' ')
             .Select(x =>
-                x.Last() is 'y' or 'Y' ? $"{x.First()}-{x}" : x) // duplicate the first character of words ending in 'y'
-            .Select(x => x.Sum(c => c) % 10 is 1 or -1 ? $"{x.First()}-{x}" : x)); // s-stutter randomly
+                !string.IsNullOrEmpty(x) && x.Last() is 'y' or 'Y'
+                    ? $"{x.First()}-{x}"
+                    : x) // duplicate the first character of words ending in 'y'
+            .Select(x => !string.IsNullOrEmpty(x) && x.Sum(c => c) % 10 is 1 or -1
+                ? $"{x.First()}-{x}"
+                : x)); // s-stutter randomly
 
         // separate methods so caseing matches.
         input = Regex.Replace(input, "r|l", "w");

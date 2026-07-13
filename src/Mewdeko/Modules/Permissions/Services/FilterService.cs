@@ -358,11 +358,13 @@ public class FilterService : IEarlyBehavior, INService
     {
         await using var db = await dbFactory.CreateConnectionAsync();
 
-        return await db.AutoBanWords
+        var words = await db.AutoBanWords
             .Where(x => x.GuildId == guildId)
             .Select(x => x.Word)
             .ToListAsync()
-            .ContinueWith(t => t.Result.ToHashSet());
+            .ConfigureAwait(false);
+
+        return words.ToHashSet();
     }
 
     private async Task<(bool banned, string matchedText)> IsWordBanned(string word, string content, ulong guildId)

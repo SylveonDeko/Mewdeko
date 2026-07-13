@@ -800,7 +800,12 @@ public class SlashOwnerOnly(
                 }
                 else
                 {
-                    ci = new CultureInfo(name);
+                    if (!localization.TryResolveCulture(name, out ci))
+                    {
+                        await ReplyErrorAsync(Strings.LangSetFail(ctx.Guild.Id)).ConfigureAwait(false);
+                        return;
+                    }
+
                     localization.SetDefaultCulture(ci);
                 }
 

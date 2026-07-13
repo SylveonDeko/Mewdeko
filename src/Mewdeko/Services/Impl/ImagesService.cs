@@ -150,16 +150,16 @@ public sealed class FusionImagesCache : IImageCache, IReadyExecutor, INService
 
     private byte[] GetByteData(ImageKeys key, string path, string fileName)
     {
-        return cache.GetOrSet(GetCacheKey(key), async _ =>
+        return cache.GetOrSet(GetCacheKey(key), _ =>
         {
             var filePath = Path.Combine(path, fileName);
             if (File.Exists(filePath))
             {
-                return await File.ReadAllBytesAsync(filePath);
+                return File.ReadAllBytes(filePath);
             }
 
             return [];
-        }, TimeSpan.FromDays(1)).Result;
+        }, TimeSpan.FromDays(1));
     }
 
     private string GetCacheKey(ImageKeys key)

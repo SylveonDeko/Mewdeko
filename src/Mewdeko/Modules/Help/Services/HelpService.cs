@@ -226,8 +226,7 @@ public class HelpService : INService, IReadyExecutor
             foreach (var i in modules.Batch(modules.Count() / 2))
             {
                 var categoryStrings = await Task.WhenAll(i.Select(x =>
-                    CheckEnabled(guild?.Id, channel, user, x.Name)
-                        .ContinueWith(task => $"> {task.Result} {Format.Bold(x.Name)}")
+                    GetCategoryStringAsync(x)
                 ));
 
                 embed.AddField(
@@ -236,6 +235,12 @@ public class HelpService : INService, IReadyExecutor
                     true
                 );
                 count++;
+            }
+
+            async Task<string> GetCategoryStringAsync(ModuleInfo module)
+            {
+                var enabled = await CheckEnabled(guild?.Id, channel, user, module.Name).ConfigureAwait(false);
+                return $"> {enabled} {Format.Bold(module.Name)}";
             }
         }
 

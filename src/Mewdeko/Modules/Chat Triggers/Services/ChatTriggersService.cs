@@ -1309,7 +1309,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             // Add or update the chat trigger in the newGuildReactions dictionary
             newGuildReactions.AddOrUpdate(guildId,
                 [],
-                (_, old) => DeleteInternal(old, id).GetAwaiter().GetResult());
+                (_, old) => DeleteInternal(old, id));
 
             return; // Return completed task
         }
@@ -1326,9 +1326,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <param name="cts">The list of chat triggers to delete from.</param>
     /// <param name="id">The ID of the chat trigger to delete.</param>
     /// <returns>The updated list of chat triggers.</returns>
-    private static async Task<CTModel[]> DeleteInternal(IReadOnlyList<CTModel>? cts, int id)
+    private static CTModel[] DeleteInternal(IReadOnlyList<CTModel>? cts, int id)
     {
-        await Task.CompletedTask;
         // Check if the list of chat triggers is null or empty
         if (cts is null || cts.Count == 0)
             return cts as CTModel[] ?? cts?.ToArray(); // Return the list as is
@@ -1466,7 +1465,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         await using var dbContext = await dbFactory.CreateConnectionAsync();
         var ct = await dbContext.ChatTriggers.FirstOrDefaultAsync(x => x.Id == id); // Retrieve the chat trigger by ID
         // Check if the chat trigger is null or does not belong to the specified guild or global context
-        if (ct == null || ct.GuildId != guildId && ct.GuildId is not 0 or null)
+        if (ct == null || ct.GuildId != guildId && ct.GuildId is not (0 or null))
             return
                 null; // Return null if the chat trigger is not found or does not belong to the guild or global context
         return ct; // Return the chat trigger
@@ -1558,7 +1557,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     private async ValueTask OnGcrDeleted(int id)
     {
         globalReactions =
-            await DeleteInternal(globalReactions, id); // Delete the chat trigger from the global reactions array
+            DeleteInternal(globalReactions, id); // Delete the chat trigger from the global reactions array
     }
 
 
@@ -1732,8 +1731,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         if (toDelete is null) // Check if the trigger exists
             return null;
 
-        if (toDelete.GuildId is not null or 0 && guildId == null &&
-            guildId != toDelete.GuildId) // Check permission to delete
+        if (toDelete.GuildId is not (null or 0) &&
+            (guildId == null || guildId != toDelete.GuildId)) // Check permission to delete
             return null; // Return null if deletion is not permitted
         await dbContext.DeleteAsync(toDelete); // Remove the trigger from the database
         await DeleteInternalAsync(guildId, id).ConfigureAwait(false); // Delete the trigger internally

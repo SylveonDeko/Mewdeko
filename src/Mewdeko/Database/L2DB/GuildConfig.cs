@@ -126,6 +126,8 @@ namespace DataModel
 		[Column("NotifyStreamOffline"                                                                                                 )] public bool      NotifyStreamOffline                { get; set; } // boolean
 		[Column("WarnExpireHours"                                                                                                     )] public int       WarnExpireHours                    { get; set; } // integer
 		[Column("WarnExpireAction"                                                                                                    )] public int       WarnExpireAction                   { get; set; } // integer
+		[Column("MiniWarnExpireHours"                                                                                                 )] public int       MiniWarnExpireHours                { get; set; } // integer
+		[Column("MiniWarnExpireAction"                                                                                                )] public int       MiniWarnExpireAction               { get; set; } // integer
 		[Column("JoinGraphColor"                                                                                                      )] public long      JoinGraphColor                     { get; set; } // bigint
 		[Column("LeaveGraphColor"                                                                                                     )] public long      LeaveGraphColor                    { get; set; } // bigint
 		[Column("DateAdded"                                                                                                           )] public DateTime? DateAdded                          { get; set; } // timestamp (6) without time zone

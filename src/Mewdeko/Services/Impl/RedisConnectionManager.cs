@@ -27,7 +27,6 @@ public static class RedisConnectionManager
         var configurationOptions = new ConfigurationOptions
         {
             AbortOnConnectFail = false,
-            SocketManager = new SocketManager("", true),
             AsyncTimeout = 30000, // Increase timeout
             SyncTimeout = 30000, // Increase timeout
             ConnectTimeout = 30000, // Increase timeout

@@ -1,5 +1,6 @@
 using System.Reflection;
 using Mewdeko.Modules.Twitch.Common;
+using Mewdeko.Services.strings;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Mewdeko.Modules.Twitch.Services;
@@ -102,6 +103,18 @@ public class TwitchCommandHandler : INService
     }
 
     /// <summary>
+    ///     Returns the name and required permission level of every registered Twitch chat command,
+    ///     sorted alphabetically. Used to surface the command list on the dashboard.
+    /// </summary>
+    public IReadOnlyList<(string Name, TwitchCommandPermission Permission)> GetRegisteredCommands()
+    {
+        return commands
+            .Select(kv => (kv.Key, kv.Value.Permission))
+            .OrderBy(c => c.Key, StringComparer.OrdinalIgnoreCase)
+            .ToList();
+    }
+
+    /// <summary>
     ///     Parses the command name from the context message, checks permissions, constructs the module
     ///     with the context already set, and invokes the handler. Silently ignores unknown commands.
     /// </summary>
@@ -115,7 +128,12 @@ public class TwitchCommandHandler : INService
         var name = parts[0].ToLowerInvariant();
         ctx.Args = parts[1..];
 
-        if (!commands.TryGetValue(name, out var entry)) return;
+        if (!commands.TryGetValue(name, out var entry))
+        {
+            var twitchService = services.GetRequiredService<TwitchService>();
+            await twitchService.TryExecuteCustomCommandAsync(ctx, name);
+            return;
+        }
 
         if ((int)ctx.PermissionLevel < (int)entry.Permission)
         {
@@ -127,6 +145,18 @@ public class TwitchCommandHandler : INService
         {
             var module = (TwitchModuleBase)ActivatorUtilities.CreateInstance(services, entry.ModuleType);
             module.Context = ctx;
+            module.Strings = services.GetRequiredService<IBotStrings>();
+            module.TwitchSvc = services.GetRequiredService<TwitchService>();
+
+            // Populate the typed Service property for TwitchModuleBase<TService> subclasses.
+            var baseType = entry.ModuleType.BaseType;
+            if (baseType is { IsGenericType: true } &&
+                baseType.GetGenericTypeDefinition() == typeof(TwitchModuleBase<>))
+            {
+                var serviceType = baseType.GetGenericArguments()[0];
+                entry.ModuleType.GetProperty("Service")?.SetValue(module, services.GetRequiredService(serviceType));
+            }
+
             var result = entry.Method.Invoke(module, null);
             if (result is Task task)
                 await task;

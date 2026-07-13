@@ -339,7 +339,7 @@ public class SearchesService : INService, IUnloadableService
 
         using var canvas = new SKCanvas(bg);
 
-        canvas.DrawText(text, 25, 225, textFont, textPaint);
+        canvas.DrawText(text, 25, 225, SKTextAlign.Left, textFont, textPaint);
 
         //flowa
         using var flowers = SKBitmap.Decode(imgs.RipOverlay.ToArray());
@@ -355,14 +355,15 @@ public class SearchesService : INService, IUnloadableService
 
         using var paint = new SKPaint();
         paint.IsAntialias = true;
-        using var clipPath = new SKPath();
+        var clipPathBuilder = new SKPathBuilder();
 
         var rect = new SKRect(0, 0, input.Width, input.Height);
-        clipPath.AddRoundRect(rect, radius, radius);
+        clipPathBuilder.AddRoundRect(rect, radius, radius);
 
         using var canvas = new SKCanvas(output);
+        using var clipPath = clipPathBuilder.Detach();
         canvas.ClipPath(clipPath);
-        canvas.DrawBitmap(input, 0, 0, paint);
+        canvas.DrawBitmap(input, 0, 0, new SKSamplingOptions(SKFilterMode.Linear), paint);
 
         return output;
     }
@@ -372,14 +373,14 @@ public class SearchesService : INService, IUnloadableService
     private static void DrawAvatar(SKBitmap bg, SKBitmap avatar)
     {
         using var canvas = new SKCanvas(bg);
-        canvas.DrawBitmap(avatar, new SKPoint(0, 0));
+        canvas.DrawBitmap(avatar, new SKPoint(0, 0), new SKSamplingOptions(SKFilterMode.Linear));
     }
 
 // Helper method to draw an image on a canvas
     private static void DrawImage(SKBitmap bg, SKBitmap image, SKPoint location)
     {
         using var canvas = new SKCanvas(bg);
-        canvas.DrawBitmap(image, location);
+        canvas.DrawBitmap(image, location, new SKSamplingOptions(SKFilterMode.Linear));
     }
 
 

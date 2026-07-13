@@ -54,20 +54,21 @@ public class GenericCommandAutocompleter : AutocompleteHandler
     /// <param name="parameter">The parameter info.</param>
     /// <param name="services">The service provider.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the autocomplete result.</returns>
-    public override Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context,
+    public override async Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context,
         IAutocompleteInteraction autocompleteInteraction, IParameterInfo parameter,
         IServiceProvider services)
     {
-        return Task.FromResult(AutocompletionResult.FromSuccess(Commands.Commands
+        var prefix = await guildSettings.GetPrefix(context.Guild).ConfigureAwait(false);
+        return AutocompletionResult.FromSuccess(Commands.Commands
             .Where(c => !Perms.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
             .Select(x =>
-                $"{x.Name} : {x.RealSummary(Strings, context.Guild?.Id, guildSettings.GetPrefix(context.Guild).GetAwaiter().GetResult())}")
+                $"{x.Name} : {x.RealSummary(Strings, context.Guild?.Id, prefix)}")
             .Where(x => x.Contains((string)autocompleteInteraction.Data.Current.Value,
                 StringComparison.OrdinalIgnoreCase))
             .OrderByDescending(x =>
                 x.StartsWith((string)autocompleteInteraction.Data.Current.Value, StringComparison.OrdinalIgnoreCase))
             .Distinct()
             .Take(20)
-            .Select(x => new AutocompleteResult(x.Length >= 100 ? x[..97] + "..." : x, x.Split(':')[0].Trim()))));
+            .Select(x => new AutocompleteResult(x.Length >= 100 ? x[..97] + "..." : x, x.Split(':')[0].Trim())));
     }
 }

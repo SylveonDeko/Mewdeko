@@ -1,4 +1,6 @@
 ﻿using Discord.Commands;
+using Fergun.Interactive;
+using Fergun.Interactive.Pagination;
 using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
@@ -13,7 +15,8 @@ public partial class Administration
     ///     Commands for managing the Anti-Alt, Anti-Raid, and Anti-Spam protection settings.
     /// </summary>
     [Group]
-    public class ProtectionCommands : MewdekoSubmodule<ProtectionService>
+    public class ProtectionCommands(InteractiveService serv, ImageHashingService imageHashing)
+        : MewdekoSubmodule<ProtectionService>
     {
         /// <summary>
         ///     Disables the Anti-Alt protection for the guild.
@@ -486,9 +489,10 @@ public partial class Administration
         public async Task AntiList()
         {
             var (spam, raid, alt, massMention, pattern, massPost, postChannel) = Service.GetAntiStats(ctx.Guild.Id);
+            var imageHash = Service.GetAntiImageHashStats(ctx.Guild.Id);
 
             if (spam is null && raid is null && alt is null && massMention is null && pattern is null &&
-                massPost is null && postChannel is null)
+                massPost is null && postChannel is null && imageHash is null)
             {
                 await ReplyConfirmAsync(Strings.ProtNone(ctx.Guild.Id)).ConfigureAwait(false);
                 return;
@@ -532,6 +536,11 @@ public partial class Administration
             if (postChannel != null)
             {
                 embed.AddField("Anti-Post-Channel", GetAntiPostChannelString(postChannel).TrimTo(1024), true);
+            }
+
+            if (imageHash != null)
+            {
+                embed.AddField("Anti-Image-Hash", GetAntiImageHashString(imageHash).TrimTo(1024), true);
             }
 
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
@@ -1187,6 +1196,375 @@ public partial class Administration
             {
                 await ReplyErrorAsync(Strings.AntiPostChannelRemoveFailed(ctx.Guild.Id)).ConfigureAwait(false);
             }
+        }
+
+        /// <summary>
+        ///     Disables the Anti-Image-Hash protection for the guild. The blocked image list is kept.
+        /// </summary>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        public async Task AntiImageHash()
+        {
+            if (await Service.TryStopAntiImageHash(ctx.Guild.Id).ConfigureAwait(false))
+            {
+                await ReplyConfirmAsync(Strings.AntiImageHashDisabled(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            await ReplyErrorAsync(Strings.AntiImageHashNotEnabled(ctx.Guild.Id)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Enables the Anti-Image-Hash protection for the guild, choosing the action taken when someone posts an image that
+        ///     matches the blocklist.
+        /// </summary>
+        /// <param name="action">The action taken against the poster. Individual blocked images may override it.</param>
+        /// <param name="tolerance">
+        ///     How many of the 256 PDQ hash bits may differ for an image to still count as a match. The default of 31 is PDQ's
+        ///     standard "same image" threshold; values above about 48 start producing false positives.
+        /// </param>
+        /// <param name="punishTime">The punishment duration, for actions that support one.</param>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        public async Task AntiImageHash(PunishmentAction action, int tolerance = 31,
+            [Remainder] StoopidTime? punishTime = null)
+        {
+            var punishDuration = (int?)punishTime?.Time.TotalMinutes ?? 0;
+
+            switch (action)
+            {
+                case PunishmentAction.Timeout when punishTime?.Time.Days > 28:
+                    await ReplyErrorAsync(Strings.TimeoutLengthTooLong(ctx.Guild.Id)).ConfigureAwait(false);
+                    return;
+                case PunishmentAction.Timeout when punishTime?.Time == TimeSpan.Zero:
+                    await ReplyErrorAsync(Strings.TimeoutNeedsTime(ctx.Guild.Id)).ConfigureAwait(false);
+                    return;
+            }
+
+            var result = await Service.StartAntiImageHashAsync(
+                ctx.Guild.Id,
+                action,
+                punishDuration,
+                null,
+                tolerance,
+                true, // deleteMessages
+                true, // notifyUser
+                true, // ignoreBots
+                true, // checkEmbeds
+                true, // checkBorders
+                true, // usePresetList
+                8 // maxImageSizeMb
+            ).ConfigureAwait(false);
+
+            if (result is null)
+            {
+                await ReplyErrorAsync(Strings.AntiImageHashFailedStart(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            var durationText = punishDuration > 0 ? $" for {TimeSpan.FromMinutes(punishDuration).Humanize()}" : "";
+            await ReplyConfirmAsync(Strings.AntiImageHashEnabled(ctx.Guild.Id, action.ToString(), durationText,
+                result.AntiImageHashSettings.HashThreshold)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Blocks an image, using the guild default action. The image is taken from an attachment on this message, from the
+        ///     message being replied to, or from a URL given as the first word.
+        /// </summary>
+        /// <param name="name">An optional label for the blocked image, or the image URL followed by a label.</param>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        [Priority(0)]
+        public Task BlockImage([Remainder] string? name = null)
+        {
+            return BlockImageInternal(null, name);
+        }
+
+        /// <summary>
+        ///     Blocks an image with an action that overrides the guild default, so one image can simply be deleted while another
+        ///     gets the poster banned.
+        /// </summary>
+        /// <param name="action">The action taken against anyone posting this specific image.</param>
+        /// <param name="name">An optional label for the blocked image, or the image URL followed by a label.</param>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        [Priority(1)]
+        public Task BlockImage(PunishmentAction action, [Remainder] string? name = null)
+        {
+            return BlockImageInternal(action, name);
+        }
+
+        private async Task BlockImageInternal(PunishmentAction? action, string? name)
+        {
+            if (Service.GetAntiImageHashStats(ctx.Guild.Id) is null)
+            {
+                await ReplyErrorAsync(Strings.AntiImageHashNotEnabled(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            var url = ResolveImageUrl(ref name);
+            if (url is null)
+            {
+                await ReplyErrorAsync(Strings.ImageHashNoImage(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            var hashSet = await imageHashing.ComputeHashSetFromUrlAsync(url).ConfigureAwait(false);
+            if (hashSet is null)
+            {
+                await ReplyErrorAsync(Strings.ImageHashUnreadable(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            if (hashSet.Quality < ImageHashingService.MinReliableQuality)
+            {
+                await ReplyErrorAsync(Strings.ImageHashLowQuality(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            var entry = await Service
+                .AddBannedImageHashAsync(ctx.Guild.Id, hashSet, name, url, ctx.User.Id, action)
+                .ConfigureAwait(false);
+
+            if (entry is null)
+            {
+                await ReplyErrorAsync(Strings.ImageHashExists(ctx.Guild.Id, hashSet.Hash)).ConfigureAwait(false);
+                return;
+            }
+
+            var stats = Service.GetAntiImageHashStats(ctx.Guild.Id);
+            var effectiveAction = (PunishmentAction)(entry.Action ?? stats?.Action ?? (int)PunishmentAction.Ban);
+            var label = string.IsNullOrWhiteSpace(entry.Name) ? "" : $" as **{entry.Name}**";
+
+            await ReplyConfirmAsync(Strings.ImageHashAdded(ctx.Guild.Id, entry.Hash, label, effectiveAction.ToString()))
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Removes an image from the blocklist by its ID, as shown by the blocked image list.
+        /// </summary>
+        /// <param name="hashId">The ID of the blocked image.</param>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        public async Task UnblockImage(int hashId)
+        {
+            if (await Service.RemoveBannedImageHashAsync(ctx.Guild.Id, hashId).ConfigureAwait(false))
+                await ReplyConfirmAsync(Strings.ImageHashRemoved(ctx.Guild.Id, hashId)).ConfigureAwait(false);
+            else
+                await ReplyErrorAsync(Strings.ImageHashRemoveFailed(ctx.Guild.Id, hashId)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Shows the perceptual hash of an image without blocking it, so it can be copied into the dashboard or another
+        ///     server.
+        /// </summary>
+        /// <param name="url">An optional image URL. Ignored if the message has an attachment or replies to an image.</param>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        public async Task ImageHash([Remainder] string? url = null)
+        {
+            var resolved = ResolveImageUrl(ref url);
+            if (resolved is null)
+            {
+                await ReplyErrorAsync(Strings.ImageHashNoImage(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            var hashSet = await imageHashing.ComputeHashSetFromUrlAsync(resolved).ConfigureAwait(false);
+            if (hashSet is null)
+            {
+                await ReplyErrorAsync(Strings.ImageHashUnreadable(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            await ReplyConfirmAsync(Strings.ImageHashComputed(ctx.Guild.Id, hashSet.Hash)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Lists the blocked images for the guild along with how many times each one has been caught.
+        /// </summary>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        public async Task BlockedImages()
+        {
+            var hashes = await Service.GetBannedImageHashesAsync(ctx.Guild.Id).ConfigureAwait(false);
+
+            if (hashes.Count == 0)
+            {
+                await ReplyErrorAsync(Strings.ImageHashListEmpty(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            var defaultAction = Service.GetAntiImageHashStats(ctx.Guild.Id)?.Action ?? (int)PunishmentAction.Ban;
+
+            var paginator = new LazyPaginatorBuilder()
+                .AddUser(ctx.User)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex((hashes.Count - 1) / 10)
+                .WithDefaultEmotes()
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .Build();
+
+            await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+
+            async Task<PageBuilder> PageFactory(int page)
+            {
+                await Task.CompletedTask.ConfigureAwait(false);
+
+                var entries = hashes.Skip(page * 10).Take(10).Select(h =>
+                {
+                    var action = (PunishmentAction)(h.Action ?? defaultAction);
+                    var last = h.LastTriggeredAt.HasValue
+                        ? Strings.ImageHashListLast(ctx.Guild.Id,
+                            new DateTimeOffset(h.LastTriggeredAt.Value, TimeSpan.Zero).ToUnixTimeSeconds())
+                        : Strings.ImageHashListNever(ctx.Guild.Id);
+
+                    return Strings.ImageHashListEntry(ctx.Guild.Id, h.Id,
+                        string.IsNullOrWhiteSpace(h.Name) ? "Unnamed" : h.Name, h.Hash, action.ToString(), h.HitCount,
+                        last);
+                });
+
+                return new PageBuilder()
+                    .WithTitle(Strings.ImageHashListTitle(ctx.Guild.Id))
+                    .WithDescription(string.Join("\n\n", entries))
+                    .WithOkColor();
+            }
+        }
+
+        /// <summary>
+        ///     Toggles the list of known scam images that ships with the bot, so the guild blocks the images every server is
+        ///     seeing without having to collect them first.
+        /// </summary>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        public async Task AntiImageHashPreset()
+        {
+            var stats = Service.GetAntiImageHashStats(ctx.Guild.Id);
+            if (stats is null)
+            {
+                await ReplyErrorAsync(Strings.AntiImageHashNotEnabled(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            var enabled = !stats.AntiImageHashSettings.UsePresetList;
+            await Service.SetPresetScamImagesAsync(ctx.Guild.Id, enabled).ConfigureAwait(false);
+
+            await ReplyConfirmAsync(enabled
+                    ? Strings.ImageHashPresetEnabled(ctx.Guild.Id, Service.PresetScamImageCount)
+                    : Strings.ImageHashPresetDisabled(ctx.Guild.Id))
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Toggles a role as exempt from Anti-Image-Hash protection.
+        /// </summary>
+        /// <param name="role">The role to toggle.</param>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        public async Task AntiImageHashIgnore([Remainder] IRole role)
+        {
+            var added = await Service.ToggleAntiImageHashIgnoredRoleAsync(ctx.Guild.Id, role.Id).ConfigureAwait(false);
+
+            await ReplyConfirmAsync(added
+                    ? Strings.ImageHashIgnoredRoleAdded(ctx.Guild.Id, role.Mention)
+                    : Strings.ImageHashIgnoredRoleRemoved(ctx.Guild.Id, role.Mention))
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Toggles a channel as exempt from Anti-Image-Hash protection.
+        /// </summary>
+        /// <param name="channel">The channel to toggle.</param>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        public async Task AntiImageHashIgnore([Remainder] ITextChannel channel)
+        {
+            var added = await Service.ToggleAntiImageHashIgnoredChannelAsync(ctx.Guild.Id, channel.Id)
+                .ConfigureAwait(false);
+
+            await ReplyConfirmAsync(added
+                    ? Strings.ImageHashIgnoredChannelAdded(ctx.Guild.Id, channel.Mention)
+                    : Strings.ImageHashIgnoredChannelRemoved(ctx.Guild.Id, channel.Mention))
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Finds the image to hash: an attachment on the invoking message, an image on the message being replied to, or a URL
+        ///     given as the first word of the remaining text. When the first word is a URL it is stripped from the label.
+        /// </summary>
+        private string? ResolveImageUrl(ref string? text)
+        {
+            var attachment = ctx.Message.Attachments.FirstOrDefault(a =>
+                a.ContentType?.StartsWith("image/", StringComparison.OrdinalIgnoreCase) == true);
+
+            if (attachment is not null)
+                return attachment.Url;
+
+            if (ctx.Message.ReferencedMessage is { } reply)
+            {
+                var replyAttachment = reply.Attachments.FirstOrDefault(a =>
+                    a.ContentType?.StartsWith("image/", StringComparison.OrdinalIgnoreCase) == true);
+
+                if (replyAttachment is not null)
+                    return replyAttachment.Url;
+
+                var embedImage = reply.Embeds
+                    .Select(e => e.Image?.Url ?? e.Thumbnail?.Url)
+                    .FirstOrDefault(u => u is not null);
+
+                if (embedImage is not null)
+                    return embedImage;
+            }
+
+            if (string.IsNullOrWhiteSpace(text))
+                return null;
+
+            var parts = text.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+            if (!Uri.TryCreate(parts[0], UriKind.Absolute, out var uri) ||
+                uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps)
+                return null;
+
+            text = parts.Length > 1 ? parts[1] : null;
+            return uri.ToString();
+        }
+
+        /// <summary>
+        ///     Builds the string for the Anti-Image-Hash settings display.
+        /// </summary>
+        private string GetAntiImageHashString(AntiImageHashStats stats)
+        {
+            var settings = stats.AntiImageHashSettings;
+            var add = "";
+            if (settings.PunishDuration > 0)
+                add = $" ({TimeSpan.FromMinutes(settings.PunishDuration).Humanize()})";
+
+            return Strings.AntiImageHashStats(ctx.Guild.Id,
+                Format.Bold(((PunishmentAction)settings.Action).ToString()),
+                add,
+                Format.Bold(stats.Hashes.Count.ToString()),
+                Format.Bold(settings.HashThreshold.ToString()),
+                Format.Bold(stats.Counter.ToString()));
         }
     }
 }

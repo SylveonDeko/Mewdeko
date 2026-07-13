@@ -20,6 +20,18 @@ public class TwitchStreamOnlineArgs
     /// <summary>Gets the UTC time at which the stream started.</summary>
     public DateTime StartedAt { get; init; }
 
+    /// <summary>Gets the current stream title.</summary>
+    public string Title { get; init; } = "";
+
+    /// <summary>Gets the name of the game/category being streamed.</summary>
+    public string GameName { get; init; } = "";
+
+    /// <summary>Gets the current viewer count.</summary>
+    public int ViewerCount { get; init; }
+
+    /// <summary>Gets the URL to the stream's thumbnail image.</summary>
+    public string ThumbnailUrl { get; init; } = "";
+
     /// <summary>Gets the Discord guild ID that has this Twitch channel configured.</summary>
     public ulong GuildId { get; init; }
 }
@@ -100,6 +112,30 @@ public class TwitchRaidArgs
 
     /// <summary>Gets the number of viewers brought by the raid.</summary>
     public int ViewerCount { get; init; }
+
+    /// <summary>Gets the Discord guild ID that has this Twitch channel configured.</summary>
+    public ulong GuildId { get; init; }
+}
+
+/// <summary>
+///     Fired when a channel point custom reward is redeemed in a monitored Twitch channel.
+/// </summary>
+public class TwitchChannelPointRedemptionArgs
+{
+    /// <summary>Gets the broadcaster's Twitch login name.</summary>
+    public string BroadcasterUserLogin { get; init; } = "";
+
+    /// <summary>Gets the Twitch login of the user who redeemed the reward.</summary>
+    public string UserLogin { get; init; } = "";
+
+    /// <summary>Gets the display name of the user who redeemed the reward.</summary>
+    public string UserName { get; init; } = "";
+
+    /// <summary>Gets the redeemed reward title.</summary>
+    public string RewardTitle { get; init; } = "";
+
+    /// <summary>Gets the user's input text attached to the redemption.</summary>
+    public string UserInput { get; init; } = "";
 
     /// <summary>Gets the Discord guild ID that has this Twitch channel configured.</summary>
     public ulong GuildId { get; init; }

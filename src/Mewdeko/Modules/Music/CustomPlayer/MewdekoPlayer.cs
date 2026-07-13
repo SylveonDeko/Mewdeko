@@ -541,7 +541,7 @@ public sealed class MewdekoPlayer : LavalinkPlayer
         // Enhanced footer with more detailed information
         var activeEffects = GetActiveEffects();
         var effectsText = activeEffects.Any() ? $" • 🎛️ {string.Join(", ", activeEffects)}" : "";
-        var repeatEmoji = GetRepeatEmoji();
+        var repeatEmoji = GetRepeatEmoji(await GetRepeatType().ConfigureAwait(false));
         var volumeEmoji = GetVolumeEmoji();
         var repeatText = repeatEmoji != "" ? $" • {repeatEmoji} Repeat" : "";
 
@@ -616,21 +616,9 @@ public sealed class MewdekoPlayer : LavalinkPlayer
         return effects;
     }
 
-    private List<string> GetPlayerStats(int currentIndex, int totalTracks)
+    private static string GetRepeatEmoji(PlayerRepeatType repeatType)
     {
-        var stats = new List<string>
-        {
-            $"📑 Track **{currentIndex}** of **{totalTracks}**",
-            $"🎚️ Volume at **{Volume * 100}%**",
-            $"🔁 Repeat mode: **{GetRepeatType().GetAwaiter().GetResult()}**"
-        };
-
-        return stats;
-    }
-
-    private string GetRepeatEmoji()
-    {
-        return GetRepeatType().GetAwaiter().GetResult() switch
+        return repeatType switch
         {
             PlayerRepeatType.None => "",
             PlayerRepeatType.Track => "🔂",

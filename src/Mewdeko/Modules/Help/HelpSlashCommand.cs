@@ -9,7 +9,8 @@ using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
-using RequireDragonAttribute = Mewdeko.Common.Attributes.InteractionCommands.RequireDragonAttribute;
+using Mewdeko.Services.strings;
+using TextRequireDragonAttribute = Mewdeko.Common.Attributes.TextCommands.RequireDragonAttribute;
 
 namespace Mewdeko.Modules.Help;
 
@@ -23,6 +24,7 @@ namespace Mewdeko.Modules.Help;
 /// <param name="guildSettings">The service to retrieve guildconfigs</param>
 /// <param name="config">Service to retrieve yml based configs</param>
 /// <param name="perms">The global permission service</param>
+/// <param name="botStrings">Localized command summary strings.</param>
 [Discord.Interactions.Group("help", "Help Commands, what else is there to say?")]
 public class HelpSlashCommand(
     InteractiveService interactivity,
@@ -31,7 +33,8 @@ public class HelpSlashCommand(
     CommandHandler ch,
     GuildSettingsService guildSettings,
     BotConfigService config,
-    GlobalPermissionService perms)
+    GlobalPermissionService perms,
+    IBotStrings botStrings)
     : MewdekoSlashModuleBase<HelpService>
 {
     private static readonly ConcurrentDictionary<ulong, ulong> HelpMessages = new();
@@ -124,7 +127,7 @@ public class HelpSlashCommand(
             .OrderBy(g => g.ModuleName)
             .ToList();
 
-        var pageSize = 24;
+        const int pageSize = 10;
         var totalCommands = cmdsWithGroup.Sum(g => g.Commands.Count);
         var totalPages = (int)Math.Ceiling(totalCommands / (double)pageSize);
 
@@ -156,19 +159,12 @@ public class HelpSlashCommand(
                         if (currentModule != group.ModuleName)
                         {
                             if (commandsOnPage.Any())
-                                pageBuilder.AddField(currentModule,
-                                    $"```css\n{string.Join("\n", commandsOnPage)}\n```");
+                                pageBuilder.AddField(currentModule, string.Join("\n", commandsOnPage));
                             commandsOnPage.Clear();
                             currentModule = group.ModuleName;
                         }
 
-                        var cmdString =
-#pragma warning disable CS0184 // 'is' expression's given expression is never of the provided type
-                            $"{(succ.Contains(cmd) ? cmd.Preconditions.Any(p => p is RequireDragonAttribute) ? "🐉" : "✅" : "❌")}" +
-#pragma warning restore CS0184 // 'is' expression's given expression is never of the provided type
-                            $"{prefix}{cmd.Aliases[0]}" +
-                            $"{(cmd.Aliases.Skip(1).FirstOrDefault() is not null ? $"/{prefix}{cmd.Aliases[1]}" : "")}";
-                        commandsOnPage.Add(cmdString);
+                        commandsOnPage.Add(FormatCommandListEntry(cmd));
                     }
 
                     commandCount++;
@@ -179,7 +175,7 @@ public class HelpSlashCommand(
             }
 
             if (commandsOnPage.Any())
-                pageBuilder.AddField(currentModule, $"```css\n{string.Join("\n", commandsOnPage)}\n```");
+                pageBuilder.AddField(currentModule, string.Join("\n", commandsOnPage));
 
             pageBuilder.WithDescription(Strings.HelpCommandListSlash(
                 ctx.Guild?.Id ?? 0,
@@ -187,6 +183,24 @@ public class HelpSlashCommand(
                 prefix));
 
             return Task.FromResult(pageBuilder);
+        }
+
+        string FormatCommandListEntry(CommandInfo cmd)
+        {
+            var status =
+                succ.Contains(cmd) ? cmd.Preconditions.Any(p => p is TextRequireDragonAttribute) ? "🐉" : "✅" : "❌";
+            var aliases = $"{prefix}{cmd.Aliases[0]}";
+            if (cmd.Aliases.Skip(1).FirstOrDefault() is { } alias)
+                aliases += $"/{prefix}{alias}";
+
+            var summary = cmd.RealSummary(botStrings, ctx.Guild?.Id, prefix);
+            summary = string.IsNullOrWhiteSpace(summary)
+                ? Strings.NoDescriptionAvailable(ctx.Guild?.Id ?? 0)
+                : summary.Replace('\n', ' ').Trim();
+            if (summary.Length > 80)
+                summary = $"{summary[..77]}...";
+
+            return $"{status} `{aliases}` - {summary}";
         }
     }
 

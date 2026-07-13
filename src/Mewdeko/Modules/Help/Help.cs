@@ -226,7 +226,7 @@ public class Help(
             .OrderBy(g => g.ModuleName)
             .ToList();
 
-        var pageSize = 24;
+        const int pageSize = 10;
         var totalCommands = cmdsWithGroup.Sum(g => g.Commands.Count);
         var totalPages = (int)Math.Ceiling(totalCommands / (double)pageSize);
 
@@ -258,17 +258,12 @@ public class Help(
                         if (currentModule != group.ModuleName)
                         {
                             if (commandsOnPage.Any())
-                                pageBuilder.AddField(currentModule,
-                                    $"```css\n{string.Join("\n", commandsOnPage)}\n```");
+                                pageBuilder.AddField(currentModule, string.Join("\n", commandsOnPage));
                             commandsOnPage.Clear();
                             currentModule = group.ModuleName;
                         }
 
-                        var cmdString =
-                            $"{(succ.Contains(cmd) ? cmd.Preconditions.Any(p => p is RequireDragonAttribute) ? "🐉" : "✅" : "❌")}" +
-                            $"{prefix}{cmd.Aliases[0]}" +
-                            $"{(cmd.Aliases.Skip(1).FirstOrDefault() is not null ? $"/{prefix}{cmd.Aliases[1]}" : "")}";
-                        commandsOnPage.Add(cmdString);
+                        commandsOnPage.Add(FormatCommandListEntry(cmd));
                     }
 
                     commandCount++;
@@ -279,7 +274,7 @@ public class Help(
             }
 
             if (commandsOnPage.Any())
-                pageBuilder.AddField(currentModule, $"```css\n{string.Join("\n", commandsOnPage)}\n```");
+                pageBuilder.AddField(currentModule, string.Join("\n", commandsOnPage));
 
             pageBuilder.WithDescription(Strings.HelpCommandListDescription(
                 ctx.Guild?.Id ?? 0,
@@ -287,6 +282,25 @@ public class Help(
                 prefix));
 
             return Task.FromResult(pageBuilder);
+        }
+
+        string FormatCommandListEntry(CommandInfo cmd)
+        {
+            var status = succ.Contains(cmd)
+                ? cmd.Preconditions.Any(p => p is RequireDragonAttribute) ? "🐉" : "✅"
+                : "❌";
+            var aliases = $"{prefix}{cmd.Aliases[0]}";
+            if (cmd.Aliases.Skip(1).FirstOrDefault() is { } alias)
+                aliases += $"/{prefix}{alias}";
+
+            var summary = cmd.RealSummary(strings, ctx.Guild?.Id, prefix);
+            summary = string.IsNullOrWhiteSpace(summary)
+                ? Strings.NoDescriptionAvailable(ctx.Guild?.Id ?? 0)
+                : summary.Replace('\n', ' ').Trim();
+            if (summary.Length > 80)
+                summary = $"{summary[..77]}...";
+
+            return $"{status} `{aliases}` - {summary}";
         }
     }
 

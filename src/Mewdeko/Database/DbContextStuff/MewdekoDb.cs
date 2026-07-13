@@ -223,6 +223,50 @@ public class MewdekoDb : DataConnection
     }
 
     /// <summary>
+    ///     Gets the anti-image-hash settings table.
+    /// </summary>
+    public ITable<AntiImageHashSetting> AntiImageHashSettings
+    {
+        get
+        {
+            return this.GetTable<AntiImageHashSetting>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the blocked image hashes table.
+    /// </summary>
+    public ITable<BannedImageHash> BannedImageHashes
+    {
+        get
+        {
+            return this.GetTable<BannedImageHash>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the anti-image-hash ignored roles table.
+    /// </summary>
+    public ITable<AntiImageHashIgnoredRole> AntiImageHashIgnoredRoles
+    {
+        get
+        {
+            return this.GetTable<AntiImageHashIgnoredRole>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the anti-image-hash ignored channels table.
+    /// </summary>
+    public ITable<AntiImageHashIgnoredChannel> AntiImageHashIgnoredChannels
+    {
+        get
+        {
+            return this.GetTable<AntiImageHashIgnoredChannel>();
+        }
+    }
+
+    /// <summary>
     ///     Gets the anti-post-channel settings table.
     /// </summary>
     public ITable<AntiPostChannelSetting> AntiPostChannelSettings
@@ -1397,6 +1441,138 @@ public class MewdekoDb : DataConnection
         get
         {
             return this.GetTable<TwitchAccountLink>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the Twitch bot account authorization table.
+    /// </summary>
+    public ITable<TwitchBotAccount> TwitchBotAccounts
+    {
+        get
+        {
+            return this.GetTable<TwitchBotAccount>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the Twitch channel authorizations table.
+    /// </summary>
+    public ITable<TwitchChannelAuthorization> TwitchChannelAuthorizations
+    {
+        get
+        {
+            return this.GetTable<TwitchChannelAuthorization>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the Twitch EventSub subscriptions table.
+    /// </summary>
+    public ITable<TwitchEventSubSubscription> TwitchEventSubSubscriptions
+    {
+        get
+        {
+            return this.GetTable<TwitchEventSubSubscription>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the Twitch custom chat commands table.
+    /// </summary>
+    public ITable<TwitchCustomCommand> TwitchCustomCommands
+    {
+        get
+        {
+            return this.GetTable<TwitchCustomCommand>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the Twitch self-service account link codes table.
+    /// </summary>
+    public ITable<TwitchLinkCode> TwitchLinkCodes
+    {
+        get
+        {
+            return this.GetTable<TwitchLinkCode>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the Twitch counters table.
+    /// </summary>
+    public ITable<TwitchCounter> TwitchCounters
+    {
+        get
+        {
+            return this.GetTable<TwitchCounter>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the Twitch role sync mappings table.
+    /// </summary>
+    public ITable<TwitchRoleSyncMapping> TwitchRoleSyncMappings
+    {
+        get
+        {
+            return this.GetTable<TwitchRoleSyncMapping>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the Twitch channel point redemption actions table.
+    /// </summary>
+    public ITable<TwitchRedemptionAction> TwitchRedemptionActions
+    {
+        get
+        {
+            return this.GetTable<TwitchRedemptionAction>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the Twitch raid target suggestions table.
+    /// </summary>
+    public ITable<TwitchRaidTarget> TwitchRaidTargets
+    {
+        get
+        {
+            return this.GetTable<TwitchRaidTarget>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the Twitch EventSub processing history table.
+    /// </summary>
+    public ITable<TwitchEventHistory> TwitchEventHistory
+    {
+        get
+        {
+            return this.GetTable<TwitchEventHistory>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the Twitch repeating message timers table.
+    /// </summary>
+    public ITable<TwitchTimer> TwitchTimers
+    {
+        get
+        {
+            return this.GetTable<TwitchTimer>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the Twitch quotes table.
+    /// </summary>
+    public ITable<TwitchQuote> TwitchQuotes
+    {
+        get
+        {
+            return this.GetTable<TwitchQuote>();
         }
     }
 }

@@ -34,4 +34,9 @@ public interface IBotStringsProvider
     /// <param name="commandName"></param>
     /// <returns></returns>
     public List<CommandOverload> GetCommandOverloads(string lang, string commandName);
+
+    /// <summary>
+    ///     Gets the set of locale names that have response strings loaded (e.g. "en-US", "ar").
+    /// </summary>
+    public IReadOnlyCollection<string> GetAvailableLocales();
 }

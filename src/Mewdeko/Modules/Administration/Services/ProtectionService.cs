@@ -15,7 +15,13 @@ namespace Mewdeko.Modules.Administration.Services;
 /// </summary>
 public class ProtectionService : INService, IReadyExecutor, IUnloadableService
 {
+    /// <summary>
+    ///     The most images from a single message that will be downloaded and hashed.
+    /// </summary>
+    private const int MaxImagesPerMessage = 4;
+
     private readonly ConcurrentDictionary<ulong, AntiAltStats> antiAltGuilds = new();
+    private readonly ConcurrentDictionary<ulong, AntiImageHashStats> antiImageHashGuilds = new();
     private readonly ConcurrentDictionary<ulong, AntiMassMentionStats> antiMassMentionGuilds = new();
     private readonly ConcurrentDictionary<ulong, AntiMassPostStats> antiMassPostGuilds = new();
     private readonly ConcurrentDictionary<ulong, AntiPatternStats> antiPatternGuilds = new();
@@ -26,6 +32,7 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
     private readonly EventHandler eventHandler;
+    private readonly ImageHashingService imageHashing;
     private readonly ILogger<ProtectionService> logger;
     private readonly MuteService mute;
     private readonly UserPunishService punishService;
@@ -39,6 +46,8 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
             FullMode = BoundedChannelFullMode.DropOldest
         });
 
+    private readonly ScamImagePresetService scamPresets;
+
     private readonly GeneratedBotStrings strings;
 
     /// <summary>
@@ -51,9 +60,12 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="strings">The localization strings service.</param>
+    /// <param name="imageHashing">The perceptual image hashing service.</param>
+    /// <param name="scamPresets">The known scam image hashes that ship with the bot.</param>
     public ProtectionService(DiscordShardedClient client,
         MuteService mute, IDataConnectionFactory dbFactory, UserPunishService punishService, EventHandler eventHandler,
-        ILogger<ProtectionService> logger, GeneratedBotStrings strings)
+        ILogger<ProtectionService> logger, GeneratedBotStrings strings, ImageHashingService imageHashing,
+        ScamImagePresetService scamPresets)
     {
         this.client = client;
         this.mute = mute;
@@ -62,17 +74,31 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
         this.logger = logger;
         this.eventHandler = eventHandler;
         this.strings = strings;
+        this.imageHashing = imageHashing;
+        this.scamPresets = scamPresets;
 
         eventHandler.Subscribe("MessageReceived", "ProtectionService", HandleAntiSpam);
         eventHandler.Subscribe("UserJoined", "ProtectionService", HandleUserJoined);
         eventHandler.Subscribe("MessageReceived", "ProtectionService", HandleAntiMassMention);
         eventHandler.Subscribe("MessageReceived", "ProtectionService", HandleAntiMassPost);
         eventHandler.Subscribe("MessageReceived", "ProtectionService", HandleAntiPostChannel);
+        eventHandler.Subscribe("MessageReceived", "ProtectionService", HandleAntiImageHash);
 
         eventHandler.Subscribe("JoinedGuild", "ProtectionService", _bot_JoinedGuild);
         eventHandler.Subscribe("LeftGuild", "ProtectionService", _client_LeftGuild);
 
         _ = Task.Run(RunQueue);
+    }
+
+    /// <summary>
+    ///     Gets the number of known scam images that ship with the bot.
+    /// </summary>
+    public int PresetScamImageCount
+    {
+        get
+        {
+            return scamPresets.Images.Count;
+        }
     }
 
     /// <inheritdoc />
@@ -101,6 +127,7 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
         eventHandler.Unsubscribe("MessageReceived", "ProtectionService", HandleAntiMassMention);
         eventHandler.Unsubscribe("MessageReceived", "ProtectionService", HandleAntiMassPost);
         eventHandler.Unsubscribe("MessageReceived", "ProtectionService", HandleAntiPostChannel);
+        eventHandler.Unsubscribe("MessageReceived", "ProtectionService", HandleAntiImageHash);
         eventHandler.Unsubscribe("JoinedGuild", "ProtectionService", _bot_JoinedGuild);
         eventHandler.Unsubscribe("LeftGuild", "ProtectionService", _client_LeftGuild);
         return Task.CompletedTask;
@@ -162,6 +189,7 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
         antiPatternGuilds.TryRemove(guild.Id, out _);
         antiMassPostGuilds.TryRemove(guild.Id, out _);
         antiPostChannelGuilds.TryRemove(guild.Id, out _);
+        antiImageHashGuilds.TryRemove(guild.Id, out _);
         return Task.CompletedTask;
     }
 
@@ -277,6 +305,35 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
             antiPostChannelGuilds[guildId] = new AntiPostChannelStats(postChannel);
         }
         else antiPostChannelGuilds.TryRemove(guildId, out _);
+
+        // Load anti-image-hash settings
+        var imageHash = await db.GetTable<AntiImageHashSetting>().FirstOrDefaultAsync(x => x.GuildId == guildId)
+            .ConfigureAwait(false);
+
+        if (imageHash != null)
+        {
+            var hashes = await db.GetTable<BannedImageHash>()
+                .Where(h => h.GuildId == guildId)
+                .ToListAsync().ConfigureAwait(false);
+
+            var ignoredRoles = await db.GetTable<AntiImageHashIgnoredRole>()
+                .Where(r => r.GuildId == guildId)
+                .Select(r => r.RoleId)
+                .ToListAsync().ConfigureAwait(false);
+
+            var ignoredChannels = await db.GetTable<AntiImageHashIgnoredChannel>()
+                .Where(c => c.GuildId == guildId)
+                .Select(c => c.ChannelId)
+                .ToListAsync().ConfigureAwait(false);
+
+            antiImageHashGuilds[guildId] = new AntiImageHashStats(imageHash)
+            {
+                Hashes = hashes.Select(ToBlockedImageHash).Where(h => h.Hashes.Count > 0).ToList(),
+                IgnoredRoles = ignoredRoles.ToHashSet(),
+                IgnoredChannels = ignoredChannels.ToHashSet()
+            };
+        }
+        else antiImageHashGuilds.TryRemove(guildId, out _);
     }
 
     /// <summary>
@@ -1838,5 +1895,609 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
             .Where(u => u.AntiPostChannelSettingId == setting.Id)
             .Select(u => u.UserId)
             .ToListAsync().ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Gets the anti-image-hash statistics for a guild, or null if the protection is not enabled there.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild to retrieve the statistics for.</param>
+    /// <returns>The anti-image-hash stats, or null.</returns>
+    public AntiImageHashStats? GetAntiImageHashStats(ulong guildId)
+    {
+        return antiImageHashGuilds.GetValueOrDefault(guildId);
+    }
+
+    /// <summary>
+    ///     Turns the shipped list of known scam images on or off for a guild, without touching the rest of the settings.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="enabled">Whether the known scam images should be blocked.</param>
+    /// <returns>True if the setting was changed; false if the protection is not enabled in the guild.</returns>
+    public async Task<bool> SetPresetScamImagesAsync(ulong guildId, bool enabled)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var updated = await db.GetTable<AntiImageHashSetting>()
+            .Where(s => s.GuildId == guildId)
+            .Set(s => s.UsePresetList, enabled)
+            .UpdateAsync().ConfigureAwait(false);
+
+        if (updated == 0)
+            return false;
+
+        await Initialize(guildId);
+        return true;
+    }
+
+    /// <summary>
+    ///     Handles the anti-image-hash protection, punishing users who post an image whose perceptual hash matches one on the
+    ///     guild blocklist.
+    /// </summary>
+    /// <param name="arg">The message that was received.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    private Task HandleAntiImageHash(IMessage arg)
+    {
+        if (arg is not SocketUserMessage msg || msg.Author is not IGuildUser guildUser ||
+            msg.Channel is not ITextChannel channel ||
+            !antiImageHashGuilds.TryGetValue(channel.Guild.Id, out var stats))
+            return Task.CompletedTask;
+
+        var settings = stats.AntiImageHashSettings;
+
+        var presetImages = settings.UsePresetList ? scamPresets.Images : [];
+
+        if (stats.Hashes.Count == 0 && presetImages.Count == 0)
+            return Task.CompletedTask;
+
+        if (settings.IgnoreBots && msg.Author.IsBot)
+            return Task.CompletedTask;
+
+        if (guildUser.GuildPermissions.Administrator)
+            return Task.CompletedTask;
+
+        if (stats.IgnoredChannels.Contains(channel.Id))
+            return Task.CompletedTask;
+
+        if (guildUser.RoleIds.Any(r => stats.IgnoredRoles.Contains(r)))
+            return Task.CompletedTask;
+
+        var urls = CollectImageUrls(msg, settings.CheckEmbeds);
+        if (urls.Count == 0)
+            return Task.CompletedTask;
+
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                foreach (var url in urls)
+                {
+                    var posted = await imageHashing
+                        .ComputeMatchHashesFromUrlAsync(url, settings.CheckBorders, settings.MaxImageSizeMb)
+                        .ConfigureAwait(false);
+
+                    if (posted is null)
+                        continue;
+
+                    // A flat, low detail image hashes to something that sits close to everything, so matching it would
+                    // punish innocent posters.
+                    if (posted.Quality < ImageHashingService.MinReliableQuality)
+                        continue;
+
+                    var match = FindImageHashMatch(stats, posted, settings.HashThreshold);
+                    if (match is not null)
+                    {
+                        await PunishImageHash(guildUser, stats, msg, match).ConfigureAwait(false);
+                        return;
+                    }
+
+                    var preset = FindPresetMatch(presetImages, posted, settings.HashThreshold);
+                    if (preset is not null)
+                    {
+                        await PunishPresetScamImage(guildUser, stats, msg, preset).ConfigureAwait(false);
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "Error processing anti-image-hash for user {UserId}", msg.Author.Id);
+            }
+        });
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    ///     Finds the closest blocked image within tolerance of any of a posted image's hashes. Every posted variant is
+    ///     compared against every stored variant, so a crop of the blocked image and the blocked image with a border added
+    ///     around it both match.
+    /// </summary>
+    private static BlockedImageHash? FindImageHashMatch(AntiImageHashStats stats, ImageMatchHashes posted,
+        int threshold)
+    {
+        var parsed = posted.Hashes
+            .Select(h => ImageHashingService.TryParseHash(h, out var value) ? value : null)
+            .Where(h => h is not null)
+            .ToList();
+
+        if (parsed.Count == 0)
+            return null;
+
+        BlockedImageHash? best = null;
+        var bestDistance = int.MaxValue;
+
+        foreach (var blocked in stats.Hashes)
+        {
+            foreach (var stored in blocked.Hashes)
+            {
+                foreach (var candidate in parsed)
+                {
+                    var distance = ImageHashingService.Distance(stored, candidate!);
+
+                    if (distance <= threshold && distance < bestDistance)
+                    {
+                        best = blocked;
+                        bestDistance = distance;
+                    }
+                }
+            }
+        }
+
+        return best;
+    }
+
+    /// <summary>
+    ///     Parses a stored blocked image row into its cached form, including the mirrored and cropped variant hashes.
+    /// </summary>
+    private static BlockedImageHash ToBlockedImageHash(BannedImageHash entry)
+    {
+        var hashes = new List<ulong[]>();
+
+        if (ImageHashingService.TryParseHash(entry.Hash, out var full))
+            hashes.Add(full);
+
+        if (!string.IsNullOrWhiteSpace(entry.Variants))
+        {
+            foreach (var variant in entry.Variants.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+            {
+                if (ImageHashingService.TryParseHash(variant, out var value))
+                    hashes.Add(value);
+            }
+        }
+
+        return new BlockedImageHash(entry, hashes);
+    }
+
+    /// <summary>
+    ///     Collects the image URLs carried by a message, from its attachments and optionally its embeds.
+    /// </summary>
+    private static List<string> CollectImageUrls(IUserMessage msg, bool checkEmbeds)
+    {
+        var urls = new List<string>();
+
+        foreach (var attachment in msg.Attachments)
+        {
+            if (attachment.ContentType?.StartsWith("image/", StringComparison.OrdinalIgnoreCase) == true ||
+                HasImageExtension(attachment.Filename))
+                urls.Add(attachment.Url);
+        }
+
+        if (checkEmbeds)
+        {
+            foreach (var embed in msg.Embeds)
+            {
+                if (embed.Image?.Url is { } imageUrl)
+                    urls.Add(imageUrl);
+                if (embed.Thumbnail?.Url is { } thumbUrl)
+                    urls.Add(thumbUrl);
+            }
+        }
+
+        return urls.Take(MaxImagesPerMessage).ToList();
+    }
+
+    private static bool HasImageExtension(string filename)
+    {
+        return filename.EndsWith(".png", StringComparison.OrdinalIgnoreCase) ||
+               filename.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) ||
+               filename.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase) ||
+               filename.EndsWith(".webp", StringComparison.OrdinalIgnoreCase) ||
+               filename.EndsWith(".gif", StringComparison.OrdinalIgnoreCase) ||
+               filename.EndsWith(".bmp", StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>
+    ///     Applies the punishment for a blocked image. The matched hash may override the guild default action, duration, and
+    ///     role, so one image can simply be deleted while another gets the poster banned.
+    /// </summary>
+    private async Task PunishImageHash(IGuildUser user, AntiImageHashStats stats, IUserMessage triggerMessage,
+        BlockedImageHash match)
+    {
+        var settings = stats.AntiImageHashSettings;
+        var action = (PunishmentAction)(match.Entry.Action ?? settings.Action);
+        var duration = match.Entry.PunishDuration ?? settings.PunishDuration;
+        var roleId = match.Entry.RoleId ?? settings.RoleId;
+
+        stats.Increment();
+        match.Entry.HitCount++;
+        match.Entry.LastTriggeredAt = DateTime.UtcNow;
+
+        stats.RecentViolations.Enqueue((user.Id, user.Username, match.Entry.Hash, DateTimeOffset.UtcNow));
+        while (stats.RecentViolations.Count > 10)
+            stats.RecentViolations.TryDequeue(out _);
+
+        _ = Task.Run(() => RecordImageHashHitAsync(user.Guild.Id, match.Entry.Id));
+
+        await ApplyImageHashPunishment(user, stats, triggerMessage, action, duration, roleId).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Finds a known scam image from the shipped list within tolerance of any of a posted image's hashes.
+    /// </summary>
+    private static PresetScamImage? FindPresetMatch(IReadOnlyList<PresetScamImage> presets, ImageMatchHashes posted,
+        int threshold)
+    {
+        if (presets.Count == 0)
+            return null;
+
+        var parsed = posted.Hashes
+            .Select(h => ImageHashingService.TryParseHash(h, out var value) ? value : null)
+            .Where(h => h is not null)
+            .ToList();
+
+        if (parsed.Count == 0)
+            return null;
+
+        PresetScamImage? best = null;
+        var bestDistance = int.MaxValue;
+
+        foreach (var preset in presets)
+        {
+            foreach (var stored in preset.Hashes)
+            {
+                foreach (var candidate in parsed)
+                {
+                    var distance = ImageHashingService.Distance(stored, candidate!);
+
+                    if (distance <= threshold && distance < bestDistance)
+                    {
+                        best = preset;
+                        bestDistance = distance;
+                    }
+                }
+            }
+        }
+
+        return best;
+    }
+
+    /// <summary>
+    ///     Applies the punishment for a known scam image from the shipped list. These have no per-image overrides, so the
+    ///     guild's default action is used.
+    /// </summary>
+    private async Task PunishPresetScamImage(IGuildUser user, AntiImageHashStats stats, IUserMessage triggerMessage,
+        PresetScamImage preset)
+    {
+        var settings = stats.AntiImageHashSettings;
+        var action = (PunishmentAction)settings.Action;
+
+        stats.Increment();
+        settings.PresetTriggers++;
+
+        stats.RecentViolations.Enqueue((user.Id, user.Username, preset.Id, DateTimeOffset.UtcNow));
+        while (stats.RecentViolations.Count > 10)
+            stats.RecentViolations.TryDequeue(out _);
+
+        logger.LogInformation("Known scam image {PresetId} posted by {UserId} in guild {GuildId}", preset.Id, user.Id,
+            user.Guild.Id);
+
+        _ = Task.Run(() => RecordPresetHitAsync(user.Guild.Id));
+
+        await ApplyImageHashPunishment(user, stats, triggerMessage, action, settings.PunishDuration, settings.RoleId)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Deletes the message, DMs the poster, and applies the punishment, shared by the guild blocklist and the shipped
+    ///     scam image list.
+    /// </summary>
+    private async Task ApplyImageHashPunishment(IGuildUser user, AntiImageHashStats stats,
+        IUserMessage triggerMessage, PunishmentAction action, int duration, ulong? roleId)
+    {
+        var settings = stats.AntiImageHashSettings;
+
+        if (settings.DeleteMessages || action == PunishmentAction.Delete)
+        {
+            try
+            {
+                await triggerMessage.DeleteAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "Failed to delete message {MessageId}", triggerMessage.Id);
+            }
+        }
+
+        if (settings.NotifyUser)
+        {
+            try
+            {
+                var dmChannel = await user.CreateDMChannelAsync().ConfigureAwait(false);
+                await dmChannel.SendMessageAsync(strings.ImageHashDetectedDm(user.Guild.Id, user.Guild.Name))
+                    .ConfigureAwait(false);
+            }
+            catch
+            {
+                // DM failed, continue with punishment
+            }
+        }
+
+        if (action is PunishmentAction.Delete or PunishmentAction.None)
+            return;
+
+        await PunishUsers((int)action, ProtectionType.ImageHash, duration, roleId, user).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Persists the counter for catches from the shipped scam image list.
+    /// </summary>
+    private async Task RecordPresetHitAsync(ulong guildId)
+    {
+        try
+        {
+            await using var db = await dbFactory.CreateConnectionAsync();
+
+            await db.GetTable<AntiImageHashSetting>()
+                .Where(s => s.GuildId == guildId)
+                .Set(s => s.PresetTriggers, s => s.PresetTriggers + 1)
+                .Set(s => s.TotalTriggers, s => s.TotalTriggers + 1)
+                .UpdateAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "Failed to persist known scam image hit for guild {GuildId}", guildId);
+        }
+    }
+
+    /// <summary>
+    ///     Persists the hit counters for a blocked image hash.
+    /// </summary>
+    private async Task RecordImageHashHitAsync(ulong guildId, int hashId)
+    {
+        try
+        {
+            await using var db = await dbFactory.CreateConnectionAsync();
+
+            await db.GetTable<BannedImageHash>()
+                .Where(h => h.Id == hashId)
+                .Set(h => h.HitCount, h => h.HitCount + 1)
+                .Set(h => h.LastTriggeredAt, DateTime.UtcNow)
+                .UpdateAsync().ConfigureAwait(false);
+
+            await db.GetTable<AntiImageHashSetting>()
+                .Where(s => s.GuildId == guildId)
+                .Set(s => s.TotalTriggers, s => s.TotalTriggers + 1)
+                .UpdateAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "Failed to persist image hash hit for guild {GuildId}", guildId);
+        }
+    }
+
+    /// <summary>
+    ///     Starts or reconfigures the anti-image-hash protection for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild to start the protection for.</param>
+    /// <param name="action">The default punishment action when a blocked image is posted.</param>
+    /// <param name="punishDuration">The default punishment duration in minutes, if the action supports one.</param>
+    /// <param name="roleId">The ID of the role to be added, if the action is AddRole.</param>
+    /// <param name="hashThreshold">
+    ///     The maximum hamming distance, out of 256 bits, for an image to count as a match. PDQ's standard "same image"
+    ///     threshold is 31.
+    /// </param>
+    /// <param name="deleteMessages">Whether the offending message is deleted.</param>
+    /// <param name="notifyUser">Whether the user is DMed.</param>
+    /// <param name="ignoreBots">Whether messages from bots are skipped.</param>
+    /// <param name="checkEmbeds">Whether images inside embeds are checked as well as attachments.</param>
+    /// <param name="checkBorders">Whether posted images have solid borders stripped before matching, catching bordered copies.</param>
+    /// <param name="usePresetList">Whether the known scam images shipped with the bot are blocked as well.</param>
+    /// <param name="maxImageSizeMb">The maximum image size to download and hash, in megabytes.</param>
+    /// <returns>The resulting stats, or null if the settings could not be saved.</returns>
+    public async Task<AntiImageHashStats?> StartAntiImageHashAsync(ulong guildId, PunishmentAction action,
+        int punishDuration, ulong? roleId, int hashThreshold, bool deleteMessages, bool notifyUser, bool ignoreBots,
+        bool checkEmbeds, bool checkBorders, bool usePresetList, int maxImageSizeMb)
+    {
+        if (!IsDurationAllowed(action)) punishDuration = 0;
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var settings = await db.GetTable<AntiImageHashSetting>().FirstOrDefaultAsync(x => x.GuildId == guildId)
+            .ConfigureAwait(false);
+        var isNew = settings == null;
+        settings ??= new AntiImageHashSetting
+        {
+            GuildId = guildId, DateAdded = DateTime.UtcNow
+        };
+
+        settings.Action = (int)action;
+        settings.PunishDuration = punishDuration;
+        settings.RoleId = roleId;
+        settings.HashThreshold = Math.Clamp(hashThreshold, 0, 64);
+        settings.DeleteMessages = deleteMessages;
+        settings.NotifyUser = notifyUser;
+        settings.IgnoreBots = ignoreBots;
+        settings.CheckEmbeds = checkEmbeds;
+        settings.CheckBorders = checkBorders;
+        settings.UsePresetList = usePresetList;
+        settings.MaxImageSizeMb = Math.Clamp(maxImageSizeMb, 1, 32);
+
+        if (isNew)
+            await db.InsertAsync(settings).ConfigureAwait(false);
+        else
+            await db.UpdateAsync(settings).ConfigureAwait(false);
+
+        await Initialize(guildId);
+        return antiImageHashGuilds.GetValueOrDefault(guildId);
+    }
+
+    /// <summary>
+    ///     Stops the anti-image-hash protection for a guild. The blocklist itself is kept, so re-enabling the protection
+    ///     restores it.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild to stop the protection for.</param>
+    /// <returns>True if the protection was running; otherwise false.</returns>
+    public async Task<bool> TryStopAntiImageHash(ulong guildId)
+    {
+        var removed = antiImageHashGuilds.TryRemove(guildId, out _);
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var deletedCount = await db.GetTable<AntiImageHashSetting>()
+            .Where(x => x.GuildId == guildId)
+            .DeleteAsync().ConfigureAwait(false);
+
+        return removed || deletedCount > 0;
+    }
+
+    /// <summary>
+    ///     Adds an image to the guild blocklist.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild to add the image for.</param>
+    /// <param name="hashSet">
+    ///     The hashes produced by <see cref="ImageHashingService.ComputeHashSet" />. Supplying the variant hashes is what
+    ///     gives the entry crop and mirror resistance, so prefer hashing the image over pasting a bare hash.
+    /// </param>
+    /// <param name="name">An optional label for the blocked image.</param>
+    /// <param name="sourceUrl">The URL the hash was generated from, kept for previews.</param>
+    /// <param name="addedBy">The Discord user ID that added the image.</param>
+    /// <param name="action">An optional action that overrides the guild default for this image.</param>
+    /// <param name="punishDuration">An optional punishment duration that overrides the guild default for this image.</param>
+    /// <param name="roleId">An optional role that overrides the guild default for this image.</param>
+    /// <returns>The stored entry, or null if the hash was invalid or the image is already blocked.</returns>
+    public async Task<BannedImageHash?> AddBannedImageHashAsync(ulong guildId, ImageHashSet hashSet,
+        string? name = null, string? sourceUrl = null, ulong? addedBy = null, PunishmentAction? action = null,
+        int? punishDuration = null, ulong? roleId = null)
+    {
+        if (!ImageHashingService.TryParseHash(hashSet.Hash, out _))
+            return null;
+
+        var normalized = hashSet.Hash.Trim().ToLowerInvariant();
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var exists = await db.GetTable<BannedImageHash>()
+            .AnyAsync(h => h.GuildId == guildId && h.Hash == normalized)
+            .ConfigureAwait(false);
+
+        if (exists)
+            return null;
+
+        var entry = new BannedImageHash
+        {
+            GuildId = guildId,
+            Hash = normalized,
+            Variants = hashSet.Variants.Count > 0 ? string.Join(' ', hashSet.Variants) : null,
+            Quality = hashSet.Quality,
+            Name = name,
+            SourceUrl = sourceUrl,
+            AddedBy = addedBy,
+            Action = action.HasValue ? (int)action.Value : null,
+            PunishDuration = punishDuration,
+            RoleId = roleId,
+            DateAdded = DateTime.UtcNow
+        };
+
+        entry.Id = await db.InsertWithInt32IdentityAsync(entry).ConfigureAwait(false);
+
+        await Initialize(guildId);
+        return entry;
+    }
+
+    /// <summary>
+    ///     Removes an image hash from the guild blocklist.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild to remove the hash from.</param>
+    /// <param name="hashId">The ID of the blocked hash.</param>
+    /// <returns>True if a hash was removed; otherwise false.</returns>
+    public async Task<bool> RemoveBannedImageHashAsync(ulong guildId, int hashId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var deleted = await db.GetTable<BannedImageHash>()
+            .Where(h => h.Id == hashId && h.GuildId == guildId)
+            .DeleteAsync().ConfigureAwait(false);
+
+        if (deleted == 0)
+            return false;
+
+        await Initialize(guildId);
+        return true;
+    }
+
+    /// <summary>
+    ///     Gets the blocked image hashes for a guild, most recently triggered first.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild to get the blocklist for.</param>
+    /// <returns>The blocked hashes, including their hit counters.</returns>
+    public async Task<List<BannedImageHash>> GetBannedImageHashesAsync(ulong guildId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        return await db.GetTable<BannedImageHash>()
+            .Where(h => h.GuildId == guildId)
+            .OrderByDescending(h => h.HitCount)
+            .ThenByDescending(h => h.Id)
+            .ToListAsync().ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Toggles a role exempt from anti-image-hash protection.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="roleId">The ID of the role to toggle.</param>
+    /// <returns>True if the role was added to the exemptions, false if it was removed.</returns>
+    public async Task<bool> ToggleAntiImageHashIgnoredRoleAsync(ulong guildId, ulong roleId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var deleted = await db.GetTable<AntiImageHashIgnoredRole>()
+            .Where(r => r.GuildId == guildId && r.RoleId == roleId)
+            .DeleteAsync().ConfigureAwait(false);
+
+        if (deleted == 0)
+        {
+            await db.InsertAsync(new AntiImageHashIgnoredRole
+            {
+                GuildId = guildId, RoleId = roleId, DateAdded = DateTime.UtcNow
+            }).ConfigureAwait(false);
+        }
+
+        await Initialize(guildId);
+        return deleted == 0;
+    }
+
+    /// <summary>
+    ///     Toggles a channel exempt from anti-image-hash protection.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="channelId">The ID of the channel to toggle.</param>
+    /// <returns>True if the channel was added to the exemptions, false if it was removed.</returns>
+    public async Task<bool> ToggleAntiImageHashIgnoredChannelAsync(ulong guildId, ulong channelId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var deleted = await db.GetTable<AntiImageHashIgnoredChannel>()
+            .Where(c => c.GuildId == guildId && c.ChannelId == channelId)
+            .DeleteAsync().ConfigureAwait(false);
+
+        if (deleted == 0)
+        {
+            await db.InsertAsync(new AntiImageHashIgnoredChannel
+            {
+                GuildId = guildId, ChannelId = channelId, DateAdded = DateTime.UtcNow
+            }).ConfigureAwait(false);
+        }
+
+        await Initialize(guildId);
+        return deleted == 0;
     }
 }

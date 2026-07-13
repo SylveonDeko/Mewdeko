@@ -88,4 +88,7 @@ public class MinecraftServer
 
     [Column("DateAdded")]
     public DateTime? DateAdded { get; set; } // timestamp (6) without time zone
+
+    [Column("LastTopicUpdate")]
+    public DateTime? LastTopicUpdate { get; set; } // timestamp (6) without time zone
 }

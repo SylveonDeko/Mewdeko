@@ -1,3 +1,4 @@
+using System.Threading;
 using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
@@ -10,12 +11,13 @@ namespace Mewdeko.Modules.Moderation.Services;
 /// <summary>
 ///     Secondary service for user punishment.
 /// </summary>
-public class UserPunishService2 : INService
+public class UserPunishService2 : INService, IDisposable
 {
     private readonly IDataConnectionFactory dbFactory;
     private readonly GuildSettingsService guildSettings;
     private readonly ILogger<UserPunishService2> logger;
     private readonly MuteService mute;
+    private Timer? warnExpirationTimer;
 
 
     /// <summary>
@@ -32,6 +34,17 @@ public class UserPunishService2 : INService
         this.dbFactory = dbFactory;
         this.guildSettings = guildSettings;
         this.logger = logger;
+        warnExpirationTimer = new Timer(async _ => await CheckAllWarnExpiresAsync().ConfigureAwait(false), null,
+            TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
+    }
+
+    /// <summary>
+    ///     Disposes the mini warn service and cleans up resources.
+    /// </summary>
+    public void Dispose()
+    {
+        warnExpirationTimer?.Dispose();
+        warnExpirationTimer = null;
     }
 
     /// <summary>
@@ -51,7 +64,6 @@ public class UserPunishService2 : INService
     /// <param name="channel">The channel</param>
     public async Task SetMWarnlogChannelId(IGuild guild, ITextChannel channel)
     {
-        await using var db = await dbFactory.CreateConnectionAsync();
         var gc = await guildSettings.GetGuildConfig(guild.Id);
         gc.MiniWarnlogChannelId = channel.Id;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
@@ -195,38 +207,31 @@ public class UserPunishService2 : INService
     {
         await using var dbContext = await dbFactory.CreateConnectionAsync();
 
-// For 'cleared' part
         var relevantGuildConfigsForClear = await dbContext.GuildConfigs
-            .Where(gc => gc.WarnExpireHours > 0 && gc.WarnExpireAction == 0)
+            .Where(gc => gc.MiniWarnExpireHours > 0 && gc.MiniWarnExpireAction == (int)WarnExpireAction.Clear)
             .ToListAsync();
 
         var cleared = 0;
 
         foreach (var gc in relevantGuildConfigsForClear)
         {
-            var expireTime = DateTime.Now.AddHours(-gc.WarnExpireHours);
-            var warningsToClear = await dbContext.Warnings2s
-                .Where(w => w.GuildId == gc.GuildId && w.Forgiven && w.DateAdded < expireTime)
-                .ToListAsync();
-
-            foreach (var warning in warningsToClear)
-            {
-                warning.Forgiven = true;
-                warning.ForgivenBy = "Expiry";
-            }
-
-            cleared += warningsToClear.Count;
+            var expireTime = DateTime.UtcNow.AddHours(-gc.MiniWarnExpireHours);
+            cleared += await dbContext.Warnings2s
+                .Where(w => w.GuildId == gc.GuildId && !w.Forgiven && w.DateAdded < expireTime)
+                .Set(w => w.Forgiven, true)
+                .Set(w => w.ForgivenBy, "Expiry")
+                .UpdateAsync();
         }
 
-// For 'deleted' part
-        var relevantGuildConfigsForDelete = (await dbContext.GuildConfigs.ToListAsync())
-            .Where(gc => gc.WarnExpireHours > 0 && (WarnExpireAction)gc.WarnExpireAction == WarnExpireAction.Delete);
+        var relevantGuildConfigsForDelete = await dbContext.GuildConfigs
+            .Where(gc => gc.MiniWarnExpireHours > 0 && gc.MiniWarnExpireAction == (int)WarnExpireAction.Delete)
+            .ToListAsync();
 
         var deleted = 0;
 
         foreach (var gc in relevantGuildConfigsForDelete)
         {
-            var expireTime = DateTime.Now.AddHours(-gc.WarnExpireHours);
+            var expireTime = DateTime.UtcNow.AddHours(-gc.MiniWarnExpireHours);
             var warningsToDelete = await dbContext.Warnings2s
                 .Where(w => w.GuildId == gc.GuildId && w.DateAdded < expireTime).DeleteAsync();
 
@@ -247,24 +252,19 @@ public class UserPunishService2 : INService
 
         var config = await guildSettings.GetGuildConfig(guildId);
 
-        if (config.WarnExpireHours == 0)
+        if (config.MiniWarnExpireHours == 0)
             return;
 
-        var expiryDate = DateTime.Now.AddHours(-config.WarnExpireHours);
+        var expiryDate = DateTime.UtcNow.AddHours(-config.MiniWarnExpireHours);
 
-        switch ((WarnExpireAction)config.WarnExpireAction)
+        switch ((WarnExpireAction)config.MiniWarnExpireAction)
         {
             case WarnExpireAction.Clear:
-                var warningsToForgive =
-                    dbContext.Warnings2s
-                        .Where(w => w.GuildId == guildId && !w.Forgiven && w.DateAdded < expiryDate);
-                foreach (var warning in warningsToForgive)
-                {
-                    warning.Forgiven = true;
-                    warning.ForgivenBy = "Expiry";
-                }
-
-                await dbContext.UpdateAsync(warningsToForgive);
+                await dbContext.Warnings2s
+                    .Where(w => w.GuildId == guildId && !w.Forgiven && w.DateAdded < expiryDate)
+                    .Set(w => w.Forgiven, true)
+                    .Set(w => w.ForgivenBy, "Expiry")
+                    .UpdateAsync();
                 break;
             case WarnExpireAction.Delete:
                 await dbContext.Warnings2s
@@ -279,16 +279,15 @@ public class UserPunishService2 : INService
     /// </summary>
     /// <param name="guildId">The guild ID</param>
     /// <param name="days">The number of days</param>
-    /// <param name="delete">Whether to delete the warnings</param>
-    public async Task WarnExpireAsync(ulong guildId, int days, WarnExpireAction delete)
+    /// <param name="action">Whether to delete the warnings</param>
+    public async Task WarnExpireAsync(ulong guildId, int days, WarnExpireAction action)
     {
-        await using var dbContext = await dbFactory.CreateConnectionAsync();
         var config = await guildSettings.GetGuildConfig(guildId);
 
-        config.WarnExpireHours = days * 24;
-        config.WarnExpireAction = (int)delete;
+        config.MiniWarnExpireHours = days * 24;
+        config.MiniWarnExpireAction = (int)action;
         await guildSettings.UpdateGuildConfig(guildId, config);
-        if (config.WarnExpireHours == 0)
+        if (config.MiniWarnExpireHours == 0)
             return;
 
         await CheckWarnExpiresAsync(guildId).ConfigureAwait(false);
@@ -397,7 +396,9 @@ public class UserPunishService2 : INService
 
         if (p == null) return true;
 
-        await dbContext.WarningPunishment2s.Select(x => p).DeleteAsync();
+        await dbContext.WarningPunishment2s
+            .Where(x => x.GuildId == guildId && x.Count == number)
+            .DeleteAsync();
 
         return true;
     }

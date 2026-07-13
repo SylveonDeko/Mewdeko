@@ -744,7 +744,12 @@ public class OwnerOnly(
             }
             else
             {
-                ci = new CultureInfo(name);
+                if (!localization.TryResolveCulture(name, out ci))
+                {
+                    await ReplyErrorAsync(Strings.LangSetFail(ctx.Guild.Id)).ConfigureAwait(false);
+                    return;
+                }
+
                 localization.SetDefaultCulture(ci);
             }
 

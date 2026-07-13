@@ -65,18 +65,17 @@ public partial class Moderation
             if (mWarnlogChannel == 0)
             {
                 await Service.SetMWarnlogChannelId(ctx.Guild, channel).ConfigureAwait(false);
-                var warnChannel = await ctx.Guild.GetTextChannelAsync(mWarnlogChannel).ConfigureAwait(false);
                 await ctx.Channel.SendConfirmAsync(
-                    Strings.MiniWarnlogChannelSet(ctx.Guild.Id, warnChannel.Mention)
+                    Strings.MiniWarnlogChannelSet(ctx.Guild.Id, channel.Mention)
                 );
                 return;
             }
 
             var oldWarnChannel = await ctx.Guild.GetTextChannelAsync(mWarnlogChannel).ConfigureAwait(false);
             await Service.SetMWarnlogChannelId(ctx.Guild, channel).ConfigureAwait(false);
-            var newWarnChannel = await ctx.Guild.GetTextChannelAsync(mWarnlogChannel).ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync(
-                Strings.MiniWarnlogChannelChanged(ctx.Guild.Id, oldWarnChannel.Mention, newWarnChannel.Mention)
+                Strings.MiniWarnlogChannelChanged(ctx.Guild.Id, oldWarnChannel?.Mention ?? mWarnlogChannel.ToString(),
+                    channel.Mention)
             );
         }
 

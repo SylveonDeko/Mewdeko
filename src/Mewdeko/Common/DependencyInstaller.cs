@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.Versioning;
 using System.ServiceProcess;
 using System.Text;
 using System.Text.Json;
@@ -216,7 +217,9 @@ public static class DependencyInstaller
             }
             case PlatformID.Win32NT:
             {
-                var (postgresInstalled, redisInstalled) = CheckWindowsDependencies();
+                var (postgresInstalled, redisInstalled) = OperatingSystem.IsWindows()
+                    ? CheckWindowsDependencies()
+                    : (false, false);
                 if (!postgresInstalled || !redisInstalled)
                 {
                     ShowWindowsInstructions(postgresInstalled, redisInstalled);
@@ -344,17 +347,16 @@ public static class DependencyInstaller
         }
     }
 
+    [SupportedOSPlatform("windows")]
     private static (bool postgresInstalled, bool redisInstalled) CheckWindowsDependencies()
     {
         bool CheckService(string serviceName)
         {
             try
             {
-#pragma warning disable CA1416
                 var service = ServiceController.GetServices()
                     .FirstOrDefault(s => s.ServiceName.ToLower().Contains(serviceName));
                 return service is { Status: ServiceControllerStatus.Running };
-#pragma warning restore CA1416
             }
             catch
             {

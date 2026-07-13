@@ -1,5 +1,6 @@
 using System.IO;
 using System.Net.Http;
+using System.Text.Json;
 using DataModel;
 using Humanizer;
 using LinqToDB;
@@ -115,19 +116,33 @@ public class XpCardGenerator : INService
         var imgData = SKData.Create(xpstream);
         var originalImg = SKBitmap.Decode(imgData);
 
-        // Use template dimensions for the canvas
-        var canvasWidth = template.OutputSizeX;
-        var canvasHeight = template.OutputSizeY;
+        // The background defines the card's natural canvas size. Template dimensions are retained
+        // for compatibility, but stretching or cropping the source image produces surprising cards.
+        var canvasWidth = originalImg.Width;
+        var canvasHeight = originalImg.Height;
 
         // Create a surface with template dimensions
         using var surface = SKSurface.Create(new SKImageInfo(canvasWidth, canvasHeight));
         var canvas = surface.Canvas;
+        var builtInSurfaces = new Dictionary<string, SKSurface>();
+
+        SKCanvas Layer(string id)
+        {
+            if (!builtInSurfaces.TryGetValue(id, out var layerSurface))
+            {
+                layerSurface = SKSurface.Create(new SKImageInfo(canvasWidth, canvasHeight));
+                layerSurface.Canvas.Clear(SKColors.Transparent);
+                builtInSurfaces[id] = layerSurface;
+            }
+
+            return layerSurface.Canvas;
+        }
 
 
         // Scale the background image to fit template dimensions
         var destRect = new SKRect(0, 0, canvasWidth, canvasHeight);
         var srcRect = new SKRect(0, 0, originalImg.Width, originalImg.Height);
-        canvas.DrawBitmap(originalImg, srcRect, destRect);
+        canvas.DrawBitmap(originalImg, srcRect, destRect, new SKSamplingOptions(SKFilterMode.Linear));
 
         // Create general paint for drawing
         using var paint = new SKPaint
@@ -150,7 +165,7 @@ public class XpCardGenerator : INService
             };
 
             var username = stats.User.Username;
-            canvas.DrawText(username, template.TemplateUser.TextX, template.TemplateUser.TextY,
+            Layer("user-text").DrawText(username, template.TemplateUser.TextX, template.TemplateUser.TextY,
                 SKTextAlign.Left, font, paint);
         }
 
@@ -167,7 +182,7 @@ public class XpCardGenerator : INService
                     SKFontStyleSlant.Upright)
             };
 
-            canvas.DrawText(stats.Guild.Level.ToString(), template.TemplateGuild.GuildLevelX,
+            Layer("guild-level").DrawText(stats.Guild.Level.ToString(), template.TemplateGuild.GuildLevelX,
                 template.TemplateGuild.GuildLevelY, SKTextAlign.Left, font, paint);
         }
 
@@ -177,7 +192,7 @@ public class XpCardGenerator : INService
         if (template.TemplateBar.ShowBar)
         {
             var xpPercent = guild.LevelXp / (float)guild.RequiredXp;
-            DrawXpBar(xpPercent, template.TemplateBar, canvas);
+            DrawXpBar(xpPercent, template.TemplateBar, Layer("progress-bar"));
         }
 
         // Draw awarded XP
@@ -195,7 +210,7 @@ public class XpCardGenerator : INService
             };
 
             var text = $"({sign}{stats.FullGuildStats.BonusXp})";
-            canvas.DrawText(text, template.AwardedX, template.AwardedY,
+            Layer("awarded").DrawText(text, template.AwardedX, template.AwardedY,
                 SKTextAlign.Left, font, paint);
         }
 
@@ -212,7 +227,7 @@ public class XpCardGenerator : INService
                     SKFontStyleSlant.Upright)
             };
 
-            canvas.DrawText(stats.GuildRanking.ToString(), template.TemplateGuild.GuildRankX,
+            Layer("guild-rank").DrawText(stats.GuildRanking.ToString(), template.TemplateGuild.GuildRankX,
                 template.TemplateGuild.GuildRankY, SKTextAlign.Left, font, paint);
         }
 
@@ -230,7 +245,7 @@ public class XpCardGenerator : INService
             };
 
             var text = GetTimeSpent(stats.FullGuildStats.LastLevelUp);
-            canvas.DrawText(text, template.TimeOnLevelX, template.TimeOnLevelY,
+            Layer("time-on-level").DrawText(text, template.TimeOnLevelX, template.TimeOnLevelY,
                 SKTextAlign.Left, font, paint);
         }
 
@@ -267,7 +282,9 @@ public class XpCardGenerator : INService
                     var roundedAvatar = ApplyRoundedCorners(resizedAvatar, template.TemplateUser.IconSizeX / 2);
 
                     // Draw the avatar onto the main image
-                    canvas.DrawImage(roundedAvatar, template.TemplateUser.IconX, template.TemplateUser.IconY);
+                    Layer("user-icon").DrawImage(roundedAvatar, template.TemplateUser.IconX,
+                        template.TemplateUser.IconY,
+                        new SKSamplingOptions(SKFilterMode.Linear));
                 }
             }
             catch (Exception ex)
@@ -276,10 +293,235 @@ public class XpCardGenerator : INService
             }
         }
 
+        var defaultOrder = new[]
+        {
+            "user-text", "guild-level", "progress-bar", "awarded", "guild-rank", "time-on-level", "user-icon"
+        };
+        var builtInOrder = defaultOrder.AsEnumerable();
+        if (!string.IsNullOrWhiteSpace(template.BuiltInOrderJson))
+        {
+            try
+            {
+                var savedOrder = JsonSerializer.Deserialize<List<string>>(template.BuiltInOrderJson);
+                if (savedOrder is { Count: > 0 })
+                    builtInOrder = savedOrder.Where(defaultOrder.Contains).Concat(defaultOrder.Except(savedOrder))
+                        .Distinct();
+            }
+            catch (JsonException ex)
+            {
+                logger.LogWarning(ex, "Ignoring invalid built-in XP card layer order");
+            }
+        }
+
+        foreach (var id in builtInOrder)
+        {
+            if (!builtInSurfaces.TryGetValue(id, out var layerSurface)) continue;
+            using var image = layerSurface.Snapshot();
+            canvas.DrawImage(image, 0, 0, new SKSamplingOptions(SKFilterMode.Linear));
+        }
+
+        foreach (var layerSurface in builtInSurfaces.Values) layerSurface.Dispose();
+
+        // Custom layers intentionally render last so their z-order matches the dashboard layer stack.
+        await DrawCustomElementsAsync(canvas, template.CustomElementsJson, stats);
+
         // Convert to Stream and return
         var finalImage = surface.Snapshot();
         var finalData = finalImage.Encode(SKEncodedImageFormat.Png, 100);
         return finalData.AsStream();
+    }
+
+    private async Task DrawCustomElementsAsync(SKCanvas canvas, string? json, FullUserStats stats)
+    {
+        if (string.IsNullOrWhiteSpace(json)) return;
+
+        List<XpCardElement>? elements;
+        try
+        {
+            elements = JsonSerializer.Deserialize<List<XpCardElement>>(json,
+                new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+        }
+        catch (JsonException ex)
+        {
+            logger.LogWarning(ex, "Ignoring invalid custom XP card elements");
+            return;
+        }
+
+        if (elements == null) return;
+        foreach (var element in elements.Where(x => x.Visible).OrderBy(x => x.ZIndex))
+        {
+            canvas.Save();
+            canvas.RotateDegrees(element.Rotation, element.X + element.Width / 2, element.Y + element.Height / 2);
+            using var paint = new SKPaint
+            {
+                IsAntialias = true, Style = SKPaintStyle.Fill
+            };
+            paint.Color = ParseElementColor(element.Fill).WithAlpha((byte)(255 * Math.Clamp(element.Opacity, 0, 1)));
+            var rect = new SKRect(element.X, element.Y, element.X + element.Width, element.Y + element.Height);
+            ApplyElementEffects(paint, element, rect);
+
+            switch (element.Type.ToLowerInvariant())
+            {
+                case "ellipse":
+                    canvas.DrawOval(rect, paint);
+                    break;
+                case "line":
+                    paint.Style = SKPaintStyle.Stroke;
+                    paint.StrokeWidth = Math.Max(1, element.StrokeWidth);
+                    canvas.DrawLine(element.X, element.Y, element.X + element.Width, element.Y + element.Height, paint);
+                    break;
+                case "text":
+                    using (var font = new SKFont(SKTypeface.FromFamilyName("NotoSans"), element.FontSize))
+                        canvas.DrawText(ResolveElementText(element.Text, stats),
+                            element.TextAlign == "center" ? element.X + element.Width / 2 :
+                            element.TextAlign == "right" ? element.X + element.Width : element.X,
+                            element.Y + element.FontSize,
+                            element.TextAlign == "center" ? SKTextAlign.Center :
+                            element.TextAlign == "right" ? SKTextAlign.Right : SKTextAlign.Left,
+                            font, paint);
+                    break;
+                case "image":
+                    await DrawCustomImageAsync(canvas, element, rect, paint);
+                    break;
+                case "progress":
+                    DrawCustomProgress(canvas, element, rect, stats, paint);
+                    break;
+                default:
+                    canvas.DrawRoundRect(rect, element.CornerRadius, element.CornerRadius, paint);
+                    break;
+            }
+
+            if (element.StrokeWidth > 0 && element.Type is not ("line" or "text" or "image"))
+            {
+                paint.Style = SKPaintStyle.Stroke;
+                paint.StrokeWidth = element.StrokeWidth;
+                paint.Color = ParseElementColor(element.Stroke)
+                    .WithAlpha((byte)(255 * Math.Clamp(element.Opacity, 0, 1)));
+                if (element.Type == "ellipse") canvas.DrawOval(rect, paint);
+                else canvas.DrawRoundRect(rect, element.CornerRadius, element.CornerRadius, paint);
+            }
+
+            canvas.Restore();
+        }
+    }
+
+    private static void ApplyElementEffects(SKPaint paint, XpCardElement element,
+        SKRect rect)
+    {
+        if (!string.IsNullOrWhiteSpace(element.GradientEnd))
+        {
+            var radians = element.GradientAngle * MathF.PI / 180;
+            var center = new SKPoint(rect.MidX, rect.MidY);
+            var radius = MathF.Max(rect.Width, rect.Height) / 2;
+            var vector = new SKPoint(MathF.Cos(radians) * radius, MathF.Sin(radians) * radius);
+            paint.Shader = SKShader.CreateLinearGradient(center - vector, center + vector,
+                [ParseElementColor(element.Fill), ParseElementColor(element.GradientEnd)], null,
+                SKShaderTileMode.Clamp);
+        }
+
+        if (element.ShadowBlur > 0)
+            paint.ImageFilter = SKImageFilter.CreateDropShadow(element.ShadowX, element.ShadowY, element.ShadowBlur,
+                element.ShadowBlur, ParseElementColor(element.ShadowColor));
+    }
+
+    private static void DrawCustomProgress(SKCanvas canvas, XpCardElement element,
+        SKRect rect, FullUserStats stats, SKPaint paint)
+    {
+        var progress = stats.Guild.RequiredXp == 0
+            ? 1
+            : Math.Clamp(stats.Guild.LevelXp / (float)stats.Guild.RequiredXp, 0, 1);
+        using var track = new SKPaint
+        {
+            IsAntialias = true, Color = ParseElementColor(element.TrackFill)
+        };
+        if (element.ProgressStyle == "radial")
+        {
+            track.Style = paint.Style = SKPaintStyle.Stroke;
+            track.StrokeWidth = paint.StrokeWidth = Math.Max(2,
+                element.StrokeWidth > 0 ? element.StrokeWidth : Math.Min(rect.Width, rect.Height) / 8);
+            track.StrokeCap = paint.StrokeCap = SKStrokeCap.Round;
+            canvas.DrawArc(rect, -90, 360, false, track);
+            canvas.DrawArc(rect, -90, 360 * progress, false, paint);
+            return;
+        }
+
+        if (element.ProgressStyle == "segmented")
+        {
+            var count = Math.Clamp(element.Segments, 2, 50);
+            var gap = Math.Max(2, rect.Width * .01f);
+            var width = (rect.Width - gap * (count - 1)) / count;
+            for (var i = 0; i < count; i++)
+            {
+                var segment = new SKRect(rect.Left + i * (width + gap), rect.Top, rect.Left + i * (width + gap) + width,
+                    rect.Bottom);
+                canvas.DrawRoundRect(segment, element.CornerRadius, element.CornerRadius,
+                    i < Math.Ceiling(progress * count) ? paint : track);
+            }
+
+            return;
+        }
+
+        canvas.DrawRoundRect(rect, element.CornerRadius, element.CornerRadius, track);
+        var filled = new SKRect(rect.Left, rect.Top, rect.Left + rect.Width * progress, rect.Bottom);
+        canvas.DrawRoundRect(filled, element.CornerRadius, element.CornerRadius, paint);
+    }
+
+    private async Task DrawCustomImageAsync(SKCanvas canvas, XpCardElement element,
+        SKRect rect, SKPaint paint)
+    {
+        if (!Uri.TryCreate(element.Url, UriKind.Absolute, out var uri) || uri.Scheme is not ("http" or "https")) return;
+        try
+        {
+            using var client = httpClientFactory.CreateClient();
+            using var response = await client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead);
+            if (!response.IsSuccessStatusCode) return;
+            await using var stream = await response.Content.ReadAsStreamAsync();
+            using var bitmap = SKBitmap.Decode(stream);
+            if (bitmap != null)
+                canvas.DrawBitmap(bitmap, new SKRect(0, 0, bitmap.Width, bitmap.Height), rect,
+                    new SKSamplingOptions(SKFilterMode.Linear), paint);
+        }
+        catch (Exception ex)
+        {
+            logger.LogDebug(ex, "Could not render custom XP card image {Url}", element.Url);
+        }
+    }
+
+    private static SKColor ParseElementColor(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value)) return SKColors.Transparent;
+        return SKColor.TryParse(value.StartsWith('#') ? value : $"#{value}", out var color)
+            ? color
+            : SKColors.Transparent;
+    }
+
+    private static string ResolveElementText(string text, FullUserStats stats)
+    {
+        var percent = stats.Guild.RequiredXp == 0 ? 100 : stats.Guild.LevelXp * 100.0 / stats.Guild.RequiredXp;
+        var guildUser = stats.User as IGuildUser;
+        return text
+            .Replace("%xp.user%", stats.User.Username, StringComparison.OrdinalIgnoreCase)
+            .Replace("%xp.user.name%", stats.User.Username, StringComparison.OrdinalIgnoreCase)
+            .Replace("%xp.user.displayname%", guildUser?.DisplayName ?? stats.User.GlobalName ?? stats.User.Username,
+                StringComparison.OrdinalIgnoreCase)
+            .Replace("%xp.user.nickname%", guildUser?.Nickname ?? stats.User.Username,
+                StringComparison.OrdinalIgnoreCase)
+            .Replace("%xp.user.id%", stats.User.Id.ToString(), StringComparison.OrdinalIgnoreCase)
+            .Replace("%xp.level.current%", stats.Guild.Level.ToString(), StringComparison.OrdinalIgnoreCase)
+            .Replace("%xp.level.next%", (stats.Guild.Level + 1).ToString(), StringComparison.OrdinalIgnoreCase)
+            .Replace("%xp.total%", stats.FullGuildStats.TotalXp.ToString(), StringComparison.OrdinalIgnoreCase)
+            .Replace("%xp.current%", stats.Guild.LevelXp.ToString(), StringComparison.OrdinalIgnoreCase)
+            .Replace("%xp.needed%", stats.Guild.RequiredXp.ToString(), StringComparison.OrdinalIgnoreCase)
+            .Replace("%xp.remaining%", Math.Max(0, stats.Guild.RequiredXp - stats.Guild.LevelXp).ToString(),
+                StringComparison.OrdinalIgnoreCase)
+            .Replace("%xp.progress%", $"{percent:F1}%", StringComparison.OrdinalIgnoreCase)
+            .Replace("%xp.rank%", stats.GuildRanking.ToString(), StringComparison.OrdinalIgnoreCase)
+            .Replace("%xp.guild%", guildUser?.Guild.Name ?? "", StringComparison.OrdinalIgnoreCase)
+            .Replace("%xp.guild.name%", guildUser?.Guild.Name ?? "", StringComparison.OrdinalIgnoreCase)
+            .Replace("%xp.guild.id%", stats.FullGuildStats.GuildId.ToString(), StringComparison.OrdinalIgnoreCase);
     }
 
     /// <summary>
@@ -314,7 +556,7 @@ public class XpCardGenerator : INService
         canvas.ClipRoundRect(roundRect, SKClipOperation.Intersect, true);
 
         // Draw the bitmap
-        canvas.DrawBitmap(src, 0, 0, paint);
+        canvas.DrawBitmap(src, 0, 0, new SKSamplingOptions(SKFilterMode.Linear), paint);
 
         return surface.Snapshot();
     }
@@ -365,12 +607,12 @@ public class XpCardGenerator : INService
                 break;
         }
 
-        using var path = new SKPath();
-        path.MoveTo(x1, y1);
-        path.LineTo(x3, y3);
-        path.LineTo(x4, y4);
-        path.LineTo(x2, y2);
-        path.Close();
+        var pathBuilder = new SKPathBuilder();
+        pathBuilder.MoveTo(x1, y1);
+        pathBuilder.LineTo(x3, y3);
+        pathBuilder.LineTo(x4, y4);
+        pathBuilder.LineTo(x2, y2);
+        pathBuilder.Close();
 
         using var paint = new SKPaint
         {
@@ -380,6 +622,7 @@ public class XpCardGenerator : INService
         var color = SKColor.Parse(info.BarColor);
         // Fixed bug: was using Green twice instead of Blue
         paint.Color = new SKColor(color.Red, color.Green, color.Blue, (byte)info.BarTransparency);
+        using var path = pathBuilder.Detach();
         canvas.DrawPath(path, paint);
     }
 

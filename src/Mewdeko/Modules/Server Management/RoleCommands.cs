@@ -79,7 +79,7 @@ public partial class ServerManagement
                     $"{config.Data.LoadingEmote} Syncing permissions from {role.Mention} to {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} Channels and {(await ctx.Guild.GetTextChannelsAsync().ConfigureAwait(false)).Count(x => x is not SocketThreadChannel)} Categories.....")
                 .ConfigureAwait(false);
             foreach (var i in (await ctx.Guild.GetChannelsAsync().ConfigureAwait(false)).Where(x =>
-                         x is not SocketThreadChannel or SocketVoiceChannel))
+                         x is not (SocketThreadChannel or SocketVoiceChannel)))
             {
                 if (perms != null)
                     await i.AddPermissionOverwriteAsync(role, (OverwritePermissions)perms).ConfigureAwait(false);

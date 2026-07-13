@@ -242,6 +242,10 @@ public class StreamNotificationService : IReadyExecutor, INService
                 foreach (var guildGroup in guildGroups)
                 {
                     var guildId = guildGroup.Key;
+
+                    if (await IsSupersededByTwitchIntegrationAsync(guildId, key))
+                        continue;
+
                     var customMessage = await GetCustomStreamMessageAsync(guildId);
 
                     await guildGroup.Select(async fs =>
@@ -285,6 +289,10 @@ public class StreamNotificationService : IReadyExecutor, INService
                 foreach (var guildGroup in guildGroups)
                 {
                     var guildId = guildGroup.Key;
+
+                    if (await IsSupersededByTwitchIntegrationAsync(guildId, key))
+                        continue;
+
                     var customMessage = await GetCustomStreamMessageAsync(guildId);
 
                     await guildGroup.Select(async fs =>
@@ -303,6 +311,26 @@ public class StreamNotificationService : IReadyExecutor, INService
                 }
             }
         }
+    }
+
+    /// <summary>
+    ///     Checks whether the modern Twitch integration (chat bot + go-live, connected via OAuth on the
+    ///     dashboard) already owns notifications for this streamer in this guild. When a guild has connected
+    ///     its Twitch account and configured a go-live channel for the same channel name, the native
+    ///     integration supersedes the generic stream-notifications entry to avoid duplicate messages.
+    /// </summary>
+    /// <param name="guildId">The guild to check.</param>
+    /// <param name="key">The stream data key identifying the platform and username.</param>
+    private async Task<bool> IsSupersededByTwitchIntegrationAsync(ulong guildId, StreamDataKey key)
+    {
+        if (key.Type != FType.Twitch || string.IsNullOrWhiteSpace(key.Name))
+            return false;
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var twitchConfig = await db.TwitchGuildConfigs.FirstOrDefaultAsync(c => c.GuildId == guildId);
+
+        return twitchConfig is { Enabled: true, GoLiveChannelId: not null } &&
+               string.Equals(twitchConfig.TwitchChannel, key.Name, StringComparison.OrdinalIgnoreCase);
     }
 
     private async Task ClientOnJoinedGuild(GuildConfig guildConfig)
@@ -624,7 +652,8 @@ public class StreamNotificationService : IReadyExecutor, INService
             {
                 var processedMessage = replacer.Replace(streamerMessage);
 
-                if (SmartEmbed.TryParse(processedMessage ?? string.Empty, followedStream.GuildId, out var embed, out var plainText,
+                if (SmartEmbed.TryParse(processedMessage ?? string.Empty, followedStream.GuildId, out var embed,
+                        out var plainText,
                         out var components))
                 {
                     // Valid JSON - use SmartEmbed
@@ -644,7 +673,8 @@ public class StreamNotificationService : IReadyExecutor, INService
             {
                 var processedTemplate = replacer.Replace(guildTemplate);
 
-                if (SmartEmbed.TryParse(processedTemplate ?? string.Empty, followedStream.GuildId, out var embed, out var plainText,
+                if (SmartEmbed.TryParse(processedTemplate ?? string.Empty, followedStream.GuildId, out var embed,
+                        out var plainText,
                         out var components))
                 {
                     await textChannel.SendMessageAsync(plainText, embeds: embed, components: components?.Build());

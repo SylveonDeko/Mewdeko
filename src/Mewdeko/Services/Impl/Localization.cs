@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
 using Mewdeko.Services.Settings;
+using Mewdeko.Services.strings;
+using Serilog;
 
 namespace Mewdeko.Services.Impl;
 
@@ -8,7 +10,8 @@ namespace Mewdeko.Services.Impl;
 /// </summary>
 /// <param name="bss">The bss service.</param>
 /// <param name="service">The service service.</param>
-public class Localization(BotConfigService bss, GuildSettingsService service)
+/// <param name="stringsProvider">Used to check which locales we actually have string data for.</param>
+public class Localization(BotConfigService bss, GuildSettingsService service, IBotStringsProvider stringsProvider)
     : ILocalization
 {
     /// <inheritdoc />
@@ -16,7 +19,20 @@ public class Localization(BotConfigService bss, GuildSettingsService service)
     {
         get
         {
-            return bss.Data.DefaultLocale;
+            var configured = bss.Data.DefaultLocale;
+            if (configured is null || IsSupported(configured.Name))
+                return configured;
+
+            // The persisted default locale isn't one we have strings for (e.g. a neutral culture
+            // like "en" instead of "en-US"). Self-heal it so we don't repeat this lookup forever.
+            if (!TryResolveCulture(configured.Name, out var resolved))
+                return configured;
+
+            Log.Warning(
+                "Bot default locale '{Old}' isn't supported, correcting to '{New}'",
+                configured.Name, resolved!.Name);
+            bss.ModifyConfig(bs => bs.DefaultLocale = resolved);
+            return resolved;
         }
     }
 
@@ -58,7 +74,81 @@ public class Localization(BotConfigService bss, GuildSettingsService service)
 
         var guildConfig = service.GetGuildConfig(guildId.Value).ConfigureAwait(false).GetAwaiter().GetResult();
 
-        return guildConfig.Locale == null ? DefaultCultureInfo : new CultureInfo(guildConfig.Locale);
+        if (guildConfig.Locale == null)
+            return DefaultCultureInfo;
+
+        if (TryResolveCulture(guildConfig.Locale, out var resolved))
+        {
+            if (resolved!.Name != guildConfig.Locale)
+            {
+                // Self-heal: the stored locale (e.g. "en") isn't one we have strings for as-is,
+                // but it resolved to a supported one (e.g. "en-US"). Persist the fix.
+                Log.Warning(
+                    "Guild {GuildId} locale '{Old}' isn't supported, correcting to '{New}'",
+                    guildId.Value, guildConfig.Locale, resolved.Name);
+                guildConfig.Locale = resolved.Name;
+                service.UpdateGuildConfig(guildId.Value, guildConfig).ConfigureAwait(false).GetAwaiter().GetResult();
+            }
+
+            return resolved;
+        }
+
+        // Completely unsupported locale (e.g. bad data, or a locale that's since been removed) -
+        // fall back to default rather than repeatedly failing every string lookup for this guild.
+        Log.Warning(
+            "Guild {GuildId} locale '{Old}' isn't supported and has no fallback, resetting to default",
+            guildId.Value, guildConfig.Locale);
+        guildConfig.Locale = null;
+        service.UpdateGuildConfig(guildId.Value, guildConfig).ConfigureAwait(false).GetAwaiter().GetResult();
+        return DefaultCultureInfo;
+    }
+
+    /// <inheritdoc />
+    public bool TryResolveCulture(string? name, out CultureInfo? resolved)
+    {
+        resolved = null;
+        if (string.IsNullOrWhiteSpace(name))
+            return false;
+
+        CultureInfo culture;
+        try
+        {
+            culture = new CultureInfo(name);
+        }
+        catch (CultureNotFoundException)
+        {
+            return false;
+        }
+
+        if (IsSupported(culture.Name))
+        {
+            resolved = culture;
+            return true;
+        }
+
+        if (!culture.IsNeutralCulture)
+            return false;
+
+        CultureInfo specific;
+        try
+        {
+            specific = CultureInfo.CreateSpecificCulture(culture.Name);
+        }
+        catch (CultureNotFoundException)
+        {
+            return false;
+        }
+
+        if (!IsSupported(specific.Name))
+            return false;
+
+        resolved = specific;
+        return true;
+    }
+
+    private bool IsSupported(string localeName)
+    {
+        return stringsProvider.GetAvailableLocales().Contains(localeName);
     }
 
     /// <summary>

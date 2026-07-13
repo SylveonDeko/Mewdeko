@@ -40,9 +40,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     private readonly Replacer rep;
     private readonly GeneratedBotStrings strings;
 
-#pragma warning disable CS8714
-    private ConcurrentDictionary<ulong?, ConcurrentDictionary<int, Timer>> autoCommands =
-#pragma warning restore CS8714
+    private ConcurrentDictionary<ulong, ConcurrentDictionary<int, Timer>> autoCommands =
         new();
 
     private int currentStatusNum;
@@ -218,9 +216,9 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         autoCommands =
             (await dbContext.AutoCommands
                 .ToListAsync())
-            .Where(x => x.Interval >= 5)
+            .Where(x => x.Interval >= 5 && x.GuildId.HasValue)
             .AsEnumerable()
-            .GroupBy(x => x.GuildId)
+            .GroupBy(x => x.GuildId!.Value)
             .ToDictionary(x => x.Key,
                 y => y.ToDictionary(x => x.Id, TimerFromAutoCommand)
                     .ToConcurrent())
@@ -567,7 +565,10 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
         if (cmd.Interval >= 5)
         {
-            var autos = autoCommands.GetOrAdd(cmd.GuildId, new ConcurrentDictionary<int, Timer>());
+            if (!cmd.GuildId.HasValue)
+                return;
+
+            var autos = autoCommands.GetOrAdd(cmd.GuildId.Value, _ => new ConcurrentDictionary<int, Timer>());
             autos.AddOrUpdate(cmd.Id, _ => TimerFromAutoCommand(cmd), (_, old) =>
             {
                 old.Change(Timeout.Infinite, Timeout.Infinite);
@@ -670,7 +671,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
         if (cmd == null) return false;
         await dbContext.DeleteAsync(cmd);
-        if (!autoCommands.TryGetValue(cmd.GuildId, out var autos)) return true;
+        if (!cmd.GuildId.HasValue || !autoCommands.TryGetValue(cmd.GuildId.Value, out var autos)) return true;
         if (autos.TryRemove(cmd.Id, out var timer))
             timer.Change(Timeout.Infinite, Timeout.Infinite);
 

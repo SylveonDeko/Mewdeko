@@ -226,12 +226,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         async Task<PageBuilder> PageFactory(int page)
         {
-            await Task.CompletedTask.ConfigureAwait(false);
+            var prefix = await guildSettings.GetPrefix(ctx.Guild).ConfigureAwait(false);
             return new PageBuilder().WithDescription(string.Join("\n",
                 perms.Skip(page * 10).Take(10).Select(p =>
                 {
                     var str =
-                        $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(guildSettings.GetPrefix(ctx.Guild).GetAwaiter().GetResult(), (SocketGuild)ctx.Guild))}";
+                        $"`{p.Index + 1}.` {Format.Bold(p.GetCommand(prefix, (SocketGuild)ctx.Guild))}";
                     if (p.Index == 0)
                         str += $" [{Strings.Uneditable(ctx.Guild.Id)}]";
                     return str;

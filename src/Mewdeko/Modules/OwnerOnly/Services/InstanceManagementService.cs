@@ -60,9 +60,9 @@ public class InstanceManagementService : INService, IReadyExecutor
             try
             {
                 await using var db = await dbFactory.CreateConnectionAsync();
-                var exists = await db.BotInstances.AnyAsync(x => x.Port == creds.ApiPort);
+                var existing = await db.BotInstances.FirstOrDefaultAsync(x => x.Port == creds.ApiPort);
 
-                if (!exists)
+                if (existing is null)
                 {
                     logger.LogInformation("Registering self as master instance on port {Port}", creds.ApiPort);
 
@@ -75,6 +75,15 @@ public class InstanceManagementService : INService, IReadyExecutor
                         IsActive = true,
                         LastStatusUpdate = DateTime.UtcNow
                     });
+                }
+                else
+                {
+                    existing.BotId = client.CurrentUser.Id;
+                    existing.BotName = client.CurrentUser.Username;
+                    existing.BotAvatar = client.CurrentUser.GetAvatarUrl() ?? "";
+                    existing.IsActive = true;
+                    existing.LastStatusUpdate = DateTime.UtcNow;
+                    await db.UpdateAsync(existing);
                 }
             }
             catch (Exception ex)

@@ -5054,3 +5054,59 @@ antipostchannelremove:
       name: channel
       optional: false
       type: ITextChannel
+antiimagehash:
+  args:
+    - ''
+    - 'Ban'
+    - 'Delete 31'
+    - 'Timeout 31 1d'
+  desc: >-
+    Enables Anti-Image-Hash protection, which actions anyone re-posting an image
+    from the blocked image list, including copies that were resized, flipped,
+    re-uploaded at lower quality, or wrapped in a border. Run with no arguments
+    to disable it. The optional tolerance (0 to 64, default 31) sets how
+    different a posted image can look and still count as a blocked one.
+  params: [ ]
+antiimagehashignore:
+  args:
+    - '<role>'
+    - '<channel>'
+  desc: 'Toggles a role or channel as exempt from Anti-Image-Hash protection.'
+  params: [ ]
+blockimage:
+  args:
+    - ''
+    - 'mrbeast crypto scam'
+    - 'Delete nsfw meme'
+    - 'https://example.com/scam.png mrbeast crypto scam'
+  desc: >-
+    Blocks an image so that anyone re-posting it is actioned, including resized,
+    recompressed, mirrored, and bordered copies. Attach the image, reply to a
+    message containing it, or pass its URL. An action given before the label
+    overrides the guild default for this image only.
+  params: [ ]
+unblockimage:
+  args:
+    - '<id>'
+  desc: 'Removes an image from the blocked image list by its ID, as shown by blockedimages.'
+  params: [ ]
+blockedimages:
+  args:
+    - ''
+  desc: 'Lists the blocked images along with how many times each one has been caught.'
+  params: [ ]
+imagehash:
+  args:
+    - ''
+    - 'https://example.com/scam.png'
+  desc: 'Shows the perceptual hash of an image without blocking it.'
+  params: [ ]
+antiimagehashpreset:
+  args:
+    - ''
+  desc: >-
+    Toggles the list of known scam images that ships with Mewdeko: the fake
+    crypto casino and giveaway images currently being spammed across Discord.
+    They are blocked alongside your own list. On by default when
+    Anti-Image-Hash is enabled.
+  params: [ ]

@@ -203,7 +203,7 @@ public class MinecraftBridgeService : INService
         var completed = await Task.WhenAny(tcs.Task, Task.Delay(timeout));
         conn.PendingCommands.TryRemove(requestId, out _);
 
-        return completed == tcs.Task ? tcs.Task.Result : null;
+        return completed == tcs.Task ? await tcs.Task.ConfigureAwait(false) : null;
     }
 
     /// <summary>

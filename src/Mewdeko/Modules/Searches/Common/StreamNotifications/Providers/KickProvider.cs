@@ -134,9 +134,7 @@ public class KickProvider : Provider
     }
 
     /// <inheritdoc />
-#pragma warning disable CS8609
     public override async Task<StreamData?> GetStreamDataAsync(string login)
-#pragma warning restore CS8609
     {
         var data = await GetStreamDataAsync([login]).ConfigureAwait(false);
         return data.FirstOrDefault();

@@ -332,7 +332,7 @@ public class RepService : INService, IReadyExecutor, IUnloadableService
     {
         await using var db = await dbFactory.CreateConnectionAsync();
 
-        return await db.UserReputations
+        var leaderboard = await db.UserReputations
             .Where(x => x.GuildId == guildId && x.TotalRep > 0)
             .OrderByDescending(x => x.TotalRep)
             .Skip((page - 1) * pageSize)
@@ -342,7 +342,9 @@ public class RepService : INService, IReadyExecutor, IUnloadableService
                 x.UserId, x.TotalRep
             })
             .ToListAsync()
-            .ContinueWith(task => task.Result.Select(x => (x.UserId, x.TotalRep)).ToList());
+            .ConfigureAwait(false);
+
+        return leaderboard.Select(x => (x.UserId, x.TotalRep)).ToList();
     }
 
     /// <summary>

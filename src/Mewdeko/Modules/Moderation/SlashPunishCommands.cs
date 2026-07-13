@@ -201,8 +201,6 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
 
         if (dmFailed) embed.WithFooter($"⚠️ {Strings.UnableToDmUser(ctx.Guild.Id)}");
 
-        if (dmFailed) embed.WithFooter($"⚠️ {Strings.UnableToDmUser(ctx.Guild.Id)}");
-
         await ctx.Interaction.RespondAsync(embed: embed.Build());
         if (await Service.GetWarnlogChannel(ctx.Guild.Id) != 0)
         {
@@ -216,6 +214,7 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
             var punishtime = condition ? TimeSpan.FromMinutes(punishment.Time).ToString() : " ";
             var punishaction = condition ? punishment.Punishment.Humanize() : "None";
             var channel = await ctx.Guild.GetTextChannelAsync(await Service.GetWarnlogChannel(ctx.Guild.Id));
+            var originalResponse = await ctx.Interaction.GetOriginalResponseAsync().ConfigureAwait(false);
             await channel.EmbedAsync(new EmbedBuilder().WithErrorColor()
                 .WithThumbnailUrl(user.RealAvatarUrl().ToString())
                 .WithTitle(Strings.WarnLogTitle(ctx.Guild.Id, ctx.User))
@@ -228,7 +227,7 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
                     punishaction,
                     punishtime,
                     reason,
-                    ctx.Interaction.GetOriginalResponseAsync().GetAwaiter().GetResult().GetJumpUrl())));
+                    originalResponse.GetJumpUrl())));
         }
     }
 

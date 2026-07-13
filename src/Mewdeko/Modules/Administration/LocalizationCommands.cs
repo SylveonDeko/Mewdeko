@@ -82,7 +82,7 @@ public partial class Administration
                     "ru-RU", "Русский, Россия"
                 },
                 {
-                    "sr-Cyrl-RS", "Српски, Србија"
+                    "sr-RS", "Српски, Србија"
                 },
                 {
                     "es-ES", "Español, España"
@@ -127,7 +127,12 @@ public partial class Administration
                 }
                 else
                 {
-                    ci = new CultureInfo(name);
+                    if (!localization.TryResolveCulture(name, out ci))
+                    {
+                        await ReplyErrorAsync(Strings.LangSetFail(ctx.Guild.Id)).ConfigureAwait(false);
+                        return;
+                    }
+
                     localization.SetGuildCulture(ctx.Guild, ci);
                 }
 
@@ -178,7 +183,12 @@ public partial class Administration
                 }
                 else
                 {
-                    ci = new CultureInfo(name);
+                    if (!localization.TryResolveCulture(name, out ci))
+                    {
+                        await ReplyErrorAsync(Strings.LangSetFail(ctx.Guild.Id)).ConfigureAwait(false);
+                        return;
+                    }
+
                     localization.SetDefaultCulture(ci);
                 }
 

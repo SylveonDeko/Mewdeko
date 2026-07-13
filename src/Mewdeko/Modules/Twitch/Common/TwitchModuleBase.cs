@@ -61,28 +61,28 @@ public abstract class TwitchModuleBase
     /// </summary>
     /// <param name="key">The snake_case localization key.</param>
     /// <param name="data">Optional format arguments.</param>
-    protected void ReplyLocalized(string key, params object[] data)
+    protected Task ReplyLocalizedAsync(string key, params object[] data)
     {
-        TwitchSvc.SendMessage(Context.TwitchChannel, $"@{Context.DisplayName} {GetText(key, data)}");
+        return TwitchSvc.SendMessageAsync(Context.TwitchChannel, $"@{Context.DisplayName} {GetText(key, data)}");
     }
 
     /// <summary>
     ///     Sends a plain reply to the Twitch channel, prefixed with <c>@DisplayName</c>.
-    ///     Prefer <see cref="ReplyLocalized" /> for any user-visible text.
+    ///     Prefer <see cref="ReplyLocalizedAsync" /> for any user-visible text.
     /// </summary>
     /// <param name="message">The already-resolved message to send.</param>
-    protected void Reply(string message)
+    protected Task ReplyAsync(string message)
     {
-        TwitchSvc.SendMessage(Context.TwitchChannel, $"@{Context.DisplayName} {message}");
+        return TwitchSvc.SendMessageAsync(Context.TwitchChannel, $"@{Context.DisplayName} {message}");
     }
 
     /// <summary>
     ///     Sends a plain message to the Twitch channel without a user mention prefix.
     /// </summary>
     /// <param name="message">The already-resolved message to send.</param>
-    protected void Say(string message)
+    protected Task SayAsync(string message)
     {
-        TwitchSvc.SendMessage(Context.TwitchChannel, message);
+        return TwitchSvc.SendMessageAsync(Context.TwitchChannel, message);
     }
 }
 

@@ -1,5 +1,3 @@
-using TwitchLib.Client.Models;
-
 namespace Mewdeko.Modules.Twitch.Common;
 
 /// <summary>
@@ -30,26 +28,39 @@ public enum TwitchPermissionLevel
 public class TwitchCommandContext
 {
     /// <summary>
-    ///     Initializes a new <see cref="TwitchCommandContext" /> from a TwitchLib chat message.
+    ///     Initializes a new <see cref="TwitchCommandContext" /> from an EventSub chat message.
     /// </summary>
-    /// <param name="message">The raw TwitchLib chat message.</param>
+    /// <param name="username">The sender's Twitch login.</param>
+    /// <param name="displayName">The sender's Twitch display name.</param>
+    /// <param name="twitchChannel">The broadcaster channel login.</param>
+    /// <param name="messageText">The message text.</param>
     /// <param name="guildId">The Discord guild ID whose config maps to this Twitch channel.</param>
     /// <param name="commandPrefix">The command prefix configured for this guild.</param>
-    public TwitchCommandContext(ChatMessage message, ulong guildId, string commandPrefix)
+    /// <param name="messageId">The EventSub chat message id, if present.</param>
+    /// <param name="badges">The EventSub badge set for the sender.</param>
+    public TwitchCommandContext(
+        string username,
+        string displayName,
+        string twitchChannel,
+        string messageText,
+        ulong guildId,
+        string commandPrefix,
+        string? messageId,
+        IReadOnlyCollection<string> badges)
     {
-        Message = message;
         GuildId = guildId;
         CommandPrefix = commandPrefix;
+        Username = username;
+        DisplayName = string.IsNullOrWhiteSpace(displayName) ? username : displayName;
+        TwitchChannel = twitchChannel;
+        MessageText = messageText;
+        MessageId = messageId;
 
-        Username = message.Username;
-        DisplayName = message.DisplayName;
-        TwitchChannel = message.Channel;
-        MessageText = message.Message;
-
-        IsBroadcaster = message.IsBroadcaster;
-        IsMod = message.IsModerator || message.IsBroadcaster;
-        IsSubscriber = message.IsSubscriber;
-        IsVip = message.IsVip;
+        IsBroadcaster = badges.Contains("broadcaster", StringComparer.OrdinalIgnoreCase);
+        IsMod = IsBroadcaster || badges.Contains("moderator", StringComparer.OrdinalIgnoreCase);
+        IsSubscriber = badges.Contains("subscriber", StringComparer.OrdinalIgnoreCase) ||
+                       badges.Contains("founder", StringComparer.OrdinalIgnoreCase);
+        IsVip = badges.Contains("vip", StringComparer.OrdinalIgnoreCase);
 
         PermissionLevel = IsBroadcaster
             ? TwitchPermissionLevel.Broadcaster
@@ -62,8 +73,8 @@ public class TwitchCommandContext
                         : TwitchPermissionLevel.Everyone;
     }
 
-    /// <summary>Gets the raw TwitchLib chat message.</summary>
-    public ChatMessage Message { get; }
+    /// <summary>Gets the Twitch chat message id, when provided by the transport.</summary>
+    public string? MessageId { get; }
 
     /// <summary>Gets the Discord guild ID this Twitch channel is configured for.</summary>
     public ulong GuildId { get; }

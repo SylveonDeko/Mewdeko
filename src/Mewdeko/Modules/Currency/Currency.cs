@@ -867,15 +867,16 @@ public partial class Currency(
         arrowPaint.Color = SKColors.Black;
         arrowPaint.IsAntialias = true;
 
-        var arrowPath = new SKPath();
-        arrowPath.MoveTo(centerX, centerY);
-        arrowPath.LineTo(arrowShaftEnd.X, arrowShaftEnd.Y);
+        var arrowPathBuilder = new SKPathBuilder();
+        arrowPathBuilder.MoveTo(centerX, centerY);
+        arrowPathBuilder.LineTo(arrowShaftEnd.X, arrowShaftEnd.Y);
 
-        arrowPath.MoveTo(arrowTip.X, arrowTip.Y);
-        arrowPath.LineTo(arrowLeftSide.X, arrowLeftSide.Y);
-        arrowPath.LineTo(arrowRightSide.X, arrowRightSide.Y);
-        arrowPath.LineTo(arrowTip.X, arrowTip.Y);
+        arrowPathBuilder.MoveTo(arrowTip.X, arrowTip.Y);
+        arrowPathBuilder.LineTo(arrowLeftSide.X, arrowLeftSide.Y);
+        arrowPathBuilder.LineTo(arrowRightSide.X, arrowRightSide.Y);
+        arrowPathBuilder.LineTo(arrowTip.X, arrowTip.Y);
 
+        using var arrowPath = arrowPathBuilder.Detach();
         canvas.DrawPath(arrowPath, arrowPaint);
     }
 

@@ -43,7 +43,12 @@ public enum ProtectionType
     /// <summary>
     ///     Protection for honeypot channels that auto-ban posters.
     /// </summary>
-    PostChannelBan
+    PostChannelBan,
+
+    /// <summary>
+    ///     Protection against posting images that match a blocked perceptual hash.
+    /// </summary>
+    ImageHash
 }
 
 /// <summary>
@@ -513,6 +518,116 @@ public class UserMassPostStats : IDisposable
         public ulong MessageId { get; set; }
         public string Content { get; set; }
         public DateTime Timestamp { get; set; }
+    }
+}
+
+/// <summary>
+///     A blocked image kept in memory, paired with its parsed hashes so message checks avoid re-parsing hex.
+/// </summary>
+/// <param name="Entry">The stored database row.</param>
+/// <param name="Hashes">
+///     The parsed PDQ hashes for this image: the full frame, plus the mirrored and cropped variants that let a flipped or
+///     cropped re-upload still match. A posted image matches the entry if it comes within tolerance of any of them.
+/// </param>
+public record BlockedImageHash(BannedImageHash Entry, IReadOnlyList<ulong[]> Hashes);
+
+/// <summary>
+///     Represents statistics related to anti-image-hash measures.
+/// </summary>
+public class AntiImageHashStats
+{
+    private readonly int baseTriggers;
+    private int sessionCounter;
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="AntiImageHashStats" /> class with the specified anti-image-hash
+    ///     setting.
+    /// </summary>
+    /// <param name="setting">The anti-image-hash setting.</param>
+    public AntiImageHashStats(AntiImageHashSetting setting)
+    {
+        AntiImageHashSettings = setting;
+        baseTriggers = setting.TotalTriggers;
+    }
+
+    /// <summary>
+    ///     Gets or sets the anti-image-hash settings.
+    /// </summary>
+    public AntiImageHashSetting AntiImageHashSettings { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the blocked hashes for the guild.
+    /// </summary>
+    public IReadOnlyList<BlockedImageHash> Hashes { get; set; } = [];
+
+    /// <summary>
+    ///     Gets or sets the roles exempt from this protection.
+    /// </summary>
+    public IReadOnlySet<ulong> IgnoredRoles { get; set; } = new HashSet<ulong>();
+
+    /// <summary>
+    ///     Gets or sets the channels exempt from this protection.
+    /// </summary>
+    public IReadOnlySet<ulong> IgnoredChannels { get; set; } = new HashSet<ulong>();
+
+    /// <summary>
+    ///     Stores the last 10 users punished for posting a blocked image.
+    /// </summary>
+    public ConcurrentQueue<(ulong UserId, string Username, string Hash, DateTimeOffset PunishedAt)> RecentViolations
+    {
+        get;
+    } = new();
+
+    /// <summary>
+    ///     Gets the default action to be taken against blocked images.
+    /// </summary>
+    public int Action
+    {
+        get
+        {
+            return AntiImageHashSettings.Action;
+        }
+    }
+
+    /// <summary>
+    ///     Gets the default duration of the punishment in minutes.
+    /// </summary>
+    public int PunishDuration
+    {
+        get
+        {
+            return AntiImageHashSettings.PunishDuration;
+        }
+    }
+
+    /// <summary>
+    ///     Gets the ID of the role associated with image hash punishment.
+    /// </summary>
+    public ulong? RoleId
+    {
+        get
+        {
+            return AntiImageHashSettings.RoleId;
+        }
+    }
+
+    /// <summary>
+    ///     Gets the lifetime number of times this protection has triggered, including triggers from before the last restart.
+    /// </summary>
+    public int Counter
+    {
+        get
+        {
+            return baseTriggers + sessionCounter;
+        }
+    }
+
+    /// <summary>
+    ///     Increments the counter for blocked image occurrences and mirrors it onto the cached settings.
+    /// </summary>
+    public void Increment()
+    {
+        AntiImageHashSettings.TotalTriggers = baseTriggers + Interlocked.Increment(ref sessionCounter);
     }
 }
 
