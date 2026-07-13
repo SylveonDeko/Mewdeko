@@ -414,7 +414,6 @@ public partial class Utility(
             return;
         }
 
-        await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false);
         var msg = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false)).LastOrDefault(x =>
             x.ChannelId == ctx.Channel.Id && !x.Edited);
         if (msg is null)

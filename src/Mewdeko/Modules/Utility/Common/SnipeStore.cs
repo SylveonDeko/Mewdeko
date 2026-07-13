@@ -6,6 +6,12 @@
 public class SnipeStore
 {
     /// <summary>
+    ///     Gets or sets a unique ID for this snipe. Keeps otherwise identical snipes, such as duplicate messages removed by
+    ///     the same purge, from colliding in the cache.
+    /// </summary>
+    public Guid Id { get; set; } = Guid.NewGuid();
+
+    /// <summary>
     ///     Gets or sets the ID of the guild where the message was sent.
     /// </summary>
     public ulong GuildId { get; set; }

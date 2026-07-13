@@ -16,6 +16,11 @@ namespace Mewdeko.Services.Impl;
 /// </summary>
 public class RedisCache : IDataCache
 {
+    /// <summary>
+    ///     How long snipes are retained. There is no cap on how many a guild may hold within this window.
+    /// </summary>
+    private static readonly TimeSpan SnipeExpiry = TimeSpan.FromDays(30);
+
     private static readonly JsonSerializerOptions options = new()
     {
         ReferenceHandler = ReferenceHandler.IgnoreCycles
@@ -439,17 +444,31 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    ///     Adds a snipe to the cache
+    ///     Appends snipes to a guilds snipe set, dropping any that have aged past <see cref="SnipeExpiry" /> and refreshing
+    ///     the key TTL.
     /// </summary>
     /// <param name="id">The guild ID.</param>
-    /// <param name="newSnipes">The list of snipes.</param>
+    /// <param name="newSnipes">The snipes to append.</param>
     /// <returns></returns>
-    public Task AddSnipeToCache(ulong id, List<SnipeStore> newSnipes)
+    public async Task AddSnipeToCache(ulong id, IReadOnlyCollection<SnipeStore> newSnipes)
     {
-        var customers = new RedisDictionary<ulong, List<SnipeStore>>($"{id}_{redisKey}_snipes", Redis);
-        customers.Remove(id);
-        customers.Add(id, newSnipes);
-        return Task.CompletedTask;
+        if (newSnipes.Count == 0)
+            return;
+
+        var db = Redis.GetDatabase();
+        var key = SnipeKey(id);
+        var entries = newSnipes
+            .Select(x => new SortedSetEntry(JsonSerializer.Serialize(x, options), SnipeScore(x.DateAdded)))
+            .ToArray();
+
+        var batch = db.CreateBatch();
+        var add = batch.SortedSetAddAsync(key, entries);
+        var prune = batch.SortedSetRemoveRangeByScoreAsync(key, double.NegativeInfinity,
+            SnipeScore(DateTime.UtcNow - SnipeExpiry), Exclude.Stop);
+        var expire = batch.KeyExpireAsync(key, SnipeExpiry);
+        batch.Execute();
+
+        await Task.WhenAll(add, prune, expire).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -518,14 +537,33 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    ///     Gets all snipes for a guild.
+    ///     Gets a guilds unexpired snipes, oldest first.
     /// </summary>
     /// <param name="id">The guild ID.</param>
     /// <returns></returns>
-    public Task<List<SnipeStore>?> GetSnipesForGuild(ulong id)
+    public async Task<List<SnipeStore>> GetSnipesForGuild(ulong id)
     {
-        var customers = new RedisDictionary<ulong, List<SnipeStore>>($"{id}_{redisKey}_snipes", Redis);
-        return Task.FromResult(customers[id]);
+        var entries = await Redis.GetDatabase()
+            .SortedSetRangeByScoreAsync(SnipeKey(id), SnipeScore(DateTime.UtcNow - SnipeExpiry),
+                exclude: Exclude.Start)
+            .ConfigureAwait(false);
+
+        var snipes = new List<SnipeStore>(entries.Length);
+        foreach (var entry in entries)
+        {
+            try
+            {
+                var snipe = JsonSerializer.Deserialize<SnipeStore>(entry.ToString(), options);
+                if (snipe is not null)
+                    snipes.Add(snipe);
+            }
+            catch (JsonException ex)
+            {
+                Log.Warning(ex, "Discarding malformed snipe entry for guild {GuildId}", id);
+            }
+        }
+
+        return snipes;
     }
 
     /// <summary>
@@ -660,5 +698,23 @@ public class RedisCache : IDataCache
             expiry, flags: CommandFlags.FireAndForget).ConfigureAwait(false);
 
         return obj;
+    }
+
+    /// <summary>
+    ///     Scores a snipe by its age so the set stays ordered by time and can be pruned by score.
+    /// </summary>
+    /// <param name="dateAdded">The time the snipe was captured, in UTC.</param>
+    private static double SnipeScore(DateTime dateAdded)
+    {
+        return new DateTimeOffset(DateTime.SpecifyKind(dateAdded, DateTimeKind.Utc)).ToUnixTimeMilliseconds();
+    }
+
+    /// <summary>
+    ///     Builds the Redis key holding a guilds snipe set.
+    /// </summary>
+    /// <param name="id">The guild ID.</param>
+    private RedisKey SnipeKey(ulong id)
+    {
+        return $"{redisKey}_snipes_v2_{id}";
     }
 }

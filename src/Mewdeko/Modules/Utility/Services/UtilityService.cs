@@ -159,21 +159,12 @@ public partial class UtilityService : INService
             UserId = x.Value.Author.Id,
             Edited = false,
             DateAdded = DateTime.UtcNow
-        });
+        }).ToList();
 
-        if (!msgs.Any())
+        if (msgs.Count == 0)
             return;
 
-        var snipes = await cache.GetSnipesForGuild(chan.Guild.Id).ConfigureAwait(false) ?? [];
-        if (snipes.Count == 0)
-        {
-            var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
-            if (todelete.Any())
-                snipes.RemoveRange(todelete);
-        }
-
-        snipes.AddRange(msgs);
-        await cache.AddSnipeToCache(chan.Guild.Id, snipes).ConfigureAwait(false);
+        await cache.AddSnipeToCache(chan.Guild.Id, msgs).ConfigureAwait(false);
     }
 
     private async Task MsgStore(Cacheable<IMessage, ulong> optMsg, Cacheable<IMessageChannel, ulong> ch)
@@ -198,16 +189,7 @@ public partial class UtilityService : INService
             Edited = false,
             DateAdded = DateTime.UtcNow
         };
-        var snipes = await cache.GetSnipesForGuild(channel.Guild.Id).ConfigureAwait(false) ?? [];
-        if (snipes.Count == 0)
-        {
-            var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
-            if (todelete.Any())
-                snipes.RemoveRange(todelete);
-        }
-
-        snipes.Add(snipemsg);
-        await cache.AddSnipeToCache(channel.Guild.Id, snipes).ConfigureAwait(false);
+        await cache.AddSnipeToCache(channel.Guild.Id, [snipemsg]).ConfigureAwait(false);
     }
 
     private async Task MsgStore2(Cacheable<IMessage, ulong> optMsg, SocketMessage imsg2, ISocketMessageChannel ch)
@@ -230,16 +212,7 @@ public partial class UtilityService : INService
             Edited = true,
             DateAdded = DateTime.UtcNow
         };
-        var snipes = await cache.GetSnipesForGuild(channel.Guild.Id).ConfigureAwait(false) ?? [];
-        if (snipes.Count == 0)
-        {
-            var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
-            if (todelete.Any())
-                snipes.RemoveRange(todelete);
-        }
-
-        snipes.Add(snipemsg);
-        await cache.AddSnipeToCache(channel.Guild.Id, snipes).ConfigureAwait(false);
+        await cache.AddSnipeToCache(channel.Guild.Id, [snipemsg]).ConfigureAwait(false);
     }
 
     /// <summary>

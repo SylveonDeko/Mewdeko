@@ -256,16 +256,17 @@ public interface IDataCache
     public List<HighlightSetting>? GetHighlightSettingsForGuild(ulong id);
 
     /// <summary>
-    ///     Gets snipes for a guild.
+    ///     Gets a guilds snipes, oldest first. Returns an empty list when the guild has none.
     /// </summary>
-    public Task<List<SnipeStore>?> GetSnipesForGuild(ulong id);
+    /// <param name="id">The guild ID.</param>
+    public Task<List<SnipeStore>> GetSnipesForGuild(ulong id);
 
     /// <summary>
-    ///     Caches snipes for a guild.
+    ///     Appends snipes to a guilds capped, expiring snipe list.
     /// </summary>
-    /// <param name="id">The id identifier.</param>
-    /// <param name="newAfk">The newAfk parameter.</param>
-    public Task AddSnipeToCache(ulong id, List<SnipeStore> newAfk);
+    /// <param name="id">The guild ID.</param>
+    /// <param name="newSnipes">The snipes to append, in chronological order.</param>
+    public Task AddSnipeToCache(ulong id, IReadOnlyCollection<SnipeStore> newSnipes);
 
     #endregion
 
