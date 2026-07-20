@@ -734,10 +734,41 @@ public sealed class MewdekoPlayer : LavalinkPlayer
             // Get similar tracks from Last.fm
             var similarTracksResponse =
                 await lastfmClient.Track.GetSimilarAsync(trackTitle, artName, limit: autoPlay * 2);
-            if (!similarTracksResponse.Success || !similarTracksResponse.Content.Any())
+
+            List<LastTrack> candidateTracks;
+            if (similarTracksResponse.Success && similarTracksResponse.Content.Any())
             {
-                logger.LogWarning($"No similar tracks found for {trackTitle} by {artistName}");
-                return true;
+                candidateTracks = similarTracksResponse.Content.ToList();
+            }
+            else
+            {
+                logger.LogInformation(
+                    $"No similar tracks found for {trackTitle} by {artistName}, falling back to similar artists");
+
+                var similarArtistsResponse = await lastfmClient.Artist.GetSimilarAsync(artName, limit: 5);
+                if (!similarArtistsResponse.Success || !similarArtistsResponse.Content.Any())
+                {
+                    logger.LogWarning($"No similar tracks or artists found for {trackTitle} by {artistName}");
+                    return true;
+                }
+
+                candidateTracks = new List<LastTrack>();
+                foreach (var similarArtist in similarArtistsResponse.Content)
+                {
+                    var topTracksResponse =
+                        await lastfmClient.Artist.GetTopTracksAsync(similarArtist.Name, itemsPerPage: autoPlay);
+                    if (topTracksResponse.Success)
+                        candidateTracks.AddRange(topTracksResponse.Content);
+
+                    if (candidateTracks.Count >= autoPlay * 2)
+                        break;
+                }
+
+                if (candidateTracks.Count == 0)
+                {
+                    logger.LogWarning($"No fallback tracks found via similar artists for {artistName}");
+                    return true;
+                }
             }
 
             // Filter out tracks that are already in the queue
@@ -745,7 +776,7 @@ public sealed class MewdekoPlayer : LavalinkPlayer
                 queue.Select(q => q.Track.Title.ToLower()),
                 StringComparer.OrdinalIgnoreCase);
 
-            var filteredTracks = similarTracksResponse.Content
+            var filteredTracks = candidateTracks
                 .Where(t => !queuedTrackNames.Contains($"{t.Name} - {t.ArtistName}".ToLower()))
                 .ToList();
 
