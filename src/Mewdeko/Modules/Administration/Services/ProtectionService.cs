@@ -6,6 +6,7 @@ using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Moderation.Services;
+using Mewdeko.Services.Settings;
 using Mewdeko.Services.Strings;
 
 namespace Mewdeko.Modules.Administration.Services;
@@ -28,6 +29,8 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
     private readonly ConcurrentDictionary<ulong, AntiPostChannelStats> antiPostChannelGuilds = new();
     private readonly ConcurrentDictionary<ulong, AntiRaidStats> antiRaidGuilds = new();
     private readonly ConcurrentDictionary<ulong, AntiSpamStats> antiSpamGuilds = new();
+
+    private readonly BotConfigService bss;
 
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
@@ -62,10 +65,11 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
     /// <param name="strings">The localization strings service.</param>
     /// <param name="imageHashing">The perceptual image hashing service.</param>
     /// <param name="scamPresets">The known scam image hashes that ship with the bot.</param>
+    /// <param name="bss">The bot configuration service.</param>
     public ProtectionService(DiscordShardedClient client,
         MuteService mute, IDataConnectionFactory dbFactory, UserPunishService punishService, EventHandler eventHandler,
         ILogger<ProtectionService> logger, GeneratedBotStrings strings, ImageHashingService imageHashing,
-        ScamImagePresetService scamPresets)
+        ScamImagePresetService scamPresets, BotConfigService bss)
     {
         this.client = client;
         this.mute = mute;
@@ -76,6 +80,7 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
         this.strings = strings;
         this.imageHashing = imageHashing;
         this.scamPresets = scamPresets;
+        this.bss = bss;
 
         eventHandler.Subscribe("MessageReceived", "ProtectionService", HandleAntiSpam);
         eventHandler.Subscribe("UserJoined", "ProtectionService", HandleUserJoined);
@@ -460,9 +465,13 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
                         patterns.Increment();
                         await PunishUsers(patterns.Action, ProtectionType.PatternMatching, patterns.PunishDuration,
                             patterns.RoleId, user).ConfigureAwait(false);
-                        logger.LogInformation(
-                            "Anti-pattern triggered for user {UserId} ({Username}) - Score: {Score}, Reasons: {Reasons}",
-                            user.Id, user.Username, score, string.Join("|", reasons));
+                        if (bss.Data.LogPunishments)
+                        {
+                            logger.LogInformation(
+                                "Anti-pattern triggered for user {UserId} ({Username}) - Score: {Score}, Reasons: {Reasons}",
+                                user.Id, user.Username, score, string.Join("|", reasons));
+                        }
+
                         return;
                     }
                 }
@@ -473,9 +482,13 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
                     patterns.Increment();
                     await PunishUsers(patterns.Action, ProtectionType.PatternMatching, patterns.PunishDuration,
                         patterns.RoleId, user).ConfigureAwait(false);
-                    logger.LogInformation(
-                        "Anti-pattern triggered for user {UserId} ({Username}) - Score: {Score}, Reasons: {Reasons}",
-                        user.Id, user.Username, score, string.Join("|", reasons));
+                    if (bss.Data.LogPunishments)
+                    {
+                        logger.LogInformation(
+                            "Anti-pattern triggered for user {UserId} ({Username}) - Score: {Score}, Reasons: {Reasons}",
+                            user.Id, user.Username, score, string.Join("|", reasons));
+                    }
+
                     return;
                 }
             }
@@ -588,9 +601,12 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
     {
         if (gus == null || gus.Length == 0) return;
 
-        logger.LogInformation("[{PunishType}] - Punishing [{Count}] users with [{PunishAction}] in {GuildName} guild",
-            pt,
-            gus.Length, action, gus[0].Guild.Name);
+        if (bss.Data.LogPunishments)
+        {
+            logger.LogInformation(
+                "[{PunishType}] - Punishing [{Count}] users with [{PunishAction}] in {GuildName} guild", pt,
+                gus.Length, action, gus[0].Guild.Name);
+        }
 
         foreach (var gu in gus)
         {
@@ -2188,8 +2204,11 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
         while (stats.RecentViolations.Count > 10)
             stats.RecentViolations.TryDequeue(out _);
 
-        logger.LogInformation("Known scam image {PresetId} posted by {UserId} in guild {GuildId}", preset.Id, user.Id,
-            user.Guild.Id);
+        if (bss.Data.LogPunishments)
+        {
+            logger.LogInformation("Known scam image {PresetId} posted by {UserId} in guild {GuildId}", preset.Id,
+                user.Id, user.Guild.Id);
+        }
 
         _ = Task.Run(() => RecordPresetHitAsync(user.Guild.Id));
 

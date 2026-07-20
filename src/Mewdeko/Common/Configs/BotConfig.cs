@@ -38,6 +38,12 @@ public sealed class BotConfig
         QuarantineNotification = true;
         UpdateBranch = "main";
         CheckForUpdates = UpdateCheckType.None;
+        LogBlacklistedAttempts = true;
+        LogCommandExecutions = true;
+        LogFilteredMessages = true;
+        LogChatTriggerFires = true;
+        LogPunishments = true;
+        LogXpRewards = true;
     }
 
     /// <summary>
@@ -235,6 +241,66 @@ public sealed class BotConfig
              Default is false for security (SSRF prevention).
              """)]
     public bool AllowPrivateMinecraftAddresses { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether console logs are written when a blacklisted user, server, or channel attempts to use
+    ///     the bot.
+    /// </summary>
+    [Comment("""
+             Whether to write a console log line every time a blacklisted user, server, or channel
+             attempts to use the bot. Disable this if blacklist attempts are spamming your console.
+             """)]
+    public bool LogBlacklistedAttempts { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether console logs are written for every command execution (both successes and errors).
+    /// </summary>
+    [Comment("""
+             Whether to write a console log line for every command execution (prefix and slash),
+             including both successes and errors. Disable this if command logs are spamming your console.
+             """)]
+    public bool LogCommandExecutions { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether console logs are written when a message is blocked by the word, invite, or link
+    ///     filters.
+    /// </summary>
+    [Comment("""
+             Whether to write a console log line every time a message is blocked by the word, invite,
+             or link filters. Disable this if filter hits are spamming your console.
+             """)]
+    public bool LogFilteredMessages { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether console logs are written every time a chat trigger fires or is blocked by permissions.
+    /// </summary>
+    [Comment("""
+             Whether to write a console log line every time a chat trigger fires, or is blocked by
+             permissions. Disable this if chat trigger logs are spamming your console.
+             """)]
+    public bool LogChatTriggerFires { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether console logs are written when anti-raid/anti-spam/anti-mass-mention/anti-mass-post/
+    ///     anti-image-hash protections punish a user.
+    /// </summary>
+    [Comment("""
+             Whether to write a console log line every time an anti-raid, anti-spam, anti-mass-mention,
+             anti-mass-post, or anti-image-hash protection punishes a user. Disable this if protection
+             punishments are spamming your console (e.g. during a raid).
+             """)]
+    public bool LogPunishments { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether console logs are written for XP level-up rewards (currency grants, role syncs, and
+    ///     level-up notifications).
+    /// </summary>
+    [Comment("""
+             Whether to write a console log line every time a user levels up and receives an XP reward
+             (currency, role sync, or level-up notification). Disable this if XP reward logs are
+             spamming your console on active leveling servers.
+             """)]
+    public bool LogXpRewards { get; set; }
 }
 
 /// <summary>

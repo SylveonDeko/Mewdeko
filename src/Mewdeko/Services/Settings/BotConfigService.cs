@@ -56,6 +56,18 @@ public sealed class BotConfigService : ConfigServiceBase<BotConfig>
         AddParsedProp("CheckUpdateInterval", bs => bs.CheckUpdateInterval, int.TryParse, ConfigPrinters.ToString);
         AddParsedProp("QuarantineNotification", bs => bs.QuarantineNotification, bool.TryParse,
             ConfigPrinters.ToString);
+        AddParsedProp("logBlacklistedAttempts", bs => bs.LogBlacklistedAttempts, bool.TryParse,
+            ConfigPrinters.ToString);
+        AddParsedProp("logCommandExecutions", bs => bs.LogCommandExecutions, bool.TryParse,
+            ConfigPrinters.ToString);
+        AddParsedProp("logFilteredMessages", bs => bs.LogFilteredMessages, bool.TryParse,
+            ConfigPrinters.ToString);
+        AddParsedProp("logChatTriggerFires", bs => bs.LogChatTriggerFires, bool.TryParse,
+            ConfigPrinters.ToString);
+        AddParsedProp("logPunishments", bs => bs.LogPunishments, bool.TryParse,
+            ConfigPrinters.ToString);
+        AddParsedProp("logXpRewards", bs => bs.LogXpRewards, bool.TryParse,
+            ConfigPrinters.ToString);
 
         UpdateColors();
     }

@@ -158,13 +158,17 @@ public class CommandHandler : INService
                 .SendEphemeralErrorAsync($"Command failed for the following reason:\n{result.ErrorReason}",
                     bss.Data)
                 .ConfigureAwait(false);
-            logger.LogWarning(
-                "Slash Command Errored\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" +
-                "Message: {3}\n\t" + "Error: {4}",
-                $"{ctx.User} [{ctx.User.Id}]", // {0}
-                ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} [{ctx.Guild.Id}]", // {1}
-                ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} [{ctx.Channel.Id}]", // {2}
-                info.MethodName, result.ErrorReason);
+            if (bss.Data.LogCommandExecutions)
+            {
+                logger.LogWarning(
+                    "Slash Command Errored\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" +
+                    "Message: {3}\n\t" + "Error: {4}",
+                    $"{ctx.User} [{ctx.User.Id}]", // {0}
+                    ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} [{ctx.Guild.Id}]", // {1}
+                    ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} [{ctx.Channel.Id}]", // {2}
+                    info.MethodName, result.ErrorReason);
+            }
+
             var tofetch = await client.Rest.GetChannelAsync(bss.Data.CommandLogChannel).ConfigureAwait(false);
             if (tofetch is RestTextChannel restChannel)
             {
@@ -208,13 +212,16 @@ public class CommandHandler : INService
         }
 
         var chan = ctx.Channel as ITextChannel;
-        logger.LogInformation(
-            "Slash Command Executed" + "\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" +
-            "Module: {3}\n\t" + "Command: {4}",
-            $"{ctx.User} [{ctx.User.Id}]", // {0}
-            chan == null ? "PRIVATE" : $"{chan.Guild.Name} [{chan.Guild.Id}]", // {1}
-            chan == null ? "PRIVATE" : $"{chan.Name} [{chan.Id}]", // {2}
-            info.Module.SlashGroupName, info.MethodName); // {3}
+        if (bss.Data.LogCommandExecutions)
+        {
+            logger.LogInformation(
+                "Slash Command Executed" + "\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" +
+                "Module: {3}\n\t" + "Command: {4}",
+                $"{ctx.User} [{ctx.User.Id}]", // {0}
+                chan == null ? "PRIVATE" : $"{chan.Guild.Name} [{chan.Guild.Id}]", // {1}
+                chan == null ? "PRIVATE" : $"{chan.Name} [{chan.Id}]", // {2}
+                info.Module.SlashGroupName, info.MethodName); // {3}
+        }
 
         var tofetch1 = await client.Rest.GetChannelAsync(bss.Data.CommandLogChannel).ConfigureAwait(false);
         if (tofetch1 is RestTextChannel restChannel1)
@@ -289,13 +296,16 @@ public class CommandHandler : INService
                     .SendEphemeralErrorAsync($"Command failed for the following reason:\n{result.ErrorReason}",
                         bss.Data)
                     .ConfigureAwait(false);
-                logger.LogWarning(
-                    "Slash Command Errored\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" +
-                    "Message: {3}\n\t" + "Error: {4}",
-                    $"{ctx.User} [{ctx.User.Id}]", // {0}
-                    ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} [{ctx.Guild.Id}]", // {1}
-                    ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} [{ctx.Channel.Id}]", // {2}
-                    slashInfo.MethodName, result.ErrorReason);
+                if (bss.Data.LogCommandExecutions)
+                {
+                    logger.LogWarning(
+                        "Slash Command Errored\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" +
+                        "Message: {3}\n\t" + "Error: {4}",
+                        $"{ctx.User} [{ctx.User.Id}]", // {0}
+                        ctx.Guild == null ? "PRIVATE" : $"{ctx.Guild.Name} [{ctx.Guild.Id}]", // {1}
+                        ctx.Channel == null ? "PRIVATE" : $"{ctx.Channel.Name} [{ctx.Channel.Id}]", // {2}
+                        slashInfo.MethodName, result.ErrorReason);
+                }
 
                 var tofetch = await client.Rest.GetChannelAsync(bss.Data.CommandLogChannel).ConfigureAwait(false);
                 if (tofetch is RestTextChannel restChannel)
@@ -340,13 +350,16 @@ public class CommandHandler : INService
             }
 
             var chan = ctx.Channel as ITextChannel;
-            logger.LogInformation(
-                "Slash Command Executed" + "\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" +
-                "Module: {3}\n\t" + "Command: {4}",
-                $"{ctx.User} [{ctx.User.Id}]", // {0}
-                chan == null ? "PRIVATE" : $"{chan.Guild.Name} [{chan.Guild.Id}]", // {1}
-                chan == null ? "PRIVATE" : $"{chan.Name} [{chan.Id}]", // {2}
-                slashInfo.Module.SlashGroupName, slashInfo.MethodName); // {3}
+            if (bss.Data.LogCommandExecutions)
+            {
+                logger.LogInformation(
+                    "Slash Command Executed" + "\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" +
+                    "Module: {3}\n\t" + "Command: {4}",
+                    $"{ctx.User} [{ctx.User.Id}]", // {0}
+                    chan == null ? "PRIVATE" : $"{chan.Guild.Name} [{chan.Guild.Id}]", // {1}
+                    chan == null ? "PRIVATE" : $"{chan.Name} [{chan.Id}]", // {2}
+                    slashInfo.Module.SlashGroupName, slashInfo.MethodName); // {3}
+            }
 
             var tofetch1 = await client.Rest.GetChannelAsync(bss.Data.CommandLogChannel).ConfigureAwait(false);
             if (tofetch1 is RestTextChannel restChannel1)
@@ -570,8 +583,13 @@ public class CommandHandler : INService
         foreach (var beh in earlyBehaviors)
         {
             if (!await beh.RunBehavior(client, guild, usrMsg).ConfigureAwait(false)) continue;
-            logger.LogInformation("Executed {BehaviorType} behavior: {BehaviorName} for user: {User} in: {Guild}",
-                beh.BehaviorType, beh.GetType().Name, $"{usrMsg.Author} | {usrMsg.Id}", $"{guild} | {guild.Id}");
+            if (ShouldLogEarlyBehavior(beh))
+            {
+                logger.LogInformation(
+                    "Executed {BehaviorType} behavior: {BehaviorName} for user: {User} in: {Guild}",
+                    beh.BehaviorType, beh.GetType().Name, $"{usrMsg.Author} | {usrMsg.Id}", $"{guild} | {guild.Id}");
+            }
+
             return;
         }
 
@@ -632,6 +650,16 @@ public class CommandHandler : INService
         }
     }
 
+    private bool ShouldLogEarlyBehavior(IEarlyBehavior beh)
+    {
+        return beh switch
+        {
+            BlacklistService => bss.Data.LogBlacklistedAttempts,
+            FilterService => bss.Data.LogFilteredMessages,
+            ChatTriggersService => bss.Data.LogChatTriggerFires,
+            _ => true
+        };
+    }
 
     private async Task<(bool Success, string Error, CommandInfo? Info)> ExecuteCommandAsync(CommandContext context,
         string input, int argPos, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
@@ -718,10 +746,13 @@ public class CommandHandler : INService
         if (!success && !string.IsNullOrEmpty(errorMessage))
             logBuilder.AppendLine($"Error: {errorMessage}");
 
-        if (success)
-            logger.LogInformation(logBuilder.ToString());
-        else
-            logger.LogWarning(logBuilder.ToString());
+        if (bss.Data.LogCommandExecutions)
+        {
+            if (success)
+                logger.LogInformation(logBuilder.ToString());
+            else
+                logger.LogWarning(logBuilder.ToString());
+        }
 
 
         var embed = new EmbedBuilder()

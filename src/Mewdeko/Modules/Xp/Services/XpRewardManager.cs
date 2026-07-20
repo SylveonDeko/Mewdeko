@@ -7,6 +7,7 @@ using Mewdeko.Modules.Currency.Services;
 using Mewdeko.Modules.Xp.Events;
 using Mewdeko.Modules.Xp.Extensions;
 using Mewdeko.Modules.Xp.Models;
+using Mewdeko.Services.Settings;
 using Mewdeko.Services.Strings;
 using StackExchange.Redis;
 
@@ -17,6 +18,7 @@ namespace Mewdeko.Modules.Xp.Services;
 /// </summary>
 public class XpRewardManager : INService
 {
+    private readonly BotConfigService bss;
     private readonly XpCacheManager cacheManager;
     private readonly DiscordShardedClient client;
     private readonly ICurrencyService currencyService;
@@ -36,12 +38,13 @@ public class XpRewardManager : INService
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="eventHandler">The event handler service.</param>
     /// <param name="xpService">The xp service.</param>
+    /// <param name="bss">The bot configuration service.</param>
     public XpRewardManager(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
         ICurrencyService currencyService,
         XpCacheManager cacheManager, GeneratedBotStrings strings, ILogger<XpRewardManager> logger,
-        EventHandler eventHandler, XpService xpService)
+        EventHandler eventHandler, XpService xpService, BotConfigService bss)
     {
         this.client = client;
         this.dbFactory = dbFactory;
@@ -50,6 +53,7 @@ public class XpRewardManager : INService
         Strings = strings;
         this.logger = logger;
         this.xpService = xpService;
+        this.bss = bss;
 
         // Subscribe individual methods to XP level change events for better separation of concerns
         eventHandler.Subscribe("XpLevelChanged", "XpRewardManager-Notifications", HandleLevelUpNotificationAsync);
@@ -627,8 +631,11 @@ public class XpRewardManager : INService
                     "XP Level-up reward",
                     reward.GuildId);
 
-                logger.LogInformation("Awarded {Amount} currency to {UserId} in {GuildId}",
-                    reward.Amount, reward.UserId, reward.GuildId);
+                if (bss.Data.LogXpRewards)
+                {
+                    logger.LogInformation("Awarded {Amount} currency to {UserId} in {GuildId}",
+                        reward.Amount, reward.UserId, reward.GuildId);
+                }
             }
             catch (Exception ex)
             {
@@ -661,8 +668,12 @@ public class XpRewardManager : INService
                 };
 
                 await SendNotificationsAsync([notification]).ConfigureAwait(false);
-                logger.LogInformation("Sent level up notification for user {UserId} in guild {GuildId}: Level {Level}",
-                    eventArgs.UserId, eventArgs.GuildId, eventArgs.NewLevel);
+                if (bss.Data.LogXpRewards)
+                {
+                    logger.LogInformation(
+                        "Sent level up notification for user {UserId} in guild {GuildId}: Level {Level}",
+                        eventArgs.UserId, eventArgs.GuildId, eventArgs.NewLevel);
+                }
             }
         }
         catch (Exception ex)
@@ -684,7 +695,8 @@ public class XpRewardManager : INService
             var settings = await cacheManager.GetGuildXpSettingsAsync(eventArgs.GuildId);
             var redis = cacheManager.GetRedisDatabase();
             var server = redis.Multiplexer.GetServer(redis.Multiplexer.GetEndPoints().First());
-            logger.LogInformation($"Processing rewards for {eventArgs.GuildId}");
+            if (bss.Data.LogXpRewards)
+                logger.LogInformation($"Processing rewards for {eventArgs.GuildId}");
 
             var pattern = $"xp:rewards:{eventArgs.GuildId}:role:*";
             var keys = new List<RedisKey>();
@@ -770,8 +782,12 @@ public class XpRewardManager : INService
                 }
             }
 
-            logger.LogInformation("Synchronized role rewards for user {UserId} in guild {GuildId} at level {Level}",
-                eventArgs.UserId, eventArgs.GuildId, eventArgs.NewLevel);
+            if (bss.Data.LogXpRewards)
+            {
+                logger.LogInformation(
+                    "Synchronized role rewards for user {UserId} in guild {GuildId} at level {Level}",
+                    eventArgs.UserId, eventArgs.GuildId, eventArgs.NewLevel);
+            }
         }
         catch (Exception ex)
         {
@@ -837,10 +853,13 @@ public class XpRewardManager : INService
                 if (currencyRewards.Count > 0)
                 {
                     await GrantCurrencyRewardsAsync(currencyRewards).ConfigureAwait(false);
-                    logger.LogInformation(
-                        "Granted {Count} currency rewards for user {UserId} in guild {GuildId}: {OldLevel} -> {NewLevel}",
-                        currencyRewards.Count, eventArgs.UserId, eventArgs.GuildId, eventArgs.OldLevel,
-                        eventArgs.NewLevel);
+                    if (bss.Data.LogXpRewards)
+                    {
+                        logger.LogInformation(
+                            "Granted {Count} currency rewards for user {UserId} in guild {GuildId}: {OldLevel} -> {NewLevel}",
+                            currencyRewards.Count, eventArgs.UserId, eventArgs.GuildId, eventArgs.OldLevel,
+                            eventArgs.NewLevel);
+                    }
                 }
             }
             else if (eventArgs.NewLevel < eventArgs.OldLevel)
@@ -859,10 +878,13 @@ public class XpRewardManager : INService
                 if (currencyRewards.Count > 0)
                 {
                     await GrantCurrencyRewardsAsync(currencyRewards).ConfigureAwait(false);
-                    logger.LogInformation(
-                        "Removed {Count} currency rewards from user {UserId} in guild {GuildId}: {OldLevel} -> {NewLevel}",
-                        currencyRewards.Count, eventArgs.UserId, eventArgs.GuildId, eventArgs.OldLevel,
-                        eventArgs.NewLevel);
+                    if (bss.Data.LogXpRewards)
+                    {
+                        logger.LogInformation(
+                            "Removed {Count} currency rewards from user {UserId} in guild {GuildId}: {OldLevel} -> {NewLevel}",
+                            currencyRewards.Count, eventArgs.UserId, eventArgs.GuildId, eventArgs.OldLevel,
+                            eventArgs.NewLevel);
+                    }
                 }
             }
         }

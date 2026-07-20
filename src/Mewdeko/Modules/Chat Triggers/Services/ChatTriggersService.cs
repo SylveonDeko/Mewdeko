@@ -279,7 +279,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                             // Ignored
                         }
 
-                        logger.LogInformation(returnMsg);
+                        if (configService.Data.LogChatTriggerFires)
+                            logger.LogInformation(returnMsg);
                     }
 
                     return true;
@@ -291,9 +292,13 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     var user = msg.Author as IGuildUser;
                     if (!user.GuildPermissions.Has(guildPermission))
                     {
-                        logger.LogInformation(
-                            "Chat Trigger {CtTrigger} Blocked for {MsgAuthor} in {Guild} due to them missing {Perms}",
-                            ct.Trigger, msg.Author, guild, guildPermission);
+                        if (configService.Data.LogChatTriggerFires)
+                        {
+                            logger.LogInformation(
+                                "Chat Trigger {CtTrigger} Blocked for {MsgAuthor} in {Guild} due to them missing {Perms}",
+                                ct.Trigger, msg.Author, guild, guildPermission);
+                        }
+
                         return false;
                     }
                 }
@@ -505,7 +510,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                                 // ignored
                             }
 
-                            logger.LogInformation(returnMsg);
+                            if (configService.Data.LogChatTriggerFires)
+                                logger.LogInformation(returnMsg);
 
                             return;
                         }
@@ -516,8 +522,12 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                             var user = inter.User as IGuildUser;
                             if (!user.GuildPermissions.Has(guildPermission))
                             {
-                                logger.LogInformation(
-                                    $"Chat Trigger {ct.Trigger} Blocked for {inter.User} in {guild} due to them missing {guildPermission}.");
+                                if (configService.Data.LogChatTriggerFires)
+                                {
+                                    logger.LogInformation(
+                                        $"Chat Trigger {ct.Trigger} Blocked for {inter.User} in {guild} due to them missing {guildPermission}.");
+                                }
+
                                 return;
                             }
                         }
