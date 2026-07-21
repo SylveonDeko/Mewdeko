@@ -1,0 +1,41 @@
+err:
+  args:
+    - code
+  desc: 'Looks up a Nintendo Switch error code and displays what''s known about it.'
+  params:
+    - desc: The error code, either in NNNN-NNNN format or as hex (e.g. 0x2A2).
+      name: code
+      optional: false
+      type: string
+err2hex:
+  args:
+    - code
+  desc: 'Converts a Nintendo Switch error code from NNNN-NNNN format to hexadecimal.'
+  params:
+    - desc: The error code to convert, e.g. 2168-0002.
+      name: code
+      optional: false
+      type: string
+hex2err:
+  args:
+    - hex
+  desc: 'Converts a hexadecimal Nintendo Switch error code to the NNNN-NNNN format.'
+  params:
+    - desc: The hexadecimal error code to convert, e.g. 0x2A2.
+      name: hex
+      optional: false
+      type: string
+switchbrew:
+  args:
+    - query
+  desc: 'Searches the switchbrew.org wiki and displays the top matching pages.'
+  params:
+    - desc: The search query.
+      name: query
+      optional: false
+      type: string
+analyselog:
+  args:
+    - ''
+  desc: 'Analyses an attached Ryujinx log file and reports hardware, settings and troubleshooting information.'
+  params: [ ]
