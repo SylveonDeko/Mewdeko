@@ -35,39 +35,39 @@ jobs:
           echo "count=$commit_count" >> $GITHUB_OUTPUT
 
       - name: Build Skipped
-        if: ${{ steps.commit_count.outputs.count < 20 }}
-        run: echo "Build skipped because there are less than 20 commits since last build."
+        if: ${{ steps.commit_count.outputs.count < 5 }}
+        run: echo "Build skipped because there are less than 5 commits since last build."
 
       - name: Restore dependencies
-        if: ${{ steps.commit_count.outputs.count >= 20 }}
+        if: ${{ steps.commit_count.outputs.count >= 5 }}
         run: dotnet restore Mewdeko.sln
 
       - name: Build Source Generator
-        if: ${{ steps.commit_count.outputs.count >= 20 }}
+        if: ${{ steps.commit_count.outputs.count >= 5 }}
         run: dotnet build src/MewdekoSourceGen/MewdekoSourceGen.csproj --no-restore -c Release
 
       - name: Build Mewdeko
-        if: ${{ steps.commit_count.outputs.count >= 20 }}
+        if: ${{ steps.commit_count.outputs.count >= 5 }}
         run: dotnet publish src/Mewdeko/Mewdeko.csproj --no-restore -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=false -p:IncludeNativeLibrariesForSelfExtract=true -p:UseAppHost=true -o output/
 
       - name: Copy data folder
-        if: ${{ steps.commit_count.outputs.count >= 20 }}
+        if: ${{ steps.commit_count.outputs.count >= 5 }}
         run: cp -r src/Mewdeko/data output/
 
       - name: Zip artifacts
-        if: ${{ steps.commit_count.outputs.count >= 20 }}
+        if: ${{ steps.commit_count.outputs.count >= 5 }}
         run: |
           cd output
           find . -name "*.pdb" -delete
           zip -r ../MewdekoPsql-win64.zip .
 
       - name: Get current date
-        if: ${{ steps.commit_count.outputs.count >= 20 }}
+        if: ${{ steps.commit_count.outputs.count >= 5 }}
         id: get_date
         run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
       - name: Get commit messages with links
-        if: ${{ steps.commit_count.outputs.count >= 20 }}
+        if: ${{ steps.commit_count.outputs.count >= 5 }}
         id: commit_messages
         run: |
           if [ -z "${{ env.prev_tag }}" ]; then
@@ -83,7 +83,7 @@ jobs:
           fi
 
       - name: Create Release
-        if: ${{ steps.commit_count.outputs.count >= 20 }}
+        if: ${{ steps.commit_count.outputs.count >= 5 }}
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -100,7 +100,7 @@ jobs:
           prerelease: true
 
       - name: Upload Release Asset
-        if: ${{ steps.commit_count.outputs.count >= 20 }}
+        if: ${{ steps.commit_count.outputs.count >= 5 }}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
