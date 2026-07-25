@@ -3,7 +3,7 @@
 on:
   push:
     branches:
-      - psqldeko
+      - main
 
 jobs:
   build:
@@ -16,7 +16,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 9.0.203
+          dotnet-version: 10.0.x
 
       - name: Get previous tag
         id: prev_tag
@@ -89,11 +89,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: psqldeko-${{ github.run_number }}
-          release_name: PsqlDeko build ${{ github.run_number }} (${{ env.date }})
+          tag_name: nightly-${{ github.run_number }}
+          release_name: Nightly build ${{ github.run_number }} (${{ env.date }})
           body: |
-            Automated psql build for commit ${{ github.sha }}
-            # WARNING: Mewdeko on PSQL is in early beta and has missing features. If you find bugs please report them.
+            Automated nightly build for commit ${{ github.sha }}
 
             ## Commits since previous release:
             ${{ env.messages }}
