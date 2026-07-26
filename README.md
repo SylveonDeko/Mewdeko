@@ -107,6 +107,7 @@ See the [Windows self-host guide](Selfhost-Windows.md)
 - [Commands List](https://mewdeko.tech/commands)
 - [Self-Host Guide (Windows)](Selfhost-Windows.md)
 - [Self-Host Guide (Linux)](Selfhost-Linux.md)
+- [Docker deployment](DOCKER.md)
 
 ## Contributing
 

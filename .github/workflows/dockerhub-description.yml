@@ -1,0 +1,26 @@
+name: Update Docker Hub Overview
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - DOCKER.md
+      - .github/workflows/dockerhub-description.yml
+  workflow_dispatch:
+
+jobs:
+  update-description:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publish Docker Hub overview
+        uses: peter-evans/dockerhub-description@v5
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: sylveondeko/mewdeko
+          short-description: Feature-rich, self-hostable Discord bot for PostgreSQL and Redis.
+          readme-filepath: ./DOCKER.md
+          enable-url-completion: true
