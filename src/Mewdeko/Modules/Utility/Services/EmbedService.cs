@@ -228,4 +228,57 @@ public class EmbedService : INService
                            e.EmbedName == embedName &&
                            e.IsGuildShared == true);
     }
+
+    /// <summary>
+    ///     Retrieves an embed template by its database ID.
+    /// </summary>
+    /// <param name="id">The ID of the embed template.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the embed template if found.</returns>
+    public async Task<Embed?> GetEmbedByIdAsync(int id)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        return await db.Embeds.FirstOrDefaultAsync(e => e.Id == id);
+    }
+
+    /// <summary>
+    ///     Updates the name and/or JSON of an existing embed template.
+    /// </summary>
+    /// <param name="id">The ID of the embed template to update.</param>
+    /// <param name="embedName">The new name, or null to leave unchanged.</param>
+    /// <param name="jsonCode">The new JSON representation, or null to leave unchanged.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the updated embed template if found.</returns>
+    public async Task<Embed?> UpdateEmbedAsync(int id, string? embedName, string? jsonCode)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var embed = await db.Embeds.FirstOrDefaultAsync(e => e.Id == id);
+        if (embed == null)
+            return null;
+
+        if (embedName != null)
+            embed.EmbedName = embedName;
+        if (jsonCode != null)
+            embed.JsonCode = jsonCode;
+
+        await db.UpdateAsync(embed);
+        return embed;
+    }
+
+    /// <summary>
+    ///     Deletes an embed template by its database ID.
+    /// </summary>
+    /// <param name="id">The ID of the embed template to delete.</param>
+    /// <returns>A task that represents the asynchronous operation, containing a boolean indicating success.</returns>
+    public async Task<bool> DeleteEmbedByIdAsync(int id)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var embed = await db.Embeds.FirstOrDefaultAsync(e => e.Id == id);
+        if (embed == null)
+            return false;
+
+        await db.DeleteAsync(embed);
+        return true;
+    }
 }

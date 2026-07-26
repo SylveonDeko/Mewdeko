@@ -76,6 +76,50 @@ public class MewdekoDb : DataConnection
     public ITable<DashboardAuditLog> DashboardAuditLogs => this.GetTable<DashboardAuditLog>();
 
     /// <summary>
+    ///     Gets the restricted dashboard access grants table.
+    /// </summary>
+    public ITable<DashboardAccess> DashboardAccesses
+    {
+        get
+        {
+            return this.GetTable<DashboardAccess>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the per-section access levels for dashboard access grants.
+    /// </summary>
+    public ITable<DashboardAccessSection> DashboardAccessSections
+    {
+        get
+        {
+            return this.GetTable<DashboardAccessSection>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the explicit dashboard access managers table.
+    /// </summary>
+    public ITable<DashboardAccessManager> DashboardAccessManagers
+    {
+        get
+        {
+            return this.GetTable<DashboardAccessManager>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the per-guild dashboard access settings table.
+    /// </summary>
+    public ITable<DashboardAccessSettings> DashboardAccessSettings
+    {
+        get
+        {
+            return this.GetTable<DashboardAccessSettings>();
+        }
+    }
+
+    /// <summary>
     ///     Gets the ticket cases table.
     /// </summary>
     public ITable<TicketCase> TicketCases => this.GetTable<TicketCase>();

@@ -13,7 +13,7 @@ namespace Mewdeko.Controllers;
 [ApiController]
 [Route("botapi/[controller]")]
 [Authorize("ApiKeyPolicy")]
-public class ClientOperations(DiscordShardedClient client) : Controller
+public class ClientOperations(DiscordShardedClient client, DashboardAccessService dashboardAccessService) : Controller
 {
     private static readonly JsonSerializerOptions Options = new()
     {
@@ -214,24 +214,35 @@ public class ClientOperations(DiscordShardedClient client) : Controller
     [HttpGet("mutualguilds/{userId}")]
     public async Task<IActionResult> GetMutualGuilds(ulong userId, [FromQuery] bool adminOnly = true)
     {
-        await Task.CompletedTask;
-        var guilds = client.Guilds;
-        var mutuals = guilds
-            .Where(x => x.Users.Any(y => y.Id == userId &&
-                                         (adminOnly ? y.GuildPermissions.Has(GuildPermission.Administrator) : true)))
-            .Select(g => new
+        var mutuals = new List<object>();
+        foreach (var guild in client.Guilds)
+        {
+            var guildUser = guild.GetUser(userId);
+            if (guildUser == null)
+                continue;
+
+            var hasAdminAccess = guild.OwnerId == userId ||
+                                 guildUser.GuildPermissions.Has(GuildPermission.Administrator);
+            var hasRestrictedAccess = dashboardAccessService.HasAnyCachedAccess(
+                guild.Id, userId, guildUser.Roles.Select(role => role.Id).ToList());
+
+            if (adminOnly && !hasAdminAccess && !hasRestrictedAccess)
+                continue;
+
+            mutuals.Add(new
             {
-                id = g.Id,
-                name = g.Name,
-                icon = g.IconId,
-                owner = g.OwnerId == userId,
-                permissions = (int)g.GetUser(userId).GuildPermissions.RawValue,
+                id = guild.Id,
+                name = guild.Name,
+                icon = guild.IconId,
+                owner = guild.OwnerId == userId,
+                permissions = (int)guildUser.GuildPermissions.RawValue,
                 features = Enum.GetValues(typeof(GuildFeature)).Cast<GuildFeature>()
-                    .Where(x => g.Features.Value.HasFlag(x)),
-                banner = g.BannerUrl + "?size=4096",
-                hasAdminAccess = g.GetUser(userId).GuildPermissions.Has(GuildPermission.Administrator)
-            })
-            .ToList();
+                    .Where(feature => guild.Features.Value.HasFlag(feature)),
+                banner = guild.BannerUrl + "?size=4096",
+                hasAdminAccess,
+                hasRestrictedAccess
+            });
+        }
 
         return Ok(mutuals);
     }

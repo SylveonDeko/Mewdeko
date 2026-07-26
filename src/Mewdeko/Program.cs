@@ -14,6 +14,7 @@ using Mewdeko.Common.Constraints;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Controllers.Common.AuditLog;
+using Mewdeko.Controllers.Common.DashboardAccess;
 using Mewdeko.Database.Impl;
 using Mewdeko.Modules.Currency.Services;
 using Mewdeko.Modules.Currency.Services.Impl;
@@ -158,6 +159,7 @@ public class Program
             builder.Services.AddControllers(options =>
                 {
                     options.Filters.Add<AuditLogFilter>();
+                    options.Filters.Add<DashboardAccessEnforcementFilter>();
                 })
                 .AddJsonOptions(options =>
                 {
