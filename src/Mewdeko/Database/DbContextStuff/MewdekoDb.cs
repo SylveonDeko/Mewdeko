@@ -617,6 +617,17 @@ public class MewdekoDb : DataConnection
     public ITable<MultiGreet> MultiGreets => this.GetTable<MultiGreet>();
 
     /// <summary>
+    ///     Gets the music link auto-conversion channels table.
+    /// </summary>
+    public ITable<MusicLinkChannel> MusicLinkChannels
+    {
+        get
+        {
+            return this.GetTable<MusicLinkChannel>();
+        }
+    }
+
+    /// <summary>
     ///     Gets the music player settings table.
     /// </summary>
     public ITable<MusicPlayerSetting> MusicPlayerSettings => this.GetTable<MusicPlayerSetting>();

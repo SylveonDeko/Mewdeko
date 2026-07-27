@@ -215,6 +215,25 @@ movesong_int_int:
       name: to
       optional: false
       type: int
+musiclinkchannel:
+  args:
+    - ''
+    - '[@channel]'
+  desc: >-
+    Toggles automatic music link conversion for a channel. When enabled, any
+    Apple Music, Spotify, YouTube Music, or other supported music link posted
+    in that channel gets a reply embed with the track's title, artist,
+    artwork, and equivalent links across providers.
+  params:
+    - desc: 'The channel to toggle. Defaults to the current channel.'
+      name: channel
+      optional: true
+      type: channel
+musiclinkchannels:
+  args:
+    - ''
+  desc: 'Lists the channels in this server where music link conversion is enabled.'
+  params: [ ]
 musicsettings:
   args:
     - ''

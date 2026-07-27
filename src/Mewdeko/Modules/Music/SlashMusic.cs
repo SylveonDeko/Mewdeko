@@ -12,6 +12,7 @@ using Lavalink4NET.Tracks;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Modules.Music.Common;
 using Mewdeko.Modules.Music.CustomPlayer;
+using Mewdeko.Modules.Music.Services;
 using SpotifyAPI.Web;
 using Swan;
 
@@ -27,7 +28,8 @@ public class SlashMusic(
     InteractiveService interactiveService,
     GuildSettingsService guildSettingsService,
     ILogger<SlashMusic> logger,
-    MusicEventManager eventManager) : MewdekoSlashCommandModule
+    MusicEventManager eventManager,
+    MusicLinkService musicLinkService) : MewdekoSlashCommandModule
 {
     /// <summary>
     ///     Joins the voice channel.
@@ -853,6 +855,48 @@ public class SlashMusic(
     }
 
     /// <summary>
+    ///     Toggles automatic music link conversion for a channel. When enabled, any Apple Music,
+    ///     Spotify, YouTube Music, or other supported music link posted in that channel gets a reply
+    ///     embed with the track's title, artist, artwork, and equivalent links across providers.
+    /// </summary>
+    /// <param name="channel">The channel to toggle. Defaults to the current channel.</param>
+    [SlashCommand("musiclinkchannel", "Toggles automatic music link conversion for a channel")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    public async Task MusicLinkChannel(ITextChannel channel = null)
+    {
+        var channelToUse = channel ?? (ITextChannel)Context.Channel;
+        var enabled = await musicLinkService.EnableChannelAsync(ctx.Guild.Id, channelToUse.Id);
+        if (enabled)
+        {
+            await ReplyConfirmAsync(Strings.MusicLinkChannelOn(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await musicLinkService.DisableChannelAsync(ctx.Guild.Id, channelToUse.Id);
+        await ReplyConfirmAsync(Strings.MusicLinkChannelOff(ctx.Guild.Id)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Lists the channels in this server where music link conversion is enabled.
+    /// </summary>
+    [SlashCommand("musiclinkchannels", "Lists channels with music link conversion enabled")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    public async Task MusicLinkChannels()
+    {
+        var channelIds = await musicLinkService.GetChannelsAsync(ctx.Guild.Id);
+        if (channelIds.Count == 0)
+        {
+            await ReplyConfirmAsync(Strings.MusicLinkChannelsNone(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var mentions = string.Join('\n', channelIds.Select(id => $"<#{id}>"));
+        await ReplyConfirmAsync(Strings.MusicLinkChannelsList(ctx.Guild.Id, mentions)).ConfigureAwait(false);
+    }
+
+    /// <summary>
     ///     Sets the loop mode.
     /// </summary>
     /// <param name="repeatType">The repeat type.</param>
@@ -1008,7 +1052,8 @@ public class SlashMusic(
                 {
                     var components = new ComponentBuilderV2()
                         .WithContainer([
-                            new TextDisplayBuilder($"# {Config.ErrorEmote} {Strings.MusicSpotifyErrorTitle(Context.Guild.Id)}")
+                            new TextDisplayBuilder(
+                                $"# {Config.ErrorEmote} {Strings.MusicSpotifyErrorTitle(Context.Guild.Id)}")
                         ], Mewdeko.ErrorColor)
                         .WithSeparator()
                         .WithContainer(new TextDisplayBuilder(Strings.MusicSpotifyProcessingError(Context.Guild.Id)));

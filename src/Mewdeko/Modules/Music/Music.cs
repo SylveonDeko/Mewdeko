@@ -15,6 +15,7 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Modules.Music.Common;
 using Mewdeko.Modules.Music.CustomPlayer;
+using Mewdeko.Modules.Music.Services;
 using SpotifyAPI.Web;
 using Swan;
 
@@ -32,7 +33,8 @@ public partial class Music(
     MusicEventManager eventManager,
     IPubSub pubSub,
     IDataConnectionFactory dbFactory,
-    IBotCredentials creds) : MewdekoModule
+    IBotCredentials creds,
+    MusicLinkService musicLinkService) : MewdekoModule
 {
     /// <summary>
     ///     Retrieves the music player an attempts to join the voice channel.
@@ -1309,6 +1311,49 @@ public partial class Music(
 
         await player.SetMusicChannelAsync(channelToUse.Id).ConfigureAwait(false);
         await ReplyConfirmAsync(Strings.MusicChannelSet(ctx.Guild.Id, channelToUse.Id)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Toggles automatic music link conversion for a channel. When enabled, any Apple Music,
+    ///     Spotify, YouTube Music, or other supported music link posted in that channel gets a reply
+    ///     embed with the track's title, artist, artwork, and equivalent links across providers.
+    /// </summary>
+    /// <param name="channel">The channel to toggle. Defaults to the current channel.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public async Task MusicLinkChannel(ITextChannel channel = null)
+    {
+        var channelToUse = channel ?? (ITextChannel)ctx.Channel;
+        var enabled = await musicLinkService.EnableChannelAsync(ctx.Guild.Id, channelToUse.Id);
+        if (enabled)
+        {
+            await ReplyConfirmAsync(Strings.MusicLinkChannelOn(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await musicLinkService.DisableChannelAsync(ctx.Guild.Id, channelToUse.Id);
+        await ReplyConfirmAsync(Strings.MusicLinkChannelOff(ctx.Guild.Id)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Lists the channels in this server where music link conversion is enabled.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    public async Task MusicLinkChannels()
+    {
+        var channelIds = await musicLinkService.GetChannelsAsync(ctx.Guild.Id);
+        if (channelIds.Count == 0)
+        {
+            await ReplyConfirmAsync(Strings.MusicLinkChannelsNone(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var mentions = string.Join('\n', channelIds.Select(id => $"<#{id}>"));
+        await ReplyConfirmAsync(Strings.MusicLinkChannelsList(ctx.Guild.Id, mentions)).ConfigureAwait(false);
     }
 
     /// <summary>

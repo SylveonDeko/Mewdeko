@@ -10,6 +10,7 @@ using LinqToDB.Async;
 using Mewdeko.Controllers.Common.Music;
 using Mewdeko.Modules.Music.Common;
 using Mewdeko.Modules.Music.CustomPlayer;
+using Mewdeko.Modules.Music.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,12 +25,13 @@ namespace Mewdeko.Controllers;
 public class MusicController : Controller
 {
     private readonly IAudioService audioService;
+    private readonly IDashboardAuditContext auditContext;
     private readonly IDataCache cache;
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
     private readonly MusicEventManager eventManager;
     private readonly ILogger<MusicController> logger;
-    private readonly IDashboardAuditContext auditContext;
+    private readonly MusicLinkService musicLinkService;
 
     /// <summary>
     ///     Controller for managing music playback and settings
@@ -39,6 +41,7 @@ public class MusicController : Controller
     /// <param name="client">The Discord client for accessing guild and user information</param>
     /// <param name="dbFactory">The database connection factory</param>
     /// <param name="eventManager">The event manager for music events</param>
+    /// <param name="musicLinkService">The service managing music link auto-conversion channels</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="auditContext">Records before/after state for the dashboard audit log.</param>
     public MusicController(
@@ -46,7 +49,8 @@ public class MusicController : Controller
         IDataCache cache,
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
-        MusicEventManager eventManager, ILogger<MusicController> logger,
+        MusicEventManager eventManager,
+        MusicLinkService musicLinkService, ILogger<MusicController> logger,
         IDashboardAuditContext auditContext)
     {
         this.audioService = audioService;
@@ -54,6 +58,7 @@ public class MusicController : Controller
         this.client = client;
         this.dbFactory = dbFactory;
         this.eventManager = eventManager;
+        this.musicLinkService = musicLinkService;
         this.logger = logger;
         this.auditContext = auditContext;
     }
@@ -852,6 +857,52 @@ public class MusicController : Controller
 
         auditContext.RecordAfter(settings);
         return Ok(settings);
+    }
+
+    /// <summary>
+    ///     Gets the channels configured for automatic music link conversion (Apple Music, Spotify,
+    ///     YouTube Music, etc. links get replaced with a cross-platform embed).
+    /// </summary>
+    /// <param name="guildId">The Discord guild ID</param>
+    /// <returns>The list of enabled channel IDs</returns>
+    [HttpGet("linkchannels")]
+    [Authorize("ApiKeyPolicy")]
+    public async Task<IActionResult> GetLinkChannels(ulong guildId)
+    {
+        var channelIds = await musicLinkService.GetChannelsAsync(guildId);
+        return Ok(channelIds);
+    }
+
+    /// <summary>
+    ///     Enables automatic music link conversion for a channel.
+    /// </summary>
+    /// <param name="guildId">The Discord guild ID</param>
+    /// <param name="channelId">The channel to enable</param>
+    [HttpPost("linkchannels/{channelId}")]
+    [Authorize("ApiKeyPolicy")]
+    public async Task<IActionResult> EnableLinkChannel(ulong guildId, ulong channelId)
+    {
+        auditContext.RecordBefore(await musicLinkService.GetChannelsAsync(guildId));
+        await musicLinkService.EnableChannelAsync(guildId, channelId);
+        var channelIds = await musicLinkService.GetChannelsAsync(guildId);
+        auditContext.RecordAfter(channelIds);
+        return Ok(channelIds);
+    }
+
+    /// <summary>
+    ///     Disables automatic music link conversion for a channel.
+    /// </summary>
+    /// <param name="guildId">The Discord guild ID</param>
+    /// <param name="channelId">The channel to disable</param>
+    [HttpDelete("linkchannels/{channelId}")]
+    [Authorize("ApiKeyPolicy")]
+    public async Task<IActionResult> DisableLinkChannel(ulong guildId, ulong channelId)
+    {
+        auditContext.RecordBefore(await musicLinkService.GetChannelsAsync(guildId));
+        await musicLinkService.DisableChannelAsync(guildId, channelId);
+        var channelIds = await musicLinkService.GetChannelsAsync(guildId);
+        auditContext.RecordAfter(channelIds);
+        return Ok(channelIds);
     }
 
     /// <summary>
