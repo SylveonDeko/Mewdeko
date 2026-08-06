@@ -51,12 +51,16 @@ public class InstanceManagementController : Controller
     ///     Adds a new bot instance.
     /// </summary>
     /// <param name="port">The port number the instance is running on.</param>
+    /// <param name="host">
+    ///     Optional hostname the instance is reachable on. Defaults to "localhost" for instances
+    ///     running on the same host as this one.
+    /// </param>
     [HttpPost("{port}")]
-    public async Task<IActionResult> AddInstance(int port)
+    public async Task<IActionResult> AddInstance(int port, [FromQuery] string? host = null)
     {
         try
         {
-            var result = await instanceManagementService.AddInstanceAsync(port);
+            var result = await instanceManagementService.AddInstanceAsync(port, host);
             if (!result.Success)
                 return BadRequest("Failed to add instance");
 

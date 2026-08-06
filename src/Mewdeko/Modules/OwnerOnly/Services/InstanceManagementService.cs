@@ -64,11 +64,13 @@ public class InstanceManagementService : INService, IReadyExecutor
 
                 if (existing is null)
                 {
-                    logger.LogInformation("Registering self as master instance on port {Port}", creds.ApiPort);
+                    logger.LogInformation("Registering self as master instance on {Host}:{Port}",
+                        creds.InstanceApiHost, creds.ApiPort);
 
                     await db.InsertAsync(new BotInstance
                     {
                         Port = creds.ApiPort,
+                        Host = creds.InstanceApiHost,
                         BotId = client.CurrentUser.Id,
                         BotName = client.CurrentUser.Username,
                         BotAvatar = client.CurrentUser.GetAvatarUrl(),
@@ -81,6 +83,7 @@ public class InstanceManagementService : INService, IReadyExecutor
                     existing.BotId = client.CurrentUser.Id;
                     existing.BotName = client.CurrentUser.Username;
                     existing.BotAvatar = client.CurrentUser.GetAvatarUrl() ?? "";
+                    existing.Host = creds.InstanceApiHost;
                     existing.IsActive = true;
                     existing.LastStatusUpdate = DateTime.UtcNow;
                     await db.UpdateAsync(existing);
@@ -111,9 +114,26 @@ public class InstanceManagementService : INService, IReadyExecutor
     }
 
     /// <summary>
+    ///     Looks up the hostname a registered instance is reachable on, falling back to "localhost"
+    ///     for instances registered before hosts were tracked.
+    /// </summary>
+    /// <param name="port">The port number of the instance.</param>
+    /// <returns>The hostname to use when calling the instance.</returns>
+    private async Task<string> ResolveHostAsync(int port)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var instance = await db.BotInstances.FirstOrDefaultAsync(x => x.Port == port);
+        return string.IsNullOrWhiteSpace(instance?.Host) ? "localhost" : instance.Host;
+    }
+
+    /// <summary>
     ///     Registers a new bot instance with the specified port number.
     /// </summary>
     /// <param name="port">The TCP port number the bot instance is listening on.</param>
+    /// <param name="host">
+    ///     The hostname the instance is reachable on. Defaults to "localhost" for instances running
+    ///     alongside this one.
+    /// </param>
     /// <returns>
     ///     A tuple containing:
     ///     - Success: Whether the registration was successful
@@ -122,7 +142,8 @@ public class InstanceManagementService : INService, IReadyExecutor
     /// </returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when port number is invalid.</exception>
     /// <exception cref="InvalidOperationException">Thrown when not running on master instance.</exception>
-    public async Task<(bool Success, BotStatusModel? Status, string? Reason)> AddInstanceAsync(int port)
+    public async Task<(bool Success, BotStatusModel? Status, string? Reason)> AddInstanceAsync(int port,
+        string? host = null)
     {
         if (!new BotCredentials().IsMasterInstance)
             throw new InvalidOperationException("Can only add instances from master bot.");
@@ -130,17 +151,20 @@ public class InstanceManagementService : INService, IReadyExecutor
         if (port is < 1024 or > 65535)
             throw new ArgumentOutOfRangeException(nameof(port), "Port must be between 1024 and 65535");
 
+        var resolvedHost = string.IsNullOrWhiteSpace(host) ? "localhost" : host;
+
         await using var db = await dbFactory.CreateConnectionAsync();
         if (await db.BotInstances.AnyAsync(x => x.Port == port))
             return (false, null, "instance_already_exists");
 
-        var status = await GetInstanceStatusAsync(port);
+        var status = await GetInstanceStatusAsync(port, resolvedHost);
         if (status == null)
             return (false, null, "instance_not_responding");
 
         await db.InsertAsync(new BotInstance
         {
             Port = port,
+            Host = resolvedHost,
             BotId = status.BotId,
             BotName = status.BotName,
             BotAvatar = status.BotAvatar,
@@ -155,17 +179,23 @@ public class InstanceManagementService : INService, IReadyExecutor
     ///     Retrieves the current status of a bot instance.
     /// </summary>
     /// <param name="port">The port number of the bot instance.</param>
+    /// <param name="host">
+    ///     The hostname of the bot instance. When null, the host stored for that port is used, falling
+    ///     back to "localhost".
+    /// </param>
     /// <returns>The bot's status information if available, null if the instance is unreachable.</returns>
     /// <exception cref="ArgumentOutOfRangeException">Thrown when port number is invalid.</exception>
-    public async Task<BotStatusModel?> GetInstanceStatusAsync(int port)
+    public async Task<BotStatusModel?> GetInstanceStatusAsync(int port, string? host = null)
     {
         if (port is < 1024 or > 65535)
             throw new ArgumentOutOfRangeException(nameof(port), "Port must be between 1024 and 65535");
 
+        var resolvedHost = string.IsNullOrWhiteSpace(host) ? await ResolveHostAsync(port) : host;
+
         try
         {
             using var httpClient = CreateAuthenticatedClient();
-            var response = await httpClient.GetAsync($"http://localhost:{port}/botapi/BotStatus");
+            var response = await httpClient.GetAsync($"http://{resolvedHost}:{port}/botapi/BotStatus");
 
             if (!response.IsSuccessStatusCode)
                 return null;
@@ -196,7 +226,7 @@ public class InstanceManagementService : INService, IReadyExecutor
 
             foreach (var instance in instances)
             {
-                var status = await GetInstanceStatusAsync(instance.Port);
+                var status = await GetInstanceStatusAsync(instance.Port, instance.Host);
                 instance.IsActive = status != null;
                 instance.LastStatusUpdate = DateTime.UtcNow;
 
@@ -394,9 +424,10 @@ public class InstanceManagementService : INService, IReadyExecutor
 
         try
         {
+            var host = await ResolveHostAsync(port);
             using var httpClient = CreateAuthenticatedClient();
             var response =
-                await httpClient.PostAsync($"http://localhost:{port}/botapi/InstanceManagement/update", null);
+                await httpClient.PostAsync($"http://{host}:{port}/botapi/InstanceManagement/update", null);
 
             if (response.IsSuccessStatusCode)
             {
@@ -430,9 +461,10 @@ public class InstanceManagementService : INService, IReadyExecutor
 
         try
         {
+            var host = await ResolveHostAsync(port);
             using var httpClient = CreateAuthenticatedClient();
             var response =
-                await httpClient.PostAsync($"http://localhost:{port}/botapi/InstanceManagement/restart", null);
+                await httpClient.PostAsync($"http://{host}:{port}/botapi/InstanceManagement/restart", null);
 
             if (response.IsSuccessStatusCode)
             {

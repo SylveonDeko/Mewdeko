@@ -39,27 +39,35 @@ public class BotCredentials : IBotCredentials
 
         if (!File.Exists(credsFileName))
         {
-            Log.Information("credentials.json is missing. Which of the following do you want to do?");
-            Log.Information("1. Create a new credentials.json file using an interactive prompt");
-            Log.Information("2. Load credentials from environment variables (Start the variables with Mewdeko_)");
-            Log.Information("3. Exit the program");
-            Log.Information("Enter the number of your choice: ");
-            var choice = Console.ReadLine();
-            switch (choice)
+            if (CanPromptForCredentials())
             {
-                case "1":
-                    CreateCredentialsFileInteractively();
-                    break;
-                case "2":
-                    // No action needed as it will load from environment variables
-                    break;
-                case "3":
-                    Environment.Exit(0);
-                    break;
-                default:
-                    Log.Error("Invalid choice. Please restart the program and select a valid option.");
-                    Environment.Exit(0);
-                    break;
+                Log.Information("credentials.json is missing. Which of the following do you want to do?");
+                Log.Information("1. Create a new credentials.json file using an interactive prompt");
+                Log.Information("2. Load credentials from environment variables (Start the variables with Mewdeko_)");
+                Log.Information("3. Exit the program");
+                Log.Information("Enter the number of your choice: ");
+                var choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "1":
+                        CreateCredentialsFileInteractively();
+                        break;
+                    case "2":
+                        // No action needed as it will load from environment variables
+                        break;
+                    case "3":
+                        Environment.Exit(0);
+                        break;
+                    default:
+                        Log.Error("Invalid choice. Please restart the program and select a valid option.");
+                        Environment.Exit(0);
+                        break;
+                }
+            }
+            else
+            {
+                Log.Information(
+                    "credentials.json is missing. Loading credentials from environment variables (Mewdeko_ prefixed).");
             }
         }
 
@@ -147,6 +155,14 @@ public class BotCredentials : IBotCredentials
     ///     Gets or sets the port used for the API.
     /// </summary>
     public int ApiPort { get; set; } = 5001;
+
+    /// <summary>
+    ///     Gets or sets the hostname other services use to reach this instance's API. Defaults to
+    ///     "localhost", which is correct when the bot and dashboard share a host. Containerised
+    ///     deployments must set this to the service name of the bot container so the dashboard can
+    ///     route to it.
+    /// </summary>
+    public string InstanceApiHost { get; set; } = "localhost";
 
     /// <summary>
     ///     Gets or sets the Dashboard URL for mobile OAuth redirects
@@ -324,6 +340,26 @@ public class BotCredentials : IBotCredentials
     public bool IsOwner(ulong userId)
     {
         return OwnerIds.Contains(userId);
+    }
+
+    /// <summary>
+    ///     Determines whether the process can prompt the user for credentials on the console.
+    ///     Containers and service managers run without an attached terminal, where
+    ///     <see cref="Console.ReadLine" /> returns null immediately; prompting there would exit the
+    ///     process in a restart loop instead of falling back to environment variables.
+    /// </summary>
+    /// <returns><c>true</c> when an interactive console is available and no environment credentials are set.</returns>
+    private static bool CanPromptForCredentials()
+    {
+        var hasEnvironmentCredentials = Environment.GetEnvironmentVariables()
+            .Keys
+            .Cast<string>()
+            .Any(key => key.StartsWith("Mewdeko_", StringComparison.OrdinalIgnoreCase));
+
+        if (hasEnvironmentCredentials)
+            return false;
+
+        return !Console.IsInputRedirected && Environment.UserInteractive;
     }
 
     private void CreateCredentialsFileInteractively()
@@ -513,6 +549,9 @@ public class BotCredentials : IBotCredentials
             UserAgent = data[nameof(UserAgent)];
             CfClearance = data[nameof(CfClearance)];
             ApiPort = int.TryParse(data[nameof(ApiPort)], out var port) ? port : 5001;
+            InstanceApiHost = string.IsNullOrWhiteSpace(data[nameof(InstanceApiHost)])
+                ? "localhost"
+                : data[nameof(InstanceApiHost)];
             LastFmApiKey = data[nameof(LastFmApiKey)];
             LastFmApiSecret = data[nameof(LastFmApiSecret)];
             Rule34ApiKey = data[nameof(Rule34ApiKey)];
@@ -676,7 +715,8 @@ public class BotCredentials : IBotCredentials
         public bool IsApiEnabled { get; set; } = false;
         public string LavalinkUrl { get; set; } = "http://localhost:2333";
         public int ApiPort { get; set; } = 5001;
-        public bool IsMasterInstance { get; set; } = false;
+        public string InstanceApiHost { get; set; } = "localhost";
+        public bool IsMasterInstance { get; set; } = true;
         public string DashboardUrl { get; set; } = "https://mewdeko.tech";
         public string RedisConnections { get; } = "127.0.0.1:6379";
         public string LastFmApiKey { get; } = "";

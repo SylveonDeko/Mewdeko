@@ -50,7 +50,7 @@ public class BotStatus(DiscordShardedClient client, StatsService statsService, C
             UserCount = clients.Select(x => x.Guilds.Sum(g => g.Users.Count)).Sum(),
             CommitHash = GetCommitHash(),
             BotId = client.CurrentUser.Id,
-            InstanceUrl = $"http://localhost:{creds.ApiPort}"
+            InstanceUrl = $"http://{creds.InstanceApiHost}:{creds.ApiPort}"
         };
 
         return Ok(toReturn);
