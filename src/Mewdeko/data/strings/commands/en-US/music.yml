@@ -556,6 +556,148 @@ lastfmstatus_noparams:
     - ''
   desc: 'Shows the user''s Last.fm account status.'
   params: [ ]
+fm:
+  args:
+    - '[@user]'
+  desc: 'Shows the current or last played track from Last.fm, falling back to Discord Spotify status if not linked.'
+  params:
+    - desc: 'The user to check. Defaults to the command invoker.'
+      name: user
+      optional: true
+      type: user
+fmrecent:
+  args:
+    - '[@user]'
+  desc: 'Shows a user''s recently played tracks from Last.fm.'
+  params:
+    - desc: 'The user to check. Defaults to the command invoker.'
+      name: user
+      optional: true
+      type: user
+fmtopartists:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: 'Shows a user''s top artists on Last.fm for a given time period.'
+  params:
+    - desc: 'The time period: week, month, quarter, half, year, or overall (default).'
+      name: period
+      optional: true
+      type: string
+    - desc: 'The user to check. Defaults to the command invoker.'
+      name: user
+      optional: true
+      type: user
+fmtopalbums:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: 'Shows a user''s top albums on Last.fm for a given time period.'
+  params:
+    - desc: 'The time period: week, month, quarter, half, year, or overall (default).'
+      name: period
+      optional: true
+      type: string
+    - desc: 'The user to check. Defaults to the command invoker.'
+      name: user
+      optional: true
+      type: user
+fmtoptracks:
+  args:
+    - '[period]'
+    - '[@user]'
+  desc: 'Shows a user''s top tracks on Last.fm for a given time period.'
+  params:
+    - desc: 'The time period: week, month, quarter, half, year, or overall (default).'
+      name: period
+      optional: true
+      type: string
+    - desc: 'The user to check. Defaults to the command invoker.'
+      name: user
+      optional: true
+      type: user
+fmartist:
+  args:
+    - '[artist]'
+  desc: 'Shows Last.fm info for an artist, along with your play count for them.'
+  params:
+    - desc: 'The artist name. Defaults to your currently or last playing artist.'
+      name: artist
+      optional: true
+      type: string
+fmalbum:
+  args:
+    - '[artist | album]'
+  desc: 'Shows Last.fm info for an album, along with your play count for it.'
+  params:
+    - desc: 'The album to look up, formatted as ''artist | album''. Defaults to your currently or last playing album.'
+      name: query
+      optional: true
+      type: string
+fmwhoknows:
+  args:
+    - '[artist]'
+  desc: 'Ranks every linked server member by their play count for an artist.'
+  params:
+    - desc: 'The artist to check. Defaults to your currently or last playing artist.'
+      name: artist
+      optional: true
+      type: string
+fmwhoknowsalbum:
+  args:
+    - 'artist | album'
+  desc: 'Ranks every linked server member by their play count for an album.'
+  params:
+    - desc: 'The album to check, formatted as ''artist | album''.'
+      name: query
+      optional: false
+      type: string
+fmwhoknowstrack:
+  args:
+    - 'artist | track'
+  desc: 'Ranks every linked server member by their play count for a track.'
+  params:
+    - desc: 'The track to check, formatted as ''artist | track''.'
+      name: query
+      optional: false
+      type: string
+fmcrowns:
+  args:
+    - '[artist]'
+  desc: 'Shows who "owns" (has the most plays for) an artist in this server.'
+  params:
+    - desc: 'The artist to check. Defaults to your currently or last playing artist.'
+      name: artist
+      optional: true
+      type: string
+fmtaste:
+  args:
+    - '@user'
+  desc: 'Compares your top artists against another user''s to see how much your taste overlaps.'
+  params:
+    - desc: 'The user to compare against.'
+      name: user
+      optional: false
+      type: user
+fmchart:
+  args:
+    - '[size]'
+    - '[period]'
+    - '[@user]'
+  desc: 'Generates an image grid of a user''s top albums on Last.fm.'
+  params:
+    - desc: 'The grid dimensions (size x size). Must be between 2 and 5. Defaults to 3.'
+      name: size
+      optional: true
+      type: int
+    - desc: 'The time period: week, month, quarter, half, year, or overall (default).'
+      name: period
+      optional: true
+      type: string
+    - desc: 'The user to check. Defaults to the command invoker.'
+      name: user
+      optional: true
+      type: user
 ttsenable:
   args:
     - ''

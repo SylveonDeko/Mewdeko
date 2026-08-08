@@ -207,9 +207,10 @@ public partial class SlashUtility(
     public async Task SayModal(ulong channelId, SayModal modal)
     {
         var channel = await ctx.Guild.GetTextChannelAsync(channelId);
-        var canMention = ((IGuildUser)ctx.User).GuildPermissions.MentionEveryone;
+        var guildUser = ctx.User as IGuildUser ?? await ctx.Guild.GetUserAsync(ctx.User.Id);
+        var canMention = guildUser.GuildPermissions.MentionEveryone;
         var rep = new ReplacementBuilder()
-            .WithDefault(ctx.User, channel, (SocketGuild)ctx.Guild, (DiscordShardedClient)ctx.Client).Build();
+            .WithDefault(ctx.User, channel, ctx.Guild as SocketGuild, ctx.Client as DiscordShardedClient).Build();
 
         if (SmartEmbed.TryParse(rep.Replace(modal.Message), ctx.Guild?.Id, out var embedData, out var plainText,
                 out var components))

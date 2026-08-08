@@ -3520,6 +3520,47 @@ lastfmtoggle:
 lastfmstatus:
   - lastfmstatus
   - lfstatus
+fm:
+  - fm
+fmrecent:
+  - fmrecent
+  - fmr
+fmtopartists:
+  - fmtopartists
+  - fmta
+fmtopalbums:
+  - fmtopalbums
+  - fmtal
+fmtoptracks:
+  - fmtoptracks
+  - fmtt
+fmartist:
+  - fmartist
+  - fma
+fmalbum:
+  - fmalbum
+  - fmal
+fmwhoknows:
+  - fmwhoknows
+  - whoknows
+  - wk
+fmwhoknowsalbum:
+  - fmwhoknowsalbum
+  - whoknowsalbum
+  - wka
+fmwhoknowstrack:
+  - fmwhoknowstrack
+  - whoknowstrack
+  - wkt
+fmcrowns:
+  - fmcrowns
+  - crowns
+fmtaste:
+  - fmtaste
+  - taste
+fmchart:
+  - fmchart
+  - chart
 antimasspost:
   - antimasspost
 antipostchannel:
