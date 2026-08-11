@@ -11,6 +11,11 @@ namespace Mewdeko.Modules.RoleGreets.Services;
 /// </summary>
 public class RoleGreetService : INService
 {
+    /// <summary>
+    ///     The message a newly created role greet starts with, so a greet is never silently inert before it is edited.
+    /// </summary>
+    private const string DefaultMessage = "Welcome %user.mention%!";
+
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
     private readonly InviteCountService inviteCountService;
@@ -57,6 +62,19 @@ public class RoleGreetService : INService
     }
 
     /// <summary>
+    ///     Retrieves a single <see cref="RoleGreet" /> configuration by its database id, scoped to a guild.
+    /// </summary>
+    /// <param name="guildId">The unique identifier of the guild the greet must belong to.</param>
+    /// <param name="id">The database id of the role greet.</param>
+    /// <returns>The matching <see cref="RoleGreet" />, or null if it does not exist in that guild.</returns>
+    public async Task<RoleGreet?> GetGreet(ulong guildId, int id)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        return await db.GetTable<RoleGreet>()
+            .FirstOrDefaultAsync(x => x.Id == id && x.GuildId == guildId);
+    }
+
+    /// <summary>
     ///     Adds a new role greet configuration.
     /// </summary>
     /// <param name="guildId">The unique identifier of the guild.</param>
@@ -72,7 +90,7 @@ public class RoleGreetService : INService
 
         await db.InsertAsync(new RoleGreet
         {
-            ChannelId = channelId, GuildId = guildId, RoleId = roleId
+            ChannelId = channelId, GuildId = guildId, RoleId = roleId, Message = DefaultMessage
         });
 
         return true;

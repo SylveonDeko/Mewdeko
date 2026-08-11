@@ -13,9 +13,9 @@ namespace Mewdeko.Controllers;
 [Authorize("ApiKeyPolicy")]
 public class RoleGreetController : Controller
 {
+    private readonly IDashboardAuditContext auditContext;
     private readonly DiscordShardedClient client;
     private readonly RoleGreetService roleGreetService;
-    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     ///     Initializes a new instance of the RoleGreetController
@@ -72,8 +72,7 @@ public class RoleGreetController : Controller
     [HttpPut("{greetId}/message")]
     public async Task<IActionResult> UpdateMessage(ulong guildId, int greetId, [FromBody] string message)
     {
-        var greets = await roleGreetService.GetListGreets(guildId);
-        var greet = greets.ElementAtOrDefault(greetId - 1);
+        var greet = await roleGreetService.GetGreet(guildId, greetId);
         if (greet == null)
             return NotFound("Role greet not found");
 
@@ -88,8 +87,7 @@ public class RoleGreetController : Controller
     [HttpPut("{greetId}/delete-time")]
     public async Task<IActionResult> UpdateDeleteTime(ulong guildId, int greetId, [FromBody] int seconds)
     {
-        var greets = await roleGreetService.GetListGreets(guildId);
-        var greet = greets.ElementAtOrDefault(greetId - 1);
+        var greet = await roleGreetService.GetGreet(guildId, greetId);
         if (greet == null)
             return NotFound("Role greet not found");
 
@@ -105,8 +103,7 @@ public class RoleGreetController : Controller
     public async Task<IActionResult> UpdateWebhook(ulong guildId, int greetId,
         [FromBody] WebhookUpdateRequestRole request)
     {
-        var greets = await roleGreetService.GetListGreets(guildId);
-        var greet = greets.ElementAtOrDefault(greetId - 1);
+        var greet = await roleGreetService.GetGreet(guildId, greetId);
         if (greet == null)
             return NotFound("Role greet not found");
 
@@ -128,8 +125,7 @@ public class RoleGreetController : Controller
     [HttpPut("{greetId}/greet-bots")]
     public async Task<IActionResult> UpdateGreetBots(ulong guildId, int greetId, [FromBody] bool enabled)
     {
-        var greets = await roleGreetService.GetListGreets(guildId);
-        var greet = greets.ElementAtOrDefault(greetId - 1);
+        var greet = await roleGreetService.GetGreet(guildId, greetId);
         if (greet == null)
             return NotFound("Role greet not found");
 
@@ -144,13 +140,27 @@ public class RoleGreetController : Controller
     [HttpPut("{greetId}/disable")]
     public async Task<IActionResult> DisableRoleGreet(ulong guildId, int greetId, [FromBody] bool disabled)
     {
-        var greets = await roleGreetService.GetListGreets(guildId);
-        var greet = greets.ElementAtOrDefault(greetId - 1);
+        var greet = await roleGreetService.GetGreet(guildId, greetId);
         if (greet == null)
             return NotFound("Role greet not found");
 
         auditContext.RecordBefore(greet);
         await roleGreetService.RoleGreetDisable(greet, disabled);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Deletes a role greet
+    /// </summary>
+    [HttpDelete("{greetId}")]
+    public async Task<IActionResult> DeleteRoleGreet(ulong guildId, int greetId)
+    {
+        var greet = await roleGreetService.GetGreet(guildId, greetId);
+        if (greet == null)
+            return NotFound("Role greet not found");
+
+        auditContext.RecordBefore(greet);
+        await roleGreetService.RemoveRoleGreetInternal(greet);
         return Ok();
     }
 }
