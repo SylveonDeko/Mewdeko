@@ -1021,7 +1021,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             .ToDictionary(g => g.Key,
                 g => g.Select(x =>
                 {
-                    x.Trigger = x.Trigger.Replace(MentionPh, client.CurrentUser.Mention);
+                    x.Trigger = x.Trigger?.Replace(MentionPh, client.CurrentUser.Mention) ?? "";
                     return x;
                 }).ToArray())
             .ToConcurrent();
@@ -1033,7 +1033,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 .ToListAsync())
             .Select(x =>
             {
-                x.Trigger = x.Trigger.Replace(MentionPh, client.CurrentUser.Mention);
+                x.Trigger = x.Trigger?.Replace(MentionPh, client.CurrentUser.Mention) ?? "";
                 return x;
             })
             .ToArray();
@@ -1104,28 +1104,35 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             {
                 var trigger = ct.Trigger;
 
+                if (string.IsNullOrEmpty(trigger))
+                    continue;
+
+                // Each trigger is matched against its own copy of the content so that
+                // prefix stripping never leaks into the following iterations
+                var candidate = content;
+
                 // Check the type of prefix required for the trigger
                 switch ((RequirePrefixType)ct.PrefixType)
                 {
                     case RequirePrefixType.Custom:
-                        if (!content.StartsWith(ct.CustomPrefix))
+                        if (string.IsNullOrEmpty(ct.CustomPrefix) || !candidate.StartsWith(ct.CustomPrefix))
                             continue;
-                        content = content[ct.CustomPrefix.Length..];
+                        candidate = candidate[ct.CustomPrefix.Length..];
                         break;
                     case RequirePrefixType.GuildOrNone:
-                        if (guildPrefix is null || !content.StartsWith(guildPrefix))
+                        if (guildPrefix is null || !candidate.StartsWith(guildPrefix))
                             continue;
-                        content = content[guildPrefix.Length..];
+                        candidate = candidate[guildPrefix.Length..];
                         break;
                     case RequirePrefixType.GuildOrGlobal:
-                        if (!content.StartsWith(guildPrefix ?? globalPrefix))
+                        if (!candidate.StartsWith(guildPrefix ?? globalPrefix))
                             continue;
-                        content = content[(guildPrefix ?? globalPrefix).Length..];
+                        candidate = candidate[(guildPrefix ?? globalPrefix).Length..];
                         break;
                     case RequirePrefixType.Global:
-                        if (!content.StartsWith(globalPrefix))
+                        if (!candidate.StartsWith(globalPrefix))
                             continue;
-                        content = content[globalPrefix.Length..];
+                        candidate = candidate[globalPrefix.Length..];
                         break;
                     case RequirePrefixType.None:
                     default:
@@ -1136,7 +1143,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 if (ct.IsRegex)
                 {
                     // Match the content against the trigger regex pattern
-                    if (Regex.IsMatch(new string(content), trigger, RegexOptions.None, TimeSpan.FromMilliseconds(1)))
+                    if (Regex.IsMatch(candidate, trigger, RegexOptions.None, TimeSpan.FromMilliseconds(1)))
                         result.Add(ct);
                     continue;
                 }
@@ -1145,36 +1152,36 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 // remove user mentions from the content
                 if ((CtRoleGrantType)ct.RoleGrantType is CtRoleGrantType.Mentioned or CtRoleGrantType.Both)
                 {
-                    content = content.RemoveUserMentions().Trim();
+                    candidate = candidate.RemoveUserMentions().Trim();
                 }
 
                 // Check if the content length is greater than the trigger length
-                if (content.Length > trigger.Length)
+                if (candidate.Length > trigger.Length)
                 {
                     // If the trigger has ContainsAnywhere enabled, check if it is contained as a word within the content
                     if (ct.ContainsAnywhere)
                     {
-                        var wp = content.AsSpan().GetWordPosition(trigger);
+                        var wp = candidate.AsSpan().GetWordPosition(trigger);
                         if (wp != WordPosition.None)
                             result.Add(ct);
                         continue;
                     }
 
                     // If AllowTarget is enabled, the content has to start with the trigger followed by a space
-                    if (ct.AllowTarget && content.StartsWith(trigger, StringComparison.OrdinalIgnoreCase)
-                                       && content[trigger.Length] == ' ')
+                    if (ct.AllowTarget && candidate.StartsWith(trigger, StringComparison.OrdinalIgnoreCase)
+                                       && candidate[trigger.Length] == ' ')
                     {
                         result.Add(ct);
                     }
                 }
-                else if (content.Length < ct.Trigger.Length)
+                else if (candidate.Length < trigger.Length)
                 {
                     // If the content length is less than the trigger length, the trigger can never be triggered
                 }
                 else
                 {
                     // If the content length is equal to the trigger length, the strings have to be equal for the trigger to be matched
-                    if (content.SequenceEqual(ct.Trigger))
+                    if (candidate.SequenceEqual(trigger))
                         result.Add(ct);
                 }
             }

@@ -20,7 +20,8 @@ public class StreamNotificationsController(
     : Controller
 {
     /// <summary>
-    ///     Gets all followed streams for a guild
+    ///     Gets all followed streams for a guild. The returned index is the stream's position in the Id ordering, which is
+    ///     what the update and unfollow endpoints resolve against, so it is assigned before the list is sorted for display.
     /// </summary>
     /// <param name="guildId">The ID of the guild</param>
     /// <returns>List of followed streams</returns>
@@ -31,23 +32,29 @@ public class StreamNotificationsController(
 
         var streams = await db.FollowedStreams
             .Where(x => x.GuildId == guildId)
-            .OrderBy(x => x.Type)
-            .ThenBy(x => x.Username)
+            .OrderBy(x => x.Id)
             .ToListAsync();
 
-        var streamData = streams.Select((s, index) => new
-        {
-            index,
-            s.Id,
-            s.ChannelId,
-            s.Username,
-            s.Type,
-            typeName = GetStreamTypeName(s.Type),
-            s.OnlineMessage,
-            s.OfflineMessage,
-            s.DateAdded,
-            channelName = client.GetGuild(guildId)?.GetTextChannel(s.ChannelId)?.Name ?? "Unknown"
-        });
+        var streamData = streams
+            .Select((s, index) => new
+            {
+                stream = s, index
+            })
+            .OrderBy(x => x.stream.Type)
+            .ThenBy(x => x.stream.Username)
+            .Select(x => new
+            {
+                x.index,
+                x.stream.Id,
+                x.stream.ChannelId,
+                x.stream.Username,
+                x.stream.Type,
+                typeName = GetStreamTypeName(x.stream.Type),
+                x.stream.OnlineMessage,
+                x.stream.OfflineMessage,
+                x.stream.DateAdded,
+                channelName = client.GetGuild(guildId)?.GetTextChannel(x.stream.ChannelId)?.Name ?? "Unknown"
+            });
 
         return Ok(streamData);
     }
