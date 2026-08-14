@@ -14,12 +14,13 @@ using System;
 namespace DataModel
 {
 	[Table("GuildUserBalance")]
-	public class GuildUserBalance
+	public class GuildUserBalance : IUserBalanceEntity
 	{
 		[Column("Id"       , IsPrimaryKey = true, IsIdentity = true, SkipOnInsert = true, SkipOnUpdate = true)] public int       Id        { get; set; } // integer
 		[Column("GuildId"                                                                                    )] public ulong   GuildId   { get; set; } // numeric(20,0)
 		[Column("UserId"                                                                                     )] public ulong   UserId    { get; set; } // numeric(20,0)
 		[Column("Balance"                                                                                    )] public long      Balance   { get; set; } // bigint
+		[Column("Bank"                                                                                       )] public long      Bank      { get; set; } // bigint
 		[Column("DateAdded"                                                                                  )] public DateTime? DateAdded { get; set; } // timestamp (6) without time zone
 	}
 }

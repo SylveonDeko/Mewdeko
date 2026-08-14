@@ -551,6 +551,26 @@ public class MewdekoDb : DataConnection
     public ITable<GuildUserBalance> GuildUserBalances => this.GetTable<GuildUserBalance>();
 
     /// <summary>
+    ///     Gets the currency action cooldowns table.
+    /// </summary>
+    public ITable<CurrencyCooldown> CurrencyCooldowns => this.GetTable<CurrencyCooldown>();
+
+    /// <summary>
+    ///     Gets the per-guild economy configuration table.
+    /// </summary>
+    public ITable<CurrencyConfig> CurrencyConfigs => this.GetTable<CurrencyConfig>();
+
+    /// <summary>
+    ///     Gets the currency shop items table.
+    /// </summary>
+    public ITable<ShopItem> ShopItems => this.GetTable<ShopItem>();
+
+    /// <summary>
+    ///     Gets the user shop inventory table.
+    /// </summary>
+    public ITable<UserInventoryItem> UserInventoryItems => this.GetTable<UserInventoryItem>();
+
+    /// <summary>
     ///     Gets the highlight settings table.
     /// </summary>
     public ITable<HighlightSetting> HighlightSettings => this.GetTable<HighlightSetting>();

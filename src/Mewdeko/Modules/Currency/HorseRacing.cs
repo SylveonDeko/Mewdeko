@@ -1,5 +1,6 @@
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Database.Enums;
 using Mewdeko.Modules.Currency.Services;
 using Embed = Discord.Embed;
 
@@ -28,8 +29,8 @@ public partial class Currency
                 return;
             }
 
-            var userBalance = await cs.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-            if (betAmount > userBalance)
+            if (!await cs.TryDebitAsync(ctx.User.Id, betAmount, Strings.HorseRaceTransactionStake(ctx.Guild.Id),
+                    CurrencyCategory.GameBet, ctx.Guild.Id, "horserace"))
             {
                 await ReplyErrorAsync(Strings.HorseRaceInsufficientFunds(ctx.Guild.Id)).ConfigureAwait(false);
                 return;
@@ -38,6 +39,9 @@ public partial class Currency
             var result = await Service.JoinRace(ctx.User, ctx.Guild.Id, betAmount);
             if (!result.Success)
             {
+                await cs.CreditAsync(ctx.User.Id, betAmount, Strings.HorseRaceTransactionRefund(ctx.Guild.Id),
+                    CurrencyCategory.GamePayout, ctx.Guild.Id, "horserace");
+
                 await ReplyErrorAsync(result.Message switch
                 {
                     "horse_race_full" => Strings.HorseRaceFull(ctx.Guild.Id),

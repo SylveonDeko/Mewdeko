@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Viser kommandoer for et specifikt modul. Hvis null, er det et alias
-    for modules, som er et alias for help.
+    Viser kommandoer for et bestemt modul, eventuelt indsnævret med et søgeord. Hvis null, er det et alias for modules, som er et alias for help.
   params:
-    - desc: 'Modulet at se på'
+    - desc: 'Modulet der skal vises, eventuelt efterfulgt af et ord der filtrerer dets kommandoer'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Viser kommandoer for et specifikt modul. Hvis null, er det et alias
-    for modules, som er et alias for help.
+    Viser kommandoer for et bestemt modul, eventuelt indsnævret med et søgeord. Hvis null, er det et alias for modules, som er et alias for help.
   params:
-    - desc: 'Modulet at se på'
+    - desc: 'Modulet der skal vises, eventuelt efterfulgt af et ord der filtrerer dets kommandoer'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Viser kommandoer for et specifikt modul. Hvis null, er det et alias
-    for modules, som er et alias for help.
+    Viser kommandoer for et bestemt modul, eventuelt indsnævret med et søgeord. Hvis null, er det et alias for modules, som er et alias for help.
   params:
-    - desc: 'Modulet at se på'
+    - desc: 'Modulet der skal vises, eventuelt efterfulgt af et ord der filtrerer dets kommandoer'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Viser kommandoer for et specifikt modul. Hvis null, er det et alias
-    for modules, som er et alias for help.
+    Viser kommandoer for et bestemt modul, eventuelt indsnævret med et søgeord. Hvis null, er det et alias for modules, som er et alias for help.
   params:
-    - desc: 'Modulet at se på'
+    - desc: 'Modulet der skal vises, eventuelt efterfulgt af et ord der filtrerer dets kommandoer'
       name: module
       optional: true
       type: string

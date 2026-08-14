@@ -11,7 +11,23 @@ public class LbCurrency
     public long Balance { get; set; }
 
     /// <summary>
+    ///     Gets or sets the banked amount.
+    /// </summary>
+    public long Bank { get; set; }
+
+    /// <summary>
     ///     Gets or sets the user ID.
     /// </summary>
     public ulong UserId { get; set; }
+
+    /// <summary>
+    ///     Gets the user's total holdings across wallet and bank.
+    /// </summary>
+    public long NetWorth
+    {
+        get
+        {
+            return Balance + Bank;
+        }
+    }
 }

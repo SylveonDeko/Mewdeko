@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Muestra los comandos de un módulo específico. Si es null, es un alias
-    de modules que a su vez es un alias de help.
+    Muestra los comandos de un módulo concreto, opcionalmente acotados por un término de búsqueda. Si es null, es un alias de modules, que a su vez es un alias de help.
   params:
-    - desc: 'El módulo a ver'
+    - desc: 'El módulo que se va a consultar, opcionalmente seguido de un término para filtrar sus comandos'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Muestra los comandos de un módulo específico. Si es null, es un alias
-    de modules que a su vez es un alias de help.
+    Muestra los comandos de un módulo concreto, opcionalmente acotados por un término de búsqueda. Si es null, es un alias de modules, que a su vez es un alias de help.
   params:
-    - desc: 'El módulo a ver'
+    - desc: 'El módulo que se va a consultar, opcionalmente seguido de un término para filtrar sus comandos'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Muestra los comandos de un módulo específico. Si es null, es un alias
-    de modules que a su vez es un alias de help.
+    Muestra los comandos de un módulo concreto, opcionalmente acotados por un término de búsqueda. Si es null, es un alias de modules, que a su vez es un alias de help.
   params:
-    - desc: 'El módulo a ver'
+    - desc: 'El módulo que se va a consultar, opcionalmente seguido de un término para filtrar sus comandos'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Muestra los comandos de un módulo específico. Si es null, es un alias
-    de modules que a su vez es un alias de help.
+    Muestra los comandos de un módulo concreto, opcionalmente acotados por un término de búsqueda. Si es null, es un alias de modules, que a su vez es un alias de help.
   params:
-    - desc: 'El módulo a ver'
+    - desc: 'El módulo que se va a consultar, opcionalmente seguido de un término para filtrar sus comandos'
       name: module
       optional: true
       type: string

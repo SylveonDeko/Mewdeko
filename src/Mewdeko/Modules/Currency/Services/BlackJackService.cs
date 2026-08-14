@@ -146,21 +146,20 @@ public class BlackjackService(GeneratedBotStrings strings) : INService
                             playerTotal > dealerTotal && playerTotal <= 21 ||
                             dealerTotal > 21;
             var tie = playerTotal == dealerTotal && playerBlackjack == dealerBlackjack;
-            var balanceChange = 0L;
+            var stake = game.Bets[playerId];
 
-            if (playerWon)
-            {
-                balanceChange = playerBlackjack ? (long)(game.Bets[playerId] * 1.5) : game.Bets[playerId];
-            }
-            else if (!tie)
-            {
-                balanceChange = -game.Bets[playerId];
-            }
+            var payout = playerWon
+                ? playerBlackjack ? (long)(stake * 2.5) : stake * 2
+                : tie
+                    ? stake
+                    : 0;
 
-            await updateBalanceAsync(playerId.Id, balanceChange);
-            await addTransactionAsync(playerId.Id, balanceChange,
-                playerWon ? strings.WonBlackjack(guildId, balanceChange) :
-                tie ? strings.PushBlackjack(guildId) : strings.LostBlackjack(guildId, Math.Abs(balanceChange)));
+            var profit = payout - stake;
+
+            await updateBalanceAsync(playerId.Id, payout);
+            await addTransactionAsync(playerId.Id, payout,
+                playerWon ? strings.WonBlackjack(guildId, profit) :
+                tie ? strings.PushBlackjack(guildId) : strings.LostBlackjack(guildId, stake));
 
             var handEmbed = new EmbedBuilder()
                 .WithOkColor()

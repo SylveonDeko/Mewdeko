@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Viser kommandoer for en spesifikk modul. Hvis null, er det et alias
-    for modules som er et alias for help.
+    Viser kommandoene for en bestemt modul, eventuelt begrenset med et søkeord. Hvis null, er det et alias for modules, som er et alias for help.
   params:
-    - desc: 'Modulen å se på'
+    - desc: 'Modulen som skal vises, eventuelt fulgt av et ord for å filtrere kommandoene'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Viser kommandoer for en spesifikk modul. Hvis null, er det et alias
-    for modules som er et alias for help.
+    Viser kommandoene for en bestemt modul, eventuelt begrenset med et søkeord. Hvis null, er det et alias for modules, som er et alias for help.
   params:
-    - desc: 'Modulen å se på'
+    - desc: 'Modulen som skal vises, eventuelt fulgt av et ord for å filtrere kommandoene'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Viser kommandoer for en spesifikk modul. Hvis null, er det et alias
-    for modules som er et alias for help.
+    Viser kommandoene for en bestemt modul, eventuelt begrenset med et søkeord. Hvis null, er det et alias for modules, som er et alias for help.
   params:
-    - desc: 'Modulen å se på'
+    - desc: 'Modulen som skal vises, eventuelt fulgt av et ord for å filtrere kommandoene'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Viser kommandoer for en spesifikk modul. Hvis null, er det et alias
-    for modules som er et alias for help.
+    Viser kommandoene for en bestemt modul, eventuelt begrenset med et søkeord. Hvis null, er det et alias for modules, som er et alias for help.
   params:
-    - desc: 'Modulen å se på'
+    - desc: 'Modulen som skal vises, eventuelt fulgt av et ord for å filtrere kommandoene'
       name: module
       optional: true
       type: string

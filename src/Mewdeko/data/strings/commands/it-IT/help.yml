@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Mostra i comandi di un modulo specifico. Se null, è un alias per
-    modules che è un alias per help.
+    Mostra i comandi di un modulo specifico, opzionalmente ristretti da un termine di ricerca. Se null, è un alias di modules, che a sua volta è un alias di help.
   params:
-    - desc: 'Il modulo da consultare'
+    - desc: 'Il modulo da consultare, opzionalmente seguito da un termine per filtrarne i comandi'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Mostra i comandi di un modulo specifico. Se null, è un alias per
-    modules che è un alias per help.
+    Mostra i comandi di un modulo specifico, opzionalmente ristretti da un termine di ricerca. Se null, è un alias di modules, che a sua volta è un alias di help.
   params:
-    - desc: 'Il modulo da consultare'
+    - desc: 'Il modulo da consultare, opzionalmente seguito da un termine per filtrarne i comandi'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Mostra i comandi di un modulo specifico. Se null, è un alias per
-    modules che è un alias per help.
+    Mostra i comandi di un modulo specifico, opzionalmente ristretti da un termine di ricerca. Se null, è un alias di modules, che a sua volta è un alias di help.
   params:
-    - desc: 'Il modulo da consultare'
+    - desc: 'Il modulo da consultare, opzionalmente seguito da un termine per filtrarne i comandi'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Mostra i comandi di un modulo specifico. Se null, è un alias per
-    modules che è un alias per help.
+    Mostra i comandi di un modulo specifico, opzionalmente ristretti da un termine di ricerca. Se null, è un alias di modules, che a sua volta è un alias di help.
   params:
-    - desc: 'Il modulo da consultare'
+    - desc: 'Il modulo da consultare, opzionalmente seguito da un termine per filtrarne i comandi'
       name: module
       optional: true
       type: string

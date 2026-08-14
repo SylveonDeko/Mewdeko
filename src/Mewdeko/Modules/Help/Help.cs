@@ -3,11 +3,9 @@ using System.Text;
 using System.Text.Json;
 using Discord.Commands;
 using Fergun.Interactive;
-using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.JsonSettings;
 using Mewdeko.Modules.Help.Services;
-using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
@@ -18,18 +16,14 @@ namespace Mewdeko.Modules.Help;
 /// <summary>
 ///     A module containing commands for getting help.
 /// </summary>
-/// <param name="perms">The per server permission service</param>
 /// <param name="cmds">The command service</param>
-/// <param name="services">The service provider</param>
 /// <param name="strings">Localization strings for the bot</param>
 /// <param name="serv">Service for paginated embeds</param>
 /// <param name="guildSettings">Service for fetching guildconfigs</param>
 /// <param name="config">Service for fetching yml based configs</param>
 /// <param name="logger">The logger instance for structured logging.</param>
 public class Help(
-    GlobalPermissionService perms,
     CommandService cmds,
-    IServiceProvider services,
     IBotStrings strings,
     InteractiveService serv,
     GuildSettingsService guildSettings,
@@ -113,29 +107,31 @@ public class Help(
     [Aliases]
     public async Task SearchCommand([Remainder] string commandname)
     {
-        var commandInfos = cmds.Commands.Distinct()
-            .Where(c => c.Name.Contains(commandname, StringComparison.InvariantCulture));
-        if (!commandInfos.Any())
+        var prefix = await guildSettings.GetPrefix(ctx.Guild);
+        var commandInfos = cmds.Commands
+            .Distinct(new CommandTextEqualityComparer())
+            .Where(c => c.Aliases.Any(a => a.Contains(commandname, StringComparison.OrdinalIgnoreCase))
+                        || c.RealSummary(strings, ctx.Guild.Id, prefix)
+                            .Contains(commandname, StringComparison.OrdinalIgnoreCase))
+            .OrderBy(c => c.Aliases[0], StringComparer.OrdinalIgnoreCase)
+            .Take(20)
+            .ToList();
+
+        if (commandInfos.Count == 0)
         {
             await ctx.Channel.SendErrorAsync(Strings.SearchCommandNotFound(ctx.Guild.Id), Config);
+            return;
         }
-        else
-        {
-            string? cmdnames = null;
-            string? cmdremarks = null;
-            foreach (var i in commandInfos)
-            {
-                cmdnames += $"\n{i.Name}";
-                cmdremarks +=
-                    $"\n{i.RealSummary(strings, ctx.Guild.Id, await guildSettings.GetPrefix(ctx.Guild)).Truncate(50)}";
-            }
 
-            var eb = new EmbedBuilder()
-                .WithOkColor()
-                .AddField(Strings.SearchCommandTitleCommand(ctx.Guild.Id), cmdnames, true)
-                .AddField(Strings.SearchCommandTitleDescription(ctx.Guild.Id), cmdremarks, true);
-            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
-        }
+        var cmdnames = string.Join("\n", commandInfos.Select(c => c.Aliases[0]));
+        var cmdremarks = string.Join("\n",
+            commandInfos.Select(c => c.RealSummary(strings, ctx.Guild.Id, prefix).Truncate(50)));
+
+        var eb = new EmbedBuilder()
+            .WithOkColor()
+            .AddField(Strings.SearchCommandTitleCommand(ctx.Guild.Id), cmdnames, true)
+            .AddField(Strings.SearchCommandTitleDescription(ctx.Guild.Id), cmdremarks, true);
+        await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -171,137 +167,57 @@ public class Help(
     }
 
     /// <summary>
-    ///     Shows commands for a specific module. If null, is an alias for modules which is an alias for help.
+    ///     Shows commands for a specific module, optionally narrowed by a search term. If null, is an alias for
+    ///     modules which is an alias for help.
     /// </summary>
-    /// <param name="module">The module to look at</param>
+    /// <param name="module">The module to look at, optionally followed by a term to filter its commands by</param>
     [Cmd]
     [Aliases]
     public async Task Commands([Remainder] string? module = null)
     {
-        module = module?.Trim().ToUpperInvariant().Replace(" ", "");
         if (string.IsNullOrWhiteSpace(module))
         {
             await Modules().ConfigureAwait(false);
             return;
         }
 
-        var prefix = await guildSettings.GetPrefix(ctx.Guild);
+        var parts = module.Trim().Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+        var filter = parts.Length > 1 ? parts[1] : null;
 
-        // Pre-filter commands and create a lookup for blocked commands
-        var blockedCommandsSet = new HashSet<string>(perms.BlockedCommands.Select(c => c.ToLowerInvariant()));
-        var commandInfos = cmds.Commands
-            .Where(c => c.Module.GetTopLevelModule().Name.ToUpperInvariant()
-                            .StartsWith(module, StringComparison.InvariantCulture) &&
-                        !blockedCommandsSet.Contains(c.Aliases[0].ToLowerInvariant()))
-            .Distinct(new CommandTextEqualityComparer())
-            .ToList();
-
-        if (!commandInfos.Any())
+        var resolved = Service.ResolveModule(parts[0], out var candidates);
+        if (resolved is null)
         {
+            if (candidates.Count > 1)
+            {
+                await ReplyErrorAsync(Strings.ModuleAmbiguous(ctx.Guild.Id,
+                    string.Join(", ", candidates.Select(c => c.Name)))).ConfigureAwait(false);
+                return;
+            }
+
             await ReplyErrorAsync(Strings.ModuleNotFoundOrCantExec(ctx.Guild.Id)).ConfigureAwait(false);
             return;
         }
 
-        // Check preconditions
-        var preconditionTasks = commandInfos.Select(async x =>
+        if (filter is null)
         {
-            var pre = await x.CheckPreconditionsAsync(Context, services).ConfigureAwait(false);
-            return (Cmd: x, Succ: pre.IsSuccess);
-        });
-        var preconditionResults = await Task.WhenAll(preconditionTasks).ConfigureAwait(false);
-        var succ = new HashSet<CommandInfo>(preconditionResults.Where(x => x.Succ).Select(x => x.Cmd));
-
-        // Group and sort commands, ensuring no duplicates
-        var seenCommands = new HashSet<string>();
-        var cmdsWithGroup = commandInfos
-            .GroupBy(c => c.Module.Name.Replace("Commands", "", StringComparison.InvariantCulture))
-            .Select(g => new
+            var overview = Service.GetModuleOverview(resolved.Name, ctx.Guild);
+            if (overview is not null)
             {
-                ModuleName = g.Key,
-                Commands = g.Where(c => seenCommands.Add(c.Aliases[0].ToLowerInvariant()))
-                    .OrderBy(c => c.Aliases[0])
-                    .ToList()
-            })
-            .Where(g => g.Commands.Any())
-            .OrderBy(g => g.ModuleName)
-            .ToList();
-
-        const int pageSize = 10;
-        var totalCommands = cmdsWithGroup.Sum(g => g.Commands.Count);
-        var totalPages = (int)Math.Ceiling(totalCommands / (double)pageSize);
-
-        var paginator = new LazyPaginatorBuilder()
-            .AddUser(ctx.User)
-            .WithPageFactory(PageFactory)
-            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-            .WithMaxPageIndex(totalPages - 1)
-            .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-            .Build();
-
-        await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
-        return;
-
-        Task<PageBuilder> PageFactory(int page)
-        {
-            var pageBuilder = new PageBuilder().WithOkColor();
-            var commandsOnPage = new List<string>();
-            var currentModule = "";
-            var commandCount = 0;
-
-            foreach (var group in cmdsWithGroup)
-            {
-                foreach (var cmd in group.Commands)
-                {
-                    if (commandCount >= page * pageSize && commandCount < (page + 1) * pageSize)
-                    {
-                        if (currentModule != group.ModuleName)
-                        {
-                            if (commandsOnPage.Any())
-                                pageBuilder.AddField(currentModule, string.Join("\n", commandsOnPage));
-                            commandsOnPage.Clear();
-                            currentModule = group.ModuleName;
-                        }
-
-                        commandsOnPage.Add(FormatCommandListEntry(cmd));
-                    }
-
-                    commandCount++;
-                    if (commandCount >= (page + 1) * pageSize) break;
-                }
-
-                if (commandCount >= (page + 1) * pageSize) break;
+                await ctx.Channel.SendMessageAsync(embed: overview.Value.Embed.Build(),
+                    components: overview.Value.Components.Build()).ConfigureAwait(false);
+                return;
             }
-
-            if (commandsOnPage.Any())
-                pageBuilder.AddField(currentModule, string.Join("\n", commandsOnPage));
-
-            pageBuilder.WithDescription(Strings.HelpCommandListDescription(
-                ctx.Guild?.Id ?? 0,
-                config.Data.LoadingEmote,
-                prefix));
-
-            return Task.FromResult(pageBuilder);
         }
 
-        string FormatCommandListEntry(CommandInfo cmd)
+        var builder = await Service.BuildCommandPaginator(resolved.Name, null, filter, ctx.Guild, ctx.User);
+        if (builder is null)
         {
-            var status = succ.Contains(cmd)
-                ? cmd.Preconditions.Any(p => p is RequireDragonAttribute) ? "🐉" : "✅"
-                : "❌";
-            var aliases = $"{prefix}{cmd.Aliases[0]}";
-            if (cmd.Aliases.Skip(1).FirstOrDefault() is { } alias)
-                aliases += $"/{prefix}{alias}";
-
-            var summary = cmd.RealSummary(strings, ctx.Guild?.Id, prefix);
-            summary = string.IsNullOrWhiteSpace(summary)
-                ? Strings.NoDescriptionAvailable(ctx.Guild?.Id ?? 0)
-                : summary.Replace('\n', ' ').Trim();
-            if (summary.Length > 80)
-                summary = $"{summary[..77]}...";
-
-            return $"{status} `{aliases}` - {summary}";
+            await ReplyErrorAsync(Strings.HelpSearchNoResults(ctx.Guild.Id, resolved.Name, filter ?? ""))
+                .ConfigureAwait(false);
+            return;
         }
+
+        await serv.SendPaginatorAsync(builder.Build(), ctx.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -317,7 +233,9 @@ public class Help(
 
         if (!string.IsNullOrWhiteSpace(toSearch))
         {
-            com = cmds.Commands.FirstOrDefault(x => x.Aliases.Any(cmdName => cmdName.ToLowerInvariant() == toSearch));
+            var term = toSearch.Trim();
+            com = cmds.Commands.FirstOrDefault(x =>
+                x.Aliases.Any(cmdName => cmdName.Equals(term, StringComparison.OrdinalIgnoreCase)));
             if (com == null)
             {
                 await ReplyErrorAsync(Strings.CommandNotFound(ctx.Guild.Id)).ConfigureAwait(false);

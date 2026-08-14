@@ -1,44 +1,48 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Shows commands for a specific module. If null, is an alias for modules which
-    is an alias for help.
+    Shows commands for a specific module, optionally narrowed by a search term.
+    If null, is an alias for modules which is an alias for help.
   params:
-    - desc: 'The module to look at'
+    - desc: 'The module to look at, optionally followed by a term to filter its commands by'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Shows commands for a specific module. If null, is an alias for modules which
-    is an alias for help.
+    Shows commands for a specific module, optionally narrowed by a search term.
+    If null, is an alias for modules which is an alias for help.
   params:
-    - desc: 'The module to look at'
+    - desc: 'The module to look at, optionally followed by a term to filter its commands by'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Shows commands for a specific module. If null, is an alias for modules which
-    is an alias for help.
+    Shows commands for a specific module, optionally narrowed by a search term.
+    If null, is an alias for modules which is an alias for help.
   params:
-    - desc: 'The module to look at'
+    - desc: 'The module to look at, optionally followed by a term to filter its commands by'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Shows commands for a specific module. If null, is an alias for modules which
-    is an alias for help.
+    Shows commands for a specific module, optionally narrowed by a search term.
+    If null, is an alias for modules which is an alias for help.
   params:
-    - desc: 'The module to look at'
+    - desc: 'The module to look at, optionally followed by a term to filter its commands by'
       name: module
       optional: true
       type: string

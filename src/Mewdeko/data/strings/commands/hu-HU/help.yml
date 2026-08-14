@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Megjeleníti egy adott modul parancsait. Ha null, ez egy alias a
-    modules-ra, ami egy alias a help-re.
+    Megjeleníti egy adott modul parancsait, opcionálisan keresőkifejezéssel szűkítve. Ha null, ez egy alias a modules-ra, ami egy alias a help-re.
   params:
-    - desc: 'A megtekintendő modul'
+    - desc: 'A megtekintendő modul, opcionálisan egy kifejezéssel a parancsai szűrésére'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Megjeleníti egy adott modul parancsait. Ha null, ez egy alias a
-    modules-ra, ami egy alias a help-re.
+    Megjeleníti egy adott modul parancsait, opcionálisan keresőkifejezéssel szűkítve. Ha null, ez egy alias a modules-ra, ami egy alias a help-re.
   params:
-    - desc: 'A megtekintendő modul'
+    - desc: 'A megtekintendő modul, opcionálisan egy kifejezéssel a parancsai szűrésére'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Megjeleníti egy adott modul parancsait. Ha null, ez egy alias a
-    modules-ra, ami egy alias a help-re.
+    Megjeleníti egy adott modul parancsait, opcionálisan keresőkifejezéssel szűkítve. Ha null, ez egy alias a modules-ra, ami egy alias a help-re.
   params:
-    - desc: 'A megtekintendő modul'
+    - desc: 'A megtekintendő modul, opcionálisan egy kifejezéssel a parancsai szűrésére'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Megjeleníti egy adott modul parancsait. Ha null, ez egy alias a
-    modules-ra, ami egy alias a help-re.
+    Megjeleníti egy adott modul parancsait, opcionálisan keresőkifejezéssel szűkítve. Ha null, ez egy alias a modules-ra, ami egy alias a help-re.
   params:
-    - desc: 'A megtekintendő modul'
+    - desc: 'A megtekintendő modul, opcionálisan egy kifejezéssel a parancsai szűrésére'
       name: module
       optional: true
       type: string

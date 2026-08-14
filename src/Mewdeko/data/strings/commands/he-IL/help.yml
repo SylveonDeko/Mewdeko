@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    מציג פקודות עבור מודול מסוים. אם null, הוא כינוי ל-modules שהוא כינוי
-    ל-help.
+    מציג את הפקודות של מודול מסוים, עם אפשרות לצמצם לפי מונח חיפוש. אם null, זהו כינוי ל-modules שהוא כינוי ל-help.
   params:
-    - desc: 'המודול לצפייה'
+    - desc: 'המודול להצגה, ואחריו אפשר להוסיף מונח לסינון הפקודות שלו'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    מציג פקודות עבור מודול מסוים. אם null, הוא כינוי ל-modules שהוא כינוי
-    ל-help.
+    מציג את הפקודות של מודול מסוים, עם אפשרות לצמצם לפי מונח חיפוש. אם null, זהו כינוי ל-modules שהוא כינוי ל-help.
   params:
-    - desc: 'המודול לצפייה'
+    - desc: 'המודול להצגה, ואחריו אפשר להוסיף מונח לסינון הפקודות שלו'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    מציג פקודות עבור מודול מסוים. אם null, הוא כינוי ל-modules שהוא כינוי
-    ל-help.
+    מציג את הפקודות של מודול מסוים, עם אפשרות לצמצם לפי מונח חיפוש. אם null, זהו כינוי ל-modules שהוא כינוי ל-help.
   params:
-    - desc: 'המודול לצפייה'
+    - desc: 'המודול להצגה, ואחריו אפשר להוסיף מונח לסינון הפקודות שלו'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    מציג פקודות עבור מודול מסוים. אם null, הוא כינוי ל-modules שהוא כינוי
-    ל-help.
+    מציג את הפקודות של מודול מסוים, עם אפשרות לצמצם לפי מונח חיפוש. אם null, זהו כינוי ל-modules שהוא כינוי ל-help.
   params:
-    - desc: 'המודול לצפייה'
+    - desc: 'המודול להצגה, ואחריו אפשר להוסיף מונח לסינון הפקודות שלו'
       name: module
       optional: true
       type: string

@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
+using Mewdeko.Database.Enums;
 using Mewdeko.Modules.Currency.Models;
 using Mewdeko.Services.Strings;
 
@@ -99,9 +100,9 @@ public class TriviaChainService(GeneratedBotStrings strings) : ITriviaChainServi
             if (newChainLength == 5)
             {
                 // Game completed successfully
-                await currencyService.AddUserBalanceAsync(user.Id, potentialWin, guild.Id);
-                await currencyService.AddTransactionAsync(user.Id, potentialWin,
-                    strings.TriviaChainTransactionCompleted(guild.Id), guild.Id);
+                await currencyService.CreditAsync(user.Id, potentialWin,
+                    strings.TriviaChainTransactionCompleted(guild.Id), CurrencyCategory.GamePayout, guild.Id,
+                    "triviachain");
 
                 var completeEmbed = new EmbedBuilder()
                     .WithTitle(strings.TriviaChainTitle(guild.Id))
@@ -130,10 +131,6 @@ public class TriviaChainService(GeneratedBotStrings strings) : ITriviaChainServi
             return nextQuestionResult;
         }
 
-        // Wrong answer - game failed
-        await currencyService.AddUserBalanceAsync(user.Id, -chainState.BetAmount, guild.Id);
-        await currencyService.AddTransactionAsync(user.Id, -chainState.BetAmount,
-            strings.TriviaChainTransactionFailed(guild.Id), guild.Id);
 
         var failEmbed = new EmbedBuilder()
             .WithTitle(strings.TriviaChainTitle(guild.Id))

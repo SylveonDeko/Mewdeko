@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    顯示特定模組的命令。如果為 null，則是 modules 的別名，而 modules
-    又是 help 的別名。
+    顯示指定模組的指令，可選擇用搜尋字詞進一步篩選。如果為 null，則是 modules 的別名，而 modules 又是 help 的別名。
   params:
-    - desc: '要檢視的模組'
+    - desc: '要查看的模組，後面可以接一個用來篩選其指令的字詞'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    顯示特定模組的命令。如果為 null，則是 modules 的別名，而 modules
-    又是 help 的別名。
+    顯示指定模組的指令，可選擇用搜尋字詞進一步篩選。如果為 null，則是 modules 的別名，而 modules 又是 help 的別名。
   params:
-    - desc: '要檢視的模組'
+    - desc: '要查看的模組，後面可以接一個用來篩選其指令的字詞'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    顯示特定模組的命令。如果為 null，則是 modules 的別名，而 modules
-    又是 help 的別名。
+    顯示指定模組的指令，可選擇用搜尋字詞進一步篩選。如果為 null，則是 modules 的別名，而 modules 又是 help 的別名。
   params:
-    - desc: '要檢視的模組'
+    - desc: '要查看的模組，後面可以接一個用來篩選其指令的字詞'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    顯示特定模組的命令。如果為 null，則是 modules 的別名，而 modules
-    又是 help 的別名。
+    顯示指定模組的指令，可選擇用搜尋字詞進一步篩選。如果為 null，則是 modules 的別名，而 modules 又是 help 的別名。
   params:
-    - desc: '要檢視的模組'
+    - desc: '要查看的模組，後面可以接一個用來篩選其指令的字詞'
       name: module
       optional: true
       type: string

@@ -89,6 +89,10 @@ namespace DataModel
 		public ITable<GuildRepeater>             GuildRepeaters             => this.GetTable<GuildRepeater>();
 		public ITable<GuildTicketSetting>        GuildTicketSettings        => this.GetTable<GuildTicketSetting>();
 		public ITable<GuildUserBalance>          GuildUserBalances          => this.GetTable<GuildUserBalance>();
+		public ITable<CurrencyCooldown>          CurrencyCooldowns          => this.GetTable<CurrencyCooldown>();
+		public ITable<CurrencyConfig>            CurrencyConfigs            => this.GetTable<CurrencyConfig>();
+		public ITable<ShopItem>                  ShopItems                  => this.GetTable<ShopItem>();
+		public ITable<UserInventoryItem>         UserInventoryItems         => this.GetTable<UserInventoryItem>();
 		public ITable<GuildUserXp>               GuildUserXps               => this.GetTable<GuildUserXp>();
 		public ITable<GuildXpSetting>            GuildXpSettings            => this.GetTable<GuildXpSetting>();
 		public ITable<HighlightSetting>          HighlightSettings          => this.GetTable<HighlightSetting>();

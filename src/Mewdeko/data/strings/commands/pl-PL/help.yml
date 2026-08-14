@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Pokazuje polecenia dla określonego modułu. Jeśli null, jest aliasem
-    dla modules, który jest aliasem dla help.
+    Pokazuje polecenia konkretnego modułu, opcjonalnie zawężone wyszukiwaną frazą. Jeśli null, jest to alias dla modules, który jest aliasem dla help.
   params:
-    - desc: 'Moduł do obejrzenia'
+    - desc: 'Moduł do przejrzenia, opcjonalnie z frazą filtrującą jego polecenia'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Pokazuje polecenia dla określonego modułu. Jeśli null, jest aliasem
-    dla modules, który jest aliasem dla help.
+    Pokazuje polecenia konkretnego modułu, opcjonalnie zawężone wyszukiwaną frazą. Jeśli null, jest to alias dla modules, który jest aliasem dla help.
   params:
-    - desc: 'Moduł do obejrzenia'
+    - desc: 'Moduł do przejrzenia, opcjonalnie z frazą filtrującą jego polecenia'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Pokazuje polecenia dla określonego modułu. Jeśli null, jest aliasem
-    dla modules, który jest aliasem dla help.
+    Pokazuje polecenia konkretnego modułu, opcjonalnie zawężone wyszukiwaną frazą. Jeśli null, jest to alias dla modules, który jest aliasem dla help.
   params:
-    - desc: 'Moduł do obejrzenia'
+    - desc: 'Moduł do przejrzenia, opcjonalnie z frazą filtrującą jego polecenia'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Pokazuje polecenia dla określonego modułu. Jeśli null, jest aliasem
-    dla modules, który jest aliasem dla help.
+    Pokazuje polecenia konkretnego modułu, opcjonalnie zawężone wyszukiwaną frazą. Jeśli null, jest to alias dla modules, który jest aliasem dla help.
   params:
-    - desc: 'Moduł do obejrzenia'
+    - desc: 'Moduł do przejrzenia, opcjonalnie z frazą filtrującą jego polecenia'
       name: module
       optional: true
       type: string

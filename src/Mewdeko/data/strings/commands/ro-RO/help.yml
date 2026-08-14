@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Afișează comenzile pentru un modul specific. Dacă null, este un alias
-    pentru modules care este un alias pentru help.
+    Afișează comenzile unui modul anume, opțional restrânse printr-un termen de căutare. Dacă este null, este un alias pentru modules, care este un alias pentru help.
   params:
-    - desc: 'Modulul de consultat'
+    - desc: 'Modulul de consultat, opțional urmat de un termen pentru filtrarea comenzilor sale'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Afișează comenzile pentru un modul specific. Dacă null, este un alias
-    pentru modules care este un alias pentru help.
+    Afișează comenzile unui modul anume, opțional restrânse printr-un termen de căutare. Dacă este null, este un alias pentru modules, care este un alias pentru help.
   params:
-    - desc: 'Modulul de consultat'
+    - desc: 'Modulul de consultat, opțional urmat de un termen pentru filtrarea comenzilor sale'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Afișează comenzile pentru un modul specific. Dacă null, este un alias
-    pentru modules care este un alias pentru help.
+    Afișează comenzile unui modul anume, opțional restrânse printr-un termen de căutare. Dacă este null, este un alias pentru modules, care este un alias pentru help.
   params:
-    - desc: 'Modulul de consultat'
+    - desc: 'Modulul de consultat, opțional urmat de un termen pentru filtrarea comenzilor sale'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Afișează comenzile pentru un modul specific. Dacă null, este un alias
-    pentru modules care este un alias pentru help.
+    Afișează comenzile unui modul anume, opțional restrânse printr-un termen de căutare. Dacă este null, este un alias pentru modules, care este un alias pentru help.
   params:
-    - desc: 'Modulul de consultat'
+    - desc: 'Modulul de consultat, opțional urmat de un termen pentru filtrarea comenzilor sale'
       name: module
       optional: true
       type: string

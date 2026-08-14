@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    特定のモジュールのコマンドを表示します。null の場合、modules の
-    エイリアスであり、modules は help のエイリアスです。
+    特定のモジュールのコマンドを表示します。検索語で絞り込むこともできます。null の場合、modules のエイリアスであり、modules は help のエイリアスです。
   params:
-    - desc: '見るモジュール'
+    - desc: '表示するモジュール。続けてコマンドを絞り込む語を指定できます'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    特定のモジュールのコマンドを表示します。null の場合、modules の
-    エイリアスであり、modules は help のエイリアスです。
+    特定のモジュールのコマンドを表示します。検索語で絞り込むこともできます。null の場合、modules のエイリアスであり、modules は help のエイリアスです。
   params:
-    - desc: '見るモジュール'
+    - desc: '表示するモジュール。続けてコマンドを絞り込む語を指定できます'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    特定のモジュールのコマンドを表示します。null の場合、modules の
-    エイリアスであり、modules は help のエイリアスです。
+    特定のモジュールのコマンドを表示します。検索語で絞り込むこともできます。null の場合、modules のエイリアスであり、modules は help のエイリアスです。
   params:
-    - desc: '見るモジュール'
+    - desc: '表示するモジュール。続けてコマンドを絞り込む語を指定できます'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    特定のモジュールのコマンドを表示します。null の場合、modules の
-    エイリアスであり、modules は help のエイリアスです。
+    特定のモジュールのコマンドを表示します。検索語で絞り込むこともできます。null の場合、modules のエイリアスであり、modules は help のエイリアスです。
   params:
-    - desc: '見るモジュール'
+    - desc: '表示するモジュール。続けてコマンドを絞り込む語を指定できます'
       name: module
       optional: true
       type: string

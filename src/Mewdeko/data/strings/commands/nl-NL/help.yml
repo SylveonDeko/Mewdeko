@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Toont commando's voor een specifieke module. Indien null, is het een
-    alias voor modules wat een alias is voor help.
+    Toont de commando's van een specifieke module, eventueel beperkt met een zoekterm. Als null, is dit een alias voor modules, wat weer een alias is voor help.
   params:
-    - desc: 'De module om te bekijken'
+    - desc: 'De module om te bekijken, eventueel gevolgd door een term om de commando s te filteren'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Toont commando's voor een specifieke module. Indien null, is het een
-    alias voor modules wat een alias is voor help.
+    Toont de commando's van een specifieke module, eventueel beperkt met een zoekterm. Als null, is dit een alias voor modules, wat weer een alias is voor help.
   params:
-    - desc: 'De module om te bekijken'
+    - desc: 'De module om te bekijken, eventueel gevolgd door een term om de commando s te filteren'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Toont commando's voor een specifieke module. Indien null, is het een
-    alias voor modules wat een alias is voor help.
+    Toont de commando's van een specifieke module, eventueel beperkt met een zoekterm. Als null, is dit een alias voor modules, wat weer een alias is voor help.
   params:
-    - desc: 'De module om te bekijken'
+    - desc: 'De module om te bekijken, eventueel gevolgd door een term om de commando s te filteren'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Toont commando's voor een specifieke module. Indien null, is het een
-    alias voor modules wat een alias is voor help.
+    Toont de commando's van een specifieke module, eventueel beperkt met een zoekterm. Als null, is dit een alias voor modules, wat weer een alias is voor help.
   params:
-    - desc: 'De module om te bekijken'
+    - desc: 'De module om te bekijken, eventueel gevolgd door een term om de commando s te filteren'
       name: module
       optional: true
       type: string

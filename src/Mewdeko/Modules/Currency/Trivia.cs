@@ -23,13 +23,6 @@ public partial class Currency
     [Aliases]
     public async Task TriviaChain(long betAmount, string category = "general")
     {
-        var currentBalance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-        if (betAmount > currentBalance || betAmount <= 0)
-        {
-            await ReplyAsync(Strings.TriviaChainInvalidBet(ctx.Guild.Id));
-            return;
-        }
-
         var validCategories = new[]
         {
             "general", "science", "history", "sports", "entertainment"
@@ -40,12 +33,14 @@ public partial class Currency
             return;
         }
 
-        // Check if user already has an active trivia chain
         if (TriviaChainService.GetTriviaChainState(ctx.User.Id) != null)
         {
             await ReplyAsync(Strings.TriviaChainActiveGame(ctx.Guild.Id));
             return;
         }
+
+        if (!await TryTakeBetAsync(betAmount, "triviachain"))
+            return;
 
         // Start the trivia chain game
         var chainState =

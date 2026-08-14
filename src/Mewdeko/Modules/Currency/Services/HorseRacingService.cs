@@ -1,3 +1,5 @@
+using Mewdeko.Database.Enums;
+
 namespace Mewdeko.Modules.Currency.Services;
 
 /// <summary>
@@ -148,9 +150,10 @@ public class HorseRacingService : INService
                     break;
             }
 
-            if (racer.UserId < ulong.MaxValue - 4) // Only process transactions for real players
+            if (racer.UserId < ulong.MaxValue - 4 && winnings > 0)
             {
-                await cs.AddTransactionAsync(racer.UserId, winnings - racer.BetAmount, new string("Horse Race"));
+                await cs.CreditAsync(racer.UserId, winnings, "Horse Race", CurrencyCategory.GamePayout, guildId,
+                    "horserace");
             }
 
             finalPositions.Add(new FinalPosition(i + 1, racer.UserId, racer.Animal, winnings, racer.Username));

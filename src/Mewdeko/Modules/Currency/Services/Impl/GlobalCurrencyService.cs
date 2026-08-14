@@ -1,125 +1,88 @@
-﻿using DataModel;
+using System.Linq.Expressions;
+using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
 
 namespace Mewdeko.Modules.Currency.Services.Impl;
 
 /// <summary>
-///     Implementation of the currency dbContext for managing global user balances and transactions.
+///     Implementation of the currency service for managing global user balances and transactions shared
+///     across every guild the bot is in.
 /// </summary>
-public class GlobalCurrencyService : ICurrencyService
+public class GlobalCurrencyService : CurrencyServiceBase<GlobalUserBalance>
 {
-    private readonly IDataConnectionFactory dbFactory;
-
     /// <summary>
     ///     Initializes a new instance of the <see cref="GlobalCurrencyService" /> class.
     /// </summary>
-    /// <param name="dbFactory">The database dbContext.</param>
-    public GlobalCurrencyService(IDataConnectionFactory dbFactory)
+    /// <param name="dbFactory">The database service.</param>
+    public GlobalCurrencyService(IDataConnectionFactory dbFactory) : base(dbFactory)
     {
-        this.dbFactory = dbFactory;
     }
 
     /// <inheritdoc />
-    public async Task AddUserBalanceAsync(ulong userId, long amount, ulong? guildId = null)
+    protected override Expression<Func<GlobalUserBalance, bool>> UserKey(ulong userId, ulong? guildId)
     {
-        await using var dbContext = await dbFactory.CreateConnectionAsync();
-
-        // Check if the user already has a balance entry
-        var existingBalance = await dbContext.GlobalUserBalances
-            .FirstOrDefaultAsync(g => g.UserId == userId);
-
-        if (existingBalance != null)
-        {
-            // Update the existing balance
-            existingBalance.Balance += amount;
-            await dbContext.UpdateAsync(existingBalance);
-        }
-        else
-        {
-            // Create a new balance entry
-            var globalBalance = new GlobalUserBalance
-            {
-                UserId = userId, Balance = amount
-            };
-            await dbContext.InsertAsync(globalBalance);
-        }
+        return x => x.UserId == userId;
     }
 
     /// <inheritdoc />
-    public async Task<long> GetUserBalanceAsync(ulong userId, ulong? guildId = null)
+    protected override GlobalUserBalance NewBalanceRow(ulong userId, ulong? guildId, long balance)
     {
-        await using var dbContext = await dbFactory.CreateConnectionAsync();
-        // Retrieve user balance from the database
-        return await dbContext.GlobalUserBalances
-            .Where(x => x.UserId == userId)
-            .Select(x => x.Balance)
-            .FirstOrDefaultAsync();
-    }
-
-    /// <inheritdoc />
-    public async Task AddTransactionAsync(ulong userId, long amount, string description, ulong? guildId = null)
-    {
-        await using var dbContext = await dbFactory.CreateConnectionAsync();
-        // Create a new transaction entry
-        var transaction = new TransactionHistory
+        return new GlobalUserBalance
         {
-            UserId = userId, Amount = amount, Description = description, DateAdded = DateTime.UtcNow
+            UserId = userId, Balance = balance, DateAdded = DateTime.UtcNow
         };
-
-        // Add transaction to the database
-        await dbContext.InsertAsync(transaction);
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<TransactionHistory>?> GetTransactionsAsync(ulong userId, ulong? guildId = null)
+    protected override ulong TransactionGuildId(ulong? guildId)
     {
-        await using var dbContext = await dbFactory.CreateConnectionAsync();
-        // Retrieve user transactions from the database
-        return await dbContext.TransactionHistories
-            .Where(x => x.UserId == userId && x.GuildId == 0)?
-            .ToListAsync();
+        return 0;
     }
 
     /// <inheritdoc />
-    public async Task<string> GetCurrencyEmote(ulong? guildId = null)
+    public override async Task<string> GetCurrencyEmote(ulong? guildId = null)
     {
-        await using var dbContext = await dbFactory.CreateConnectionAsync();
-        // Retrieve currency emote from the database
-        return await dbContext.OwnerOnlies
+        await using var db = await DbFactory.CreateConnectionAsync();
+
+        return await db.OwnerOnlies
             .Select(x => x.CurrencyEmote)
             .FirstOrDefaultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<LbCurrency>> GetAllUserBalancesAsync(ulong? _)
+    public override async Task<IEnumerable<LbCurrency>> GetAllUserBalancesAsync(ulong? guildId = null)
     {
-        await using var dbContext = await dbFactory.CreateConnectionAsync();
-        // Retrieve all user balances from the database
-        return dbContext.GlobalUserBalances
+        await using var db = await DbFactory.CreateConnectionAsync();
+
+        return await db.GlobalUserBalances
             .Select(x => new LbCurrency
             {
-                UserId = x.UserId, Balance = x.Balance
-            }).ToList();
+                UserId = x.UserId, Balance = x.Balance, Bank = x.Bank
+            })
+            .ToListAsync();
     }
 
     /// <inheritdoc />
-    public async Task SetReward(int amount, int seconds, ulong? _)
+    public override async Task SetReward(int amount, int seconds, ulong? guildId = null)
     {
-        await using var dbContext = await dbFactory.CreateConnectionAsync();
-        // Update reward configuration in the database
-        var config = await dbContext.OwnerOnlies.FirstOrDefaultAsync();
+        await using var db = await DbFactory.CreateConnectionAsync();
+
+        var config = await db.OwnerOnlies.FirstOrDefaultAsync();
+        if (config is null)
+            return;
+
         config.RewardAmount = amount;
         config.RewardTimeoutSeconds = seconds;
-        await dbContext.UpdateAsync(config);
+        await db.UpdateAsync(config);
     }
 
     /// <inheritdoc />
-    public async Task<(int, int)> GetReward(ulong? _)
+    public override async Task<(int, int)> GetReward(ulong? guildId = null)
     {
-        await using var dbContext = await dbFactory.CreateConnectionAsync();
-        // Retrieve reward configuration from the database
-        var config = await dbContext.OwnerOnlies.FirstOrDefaultAsync();
-        return (config.RewardAmount, config.RewardTimeoutSeconds);
+        await using var db = await DbFactory.CreateConnectionAsync();
+
+        var config = await db.OwnerOnlies.FirstOrDefaultAsync();
+        return config is null ? (0, 0) : (config.RewardAmount, config.RewardTimeoutSeconds);
     }
 }

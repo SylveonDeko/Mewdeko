@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Visar kommandon för en specifik modul. Om null är det ett alias för
-    modules som är ett alias för help.
+    Visar kommandon för en viss modul, valfritt avgränsade med en sökterm. Om null är det ett alias för modules, som i sin tur är ett alias för help.
   params:
-    - desc: 'Modulen att titta på'
+    - desc: 'Modulen som ska visas, valfritt följd av ett ord för att filtrera dess kommandon'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Visar kommandon för en specifik modul. Om null är det ett alias för
-    modules som är ett alias för help.
+    Visar kommandon för en viss modul, valfritt avgränsade med en sökterm. Om null är det ett alias för modules, som i sin tur är ett alias för help.
   params:
-    - desc: 'Modulen att titta på'
+    - desc: 'Modulen som ska visas, valfritt följd av ett ord för att filtrera dess kommandon'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Visar kommandon för en specifik modul. Om null är det ett alias för
-    modules som är ett alias för help.
+    Visar kommandon för en viss modul, valfritt avgränsade med en sökterm. Om null är det ett alias för modules, som i sin tur är ett alias för help.
   params:
-    - desc: 'Modulen att titta på'
+    - desc: 'Modulen som ska visas, valfritt följd av ett ord för att filtrera dess kommandon'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Visar kommandon för en specifik modul. Om null är det ett alias för
-    modules som är ett alias för help.
+    Visar kommandon för en viss modul, valfritt avgränsade med en sökterm. Om null är det ett alias för modules, som i sin tur är ett alias för help.
   params:
-    - desc: 'Modulen att titta på'
+    - desc: 'Modulen som ska visas, valfritt följd av ett ord för att filtrera dess kommandon'
       name: module
       optional: true
       type: string

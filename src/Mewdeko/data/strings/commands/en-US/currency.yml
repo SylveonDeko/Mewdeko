@@ -190,22 +190,28 @@ duckrace:
       type: long
 highlow:
   args:
-    - text
+    - 'text'
+    - 'text number'
   desc: >-
-    Allows the user to guess whether the next number is higher or lower than the
-    current number.
+    Shows a number from 1 to 10 and pays out if you correctly call whether the
+    next one is higher or lower. Matching numbers return the stake.
   params:
     - &ref_247
       desc: 'The user''s guess ("higher" or "lower").'
       name: guess
       optional: false
       type: string
+    - desc: 'The amount to bet.'
+      name: betAmount
+      optional: true
+      type: long
 highlow_string:
   args:
-    - text
+    - 'text'
+    - 'text number'
   desc: >-
-    Allows the user to guess whether the next number is higher or lower than the
-    current number.
+    Shows a number from 1 to 10 and pays out if you correctly call whether the
+    next one is higher or lower. Matching numbers return the stake.
   params:
     - desc: 'The user''s guess ("higher" or "lower").'
       name: guess
@@ -213,10 +219,11 @@ highlow_string:
       type: string
 highlow_string_1:
   args:
-    - text
+    - 'text'
+    - 'text number'
   desc: >-
-    Allows the user to guess whether the next number is higher or lower than the
-    current number.
+    Shows a number from 1 to 10 and pays out if you correctly call whether the
+    next one is higher or lower. Matching numbers return the stake.
   params:
     - desc: 'The user''s guess ("higher" or "lower").'
       name: guess
@@ -224,10 +231,11 @@ highlow_string_1:
       type: string
 highlow_string_2:
   args:
-    - text
+    - 'text'
+    - 'text number'
   desc: >-
-    Allows the user to guess whether the next number is higher or lower than the
-    current number.
+    Shows a number from 1 to 10 and pays out if you correctly call whether the
+    next one is higher or lower. Matching numbers return the stake.
   params:
     - desc: 'The user''s guess ("higher" or "lower").'
       name: guess
@@ -667,3 +675,232 @@ wheelfortune:
       name: wheelType
       optional: true
       type: string
+work:
+  args:
+    - ''
+  desc: 'Works a shift for a random payout, on a cooldown the server sets.'
+  params: [ ]
+crime:
+  args:
+    - ''
+  desc: 'Attempts a crime for a larger payout than working, at the risk of being fined instead.'
+  params: [ ]
+rob:
+  args:
+    - '@user'
+  desc: 'Attempts to steal from another user''s wallet. Banked currency is out of reach.'
+  params:
+    - desc: 'The user to rob.'
+      name: target
+      optional: false
+      type: user
+pay:
+  args:
+    - '@user <amount>'
+  desc: 'Sends currency to another user, minus any transfer tax the server charges.'
+  params:
+    - desc: 'The user to send currency to.'
+      name: target
+      optional: false
+      type: user
+    - desc: 'The amount to send before tax.'
+      name: amount
+      optional: false
+      type: long
+bank:
+  args:
+    - ''
+    - '@user'
+  desc: 'Shows your wallet and bank balances, collecting any interest that has accrued.'
+  params:
+    - desc: 'The user to inspect. Defaults to yourself.'
+      name: user
+      optional: true
+      type: user
+deposit:
+  args:
+    - '<amount|all>'
+  desc: 'Moves currency from your wallet into the bank, where it is safe from robbery.'
+  params:
+    - desc: 'The amount to deposit, or "all" to deposit the whole wallet.'
+      name: amount
+      optional: false
+      type: string
+withdraw:
+  args:
+    - '<amount|all>'
+  desc: 'Moves currency from the bank back into your wallet so it can be spent.'
+  params:
+    - desc: 'The amount to withdraw, or "all" to withdraw everything.'
+      name: amount
+      optional: false
+      type: string
+shop:
+  args:
+    - ''
+  desc: 'Lists everything the server currently sells.'
+  params: [ ]
+buy:
+  args:
+    - '<item name>'
+  desc: 'Buys an item from the server shop.'
+  params:
+    - desc: 'The name of the item to buy.'
+      name: name
+      optional: false
+      type: string
+inventory:
+  args:
+    - ''
+    - '@user'
+  desc: 'Shows the items a user owns.'
+  params:
+    - desc: 'The user whose inventory to show. Defaults to yourself.'
+      name: user
+      optional: true
+      type: user
+use:
+  args:
+    - '<item name>'
+  desc: 'Uses up one of a consumable item you own.'
+  params:
+    - desc: 'The name of the item to use.'
+      name: name
+      optional: false
+      type: string
+shopaddrole:
+  args:
+    - '<price> @role <name>'
+  desc: 'Adds a role to the shop for users to buy.'
+  params:
+    - desc: 'What the role costs.'
+      name: price
+      optional: false
+      type: long
+    - desc: 'The role granted on purchase.'
+      name: role
+      optional: false
+      type: role
+    - desc: 'The display name of the shop entry.'
+      name: name
+      optional: false
+      type: string
+shopadditem:
+  args:
+    - '<price> <name>'
+  desc: 'Adds a plain collectible item to the shop, with no automatic effect on purchase.'
+  params:
+    - desc: 'What the item costs.'
+      name: price
+      optional: false
+      type: long
+    - desc: 'The display name of the shop entry.'
+      name: name
+      optional: false
+      type: string
+shopremove:
+  args:
+    - '<item name>'
+  desc: 'Removes an item from the shop, along with everyone''s copies of it.'
+  params:
+    - desc: 'The name of the item to remove.'
+      name: name
+      optional: false
+      type: string
+shopprice:
+  args:
+    - '<price> <item name>'
+  desc: 'Sets the price of an existing shop item.'
+  params:
+    - desc: 'The new price.'
+      name: price
+      optional: false
+      type: long
+    - desc: 'The name of the item to reprice.'
+      name: name
+      optional: false
+      type: string
+shopstock:
+  args:
+    - '<stock> <item name>'
+  desc: 'Sets how many of an item remain for sale.'
+  params:
+    - desc: 'The remaining stock, or -1 for unlimited.'
+      name: stock
+      optional: false
+      type: int
+    - desc: 'The name of the item to restock.'
+      name: name
+      optional: false
+      type: string
+shopdesc:
+  args:
+    - '<item name> | <description>'
+  desc: 'Sets the description shown for a shop item.'
+  params:
+    - desc: 'The name of the item, followed by a pipe and the new description.'
+      name: name
+      optional: false
+      type: string
+shoptoggle:
+  args:
+    - '<item name>'
+  desc: 'Shows or hides a shop item without deleting it or anyone''s copies.'
+  params:
+    - desc: 'The name of the item to toggle.'
+      name: name
+      optional: false
+      type: string
+economyconfig:
+  args:
+    - ''
+  desc: 'Shows every economy setting and its current value.'
+  params: [ ]
+economyset:
+  args:
+    - '<setting> <value>'
+  desc: 'Changes one economy setting. Run the config command to see every available setting name.'
+  params:
+    - desc: 'The setting to change.'
+      name: setting
+      optional: false
+      type: string
+    - desc: 'The new value.'
+      name: value
+      optional: false
+      type: string
+economyreset:
+  args:
+    - ''
+  desc: 'Restores every economy setting to its default.'
+  params: [ ]
+economystats:
+  args:
+    - ''
+  desc: 'Reports the size and concentration of the server''s money supply.'
+  params: [ ]
+economyflow:
+  args:
+    - ''
+    - '<days>'
+  desc: 'Shows where currency has been entering and leaving circulation.'
+  params:
+    - desc: 'How many days back to report. Defaults to 7.'
+      name: days
+      optional: true
+      type: int
+gamestats:
+  args:
+    - ''
+    - '<days>'
+  desc: 'Shows what each game actually paid back against what it took in, so payout rates can be tuned from real results instead of guesswork.'
+  params:
+    - desc: 'How many days back to report. Defaults to 7.'
+      name: days
+      optional: true
+      type: int
+cashleaderboard:
+  args:
+    - ''
+  desc: 'Displays the leaderboard of users with the highest net worth.'
+  params: [ ]

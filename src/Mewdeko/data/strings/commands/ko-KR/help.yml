@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    특정 모듈의 명령어를 표시합니다. null인 경우 modules의 별칭이며,
-    modules는 help의 별칭입니다.
+    특정 모듈의 명령어를 보여주며, 검색어로 범위를 좁힐 수도 있습니다. null 이면 modules 의 별칭이고, modules 는 help 의 별칭입니다.
   params:
-    - desc: '볼 모듈'
+    - desc: '살펴볼 모듈이며, 뒤에 명령어를 걸러낼 검색어를 붙일 수 있습니다'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    특정 모듈의 명령어를 표시합니다. null인 경우 modules의 별칭이며,
-    modules는 help의 별칭입니다.
+    특정 모듈의 명령어를 보여주며, 검색어로 범위를 좁힐 수도 있습니다. null 이면 modules 의 별칭이고, modules 는 help 의 별칭입니다.
   params:
-    - desc: '볼 모듈'
+    - desc: '살펴볼 모듈이며, 뒤에 명령어를 걸러낼 검색어를 붙일 수 있습니다'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    특정 모듈의 명령어를 표시합니다. null인 경우 modules의 별칭이며,
-    modules는 help의 별칭입니다.
+    특정 모듈의 명령어를 보여주며, 검색어로 범위를 좁힐 수도 있습니다. null 이면 modules 의 별칭이고, modules 는 help 의 별칭입니다.
   params:
-    - desc: '볼 모듈'
+    - desc: '살펴볼 모듈이며, 뒤에 명령어를 걸러낼 검색어를 붙일 수 있습니다'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    특정 모듈의 명령어를 표시합니다. null인 경우 modules의 별칭이며,
-    modules는 help의 별칭입니다.
+    특정 모듈의 명령어를 보여주며, 검색어로 범위를 좁힐 수도 있습니다. null 이면 modules 의 별칭이고, modules 는 help 의 별칭입니다.
   params:
-    - desc: '볼 모듈'
+    - desc: '살펴볼 모듈이며, 뒤에 명령어를 걸러낼 검색어를 붙일 수 있습니다'
       name: module
       optional: true
       type: string

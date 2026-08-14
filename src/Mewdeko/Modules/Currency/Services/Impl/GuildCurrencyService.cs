@@ -1,5 +1,5 @@
-﻿using DataModel;
-using LinqToDB;
+using System.Linq.Expressions;
+using DataModel;
 using LinqToDB.Async;
 
 namespace Mewdeko.Modules.Currency.Services.Impl;
@@ -7,9 +7,8 @@ namespace Mewdeko.Modules.Currency.Services.Impl;
 /// <summary>
 ///     Implementation of the currency service for managing user balances and transactions within a specific guild.
 /// </summary>
-public class GuildCurrencyService : ICurrencyService
+public class GuildCurrencyService : CurrencyServiceBase<GuildUserBalance>
 {
-    private readonly IDataConnectionFactory dbFactory;
     private readonly GuildSettingsService guildSettingsService;
 
     /// <summary>
@@ -18,126 +17,82 @@ public class GuildCurrencyService : ICurrencyService
     /// <param name="dbFactory">The database service.</param>
     /// <param name="guildSettingsService">The guild settings service.</param>
     public GuildCurrencyService(IDataConnectionFactory dbFactory, GuildSettingsService guildSettingsService)
+        : base(dbFactory)
     {
-        this.dbFactory = dbFactory;
         this.guildSettingsService = guildSettingsService;
     }
 
     /// <inheritdoc />
-    public async Task AddUserBalanceAsync(ulong userId, long amount, ulong? guildId)
+    protected override Expression<Func<GuildUserBalance, bool>> UserKey(ulong userId, ulong? guildId)
     {
-        if (!guildId.HasValue) throw new ArgumentException("Guild ID must be provided.");
-        await using var dbContext = await dbFactory.CreateConnectionAsync();
-
-        // Check if the user already has a balance entry in the guild
-        var existingBalance = await dbContext.GuildUserBalances
-            .FirstOrDefaultAsync(g => g.UserId == userId && g.GuildId == guildId.Value);
-
-        if (existingBalance != null)
-        {
-            // Update the existing balance
-            existingBalance.Balance += amount;
-            await dbContext.UpdateAsync(existingBalance);
-        }
-        else
-        {
-            // Create a new balance entry for the user in the guild
-            var guildBalance = new GuildUserBalance
-            {
-                UserId = userId, GuildId = guildId.Value, Balance = amount
-            };
-            await dbContext.InsertAsync(guildBalance);
-        }
+        var resolved = RequireGuildId(guildId);
+        return x => x.UserId == userId && x.GuildId == resolved;
     }
 
     /// <inheritdoc />
-    public async Task<long> GetUserBalanceAsync(ulong userId, ulong? guildId)
+    protected override GuildUserBalance NewBalanceRow(ulong userId, ulong? guildId, long balance)
     {
-        if (!guildId.HasValue) throw new ArgumentException("Guild ID must be provided.");
-
-        await using var dbContext = await dbFactory.CreateConnectionAsync();
-
-        return await dbContext.GuildUserBalances
-            .Where(x => x.UserId == userId && x.GuildId == guildId.Value)
-            .Select(x => x.Balance)
-            .FirstOrDefaultAsync();
-    }
-
-    /// <inheritdoc />
-    public async Task AddTransactionAsync(ulong userId, long amount, string description, ulong? guildId)
-    {
-        if (!guildId.HasValue) throw new ArgumentException("Guild ID must be provided.");
-
-
-        var transaction = new TransactionHistory
+        return new GuildUserBalance
         {
-            UserId = userId,
-            GuildId = guildId.Value,
-            Amount = amount,
-            Description = description,
-            DateAdded = DateTime.UtcNow
+            UserId = userId, GuildId = RequireGuildId(guildId), Balance = balance, DateAdded = DateTime.UtcNow
         };
-        await using var dbContext = await dbFactory.CreateConnectionAsync();
-
-        await dbContext.InsertAsync(transaction);
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<TransactionHistory>?> GetTransactionsAsync(ulong userId, ulong? guildId)
+    protected override ulong TransactionGuildId(ulong? guildId)
     {
-        if (!guildId.HasValue) throw new ArgumentException("Guild ID must be provided.");
-        await using var dbContext = await dbFactory.CreateConnectionAsync();
-
-        return await dbContext.TransactionHistories
-            .Where(x => x.UserId == userId && x.GuildId == guildId.Value)?
-            .ToListAsync();
+        return RequireGuildId(guildId);
     }
 
     /// <inheritdoc />
-    public async Task<string> GetCurrencyEmote(ulong? guildId)
+    public override async Task<string> GetCurrencyEmote(ulong? guildId)
     {
-        if (!guildId.HasValue) throw new ArgumentException("Guild ID must be provided.");
+        var resolved = RequireGuildId(guildId);
 
-        await using var dbContext = await dbFactory.CreateConnectionAsync();
+        await using var db = await DbFactory.CreateConnectionAsync();
 
-        return await dbContext.GuildConfigs
-            .Where(x => x.GuildId == guildId.Value)
+        return await db.GuildConfigs
+            .Where(x => x.GuildId == resolved)
             .Select(x => x.CurrencyEmoji)
             .FirstOrDefaultAsync();
     }
 
     /// <inheritdoc />
-    public async Task<IEnumerable<LbCurrency>> GetAllUserBalancesAsync(ulong? guildId)
+    public override async Task<IEnumerable<LbCurrency>> GetAllUserBalancesAsync(ulong? guildId = null)
     {
-        if (!guildId.HasValue) throw new ArgumentException("Guild ID must be provided.");
-        await using var dbContext = await dbFactory.CreateConnectionAsync();
+        var resolved = RequireGuildId(guildId);
 
+        await using var db = await DbFactory.CreateConnectionAsync();
 
-        var balances = dbContext.GuildUserBalances
-            .Where(x => x.GuildId == guildId.Value)
+        return await db.GuildUserBalances
+            .Where(x => x.GuildId == resolved)
             .Select(x => new LbCurrency
             {
-                UserId = x.UserId, Balance = x.Balance
-            }).ToHashSet();
-
-        return balances;
+                UserId = x.UserId, Balance = x.Balance, Bank = x.Bank
+            })
+            .ToListAsync();
     }
 
     /// <inheritdoc />
-    public async Task SetReward(int amount, int seconds, ulong? guildId)
+    public override async Task SetReward(int amount, int seconds, ulong? guildId)
     {
-        if (!guildId.HasValue) throw new ArgumentException("Guild ID must be provided.");
-        var settings = await guildSettingsService.GetGuildConfig(guildId.Value);
+        var resolved = RequireGuildId(guildId);
+
+        var settings = await guildSettingsService.GetGuildConfig(resolved);
         settings.RewardAmount = amount;
         settings.RewardTimeoutSeconds = seconds;
-        await guildSettingsService.UpdateGuildConfig(guildId.Value, settings);
+        await guildSettingsService.UpdateGuildConfig(resolved, settings);
     }
 
     /// <inheritdoc />
-    public async Task<(int, int)> GetReward(ulong? guildId)
+    public override async Task<(int, int)> GetReward(ulong? guildId)
     {
-        if (!guildId.HasValue) throw new ArgumentException("Guild ID must be provided.");
-        var settings = await guildSettingsService.GetGuildConfig(guildId.Value);
+        var settings = await guildSettingsService.GetGuildConfig(RequireGuildId(guildId));
         return (settings.RewardAmount, settings.RewardTimeoutSeconds);
+    }
+
+    private static ulong RequireGuildId(ulong? guildId)
+    {
+        return guildId ?? throw new ArgumentException("Guild ID must be provided.", nameof(guildId));
     }
 }

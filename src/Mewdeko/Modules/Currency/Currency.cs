@@ -4,6 +4,8 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Database.Enums;
+using Mewdeko.Modules.Currency.Common;
 using Mewdeko.Modules.Currency.Services;
 using SkiaSharp;
 
@@ -29,11 +31,14 @@ public partial class Currency(
     [Aliases]
     public async Task Cash()
     {
+        var (wallet, bank) = await Service.GetBalancesAsync(ctx.User.Id, ctx.Guild.Id);
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
+
         var eb = new EmbedBuilder()
             .WithOkColor()
-            .WithDescription(Strings.CashBalance(ctx.Guild.Id,
-                await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id),
-                await Service.GetCurrencyEmote(ctx.Guild.Id)));
+            .WithDescription(bank > 0
+                ? Strings.CashBalanceWithBank(ctx.Guild.Id, wallet, emote, bank, wallet + bank)
+                : Strings.CashBalance(ctx.Guild.Id, wallet, emote));
 
         await ReplyAsync(embed: eb.Build());
     }
@@ -48,30 +53,27 @@ public partial class Currency(
     [Aliases]
     public async Task CoinFlip(long betAmount, string guess)
     {
-        var currentBalance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-        if (betAmount > currentBalance || betAmount <= 0)
+        if (!guess.Equals("heads", StringComparison.OrdinalIgnoreCase) &&
+            !guess.Equals("tails", StringComparison.OrdinalIgnoreCase))
         {
-            await ReplyAsync(Strings.CoinflipInvalidBet(ctx.Guild.Id));
+            await ReplyAsync(Strings.CoinflipInvalidGuess(ctx.Guild.Id));
             return;
         }
 
-        var coinFlip = new Random().Next(2) == 0 ? "heads" : "tails";
+        if (!await TryTakeBetAsync(betAmount, "coinflip"))
+            return;
+
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
+        var coinFlip = CurrencyRng.Next(2) == 0 ? "heads" : "tails";
+
         if (coinFlip.Equals(guess, StringComparison.OrdinalIgnoreCase))
         {
-            await Service.AddUserBalanceAsync(ctx.User.Id, betAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, betAmount, Strings.CoinflipWonTransaction(ctx.Guild.Id),
-                ctx.Guild.Id);
-            await ReplyAsync(Strings.CoinflipWon(ctx.Guild.Id, coinFlip, betAmount,
-                await Service.GetCurrencyEmote(ctx.Guild.Id)));
+            await WinAsync(betAmount, 2.0, "coinflip");
+            await ReplyAsync(Strings.CoinflipWon(ctx.Guild.Id, coinFlip, betAmount, emote));
+            return;
         }
-        else
-        {
-            await Service.AddUserBalanceAsync(ctx.User.Id, -betAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, -betAmount, Strings.CoinflipLostTransaction(ctx.Guild.Id),
-                ctx.Guild.Id);
-            await ReplyAsync(
-                Strings.CoinflipLost(ctx.Guild.Id, coinFlip, betAmount, await Service.GetCurrencyEmote(ctx.Guild.Id)));
-        }
+
+        await ReplyAsync(Strings.CoinflipLost(ctx.Guild.Id, coinFlip, betAmount, emote));
     }
 
     /// <summary>
@@ -85,8 +87,9 @@ public partial class Currency(
     [CurrencyPermissions]
     public async Task ModifyBalance(IUser user, long amount, [Remainder] string? reason = null)
     {
-        await Service.AddUserBalanceAsync(user.Id, amount, ctx.Guild.Id);
-        await Service.AddTransactionAsync(user.Id, amount, reason ??= "", ctx.Guild.Id);
+        reason ??= Strings.ModifyBalanceNoReason(ctx.Guild.Id, ctx.User.Username);
+
+        await Service.CreditAsync(user.Id, amount, reason, CurrencyCategory.AdminAdjust, ctx.Guild.Id, "admin");
         await ReplyConfirmAsync(Strings.UserBalanceModified(ctx.Guild.Id, user.Mention, amount, reason));
     }
 
@@ -105,99 +108,96 @@ public partial class Currency(
             return;
         }
 
-        var minimumTimeBetweenClaims = TimeSpan.FromSeconds(cooldownSeconds);
+        var claim = await CooldownService.TryClaimAsync(ctx.Guild.Id, ctx.User.Id, CurrencyCooldownService.Daily,
+            TimeSpan.FromSeconds(cooldownSeconds), true);
 
-        var recentTransactions = (await Service.GetTransactionsAsync(ctx.User.Id, ctx.Guild.Id) ??
-                                  [])
-            .Where(t => t.Description == Strings.DailyRewardTransaction(ctx.Guild.Id) &&
-                        t.DateAdded > DateTime.UtcNow - minimumTimeBetweenClaims);
-
-        if (recentTransactions.Any())
+        if (!claim.Success)
         {
-            var nextAllowedClaimTime = recentTransactions.Max(t => t.DateAdded) + minimumTimeBetweenClaims;
-
             await ctx.Channel.SendErrorAsync(
-                Strings.DailyRewardAlreadyClaimed(ctx.Guild.Id, TimestampTag.FromDateTime(nextAllowedClaimTime.Value)),
-                Config);
+                Strings.DailyRewardAlreadyClaimed(ctx.Guild.Id,
+                    TimestampTag.FromDateTime(DateTime.UtcNow + claim.Remaining)), Config);
             return;
         }
 
-        await Service.AddUserBalanceAsync(ctx.User.Id, rewardAmount, ctx.Guild.Id);
-        await Service.AddTransactionAsync(ctx.User.Id, rewardAmount, Strings.DailyRewardTransaction(ctx.Guild.Id),
-            ctx.Guild.Id);
-        await ctx.Channel.SendConfirmAsync(
-            Strings.DailyRewardClaimed(ctx.Guild.Id, rewardAmount, await Service.GetCurrencyEmote(ctx.Guild.Id)));
+        var config = await ConfigService.GetConfigAsync(ctx.Guild.Id);
+        long bonus = 0;
+
+        if (config.DailyStreakEnabled && config.DailyStreakBonus > 0 && claim.Streak > 1)
+        {
+            bonus = config.DailyStreakBonus * (claim.Streak - 1);
+
+            if (config.DailyStreakMaxBonus > 0)
+                bonus = Math.Min(bonus, config.DailyStreakMaxBonus);
+        }
+
+        var total = rewardAmount + bonus;
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
+
+        await Service.CreditAsync(ctx.User.Id, total, Strings.DailyRewardTransaction(ctx.Guild.Id),
+            CurrencyCategory.Daily, ctx.Guild.Id, "daily");
+
+        await ctx.Channel.SendConfirmAsync(bonus > 0
+            ? Strings.DailyRewardClaimedStreak(ctx.Guild.Id, total, emote, claim.Streak, bonus)
+            : Strings.DailyRewardClaimed(ctx.Guild.Id, total, emote));
     }
 
     /// <summary>
-    ///     Allows the user to guess whether the next number is higher or lower than the current number.
+    ///     Shows a number from 1 to 10 and pays out if you correctly call whether the next one is higher
+    ///     or lower. Matching numbers return the stake.
     /// </summary>
     /// <param name="guess">The user's guess ("higher" or "lower").</param>
-    /// <example>.highlow higher</example>
+    /// <param name="betAmount">The amount to bet.</param>
+    /// <example>.highlow higher 100</example>
     [Cmd]
     [Aliases]
-    public async Task HighLow(string guess)
+    public async Task HighLow(string guess, long betAmount = 100)
     {
-        var currentNumber = new Random().Next(1, 11);
-        var nextNumber = new Random().Next(1, 11);
+        var higher = guess.Equals("higher", StringComparison.OrdinalIgnoreCase) ||
+                     guess.Equals("high", StringComparison.OrdinalIgnoreCase);
+        var lower = guess.Equals("lower", StringComparison.OrdinalIgnoreCase) ||
+                    guess.Equals("low", StringComparison.OrdinalIgnoreCase);
 
-        if (guess.Equals("higher", StringComparison.OrdinalIgnoreCase) && nextNumber > currentNumber
-            || guess.Equals("lower", StringComparison.OrdinalIgnoreCase) && nextNumber < currentNumber)
+        if (!higher && !lower)
         {
-            await Service.AddUserBalanceAsync(ctx.User.Id, 100, ctx.Guild.Id);
-            await ReplyAsync(Strings.HighlowWon(ctx.Guild.Id, currentNumber, nextNumber,
-                await Service.GetCurrencyEmote(ctx.Guild.Id)));
+            await ErrorAsync(Strings.HighlowInvalidGuess(ctx.Guild.Id));
+            return;
         }
-        else
+
+        if (!await TryTakeBetAsync(betAmount, "highlow"))
+            return;
+
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
+        var currentNumber = CurrencyRng.Next(1, 11);
+        var nextNumber = CurrencyRng.Next(1, 11);
+
+        if (nextNumber == currentNumber)
         {
-            await Service.AddUserBalanceAsync(ctx.User.Id, -100, ctx.Guild.Id);
-            await ReplyAsync(Strings.HighlowLost(ctx.Guild.Id, currentNumber, nextNumber,
-                await Service.GetCurrencyEmote(ctx.Guild.Id)));
+            await PushAsync(betAmount, "highlow");
+            await ReplyAsync(Strings.HighlowPush(ctx.Guild.Id, currentNumber, betAmount, emote));
+            return;
         }
+
+        if ((higher && nextNumber > currentNumber) || (lower && nextNumber < currentNumber))
+        {
+            await WinAsync(betAmount, 2.0, "highlow");
+            await ReplyAsync(Strings.HighlowWon(ctx.Guild.Id, currentNumber, nextNumber, emote));
+            return;
+        }
+
+        await ReplyAsync(Strings.HighlowLost(ctx.Guild.Id, currentNumber, nextNumber, emote));
     }
 
     /// <summary>
-    ///     Displays the leaderboard of users with the highest balances.
+    ///     Displays the leaderboard of users with the highest net worth.
     /// </summary>
-    /// <example>.leaderboard</example>
+    /// <example>.cashleaderboard</example>
     [Cmd]
     [Aliases]
-    public async Task Leaderboard()
+    public async Task CashLeaderboard()
     {
-        var users = (await Service.GetAllUserBalancesAsync(ctx.Guild.Id))
-            .OrderByDescending(u => u.Balance)
-            .ToList();
-
-        var paginator = new LazyPaginatorBuilder()
-            .AddUser(ctx.User)
-            .WithPageFactory(PageFactory)
-            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-            .WithMaxPageIndex((users.Count - 1) / 10)
-            .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-            .Build();
-
-        await interactive.SendPaginatorAsync(paginator, ctx.Channel, TimeSpan.FromMinutes(60))
-            .ConfigureAwait(false);
-
-        async Task<PageBuilder> PageFactory(int index)
-        {
-            var pageBuilder = new PageBuilder()
-                .WithTitle(Strings.LeaderboardTitle(ctx.Guild.Id))
-                .WithDescription(Strings.LeaderboardDescription(ctx.Guild.Id, users.Count, ctx.Guild.Name))
-                .WithColor(Color.Blue);
-
-            for (var i = index * 10; i < (index + 1) * 10 && i < users.Count; i++)
-            {
-                var user = await ctx.Guild.GetUserAsync(users[i].UserId) ??
-                           (IUser)await ctx.Client.GetUserAsync(users[i].UserId);
-                pageBuilder.AddField(Strings.LeaderboardUserEntry(ctx.Guild.Id, i + 1, user.Username),
-                    Strings.LeaderboardBalanceEntry(ctx.Guild.Id, users[i].Balance,
-                        await Service.GetCurrencyEmote(ctx.Guild.Id)), true);
-            }
-
-            return pageBuilder;
-        }
+        if (!await LeaderboardRenderer.SendCurrencyAsync(ctx.Guild, ctx.User, ctx.Channel, interactive, Service,
+                Strings))
+            await ErrorAsync(Strings.LeaderboardEmpty(ctx.Guild.Id));
     }
 
     /// <summary>
@@ -223,23 +223,10 @@ public partial class Currency(
     /// <example>.spinwheel 100</example>
     [Cmd]
     [Aliases]
-    public async Task SpinWheel(long betAmount = 0)
+    public async Task SpinWheel(long betAmount = 10)
     {
-        var balance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-        if (balance <= 0)
-        {
-            await ctx.Channel.SendErrorAsync(
-                Strings.SpinwheelNoBalance(ctx.Guild.Id, await Service.GetCurrencyEmote(ctx.Guild.Id)), Config);
+        if (!await TryTakeBetAsync(betAmount, "spinwheel"))
             return;
-        }
-
-        if (betAmount > balance)
-        {
-            await ctx.Channel.SendErrorAsync(
-                Strings.SpinwheelInsufficientBalance(ctx.Guild.Id, await Service.GetCurrencyEmote(ctx.Guild.Id)),
-                Config);
-            return;
-        }
 
         string[] segments =
         [
@@ -249,52 +236,39 @@ public partial class Currency(
         [
             2, 2, 1, 1, 1, 2
         ];
-        var rand = new Random();
-        var winningSegment = GenerateWeightedRandomSegment(segments.Length, weights, rand);
 
-        // Prepare the wheel image
+        var winningSegment = GenerateWeightedRandomSegment(segments.Length, weights);
+
         using var bitmap = new SKBitmap(500, 500);
         using var canvas = new SKCanvas(bitmap);
-        DrawWheel(canvas, segments.Length, segments, winningSegment + 2); // Adjust the index as needed
+        DrawWheel(canvas, segments.Length, segments, winningSegment + 2);
 
         using var stream = new MemoryStream();
         bitmap.Encode(stream, SKEncodedImageFormat.Png, 100);
         stream.Seek(0, SeekOrigin.Begin);
 
-        var balanceChange = await ComputeBalanceChange(segments[winningSegment], betAmount);
-        if (segments[winningSegment].StartsWith("+"))
-        {
-            balanceChange += betAmount;
-        }
-        else if (segments[winningSegment].StartsWith("-"))
-        {
-            balanceChange = betAmount - Math.Abs(balanceChange);
-        }
+        var delta = ComputeSegmentDelta(segments[winningSegment], betAmount);
+        var payout = Math.Max(0, betAmount + delta);
 
-        // Update user balance
-        await Service.AddUserBalanceAsync(ctx.User.Id, balanceChange, ctx.Guild.Id);
-        await Service.AddTransactionAsync(ctx.User.Id, balanceChange,
-            segments[winningSegment].Contains('-')
-                ? Strings.SpinwheelLossTransaction(ctx.Guild.Id)
-                : Strings.SpinwheelWinTransaction(ctx.Guild.Id), ctx.Guild.Id);
+        if (payout > 0)
+            await PayoutAsync(payout, "spinwheel");
+
+        var net = payout - betAmount;
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
 
         var eb = new EmbedBuilder()
-            .WithTitle(balanceChange > 0
-                ? Strings.SpinwheelWinTitle(ctx.Guild.Id)
-                : Strings.SpinwheelLossTitle(ctx.Guild.Id))
-            .WithDescription(Strings.SpinwheelResult(ctx.Guild.Id, segments[winningSegment], balanceChange,
-                await Service.GetCurrencyEmote(ctx.Guild.Id)))
-            .WithColor(balanceChange > 0 ? Color.Green : Color.Red)
+            .WithTitle(net >= 0 ? Strings.SpinwheelWinTitle(ctx.Guild.Id) : Strings.SpinwheelLossTitle(ctx.Guild.Id))
+            .WithDescription(Strings.SpinwheelResult(ctx.Guild.Id, segments[winningSegment], net, emote))
+            .WithColor(net >= 0 ? Color.Green : Color.Red)
             .WithImageUrl("attachment://wheelResult.png");
 
-        // Send the image and embed as a message to the channel
         await ctx.Channel.SendFileAsync(stream, "wheelResult.png", embed: eb.Build());
+        return;
 
-        // Helper method to generate weighted random segment
-        int GenerateWeightedRandomSegment(int segmentCount, int[] segmentWeights, Random random)
+        int GenerateWeightedRandomSegment(int segmentCount, int[] segmentWeights)
         {
             var totalWeight = segmentWeights.Sum();
-            var randomNumber = random.Next(totalWeight);
+            var randomNumber = CurrencyRng.Next(totalWeight);
 
             var accumulatedWeight = 0;
             for (var i = 0; i < segmentCount; i++)
@@ -304,27 +278,20 @@ public partial class Currency(
                     return i;
             }
 
-            return segmentCount - 1; // Return the last segment as a fallback
+            return segmentCount - 1;
         }
 
-        // Helper method to compute balance change
-        Task<long> ComputeBalanceChange(string segment, long amount)
+        long ComputeSegmentDelta(string segment, long amount)
         {
-            long change;
-
-            if (segment.EndsWith("%"))
+            if (segment.EndsWith('%'))
             {
                 var percent = int.Parse(segment[1..^1]);
                 var portion = (long)Math.Ceiling(amount * (percent / 100.0));
-                change = segment.StartsWith("-") ? -portion : portion;
-            }
-            else
-            {
-                var val = int.Parse(segment.Replace("$", "").Replace("+", "").Replace("-", ""));
-                change = segment.StartsWith("-") ? -val : val;
+                return segment.StartsWith('-') ? -portion : portion;
             }
 
-            return Task.FromResult(change);
+            var val = int.Parse(segment.Replace("$", "").Replace("+", "").Replace("-", ""));
+            return segment.StartsWith('-') ? -val : val;
         }
     }
 
@@ -337,12 +304,8 @@ public partial class Currency(
     [Aliases]
     public async Task Blackjack(long amount)
     {
-        var currentBalance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-        if (amount > currentBalance || amount <= 0)
-        {
-            await ReplyAsync(Strings.BlackjackInvalidBet(ctx.Guild.Id));
+        if (!await TryTakeBetAsync(amount, "blackjack"))
             return;
-        }
 
         try
         {
@@ -353,6 +316,8 @@ public partial class Currency(
         }
         catch (InvalidOperationException ex)
         {
+            await PushAsync(amount, "blackjack");
+
             switch (ex.Message)
             {
                 case "blackjack_game_full":
@@ -421,9 +386,10 @@ public partial class Currency(
         try
         {
             var embed = await blackjackService.HandleStandAsync(ctx.User, ctx.Guild.Id,
-                (userId, balanceChange) => Service.AddUserBalanceAsync(userId, balanceChange, ctx.Guild.Id),
-                (userId, balanceChange, description) =>
-                    Service.AddTransactionAsync(userId, balanceChange, description, ctx.Guild.Id),
+                (userId, payout) => Service.AddUserBalanceAsync(userId, payout, ctx.Guild.Id),
+                (userId, payout, description) =>
+                    Service.AddTransactionAsync(userId, payout, description, ctx.Guild.Id,
+                        CurrencyCategory.GamePayout, "blackjack"),
                 await Service.GetCurrencyEmote(ctx.Guild.Id));
             await ReplyAsync(embeds: embed);
         }
@@ -450,12 +416,10 @@ public partial class Currency(
     /// <returns>A task that represents the asynchronous operation.</returns>
     private async Task EndGame(BlackjackService.BlackjackGame game, bool playerWon, string message)
     {
-        var balanceChange = playerWon ? game.Bets[ctx.User] : -game.Bets[ctx.User];
+        var stake = game.Bets[ctx.User];
 
-        await Service.AddUserBalanceAsync(ctx.User.Id, balanceChange, ctx.Guild.Id);
-        await Service.AddTransactionAsync(ctx.User.Id, balanceChange,
-            playerWon ? Strings.BlackjackWonTransaction(ctx.Guild.Id) : Strings.BlackjackLostTransaction(ctx.Guild.Id),
-            ctx.Guild.Id);
+        if (playerWon)
+            await WinAsync(stake, 2.0, "blackjack");
 
         BlackjackService.EndGame(ctx.User);
 
@@ -480,40 +444,31 @@ public partial class Currency(
             return;
         }
 
-        var userBalance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-        if (bet > userBalance)
-        {
-            await ctx.Channel.SendErrorAsync(
-                Strings.SlotInsufficientFunds(ctx.Guild.Id, await Service.GetCurrencyEmote(ctx.Guild.Id)), Config);
+        if (!await TryTakeBetAsync(bet, "slots"))
             return;
-        }
 
         string[] symbols = ["🍒", "🍊", "🍋", "🍇", "💎", "7️⃣"];
         var result = new string[3];
-        var rng = new Random();
 
         for (var i = 0; i < 3; i++)
         {
-            result[i] = symbols[rng.Next(symbols.Length)];
+            result[i] = CurrencyRng.Pick(symbols);
         }
 
         var winnings = CalculateWinnings(result, bet);
 
-        var balanceChange = winnings - bet;
-        await Service.AddUserBalanceAsync(ctx.User.Id, balanceChange, ctx.Guild.Id);
-        await Service.AddTransactionAsync(ctx.User.Id, balanceChange, Strings.SlotTransaction(ctx.Guild.Id),
-            ctx.Guild.Id);
+        if (winnings > 0)
+            winnings = await WinAsync(bet, (double)winnings / bet, "slots");
+
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
 
         var eb = new EmbedBuilder()
             .WithOkColor()
             .WithTitle(Strings.SlotTitle(ctx.Guild.Id))
             .WithDescription(Strings.SlotResult(ctx.Guild.Id, result[0], result[1], result[2]))
-            .AddField(Strings.SlotBet(ctx.Guild.Id), $"{bet} {await Service.GetCurrencyEmote(ctx.Guild.Id)}", true)
-            .AddField(Strings.SlotWinnings(ctx.Guild.Id), $"{winnings} {await Service.GetCurrencyEmote(ctx.Guild.Id)}",
-                true)
-            .AddField(Strings.SlotNetProfit(ctx.Guild.Id),
-                $"{balanceChange} {await Service.GetCurrencyEmote(ctx.Guild.Id)}",
-                true);
+            .AddField(Strings.SlotBet(ctx.Guild.Id), $"{bet} {emote}", true)
+            .AddField(Strings.SlotWinnings(ctx.Guild.Id), $"{winnings} {emote}", true)
+            .AddField(Strings.SlotNetProfit(ctx.Guild.Id), $"{winnings - bet} {emote}", true);
 
         await ctx.Channel.SendMessageAsync(embed: eb.Build());
     }
@@ -552,64 +507,58 @@ public partial class Currency(
     [Aliases]
     public async Task Roulette(long betAmount, string betType)
     {
-        var balance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-        if (betAmount > balance || betAmount <= 0)
+        var isNumberBet = int.TryParse(betType, out var numberBet);
+
+        if (isNumberBet && numberBet is < 0 or > 36)
         {
-            await ctx.Channel.SendErrorAsync(Strings.RouletteInvalidBet(ctx.Guild.Id), Config);
+            await ctx.Channel.SendErrorAsync(Strings.RouletteInvalidBetType(ctx.Guild.Id), Config);
             return;
         }
 
-        var rng = new Random();
-        var result = rng.Next(0, 37);
+        if (!isNumberBet && betType.ToLower() is not ("red" or "black" or "even" or "odd"))
+        {
+            await ctx.Channel.SendErrorAsync(Strings.RouletteInvalidBetType(ctx.Guild.Id), Config);
+            return;
+        }
+
+        if (!await TryTakeBetAsync(betAmount, "roulette"))
+            return;
+
+        var result = CurrencyRng.Next(0, 37);
         var color = result == 0 ? "green" : result % 2 == 0 ? "black" : "red";
 
-        var won = false;
-        var multiplier = 0;
+        bool won;
+        int multiplier;
 
-        if (int.TryParse(betType, out var numberBet))
+        if (isNumberBet)
         {
             won = result == numberBet;
             multiplier = 35;
         }
         else
         {
-            switch (betType.ToLower())
+            won = betType.ToLower() switch
             {
-                case "red":
-                case "black":
-                    won = betType.Equals(color, StringComparison.OrdinalIgnoreCase);
-                    break;
-                case "even":
-                    won = result != 0 && result % 2 == 0;
-                    break;
-                case "odd":
-                    won = result % 2 != 0;
-                    break;
-                default:
-                    await ctx.Channel.SendErrorAsync(Strings.RouletteInvalidBetType(ctx.Guild.Id), Config);
-                    return;
-            }
+                "red" or "black" => betType.Equals(color, StringComparison.OrdinalIgnoreCase),
+                "even" => result != 0 && result % 2 == 0,
+                _ => result % 2 != 0
+            };
 
             multiplier = 1;
         }
 
-        var winnings = won ? betAmount * (multiplier + 1) : 0;
-        var profit = winnings - betAmount;
-
-        await Service.AddUserBalanceAsync(ctx.User.Id, profit, ctx.Guild.Id);
-        await Service.AddTransactionAsync(ctx.User.Id, profit, Strings.RouletteTransaction(ctx.Guild.Id), ctx.Guild.Id);
+        var returned = won ? await WinAsync(betAmount, multiplier + 1, "roulette") : 0;
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
 
         var eb = new EmbedBuilder()
             .WithOkColor()
             .WithTitle(Strings.RouletteTitle(ctx.Guild.Id))
             .WithDescription(Strings.RouletteResult(ctx.Guild.Id, result, color))
             .AddField(Strings.RouletteBet(ctx.Guild.Id),
-                Strings.RouletteBetDetails(ctx.Guild.Id, betAmount, await Service.GetCurrencyEmote(ctx.Guild.Id),
-                    betType), true)
+                Strings.RouletteBetDetails(ctx.Guild.Id, betAmount, emote, betType), true)
             .AddField(Strings.RouletteOutcome(ctx.Guild.Id),
                 won ? Strings.RouletteWon(ctx.Guild.Id) : Strings.RouletteLost(ctx.Guild.Id), true)
-            .AddField(Strings.RouletteProfit(ctx.Guild.Id), $"{profit} {await Service.GetCurrencyEmote(ctx.Guild.Id)}",
-                true);
+            .AddField(Strings.RouletteProfit(ctx.Guild.Id), $"{returned - betAmount} {emote}", true);
 
         await ctx.Channel.SendMessageAsync(embed: eb.Build());
     }
@@ -638,8 +587,8 @@ public partial class Currency(
     //     }
     //
     //     var rng = new Random();
-    //     var dice1 = rng.Next(1, 7);
-    //     var dice2 = rng.Next(1, 7);
+    //     var dice1 = CurrencyRng.Next(1, 7);
+    //     var dice2 = CurrencyRng.Next(1, 7);
     //     var sum = dice1 + dice2;
     //
     //     var won = sum == guess;
@@ -673,13 +622,19 @@ public partial class Currency(
     {
         user ??= ctx.User;
 
-        var transactions = await Service.GetTransactionsAsync(user.Id, ctx.Guild.Id);
-        transactions = transactions?.OrderByDescending(x => x.DateAdded);
+        var transactions = await Service.GetTransactionsAsync(user.Id, ctx.Guild.Id, 250);
+
+        if (transactions.Count == 0)
+        {
+            await ErrorAsync(Strings.TransactionsNone(ctx.Guild.Id, user.Username));
+            return;
+        }
+
         var paginator = new LazyPaginatorBuilder()
             .AddUser(ctx.User)
             .WithPageFactory(PageFactory)
             .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-            .WithMaxPageIndex((transactions.Count() - 1) / 10)
+            .WithMaxPageIndex((transactions.Count - 1) / 10)
             .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
@@ -694,13 +649,15 @@ public partial class Currency(
                 .WithDescription(Strings.TransactionsDescription(ctx.Guild.Id, user.Username))
                 .WithColor(Color.Blue);
 
-            for (var i = index * 10; i < (index + 1) * 10 && i < transactions.Count(); i++)
+            var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
+
+            for (var i = index * 10; i < (index + 1) * 10 && i < transactions.Count; i++)
             {
+                var entry = transactions[i];
                 pageBuilder.AddField(
-                    Strings.TransactionsEntry(ctx.Guild.Id, i + 1, transactions.ElementAt(i).Description),
-                    Strings.TransactionsDetails(ctx.Guild.Id, transactions.ElementAt(i).Amount,
-                        await Service.GetCurrencyEmote(ctx.Guild.Id),
-                        TimestampTag.FromDateTime(transactions.ElementAt(i).DateAdded.Value)));
+                    Strings.TransactionsEntry(ctx.Guild.Id, i + 1, entry.Description),
+                    Strings.TransactionsDetails(ctx.Guild.Id, entry.Amount, emote,
+                        TimestampTag.FromDateTime(entry.DateAdded ?? DateTime.UtcNow)));
             }
 
             return pageBuilder;
@@ -718,16 +675,6 @@ public partial class Currency(
     [Aliases]
     public async Task Rps(string choice, long betAmount = 0)
     {
-        if (betAmount != 0)
-        {
-            var balance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-            if (betAmount > balance || betAmount <= 0)
-            {
-                await ctx.Channel.SendErrorAsync(Strings.RpsInvalidBet(ctx.Guild.Id), Config);
-                return;
-            }
-        }
-
         var validChoices = new[]
         {
             "rock", "paper", "scissors", "lizard", "spock"
@@ -738,8 +685,10 @@ public partial class Currency(
             return;
         }
 
-        var rng = new Random();
-        var botChoice = validChoices[rng.Next(validChoices.Length)];
+        if (betAmount != 0 && !await TryTakeBetAsync(betAmount, "rps"))
+            return;
+
+        var botChoice = CurrencyRng.Pick(validChoices);
 
         var (result, description) = DetermineWinner(choice.ToLower(), botChoice);
 
@@ -752,19 +701,18 @@ public partial class Currency(
 
         if (betAmount != 0)
         {
-            var profit = result switch
+            var returned = result switch
             {
-                "win" => betAmount,
-                "lose" => -betAmount,
+                "win" => await WinAsync(betAmount, 2.0, "rps"),
+                "tie" => betAmount,
                 _ => 0L
             };
 
-            await Service.AddUserBalanceAsync(ctx.User.Id, profit, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, profit, Strings.RpsTransactionDescription(ctx.Guild.Id),
-                ctx.Guild.Id);
+            if (result == "tie")
+                await PushAsync(betAmount, "rps");
 
             eb.AddField(Strings.RpsEmbedProfit(ctx.Guild.Id),
-                $"{profit} {await Service.GetCurrencyEmote(ctx.Guild.Id)}", true);
+                $"{returned - betAmount} {await Service.GetCurrencyEmote(ctx.Guild.Id)}", true);
         }
 
         await ctx.Channel.SendMessageAsync(embed: eb.Build());
@@ -896,10 +844,9 @@ public partial class Currency(
     /// <returns>The generated pastel color.</returns>
     private static SKColor GeneratePastelColor()
     {
-        var rand = new Random();
-        var hue = (float)rand.Next(0, 361);
-        var saturation = 40f + (float)rand.NextDouble() * 20f;
-        var lightness = 70f + (float)rand.NextDouble() * 20f;
+        var hue = (float)CurrencyRng.Next(0, 361);
+        var saturation = 40f + (float)CurrencyRng.NextDouble() * 20f;
+        var lightness = 70f + (float)CurrencyRng.NextDouble() * 20f;
 
         return SKColor.FromHsl(hue, saturation, lightness);
     }
@@ -913,22 +860,12 @@ public partial class Currency(
     [Aliases]
     public async Task War(long betAmount)
     {
-        var currentBalance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-        if (betAmount > currentBalance || betAmount <= 0)
-        {
-            await ReplyAsync(Strings.WarInvalidBet(ctx.Guild.Id));
+        if (!await TryTakeBetAsync(betAmount, "war"))
             return;
-        }
 
-        if (currentBalance < betAmount)
-        {
-            await ReplyAsync(Strings.WarInsufficientFunds(ctx.Guild.Id, await Service.GetCurrencyEmote(ctx.Guild.Id)));
-            return;
-        }
-
-        var rand = new Random();
-        var playerCard = GenerateCard(rand);
-        var opponentCard = GenerateCard(rand);
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
+        var playerCard = GenerateCard();
+        var opponentCard = GenerateCard();
 
         var eb = new EmbedBuilder()
             .WithTitle(Strings.WarTitle(ctx.Guild.Id))
@@ -938,61 +875,52 @@ public partial class Currency(
 
         if (playerCard.value > opponentCard.value)
         {
-            await Service.AddUserBalanceAsync(ctx.User.Id, betAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, betAmount, Strings.WarTransactionWon(ctx.Guild.Id),
-                ctx.Guild.Id);
+            await WinAsync(betAmount, 2.0, "war");
             eb.WithDescription(Strings.WarResultWin(ctx.Guild.Id, $"{playerCard.rank}{playerCard.suit}",
                     $"{opponentCard.rank}{opponentCard.suit}"))
                 .WithColor(Color.Green);
         }
         else if (playerCard.value < opponentCard.value)
         {
-            await Service.AddUserBalanceAsync(ctx.User.Id, -betAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, -betAmount, Strings.WarTransactionLost(ctx.Guild.Id),
-                ctx.Guild.Id);
             eb.WithDescription(Strings.WarResultLose(ctx.Guild.Id, $"{playerCard.rank}{playerCard.suit}",
                     $"{opponentCard.rank}{opponentCard.suit}"))
                 .WithColor(Color.Red);
         }
         else
         {
-            // War battle!
-            var warBetAmount = betAmount * 2;
-            if (currentBalance < warBetAmount)
+            if (!await Service.TryDebitAsync(ctx.User.Id, betAmount, Strings.BetPlacedTransaction(ctx.Guild.Id, "war"),
+                    CurrencyCategory.GameBet, ctx.Guild.Id, "war"))
             {
+                await PushAsync(betAmount, "war");
                 eb.WithDescription(Strings.WarResultTie(ctx.Guild.Id, $"{playerCard.rank}{playerCard.suit}"))
                     .WithColor(Color.Gold);
             }
             else
             {
+                var warStake = betAmount * 2;
+
                 eb.WithTitle(Strings.WarBattleStart(ctx.Guild.Id))
                     .WithDescription(Strings.WarBattleDescription(ctx.Guild.Id))
                     .WithColor(Color.Orange);
 
-                var warPlayerCard = GenerateCard(rand);
-                var warOpponentCard = GenerateCard(rand);
+                var warPlayerCard = GenerateCard();
+                var warOpponentCard = GenerateCard();
 
-                eb.AddField("War - Your Card", $"{warPlayerCard.rank}{warPlayerCard.suit}", true)
-                    .AddField("War - Opponent's Card", $"{warOpponentCard.rank}{warOpponentCard.suit}", true);
+                eb.AddField(Strings.WarBattleYourCard(ctx.Guild.Id), $"{warPlayerCard.rank}{warPlayerCard.suit}", true)
+                    .AddField(Strings.WarBattleOpponentCard(ctx.Guild.Id),
+                        $"{warOpponentCard.rank}{warOpponentCard.suit}", true);
 
                 if (warPlayerCard.value > warOpponentCard.value)
                 {
-                    await Service.AddUserBalanceAsync(ctx.User.Id, warBetAmount, ctx.Guild.Id);
-                    await Service.AddTransactionAsync(ctx.User.Id, warBetAmount,
-                        Strings.WarTransactionWon(ctx.Guild.Id), ctx.Guild.Id);
-                    eb.AddField("Result",
-                            Strings.WarBattleWin(ctx.Guild.Id, warBetAmount,
-                                await Service.GetCurrencyEmote(ctx.Guild.Id)))
+                    await WinAsync(warStake, 2.0, "war");
+                    eb.AddField(Strings.WarBattleResult(ctx.Guild.Id),
+                            Strings.WarBattleWin(ctx.Guild.Id, warStake, emote))
                         .WithColor(Color.Green);
                 }
                 else
                 {
-                    await Service.AddUserBalanceAsync(ctx.User.Id, -warBetAmount, ctx.Guild.Id);
-                    await Service.AddTransactionAsync(ctx.User.Id, -warBetAmount,
-                        Strings.WarTransactionLost(ctx.Guild.Id), ctx.Guild.Id);
-                    eb.AddField("Result",
-                            Strings.WarBattleLose(ctx.Guild.Id, warBetAmount,
-                                await Service.GetCurrencyEmote(ctx.Guild.Id)))
+                    eb.AddField(Strings.WarBattleResult(ctx.Guild.Id),
+                            Strings.WarBattleLose(ctx.Guild.Id, warStake, emote))
                         .WithColor(Color.Red);
                 }
             }
@@ -1011,20 +939,6 @@ public partial class Currency(
     [Aliases]
     public async Task Craps(long betAmount, string betType = "pass")
     {
-        var currentBalance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-        if (betAmount > currentBalance || betAmount <= 0)
-        {
-            await ReplyAsync(Strings.CrapsInvalidBet(ctx.Guild.Id));
-            return;
-        }
-
-        if (currentBalance < betAmount)
-        {
-            await ReplyAsync(Strings.CrapsInsufficientFunds(ctx.Guild.Id,
-                await Service.GetCurrencyEmote(ctx.Guild.Id)));
-            return;
-        }
-
         var validBetTypes = new[]
         {
             "pass", "dontpass", "field", "any"
@@ -1035,9 +949,12 @@ public partial class Currency(
             return;
         }
 
-        var rand = new Random();
-        var die1 = rand.Next(1, 7);
-        var die2 = rand.Next(1, 7);
+        if (!await TryTakeBetAsync(betAmount, "craps"))
+            return;
+
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
+        var die1 = CurrencyRng.Next(1, 7);
+        var die2 = CurrencyRng.Next(1, 7);
         var total = die1 + die2;
 
         var eb = new EmbedBuilder()
@@ -1046,6 +963,7 @@ public partial class Currency(
             .AddField(Strings.CrapsRolled(ctx.Guild.Id, die1, die2, total), "");
 
         var won = false;
+        var push = false;
         var multiplier = 1.0;
 
         switch (betType.ToLower())
@@ -1056,20 +974,21 @@ public partial class Currency(
                     case 7:
                     case 11:
                         won = true;
-                        eb.AddField("Result", Strings.CrapsNatural(ctx.Guild.Id, total));
+                        eb.AddField(Strings.CrapsResultField(ctx.Guild.Id), Strings.CrapsNatural(ctx.Guild.Id, total));
                         break;
                     case 2:
                     case 3:
                     case 12:
                         won = false;
-                        eb.AddField("Result", Strings.CrapsCraps(ctx.Guild.Id, total));
+                        eb.AddField(Strings.CrapsResultField(ctx.Guild.Id), Strings.CrapsCraps(ctx.Guild.Id, total));
                         break;
                     default:
                     {
-                        eb.AddField("Point", Strings.CrapsPointEstablished(ctx.Guild.Id, total));
-                        var pointRoll = RollForPoint(rand, total);
+                        eb.AddField(Strings.CrapsPointField(ctx.Guild.Id),
+                            Strings.CrapsPointEstablished(ctx.Guild.Id, total));
+                        var pointRoll = RollForPoint(total);
                         won = pointRoll.won;
-                        eb.AddField("Point Roll", pointRoll.description);
+                        eb.AddField(Strings.CrapsPointRollField(ctx.Guild.Id), pointRoll.description);
                         break;
                     }
                 }
@@ -1085,15 +1004,16 @@ public partial class Currency(
                         break;
                     case 7:
                     case 11:
-                    // Push
-                    case 12:
                         won = false;
+                        break;
+                    case 12:
+                        push = true;
                         break;
                     default:
                     {
-                        var pointRoll = RollForPoint(rand, total);
+                        var pointRoll = RollForPoint(total);
                         won = !pointRoll.won;
-                        eb.AddField("Point Roll", pointRoll.description);
+                        eb.AddField(Strings.CrapsPointRollField(ctx.Guild.Id), pointRoll.description);
                         break;
                     }
                 }
@@ -1111,35 +1031,36 @@ public partial class Currency(
                 break;
         }
 
-        var profit = won ? (long)(betAmount * multiplier) : -betAmount;
-        await Service.AddUserBalanceAsync(ctx.User.Id, profit, ctx.Guild.Id);
-        await Service.AddTransactionAsync(ctx.User.Id, profit,
-            won ? Strings.CrapsTransactionWon(ctx.Guild.Id) : Strings.CrapsTransactionLost(ctx.Guild.Id),
-            ctx.Guild.Id);
+        long returned;
+
+        if (push)
+        {
+            await PushAsync(betAmount, "craps");
+            returned = betAmount;
+        }
+        else
+        {
+            returned = won ? await WinAsync(betAmount, 1 + multiplier, "craps") : 0;
+        }
+
+        var profit = returned - betAmount;
+        var shown = Math.Abs(profit);
 
         var resultMessage = betType.ToLower() switch
         {
-            "pass" when won => Strings.CrapsPassWin(ctx.Guild.Id, Math.Abs(profit),
-                await Service.GetCurrencyEmote(ctx.Guild.Id)),
-            "pass" when !won => Strings.CrapsPassLose(ctx.Guild.Id, Math.Abs(profit),
-                await Service.GetCurrencyEmote(ctx.Guild.Id)),
-            "dontpass" when won => Strings.CrapsDontpassWin(ctx.Guild.Id, Math.Abs(profit),
-                await Service.GetCurrencyEmote(ctx.Guild.Id)),
-            "dontpass" when !won => Strings.CrapsDontpassLose(ctx.Guild.Id, Math.Abs(profit),
-                await Service.GetCurrencyEmote(ctx.Guild.Id)),
-            "field" when won => Strings.CrapsFieldWin(ctx.Guild.Id, Math.Abs(profit),
-                await Service.GetCurrencyEmote(ctx.Guild.Id)),
-            "field" when !won => Strings.CrapsFieldLose(ctx.Guild.Id, Math.Abs(profit),
-                await Service.GetCurrencyEmote(ctx.Guild.Id)),
-            "any" when won => Strings.CrapsAnyWin(ctx.Guild.Id, Math.Abs(profit),
-                await Service.GetCurrencyEmote(ctx.Guild.Id)),
-            "any" when !won => Strings.CrapsAnyLose(ctx.Guild.Id, Math.Abs(profit),
-                await Service.GetCurrencyEmote(ctx.Guild.Id)),
-            _ => won ? "You won!" : "You lost!"
+            _ when push => Strings.CrapsPush(ctx.Guild.Id, betAmount, emote),
+            "pass" when won => Strings.CrapsPassWin(ctx.Guild.Id, shown, emote),
+            "pass" => Strings.CrapsPassLose(ctx.Guild.Id, shown, emote),
+            "dontpass" when won => Strings.CrapsDontpassWin(ctx.Guild.Id, shown, emote),
+            "dontpass" => Strings.CrapsDontpassLose(ctx.Guild.Id, shown, emote),
+            "field" when won => Strings.CrapsFieldWin(ctx.Guild.Id, shown, emote),
+            "field" => Strings.CrapsFieldLose(ctx.Guild.Id, shown, emote),
+            "any" when won => Strings.CrapsAnyWin(ctx.Guild.Id, shown, emote),
+            _ => Strings.CrapsAnyLose(ctx.Guild.Id, shown, emote)
         };
 
-        eb.AddField("Outcome", resultMessage)
-            .WithColor(won ? Color.Green : Color.Red);
+        eb.AddField(Strings.CrapsOutcomeField(ctx.Guild.Id), resultMessage)
+            .WithColor(push ? Color.Gold : won ? Color.Green : Color.Red);
 
         await ReplyAsync(embed: eb.Build());
     }
@@ -1177,38 +1098,25 @@ public partial class Currency(
         }
 
         var card = cardTypes[cardType.ToLower()];
-        var currentBalance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
 
-        if (currentBalance < card.cost)
-        {
-            await ReplyAsync(
-                Strings.ScratchCardInsufficientFunds(ctx.Guild.Id, await Service.GetCurrencyEmote(ctx.Guild.Id)));
+        if (!await TryTakeBetAsync(card.cost, "scratchcard"))
             return;
-        }
 
-        await Service.AddUserBalanceAsync(ctx.User.Id, -card.cost, ctx.Guild.Id);
-        await Service.AddTransactionAsync(ctx.User.Id, -card.cost, Strings.ScratchCardTransactionBuy(ctx.Guild.Id),
-            ctx.Guild.Id);
-
-        var rand = new Random();
-        var won = rand.NextDouble() < card.winChance;
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
+        var won = CurrencyRng.NextDouble() < card.winChance;
 
         var eb = new EmbedBuilder()
             .WithTitle(Strings.ScratchCardTitle(ctx.Guild.Id))
             .WithColor(Color.Blue)
             .AddField(Strings.ScratchCardType(ctx.Guild.Id, cardType.ToUpper()), "", true)
-            .AddField(Strings.ScratchCardCost(ctx.Guild.Id, card.cost, await Service.GetCurrencyEmote(ctx.Guild.Id)),
-                "", true);
+            .AddField(Strings.ScratchCardCost(ctx.Guild.Id, card.cost, emote), "", true);
 
         if (won)
         {
-            var winAmount = rand.Next(card.minWin, card.maxWin + 1);
-            await Service.AddUserBalanceAsync(ctx.User.Id, winAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, winAmount, Strings.ScratchCardTransactionWin(ctx.Guild.Id),
-                ctx.Guild.Id);
+            var winAmount = CurrencyRng.Next(card.minWin, card.maxWin + 1);
+            winAmount = (int)await WinAsync(card.cost, (double)winAmount / card.cost, "scratchcard");
 
-            eb.WithDescription(Strings.ScratchCardWin(ctx.Guild.Id, winAmount,
-                    await Service.GetCurrencyEmote(ctx.Guild.Id)))
+            eb.WithDescription(Strings.ScratchCardWin(ctx.Guild.Id, winAmount, emote))
                 .WithColor(Color.Green);
 
             var symbols = GenerateScratchSymbols(true);
@@ -1236,30 +1144,19 @@ public partial class Currency(
     [Aliases]
     public async Task RussianRoulette(long betAmount, int bullets = 1)
     {
-        var currentBalance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-        if (betAmount > currentBalance || betAmount <= 0)
-        {
-            await ReplyAsync(Strings.RussianRouletteInvalidBet(ctx.Guild.Id));
-            return;
-        }
-
-        if (currentBalance < betAmount)
-        {
-            await ReplyAsync(Strings.RussianRouletteInsufficientFunds(ctx.Guild.Id,
-                await Service.GetCurrencyEmote(ctx.Guild.Id)));
-            return;
-        }
-
         if (bullets is < 1 or > 5)
             bullets = 1;
 
-        var rand = new Random();
-        var chamber = rand.Next(1, 7);
+        if (!await TryTakeBetAsync(betAmount, "russianroulette"))
+            return;
+
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
+        var chamber = CurrencyRng.Next(1, 7);
         var bulletChambers = new HashSet<int>();
 
         while (bulletChambers.Count < bullets)
         {
-            bulletChambers.Add(rand.Next(1, 7));
+            bulletChambers.Add(CurrencyRng.Next(1, 7));
         }
 
         var survived = !bulletChambers.Contains(chamber);
@@ -1282,25 +1179,17 @@ public partial class Currency(
 
         if (survived)
         {
-            var winAmount = (long)(betAmount * multiplier);
-            await Service.AddUserBalanceAsync(ctx.User.Id, winAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, winAmount,
-                Strings.RussianRouletteTransactionWon(ctx.Guild.Id), ctx.Guild.Id);
+            var winAmount = await WinAsync(betAmount, 1 + multiplier, "russianroulette");
 
-            eb.AddField("Result", Strings.RussianRouletteClick(ctx.Guild.Id))
-                .AddField("Outcome",
-                    Strings.RussianRouletteSurvived(ctx.Guild.Id, winAmount,
-                        await Service.GetCurrencyEmote(ctx.Guild.Id)))
+            eb.AddField(Strings.RussianRouletteResultField(ctx.Guild.Id), Strings.RussianRouletteClick(ctx.Guild.Id))
+                .AddField(Strings.RussianRouletteOutcomeField(ctx.Guild.Id),
+                    Strings.RussianRouletteSurvived(ctx.Guild.Id, winAmount - betAmount, emote))
                 .WithColor(Color.Green);
         }
         else
         {
-            await Service.AddUserBalanceAsync(ctx.User.Id, -betAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, -betAmount,
-                Strings.RussianRouletteTransactionLost(ctx.Guild.Id), ctx.Guild.Id);
-
-            eb.AddField("Outcome",
-                    Strings.RussianRouletteDied(ctx.Guild.Id, betAmount, await Service.GetCurrencyEmote(ctx.Guild.Id)))
+            eb.AddField(Strings.RussianRouletteOutcomeField(ctx.Guild.Id),
+                    Strings.RussianRouletteDied(ctx.Guild.Id, betAmount, emote))
                 .WithColor(Color.Red);
         }
 
@@ -1317,20 +1206,6 @@ public partial class Currency(
     [Aliases]
     public async Task Baccarat(long betAmount, string betType = "player")
     {
-        var currentBalance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-        if (betAmount > currentBalance || betAmount <= 0)
-        {
-            await ReplyAsync(Strings.BaccaratInvalidBet(ctx.Guild.Id));
-            return;
-        }
-
-        if (currentBalance < betAmount)
-        {
-            await ReplyAsync(
-                Strings.BaccaratInsufficientFunds(ctx.Guild.Id, await Service.GetCurrencyEmote(ctx.Guild.Id)));
-            return;
-        }
-
         var validBetTypes = new[]
         {
             "player", "banker", "tie"
@@ -1341,14 +1216,18 @@ public partial class Currency(
             return;
         }
 
-        var rand = new Random();
+        if (!await TryTakeBetAsync(betAmount, "baccarat"))
+            return;
+
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
+
         var playerHand = new List<(string rank, string suit, int value)>
         {
-            GenerateCard(rand), GenerateCard(rand)
+            GenerateCard(), GenerateCard()
         };
         var bankerHand = new List<(string rank, string suit, int value)>
         {
-            GenerateCard(rand), GenerateCard(rand)
+            GenerateCard(), GenerateCard()
         };
 
         var playerTotal = CalculateBaccaratTotal(playerHand);
@@ -1363,7 +1242,7 @@ public partial class Currency(
             // Player draws third card if total is 0-5
             if (playerTotal <= 5)
             {
-                playerHand.Add(GenerateCard(rand));
+                playerHand.Add(GenerateCard());
                 playerTotal = CalculateBaccaratTotal(playerHand);
             }
 
@@ -1371,11 +1250,11 @@ public partial class Currency(
             {
                 // Banker third card rules are complex, simplified here
                 case <= 5 when playerHand.Count == 2:
-                    bankerHand.Add(GenerateCard(rand));
+                    bankerHand.Add(GenerateCard());
                     bankerTotal = CalculateBaccaratTotal(bankerHand);
                     break;
                 case <= 2:
-                    bankerHand.Add(GenerateCard(rand));
+                    bankerHand.Add(GenerateCard());
                     bankerTotal = CalculateBaccaratTotal(bankerHand);
                     break;
             }
@@ -1394,7 +1273,8 @@ public partial class Currency(
 
         if (playerTotal > bankerTotal)
         {
-            eb.AddField("Result", Strings.BaccaratPlayerWins(ctx.Guild.Id, playerTotal));
+            eb.AddField(Strings.BaccaratResultField(ctx.Guild.Id),
+                Strings.BaccaratPlayerWins(ctx.Guild.Id, playerTotal));
             if (betType.Equals("player", StringComparison.OrdinalIgnoreCase))
             {
                 won = true;
@@ -1403,7 +1283,8 @@ public partial class Currency(
         }
         else if (bankerTotal > playerTotal)
         {
-            eb.AddField("Result", Strings.BaccaratBankerWins(ctx.Guild.Id, bankerTotal));
+            eb.AddField(Strings.BaccaratResultField(ctx.Guild.Id),
+                Strings.BaccaratBankerWins(ctx.Guild.Id, bankerTotal));
             if (betType.Equals("banker", StringComparison.OrdinalIgnoreCase))
             {
                 won = true;
@@ -1412,7 +1293,7 @@ public partial class Currency(
         }
         else
         {
-            eb.AddField("Result", Strings.BaccaratTie(ctx.Guild.Id, playerTotal));
+            eb.AddField(Strings.BaccaratResultField(ctx.Guild.Id), Strings.BaccaratTie(ctx.Guild.Id, playerTotal));
             if (betType.Equals("tie", StringComparison.OrdinalIgnoreCase))
             {
                 won = true;
@@ -1420,29 +1301,24 @@ public partial class Currency(
             }
         }
 
-        var profit = won ? (long)(betAmount * multiplier) : -betAmount;
-        await Service.AddUserBalanceAsync(ctx.User.Id, profit, ctx.Guild.Id);
-        await Service.AddTransactionAsync(ctx.User.Id, profit,
-            won ? Strings.BaccaratTransactionWon(ctx.Guild.Id) : Strings.BaccaratTransactionLost(ctx.Guild.Id),
-            ctx.Guild.Id);
+        var returned = won ? await WinAsync(betAmount, multiplier, "baccarat") : 0;
+        var profit = Math.Abs(returned - betAmount);
 
         var resultMessage = betType.ToLower() switch
         {
-            "player" when won => Strings.BaccaratPlayerBetWin(ctx.Guild.Id, Math.Abs(profit),
-                await Service.GetCurrencyEmote(ctx.Guild.Id)),
-            "banker" when won => Strings.BaccaratBankerBetWin(ctx.Guild.Id, Math.Abs(profit),
-                await Service.GetCurrencyEmote(ctx.Guild.Id)),
-            "tie" when won => Strings.BaccaratTieBetWin(ctx.Guild.Id, Math.Abs(profit),
-                await Service.GetCurrencyEmote(ctx.Guild.Id)),
-            _ => Strings.BaccaratBetLose(ctx.Guild.Id, Math.Abs(profit), await Service.GetCurrencyEmote(ctx.Guild.Id))
+            "player" when won => Strings.BaccaratPlayerBetWin(ctx.Guild.Id, profit, emote),
+            "banker" when won => Strings.BaccaratBankerBetWin(ctx.Guild.Id, profit, emote),
+            "tie" when won => Strings.BaccaratTieBetWin(ctx.Guild.Id, profit, emote),
+            _ => Strings.BaccaratBetLose(ctx.Guild.Id, profit, emote)
         };
 
         if (playerNatural || bankerNatural)
         {
-            eb.AddField("Special", Strings.BaccaratNatural(ctx.Guild.Id, Math.Max(playerTotal, bankerTotal)));
+            eb.AddField(Strings.BaccaratSpecialField(ctx.Guild.Id),
+                Strings.BaccaratNatural(ctx.Guild.Id, Math.Max(playerTotal, bankerTotal)));
         }
 
-        eb.AddField("Outcome", resultMessage)
+        eb.AddField(Strings.BaccaratOutcomeField(ctx.Guild.Id), resultMessage)
             .WithColor(won ? Color.Green : Color.Red);
 
         await ReplyAsync(embed: eb.Build());
@@ -1458,20 +1334,6 @@ public partial class Currency(
     [Aliases]
     public async Task Minesweeper(long betAmount, string size = "small")
     {
-        var currentBalance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-        if (betAmount > currentBalance || betAmount <= 0)
-        {
-            await ReplyAsync(Strings.MinesweeperInvalidBet(ctx.Guild.Id));
-            return;
-        }
-
-        if (currentBalance < betAmount)
-        {
-            await ReplyAsync(
-                Strings.MinesweeperInsufficientFunds(ctx.Guild.Id, await Service.GetCurrencyEmote(ctx.Guild.Id)));
-            return;
-        }
-
         var gridSizes = new Dictionary<string, (int size, int mines, double safeChance)>
         {
             {
@@ -1492,8 +1354,12 @@ public partial class Currency(
         }
 
         var grid = gridSizes[size.ToLower()];
-        var rand = new Random();
-        var survived = rand.NextDouble() < grid.safeChance;
+
+        if (!await TryTakeBetAsync(betAmount, "minesweeper"))
+            return;
+
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
+        var survived = CurrencyRng.NextDouble() < grid.safeChance;
 
         var multiplier = size.ToLower() switch
         {
@@ -1512,24 +1378,15 @@ public partial class Currency(
 
         if (survived)
         {
-            var winAmount = (long)(betAmount * multiplier);
-            await Service.AddUserBalanceAsync(ctx.User.Id, winAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, winAmount, Strings.MinesweeperTransactionWon(ctx.Guild.Id),
-                ctx.Guild.Id);
+            var winAmount = await WinAsync(betAmount, multiplier, "minesweeper");
 
-            eb.WithDescription(Strings.MinesweeperAllSafe(ctx.Guild.Id, winAmount,
-                    await Service.GetCurrencyEmote(ctx.Guild.Id)))
+            eb.WithDescription(Strings.MinesweeperAllSafe(ctx.Guild.Id, winAmount - betAmount, emote))
                 .WithColor(Color.Green)
                 .AddField(Strings.MinesweeperMultiplier(ctx.Guild.Id, multiplier), $"x{multiplier:F1}", true);
         }
         else
         {
-            await Service.AddUserBalanceAsync(ctx.User.Id, -betAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, -betAmount, Strings.MinesweeperTransactionLost(ctx.Guild.Id),
-                ctx.Guild.Id);
-
-            eb.WithDescription(Strings.MinesweeperHitMine(ctx.Guild.Id, betAmount,
-                    await Service.GetCurrencyEmote(ctx.Guild.Id)))
+            eb.WithDescription(Strings.MinesweeperHitMine(ctx.Guild.Id, betAmount, emote))
                 .WithColor(Color.Red);
         }
 
@@ -1552,72 +1409,57 @@ public partial class Currency(
             return;
         }
 
-        const int ticketCost = 50; // Fixed cost per ticket
+        const int ticketCost = 50;
         var totalCost = ticketCost * ticketCount;
-        var currentBalance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
 
-        if (currentBalance < totalCost)
-        {
-            await ReplyAsync(Strings.LotteryInsufficientFunds(ctx.Guild.Id,
-                await Service.GetCurrencyEmote(ctx.Guild.Id), ticketCount));
+        if (!await TryTakeBetAsync(totalCost, "lottery"))
             return;
-        }
 
-        await Service.AddUserBalanceAsync(ctx.User.Id, -totalCost, ctx.Guild.Id);
-        await Service.AddTransactionAsync(ctx.User.Id, -totalCost, Strings.LotteryTransactionBuy(ctx.Guild.Id),
-            ctx.Guild.Id);
-
-        // Simple lottery implementation - immediate random draw
-        var rand = new Random();
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
         var won = false;
         var winAmount = 0L;
 
         // Different win chances based on ticket count
         var winChance = Math.Min(0.1 + (ticketCount * 0.05), 0.4); // Max 40% chance
 
-        if (rand.NextDouble() < winChance)
+        if (CurrencyRng.NextDouble() < winChance)
         {
             won = true;
             var multiplier = ticketCount switch
             {
-                1 => rand.Next(2, 5),
-                2 => rand.Next(3, 7),
-                3 => rand.Next(4, 9),
-                4 => rand.Next(5, 11),
-                5 => rand.Next(6, 13),
-                _ => rand.Next(7, 15)
+                1 => CurrencyRng.Next(2, 5),
+                2 => CurrencyRng.Next(3, 7),
+                3 => CurrencyRng.Next(4, 9),
+                4 => CurrencyRng.Next(5, 11),
+                5 => CurrencyRng.Next(6, 13),
+                _ => CurrencyRng.Next(7, 15)
             };
             winAmount = totalCost * multiplier;
         }
 
         var eb = new EmbedBuilder()
-            .WithTitle(Strings.LotteryDrawTitle(ctx.Guild.Id, rand.Next(1000, 9999)))
+            .WithTitle(Strings.LotteryDrawTitle(ctx.Guild.Id, CurrencyRng.Next(1000, 9999)))
             .WithColor(won ? Color.Green : Color.Red)
-            .AddField(Strings.LotteryTicketCost(ctx.Guild.Id, ticketCost, await Service.GetCurrencyEmote(ctx.Guild.Id)),
-                $"{ticketCost} {await Service.GetCurrencyEmote(ctx.Guild.Id)}", true)
+            .AddField(Strings.LotteryTicketCost(ctx.Guild.Id, ticketCost, emote), $"{ticketCost} {emote}", true)
             .AddField(Strings.LotteryYourTickets(ctx.Guild.Id, ticketCount.ToString()), "", true);
 
         if (won)
         {
-            await Service.AddUserBalanceAsync(ctx.User.Id, winAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, winAmount, Strings.LotteryTransactionWin(ctx.Guild.Id),
-                ctx.Guild.Id);
+            winAmount = await WinAsync(totalCost, (double)winAmount / totalCost, "lottery");
 
-            eb.WithDescription(Strings.LotteryWinner(ctx.Guild.Id, ctx.User.Mention, rand.Next(1, 1000), winAmount,
-                await Service.GetCurrencyEmote(ctx.Guild.Id)));
+            eb.WithDescription(Strings.LotteryWinner(ctx.Guild.Id, ctx.User.Mention, CurrencyRng.Next(1, 1000),
+                winAmount, emote));
         }
         else
         {
-            eb.WithDescription(Strings.LotteryNoWinner(ctx.Guild.Id, totalCost + rand.Next(100, 500),
-                await Service.GetCurrencyEmote(ctx.Guild.Id)));
+            eb.WithDescription(Strings.LotteryNoWinner(ctx.Guild.Id, totalCost + CurrencyRng.Next(100, 500), emote));
         }
 
-        await ReplyAsync(Strings.LotteryTicketsBought(ctx.Guild.Id, ticketCount, totalCost,
-            await Service.GetCurrencyEmote(ctx.Guild.Id)));
+        await ReplyAsync(Strings.LotteryTicketsBought(ctx.Guild.Id, ticketCount, totalCost, emote));
         await ReplyAsync(embed: eb.Build());
     }
 
-    private static (string rank, string suit, int value) GenerateCard(Random rand)
+    private static (string rank, string suit, int value) GenerateCard()
     {
         var suits = new[]
         {
@@ -1629,19 +1471,19 @@ public partial class Currency(
             ("J", 11), ("Q", 12), ("K", 13)
         };
 
-        var suit = suits[rand.Next(suits.Length)];
-        var rank = ranks[rand.Next(ranks.Length)];
+        var suit = suits[CurrencyRng.Next(suits.Length)];
+        var rank = ranks[CurrencyRng.Next(ranks.Length)];
 
         return (rank.Item1, suit, rank.Item2);
     }
 
-    private static (bool won, string description) RollForPoint(Random rand, int point)
+    private static (bool won, string description) RollForPoint(int point)
     {
         var attempts = 0;
         while (attempts < 10) // Prevent infinite loops
         {
-            var die1 = rand.Next(1, 7);
-            var die2 = rand.Next(1, 7);
+            var die1 = CurrencyRng.Next(1, 7);
+            var die2 = CurrencyRng.Next(1, 7);
             var total = die1 + die2;
             attempts++;
 
@@ -1660,23 +1502,22 @@ public partial class Currency(
         {
             "🍒", "🍋", "🍊", "🍇", "⭐", "💎", "🔔", "🍀"
         };
-        var rand = new Random();
 
         if (winning)
         {
-            var winSymbol = symbols[rand.Next(symbols.Length)];
+            var winSymbol = symbols[CurrencyRng.Next(symbols.Length)];
             return $"{winSymbol} {winSymbol} {winSymbol}";
         }
 
-        var symbol1 = symbols[rand.Next(symbols.Length)];
-        var symbol2 = symbols[rand.Next(symbols.Length)];
-        var symbol3 = symbols[rand.Next(symbols.Length)];
+        var symbol1 = symbols[CurrencyRng.Next(symbols.Length)];
+        var symbol2 = symbols[CurrencyRng.Next(symbols.Length)];
+        var symbol3 = symbols[CurrencyRng.Next(symbols.Length)];
 
         // Make sure they're not all the same
         while (symbol1 == symbol2 && symbol2 == symbol3)
         {
-            symbol2 = symbols[rand.Next(symbols.Length)];
-            symbol3 = symbols[rand.Next(symbols.Length)];
+            symbol2 = symbols[CurrencyRng.Next(symbols.Length)];
+            symbol3 = symbols[CurrencyRng.Next(symbols.Length)];
         }
 
         return $"{symbol1} {symbol2} {symbol3}";
@@ -1709,21 +1550,17 @@ public partial class Currency(
     [Aliases]
     public async Task Crash(long betAmount, double targetMultiplier = 2.0)
     {
-        var currentBalance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-        if (betAmount > currentBalance || betAmount <= 0)
-        {
-            await ReplyAsync(Strings.CrashInvalidBet(ctx.Guild.Id));
-            return;
-        }
-
         if (targetMultiplier is < 1.1 or > 10.0)
         {
             await ReplyAsync(Strings.CrashInvalidMultiplier(ctx.Guild.Id));
             return;
         }
 
-        var rand = new Random();
-        var crashPoint = GenerateCrashPoint(rand);
+        if (!await TryTakeBetAsync(betAmount, "crash"))
+            return;
+
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
+        var crashPoint = GenerateCrashPoint();
         var won = targetMultiplier <= crashPoint;
 
         var eb = new EmbedBuilder()
@@ -1734,22 +1571,12 @@ public partial class Currency(
 
         if (won)
         {
-            var winAmount = (long)(betAmount * (targetMultiplier - 1));
-            await Service.AddUserBalanceAsync(ctx.User.Id, winAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, winAmount, Strings.CrashTransactionWon(ctx.Guild.Id),
-                ctx.Guild.Id);
-
-            eb.WithDescription(Strings.CrashWin(ctx.Guild.Id, targetMultiplier, winAmount,
-                await Service.GetCurrencyEmote(ctx.Guild.Id)));
+            var winAmount = await WinAsync(betAmount, targetMultiplier, "crash");
+            eb.WithDescription(Strings.CrashWin(ctx.Guild.Id, targetMultiplier, winAmount - betAmount, emote));
         }
         else
         {
-            await Service.AddUserBalanceAsync(ctx.User.Id, -betAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, -betAmount, Strings.CrashTransactionLost(ctx.Guild.Id),
-                ctx.Guild.Id);
-
-            eb.WithDescription(Strings.CrashLose(ctx.Guild.Id, crashPoint, betAmount,
-                await Service.GetCurrencyEmote(ctx.Guild.Id)));
+            eb.WithDescription(Strings.CrashLose(ctx.Guild.Id, crashPoint, betAmount, emote));
         }
 
         await ReplyAsync(embed: eb.Build());
@@ -1765,13 +1592,6 @@ public partial class Currency(
     [Aliases]
     public async Task Keno(long betAmount, [Remainder] string numbers)
     {
-        var currentBalance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-        if (betAmount > currentBalance || betAmount <= 0)
-        {
-            await ReplyAsync(Strings.KenoInvalidBet(ctx.Guild.Id));
-            return;
-        }
-
         var selectedNumbers = ParseKenoNumbers(numbers);
         if (selectedNumbers.Count is 0 or > 10)
         {
@@ -1785,8 +1605,11 @@ public partial class Currency(
             return;
         }
 
-        var rand = new Random();
-        var drawnNumbers = GenerateKenoNumbers(rand, 20);
+        if (!await TryTakeBetAsync(betAmount, "keno"))
+            return;
+
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
+        var drawnNumbers = GenerateKenoNumbers(20);
         var matches = selectedNumbers.Intersect(drawnNumbers).Count();
         var multiplier = CalculateKenoMultiplier(selectedNumbers.Count, matches);
 
@@ -1799,22 +1622,12 @@ public partial class Currency(
 
         if (multiplier > 0)
         {
-            var winAmount = (long)(betAmount * multiplier);
-            await Service.AddUserBalanceAsync(ctx.User.Id, winAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, winAmount, Strings.KenoTransactionWon(ctx.Guild.Id),
-                ctx.Guild.Id);
-
-            eb.WithDescription(Strings.KenoWin(ctx.Guild.Id, matches, winAmount,
-                await Service.GetCurrencyEmote(ctx.Guild.Id)));
+            var winAmount = await WinAsync(betAmount, multiplier, "keno");
+            eb.WithDescription(Strings.KenoWin(ctx.Guild.Id, matches, winAmount - betAmount, emote));
         }
         else
         {
-            await Service.AddUserBalanceAsync(ctx.User.Id, -betAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, -betAmount, Strings.KenoTransactionLost(ctx.Guild.Id),
-                ctx.Guild.Id);
-
-            eb.WithDescription(Strings.KenoLose(ctx.Guild.Id, matches, betAmount,
-                await Service.GetCurrencyEmote(ctx.Guild.Id)));
+            eb.WithDescription(Strings.KenoLose(ctx.Guild.Id, matches, betAmount, emote));
         }
 
         await ReplyAsync(embed: eb.Build());
@@ -1830,21 +1643,17 @@ public partial class Currency(
     [Aliases]
     public async Task Plinko(long betAmount, int rows = 8)
     {
-        var currentBalance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-        if (betAmount > currentBalance || betAmount <= 0)
-        {
-            await ReplyAsync(Strings.PlinkoInvalidBet(ctx.Guild.Id));
-            return;
-        }
-
         if (rows is < 5 or > 10)
         {
             await ReplyAsync(Strings.PlinkoInvalidRows(ctx.Guild.Id));
             return;
         }
 
-        var rand = new Random();
-        var path = SimulatePlinkoBall(rand, rows);
+        if (!await TryTakeBetAsync(betAmount, "plinko"))
+            return;
+
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
+        var path = SimulatePlinkoBall(rows);
         var slot = path.Last();
         var multiplier = GetPlinkoMultiplier(rows, slot);
 
@@ -1856,20 +1665,15 @@ public partial class Currency(
         bitmap.Encode(stream, SKEncodedImageFormat.Png, 100);
         stream.Seek(0, SeekOrigin.Begin);
 
-        var profit = (long)(betAmount * multiplier) - betAmount;
-        await Service.AddUserBalanceAsync(ctx.User.Id, profit, ctx.Guild.Id);
-        await Service.AddTransactionAsync(ctx.User.Id, profit,
-            profit > 0 ? Strings.PlinkoTransactionWon(ctx.Guild.Id) : Strings.PlinkoTransactionLost(ctx.Guild.Id),
-            ctx.Guild.Id);
+        var returned = multiplier > 0 ? await WinAsync(betAmount, multiplier, "plinko") : 0;
+        var profit = returned - betAmount;
 
         var eb = new EmbedBuilder()
             .WithTitle(Strings.PlinkoTitle(ctx.Guild.Id))
             .WithColor(profit > 0 ? Color.Green : Color.Red)
             .WithDescription(profit > 0
-                ? Strings.PlinkoWin(ctx.Guild.Id, multiplier, Math.Abs(profit),
-                    await Service.GetCurrencyEmote(ctx.Guild.Id))
-                : Strings.PlinkoLose(ctx.Guild.Id, multiplier, Math.Abs(profit),
-                    await Service.GetCurrencyEmote(ctx.Guild.Id)))
+                ? Strings.PlinkoWin(ctx.Guild.Id, multiplier, Math.Abs(profit), emote)
+                : Strings.PlinkoLose(ctx.Guild.Id, multiplier, Math.Abs(profit), emote))
             .AddField(Strings.PlinkoMultiplier(ctx.Guild.Id, $"{multiplier:F2}x"), "", true)
             .AddField(Strings.PlinkoSlot(ctx.Guild.Id, slot.ToString()), "", true)
             .WithImageUrl("attachment://plinko.png");
@@ -1887,13 +1691,6 @@ public partial class Currency(
     [Aliases]
     public async Task WheelFortune(long betAmount, string wheelType = "classic")
     {
-        var currentBalance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-        if (betAmount > currentBalance || betAmount <= 0)
-        {
-            await ReplyAsync(Strings.WheelFortuneInvalidBet(ctx.Guild.Id));
-            return;
-        }
-
         var wheelConfigs = GetWheelConfigurations();
         if (!wheelConfigs.ContainsKey(wheelType.ToLower()))
         {
@@ -1901,9 +1698,11 @@ public partial class Currency(
             return;
         }
 
+        if (!await TryTakeBetAsync(betAmount, "wheelfortune"))
+            return;
+
         var config = wheelConfigs[wheelType.ToLower()];
-        var rand = new Random();
-        var winningIndex = GenerateWeightedRandomSegment(config.segments.Length, config.weights, rand);
+        var winningIndex = GenerateWeightedRandomSegment(config.segments.Length, config.weights);
         var segment = config.segments[winningIndex];
 
         using var bitmap = new SKBitmap(500, 500);
@@ -1914,17 +1713,17 @@ public partial class Currency(
         bitmap.Encode(stream, SKEncodedImageFormat.Png, 100);
         stream.Seek(0, SeekOrigin.Begin);
 
-        var balanceChange = await ComputeWheelBalanceChange(segment, betAmount);
-        await Service.AddUserBalanceAsync(ctx.User.Id, balanceChange, ctx.Guild.Id);
-        await Service.AddTransactionAsync(ctx.User.Id, balanceChange,
-            balanceChange > 0
-                ? Strings.WheelFortuneTransactionWon(ctx.Guild.Id)
-                : Strings.WheelFortuneTransactionLost(ctx.Guild.Id),
-            ctx.Guild.Id);
+        var delta = await ComputeWheelBalanceChange(segment, betAmount);
+        var payout = Math.Max(0, betAmount + delta);
+
+        if (payout > 0)
+            await PayoutAsync(payout, "wheelfortune");
+
+        var balanceChange = payout - betAmount;
 
         var eb = new EmbedBuilder()
             .WithTitle(Strings.WheelFortuneTitle(ctx.Guild.Id))
-            .WithColor(balanceChange > 0 ? Color.Green : Color.Red)
+            .WithColor(balanceChange >= 0 ? Color.Green : Color.Red)
             .WithDescription(Strings.WheelFortuneResult(ctx.Guild.Id, segment))
             .AddField(Strings.WheelFortuneType(ctx.Guild.Id, wheelType.ToUpper()), "", true)
             .WithImageUrl("attachment://wheel.png");
@@ -1941,18 +1740,14 @@ public partial class Currency(
     [Aliases]
     public async Task DuckRace(long betAmount)
     {
-        var currentBalance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-        if (betAmount > currentBalance || betAmount <= 0)
-        {
-            await ReplyAsync(Strings.DuckRaceInvalidBet(ctx.Guild.Id));
+        if (!await TryTakeBetAsync(betAmount, "duckrace"))
             return;
-        }
 
-        var rand = new Random();
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
         var ducks = GenerateDucks(5);
-        var raceResults = SimulateDuckRace(rand, ducks);
+        var raceResults = SimulateDuckRace(ducks);
 
-        var userDuck = rand.Next(ducks.Count);
+        var userDuck = CurrencyRng.Next(ducks.Count);
         var userPosition = raceResults.FindIndex(r => r.duckIndex == userDuck) + 1;
 
         var multiplier = userPosition switch
@@ -1981,22 +1776,12 @@ public partial class Currency(
 
         if (multiplier > 0)
         {
-            var winAmount = (long)(betAmount * multiplier);
-            await Service.AddUserBalanceAsync(ctx.User.Id, winAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, winAmount, Strings.DuckRaceTransactionWon(ctx.Guild.Id),
-                ctx.Guild.Id);
-
-            eb.WithDescription(Strings.DuckRaceWin(ctx.Guild.Id, winAmount,
-                await Service.GetCurrencyEmote(ctx.Guild.Id)));
+            var winAmount = await WinAsync(betAmount, multiplier, "duckrace");
+            eb.WithDescription(Strings.DuckRaceWin(ctx.Guild.Id, winAmount - betAmount, emote));
         }
         else
         {
-            await Service.AddUserBalanceAsync(ctx.User.Id, -betAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, -betAmount, Strings.DuckRaceTransactionLost(ctx.Guild.Id),
-                ctx.Guild.Id);
-
-            eb.WithDescription(Strings.DuckRaceLose(ctx.Guild.Id, betAmount,
-                await Service.GetCurrencyEmote(ctx.Guild.Id)));
+            eb.WithDescription(Strings.DuckRaceLose(ctx.Guild.Id, betAmount, emote));
         }
 
         await ReplyAsync(embed: eb.Build());
@@ -2012,13 +1797,6 @@ public partial class Currency(
     [Aliases]
     public async Task Bingo(long betAmount, string cardType = "small")
     {
-        var currentBalance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-        if (betAmount > currentBalance || betAmount <= 0)
-        {
-            await ReplyAsync(Strings.BingoInvalidBet(ctx.Guild.Id));
-            return;
-        }
-
         var cardConfigs = new Dictionary<string, (int size, int numbers, double winChance, double multiplier)>
         {
             {
@@ -2035,11 +1813,14 @@ public partial class Currency(
             return;
         }
 
+        if (!await TryTakeBetAsync(betAmount, "bingo"))
+            return;
+
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
         var config = cardConfigs[cardType.ToLower()];
-        var rand = new Random();
-        var playerCard = GenerateBingoCard(rand, config.size);
-        var calledNumbers = CallBingoNumbers(rand, config.numbers);
-        var won = CheckBingoWin(playerCard, calledNumbers, rand.NextDouble() < config.winChance);
+        var playerCard = GenerateBingoCard(config.size);
+        var calledNumbers = CallBingoNumbers(config.numbers);
+        var won = CheckBingoWin(playerCard, calledNumbers, CurrencyRng.NextDouble() < config.winChance);
 
         var eb = new EmbedBuilder()
             .WithTitle(Strings.BingoTitle(ctx.Guild.Id))
@@ -2054,21 +1835,12 @@ public partial class Currency(
 
         if (won)
         {
-            var winAmount = (long)(betAmount * config.multiplier);
-            await Service.AddUserBalanceAsync(ctx.User.Id, winAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, winAmount, Strings.BingoTransactionWon(ctx.Guild.Id),
-                ctx.Guild.Id);
-
-            eb.WithDescription(Strings.BingoWin(ctx.Guild.Id, winAmount, await Service.GetCurrencyEmote(ctx.Guild.Id)));
+            var winAmount = await WinAsync(betAmount, config.multiplier, "bingo");
+            eb.WithDescription(Strings.BingoWin(ctx.Guild.Id, winAmount - betAmount, emote));
         }
         else
         {
-            await Service.AddUserBalanceAsync(ctx.User.Id, -betAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, -betAmount, Strings.BingoTransactionLost(ctx.Guild.Id),
-                ctx.Guild.Id);
-
-            eb.WithDescription(Strings.BingoLose(ctx.Guild.Id, betAmount,
-                await Service.GetCurrencyEmote(ctx.Guild.Id)));
+            eb.WithDescription(Strings.BingoLose(ctx.Guild.Id, betAmount, emote));
         }
 
         await ReplyAsync(embed: eb.Build());
@@ -2096,20 +1868,30 @@ public partial class Currency(
             return;
         }
 
-        var userBalance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
         var opponentBalance = await Service.GetUserBalanceAsync(opponent.Id, ctx.Guild.Id);
-
-        if (betAmount > userBalance || betAmount <= 0)
-        {
-            await ReplyAsync(Strings.DiceDuelInvalidBet(ctx.Guild.Id));
-            return;
-        }
 
         if (betAmount > opponentBalance)
         {
             await ReplyAsync(Strings.DiceDuelOpponentInsufficientFunds(ctx.Guild.Id,
                 await Service.GetCurrencyEmote(ctx.Guild.Id)));
             return;
+        }
+
+        var config = await ConfigService.GetConfigAsync(ctx.Guild.Id);
+
+        switch (CurrencyConfigService.ValidateBet(config, betAmount))
+        {
+            case BetValidation.GamblingDisabled:
+                await ErrorAsync(Strings.GamblingDisabled(ctx.Guild.Id));
+                return;
+            case BetValidation.BelowMinimum:
+                await ErrorAsync(Strings.BetBelowMinimum(ctx.Guild.Id, config.MinBet,
+                    await Service.GetCurrencyEmote(ctx.Guild.Id)));
+                return;
+            case BetValidation.AboveMaximum:
+                await ErrorAsync(Strings.BetAboveMaximum(ctx.Guild.Id, config.MaxBet,
+                    await Service.GetCurrencyEmote(ctx.Guild.Id)));
+                return;
         }
 
         var challengeEmbed = new EmbedBuilder()
@@ -2137,13 +1919,6 @@ public partial class Currency(
     [Aliases]
     public async Task Memory(long betAmount, string difficulty = "easy")
     {
-        var currentBalance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-        if (betAmount > currentBalance || betAmount <= 0)
-        {
-            await ReplyAsync(Strings.MemoryInvalidBet(ctx.Guild.Id));
-            return;
-        }
-
         var difficultyConfigs = new Dictionary<string, (int length, int showTime, double multiplier)>
         {
             {
@@ -2163,9 +1938,12 @@ public partial class Currency(
             return;
         }
 
+        if (!await TryTakeBetAsync(betAmount, "memory"))
+            return;
+
+        var emote = await Service.GetCurrencyEmote(ctx.Guild.Id);
         var config = difficultyConfigs[difficulty.ToLower()];
-        var rand = new Random();
-        var sequence = GenerateMemorySequence(rand, config.length);
+        var sequence = GenerateMemorySequence(config.length);
         var emojis = new[]
         {
             "🔴", "🟡", "🟢", "🔵", "🟣", "🟠", "⚫", "⚪"
@@ -2196,14 +1974,9 @@ public partial class Currency(
 
         if (response == null)
         {
-            await Service.AddUserBalanceAsync(ctx.User.Id, -betAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, -betAmount, Strings.MemoryTransactionLost(ctx.Guild.Id),
-                ctx.Guild.Id);
-
             var timeoutEmbed = new EmbedBuilder()
                 .WithTitle(Strings.MemoryTitle(ctx.Guild.Id))
-                .WithDescription(Strings.MemoryTimeout(ctx.Guild.Id, betAmount,
-                    await Service.GetCurrencyEmote(ctx.Guild.Id)))
+                .WithDescription(Strings.MemoryTimeout(ctx.Guild.Id, betAmount, emote))
                 .WithColor(Color.Red);
 
             await ReplyAsync(embed: timeoutEmbed.Build());
@@ -2215,29 +1988,20 @@ public partial class Currency(
 
         if (isCorrect)
         {
-            var winAmount = (long)(betAmount * config.multiplier);
-            await Service.AddUserBalanceAsync(ctx.User.Id, winAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, winAmount, Strings.MemoryTransactionWon(ctx.Guild.Id),
-                ctx.Guild.Id);
+            var winAmount = await WinAsync(betAmount, config.multiplier, "memory");
 
             var winEmbed = new EmbedBuilder()
                 .WithTitle(Strings.MemoryTitle(ctx.Guild.Id))
-                .WithDescription(Strings.MemoryCorrect(ctx.Guild.Id, winAmount,
-                    await Service.GetCurrencyEmote(ctx.Guild.Id)))
+                .WithDescription(Strings.MemoryCorrect(ctx.Guild.Id, winAmount - betAmount, emote))
                 .WithColor(Color.Green);
 
             await ReplyAsync(embed: winEmbed.Build());
         }
         else
         {
-            await Service.AddUserBalanceAsync(ctx.User.Id, -betAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, -betAmount, Strings.MemoryTransactionLost(ctx.Guild.Id),
-                ctx.Guild.Id);
-
             var loseEmbed = new EmbedBuilder()
                 .WithTitle(Strings.MemoryTitle(ctx.Guild.Id))
-                .WithDescription(Strings.MemoryIncorrect(ctx.Guild.Id, sequenceDisplay, betAmount,
-                    await Service.GetCurrencyEmote(ctx.Guild.Id)))
+                .WithDescription(Strings.MemoryIncorrect(ctx.Guild.Id, sequenceDisplay, betAmount, emote))
                 .WithColor(Color.Red);
 
             await ReplyAsync(embed: loseEmbed.Build());
@@ -2245,15 +2009,15 @@ public partial class Currency(
     }
 
 
-    private static double GenerateCrashPoint(Random rand)
+    private static double GenerateCrashPoint()
     {
-        var roll = rand.NextDouble();
+        var roll = CurrencyRng.NextDouble();
         return roll switch
         {
-            < 0.5 => 1.0 + rand.NextDouble() * 0.5,
-            < 0.8 => 1.5 + rand.NextDouble() * 1.5,
-            < 0.95 => 3.0 + rand.NextDouble() * 2.0,
-            _ => 5.0 + rand.NextDouble() * 5.0
+            < 0.5 => 1.0 + CurrencyRng.NextDouble() * 0.5,
+            < 0.8 => 1.5 + CurrencyRng.NextDouble() * 1.5,
+            < 0.95 => 3.0 + CurrencyRng.NextDouble() * 2.0,
+            _ => 5.0 + CurrencyRng.NextDouble() * 5.0
         };
     }
 
@@ -2275,12 +2039,12 @@ public partial class Currency(
         return numbers.ToList();
     }
 
-    private static HashSet<int> GenerateKenoNumbers(Random rand, int count)
+    private static HashSet<int> GenerateKenoNumbers(int count)
     {
         var numbers = new HashSet<int>();
         while (numbers.Count < count)
         {
-            numbers.Add(rand.Next(1, 81));
+            numbers.Add(CurrencyRng.Next(1, 81));
         }
 
         return numbers;
@@ -2304,7 +2068,7 @@ public partial class Currency(
         };
     }
 
-    private static List<int> SimulatePlinkoBall(Random rand, int rows)
+    private static List<int> SimulatePlinkoBall(int rows)
     {
         var path = new List<int>
         {
@@ -2314,7 +2078,7 @@ public partial class Currency(
         for (var i = 0; i < rows; i++)
         {
             var currentPos = path.Last();
-            var direction = rand.Next(2) == 0 ? -1 : 1;
+            var direction = CurrencyRng.Next(2) == 0 ? -1 : 1;
             var newPos = Math.Max(0, Math.Min(rows, currentPos + direction));
             path.Add(newPos);
         }
@@ -2493,20 +2257,20 @@ public partial class Currency(
         return ducks;
     }
 
-    private static List<(int duckIndex, double time)> SimulateDuckRace(Random rand, List<string> ducks)
+    private static List<(int duckIndex, double time)> SimulateDuckRace(List<string> ducks)
     {
         var results = new List<(int duckIndex, double time)>();
 
         for (var i = 0; i < ducks.Count; i++)
         {
-            var time = 10.0 + rand.NextDouble() * 5.0;
+            var time = 10.0 + CurrencyRng.NextDouble() * 5.0;
             results.Add((i, time));
         }
 
         return results.OrderBy(r => r.time).ToList();
     }
 
-    private static int[,] GenerateBingoCard(Random rand, int size)
+    private static int[,] GenerateBingoCard(int size)
     {
         var card = new int[size, size];
         var used = new HashSet<int>();
@@ -2518,7 +2282,7 @@ public partial class Currency(
                 int number;
                 do
                 {
-                    number = rand.Next(1, 76);
+                    number = CurrencyRng.Next(1, 76);
                 } while (used.Contains(number));
 
                 used.Add(number);
@@ -2529,12 +2293,12 @@ public partial class Currency(
         return card;
     }
 
-    private static List<int> CallBingoNumbers(Random rand, int count)
+    private static List<int> CallBingoNumbers(int count)
     {
         var numbers = new HashSet<int>();
         while (numbers.Count < count)
         {
-            numbers.Add(rand.Next(1, 76));
+            numbers.Add(CurrencyRng.Next(1, 76));
         }
 
         return numbers.ToList();
@@ -2593,12 +2357,12 @@ public partial class Currency(
         return result;
     }
 
-    private static List<int> GenerateMemorySequence(Random rand, int length)
+    private static List<int> GenerateMemorySequence(int length)
     {
         var sequence = new List<int>();
         for (var i = 0; i < length; i++)
         {
-            sequence.Add(rand.Next(0, 8));
+            sequence.Add(CurrencyRng.Next(0, 8));
         }
 
         return sequence;
@@ -2689,9 +2453,8 @@ public partial class Currency(
 
         if (reward > 0)
         {
-            await Service.AddUserBalanceAsync(ctx.User.Id, reward, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, reward,
-                Strings.DailyChallengeTransactionReward(ctx.Guild.Id), ctx.Guild.Id);
+            await Service.CreditAsync(ctx.User.Id, reward, Strings.DailyChallengeTransactionReward(ctx.Guild.Id),
+                CurrencyCategory.Challenge, ctx.Guild.Id, "challenge");
 
             await ReplyConfirmAsync(Strings.DailyChallengeClaimed(ctx.Guild.Id, reward,
                 await Service.GetCurrencyEmote(ctx.Guild.Id)));
@@ -2749,12 +2512,11 @@ public partial class Currency(
     /// </summary>
     /// <param name="segmentCount">Number of segments.</param>
     /// <param name="weights">Weight array for each segment.</param>
-    /// <param name="rand">Random generator.</param>
     /// <returns>The selected segment index.</returns>
-    private static int GenerateWeightedRandomSegment(int segmentCount, int[] weights, Random rand)
+    private static int GenerateWeightedRandomSegment(int segmentCount, int[] weights)
     {
         var totalWeight = weights.Sum();
-        var randomValue = rand.Next(totalWeight);
+        var randomValue = CurrencyRng.Next(totalWeight);
 
         var currentWeight = 0;
         for (var i = 0; i < segmentCount; i++)

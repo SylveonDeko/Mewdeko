@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Shows commands for a specific module. If null, it''s an alias for modules
-    which is an alias for help. Hmph, just look it up!
+    Shows commands for a specific module, optionally narrowed by a search term. If null, it's an alias for modules which is an alias for help. Hmph, just look it up!
   params:
-    - desc: 'The module to look at. Don''t pick a weird one!'
+    - desc: 'The module to look at, optionally followed by a term to filter its commands. Don''t pick a weird one!'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Shows commands for a specific module. If null, it''s an alias for modules
-    which is an alias for help. Hmph, just look it up!
+    Shows commands for a specific module, optionally narrowed by a search term. If null, it's an alias for modules which is an alias for help. Hmph, just look it up!
   params:
-    - desc: 'The module to look at. Don''t pick a weird one!'
+    - desc: 'The module to look at, optionally followed by a term to filter its commands. Don''t pick a weird one!'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Shows commands for a specific module. If null, it''s an alias for modules
-    which is an alias for help. Hmph, just look it up!
+    Shows commands for a specific module, optionally narrowed by a search term. If null, it's an alias for modules which is an alias for help. Hmph, just look it up!
   params:
-    - desc: 'The module to look at. Don''t pick a weird one!'
+    - desc: 'The module to look at, optionally followed by a term to filter its commands. Don''t pick a weird one!'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Shows commands for a specific module. If null, it''s an alias for modules
-    which is an alias for help. Hmph, just look it up!
+    Shows commands for a specific module, optionally narrowed by a search term. If null, it's an alias for modules which is an alias for help. Hmph, just look it up!
   params:
-    - desc: 'The module to look at. Don''t pick a weird one!'
+    - desc: 'The module to look at, optionally followed by a term to filter its commands. Don''t pick a weird one!'
       name: module
       optional: true
       type: string

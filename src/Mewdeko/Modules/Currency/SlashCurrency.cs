@@ -1,4 +1,6 @@
 using Discord.Interactions;
+using Mewdeko.Database.Enums;
+using Mewdeko.Modules.Currency.Common;
 using Mewdeko.Modules.Currency.Services;
 
 namespace Mewdeko.Modules.Currency;
@@ -31,10 +33,8 @@ public class SlashCurrency : MewdekoSlashCommandModule
             return;
         }
 
-        var challengerBalance = await Service.GetUserBalanceAsync(challengerId, ctx.Guild.Id);
-        var accepterBalance = await Service.GetUserBalanceAsync(ctx.User.Id, ctx.Guild.Id);
-
-        if (betAmount > challengerBalance || betAmount > accepterBalance)
+        if (!await Service.TryDebitAsync(ctx.User.Id, betAmount, Strings.DiceDuelTransactionStake(ctx.Guild.Id),
+                CurrencyCategory.GameBet, ctx.Guild.Id, "diceduel"))
         {
             await RespondAsync(
                 Strings.DiceDuelInsufficientFundsAccept(ctx.Guild.Id, await Service.GetCurrencyEmote(ctx.Guild.Id)),
@@ -42,46 +42,51 @@ public class SlashCurrency : MewdekoSlashCommandModule
             return;
         }
 
-        // Roll dice for both players
-        var rand = new Random();
-        var challengerRoll = rand.Next(1, 7);
-        var accepterRoll = rand.Next(1, 7);
+        if (!await Service.TryDebitAsync(challengerId, betAmount, Strings.DiceDuelTransactionStake(ctx.Guild.Id),
+                CurrencyCategory.GameBet, ctx.Guild.Id, "diceduel"))
+        {
+            await Service.CreditAsync(ctx.User.Id, betAmount, Strings.DiceDuelTransactionRefund(ctx.Guild.Id),
+                CurrencyCategory.GamePayout, ctx.Guild.Id, "diceduel");
+
+            await RespondAsync(
+                Strings.DiceDuelChallengerBroke(ctx.Guild.Id, await Service.GetCurrencyEmote(ctx.Guild.Id)),
+                ephemeral: true);
+            return;
+        }
+
+        var challengerRoll = CurrencyRng.Next(1, 7);
+        var accepterRoll = CurrencyRng.Next(1, 7);
+        var pot = betAmount * 2;
 
         var eb = new EmbedBuilder()
             .WithTitle(Strings.DiceDuelResultTitle(ctx.Guild.Id))
             .WithColor(challengerRoll == accepterRoll ? Color.Gold : Color.Green);
 
+        var challenger = await ctx.Guild.GetUserAsync(challengerId);
+
         if (challengerRoll > accepterRoll)
         {
-            // Challenger wins
-            await Service.AddUserBalanceAsync(challengerId, betAmount, ctx.Guild.Id);
-            await Service.AddUserBalanceAsync(ctx.User.Id, -betAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(challengerId, betAmount, Strings.DiceDuelTransactionWon(ctx.Guild.Id),
-                ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, -betAmount, Strings.DiceDuelTransactionLost(ctx.Guild.Id),
-                ctx.Guild.Id);
+            await Service.CreditAsync(challengerId, pot, Strings.DiceDuelTransactionWon(ctx.Guild.Id),
+                CurrencyCategory.GamePayout, ctx.Guild.Id, "diceduel");
 
-            var challenger = await ctx.Guild.GetUserAsync(challengerId);
             eb.WithDescription(Strings.DiceDuelChallengerWin(ctx.Guild.Id, challenger?.Mention ?? "Challenger",
                 challengerRoll, ctx.User.Mention, accepterRoll));
         }
         else if (accepterRoll > challengerRoll)
         {
-            // Accepter wins
-            await Service.AddUserBalanceAsync(ctx.User.Id, betAmount, ctx.Guild.Id);
-            await Service.AddUserBalanceAsync(challengerId, -betAmount, ctx.Guild.Id);
-            await Service.AddTransactionAsync(ctx.User.Id, betAmount, Strings.DiceDuelTransactionWon(ctx.Guild.Id),
-                ctx.Guild.Id);
-            await Service.AddTransactionAsync(challengerId, -betAmount, Strings.DiceDuelTransactionLost(ctx.Guild.Id),
-                ctx.Guild.Id);
+            await Service.CreditAsync(ctx.User.Id, pot, Strings.DiceDuelTransactionWon(ctx.Guild.Id),
+                CurrencyCategory.GamePayout, ctx.Guild.Id, "diceduel");
 
-            var challenger = await ctx.Guild.GetUserAsync(challengerId);
             eb.WithDescription(Strings.DiceDuelAccepterWin(ctx.Guild.Id, ctx.User.Mention, accepterRoll,
                 challenger?.Mention ?? "Challenger", challengerRoll));
         }
         else
         {
-            // Tie - no money changes hands
+            await Service.CreditAsync(challengerId, betAmount, Strings.DiceDuelTransactionRefund(ctx.Guild.Id),
+                CurrencyCategory.GamePayout, ctx.Guild.Id, "diceduel");
+            await Service.CreditAsync(ctx.User.Id, betAmount, Strings.DiceDuelTransactionRefund(ctx.Guild.Id),
+                CurrencyCategory.GamePayout, ctx.Guild.Id, "diceduel");
+
             eb.WithDescription(Strings.DiceDuelTie(ctx.Guild.Id, challengerRoll.ToString()));
         }
 
@@ -100,7 +105,6 @@ public class SlashCurrency : MewdekoSlashCommandModule
             return;
         }
 
-        var challenger = await ctx.Guild.GetUserAsync(challengerId);
         await RespondAsync(Strings.DiceDuelDeclined(ctx.Guild.Id));
     }
 
@@ -118,9 +122,8 @@ public class SlashCurrency : MewdekoSlashCommandModule
 
         if (winnings > 0)
         {
-            await Service.AddUserBalanceAsync(userId, winnings, ctx.Guild.Id);
-            await Service.AddTransactionAsync(userId, winnings, Strings.TriviaChainTransactionCashedOut(ctx.Guild.Id),
-                ctx.Guild.Id);
+            await Service.CreditAsync(userId, winnings, Strings.TriviaChainTransactionCashedOut(ctx.Guild.Id),
+                CurrencyCategory.GamePayout, ctx.Guild.Id, "triviachain");
 
             await RespondAsync(Strings.TriviaChainCashedOut(ctx.Guild.Id, winnings,
                 await Service.GetCurrencyEmote(ctx.Guild.Id)));

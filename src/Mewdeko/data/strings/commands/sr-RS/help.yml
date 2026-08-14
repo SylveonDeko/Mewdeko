@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Приказује команде за одређени модул. Ако је null, то је псеудоним за
-    modules који је псеудоним за help.
+    Prikazuje komande određenog modula, opciono suzene pojmom za pretragu. Ako je null, ovo je alias za modules, koji je alias za help.
   params:
-    - desc: 'Модул за преглед'
+    - desc: 'Modul koji se pregleda, opciono praćen pojmom za filtriranje njegovih komandi'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Приказује команде за одређени модул. Ако је null, то је псеудоним за
-    modules који је псеудоним за help.
+    Prikazuje komande određenog modula, opciono suzene pojmom za pretragu. Ako je null, ovo je alias za modules, koji je alias za help.
   params:
-    - desc: 'Модул за преглед'
+    - desc: 'Modul koji se pregleda, opciono praćen pojmom za filtriranje njegovih komandi'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Приказује команде за одређени модул. Ако је null, то је псеудоним за
-    modules који је псеудоним за help.
+    Prikazuje komande određenog modula, opciono suzene pojmom za pretragu. Ako je null, ovo je alias za modules, koji je alias za help.
   params:
-    - desc: 'Модул за преглед'
+    - desc: 'Modul koji se pregleda, opciono praćen pojmom za filtriranje njegovih komandi'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Приказује команде за одређени модул. Ако је null, то је псеудоним за
-    modules који је псеудоним за help.
+    Prikazuje komande određenog modula, opciono suzene pojmom za pretragu. Ako je null, ovo je alias za modules, koji je alias za help.
   params:
-    - desc: 'Модул за преглед'
+    - desc: 'Modul koji se pregleda, opciono praćen pojmom za filtriranje njegovih komandi'
       name: module
       optional: true
       type: string

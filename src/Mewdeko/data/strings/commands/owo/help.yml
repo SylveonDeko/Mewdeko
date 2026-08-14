@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Shows commands fow a specific moduwe. If nyuww, is an awias fow modules
-    which is an awias fow hewp. uwu
+    Shows commands fow a specific moduwe, optionyawwy nyawwowed by a seawch tewm. If nyuww, is an awias fow modules which is an awias fow hewp. uwu
   params:
-    - desc: 'Da moduwe to wook at owo'
+    - desc: 'Da moduwe to wook at, optionyawwy fowwowed by a wowd to fiwtew its commands owo'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Shows commands fow a specific moduwe. If nyuww, is an awias fow modules
-    which is an awias fow hewp. uwu
+    Shows commands fow a specific moduwe, optionyawwy nyawwowed by a seawch tewm. If nyuww, is an awias fow modules which is an awias fow hewp. uwu
   params:
-    - desc: 'Da moduwe to wook at owo'
+    - desc: 'Da moduwe to wook at, optionyawwy fowwowed by a wowd to fiwtew its commands owo'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Shows commands fow a specific moduwe. If nyuww, is an awias fow modules
-    which is an awias fow hewp. uwu
+    Shows commands fow a specific moduwe, optionyawwy nyawwowed by a seawch tewm. If nyuww, is an awias fow modules which is an awias fow hewp. uwu
   params:
-    - desc: 'Da moduwe to wook at owo'
+    - desc: 'Da moduwe to wook at, optionyawwy fowwowed by a wowd to fiwtew its commands owo'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Shows commands fow a specific moduwe. If nyuww, is an awias fow modules
-    which is an awias fow hewp. uwu
+    Shows commands fow a specific moduwe, optionyawwy nyawwowed by a seawch tewm. If nyuww, is an awias fow modules which is an awias fow hewp. uwu
   params:
-    - desc: 'Da moduwe to wook at owo'
+    - desc: 'Da moduwe to wook at, optionyawwy fowwowed by a wowd to fiwtew its commands owo'
       name: module
       optional: true
       type: string

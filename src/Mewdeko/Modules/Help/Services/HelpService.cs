@@ -4,6 +4,8 @@ using CommandLine;
 using Discord.Commands;
 using Discord.Interactions;
 using Discord.Rest;
+using Fergun.Interactive;
+using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Administration.Services;
@@ -13,7 +15,6 @@ using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Mewdeko.Services.Strings;
-using MoreLinq;
 using ModuleInfo = Discord.Commands.ModuleInfo;
 
 namespace Mewdeko.Modules.Help.Services;
@@ -23,6 +24,59 @@ namespace Mewdeko.Modules.Help.Services;
 /// </summary>
 public class HelpService : INService, IReadyExecutor
 {
+    private const int CommandsPerPage = 10;
+    private const int MaxFieldLength = 1024;
+    private const int SubmoduleIndexThreshold = 30;
+    private const string UncategorizedCategory = "other";
+
+    private static readonly string[] CategoryOrder =
+        ["moderation", "serversetup", "fun", "economy", "music", "utility", "owner", UncategorizedCategory];
+
+    private static readonly IReadOnlyDictionary<string, string> ModuleCategories =
+        new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["Administration"] = "moderation",
+            ["Moderation"] = "moderation",
+            ["Permissions"] = "moderation",
+            ["ServerManagement"] = "moderation",
+            ["RoleStates"] = "moderation",
+            ["StatusRoles"] = "moderation",
+            ["CountingModeration"] = "moderation",
+            ["MultiGreets"] = "serversetup",
+            ["RoleGreets"] = "serversetup",
+            ["Starboard"] = "serversetup",
+            ["StatChannels"] = "serversetup",
+            ["Suggestions"] = "serversetup",
+            ["Tickets"] = "serversetup",
+            ["Confessions"] = "serversetup",
+            ["CustomVoice"] = "serversetup",
+            ["ChatTriggers"] = "serversetup",
+            ["PollCommands"] = "serversetup",
+            ["Giveaways"] = "serversetup",
+            ["Games"] = "fun",
+            ["Counting"] = "fun",
+            ["Nsfw"] = "fun",
+            ["Searches"] = "fun",
+            ["Minecraft"] = "fun",
+            ["Switch"] = "fun",
+            ["Currency"] = "economy",
+            ["Xp"] = "economy",
+            ["Reputation"] = "economy",
+            ["Vote"] = "economy",
+            ["Patreon"] = "economy",
+            ["Music"] = "music",
+            ["Utility"] = "utility",
+            ["Help"] = "utility",
+            ["Afk"] = "utility",
+            ["Todo"] = "utility",
+            ["UserProfile"] = "utility",
+            ["Birthday"] = "utility",
+            ["Highlights"] = "utility",
+            ["CoprMonitoring"] = "utility",
+            ["OwnerOnly"] = "owner",
+            ["InstanceManagement"] = "owner"
+        };
+
     private readonly BlacklistService blacklistService;
     private readonly Mewdeko bot;
     private readonly BotConfigService bss;
@@ -33,10 +87,12 @@ public class HelpService : INService, IReadyExecutor
     private readonly GeneratedBotStrings genStrings;
     private readonly GuildSettingsService guildSettings;
     private readonly InteractionService interactionService;
+    private readonly ILocalization localization;
     private readonly ILogger<HelpService> logger;
     private readonly PermissionService nPerms;
     private readonly GlobalPermissionService perms;
     private readonly IBotStrings strings;
+    private readonly IBotStringsProvider stringsProvider;
 
     // Cached slash commands - fetched once at startup
     private IReadOnlyCollection<RestGlobalCommand>? cachedGlobalCommands;
@@ -58,6 +114,8 @@ public class HelpService : INService, IReadyExecutor
     /// <param name="guildSettings">Service to get guild configs</param>
     /// <param name="eventHandler">The event handler Sylveon made because the events in dnet were single threaded.</param>
     /// <param name="genStrings">The class that holds generated locale strings.</param>
+    /// <param name="stringsProvider">The raw strings provider, used for convention based module descriptions.</param>
+    /// <param name="localization">The localization service used to resolve a guild's culture.</param>
     /// <param name="logger">The logger instance.</param>
     public HelpService(
         IBotStrings strings,
@@ -73,10 +131,14 @@ public class HelpService : INService, IReadyExecutor
         GuildSettingsService guildSettings,
         EventHandler eventHandler,
         GeneratedBotStrings genStrings,
+        IBotStringsProvider stringsProvider,
+        ILocalization localization,
         ILogger<HelpService> logger)
     {
         this.dpos = dpos;
         this.strings = strings;
+        this.stringsProvider = stringsProvider;
+        this.localization = localization;
         this.client = client;
         this.bot = bot;
         this.blacklistService = blacklistService;
@@ -105,6 +167,27 @@ public class HelpService : INService, IReadyExecutor
         catch (Exception ex)
         {
             logger.LogWarning(ex, "Failed to cache global slash commands");
+        }
+
+        var uncategorized = GetVisibleModules()
+            .Where(m => !ModuleCategories.ContainsKey(m.Name))
+            .Select(m => m.Name)
+            .ToList();
+        if (uncategorized.Count > 0)
+        {
+            logger.LogWarning(
+                "Modules {Modules} have no help category and will show under '{Fallback}'. Add them to HelpService.ModuleCategories",
+                string.Join(", ", uncategorized), UncategorizedCategory);
+        }
+
+        var undescribed = GetVisibleModules()
+            .Where(m => stringsProvider.GetText("en-US", $"module_description_{m.Name.ToLowerInvariant()}") is null)
+            .Select(m => m.Name)
+            .ToList();
+        if (undescribed.Count > 0)
+        {
+            logger.LogWarning("Modules {Modules} have no module_description_ key in en-US help.json",
+                string.Join(", ", undescribed));
         }
     }
 
@@ -152,99 +235,443 @@ public class HelpService : INService, IReadyExecutor
     }
 
     /// <summary>
-    ///     Builds the select menus for the modules
+    ///     Builds the category select menu shown on the landing help menu.
     /// </summary>
     /// <param name="guild">The guild the help menu was executed in, may be null if in dm</param>
     /// <param name="user">The user that executed the help menu</param>
-    /// <param name="descriptions">Whether descriptions are on or off</param>
-    /// <returns>A <see cref="ComponentBuilder" /> instance with the bots modules in it</returns>
+    /// <param name="descriptions">Whether the module lists per category are expanded</param>
+    /// <returns>A <see cref="ComponentBuilder" /> instance with the bots categories in it</returns>
     public ComponentBuilder GetHelpComponents(IGuild? guild, IUser user, bool descriptions = true)
     {
-        var modules = cmds.Commands.Select(x => x.Module).Where(x => !x.IsSubmodule).Distinct();
+        var guildId = guild?.Id ?? 0;
         var compBuilder = new ComponentBuilder();
-        var menuCount = (modules.Count() - 1) / 25 + 1;
+        var selMenu = new SelectMenuBuilder()
+            .WithCustomId("helpcat")
+            .WithPlaceholder(genStrings.HelpSelectCategory(guildId));
 
-        for (var j = 0; j < menuCount; j++)
+        foreach (var category in GetPopulatedCategories())
         {
-            var selMenu = new SelectMenuBuilder().WithCustomId($"helpselect:{j}");
-            foreach (var i in modules.Skip(j * 25).Take(25)
-                         .Where(x => !x.Attributes.Any(attribute => attribute is HelpDisabled)))
-            {
-                selMenu.Options.Add(new SelectMenuOptionBuilder()
-                    .WithLabel(i.Name).WithDescription(GetModuleDescription(i.Name, guild))
-                    .WithValue(i.Name.ToLower()));
-            }
-
-            compBuilder.WithSelectMenu(selMenu); // add the select menu to the component builder
+            var modules = GetModulesInCategory(category);
+            selMenu.Options.Add(new SelectMenuOptionBuilder()
+                .WithLabel(GetCategoryName(category, guildId))
+                .WithDescription(genStrings.HelpCategoryCounts(guildId, modules.Count,
+                    modules.Sum(CountVisibleCommands)))
+                .WithValue(category));
         }
 
-        compBuilder.WithButton(genStrings.ToggleDescriptions(guild?.Id ?? 0),
+        compBuilder.WithSelectMenu(selMenu);
+
+        compBuilder.WithButton(genStrings.ToggleDescriptions(guildId),
             $"toggle-descriptions:{descriptions},{user.Id}");
-        compBuilder.WithButton(genStrings.InviteMe(guild?.Id ?? 0), style: ButtonStyle.Link,
+        compBuilder.WithButton(genStrings.InviteMe(guildId), style: ButtonStyle.Link,
             url:
             "https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303&scope=bot%20applications.commands");
-        compBuilder.WithButton(genStrings.Donatetext(guild?.Id ?? 0), style: ButtonStyle.Link,
+        compBuilder.WithButton(genStrings.Donatetext(guildId), style: ButtonStyle.Link,
             url: "https://ko-fi.com/mewdeko");
         return compBuilder;
     }
 
 
     /// <summary>
-    ///     Builds the help embed for the help menu
+    ///     Builds the landing help embed listing the command categories.
     /// </summary>
-    /// <param name="description">Whether descriptions for each module are on or off</param>
+    /// <param name="description">Whether each category is expanded into its module list</param>
     /// <param name="guild">The guild where the help menu was executed</param>
     /// <param name="channel">The channel where the help menu was executed</param>
     /// <param name="user">The user who executed the help menu</param>
-    /// <returns></returns>
+    /// <returns>An <see cref="EmbedBuilder" /> listing every populated category</returns>
     public async Task<EmbedBuilder> GetHelpEmbed(bool description, IGuild? guild, IMessageChannel channel, IUser user)
     {
+        var guildId = guild?.Id ?? 0;
         var prefix = await guildSettings.GetPrefix(guild);
         EmbedBuilder embed = new();
         embed.WithAuthor(new EmbedAuthorBuilder()
-            .WithName(genStrings.HelpmenuHelptext(guild?.Id ?? 0, client.CurrentUser))
+            .WithName(genStrings.HelpmenuHelptext(guildId, client.CurrentUser))
             .WithIconUrl(client.CurrentUser.RealAvatarUrl().AbsoluteUri));
         embed.WithOkColor();
         embed.WithDescription(
-            genStrings.CommandHelpDescription(guild?.Id ?? 0, prefix) +
-            $"\n{genStrings.ModuleHelpDescription(guild?.Id ?? 0, prefix)}" +
-            "\n\n**Youtube Tutorials**\nhttps://www.youtube.com/channel/UCKJEaaZMJQq6lH33L3b_sTg\n\n**Links**\n" +
-            $"[Documentation](https://mewdeko.tech) | [Support Server]({bss.Data.SupportServer}) | [Invite Me](https://discord.com/oauth2/authorize?client_id={bot.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko)");
-        var modules = cmds.Commands.Select(x => x.Module)
-            .Where(x => !x.IsSubmodule && !x.Attributes.Any(attribute => attribute is HelpDisabled)).Distinct();
-        var count = 0;
+            genStrings.HelpCategoriesDescription(guildId, prefix) +
+            $"\n\n[Documentation](https://mewdeko.tech) | [Support Server]({bss.Data.SupportServer}) | [Invite Me](https://discord.com/oauth2/authorize?client_id={bot.Client.CurrentUser.Id}&scope=bot&permissions=66186303&scope=bot%20applications.commands) | [Top.gg Listing](https://top.gg/bot/752236274261426212) | [Donate!](https://ko-fi.com/mewdeko)");
+
+        var categories = GetPopulatedCategories();
+
         if (description)
         {
-            foreach (var mod in modules)
+            foreach (var category in categories)
             {
-                embed.AddField($"{await CheckEnabled(guild?.Id, channel, user, mod.Name)} {mod.Name}",
-                    $">>> {GetModuleDescription(mod.Name, guild)}", true);
+                var modules = GetModulesInCategory(category);
+                var lines = await Task.WhenAll(modules.Select(async m =>
+                    $"> {await CheckEnabled(guild?.Id, channel, user, m.Name)} {Format.Bold(m.Name)}"));
+                embed.AddField(GetCategoryName(category, guildId), string.Join("\n", lines), true);
             }
         }
         else
         {
-            foreach (var i in modules.Batch(modules.Count() / 2))
+            var lines = new List<string>();
+            foreach (var category in categories)
             {
-                var categoryStrings = await Task.WhenAll(i.Select(x =>
-                    GetCategoryStringAsync(x)
-                ));
-
-                embed.AddField(
-                    count == 0 ? "Categories" : "_ _",
-                    string.Join("\n", categoryStrings),
-                    true
-                );
-                count++;
+                var modules = GetModulesInCategory(category);
+                lines.Add(
+                    $"> {Format.Bold(GetCategoryName(category, guildId))} - {genStrings.HelpCategoryCounts(guildId, modules.Count, modules.Sum(CountVisibleCommands))}");
             }
 
-            async Task<string> GetCategoryStringAsync(ModuleInfo module)
-            {
-                var enabled = await CheckEnabled(guild?.Id, channel, user, module.Name).ConfigureAwait(false);
-                return $"> {enabled} {Format.Bold(module.Name)}";
-            }
+            embed.AddField(genStrings.HelpCategoriesTitle(guildId), string.Join("\n", lines));
         }
 
         return embed;
+    }
+
+    /// <summary>
+    ///     Builds the embed and components listing every module inside a category.
+    /// </summary>
+    /// <param name="category">The category key</param>
+    /// <param name="guild">The guild where the help menu was executed</param>
+    /// <param name="channel">The channel where the help menu was executed</param>
+    /// <param name="user">The user who executed the help menu</param>
+    /// <returns>A tuple containing an <see cref="EmbedBuilder" /> and <see cref="ComponentBuilder" /></returns>
+    public async Task<(EmbedBuilder Embed, ComponentBuilder Components)> GetCategoryEmbed(string category,
+        IGuild? guild, IMessageChannel channel, IUser user)
+    {
+        var guildId = guild?.Id ?? 0;
+        var modules = GetModulesInCategory(category);
+        var embed = new EmbedBuilder()
+            .WithOkColor()
+            .WithTitle(GetCategoryName(category, guildId))
+            .WithDescription(genStrings.HelpCategoryCounts(guildId, modules.Count,
+                modules.Sum(CountVisibleCommands)));
+
+        // A stale component from before a restart can name a category that no longer has modules, and Discord
+        // rejects a select menu with zero options, so fall back to the back button on its own.
+        if (modules.Count == 0)
+        {
+            return (embed.WithDescription(genStrings.ModuleNotFoundOrCantExec(guildId)),
+                new ComponentBuilder().WithButton(genStrings.HelpBack(guildId), "helpback:categories",
+                    ButtonStyle.Secondary));
+        }
+
+        var selMenu = new SelectMenuBuilder()
+            .WithCustomId($"helpmodule:{category}")
+            .WithPlaceholder(genStrings.HelpSelectModule(guildId));
+
+        foreach (var module in modules)
+        {
+            var count = CountVisibleCommands(module);
+            embed.AddField($"{await CheckEnabled(guild?.Id, channel, user, module.Name)} {module.Name}",
+                $">>> {GetModuleDescription(module.Name, guild) ?? genStrings.HelpCommandCount(guildId, count)}", true);
+            selMenu.Options.Add(new SelectMenuOptionBuilder()
+                .WithLabel(module.Name)
+                .WithDescription(genStrings.HelpCommandCount(guildId, count))
+                .WithValue(module.Name.ToLowerInvariant()));
+        }
+
+        var components = new ComponentBuilder()
+            .WithSelectMenu(selMenu)
+            .WithButton(genStrings.HelpBack(guildId), "helpback:categories", ButtonStyle.Secondary);
+
+        return (embed, components);
+    }
+
+    /// <summary>
+    ///     Builds the section index for a module, letting users jump straight to a submodule instead of paging
+    ///     through every command. Returns null when the module is small enough to list directly.
+    /// </summary>
+    /// <param name="moduleName">The top level module name</param>
+    /// <param name="guild">The guild where the help menu was executed</param>
+    /// <returns>
+    ///     A tuple containing an <see cref="EmbedBuilder" /> and <see cref="ComponentBuilder" />, or null if the
+    ///     module should be listed directly
+    /// </returns>
+    public (EmbedBuilder Embed, ComponentBuilder Components)? GetModuleOverview(string moduleName, IGuild? guild)
+    {
+        var guildId = guild?.Id ?? 0;
+        if (!HasSectionIndex(moduleName))
+            return null;
+
+        var commands = GetModuleCommands(moduleName);
+        var sections = GroupBySubmodule(commands);
+
+        var embed = new EmbedBuilder()
+            .WithOkColor()
+            .WithTitle(moduleName)
+            .WithDescription(genStrings.HelpModuleOverview(guildId,
+                GetModuleDescription(moduleName, guild) ?? genStrings.HelpCommandCount(guildId, commands.Count)));
+
+        var selMenu = new SelectMenuBuilder()
+            .WithCustomId($"helpsection:{moduleName.ToLowerInvariant()}")
+            .WithPlaceholder(genStrings.HelpSelectSection(guildId));
+
+        foreach (var section in sections.Take(25))
+        {
+            embed.AddField(section.Name, genStrings.HelpCommandCount(guildId, section.Commands.Count), true);
+            selMenu.Options.Add(new SelectMenuOptionBuilder()
+                .WithLabel(section.Name)
+                .WithDescription(genStrings.HelpCommandCount(guildId, section.Commands.Count))
+                .WithValue(section.Name.ToLowerInvariant()));
+        }
+
+        var components = new ComponentBuilder()
+            .WithSelectMenu(selMenu)
+            .WithButton(genStrings.HelpAllCommands(guildId), $"helpall:{moduleName.ToLowerInvariant()}")
+            .WithButton(genStrings.HelpSearchButton(guildId), $"helpsearch:{moduleName.ToLowerInvariant()}",
+                ButtonStyle.Secondary)
+            .WithButton(genStrings.HelpBack(guildId), $"helpback:modules:{GetCategoryFor(moduleName)}",
+                ButtonStyle.Secondary);
+
+        return (embed, components);
+    }
+
+    /// <summary>
+    ///     Builds the paginator listing the commands of a module, optionally narrowed to a single section or
+    ///     filtered by a search term. Shared by the text and slash help entry points.
+    /// </summary>
+    /// <param name="moduleName">The top level module name</param>
+    /// <param name="section">The submodule to restrict the listing to, or null for every command</param>
+    /// <param name="filter">A search term matched against command aliases and descriptions, or null</param>
+    /// <param name="guild">The guild where the help menu was executed</param>
+    /// <param name="user">The user allowed to control the paginator</param>
+    /// <returns>A configured <see cref="ComponentPaginatorBuilder" />, or null when nothing matched</returns>
+    public async Task<ComponentPaginatorBuilder?> BuildCommandPaginator(string moduleName, string? section,
+        string? filter, IGuild? guild, IUser user)
+    {
+        var guildId = guild?.Id ?? 0;
+        var prefix = await guildSettings.GetPrefix(guild);
+        var commands = GetModuleCommands(moduleName);
+
+        if (!string.IsNullOrWhiteSpace(section))
+        {
+            commands = commands
+                .Where(c => SubmoduleName(c).Equals(section, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+
+        if (!string.IsNullOrWhiteSpace(filter))
+        {
+            commands = commands
+                .Where(c => c.Aliases.Any(a => a.Contains(filter, StringComparison.OrdinalIgnoreCase))
+                            || c.RealSummary(strings, guildId, prefix)
+                                .Contains(filter, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+
+        if (commands.Count == 0)
+            return null;
+
+        var sections = GroupBySubmodule(commands);
+        var totalPages = (int)Math.Ceiling(commands.Count / (double)CommandsPerPage);
+
+        var header = string.IsNullOrWhiteSpace(filter)
+            ? string.IsNullOrWhiteSpace(section) ? moduleName : $"{moduleName} - {section}"
+            : genStrings.HelpSearchResults(guildId, filter, moduleName);
+
+        // Going back has to land somewhere useful: modules with a section index return to it, the rest return to
+        // their category's module list.
+        var backId = HasSectionIndex(moduleName)
+            ? $"helpoverview:{moduleName.ToLowerInvariant()}"
+            : $"helpback:modules:{GetCategoryFor(moduleName)}";
+
+        return new ComponentPaginatorBuilder()
+            .AddUser(user)
+            .WithPageCount(totalPages)
+            .WithPageFactory(PageFactory)
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+            // Back replaces the message with a nav embed while this paginator is still running, so a later timeout
+            // must not touch the message. Stop is safe because Back has already removed the stop button by then.
+            .WithActionOnTimeout(ActionOnStop.None);
+
+        IPage PageFactory(IComponentPaginator paginator)
+        {
+            var page = paginator.CurrentPageIndex;
+            var pageBuilder = new PageBuilder()
+                .WithOkColor()
+                .WithTitle(header)
+                .WithDescription(genStrings.HelpModuleListHint(guildId, prefix))
+                .WithFooter($"{page + 1}/{totalPages}");
+
+            var skipped = 0;
+            var taken = 0;
+
+            foreach (var group in sections)
+            {
+                if (taken >= CommandsPerPage)
+                    break;
+
+                if (skipped + group.Commands.Count <= page * CommandsPerPage)
+                {
+                    skipped += group.Commands.Count;
+                    continue;
+                }
+
+                var offset = Math.Max(0, page * CommandsPerPage - skipped);
+                var entries = group.Commands.Skip(offset).Take(CommandsPerPage - taken).ToList();
+                skipped += offset + entries.Count;
+                taken += entries.Count;
+
+                AddChunkedField(pageBuilder, group.Name,
+                    entries.Select(c => FormatCommandListEntry(c, prefix, guildId)));
+            }
+
+            var components = new ComponentBuilder()
+                .AddFirstButton(paginator, emote: new Emoji("⏮"))
+                .AddPreviousButton(paginator, emote: new Emoji("◀"))
+                .AddJumpButton(paginator, emote: new Emoji("🔢"))
+                .AddNextButton(paginator, emote: new Emoji("▶"))
+                .AddLastButton(paginator, emote: new Emoji("⏭"))
+                .WithButton(genStrings.HelpBack(guildId), backId, ButtonStyle.Secondary, row: 1)
+                .AddStopButton(paginator, emote: new Emoji("🗑"), row: 1);
+
+            return pageBuilder.WithComponents(components.Build()).Build();
+        }
+    }
+
+    /// <summary>
+    ///     Gets whether a module is large enough to be presented as a section index rather than a flat listing.
+    /// </summary>
+    /// <param name="moduleName">The top level module name</param>
+    /// <returns>True when the module gets a section index</returns>
+    public bool HasSectionIndex(string moduleName)
+    {
+        var commands = GetModuleCommands(moduleName);
+        return commands.Count > SubmoduleIndexThreshold && GroupBySubmodule(commands).Count >= 3;
+    }
+
+    /// <summary>
+    ///     Adds the given lines under one field name, splitting into continuation fields whenever the accumulated
+    ///     text would exceed Discord's per field character limit.
+    /// </summary>
+    private static void AddChunkedField(PageBuilder page, string name, IEnumerable<string> lines)
+    {
+        var current = new StringBuilder();
+        var first = true;
+
+        foreach (var line in lines)
+        {
+            if (current.Length > 0 && current.Length + line.Length + 1 > MaxFieldLength)
+            {
+                page.AddField(first ? name : "​", current.ToString());
+                current.Clear();
+                first = false;
+            }
+
+            if (current.Length > 0)
+                current.Append('\n');
+            current.Append(line);
+        }
+
+        if (current.Length > 0)
+            page.AddField(first ? name : "​", current.ToString());
+    }
+
+    private string FormatCommandListEntry(CommandInfo cmd, string prefix, ulong guildId)
+    {
+        var summary = cmd.RealSummary(strings, guildId, prefix);
+        summary = string.IsNullOrWhiteSpace(summary)
+            ? genStrings.NoDescriptionAvailable(guildId)
+            : summary.Replace('\n', ' ').Trim();
+        if (summary.Length > 70)
+            summary = $"{summary[..67]}...";
+
+        return $"`{prefix}{cmd.Aliases[0]}` {summary}";
+    }
+
+    /// <summary>
+    ///     Resolves user input to a top level module, accepting an exact name or an unambiguous prefix.
+    /// </summary>
+    /// <param name="input">The module name typed by the user</param>
+    /// <param name="matches">Every module matching the input as a prefix</param>
+    /// <returns>The single matching module, or null when there is no match or the input is ambiguous</returns>
+    public ModuleInfo? ResolveModule(string input, out List<ModuleInfo> matches)
+    {
+        var trimmed = input.Trim().Replace(" ", "");
+        var modules = GetVisibleModules();
+
+        var exact = modules.Find(m => m.Name.Equals(trimmed, StringComparison.OrdinalIgnoreCase));
+        if (exact is not null)
+        {
+            matches = [exact];
+            return exact;
+        }
+
+        matches = modules
+            .Where(m => m.Name.StartsWith(trimmed, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+        return matches.Count == 1 ? matches[0] : null;
+    }
+
+    /// <summary>
+    ///     Gets every top level module that has at least one visible command.
+    /// </summary>
+    /// <returns>The list of visible top level modules, ordered by name</returns>
+    public List<ModuleInfo> GetVisibleModules()
+    {
+        return cmds.Commands
+            .Select(c => c.Module.GetTopLevelModule())
+            .Where(m => !m.Attributes.Any(a => a is HelpDisabled))
+            .DistinctBy(m => m.Name)
+            .OrderBy(m => m.Name, StringComparer.OrdinalIgnoreCase)
+            .ToList();
+    }
+
+    private List<ModuleInfo> GetModulesInCategory(string category)
+    {
+        return GetVisibleModules()
+            .Where(m => GetCategoryFor(m.Name) == category)
+            .ToList();
+    }
+
+    private List<string> GetPopulatedCategories()
+    {
+        var present = GetVisibleModules().Select(m => GetCategoryFor(m.Name)).ToHashSet();
+        return CategoryOrder.Where(present.Contains).ToList();
+    }
+
+    private static string GetCategoryFor(string moduleName)
+    {
+        return ModuleCategories.GetValueOrDefault(moduleName, UncategorizedCategory);
+    }
+
+    private string GetCategoryName(string category, ulong guildId)
+    {
+        return category switch
+        {
+            "moderation" => genStrings.HelpCategoryModeration(guildId),
+            "serversetup" => genStrings.HelpCategoryServersetup(guildId),
+            "fun" => genStrings.HelpCategoryFun(guildId),
+            "economy" => genStrings.HelpCategoryEconomy(guildId),
+            "music" => genStrings.HelpCategoryMusic(guildId),
+            "utility" => genStrings.HelpCategoryUtility(guildId),
+            "owner" => genStrings.HelpCategoryOwner(guildId),
+            _ => genStrings.HelpCategoryOther(guildId)
+        };
+    }
+
+    private List<CommandInfo> GetModuleCommands(string moduleName)
+    {
+        var blocked = perms.BlockedCommands.Select(c => c.ToLowerInvariant()).ToHashSet();
+        return cmds.Commands
+            .Where(c => c.Module.GetTopLevelModule().Name.Equals(moduleName, StringComparison.OrdinalIgnoreCase))
+            .Where(c => !blocked.Contains(c.Aliases[0].ToLowerInvariant()))
+            .Distinct(new CommandTextEqualityComparer())
+            .OrderBy(c => c.Aliases[0], StringComparer.OrdinalIgnoreCase)
+            .ToList();
+    }
+
+    private int CountVisibleCommands(ModuleInfo module)
+    {
+        return GetModuleCommands(module.Name).Count;
+    }
+
+    private static string SubmoduleName(CommandInfo cmd)
+    {
+        return cmd.Module.Name.Replace("Commands", "", StringComparison.InvariantCulture);
+    }
+
+    private static List<(string Name, List<CommandInfo> Commands)> GroupBySubmodule(List<CommandInfo> commands)
+    {
+        return commands
+            .GroupBy(SubmoduleName)
+            .OrderBy(g => g.Key, StringComparer.OrdinalIgnoreCase)
+            .Select(g => (g.Key, g.ToList()))
+            .ToList();
     }
 
     private async Task<string> CheckEnabled(ulong? guildId, IMessageChannel channel, IUser user, string moduleName)
@@ -258,37 +685,9 @@ public class HelpService : INService, IReadyExecutor
 
     private string? GetModuleDescription(string module, IGuild? guild)
     {
-        return module.ToLower() switch
-        {
-            "administration" => genStrings.ModuleDescriptionAdministration(guild?.Id ?? 0),
-            "afk" => genStrings.ModuleDescriptionAfk(guild?.Id ?? 0),
-            "chattriggers" => genStrings.ModuleDescriptionChattriggers(guild?.Id ?? 0),
-            "confessions" => genStrings.ModuleDescriptionConfessions(guild?.Id ?? 0),
-            "currency" => genStrings.ModuleDescriptionCurrency(guild?.Id ?? 0),
-            "gambling" => genStrings.ModuleDescriptionGambling(guild?.Id ?? 0),
-            "games" => genStrings.ModuleDescriptionGames(guild?.Id ?? 0),
-            "giveaways" => genStrings.ModuleDescriptionGiveaways(guild?.Id ?? 0),
-            "help" => genStrings.ModuleDescriptionHelp(guild?.Id ?? 0),
-            "highlights" => genStrings.ModuleDescriptionHighlights(guild?.Id ?? 0),
-            "multigreets" => genStrings.ModuleDescriptionMultigreets(guild?.Id ?? 0),
-            "music" => genStrings.ModuleDescriptionMusic(guild?.Id ?? 0),
-            "nsfw" => genStrings.ModuleDescriptionNsfw(guild?.Id ?? 0),
-            "owneronly" => genStrings.ModuleDescriptionOwneronly(guild?.Id ?? 0),
-            "permissions" => genStrings.ModuleDescriptionPermissions(guild?.Id ?? 0),
-            "reputation" => genStrings.ModuleDescriptionReputation(guild?.Id ?? 0),
-            "rolegreets" => genStrings.ModuleDescriptionRolegreets(guild?.Id ?? 0),
-            "rolestates" => genStrings.ModuleDescriptionRolestates(guild?.Id ?? 0),
-            "searches" => genStrings.ModuleDescriptionSearches(guild?.Id ?? 0),
-            "servermanagement" => genStrings.ModuleDescriptionServermanagement(guild?.Id ?? 0),
-            "starboard" => genStrings.ModuleDescriptionStarboard(guild?.Id ?? 0),
-            "statusroles" => genStrings.ModuleDescriptionStatusroles(guild?.Id ?? 0),
-            "suggestions" => genStrings.ModuleDescriptionSuggestions(guild?.Id ?? 0),
-            "userprofile" => genStrings.ModuleDescriptionUserprofile(guild?.Id ?? 0),
-            "utility" => genStrings.ModuleDescriptionUtility(guild?.Id ?? 0),
-            "vote" => genStrings.ModuleDescriptionVote(guild?.Id ?? 0),
-            "xp" => genStrings.ModuleDescriptionXp(guild?.Id ?? 0),
-            _ => null
-        };
+        var locale = localization.GetCultureInfo(guild?.Id).Name;
+        var key = $"module_description_{module.ToLowerInvariant()}";
+        return stringsProvider.GetText(locale, key) ?? stringsProvider.GetText("en-US", key);
     }
 
     private async Task HandlePing(SocketMessage msg)

@@ -138,70 +138,44 @@ public class Xp(
     /// <summary>
     ///     Shows the XP leaderboard for the server.
     /// </summary>
+    /// <remarks>
+    ///     XP and currency both answer to this command name. When the server has currency in
+    ///     circulation a bare invocation asks which one was meant; servers with no economy go straight
+    ///     to XP as before, and naming a page always means XP.
+    /// </remarks>
     /// <param name="page">Page number to display (starts at 1).</param>
     /// <example>.leaderboard</example>
     /// <example>.leaderboard 2</example>
     [Cmd]
     [Aliases]
-    public async Task Leaderboard(int page = 1)
+    public async Task Leaderboard(int? page = null)
     {
-        if (page < 1)
-            page = 1;
-
-        var (serverLb, totalCount) = await Service.GetLeaderboardAsync(ctx.Guild.Id, page);
-
-        if (serverLb.Count == 0)
+        if (page is null && await GuildHasEconomy())
         {
-            await ReplyErrorAsync(Strings.XpLeaderboardEmpty(ctx.Guild.Id)).ConfigureAwait(false);
+            var (embed, components) = LeaderboardRenderer.BuildPicker(ctx.Guild.Id, ctx.User.Id, Strings);
+            await ctx.Channel.SendMessageAsync(embed: embed, components: components);
             return;
         }
 
-        var users = await ctx.Guild.GetUsersAsync();
-        var userDict = users.ToDictionary(u => u.Id, u => u);
+        if (!await LeaderboardRenderer.SendXpAsync(ctx.Guild, ctx.User, ctx.Channel, serv, Service, Strings,
+                page ?? 1))
+            await ReplyErrorAsync(Strings.XpLeaderboardEmpty(ctx.Guild.Id)).ConfigureAwait(false);
+    }
 
-        // Calculate max pages (10 users per page by default)
-        const int pageSize = 10;
-        var maxPageIndex = (int)Math.Ceiling(totalCount / (double)pageSize) - 1;
-
-        var paginator = new LazyPaginatorBuilder()
-            .AddUser(ctx.User)
-            .WithPageFactory(pageNum => BuildPage(pageNum, userDict))
-            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-            .WithMaxPageIndex(maxPageIndex) // Set the maximum page index
-            .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-            .Build();
-
-        await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
-        return;
-
-        async Task<PageBuilder> BuildPage(int pageNum, Dictionary<ulong, IGuildUser> userLookup)
+    /// <summary>
+    ///     Whether anyone in this guild holds currency. Used to decide whether the leaderboard command
+    ///     is ambiguous enough to be worth a prompt.
+    /// </summary>
+    private async Task<bool> GuildHasEconomy()
+    {
+        try
         {
-            var pageData = await Service.GetLeaderboardAsync(ctx.Guild.Id, pageNum + 1);
-            var pageUsers = pageData.Users;
-
-            var embed = new PageBuilder()
-                .WithOkColor()
-                .WithTitle(Strings.XpLeaderboardTitle(ctx.Guild.Id));
-
-            var lb = new List<string>();
-
-            foreach (var user in pageUsers)
-            {
-                var username = userLookup.TryGetValue(user.UserId, out var guildUser)
-                    ? guildUser.ToString()
-                    : user.UserId.ToString();
-
-                lb.Add(Strings.XpLeaderboardLine(
-                    ctx.Guild.Id,
-                    user.Rank,
-                    username,
-                    user.Level,
-                    user.TotalXp));
-            }
-
-            embed.WithDescription(string.Join("\n", lb));
-            return embed;
+            var balances = await currencyService.GetAllUserBalancesAsync(ctx.Guild.Id);
+            return balances.Any(x => x.NetWorth > 0);
+        }
+        catch (Exception)
+        {
+            return false;
         }
     }
 

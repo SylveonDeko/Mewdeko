@@ -21,6 +21,8 @@ namespace DataModel
 		[Column("UserId"                                                                                       )] public ulong?  UserId      { get; set; } // numeric(20,0)
 		[Column("Amount"                                                                                       )] public long      Amount      { get; set; } // bigint
 		[Column("Description"                                                                                  )] public string?   Description { get; set; } // text
+		[Column("Category"                                                                                     )] public string    Category    { get; set; } = "Legacy"; // text
+		[Column("Source"                                                                                       )] public string?   Source      { get; set; } // text
 		[Column("DateAdded"                                                                                    )] public DateTime? DateAdded   { get; set; } // timestamp (6) without time zone
 	}
 }

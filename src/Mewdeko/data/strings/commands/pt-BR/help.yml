@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Exibe comandos de um módulo específico. Se null, é um alias para
-    modules que é um alias para help.
+    Mostra os comandos de um módulo específico, opcionalmente filtrados por um termo de busca. Se null, é um alias para modules, que é um alias para help.
   params:
-    - desc: 'O módulo a visualizar'
+    - desc: 'O módulo a consultar, opcionalmente seguido de um termo para filtrar seus comandos'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Exibe comandos de um módulo específico. Se null, é um alias para
-    modules que é um alias para help.
+    Mostra os comandos de um módulo específico, opcionalmente filtrados por um termo de busca. Se null, é um alias para modules, que é um alias para help.
   params:
-    - desc: 'O módulo a visualizar'
+    - desc: 'O módulo a consultar, opcionalmente seguido de um termo para filtrar seus comandos'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Exibe comandos de um módulo específico. Se null, é um alias para
-    modules que é um alias para help.
+    Mostra os comandos de um módulo específico, opcionalmente filtrados por um termo de busca. Se null, é um alias para modules, que é um alias para help.
   params:
-    - desc: 'O módulo a visualizar'
+    - desc: 'O módulo a consultar, opcionalmente seguido de um termo para filtrar seus comandos'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Exibe comandos de um módulo específico. Se null, é um alias para
-    modules que é um alias para help.
+    Mostra os comandos de um módulo específico, opcionalmente filtrados por um termo de busca. Se null, é um alias para modules, que é um alias para help.
   params:
-    - desc: 'O módulo a visualizar'
+    - desc: 'O módulo a consultar, opcionalmente seguido de um termo para filtrar seus comandos'
       name: module
       optional: true
       type: string

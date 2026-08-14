@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Zeigt Befehle für ein bestimmtes Modul an. Wenn null, ist es ein Alias
-    für modules, das wiederum ein Alias für help ist.
+    Zeigt Befehle für ein bestimmtes Modul an, optional durch einen Suchbegriff eingegrenzt. Wenn null, ist es ein Alias für modules, das wiederum ein Alias für help ist.
   params:
-    - desc: 'Das anzusehende Modul'
+    - desc: 'Das anzusehende Modul, optional gefolgt von einem Begriff zum Filtern seiner Befehle'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Zeigt Befehle für ein bestimmtes Modul an. Wenn null, ist es ein Alias
-    für modules, das wiederum ein Alias für help ist.
+    Zeigt Befehle für ein bestimmtes Modul an, optional durch einen Suchbegriff eingegrenzt. Wenn null, ist es ein Alias für modules, das wiederum ein Alias für help ist.
   params:
-    - desc: 'Das anzusehende Modul'
+    - desc: 'Das anzusehende Modul, optional gefolgt von einem Begriff zum Filtern seiner Befehle'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Zeigt Befehle für ein bestimmtes Modul an. Wenn null, ist es ein Alias
-    für modules, das wiederum ein Alias für help ist.
+    Zeigt Befehle für ein bestimmtes Modul an, optional durch einen Suchbegriff eingegrenzt. Wenn null, ist es ein Alias für modules, das wiederum ein Alias für help ist.
   params:
-    - desc: 'Das anzusehende Modul'
+    - desc: 'Das anzusehende Modul, optional gefolgt von einem Begriff zum Filtern seiner Befehle'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Zeigt Befehle für ein bestimmtes Modul an. Wenn null, ist es ein Alias
-    für modules, das wiederum ein Alias für help ist.
+    Zeigt Befehle für ein bestimmtes Modul an, optional durch einen Suchbegriff eingegrenzt. Wenn null, ist es ein Alias für modules, das wiederum ein Alias für help ist.
   params:
-    - desc: 'Das anzusehende Modul'
+    - desc: 'Das anzusehende Modul, optional gefolgt von einem Begriff zum Filtern seiner Befehle'
       name: module
       optional: true
       type: string

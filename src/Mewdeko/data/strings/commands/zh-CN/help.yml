@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    显示特定模块的命令。如果为 null，则是 modules 的别名，而 modules
-    又是 help 的别名。
+    显示指定模块的命令，可选择用搜索词进一步筛选。如果为 null，则是 modules 的别名，而 modules 又是 help 的别名。
   params:
-    - desc: '要查看的模块'
+    - desc: '要查看的模块，后面可以跟一个用于筛选其命令的词'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    显示特定模块的命令。如果为 null，则是 modules 的别名，而 modules
-    又是 help 的别名。
+    显示指定模块的命令，可选择用搜索词进一步筛选。如果为 null，则是 modules 的别名，而 modules 又是 help 的别名。
   params:
-    - desc: '要查看的模块'
+    - desc: '要查看的模块，后面可以跟一个用于筛选其命令的词'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    显示特定模块的命令。如果为 null，则是 modules 的别名，而 modules
-    又是 help 的别名。
+    显示指定模块的命令，可选择用搜索词进一步筛选。如果为 null，则是 modules 的别名，而 modules 又是 help 的别名。
   params:
-    - desc: '要查看的模块'
+    - desc: '要查看的模块，后面可以跟一个用于筛选其命令的词'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    显示特定模块的命令。如果为 null，则是 modules 的别名，而 modules
-    又是 help 的别名。
+    显示指定模块的命令，可选择用搜索词进一步筛选。如果为 null，则是 modules 的别名，而 modules 又是 help 的别名。
   params:
-    - desc: '要查看的模块'
+    - desc: '要查看的模块，后面可以跟一个用于筛选其命令的词'
       name: module
       optional: true
       type: string

@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Affiche les commandes d'un module spécifique. Si null, est un alias
-    pour modules qui est un alias pour help.
+    Affiche les commandes d'un module précis, éventuellement filtrées par un terme de recherche. Si null, c'est un alias de modules, qui est lui-même un alias de help.
   params:
-    - desc: 'Le module à consulter'
+    - desc: 'Le module à consulter, éventuellement suivi d un terme pour filtrer ses commandes'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Affiche les commandes d'un module spécifique. Si null, est un alias
-    pour modules qui est un alias pour help.
+    Affiche les commandes d'un module précis, éventuellement filtrées par un terme de recherche. Si null, c'est un alias de modules, qui est lui-même un alias de help.
   params:
-    - desc: 'Le module à consulter'
+    - desc: 'Le module à consulter, éventuellement suivi d un terme pour filtrer ses commandes'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Affiche les commandes d'un module spécifique. Si null, est un alias
-    pour modules qui est un alias pour help.
+    Affiche les commandes d'un module précis, éventuellement filtrées par un terme de recherche. Si null, c'est un alias de modules, qui est lui-même un alias de help.
   params:
-    - desc: 'Le module à consulter'
+    - desc: 'Le module à consulter, éventuellement suivi d un terme pour filtrer ses commandes'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Affiche les commandes d'un module spécifique. Si null, est un alias
-    pour modules qui est un alias pour help.
+    Affiche les commandes d'un module précis, éventuellement filtrées par un terme de recherche. Si null, c'est un alias de modules, qui est lui-même un alias de help.
   params:
-    - desc: 'Le module à consulter'
+    - desc: 'Le module à consulter, éventuellement suivi d un terme pour filtrer ses commandes'
       name: module
       optional: true
       type: string

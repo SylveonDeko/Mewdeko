@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Zobrazuje příkazy pro konkrétní modul. Pokud null, je to alias pro
-    modules, který je aliasem pro help.
+    Zobrazí příkazy konkrétního modulu, volitelně zúžené hledaným výrazem. Pokud je null, jde o alias pro modules, což je alias pro help.
   params:
-    - desc: 'Modul k prohlížení'
+    - desc: 'Modul k zobrazení, volitelně následovaný výrazem pro filtrování jeho příkazů'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Zobrazuje příkazy pro konkrétní modul. Pokud null, je to alias pro
-    modules, který je aliasem pro help.
+    Zobrazí příkazy konkrétního modulu, volitelně zúžené hledaným výrazem. Pokud je null, jde o alias pro modules, což je alias pro help.
   params:
-    - desc: 'Modul k prohlížení'
+    - desc: 'Modul k zobrazení, volitelně následovaný výrazem pro filtrování jeho příkazů'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Zobrazuje příkazy pro konkrétní modul. Pokud null, je to alias pro
-    modules, který je aliasem pro help.
+    Zobrazí příkazy konkrétního modulu, volitelně zúžené hledaným výrazem. Pokud je null, jde o alias pro modules, což je alias pro help.
   params:
-    - desc: 'Modul k prohlížení'
+    - desc: 'Modul k zobrazení, volitelně následovaný výrazem pro filtrování jeho příkazů'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Zobrazuje příkazy pro konkrétní modul. Pokud null, je to alias pro
-    modules, který je aliasem pro help.
+    Zobrazí příkazy konkrétního modulu, volitelně zúžené hledaným výrazem. Pokud je null, jde o alias pro modules, což je alias pro help.
   params:
-    - desc: 'Modul k prohlížení'
+    - desc: 'Modul k zobrazení, volitelně následovaný výrazem pro filtrování jeho příkazů'
       name: module
       optional: true
       type: string

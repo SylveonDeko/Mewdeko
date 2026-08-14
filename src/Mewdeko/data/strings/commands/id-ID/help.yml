@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Menampilkan perintah untuk modul tertentu. Jika null, ini adalah alias
-    untuk modules yang merupakan alias untuk help.
+    Menampilkan perintah untuk modul tertentu, opsional dipersempit dengan kata pencarian. Jika null, ini alias untuk modules yang merupakan alias untuk help.
   params:
-    - desc: 'Modul untuk dilihat'
+    - desc: 'Modul yang ingin dilihat, opsional diikuti kata untuk menyaring perintahnya'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Menampilkan perintah untuk modul tertentu. Jika null, ini adalah alias
-    untuk modules yang merupakan alias untuk help.
+    Menampilkan perintah untuk modul tertentu, opsional dipersempit dengan kata pencarian. Jika null, ini alias untuk modules yang merupakan alias untuk help.
   params:
-    - desc: 'Modul untuk dilihat'
+    - desc: 'Modul yang ingin dilihat, opsional diikuti kata untuk menyaring perintahnya'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Menampilkan perintah untuk modul tertentu. Jika null, ini adalah alias
-    untuk modules yang merupakan alias untuk help.
+    Menampilkan perintah untuk modul tertentu, opsional dipersempit dengan kata pencarian. Jika null, ini alias untuk modules yang merupakan alias untuk help.
   params:
-    - desc: 'Modul untuk dilihat'
+    - desc: 'Modul yang ingin dilihat, opsional diikuti kata untuk menyaring perintahnya'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Menampilkan perintah untuk modul tertentu. Jika null, ini adalah alias
-    untuk modules yang merupakan alias untuk help.
+    Menampilkan perintah untuk modul tertentu, opsional dipersempit dengan kata pencarian. Jika null, ini alias untuk modules yang merupakan alias untuk help.
   params:
-    - desc: 'Modul untuk dilihat'
+    - desc: 'Modul yang ingin dilihat, opsional diikuti kata untuk menyaring perintahnya'
       name: module
       optional: true
       type: string

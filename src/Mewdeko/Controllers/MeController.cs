@@ -489,11 +489,16 @@ public class MeController(
 
         await using var db = await dbFactory.CreateConnectionAsync();
 
-        // Get guild balance
-        var balance = await db.GuildUserBalances
+        var holdings = await db.GuildUserBalances
             .Where(b => b.GuildId == guildId && b.UserId == userId)
-            .Select(b => b.Balance)
+            .Select(b => new
+            {
+                b.Balance, b.Bank
+            })
             .FirstOrDefaultAsync();
+
+        var balance = holdings?.Balance ?? 0;
+        var bank = holdings?.Bank ?? 0;
 
         // Get recent transactions
         var transactions = await db.TransactionHistories
@@ -502,13 +507,18 @@ public class MeController(
             .Take(20)
             .Select(t => new
             {
-                t.Id, t.Amount, t.Description, t.DateAdded
+                t.Id,
+                t.Amount,
+                t.Description,
+                t.Category,
+                t.Source,
+                t.DateAdded
             })
             .ToListAsync();
 
         return Ok(new
         {
-            balance, recentTransactions = transactions
+            balance, bank, netWorth = balance + bank, recentTransactions = transactions
         });
     }
 

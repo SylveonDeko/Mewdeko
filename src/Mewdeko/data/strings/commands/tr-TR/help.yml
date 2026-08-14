@@ -1,44 +1,44 @@
 commands:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Belirli bir modülün komutlarını gösterir. null ise, modules için bir
-    takma addır ki o da help için bir takma addır.
+    Belirli bir modülün komutlarını gösterir, isteğe bağlı olarak bir arama terimiyle daraltılır. Null ise modules için bir takma addır, o da help için bir takma addır.
   params:
-    - desc: 'Bakılacak modül'
+    - desc: 'İncelenecek modül, isteğe bağlı olarak komutlarını süzmek için bir terim eklenebilir'
       name: module
       optional: true
       type: string
 commands_=:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Belirli bir modülün komutlarını gösterir. null ise, modules için bir
-    takma addır ki o da help için bir takma addır.
+    Belirli bir modülün komutlarını gösterir, isteğe bağlı olarak bir arama terimiyle daraltılır. Null ise modules için bir takma addır, o da help için bir takma addır.
   params:
-    - desc: 'Bakılacak modül'
+    - desc: 'İncelenecek modül, isteğe bağlı olarak komutlarını süzmek için bir terim eklenebilir'
       name: module
       optional: true
       type: string
 commands_=_1:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Belirli bir modülün komutlarını gösterir. null ise, modules için bir
-    takma addır ki o da help için bir takma addır.
+    Belirli bir modülün komutlarını gösterir, isteğe bağlı olarak bir arama terimiyle daraltılır. Null ise modules için bir takma addır, o da help için bir takma addır.
   params:
-    - desc: 'Bakılacak modül'
+    - desc: 'İncelenecek modül, isteğe bağlı olarak komutlarını süzmek için bir terim eklenebilir'
       name: module
       optional: true
       type: string
 commands_=_2:
   args:
     - '[module]'
+    - '[module] [search]'
   desc: >-
-    Belirli bir modülün komutlarını gösterir. null ise, modules için bir
-    takma addır ki o da help için bir takma addır.
+    Belirli bir modülün komutlarını gösterir, isteğe bağlı olarak bir arama terimiyle daraltılır. Null ise modules için bir takma addır, o da help için bir takma addır.
   params:
-    - desc: 'Bakılacak modül'
+    - desc: 'İncelenecek modül, isteğe bağlı olarak komutlarını süzmek için bir terim eklenebilir'
       name: module
       optional: true
       type: string

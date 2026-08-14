@@ -1,16 +1,12 @@
 using Discord.Commands;
 using Discord.Interactions;
 using Fergun.Interactive;
-using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Help.Services;
-using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
-using Mewdeko.Services.strings;
-using TextRequireDragonAttribute = Mewdeko.Common.Attributes.TextCommands.RequireDragonAttribute;
 
 namespace Mewdeko.Modules.Help;
 
@@ -18,27 +14,19 @@ namespace Mewdeko.Modules.Help;
 ///     Slash command module for help commands.
 /// </summary>
 /// <param name="interactivity">The service for embed pagination</param>
-/// <param name="serviceProvider">Service provider</param>
 /// <param name="cmds">The command service</param>
 /// <param name="ch">The command handler (yes they are different now shut up)</param>
 /// <param name="guildSettings">The service to retrieve guildconfigs</param>
 /// <param name="config">Service to retrieve yml based configs</param>
-/// <param name="perms">The global permission service</param>
-/// <param name="botStrings">Localized command summary strings.</param>
 [Discord.Interactions.Group("help", "Help Commands, what else is there to say?")]
 public class HelpSlashCommand(
     InteractiveService interactivity,
-    IServiceProvider serviceProvider,
     CommandService cmds,
     CommandHandler ch,
     GuildSettingsService guildSettings,
-    BotConfigService config,
-    GlobalPermissionService perms,
-    IBotStrings botStrings)
+    BotConfigService config)
     : MewdekoSlashModuleBase<HelpService>
 {
-    private static readonly ConcurrentDictionary<ulong, ulong> HelpMessages = new();
-
     /// <summary>
     ///     Shows all modules as well as additional information.
     /// </summary>
@@ -52,156 +40,180 @@ public class HelpSlashCommand(
     }
 
     /// <summary>
-    ///     Handles select menus for the help menu.
+    ///     Handles the category select menu on the landing help menu.
     /// </summary>
-    /// <param name="unused">Literally unused</param>
-    /// <param name="selected">The selected module</param>
-    [ComponentInteraction("helpselect:*", true)]
-    public async Task HelpSlash(string unused, string[] selected)
+    /// <param name="selected">The selected category key</param>
+    [ComponentInteraction("helpcat", true)]
+    public async Task HelpCategorySelect(string[] selected)
     {
-        var currentmsg = new MewdekoUserMessage
-        {
-            Content = "help", Author = ctx.User, Channel = ctx.Channel
-        };
+        var category = selected.FirstOrDefault();
+        if (string.IsNullOrWhiteSpace(category))
+            return;
 
-        if (HelpMessages.TryGetValue(ctx.Channel.Id, out var msgId))
-        {
-            try
-            {
-                await ctx.Channel.DeleteMessageAsync(msgId);
-                HelpMessages.TryRemove(ctx.Channel.Id, out _);
-            }
+        var (embed, components) = await Service.GetCategoryEmbed(category, ctx.Guild, ctx.Channel, ctx.User);
+        await UpdateHelpMessage(embed, components).ConfigureAwait(false);
+    }
 
-            catch
-            {
-                // ignored
-            }
-        }
-
+    /// <summary>
+    ///     Handles the module select menu shown inside a category.
+    /// </summary>
+    /// <param name="category">The category the module belongs to</param>
+    /// <param name="selected">The selected module name</param>
+    [ComponentInteraction("helpmodule:*", true)]
+    public async Task HelpModuleSelect(string category, string[] selected)
+    {
         var module = selected.FirstOrDefault();
-        module = module?.Trim().ToUpperInvariant().Replace(" ", "");
         if (string.IsNullOrWhiteSpace(module))
+            return;
+
+        await ShowModule(module, null, null).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Handles the section select menu shown for large modules.
+    /// </summary>
+    /// <param name="module">The module the section belongs to</param>
+    /// <param name="selected">The selected section name</param>
+    [ComponentInteraction("helpsection:*", true)]
+    public async Task HelpSectionSelect(string module, string[] selected)
+    {
+        await ShowCommandList(module, selected.FirstOrDefault(), null).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Lists every command in a module, skipping the section index.
+    /// </summary>
+    /// <param name="module">The module to list</param>
+    [ComponentInteraction("helpall:*", true)]
+    public async Task HelpAllCommands(string module)
+    {
+        await ShowCommandList(module, null, null).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Opens the search modal scoped to a module.
+    /// </summary>
+    /// <param name="module">The module to search within</param>
+    [ComponentInteraction("helpsearch:*", true)]
+    public async Task HelpSearchPrompt(string module)
+    {
+        await RespondWithModalAsync<HelpSearchModal>($"helpsearchmodal:{module}").ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Handles the submitted in-module search, listing the matching commands.
+    /// </summary>
+    /// <param name="module">The module searched within</param>
+    /// <param name="modal">The submitted modal</param>
+    [ModalInteraction("helpsearchmodal:*", true)]
+    public async Task HelpSearchSubmit(string module, HelpSearchModal modal)
+    {
+        await ShowCommandList(module, null, modal.Term).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Returns to a module's section index from a command list.
+    /// </summary>
+    /// <param name="module">The module whose section index to show</param>
+    [ComponentInteraction("helpoverview:*", true)]
+    public async Task HelpBackToOverview(string module)
+    {
+        var resolved = Service.ResolveModule(module, out _);
+        var overview = resolved is null ? null : Service.GetModuleOverview(resolved.Name, ctx.Guild);
+        if (overview is null)
         {
-            await Modules().ConfigureAwait(false);
+            await HelpBackToCategories().ConfigureAwait(false);
             return;
         }
 
-        var prefix = await guildSettings.GetPrefix(ctx.Guild);
+        await UpdateHelpMessage(overview.Value.Embed, overview.Value.Components).ConfigureAwait(false);
+    }
 
-        // Pre-filter commands and create a lookup for blocked commands
-        var blockedCommandsSet = new HashSet<string>(perms.BlockedCommands.Select(c => c.ToLowerInvariant()));
-        var commandInfos = cmds.Commands
-            .Where(c => c.Module.GetTopLevelModule().Name.ToUpperInvariant()
-                            .StartsWith(module, StringComparison.InvariantCulture) &&
-                        !blockedCommandsSet.Contains(c.Aliases[0].ToLowerInvariant()))
-            .Distinct(new CommandTextEqualityComparer())
-            .ToList();
+    /// <summary>
+    ///     Returns to the category landing menu.
+    /// </summary>
+    [ComponentInteraction("helpback:categories", true)]
+    public async Task HelpBackToCategories()
+    {
+        var embed = await Service.GetHelpEmbed(false, ctx.Guild, ctx.Channel, ctx.User);
+        await UpdateHelpMessage(embed, Service.GetHelpComponents(ctx.Guild, ctx.User)).ConfigureAwait(false);
+    }
 
-        if (!commandInfos.Any())
+    /// <summary>
+    ///     Returns to the module list of a category.
+    /// </summary>
+    /// <param name="category">The category to return to</param>
+    [ComponentInteraction("helpback:modules:*", true)]
+    public async Task HelpBackToModules(string category)
+    {
+        var (embed, components) = await Service.GetCategoryEmbed(category, ctx.Guild, ctx.Channel, ctx.User);
+        await UpdateHelpMessage(embed, components).ConfigureAwait(false);
+    }
+
+    private async Task ShowModule(string module, string? section, string? filter)
+    {
+        var resolved = Service.ResolveModule(module, out _);
+        if (resolved is null)
         {
-            await ReplyErrorAsync(Strings.ModuleNotFoundOrCantExec(ctx.Guild.Id)).ConfigureAwait(false);
+            await RespondAsync(Strings.ModuleNotFoundOrCantExec(ctx.Guild?.Id ?? 0), ephemeral: true)
+                .ConfigureAwait(false);
             return;
         }
 
-        // Check preconditions
-        var preconditionTasks = commandInfos.Select(async x =>
+        if (section is null && filter is null)
         {
-            var pre = await x.CheckPreconditionsAsync(new CommandContext(ctx.Client, currentmsg), serviceProvider);
-            return (Cmd: x, Succ: pre.IsSuccess);
-        });
-        var preconditionResults = await Task.WhenAll(preconditionTasks).ConfigureAwait(false);
-        var succ = new HashSet<CommandInfo>(preconditionResults.Where(x => x.Succ).Select(x => x.Cmd));
-
-        // Group and sort commands, ensuring no duplicates
-        var seenCommands = new HashSet<string>();
-        var cmdsWithGroup = commandInfos
-            .GroupBy(c => c.Module.Name.Replace("Commands", "", StringComparison.InvariantCulture))
-            .Select(g => new
+            var overview = Service.GetModuleOverview(resolved.Name, ctx.Guild);
+            if (overview is not null)
             {
-                ModuleName = g.Key,
-                Commands = g.Where(c => seenCommands.Add(c.Aliases[0].ToLowerInvariant()))
-                    .OrderBy(c => c.Aliases[0])
-                    .ToList()
-            })
-            .Where(g => g.Commands.Any())
-            .OrderBy(g => g.ModuleName)
-            .ToList();
-
-        const int pageSize = 10;
-        var totalCommands = cmdsWithGroup.Sum(g => g.Commands.Count);
-        var totalPages = (int)Math.Ceiling(totalCommands / (double)pageSize);
-
-        var paginator = new LazyPaginatorBuilder()
-            .AddUser(ctx.User)
-            .WithPageFactory(PageFactory)
-            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-            .WithMaxPageIndex(totalPages - 1)
-            .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-            .Build();
-
-        await interactivity.SendPaginatorAsync(paginator, ctx.Interaction, TimeSpan.FromMinutes(60))
-            .ConfigureAwait(false);
-
-        Task<PageBuilder> PageFactory(int page)
-        {
-            var pageBuilder = new PageBuilder().WithOkColor();
-            var commandsOnPage = new List<string>();
-            var currentModule = "";
-            var commandCount = 0;
-
-            foreach (var group in cmdsWithGroup)
-            {
-                foreach (var cmd in group.Commands)
-                {
-                    if (commandCount >= page * pageSize && commandCount < (page + 1) * pageSize)
-                    {
-                        if (currentModule != group.ModuleName)
-                        {
-                            if (commandsOnPage.Any())
-                                pageBuilder.AddField(currentModule, string.Join("\n", commandsOnPage));
-                            commandsOnPage.Clear();
-                            currentModule = group.ModuleName;
-                        }
-
-                        commandsOnPage.Add(FormatCommandListEntry(cmd));
-                    }
-
-                    commandCount++;
-                    if (commandCount >= (page + 1) * pageSize) break;
-                }
-
-                if (commandCount >= (page + 1) * pageSize) break;
+                await UpdateHelpMessage(overview.Value.Embed, overview.Value.Components).ConfigureAwait(false);
+                return;
             }
-
-            if (commandsOnPage.Any())
-                pageBuilder.AddField(currentModule, string.Join("\n", commandsOnPage));
-
-            pageBuilder.WithDescription(Strings.HelpCommandListSlash(
-                ctx.Guild?.Id ?? 0,
-                config.Data.LoadingEmote,
-                prefix));
-
-            return Task.FromResult(pageBuilder);
         }
 
-        string FormatCommandListEntry(CommandInfo cmd)
+        await ShowCommandList(resolved.Name, section, filter).ConfigureAwait(false);
+    }
+
+    private async Task ShowCommandList(string module, string? section, string? filter)
+    {
+        var resolved = Service.ResolveModule(module, out _);
+        if (resolved is null)
         {
-            var status =
-                succ.Contains(cmd) ? cmd.Preconditions.Any(p => p is TextRequireDragonAttribute) ? "🐉" : "✅" : "❌";
-            var aliases = $"{prefix}{cmd.Aliases[0]}";
-            if (cmd.Aliases.Skip(1).FirstOrDefault() is { } alias)
-                aliases += $"/{prefix}{alias}";
-
-            var summary = cmd.RealSummary(botStrings, ctx.Guild?.Id, prefix);
-            summary = string.IsNullOrWhiteSpace(summary)
-                ? Strings.NoDescriptionAvailable(ctx.Guild?.Id ?? 0)
-                : summary.Replace('\n', ' ').Trim();
-            if (summary.Length > 80)
-                summary = $"{summary[..77]}...";
-
-            return $"{status} `{aliases}` - {summary}";
+            await RespondAsync(Strings.ModuleNotFoundOrCantExec(ctx.Guild?.Id ?? 0), ephemeral: true)
+                .ConfigureAwait(false);
+            return;
         }
+
+        var builder = await Service.BuildCommandPaginator(resolved.Name, section, filter, ctx.Guild, ctx.User);
+        if (builder is null)
+        {
+            await RespondAsync(Strings.HelpSearchNoResults(ctx.Guild?.Id ?? 0, resolved.Name, filter ?? ""),
+                ephemeral: true).ConfigureAwait(false);
+            return;
+        }
+
+        // Only a component interaction can edit the message it came from. A modal submit has to reply instead,
+        // otherwise the paginator has no message to take over.
+        var responseType = ctx.Interaction is SocketMessageComponent
+            ? InteractionResponseType.UpdateMessage
+            : InteractionResponseType.ChannelMessageWithSource;
+
+        await interactivity.SendPaginatorAsync(builder.Build(), ctx.Interaction, TimeSpan.FromMinutes(60),
+            responseType).ConfigureAwait(false);
+    }
+
+    private async Task UpdateHelpMessage(EmbedBuilder embed, ComponentBuilder components)
+    {
+        if (ctx.Interaction is SocketMessageComponent component)
+        {
+            await component.UpdateAsync(x =>
+            {
+                x.Embed = embed.Build();
+                x.Components = components.Build();
+            }).ConfigureAwait(false);
+            return;
+        }
+
+        await RespondAsync(embed: embed.Build(), components: components.Build()).ConfigureAwait(false);
     }
 
     /// <summary>
