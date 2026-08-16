@@ -415,6 +415,57 @@ catmdl:
 challengeleaderboard:
   - challengeleaderboard
   - clb
+channelaccessapply:
+  - channelaccessapply
+  - caapply
+channelaccessapprove:
+  - channelaccessapprove
+  - caapprove
+channelaccessblacklist:
+  - channelaccessblacklist
+  - cablacklist
+channelaccessblacklistadd:
+  - channelaccessblacklistadd
+  - cabladd
+channelaccessblacklistremove:
+  - channelaccessblacklistremove
+  - cablremove
+channelaccessconfig:
+  - channelaccessconfig
+  - caconfig
+channelaccessdeny:
+  - channelaccessdeny
+  - cadeny
+channelaccesshistory:
+  - channelaccesshistory
+  - cahistory
+channelaccesslist:
+  - channelaccesslist
+  - calist
+channelaccesspanel:
+  - channelaccesspanel
+  - capanel
+channelaccesspending:
+  - channelaccesspending
+  - capending
+channelaccessquestionadd:
+  - channelaccessquestionadd
+  - caqadd
+channelaccessquestionlist:
+  - channelaccessquestionlist
+  - caqlist
+channelaccessquestionremove:
+  - channelaccessquestionremove
+  - caqremove
+channelaccessremove:
+  - channelaccessremove
+  - caremove
+channelaccesssetup:
+  - channelaccesssetup
+  - casetup
+channelaccesswithdraw:
+  - channelaccesswithdraw
+  - cawithdraw
 channelblacklist:
   - channelblacklist
   - cbl

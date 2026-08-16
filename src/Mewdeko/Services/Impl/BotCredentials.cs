@@ -270,6 +270,16 @@ public class BotCredentials : IBotCredentials
     public string ChatSavePath { get; set; }
 
     /// <summary>
+    ///     Gets or sets the local directory served by the bot's CDN.
+    /// </summary>
+    public string CdnPath { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the public base URL that <see cref="CdnPath" /> is served under.
+    /// </summary>
+    public string CdnUrl { get; set; }
+
+    /// <summary>
     ///     Gets or sets the Twitch client ID.
     /// </summary>
     public string TwitchClientId { get; set; }
@@ -571,6 +581,8 @@ public class BotCredentials : IBotCredentials
             SpotifyClientId = data[nameof(SpotifyClientId)];
             SpotifyClientSecret = data[nameof(SpotifyClientSecret)];
             ChatSavePath = data[nameof(ChatSavePath)];
+            CdnPath = data[nameof(CdnPath)] ?? "";
+            CdnUrl = (data[nameof(CdnUrl)] ?? "").TrimEnd('/');
             IsApiEnabled = bool.Parse(data[nameof(IsApiEnabled)] ?? "false");
 
 
@@ -745,6 +757,8 @@ public class BotCredentials : IBotCredentials
         public string OpenMeteoApiUrl { get; } = "https://api.open-meteo.com";
         public ulong ConfessionReportChannelId { get; } = 942825117820530709;
         public string ChatSavePath { get; } = "/usr/share/nginx/cdn/chatlogs/";
+        public string CdnPath { get; } = "";
+        public string CdnUrl { get; } = "";
         public bool PostgresSetupCompleted { get; set; }
         public string SentryDsn { get; } = "";
 

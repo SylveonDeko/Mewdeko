@@ -1409,8 +1409,7 @@ public partial class Music(
             return;
         }
 
-        var authUrl =
-            $"https://www.last.fm/api/auth/?api_key={creds.LastFmApiKey}&cb={creds.DashboardUrl}/api/lastfm/callback";
+        var dashboardUrl = $"{creds.DashboardUrl}/me";
         var components = new ComponentBuilderV2()
             .WithContainer([
                 new TextDisplayBuilder($"# {Strings.LastfmLinkTitle(ctx.Guild.Id)}")
@@ -1420,7 +1419,7 @@ public partial class Music(
             .WithSeparator()
             .WithContainer(new ActionRowBuilder()
                 .WithButton(Strings.LastfmLinkButton(ctx.Guild.Id),
-                    url: authUrl,
+                    url: dashboardUrl,
                     style: ButtonStyle.Link));
 
         await ctx.Channel.SendMessageAsync(components: components.Build(),

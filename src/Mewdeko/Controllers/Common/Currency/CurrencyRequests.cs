@@ -123,7 +123,7 @@ public class ShopItemRequest
     /// <summary>Cost in guild currency.</summary>
     public long Price { get; set; }
 
-    /// <summary>What the item delivers. See <see cref="Mewdeko.Database.Enums.ShopItemType" />.</summary>
+    /// <summary>What the item delivers. See <see cref="T:Mewdeko.Database.Enums.ShopItemType" />.</summary>
     public int ItemType { get; set; }
 
     /// <summary>Role granted for role items.</summary>

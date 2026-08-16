@@ -49,6 +49,7 @@ public class HelpService : INService, IReadyExecutor
             ["Suggestions"] = "serversetup",
             ["Tickets"] = "serversetup",
             ["Confessions"] = "serversetup",
+            ["ChannelAccess"] = "serversetup",
             ["CustomVoice"] = "serversetup",
             ["ChatTriggers"] = "serversetup",
             ["PollCommands"] = "serversetup",

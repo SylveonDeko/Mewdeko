@@ -74,6 +74,7 @@ namespace DataModel
 		public ITable<DiscordPermOverride>       DiscordPermOverrides       => this.GetTable<DiscordPermOverride>();
 		public ITable<DiscordUser>               DiscordUsers               => this.GetTable<DiscordUser>();
 		public ITable<Embed>                     Embeds                     => this.GetTable<Embed>();
+		public ITable<EmbedWebhookPersona>       EmbedWebhookPersonas       => this.GetTable<EmbedWebhookPersona>();
 		public ITable<FeedSub>                   FeedSubs                   => this.GetTable<FeedSub>();
 		public ITable<FilterInvitesChannelId>    FilterInvitesChannelIds    => this.GetTable<FilterInvitesChannelId>();
 		public ITable<FilterLinksChannelId>      FilterLinksChannelIds      => this.GetTable<FilterLinksChannelId>();

@@ -115,6 +115,7 @@ public partial class Music
             }
         }
 
+        var prefix = await guildSettingsService.GetPrefix(ctx.Guild);
         var spotify = user.Activities?.OfType<SpotifyGame>().FirstOrDefault();
         if (spotify is not null)
         {
@@ -133,7 +134,6 @@ public partial class Music
                         }));
             }
 
-            var prefix = await guildSettingsService.GetPrefix(ctx.Guild);
             var components = new ComponentBuilderV2()
                 .WithContainer([
                     new TextDisplayBuilder($"# {Strings.LastfmSpotifyStatusTitle(ctx.Guild.Id, user.DisplayName)}")
@@ -148,7 +148,7 @@ public partial class Music
             return;
         }
 
-        await ReplyErrorAsync(Strings.LastfmNothingPlaying(ctx.Guild.Id, user.Mention)).ConfigureAwait(false);
+        await ReplyErrorAsync(Strings.LastfmNothingPlaying(ctx.Guild.Id, user.Mention, prefix)).ConfigureAwait(false);
     }
 
     /// <summary>

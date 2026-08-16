@@ -50,6 +50,18 @@ public interface IBotCredentials
     public string ChatSavePath { get; }
 
     /// <summary>
+    ///     Gets the local directory served by the bot's CDN, used for assets that need a publicly
+    ///     fetchable URL (Discord cannot read an image the dashboard holds in memory). Empty when the
+    ///     instance has no CDN, which disables features that require one.
+    /// </summary>
+    public string CdnPath { get; }
+
+    /// <summary>
+    ///     Gets the public base URL that <see cref="CdnPath" /> is served under, without a trailing slash.
+    /// </summary>
+    public string CdnUrl { get; }
+
+    /// <summary>
     ///     Gets the total number of shards the bot has.
     /// </summary>
     public int TotalShards { get; }

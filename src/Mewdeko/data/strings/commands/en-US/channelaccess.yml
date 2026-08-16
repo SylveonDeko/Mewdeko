@@ -1,0 +1,193 @@
+channelaccessapply:
+  args:
+    - channel
+  desc: 'Posts the apply button for a gated channel so you can fill in the application form'
+  params:
+    - desc: The channel to apply for.
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessapprove:
+  args:
+    - applicationId
+    - reason
+  desc: 'Forces an application through regardless of the vote count'
+  params:
+    - desc: The application id.
+      name: applicationId
+      optional: false
+      type: int
+    - desc: An optional note shown on the closed application.
+      name: reason
+      optional: true
+      type: string
+channelaccessblacklist:
+  args: [ ]
+  desc: 'Lists everyone blocked from applying in this server'
+  params: [ ]
+channelaccessblacklistadd:
+  args:
+    - user
+    - channel
+  desc: 'Blocks a user from applying, either for one channel or for every gated channel'
+  params:
+    - desc: The user to block.
+      name: user
+      optional: false
+      type: IUser
+    - desc: The gated channel, or leave empty to block them everywhere.
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessblacklistremove:
+  args:
+    - user
+    - channel
+  desc: 'Lifts a block so a user can apply again'
+  params:
+    - desc: The blocked user.
+      name: user
+      optional: false
+      type: IUser
+    - desc: The gated channel the block was set on, if it was channel specific.
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessconfig:
+  args:
+    - channel
+    - setting
+    - value
+  desc: 'Changes one setting on a gate. Run it without a setting to see everything you can change'
+  params:
+    - desc: The gated channel.
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: The setting name.
+      name: setting
+      optional: true
+      type: string
+    - desc: The new value.
+      name: value
+      optional: true
+      type: string
+channelaccessdeny:
+  args:
+    - applicationId
+    - reason
+  desc: 'Turns down an application regardless of the vote count'
+  params:
+    - desc: The application id.
+      name: applicationId
+      optional: false
+      type: int
+    - desc: An optional note shown on the closed application.
+      name: reason
+      optional: true
+      type: string
+channelaccesshistory:
+  args:
+    - user
+  desc: "Shows a user's application history, or your own if no user is given"
+  params:
+    - desc: The user to look up.
+      name: user
+      optional: true
+      type: IGuildUser
+channelaccesslist:
+  args: [ ]
+  desc: 'Lists every gate in the server with its current thresholds'
+  params: [ ]
+channelaccesspanel:
+  args:
+    - channel
+    - target
+  desc: 'Posts a button people can click to apply for a gated channel'
+  params:
+    - desc: The gated channel.
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: Where to post the panel. Defaults to the current channel.
+      name: target
+      optional: true
+      type: ITextChannel
+channelaccesspending:
+  args:
+    - channel
+  desc: 'Lists the applications still waiting on a decision'
+  params:
+    - desc: Optionally limit the list to one gated channel.
+      name: channel
+      optional: true
+      type: ITextChannel
+channelaccessquestionadd:
+  args:
+    - channel
+    - question
+  desc: "Adds a question to a gate's application form. A gate can have up to five"
+  params:
+    - desc: The gated channel.
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: The question text, up to 45 characters.
+      name: question
+      optional: false
+      type: string
+channelaccessquestionlist:
+  args:
+    - channel
+  desc: "Shows a gate's application questions in the order applicants see them"
+  params:
+    - desc: The gated channel.
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccessquestionremove:
+  args:
+    - channel
+    - position
+  desc: "Removes a question from a gate's application form by its listed position"
+  params:
+    - desc: The gated channel.
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: The one-based position shown by the question list.
+      name: position
+      optional: false
+      type: int
+channelaccessremove:
+  args:
+    - channel
+  desc: "Removes a channel's gate along with its questions and application history"
+  params:
+    - desc: The gated channel.
+      name: channel
+      optional: false
+      type: ITextChannel
+channelaccesssetup:
+  args:
+    - channel
+    - accessRole
+  desc: 'Opens applications for a locked channel, granting the given role to approved applicants'
+  params:
+    - desc: The locked channel to gate.
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: The role granted when an application passes. Leave it out to add applicants to the channel directly.
+      name: accessRole
+      optional: true
+      type: IRole
+channelaccesswithdraw:
+  args:
+    - applicationId
+  desc: 'Pulls back one of your own open applications'
+  params:
+    - desc: The application id shown on the review message.
+      name: applicationId
+      optional: false
+      type: int

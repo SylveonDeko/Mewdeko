@@ -486,6 +486,17 @@ public class MewdekoDb : DataConnection
     public ITable<Embed> Embeds => this.GetTable<Embed>();
 
     /// <summary>
+    ///     Gets the embed builder webhook personas table.
+    /// </summary>
+    public ITable<EmbedWebhookPersona> EmbedWebhookPersonas
+    {
+        get
+        {
+            return this.GetTable<EmbedWebhookPersona>();
+        }
+    }
+
+    /// <summary>
     ///     Gets the feed subscriptions table.
     /// </summary>
     public ITable<FeedSub> FeedSubs => this.GetTable<FeedSub>();
@@ -1039,6 +1050,72 @@ public class MewdekoDb : DataConnection
     ///     Gets the Patreon goals table.
     /// </summary>
     public ITable<PatreonGoal> PatreonGoals => this.GetTable<PatreonGoal>();
+
+    /// <summary>
+    ///     Gets the channel access gate configurations table.
+    /// </summary>
+    public ITable<ChannelAccessConfig> ChannelAccessConfigs
+    {
+        get
+        {
+            return this.GetTable<ChannelAccessConfig>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the channel access application questions table.
+    /// </summary>
+    public ITable<ChannelAccessQuestion> ChannelAccessQuestions
+    {
+        get
+        {
+            return this.GetTable<ChannelAccessQuestion>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the channel access applications table.
+    /// </summary>
+    public ITable<ChannelAccessApplication> ChannelAccessApplications
+    {
+        get
+        {
+            return this.GetTable<ChannelAccessApplication>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the channel access application answers table.
+    /// </summary>
+    public ITable<ChannelAccessAnswer> ChannelAccessAnswers
+    {
+        get
+        {
+            return this.GetTable<ChannelAccessAnswer>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the channel access votes table.
+    /// </summary>
+    public ITable<ChannelAccessVote> ChannelAccessVotes
+    {
+        get
+        {
+            return this.GetTable<ChannelAccessVote>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the channel access application blacklist table.
+    /// </summary>
+    public ITable<ChannelAccessBlacklist> ChannelAccessBlacklists
+    {
+        get
+        {
+            return this.GetTable<ChannelAccessBlacklist>();
+        }
+    }
 
     /// <summary>
     ///     Gets the todo lists table.
