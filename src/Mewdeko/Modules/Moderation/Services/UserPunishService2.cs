@@ -13,6 +13,7 @@ namespace Mewdeko.Modules.Moderation.Services;
 /// </summary>
 public class UserPunishService2 : INService, IDisposable
 {
+    private readonly BanPruneService banPrune;
     private readonly IDataConnectionFactory dbFactory;
     private readonly GuildSettingsService guildSettings;
     private readonly ILogger<UserPunishService2> logger;
@@ -26,11 +27,13 @@ public class UserPunishService2 : INService, IDisposable
     /// <param name="mute">The mute service</param>
     /// <param name="dbFactory">The database service</param>
     /// <param name="guildSettings">The guild settings service</param>
+    /// <param name="banPrune">The service resolving how many days of messages a ban purges</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     public UserPunishService2(MuteService mute, IDataConnectionFactory dbFactory,
-        GuildSettingsService guildSettings, ILogger<UserPunishService2> logger)
+        GuildSettingsService guildSettings, BanPruneService banPrune, ILogger<UserPunishService2> logger)
     {
         this.mute = mute;
+        this.banPrune = banPrune;
         this.dbFactory = dbFactory;
         this.guildSettings = guildSettings;
         this.logger = logger;
@@ -141,19 +144,24 @@ public class UserPunishService2 : INService, IDisposable
                     break;
                 case PunishmentAction.Ban:
                     if (p.Time == 0)
-                        await guild.AddBanAsync(user, options: new RequestOptions
-                        {
-                            AuditLogReason = "Warned too many times"
-                        }).ConfigureAwait(false);
+                        await guild.AddBanAsync(user,
+                            await banPrune.GetPruneDaysAsync(guild.Id, BanPruneAction.WarnPunishment)
+                                .ConfigureAwait(false),
+                            options: new RequestOptions
+                            {
+                                AuditLogReason = "Warned too many times"
+                            }).ConfigureAwait(false);
                     else
                         await mute.TimedBan(guild, user, TimeSpan.FromMinutes(p.Time), "Warned too many times.")
                             .ConfigureAwait(false);
                     break;
                 case PunishmentAction.Softban:
-                    await guild.AddBanAsync(user, 7, options: new RequestOptions
-                    {
-                        AuditLogReason = "Warned too many times"
-                    }).ConfigureAwait(false);
+                    await guild.AddBanAsync(user,
+                        await banPrune.GetPruneDaysAsync(guild.Id, BanPruneAction.SoftBan).ConfigureAwait(false),
+                        options: new RequestOptions
+                        {
+                            AuditLogReason = "Warned too many times"
+                        }).ConfigureAwait(false);
                     try
                     {
                         await guild.RemoveBanAsync(user).ConfigureAwait(false);

@@ -12,6 +12,7 @@ using Mewdeko.Modules.Administration;
 using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Help;
+using Mewdeko.Modules.Moderation.Common;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Impl;
@@ -44,6 +45,7 @@ public class AdministrationController(
     CommandService commandService,
     IDataConnectionFactory dbFactory,
     UserPunishService userPunishService,
+    BanPruneService banPruneService,
     IDashboardAuditContext auditContext,
     DiscordShardedClient client) : Controller
 {
@@ -1260,12 +1262,13 @@ public class AdministrationController(
 
         var succeeded = 0;
         var failed = 0;
+        var pruneDays = await banPruneService.GetPruneDaysAsync(guildId, BanPruneAction.Dashboard);
 
         foreach (var userId in request.UserIds)
         {
             try
             {
-                await guild.AddBanAsync(userId, reason: request.Reason);
+                await guild.AddBanAsync(userId, pruneDays, request.Reason);
                 succeeded++;
             }
             catch

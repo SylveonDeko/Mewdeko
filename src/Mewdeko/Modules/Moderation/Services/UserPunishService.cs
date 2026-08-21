@@ -17,6 +17,7 @@ namespace Mewdeko.Modules.Moderation.Services;
 /// </summary>
 public class UserPunishService : INService, IDisposable
 {
+    private readonly BanPruneService banPrune;
     private readonly BlacklistService blacklistService;
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
@@ -35,12 +36,14 @@ public class UserPunishService : INService, IDisposable
     /// <param name="blacklistService">An instance of the BlacklistService class.</param>
     /// <param name="client">An instance of the DiscordShardedClient class.</param>
     /// <param name="guildSettings">An instance of the GuildSettingsService class.</param>
+    /// <param name="banPrune">The service resolving how many days of messages a ban purges.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     public UserPunishService(MuteService mute, IDataConnectionFactory dbFactory, BlacklistService blacklistService,
         DiscordShardedClient client,
-        GuildSettingsService guildSettings, ILogger<UserPunishService> logger)
+        GuildSettingsService guildSettings, BanPruneService banPrune, ILogger<UserPunishService> logger)
     {
         this.mute = mute;
+        this.banPrune = banPrune;
         this.dbFactory = dbFactory;
         this.blacklistService = blacklistService;
         this.client = client;
@@ -270,9 +273,10 @@ public class UserPunishService : INService, IDisposable
             case PunishmentAction.Ban:
                 if (minutes == 0)
                 {
-                    var pruneDays = 0;
+                    var pruneDays = await banPrune.GetPruneDaysAsync(guild.Id, BanPruneAction.WarnPunishment)
+                        .ConfigureAwait(false);
                     if (reason.ToLower().Contains("postchannelban"))
-                        pruneDays = 1;
+                        pruneDays = Math.Max(pruneDays, 1);
 
                     await guild.AddBanAsync(user, pruneDays, options: new RequestOptions
                     {
@@ -287,10 +291,12 @@ public class UserPunishService : INService, IDisposable
 
                 break;
             case PunishmentAction.Softban:
-                await guild.AddBanAsync(user, 7, options: new RequestOptions
-                {
-                    AuditLogReason = $"Softban | {reason}"
-                }).ConfigureAwait(false);
+                await guild.AddBanAsync(user,
+                    await banPrune.GetPruneDaysAsync(guild.Id, BanPruneAction.SoftBan).ConfigureAwait(false),
+                    options: new RequestOptions
+                    {
+                        AuditLogReason = $"Softban | {reason}"
+                    }).ConfigureAwait(false);
                 try
                 {
                     await guild.RemoveBanAsync(user).ConfigureAwait(false);

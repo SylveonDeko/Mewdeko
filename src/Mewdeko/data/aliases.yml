@@ -311,6 +311,18 @@ banner:
   - userbanner
 banunder:
   - banunder
+banprune:
+  - banprune
+  - banpurge
+banpruneset:
+  - banpruneset
+  - banpurgeset
+banpruneclear:
+  - banpruneclear
+  - banpurgeclear
+banprunereset:
+  - banprunereset
+  - banpurgereset
 bash:
   - bash
   - zfs

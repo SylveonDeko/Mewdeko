@@ -7,6 +7,8 @@ using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Modules.Moderation.Common;
+using Mewdeko.Modules.Moderation.Services;
 
 namespace Mewdeko.Modules.Administration;
 
@@ -16,7 +18,12 @@ namespace Mewdeko.Modules.Administration;
 /// <param name="serv">The interactivity service by Fergun.Interactive</param>
 /// <param name="logger">The logger instance for structured logging.</param>
 /// <param name="guildSettings">Guild settings service for prefix lookups.</param>
-public partial class Administration(InteractiveService serv, ILogger<Administration> logger, GuildSettingsService guildSettings)
+/// <param name="banPrune">The service resolving how many days of messages a ban purges.</param>
+public partial class Administration(
+    InteractiveService serv,
+    ILogger<Administration> logger,
+    GuildSettingsService guildSettings,
+    BanPruneService banPrune)
     : MewdekoModuleBase<AdministrationService>
 {
     /// <summary>
@@ -142,11 +149,14 @@ public partial class Administration(InteractiveService serv, ILogger<Administrat
             await ctx.Channel.SendConfirmAsync(Strings.BanByHashStart(ctx.Guild.Id, usersToBan.Count(), avatarHash));
             var failedUsers = 0;
             var bannedUsers = 0;
+            var hashPruneDays =
+                await banPrune.GetPruneDaysAsync(ctx.Guild.Id, BanPruneAction.BanByHash, ctx.Channel);
             foreach (var i in usersToBan)
             {
                 try
                 {
-                    await ctx.Guild.AddBanAsync(i, 0, $"{ctx.User.Id} banning by hash {avatarHash}");
+                    await ctx.Guild.AddBanAsync(i, hashPruneDays,
+                        $"{ctx.User.Id} banning by hash {avatarHash}");
                     bannedUsers++;
                 }
                 catch
@@ -254,12 +264,14 @@ public partial class Administration(InteractiveService serv, ILogger<Administrat
         }
 
         var failedUsers = 0;
+        var rolePruneDays = await banPrune.GetPruneDaysAsync(ctx.Guild.Id, BanPruneAction.BanInRole, ctx.Channel);
         foreach (var i in usersToBan)
         {
             try
             {
                 await ctx.Guild
-                    .AddBanAsync(i, 0, reason ?? Strings.BanInRoleDefaultReason(ctx.Guild.Id, ctx.User, ctx.User.Id))
+                    .AddBanAsync(i, rolePruneDays,
+                        reason ?? Strings.BanInRoleDefaultReason(ctx.Guild.Id, ctx.User, ctx.User.Id))
                     .ConfigureAwait(false);
             }
             catch
@@ -475,11 +487,12 @@ public partial class Administration(InteractiveService serv, ILogger<Administrat
                 return;
             var message = await ConfirmAsync(Strings.BanunderBanning(ctx.Guild.Id, users.Count()))
                 .ConfigureAwait(false);
+            var underPruneDays = await banPrune.GetPruneDaysAsync(ctx.Guild.Id, BanPruneAction.BanUnder, ctx.Channel);
             foreach (var i in users)
             {
                 try
                 {
-                    await ctx.Guild.AddBanAsync(i, options: new RequestOptions
+                    await ctx.Guild.AddBanAsync(i, underPruneDays, options: new RequestOptions
                     {
                         AuditLogReason = Strings.BanunderStarting(ctx.Guild.Id, ctx.User)
                     }).ConfigureAwait(false);
@@ -608,7 +621,8 @@ public partial class Administration(InteractiveService serv, ILogger<Administrat
                 var toprune = await ctx.Guild.PruneUsersAsync(time.Time.Days, true);
                 if (toprune == 0)
                 {
-                    await ErrorAsync(Strings.PruneNoMembersUpsell(ctx.Guild.Id, await guildSettings.GetPrefix(ctx.Guild))).ConfigureAwait(false);
+                    await ErrorAsync(Strings.PruneNoMembersUpsell(ctx.Guild.Id,
+                        await guildSettings.GetPrefix(ctx.Guild))).ConfigureAwait(false);
                     return;
                 }
 
@@ -618,7 +632,8 @@ public partial class Administration(InteractiveService serv, ILogger<Administrat
                 };
                 if (!await PromptUserConfirmAsync(eb, ctx.User.Id).ConfigureAwait(false))
                 {
-                    await ConfirmAsync(Strings.PruneCanceledMemberUpsell(ctx.Guild.Id, await guildSettings.GetPrefix(ctx.Guild))).ConfigureAwait(false);
+                    await ConfirmAsync(Strings.PruneCanceledMemberUpsell(ctx.Guild.Id,
+                        await guildSettings.GetPrefix(ctx.Guild))).ConfigureAwait(false);
                 }
                 else
                 {

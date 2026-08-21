@@ -1,6 +1,8 @@
 ﻿using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
+using Mewdeko.Modules.Moderation.Common;
+using Mewdeko.Modules.Moderation.Services;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -9,6 +11,7 @@ namespace Mewdeko.Modules.Administration.Services;
 /// </summary>
 public class AutoBanRoleService : INService
 {
+    private readonly BanPruneService banPrune;
     private readonly IDataConnectionFactory dbFactory;
 
     /// <summary>
@@ -16,9 +19,12 @@ public class AutoBanRoleService : INService
     /// </summary>
     /// <param name="eventHandler">The event handler</param>
     /// <param name="dbFactory">The database connection factory</param>
-    public AutoBanRoleService(EventHandler eventHandler, IDataConnectionFactory dbFactory)
+    /// <param name="banPrune">The service resolving how many days of messages a ban purges</param>
+    public AutoBanRoleService(EventHandler eventHandler, IDataConnectionFactory dbFactory,
+        BanPruneService banPrune)
     {
         this.dbFactory = dbFactory;
+        this.banPrune = banPrune;
         var eventHandler1 = eventHandler;
         eventHandler1.Subscribe("GuildMemberUpdated", "AutoBanRoleService", OnGuildMemberUpdated);
     }
@@ -60,7 +66,9 @@ public class AutoBanRoleService : INService
         // Ban the user
         try
         {
-            await after.Guild.AddBanAsync(after, 0, reason).ConfigureAwait(false);
+            var pruneDays = await banPrune.GetPruneDaysAsync(after.Guild.Id, BanPruneAction.AutoBanRole)
+                .ConfigureAwait(false);
+            await after.Guild.AddBanAsync(after, pruneDays, reason).ConfigureAwait(false);
         }
         catch
         {

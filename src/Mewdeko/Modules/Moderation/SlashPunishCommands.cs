@@ -22,6 +22,7 @@ namespace Mewdeko.Modules.Moderation;
 [CheckPermissions]
 public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
 {
+    private readonly BanPruneService banPrune;
     private readonly IDataConnectionFactory dbFactory;
     private readonly InteractiveService interactivity;
     private readonly ILogger<SlashPunishCommands> logger;
@@ -34,13 +35,15 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
     /// <param name="dbFactory">The database provider</param>
     /// <param name="serv">The service used for embed pagination</param>
     /// <param name="nekos">The service used to get anime gifs from the nekos.best api</param>
+    /// <param name="banPrune">The service resolving how many days of messages a ban purges</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     public SlashPunishCommands(IDataConnectionFactory dbFactory,
         InteractiveService serv,
-        NekosBestApi nekos, ILogger<SlashPunishCommands> logger)
+        NekosBestApi nekos, BanPruneService banPrune, ILogger<SlashPunishCommands> logger)
     {
         interactivity = serv;
         this.nekos = nekos;
+        this.banPrune = banPrune;
         this.logger = logger;
         this.dbFactory = dbFactory;
     }
@@ -608,7 +611,10 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
             }
             else
             {
-                await ctx.Guild.AddBanAsync(userId, 7, options: new RequestOptions
+                var hackPruneDays = await banPrune
+                    .GetPruneDaysAsync(ctx.Guild.Id, BanPruneAction.HackBan, ctx.Channel)
+                    .ConfigureAwait(false);
+                await ctx.Guild.AddBanAsync(userId, hackPruneDays, options: new RequestOptions
                 {
                     AuditLogReason = $"{ctx.User} | {reason}"
                 }).ConfigureAwait(false);
@@ -682,7 +688,10 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
                     dmFailed = true;
                 }
 
-                await ctx.Guild.AddBanAsync(user, 7, options: new RequestOptions
+                var pruneDays = await banPrune
+                    .GetPruneDaysAsync(ctx.Guild.Id, BanPruneAction.Ban, ctx.Channel)
+                    .ConfigureAwait(false);
+                await ctx.Guild.AddBanAsync(user, pruneDays, options: new RequestOptions
                 {
                     AuditLogReason = $"{ctx.User} | {reason}"
                 }).ConfigureAwait(false);
@@ -765,7 +774,9 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
             dmFailed = true;
         }
 
-        await ctx.Guild.AddBanAsync(user, 7, options: new RequestOptions
+        var softPruneDays = await banPrune
+            .GetPruneDaysAsync(ctx.Guild.Id, BanPruneAction.SoftBan, ctx.Channel).ConfigureAwait(false);
+        await ctx.Guild.AddBanAsync(user, softPruneDays, options: new RequestOptions
         {
             AuditLogReason = $"Softban: {ctx.User} | {msg}"
         }).ConfigureAwait(false);

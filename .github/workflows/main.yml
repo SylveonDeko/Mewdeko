@@ -9,9 +9,15 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # This ensures all history is fetched
+
+      - name: Pick a writable .NET install dir
+        run: |
+          echo "DOTNET_INSTALL_DIR=$HOME/.dotnet" >> $GITHUB_ENV
+          echo "DOTNET_ROOT=$HOME/.dotnet" >> $GITHUB_ENV
+          echo "$HOME/.dotnet" >> $GITHUB_PATH
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -82,33 +88,16 @@ jobs:
             echo 'EOF' >> $GITHUB_ENV
           fi
 
-      - name: Create Release
+      - name: Create release
         if: ${{ steps.commit_count.outputs.count >= 5 }}
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: nightly-${{ github.run_number }}
-          release_name: Nightly build ${{ github.run_number }} (${{ env.date }})
+          name: Nightly build ${{ github.run_number }} (${{ env.date }})
+          prerelease: true
+          files: ./MewdekoPsql-win64.zip
           body: |
             Automated nightly build for commit ${{ github.sha }}
 
             ## Commits since previous release:
             ${{ env.messages }}
-          draft: false
-          prerelease: true
-
-      - name: Upload Release Asset
-        if: ${{ steps.commit_count.outputs.count >= 5 }}
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./MewdekoPsql-win64.zip
-          asset_name: MewdekoPsql-win64.zip
-          asset_content_type: application/zip
-
-
-

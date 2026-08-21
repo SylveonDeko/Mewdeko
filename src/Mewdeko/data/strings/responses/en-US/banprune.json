@@ -1,0 +1,19 @@
+{
+  "ban_prune_action_unknown": "There is no ban action called `{0}`. Known actions: {1}",
+  "ban_prune_cleared": "Cleared the purge setting for {0} in {1}.",
+  "ban_prune_cleared_none": "There was no purge setting for {0} in {1}.",
+  "ban_prune_current": "{0}: **{1}**",
+  "ban_prune_list_empty": "No purge settings configured. Bans use each action's built in default.",
+  "ban_prune_list_title": "Ban message purge",
+  "ban_prune_reset": "Removed {0} purge settings. Every action is back to its default.",
+  "ban_prune_scope_category": "category {0}",
+  "ban_prune_scope_channel": "channel {0}",
+  "ban_prune_scope_guild": "this server",
+  "ban_prune_set": "Bans from {0} now purge **{1}** for {2}.",
+  "ban_prune_set_all_actions": "every ban action",
+  "ban_prune_days": "{0} day(s) of messages",
+  "ban_prune_days_none": "no messages",
+  "ban_prune_effective": "A ban here right now purges **{0}**.",
+  "ban_prune_defaults_title": "Defaults",
+  "ban_prune_overrides_title": "Overrides"
+}

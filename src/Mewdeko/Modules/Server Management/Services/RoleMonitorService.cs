@@ -3,6 +3,7 @@ using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Administration.Common;
+using Mewdeko.Modules.Moderation.Common;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.Strings;
@@ -14,6 +15,7 @@ namespace Mewdeko.Modules.Server_Management.Services;
 /// </summary>
 public class RoleMonitorService : INService, IReadyExecutor
 {
+    private readonly BanPruneService banPrune;
     private readonly BotConfigService botConfigService;
     private readonly DiscordShardedClient client;
     private readonly IDataCache dataCache;
@@ -36,10 +38,12 @@ public class RoleMonitorService : INService, IReadyExecutor
     /// <param name="botConfigService">The bot configuration service.</param>
     /// <param name="muteService">The mute service for handling user mutes.</param>
     /// <param name="strings">The localized strings service.</param>
+    /// <param name="banPrune">The service resolving how many days of messages a ban purges</param>
     public RoleMonitorService(DiscordShardedClient client, EventHandler handler, IDataConnectionFactory dbFactory,
         IDataCache dataCache, UserPunishService userPunishService, BotConfigService botConfigService,
-        MuteService muteService, GeneratedBotStrings strings)
+        MuteService muteService, GeneratedBotStrings strings, BanPruneService banPrune)
     {
+        this.banPrune = banPrune;
         this.client = client;
         this.dbFactory = dbFactory;
         this.dataCache = dataCache;
@@ -389,13 +393,17 @@ public class RoleMonitorService : INService, IReadyExecutor
                 await user.KickAsync($"Violation: {actionDescription}");
                 break;
             case PunishmentAction.Ban:
-                await guild.AddBanAsync(user.Id, reason: $"Violation: {actionDescription}");
+                await guild.AddBanAsync(user.Id,
+                    await banPrune.GetPruneDaysAsync(guild.Id, BanPruneAction.RoleMonitor),
+                    $"Violation: {actionDescription}");
                 break;
             case PunishmentAction.Mute:
                 await muteService.MuteUser(user, client.CurrentUser, reason: actionDescription);
                 break;
             case PunishmentAction.Softban:
-                await guild.AddBanAsync(user.Id, reason: $"Violation: {actionDescription}");
+                await guild.AddBanAsync(user.Id,
+                    await banPrune.GetPruneDaysAsync(guild.Id, BanPruneAction.SoftBan),
+                    $"Violation: {actionDescription}");
                 await guild.RemoveBanAsync(user);
                 break;
             case PunishmentAction.RemoveRoles:

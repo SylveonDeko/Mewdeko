@@ -1,3 +1,45 @@
+banprune:
+  args:
+    - ''
+  desc: 'Shows the purge a ban issued in this channel would use, along with every configured setting.'
+  params:
+    - { }
+banpruneset:
+  args:
+    - '<action> <days> [#channel]'
+  desc: 'Sets how many days of messages one ban action purges. Use "all" for every action, and pass a channel or category to override just that scope.'
+  params:
+    - desc: 'The action key, or "all" to cover every action'
+      name: action
+      optional: false
+      type: string
+    - desc: 'The purge in days, 0 through 7'
+      name: days
+      optional: false
+      type: int
+    - desc: 'A channel or category to scope the setting to, or nothing for the server default'
+      name: target
+      optional: true
+      type: channel
+banpruneclear:
+  args:
+    - '<action> [#channel]'
+  desc: 'Removes a purge setting so the action falls back to a broader scope or its default.'
+  params:
+    - desc: 'The action key, or "all" for the setting covering every action'
+      name: action
+      optional: false
+      type: string
+    - desc: 'The channel or category the setting is on, or nothing for the server default'
+      name: target
+      optional: true
+      type: channel
+banprunereset:
+  args:
+    - ''
+  desc: 'Removes every purge setting in the server.'
+  params:
+    - { }
 ban:
   args:
     - '<pruneTime> <time> [@user] [msg]'

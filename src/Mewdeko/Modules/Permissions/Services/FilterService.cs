@@ -8,6 +8,7 @@ using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Modules.Moderation.Common;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Services.Strings;
 
@@ -20,6 +21,7 @@ namespace Mewdeko.Modules.Permissions.Services;
 public class FilterService : IEarlyBehavior, INService
 {
     private readonly AdministrationService ass;
+    private readonly BanPruneService banPrune;
 
     private readonly DiscordShardedClient client;
     private readonly BotConfig config;
@@ -49,10 +51,13 @@ public class FilterService : IEarlyBehavior, INService
     /// <param name="eventHandler">The event handler service.</param>
     /// <param name="config">The bot configuration settings.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="banPrune">The service resolving how many days of messages a ban purges</param>
     public FilterService(DiscordShardedClient client, IDataConnectionFactory dbFactory, IPubSub pubSub,
         UserPunishService upun2, GeneratedBotStrings strng, AdministrationService ass,
-        GuildSettingsService gss, EventHandler eventHandler, BotConfig config, ILogger<FilterService> logger)
+        GuildSettingsService gss, EventHandler eventHandler, BotConfig config, BanPruneService banPrune,
+        ILogger<FilterService> logger)
     {
+        this.banPrune = banPrune;
         this.dbFactory = dbFactory;
         this.client = client;
         userPunServ = upun2;
@@ -421,7 +426,10 @@ public class FilterService : IEarlyBehavior, INService
                 // DM failed, continue with ban anyway
             }
 
-            await guild.AddBanAsync(msg.Author, options: new RequestOptions
+            var pruneDays = await banPrune.GetPruneDaysAsync(guild.Id, BanPruneAction.Filter, msg.Channel)
+                .ConfigureAwait(false);
+
+            await guild.AddBanAsync(msg.Author, pruneDays, options: new RequestOptions
             {
                 AuditLogReason = Strings.AutobanReason(guild.Id, matchedText)
             }).ConfigureAwait(false);

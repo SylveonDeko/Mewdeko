@@ -6,6 +6,7 @@ using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Modules.Moderation.Common;
 using Mewdeko.Services.Strings;
 
 namespace Mewdeko.Modules.Moderation.Services;
@@ -63,8 +64,9 @@ public class MuteService : INService, IReadyExecutor, IDisposable
 
     private readonly ConcurrentDictionary<TimerKey, Timer> activeTimers = new();
 
-    private readonly DiscordShardedClient client;
+    private readonly BanPruneService banPrune;
 
+    private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
     private readonly EventHandler eventHandler;
 
@@ -86,12 +88,15 @@ public class MuteService : INService, IReadyExecutor, IDisposable
     /// <param name="guildSettings">Service for retrieving guildconfigs</param>
     /// <param name="eventHandler">Handler for async events (Hear that dnet? ASYNC, not GATEWAY THREAD)</param>
     /// <param name="strings">The localization service</param>
+    /// <param name="banPrune">The service resolving how many days of messages a ban purges</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     public MuteService(DiscordShardedClient client, IDataConnectionFactory dbFactory,
         GuildSettingsService guildSettings,
-        EventHandler eventHandler, GeneratedBotStrings strings, ILogger<MuteService> logger)
+        EventHandler eventHandler, GeneratedBotStrings strings, BanPruneService banPrune,
+        ILogger<MuteService> logger)
     {
         this.client = client;
+        this.banPrune = banPrune;
         this.dbFactory = dbFactory;
         this.guildSettings = guildSettings;
         this.strings = strings;
@@ -874,7 +879,11 @@ public class MuteService : INService, IReadyExecutor, IDisposable
     /// <param name="todelete">The time to delete the ban message</param>
     public async Task TimedBan(IGuild guild, IUser? user, TimeSpan after, string reason, TimeSpan todelete = default)
     {
-        await guild.AddBanAsync(user.Id, todelete.Days, options: new RequestOptions
+        var pruneDays = todelete == default
+            ? await banPrune.GetPruneDaysAsync(guild.Id, BanPruneAction.TempBan).ConfigureAwait(false)
+            : todelete.Days;
+
+        await guild.AddBanAsync(user.Id, pruneDays, options: new RequestOptions
         {
             AuditLogReason = reason
         }).ConfigureAwait(false);

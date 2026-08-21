@@ -1052,6 +1052,17 @@ public class MewdekoDb : DataConnection
     public ITable<PatreonGoal> PatreonGoals => this.GetTable<PatreonGoal>();
 
     /// <summary>
+    ///     Gets the ban message purge settings table.
+    /// </summary>
+    public ITable<BanPruneSetting> BanPruneSettings
+    {
+        get
+        {
+            return this.GetTable<BanPruneSetting>();
+        }
+    }
+
+    /// <summary>
     ///     Gets the channel access gate configurations table.
     /// </summary>
     public ITable<ChannelAccessConfig> ChannelAccessConfigs

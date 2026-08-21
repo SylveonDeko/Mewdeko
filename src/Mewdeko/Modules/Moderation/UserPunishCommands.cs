@@ -24,6 +24,7 @@ public partial class Moderation : MewdekoModule
     /// <param name="dbFactory">The database service</param>
     /// <param name="serv">The service used to handle embed pagination</param>
     /// <param name="nekos">The NekosBest API</param>
+    /// <param name="banPrune">The service resolving how many days of messages a ban purges</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     [Group]
     public class UserPunishCommands(
@@ -31,6 +32,7 @@ public partial class Moderation : MewdekoModule
         IDataConnectionFactory dbFactory,
         InteractiveService serv,
         NekosBestApi nekos,
+        BanPruneService banPrune,
         ILogger<UserPunishCommands> logger)
         : MewdekoSubmodule<UserPunishService>
     {
@@ -899,7 +901,9 @@ public partial class Moderation : MewdekoModule
         {
             if (user is null)
             {
-                await ctx.Guild.AddBanAsync(user, 7, options: new RequestOptions
+                var pruneDays = await banPrune
+                    .GetPruneDaysAsync(ctx.Guild.Id, BanPruneAction.HackBan, ctx.Channel).ConfigureAwait(false);
+                await ctx.Guild.AddBanAsync(user, pruneDays, options: new RequestOptions
                 {
                     AuditLogReason = $"{ctx.User} | {msg}"
                 }).ConfigureAwait(false);
@@ -975,7 +979,9 @@ public partial class Moderation : MewdekoModule
                 dmFailed = true;
             }
 
-            await ctx.Guild.AddBanAsync(user, 7, options: new RequestOptions
+            var pruneDays = await banPrune
+                .GetPruneDaysAsync(ctx.Guild.Id, BanPruneAction.Ban, ctx.Channel).ConfigureAwait(false);
+            await ctx.Guild.AddBanAsync(user, pruneDays, options: new RequestOptions
             {
                 AuditLogReason = $"{ctx.User} | {msg}"
             }).ConfigureAwait(false);
@@ -1263,7 +1269,9 @@ public partial class Moderation : MewdekoModule
                 dmFailed = true;
             }
 
-            await ctx.Guild.AddBanAsync(user, 7, options: new RequestOptions
+            var softPruneDays = await banPrune
+                .GetPruneDaysAsync(ctx.Guild.Id, BanPruneAction.SoftBan, ctx.Channel).ConfigureAwait(false);
+            await ctx.Guild.AddBanAsync(user, softPruneDays, options: new RequestOptions
             {
                 AuditLogReason = $"Softban: {ctx.User} | {msg}"
             }).ConfigureAwait(false);
@@ -1425,9 +1433,11 @@ public partial class Moderation : MewdekoModule
                 .WithOkColor());
 
             //do the banning
+            var massPruneDays = await banPrune
+                .GetPruneDaysAsync(ctx.Guild.Id, BanPruneAction.MassBan, ctx.Channel).ConfigureAwait(false);
             await Task.WhenAll(valueTuples
                     .Where(x => x.id.HasValue)
-                    .Select(x => ctx.Guild.AddBanAsync(x.id.Value, 7, "", new RequestOptions
+                    .Select(x => ctx.Guild.AddBanAsync(x.id.Value, massPruneDays, "", new RequestOptions
                     {
                         RetryMode = RetryMode.AlwaysRetry, AuditLogReason = x.Reason
                     })))

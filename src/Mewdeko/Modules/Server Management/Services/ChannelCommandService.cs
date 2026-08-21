@@ -4,6 +4,8 @@ using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Administration.Common;
+using Mewdeko.Modules.Moderation.Common;
+using Mewdeko.Modules.Moderation.Services;
 using StackExchange.Redis;
 
 namespace Mewdeko.Modules.Server_Management.Services;
@@ -16,6 +18,7 @@ public class ChannelCommandService : INService, IReadyExecutor
 {
     private const string JoinBlockedGuildsKey = "join-blocked-guilds";
     private const string JoinBlockedActionsKey = "join-blocked-guild-actions";
+    private readonly BanPruneService banPrune;
     private readonly DiscordShardedClient client;
     private readonly IDataCache dataCache;
     private readonly IDataConnectionFactory dbFactory;
@@ -30,9 +33,11 @@ public class ChannelCommandService : INService, IReadyExecutor
     /// <param name="handler">The event handler.</param>
     /// <param name="dbFactory">The databse connection provider</param>
     /// <param name="client">The discord client</param>
+    /// <param name="banPrune">The service resolving how many days of messages a ban purges</param>
     public ChannelCommandService(IDataCache dataCache, EventHandler handler, IDataConnectionFactory dbFactory,
-        DiscordShardedClient client)
+        DiscordShardedClient client, BanPruneService banPrune)
     {
+        this.banPrune = banPrune;
         this.dataCache = dataCache;
         this.dbFactory = dbFactory;
         this.client = client;
@@ -253,7 +258,9 @@ public class ChannelCommandService : INService, IReadyExecutor
                     await user.KickAsync("Server is in lockdown").ConfigureAwait(false);
                     break;
                 case PunishmentAction.Ban:
-                    await user.Guild.AddBanAsync(user, 0, "Server is in lockdown").ConfigureAwait(false);
+                    var pruneDays = await banPrune
+                        .GetPruneDaysAsync(user.Guild.Id, BanPruneAction.Lockdown).ConfigureAwait(false);
+                    await user.Guild.AddBanAsync(user, pruneDays, "Server is in lockdown").ConfigureAwait(false);
                     break;
             }
         }
