@@ -486,6 +486,32 @@ public class FormsService : INService
     }
 
     /// <summary>
+    ///     Updates an existing question option's text, value, and display order.
+    /// </summary>
+    /// <param name="option">The option to update, identified by its <see cref="FormQuestionOption.Id" />.</param>
+    /// <returns>True if a matching option was updated.</returns>
+    public async Task<bool> UpdateQuestionOptionAsync(FormQuestionOption option)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var updated = await db.UpdateAsync(option);
+        return updated > 0;
+    }
+
+    /// <summary>
+    ///     Deletes a single question option.
+    /// </summary>
+    /// <param name="optionId">The option ID to delete.</param>
+    /// <returns>True if a matching option was deleted.</returns>
+    public async Task<bool> DeleteQuestionOptionAsync(int optionId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var deleted = await db.FormQuestionOptions
+            .Where(o => o.Id == optionId)
+            .DeleteAsync();
+        return deleted > 0;
+    }
+
+    /// <summary>
     ///     Gets all conditions for a question.
     /// </summary>
     /// <param name="questionId">The question ID.</param>

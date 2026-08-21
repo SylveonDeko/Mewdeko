@@ -638,6 +638,90 @@ public class FormsController : Controller
     }
 
     /// <summary>
+    ///     Updates an existing question option.
+    /// </summary>
+    /// <param name="optionId">The option ID.</param>
+    /// <param name="option">The updated option.</param>
+    /// <returns>Success status.</returns>
+    [HttpPut("questions/options/{optionId:int}")]
+    public async Task<IActionResult> UpdateQuestionOption(int optionId, [FromBody] FormQuestionOption option)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(option.OptionText))
+            {
+                return BadRequest(new
+                {
+                    message = "Option text is required"
+                });
+            }
+
+            if (option.OptionText.Length > 500)
+            {
+                return BadRequest(new
+                {
+                    message = "Option text cannot exceed 500 characters"
+                });
+            }
+
+            option.Id = optionId; // Ensure option ID matches route
+            var success = await service.UpdateQuestionOptionAsync(option);
+
+            if (!success)
+                return NotFound(new
+                {
+                    message = "Option not found"
+                });
+
+            return Ok(new
+            {
+                message = "Option updated successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to update option {OptionId}", optionId);
+            return BadRequest(new
+            {
+                message = ex.Message
+            });
+        }
+    }
+
+    /// <summary>
+    ///     Deletes a single question option.
+    /// </summary>
+    /// <param name="optionId">The option ID to delete.</param>
+    /// <returns>Success status.</returns>
+    [HttpDelete("questions/options/{optionId:int}")]
+    public async Task<IActionResult> DeleteQuestionOption(int optionId)
+    {
+        try
+        {
+            var success = await service.DeleteQuestionOptionAsync(optionId);
+
+            if (!success)
+                return NotFound(new
+                {
+                    message = "Option not found"
+                });
+
+            return Ok(new
+            {
+                message = "Option deleted successfully"
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to delete option {OptionId}", optionId);
+            return StatusCode(500, new
+            {
+                message = "Failed to delete option"
+            });
+        }
+    }
+
+    /// <summary>
     ///     Gets all conditions for a question (for multi-condition logic).
     /// </summary>
     /// <param name="questionId">The question ID.</param>
