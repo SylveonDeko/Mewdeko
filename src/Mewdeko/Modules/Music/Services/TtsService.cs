@@ -20,8 +20,18 @@ public class TtsService : INService, IReadyExecutor
 {
     private const int MaxMessageLength = 200;
     private const float DuckVolume = 0.15f;
-    private const string DefaultJoinFormat = "%user.name% joined the channel";
-    private const string DefaultLeaveFormat = "%user.name% left the channel";
+
+    /// <summary>
+    ///     Format spoken when a member joins a TTS voice channel and no custom format is set.
+    ///     Runs through <see cref="ReplacementBuilder" />, so placeholders are %user.name%-style.
+    /// </summary>
+    public const string DefaultJoinFormat = "%user.name% joined the channel";
+
+    /// <summary>
+    ///     Format spoken when a member leaves a TTS voice channel and no custom format is set.
+    /// </summary>
+    public const string DefaultLeaveFormat = "%user.name% left the channel";
+
     private static readonly TimeSpan CooldownDuration = TimeSpan.FromSeconds(5);
 
     private readonly IAudioService audioService;

@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Text.Json;
+using System.Threading;
 using DataModel;
 using Lavalink4NET;
 using Lavalink4NET.Filters;
@@ -14,6 +15,7 @@ using Mewdeko.Modules.Music.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace Mewdeko.Controllers;
 
@@ -137,7 +139,10 @@ public class MusicController : Controller
             CurrentTrack = currentTrack,
             Queue = queue,
             player.State,
-            player.Volume,
+            // Lavalink reports volume as a 0-1 float; the idle branch above and every client
+            // report it as a 0-100 percentage, so normalise here rather than leaving callers
+            // to guess which scale they were handed.
+            Volume = (int)Math.Round(player.Volume * 100f),
             player.Position,
             RepeatMode = settings.PlayerRepeat,
             Filters = new
@@ -493,7 +498,10 @@ public class MusicController : Controller
             CurrentTrack = currentTrack,
             Queue = queue,
             player.State,
-            player.Volume,
+            // Lavalink reports volume as a 0-1 float; the idle branch above and every client
+            // report it as a 0-100 percentage, so normalise here rather than leaving callers
+            // to guess which scale they were handed.
+            Volume = (int)Math.Round(player.Volume * 100f),
             player.Position,
             RepeatMode = settings.PlayerRepeat,
             Filters = new
@@ -523,20 +531,25 @@ public class MusicController : Controller
     /// <returns>The loaded track and its position in the queue</returns>
     [Authorize("ApiKeyPolicy")]
     [HttpPost("play")]
-    public async Task<IActionResult> Play(ulong guildId, [FromBody] PlayRequest request)
+    public async Task<IActionResult> Play(ulong guildId, [FromBody] PlayRequest request,
+        [FromQuery] ulong userId = 0)
     {
         var guild = client.GetGuild(guildId);
         if (guild == null)
             return NotFound("Guild not found");
 
-        var player = await audioService.Players.GetPlayerAsync<MewdekoPlayer>(guildId);
-        if (player == null)
-            return NotFound("No active player found");
+        var term = request?.Term;
+        if (string.IsNullOrWhiteSpace(term))
+            return BadRequest("A url or search query is required");
 
-        var searchMode = request.Url.Contains("spotify") ? TrackSearchMode.Spotify :
-            request.Url.Contains("youtube") ? TrackSearchMode.YouTube : TrackSearchMode.None;
+        var (player, error) = await GetOrCreatePlayerAsync(guildId, request.Requester?.Id ?? userId);
+        if (player is null)
+            return NotFound(error ?? "No active player found");
 
-        var trackResult = await audioService.Tracks.LoadTrackAsync(request.Url, new TrackLoadOptions
+        var searchMode = term.Contains("spotify") ? TrackSearchMode.Spotify :
+            term.Contains("youtube") ? TrackSearchMode.YouTube : TrackSearchMode.None;
+
+        var trackResult = await audioService.Tracks.LoadTrackAsync(term, new TrackLoadOptions
         {
             SearchMode = searchMode
         });
@@ -544,21 +557,22 @@ public class MusicController : Controller
             return BadRequest("Failed to load track");
 
         var queue = await cache.GetMusicQueue(guildId);
-        queue.Add(new MewdekoTrack(queue.Count + 1, trackResult, request.Requester));
+        var queued = new MewdekoTrack(queue.Count + 1, trackResult,
+            request.Requester ?? ResolveRequester(guild, userId));
+        queue.Add(queued);
         await cache.SetMusicQueue(guildId, queue);
 
         if (player.State != PlayerState.Playing)
         {
             await player.PlayAsync(trackResult);
-            await cache.SetCurrentTrack(guildId, queue[0]);
-
-            // Notify clients of track change
-            await eventManager.BroadcastPlayerUpdate(guildId);
+            await cache.SetCurrentTrack(guildId, queued);
         }
+
+        await eventManager.BroadcastPlayerUpdate(guildId);
 
         return Ok(new
         {
-            Track = trackResult, Position = queue.Count
+            Track = trackResult, Position = queued.Index
         });
     }
 
@@ -636,6 +650,28 @@ public class MusicController : Controller
 
         queue.Remove(track);
         await cache.SetMusicQueue(guildId, queue);
+
+        // Removing the track that is currently playing has to advance the player, otherwise
+        // playback carries on for a track that is no longer in the queue.
+        var currentTrack = await cache.GetCurrentTrack(guildId);
+        if (currentTrack?.Index == track.Index)
+        {
+            var player = await audioService.Players.GetPlayerAsync<MewdekoPlayer>(guildId);
+            if (player is not null)
+            {
+                var nextTrack = queue.Where(x => x.Index > track.Index).MinBy(x => x.Index);
+                await player.StopAsync();
+                if (nextTrack is not null)
+                {
+                    await player.PlayAsync(nextTrack.Track);
+                    await cache.SetCurrentTrack(guildId, nextTrack);
+                }
+                else
+                {
+                    await cache.SetCurrentTrack(guildId, null);
+                }
+            }
+        }
 
         // Notify clients of queue change
         await eventManager.BroadcastPlayerUpdate(guildId);
@@ -839,18 +875,51 @@ public class MusicController : Controller
     }
 
     /// <summary>
-    ///     Updates player settings
+    ///     Updates player settings. Only the fields present in the request body are changed; everything else on the
+    ///     guild's settings row (DJ role, vote skip, TTS configuration) is left untouched.
     /// </summary>
     /// <param name="guildId">The Discord guild ID</param>
-    /// <param name="settings">The new settings to apply</param>
+    /// <param name="request">The settings to apply</param>
     /// <returns>The updated settings</returns>
     [HttpPost("settings")]
     [Authorize("ApiKeyPolicy")]
-    public async Task<IActionResult> UpdateSettings(ulong guildId, [FromBody] MusicPlayerSetting settings)
+    public async Task<IActionResult> UpdateSettings(ulong guildId, [FromBody] MusicPlayerSettingsRequest request)
     {
-        auditContext.RecordBefore(await cache.GetMusicPlayerSettings(guildId));
-        var player = await audioService.Players.GetPlayerAsync<MewdekoPlayer>(guildId);
-        await player.SetMusicSettings(guildId, settings);
+        var settings = await GetOrCreateMusicSettings(guildId);
+        auditContext.RecordBefore(settings);
+
+        if (request.Volume.HasValue)
+        {
+            if (request.Volume is < 0 or > 100)
+                return BadRequest("Volume must be between 0 and 100");
+            settings.Volume = request.Volume.Value;
+        }
+
+        if (request.PlayerRepeat.HasValue)
+        {
+            if (request.PlayerRepeat is < 0 or > 2)
+                return BadRequest("Repeat mode must be 0 (off), 1 (track), or 2 (queue)");
+            settings.PlayerRepeat = request.PlayerRepeat.Value;
+        }
+
+        if (request.AutoPlay.HasValue) settings.AutoPlay = request.AutoPlay.Value;
+        if (request.AutoDisconnect.HasValue) settings.AutoDisconnect = request.AutoDisconnect.Value;
+        if (request.MusicChannelId.HasValue)
+            settings.MusicChannelId = request.MusicChannelId == 0 ? null : request.MusicChannelId;
+        if (request.DjRoleId.HasValue) settings.DjRoleId = request.DjRoleId == 0 ? null : request.DjRoleId;
+        if (request.VoteSkipEnabled.HasValue) settings.VoteSkipEnabled = request.VoteSkipEnabled.Value;
+        if (request.VoteSkipThreshold.HasValue) settings.VoteSkipThreshold = request.VoteSkipThreshold.Value;
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        await db.UpdateAsync(settings);
+        await cache.SetMusicPlayerSettings(guildId, settings);
+
+        if (request.Volume.HasValue)
+        {
+            var player = await audioService.Players.GetPlayerAsync<MewdekoPlayer>(guildId);
+            if (player is not null)
+                await player.SetVolumeAsync(settings.Volume / 100f);
+        }
 
         // Notify clients of settings change
         await eventManager.BroadcastPlayerUpdate(guildId);
@@ -1204,6 +1273,7 @@ public class MusicController : Controller
         switch (filterName.ToLower())
         {
             case "bass":
+            case "bassboost":
                 player.Filters.Equalizer = enable
                     ? new EqualizerFilterOptions(new Equalizer
                     {
@@ -1295,6 +1365,99 @@ public class MusicController : Controller
         {
             Filter = filterName, Enabled = enable
         });
+    }
+
+    /// <summary>
+    ///     Returns the guild's player, creating one (and joining voice) when none is running.
+    /// </summary>
+    /// <param name="guildId">The Discord guild ID</param>
+    /// <param name="userId">The acting user, used to pick a channel when the bot is not connected yet</param>
+    /// <returns>The player, or null with a human-readable reason.</returns>
+    private async Task<(MewdekoPlayer? Player, string? Error)> GetOrCreatePlayerAsync(ulong guildId, ulong userId)
+    {
+        var existing = await audioService.Players.GetPlayerAsync<MewdekoPlayer>(guildId);
+        if (existing is not null)
+            return (existing, null);
+
+        var guild = client.GetGuild(guildId);
+        if (guild is null)
+            return (null, "Guild not found");
+
+        var botChannel = guild.GetUser(client.CurrentUser.Id)?.VoiceChannel;
+        var userChannel = userId == 0 ? null : guild.GetUser(userId)?.VoiceChannel;
+
+        var target = botChannel ?? userChannel;
+        if (target is null)
+            return (null, "Join a voice channel first");
+
+        if (botChannel is not null && userChannel is not null && botChannel.Id != userChannel.Id)
+            return (null, "You need to be in the bot's voice channel");
+
+        var settings = await GetOrCreateMusicSettings(guildId);
+        var options = new MewdekoPlayerOptions
+        {
+            Channel = settings.MusicChannelId.HasValue
+                ? guild.GetTextChannel(settings.MusicChannelId.Value)
+                : null
+        };
+
+        try
+        {
+            var result = await audioService.Players
+                .RetrieveAsync<MewdekoPlayer, MewdekoPlayerOptions>(
+                    guildId,
+                    target.Id,
+                    CreatePlayerAsync,
+                    Options.Create(options),
+                    new PlayerRetrieveOptions(PlayerChannelBehavior.Join))
+                .ConfigureAwait(false);
+
+            if (result is { IsSuccess: true, Player: not null })
+            {
+                await result.Player.SetVolumeAsync(settings.Volume / 100f).ConfigureAwait(false);
+                return (result.Player, null);
+            }
+
+            var message = result.Status switch
+            {
+                PlayerRetrieveStatus.UserNotInVoiceChannel => "Join a voice channel first",
+                PlayerRetrieveStatus.BotNotConnected => "The bot is not connected to a voice channel",
+                PlayerRetrieveStatus.VoiceChannelMismatch => "You need to be in the bot's voice channel",
+                _ => "Could not start a player"
+            };
+            return (null, message);
+        }
+        catch (TimeoutException)
+        {
+            return (null, "The audio node is not responding");
+        }
+    }
+
+    private static ValueTask<MewdekoPlayer> CreatePlayerAsync(
+        IPlayerProperties<MewdekoPlayer, MewdekoPlayerOptions> properties,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ArgumentNullException.ThrowIfNull(properties);
+        return ValueTask.FromResult(new MewdekoPlayer(properties));
+    }
+
+    /// <summary>
+    ///     Builds a requester stub for clients that do not send one.
+    /// </summary>
+    private static PartialUser? ResolveRequester(SocketGuild guild, ulong userId)
+    {
+        if (userId == 0)
+            return null;
+
+        var user = guild.GetUser(userId);
+        if (user is null)
+            return null;
+
+        return new PartialUser
+        {
+            Id = user.Id, Username = user.Username, AvatarUrl = user.GetAvatarUrl() ?? user.GetDefaultAvatarUrl()
+        };
     }
 
     private async Task<MusicPlayerSetting> GetOrCreateMusicSettings(ulong guildId)

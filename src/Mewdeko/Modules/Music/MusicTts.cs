@@ -11,6 +11,7 @@ using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Music.CustomPlayer;
+using Mewdeko.Modules.Music.Services;
 
 namespace Mewdeko.Modules.Music;
 
@@ -147,7 +148,7 @@ public partial class Music
 
         /// <summary>
         ///     Sets the join announcement format for the current voice channel.
-        ///     Use {user} as a placeholder for the username.
+        ///     Supports %user.name%, %user.mention%, and %server.name% placeholders.
         ///     Use without arguments to reset to default.
         /// </summary>
         [Cmd]
@@ -183,7 +184,7 @@ public partial class Music
 
         /// <summary>
         ///     Sets the leave announcement format for the current voice channel.
-        ///     Use {user} as a placeholder for the username.
+        ///     Supports %user.name%, %user.mention%, and %server.name% placeholders.
         ///     Use without arguments to reset to default.
         /// </summary>
         [Cmd]
@@ -667,8 +668,8 @@ public partial class Music
                 ? $"<#{vcSetting.LinkedTextChannelId.Value}>"
                 : "None (VC text chat only)";
             var announce = vcSetting?.AnnounceJoinLeave == true ? "Yes" : "No";
-            var joinFmt = vcSetting?.JoinFormat ?? "{user} joined the channel";
-            var leaveFmt = vcSetting?.LeaveFormat ?? "{user} left the channel";
+            var joinFmt = vcSetting?.JoinFormat ?? TtsService.DefaultJoinFormat;
+            var leaveFmt = vcSetting?.LeaveFormat ?? TtsService.DefaultLeaveFormat;
             var defaultVoice = string.IsNullOrWhiteSpace(settings.TtsDefaultVoice)
                 ? "System default"
                 : settings.TtsDefaultVoice;
