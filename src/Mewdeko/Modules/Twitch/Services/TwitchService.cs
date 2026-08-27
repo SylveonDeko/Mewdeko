@@ -29,6 +29,11 @@ public class TwitchService : INService, IReadyExecutor
     private readonly ConcurrentDictionary<string, TwitchSessionStats> sessionStats =
         new(StringComparer.OrdinalIgnoreCase);
 
+    private readonly ConcurrentDictionary<ulong, (TwitchChannelSnapshot Snapshot, DateTime FetchedAt)> snapshotCache =
+        new();
+
+    private readonly SemaphoreSlim snapshotLock = new(1, 1);
+
     private readonly TwitchApiClient twitchApiClient;
     private TwitchAPI? helixApi;
 
@@ -265,6 +270,74 @@ public class TwitchService : INService, IReadyExecutor
         channel.LastRefreshedAt = DateTime.UtcNow;
         await conn.UpdateAsync(channel);
         return true;
+    }
+
+    /// <summary>
+    ///     Gets a cached view of the guild's linked Twitch channel: live state, viewers, category, follower and
+    ///     subscriber totals. Results are cached for 60 seconds so several stat channels sharing a guild cost one
+    ///     round trip.
+    /// </summary>
+    /// <param name="guildId">The Discord guild ID.</param>
+    /// <param name="maxAge">How stale a cached snapshot may be before it is refetched.</param>
+    /// <returns>The snapshot, or null when the guild has no authorized Twitch channel.</returns>
+    public async Task<TwitchChannelSnapshot?> GetChannelSnapshotAsync(ulong guildId, TimeSpan? maxAge = null)
+    {
+        var ttl = maxAge ?? TimeSpan.FromSeconds(60);
+        if (snapshotCache.TryGetValue(guildId, out var cached) && DateTime.UtcNow - cached.FetchedAt < ttl)
+            return cached.Snapshot;
+
+        await snapshotLock.WaitAsync();
+        try
+        {
+            if (snapshotCache.TryGetValue(guildId, out cached) && DateTime.UtcNow - cached.FetchedAt < ttl)
+                return cached.Snapshot;
+
+            await using var conn = await dbFactory.CreateConnectionAsync();
+            var channel = await conn.TwitchChannelAuthorizations.FirstOrDefaultAsync(x => x.GuildId == guildId);
+            if (channel is null || !await RefreshChannelTokenIfNeededAsync(conn, channel))
+                return null;
+
+            var stream = await twitchApiClient.GetStreamAsync(
+                creds.TwitchClientId, channel.AccessToken, channel.TwitchUserId);
+            var followers = await twitchApiClient.GetFollowerCountAsync(
+                creds.TwitchClientId, channel.AccessToken, channel.TwitchUserId);
+            var subs = await twitchApiClient.GetSubscriberCountAsync(
+                creds.TwitchClientId, channel.AccessToken, channel.TwitchUserId);
+
+            var snapshot = new TwitchChannelSnapshot
+            {
+                DisplayName = channel.DisplayName ?? channel.TwitchUsername,
+                Login = channel.TwitchUsername,
+                IsLive = stream is not null,
+                Viewers = stream?.ViewerCount ?? 0,
+                Game = stream?.GameName ?? "",
+                Title = stream?.Title ?? "",
+                StartedAt = stream?.StartedAt,
+                Followers = followers,
+                Subscribers = subs
+            };
+
+            snapshotCache[guildId] = (snapshot, DateTime.UtcNow);
+            return snapshot;
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "Failed to build Twitch snapshot for guild {GuildId}", guildId);
+            return null;
+        }
+        finally
+        {
+            snapshotLock.Release();
+        }
+    }
+
+    /// <summary>
+    ///     Drops the cached Twitch snapshot for a guild so the next read refetches. Called on go-live transitions.
+    /// </summary>
+    /// <param name="guildId">The Discord guild ID.</param>
+    public void InvalidateChannelSnapshot(ulong guildId)
+    {
+        snapshotCache.TryRemove(guildId, out _);
     }
 
     /// <summary>
@@ -753,16 +826,17 @@ public class TwitchService : INService, IReadyExecutor
     ///     Sends the configured go-live notification to the guild's chosen Discord channel.
     ///     Supports the same <c>%streamer%</c>/<c>%title%</c>/<c>%game%</c>/<c>%url%</c> placeholders
     ///     documented on <c>/twitch golive-channel</c>, plus SmartEmbed JSON for full custom embeds.
+    ///     The session row is created by whichever path detected the transition, so this only fills in the gaps,
+    ///     leaving any event that arrived between detection and this notification intact.
     /// </summary>
     private async Task SendGoLiveNotificationAsync(TwitchStreamOnlineArgs stream)
     {
-        sessionStats[GetSessionKey(stream.GuildId, stream.BroadcasterUserLogin)] = new TwitchSessionStats
-        {
-            StartedAt = stream.StartedAt,
-            Title = stream.Title,
-            GameName = stream.GameName,
-            PeakViewers = stream.ViewerCount
-        };
+        var session = sessionStats.GetOrAdd(GetSessionKey(stream.GuildId, stream.BroadcasterUserLogin),
+            _ => new TwitchSessionStats());
+        session.StartedAt = stream.StartedAt;
+        session.Title = stream.Title;
+        session.GameName = stream.GameName;
+        session.PeakViewers = Math.Max(session.PeakViewers, stream.ViewerCount);
 
         await using var conn = await dbFactory.CreateConnectionAsync();
         var config = await conn.TwitchGuildConfigs.FirstOrDefaultAsync(c => c.GuildId == stream.GuildId);
@@ -847,15 +921,17 @@ public class TwitchService : INService, IReadyExecutor
         };
 
         var duration = DateTime.UtcNow - stats.StartedAt;
+        var counts = await GetRecapCountsAsync(stream.GuildId, stats);
+
         var embed = new EmbedBuilder()
             .WithOkColor()
             .WithTitle($"{stream.BroadcasterUserName} stream recap")
             .WithDescription($"https://twitch.tv/{stream.BroadcasterUserLogin}")
             .AddField("Duration", $"{(int)duration.TotalHours}h {duration.Minutes}m", true)
             .AddField("Peak Viewers", stats.PeakViewers.ToString("N0"), true)
-            .AddField("Chat Messages", stats.ChatMessages.ToString("N0"), true)
-            .AddField("Subs", stats.Subs.ToString("N0"), true)
-            .AddField("Raids", stats.Raids.ToString("N0"), true);
+            .AddField("Chat Messages", counts.ChatMessages.ToString("N0"), true)
+            .AddField("Subs", counts.Subs.ToString("N0"), true)
+            .AddField("Raids", counts.Raids.ToString("N0"), true);
 
         if (!string.IsNullOrWhiteSpace(stats.Title))
             embed.AddField("Title", stats.Title);
@@ -863,6 +939,48 @@ public class TwitchService : INService, IReadyExecutor
             embed.AddField("Category", stats.GameName, true);
 
         await textChannel.EmbedAsync(embed);
+    }
+
+    /// <summary>
+    ///     Counts the chat, subscription and raid events recorded for this stream session. The in-memory session
+    ///     counters only survive as long as the process does, so a restart mid stream would otherwise report zeroes
+    ///     against a correct duration. Persisted event history is authoritative; the in-memory tallies are used only
+    ///     when they are higher, which covers events recorded before the current session row existed.
+    /// </summary>
+    /// <param name="guildId">The Discord guild ID.</param>
+    /// <param name="stats">The in-memory session stats.</param>
+    /// <returns>The chat message, subscription and raid totals for the session.</returns>
+    private async Task<(int ChatMessages, int Subs, int Raids)> GetRecapCountsAsync(ulong guildId,
+        TwitchSessionStats stats)
+    {
+        try
+        {
+            var since = stats.StartedAt == default ? DateTime.UtcNow.AddDays(-1) : stats.StartedAt;
+
+            await using var conn = await dbFactory.CreateConnectionAsync();
+            var tallies = await conn.TwitchEventHistory
+                .Where(e => e.GuildId == guildId && e.Source == "eventsub" && e.DateAdded >= since)
+                .GroupBy(e => e.EventType)
+                .Select(g => new
+                {
+                    EventType = g.Key, Count = g.Count()
+                })
+                .ToListAsync();
+
+            var chat = tallies.Where(t => t.EventType == "channel.chat.message").Sum(t => t.Count);
+            var subs = tallies
+                .Where(t => t.EventType is "channel.subscribe" or "channel.subscription.message")
+                .Sum(t => t.Count);
+            var raids = tallies.Where(t => t.EventType == "channel.raid").Sum(t => t.Count);
+
+            return (Math.Max(chat, stats.ChatMessages), Math.Max(subs, stats.Subs), Math.Max(raids, stats.Raids));
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "Failed to read Twitch event history for the stream recap in guild {GuildId}",
+                guildId);
+            return (stats.ChatMessages, stats.Subs, stats.Raids);
+        }
     }
 
     private async Task SendSubNotificationAsync(TwitchNewSubArgs sub)
@@ -2087,6 +2205,10 @@ public class TwitchService : INService, IReadyExecutor
                         ThumbnailUrl = stream.ThumbnailUrl,
                         GuildId = guildId
                     });
+
+                    await RecordEventHistoryAsync(guildId, "stream.online", "poller",
+                        $"{stream.UserName} went live playing {stream.GameName}", true);
+                    InvalidateChannelSnapshot(guildId);
                 }
             }
             else if (wasLive && isLive && channelToGuild.TryGetValue(login, out var guildId))
@@ -2111,6 +2233,8 @@ public class TwitchService : INService, IReadyExecutor
                     {
                         BroadcasterUserLogin = login, BroadcasterUserName = login, GuildId = offlineGuildId
                     });
+
+                    InvalidateChannelSnapshot(offlineGuildId);
                 }
             }
         }

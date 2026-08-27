@@ -389,3 +389,4 @@ api/*
 # Fedora Messaging client credentials - provision out-of-band, never commit
 /src/Mewdeko/certs/fedora-key.pem
 /src/Mewdeko/certs/fedora-cert.pem
+src/Mewdeko/data/strings/responses/unused_keys.txt

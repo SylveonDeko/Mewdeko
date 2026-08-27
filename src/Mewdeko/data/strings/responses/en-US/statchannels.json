@@ -5,5 +5,10 @@
   "stat_channel_removed": "Stat channel **{0}** removed.",
   "stat_channel_not_found": "That channel is not a stat channel.",
   "stat_channel_none": "No stat channels configured.",
-  "stat_channel_list_title": "Stat Channels"
+  "stat_channel_list_title": "Stat Channels",
+  "stat_channel_types_title": "Available Stat Types",
+  "stat_channel_unknown_type": "That stat type does not exist. Use the types command to browse the available ones.",
+  "stat_channel_mechanism_set": "**{0}** now updates by **{1}** every **{2}** minutes.",
+  "stat_channel_style_set": "**{0}** now uses the **{1}** style, for example `{2}`.",
+  "stat_channel_defaults_set": "New stat channels will default to **{0}** every **{1}** minutes with the **{2}** style."
 }

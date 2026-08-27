@@ -47,10 +47,7 @@ public class TwitchEventSubService : INService, IReadyExecutor
     public async Task OnReadyAsync()
     {
         if (!IsConfigured())
-        {
-            logger.LogInformation("Twitch cloud EventSub disabled: dashboard URL or signing secret is not configured");
             return;
-        }
 
         for (var attempt = 0; attempt < 12; attempt++)
         {
@@ -233,15 +230,52 @@ public class TwitchEventSubService : INService, IReadyExecutor
         logger.LogWarning("Twitch EventSub subscription {SubscriptionId} revoked with status {Status}", id, status);
     }
 
+    /// <summary>
+    ///     Checks whether EventSub can start, logging exactly what is missing when it cannot. A missing credential
+    ///     otherwise disables every EventSub driven feature (chat commands, sub and raid events, stream recap
+    ///     counters) with nothing in the logs to explain why.
+    /// </summary>
+    /// <returns>True when EventSub is fully configured.</returns>
     private bool IsConfigured()
     {
-        return !string.IsNullOrWhiteSpace(credentials.TwitchClientId) &&
-               !string.IsNullOrWhiteSpace(credentials.TwitchClientSecret) &&
-               !string.IsNullOrWhiteSpace(credentials.DashboardUrl) &&
-               !string.IsNullOrWhiteSpace(credentials.TwitchEventSubSecret) &&
-               Uri.TryCreate(credentials.DashboardUrl, UriKind.Absolute, out var callback) &&
-               callback.Scheme == Uri.UriSchemeHttps &&
-               credentials.TwitchEventSubSecret.Length is >= 10 and <= 100;
+        var missing = GetConfigurationProblems();
+        if (missing.Count == 0)
+            return true;
+
+        logger.LogWarning(
+            "Twitch EventSub is disabled because the following credentials are missing or invalid: {Problems}. " +
+            "Chat commands, sub and raid events, and stream recap counters will not work until they are set.",
+            string.Join(", ", missing));
+
+        return false;
+    }
+
+    /// <summary>
+    ///     Lists the credential problems preventing EventSub from starting.
+    /// </summary>
+    /// <returns>A human readable list of problems, empty when EventSub is fully configured.</returns>
+    private List<string> GetConfigurationProblems()
+    {
+        var problems = new List<string>();
+
+        if (string.IsNullOrWhiteSpace(credentials.TwitchClientId))
+            problems.Add("TwitchClientId is not set");
+        if (string.IsNullOrWhiteSpace(credentials.TwitchClientSecret))
+            problems.Add("TwitchClientSecret is not set");
+
+        if (string.IsNullOrWhiteSpace(credentials.DashboardUrl))
+            problems.Add("DashboardUrl is not set");
+        else if (!Uri.TryCreate(credentials.DashboardUrl, UriKind.Absolute, out var callback))
+            problems.Add("DashboardUrl is not an absolute URL");
+        else if (callback.Scheme != Uri.UriSchemeHttps)
+            problems.Add("DashboardUrl must use https, Twitch refuses plaintext callbacks");
+
+        if (string.IsNullOrWhiteSpace(credentials.TwitchEventSubSecret))
+            problems.Add("TwitchEventSubSecret is not set");
+        else if (credentials.TwitchEventSubSecret.Length is < 10 or > 100)
+            problems.Add("TwitchEventSubSecret must be between 10 and 100 characters");
+
+        return problems;
     }
 
     private async Task SubscribeAsync(MewdekoDb db, string appToken, string callbackUrl, TwitchGuildConfig config,

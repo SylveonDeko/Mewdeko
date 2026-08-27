@@ -343,3 +343,75 @@ public class TwitchEventSubBadge
     [JsonPropertyName("id")]
     public string Id { get; set; } = "";
 }
+
+/// <summary>
+///     A Helix response that only carries a running total, used by the followers and subscriptions endpoints.
+/// </summary>
+public class TwitchTotalResponse
+{
+    /// <summary>
+    ///     Gets or sets the total number of records matching the query.
+    /// </summary>
+    [JsonPropertyName("total")]
+    public int Total { get; set; }
+}
+
+/// <summary>
+///     Wrapper for the Helix streams endpoint.
+/// </summary>
+public class TwitchStreamsResponse
+{
+    /// <summary>
+    ///     Gets or sets the returned live streams. Empty when the channel is offline.
+    /// </summary>
+    [JsonPropertyName("data")]
+    public List<TwitchStreamResponse> Data { get; set; } = [];
+}
+
+/// <summary>
+///     A live Twitch stream as returned by Helix.
+/// </summary>
+public class TwitchStreamResponse
+{
+    /// <summary>
+    ///     Gets or sets the stream ID.
+    /// </summary>
+    [JsonPropertyName("id")]
+    public string Id { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the broadcaster login name.
+    /// </summary>
+    [JsonPropertyName("user_login")]
+    public string UserLogin { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the broadcaster display name.
+    /// </summary>
+    [JsonPropertyName("user_name")]
+    public string UserName { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the category currently being streamed.
+    /// </summary>
+    [JsonPropertyName("game_name")]
+    public string GameName { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the stream title.
+    /// </summary>
+    [JsonPropertyName("title")]
+    public string Title { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the current viewer count.
+    /// </summary>
+    [JsonPropertyName("viewer_count")]
+    public int ViewerCount { get; set; }
+
+    /// <summary>
+    ///     Gets or sets when the stream went live.
+    /// </summary>
+    [JsonPropertyName("started_at")]
+    public DateTime? StartedAt { get; set; }
+}

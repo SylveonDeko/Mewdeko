@@ -1586,6 +1586,17 @@ public class MewdekoDb : DataConnection
     }
 
     /// <summary>
+    ///     Gets the guild wide stat channel defaults table.
+    /// </summary>
+    public ITable<StatChannelSetting> StatChannelSettings
+    {
+        get
+        {
+            return this.GetTable<StatChannelSetting>();
+        }
+    }
+
+    /// <summary>
     ///     Gets the Twitch guild configurations table.
     /// </summary>
     public ITable<TwitchGuildConfig> TwitchGuildConfigs

@@ -157,6 +157,54 @@ public class TwitchApiClient : INService
         return response?.Data.FirstOrDefault();
     }
 
+    /// <summary>
+    ///     Gets the total follower count for a broadcaster. Requires a token with moderator:read:followers.
+    /// </summary>
+    /// <param name="clientId">The Twitch client ID.</param>
+    /// <param name="accessToken">A broadcaster or moderator access token.</param>
+    /// <param name="broadcasterId">The broadcaster's Twitch user ID.</param>
+    /// <returns>The follower total, or null when the call fails.</returns>
+    public async Task<int?> GetFollowerCountAsync(string clientId, string accessToken, string broadcasterId)
+    {
+        using var client = CreateHelixClient(clientId, accessToken);
+        using var request = new HttpRequestMessage(HttpMethod.Get,
+            $"{HelixUrl}/channels/followers?broadcaster_id={Uri.EscapeDataString(broadcasterId)}&first=1");
+        var response = await SendJsonAsync<TwitchTotalResponse>(client, request, "get Twitch follower count");
+        return response?.Total;
+    }
+
+    /// <summary>
+    ///     Gets the total subscriber count for a broadcaster. Requires a token with channel:read:subscriptions.
+    /// </summary>
+    /// <param name="clientId">The Twitch client ID.</param>
+    /// <param name="accessToken">A broadcaster access token.</param>
+    /// <param name="broadcasterId">The broadcaster's Twitch user ID.</param>
+    /// <returns>The subscriber total, or null when the call fails.</returns>
+    public async Task<int?> GetSubscriberCountAsync(string clientId, string accessToken, string broadcasterId)
+    {
+        using var client = CreateHelixClient(clientId, accessToken);
+        using var request = new HttpRequestMessage(HttpMethod.Get,
+            $"{HelixUrl}/subscriptions?broadcaster_id={Uri.EscapeDataString(broadcasterId)}&first=1");
+        var response = await SendJsonAsync<TwitchTotalResponse>(client, request, "get Twitch subscriber count");
+        return response?.Total;
+    }
+
+    /// <summary>
+    ///     Gets the live stream for a broadcaster, if any.
+    /// </summary>
+    /// <param name="clientId">The Twitch client ID.</param>
+    /// <param name="accessToken">Any valid access token.</param>
+    /// <param name="broadcasterId">The broadcaster's Twitch user ID.</param>
+    /// <returns>The live stream, or null when the channel is offline or the call fails.</returns>
+    public async Task<TwitchStreamResponse?> GetStreamAsync(string clientId, string accessToken, string broadcasterId)
+    {
+        using var client = CreateHelixClient(clientId, accessToken);
+        using var request = new HttpRequestMessage(HttpMethod.Get,
+            $"{HelixUrl}/streams?user_id={Uri.EscapeDataString(broadcasterId)}");
+        var response = await SendJsonAsync<TwitchStreamsResponse>(client, request, "get Twitch stream");
+        return response?.Data.FirstOrDefault();
+    }
+
     /// <summary>Creates an EventSub webhook subscription using an app access token.</summary>
     public async Task<TwitchEventSubSubscriptionResponse?> CreateWebhookSubscriptionAsync(
         string clientId,
