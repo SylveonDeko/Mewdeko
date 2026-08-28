@@ -101,6 +101,17 @@ public class MessageCountService : INService, IDisposable
         _ = ProcessUpdatesAsync(); // Start background processor
     }
 
+    /// <summary>
+    ///     Cancels background processing and releases the cancellation token source and update lock.
+    /// </summary>
+    public void Dispose()
+    {
+        cts.Cancel();
+        cts.Dispose();
+        updateLock.Dispose();
+        GC.SuppressFinalize(this);
+    }
+
     private async Task InitializeGuildSettings()
     {
         try
@@ -276,7 +287,7 @@ public class MessageCountService : INService, IDisposable
                         GuildId = guildId, ChannelId = channelId, UserId = userId, Count = 0
                     };
 
-                    record.Id = await db.InsertWithInt32IdentityAsync(record, token: cancellationToken);
+                    record.Id = await db.InsertWithInt64IdentityAsync(record, token: cancellationToken);
                 }
 
                 // Cache the result
@@ -639,16 +650,5 @@ public class MessageCountService : INService, IDisposable
             logger.LogError(ex, "Failed to reset message counts for guild {GuildId}", guildId);
             return false;
         }
-    }
-
-    /// <summary>
-    ///     Cancels background processing and releases the cancellation token source and update lock.
-    /// </summary>
-    public void Dispose()
-    {
-        cts.Cancel();
-        cts.Dispose();
-        updateLock.Dispose();
-        GC.SuppressFinalize(this);
     }
 }
