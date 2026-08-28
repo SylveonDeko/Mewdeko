@@ -1,3 +1,4 @@
+using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Controllers.Common.UserSettings;
@@ -35,6 +36,7 @@ public class MeController(
     MessageCountService messageCountService,
     DiscordShardedClient client,
     IDataConnectionFactory dbFactory,
+    WizardDecisionService wizardService,
     IDashboardAuditContext auditContext) : Controller
 {
     /// <summary>
@@ -881,15 +883,23 @@ public class MeController(
         await using var db = await dbFactory.CreateConnectionAsync();
         var user = await db.GetOrCreateUser(client.GetUser(userId));
 
+        var completedGuilds = WizardDecisionService.DeserializeCompletedGuilds(user.WizardCompletedGuilds);
+
         user.HasCompletedAnyWizard = false;
         user.WizardCompletedGuilds = null;
         user.PrefersGuidedSetup = true; // Reset to prefer guided setup
 
         await db.UpdateAsync(user);
 
+        foreach (var completedGuildId in completedGuilds)
+            await wizardService.ResetWizardAsync(completedGuildId);
+
         return Ok(new
         {
-            hasCompletedAnyWizard = false, wizardCompletedGuilds = (string?)null, prefersGuidedSetup = true
+            hasCompletedAnyWizard = false,
+            wizardCompletedGuilds = (string?)null,
+            prefersGuidedSetup = true,
+            resetGuilds = completedGuilds
         });
     }
 
@@ -906,16 +916,9 @@ public class MeController(
         await using var db = await dbFactory.CreateConnectionAsync();
         var user = await db.GetOrCreateUser(client.GetUser(userId));
 
-        if (!string.IsNullOrEmpty(user.WizardCompletedGuilds))
-        {
-            var completedGuilds = user.WizardCompletedGuilds.Split(',').ToList();
-            completedGuilds.Remove(resetGuildId.ToString());
+        await wizardService.ResetWizardAsync(resetGuildId, userId);
 
-            user.WizardCompletedGuilds = completedGuilds.Count > 0 ? string.Join(",", completedGuilds) : null;
-            user.HasCompletedAnyWizard = completedGuilds.Count > 0;
-
-            await db.UpdateAsync(user);
-        }
+        user = await db.GetTable<DiscordUser>().FirstOrDefaultAsync(u => u.UserId == userId) ?? user;
 
         return Ok(new
         {

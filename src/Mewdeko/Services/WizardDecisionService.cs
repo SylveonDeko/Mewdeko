@@ -90,7 +90,7 @@ public class WizardDecisionService : INService
             }
 
             // Check if user has completed wizard for this specific guild
-            var completedGuilds = JsonSerializer.Deserialize<List<ulong>>(user.WizardCompletedGuilds ?? "[]");
+            var completedGuilds = DeserializeCompletedGuilds(user.WizardCompletedGuilds);
             if (completedGuilds.Contains(guildId))
             {
                 return new WizardDecision
@@ -194,7 +194,7 @@ public class WizardDecisionService : INService
                 var newExperienceLevel = user.DashboardExperienceLevel == 0 ? 1 : user.DashboardExperienceLevel;
 
                 // Add this guild to completed list
-                var completedGuilds = JsonSerializer.Deserialize<List<ulong>>(user.WizardCompletedGuilds ?? "[]");
+                var completedGuilds = DeserializeCompletedGuilds(user.WizardCompletedGuilds);
                 if (!completedGuilds.Contains(guildId))
                 {
                     completedGuilds.Add(guildId);
@@ -212,8 +212,6 @@ public class WizardDecisionService : INService
                     });
             }
 
-            // Update guild state through service (which will handle caching)
-            var guildConfig = await guildSettings.GetGuildConfig(guildId);
             await db.GetTable<GuildConfig>()
                 .Where(g => g.GuildId == guildId)
                 .UpdateAsync(g => new GuildConfig
@@ -226,8 +224,8 @@ public class WizardDecisionService : INService
 
             await transaction.CommitAsync();
 
-            // Clear relevant caches
             cache.Remove($"wizard_basic_setup_{guildId}");
+            guildSettings.ClearCacheForGuild(guildId);
 
             logger.LogInformation("Wizard completed for user {UserId} in guild {GuildId} with {FeatureCount} features",
                 userId, guildId, completedFeatures.Length);
@@ -262,7 +260,7 @@ public class WizardDecisionService : INService
             if (user != null)
             {
                 // Add this guild to completed list
-                var completedGuilds = JsonSerializer.Deserialize<List<ulong>>(user.WizardCompletedGuilds ?? "[]");
+                var completedGuilds = DeserializeCompletedGuilds(user.WizardCompletedGuilds);
                 if (!completedGuilds.Contains(guildId))
                 {
                     completedGuilds.Add(guildId);
@@ -281,6 +279,9 @@ public class WizardDecisionService : INService
                     });
             }
 
+            cache.Remove($"wizard_basic_setup_{guildId}");
+            guildSettings.ClearCacheForGuild(guildId);
+
             logger.LogInformation("Wizard skipped for guild {GuildId} by user {UserId}", guildId, userId);
         }
         catch (Exception ex)
@@ -288,6 +289,94 @@ public class WizardDecisionService : INService
             logger.LogError(ex, "Error skipping wizard for guild {GuildId}", guildId);
             throw;
         }
+    }
+
+    /// <summary>
+    ///     Clears the guild's wizard completion flags and, when a user is supplied, removes
+    ///     the guild from that user's completed list.
+    /// </summary>
+    /// <param name="guildId">The guild to reset.</param>
+    /// <param name="userId">Optional user whose completed-guild list should also be updated.</param>
+    public async Task ResetWizardAsync(ulong guildId, ulong? userId = null)
+    {
+        try
+        {
+            await using var db = await dbFactory.CreateConnectionAsync();
+
+            await db.GetTable<GuildConfig>()
+                .Where(g => g.GuildId == guildId)
+                .UpdateAsync(g => new GuildConfig
+                {
+                    WizardCompleted = false,
+                    WizardSkipped = false,
+                    WizardCompletedAt = null,
+                    WizardCompletedByUserId = 0
+                });
+
+            if (userId.HasValue)
+            {
+                var user = await db.GetTable<DiscordUser>()
+                    .FirstOrDefaultAsync(u => u.UserId == userId.Value);
+
+                if (user != null)
+                {
+                    var completedGuilds = DeserializeCompletedGuilds(user.WizardCompletedGuilds);
+                    if (completedGuilds.Remove(guildId))
+                    {
+                        var serializedGuilds = JsonSerializer.Serialize(completedGuilds);
+                        var hasCompletedAnyWizard = completedGuilds.Count > 0;
+
+                        await db.GetTable<DiscordUser>()
+                            .Where(u => u.UserId == userId.Value)
+                            .UpdateAsync(u => new DiscordUser
+                            {
+                                WizardCompletedGuilds = serializedGuilds, HasCompletedAnyWizard = hasCompletedAnyWizard
+                            });
+                    }
+                }
+            }
+
+            cache.Remove($"wizard_basic_setup_{guildId}");
+            guildSettings.ClearCacheForGuild(guildId);
+
+            logger.LogInformation("Wizard reset for guild {GuildId} (user {UserId})", guildId, userId);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error resetting wizard for guild {GuildId}", guildId);
+            throw;
+        }
+    }
+
+    /// <summary>
+    ///     Reads a user's completed-guild list, accepting both the JSON and the legacy
+    ///     comma-separated encoding.
+    /// </summary>
+    /// <param name="raw">The stored column value.</param>
+    /// <returns>The guild IDs the user has completed the wizard for.</returns>
+    public static List<ulong> DeserializeCompletedGuilds(string? raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw))
+            return [];
+
+        var trimmed = raw.Trim();
+
+        if (trimmed.StartsWith('['))
+        {
+            try
+            {
+                return JsonSerializer.Deserialize<List<ulong>>(trimmed) ?? [];
+            }
+            catch (JsonException)
+            {
+                return [];
+            }
+        }
+
+        return trimmed.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Select(entry => ulong.TryParse(entry, out var parsed) ? parsed : 0UL)
+            .Where(id => id != 0)
+            .ToList();
     }
 
     /// <summary>

@@ -1,4 +1,3 @@
-using System.Text.Json;
 using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
@@ -20,12 +19,12 @@ namespace Mewdeko.Controllers;
 [Authorize("ApiKeyPolicy")]
 public class WizardController : Controller
 {
+    private readonly IDashboardAuditContext auditContext;
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
     private readonly GuildSettingsService guildSettings;
     private readonly ILogger<WizardController> logger;
     private readonly WizardDecisionService wizardService;
-    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     ///     Initializes a new instance of the WizardController
@@ -63,7 +62,7 @@ public class WizardController : Controller
             var user = await db.GetTable<DiscordUser>().FirstOrDefaultAsync(u => u.UserId == userId);
             var guildConfig = await guildSettings.GetGuildConfig(guildId);
 
-            var completedGuilds = JsonSerializer.Deserialize<List<ulong>>(user?.WizardCompletedGuilds ?? "[]");
+            var completedGuilds = WizardDecisionService.DeserializeCompletedGuilds(user?.WizardCompletedGuilds);
 
             return Ok(new WizardDecisionResponse
             {
@@ -237,6 +236,41 @@ public class WizardController : Controller
     }
 
     /// <summary>
+    ///     Clears the guild's wizard completed and skipped flags so the wizard is offered again
+    /// </summary>
+    /// <param name="guildId">Discord guild ID</param>
+    /// <param name="userId">Optional user whose completed-guild list should also be cleared</param>
+    /// <returns>The wizard state after the reset</returns>
+    [HttpPost("reset/{guildId:long}")]
+    public async Task<ActionResult<WizardStateResponse>> ResetWizard(ulong guildId, [FromBody] ulong? userId = null)
+    {
+        try
+        {
+            auditContext.RecordBefore(await wizardService.GetGuildWizardStateAsync(guildId));
+            await wizardService.ResetWizardAsync(guildId, userId is > 0 ? userId : null);
+
+            var state = await wizardService.GetGuildWizardStateAsync(guildId);
+
+            return Ok(new WizardStateResponse
+            {
+                GuildId = state.GuildId,
+                Completed = state.Completed,
+                Skipped = state.Skipped,
+                CompletedAt = state.CompletedAt,
+                CompletedByUserId = state.CompletedByUserId,
+                HasBasicSetup = state.HasBasicSetup,
+                CurrentStep = 1,
+                ConfiguredFeatures = await GetConfiguredFeatures(guildId)
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error resetting wizard for guild {GuildId}", guildId);
+            return StatusCode(500, "Error resetting wizard");
+        }
+    }
+
+    /// <summary>
     ///     Checks bot permissions in a guild
     /// </summary>
     /// <param name="guildId">Discord guild ID</param>
@@ -379,7 +413,7 @@ public class WizardController : Controller
             }
 
             var user = await db.GetTable<DiscordUser>().FirstOrDefaultAsync(u => u.UserId == userId);
-            var completedGuilds = JsonSerializer.Deserialize<List<ulong>>(user?.WizardCompletedGuilds ?? "[]");
+            var completedGuilds = WizardDecisionService.DeserializeCompletedGuilds(user?.WizardCompletedGuilds);
 
             return Ok(new UserPreferencesResponse
             {
