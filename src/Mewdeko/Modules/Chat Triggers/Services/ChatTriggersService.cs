@@ -208,6 +208,11 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <param name="strings">The bot strings.</param>
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="placeholders">Resolves placeholders contributed by other modules.</param>
+    /// <param name="currency">The currency service, for trigger costs and rewards.</param>
+    /// <param name="xpService">The XP service, for level requirements and XP rewards.</param>
+    /// <param name="stickyConditions">Evaluates the time conditions shared with sticky messages.</param>
+    /// <param name="counters">The counter store used by counter placeholders and conditions.</param>
     public ChatTriggersService(
         PermissionService perms,
         IDataConnectionFactory dbFactory,
@@ -324,6 +329,9 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     ///     Whether the message was authored by another bot, in which case only triggers that opted into bot messages
     ///     are considered.
     /// </param>
+    /// <param name="chainDepth">How many triggers deep the current chain is.</param>
+    /// <param name="forced">A specific trigger to run instead of matching, used when running a chained trigger.</param>
+    /// <param name="visited">The triggers this chain has already run, or null at the start of a chain.</param>
     /// <returns>True if a trigger handled the message.</returns>
     private async Task<bool> RunBehaviorInternal(IGuild guild, IUserMessage msg, bool fromBot, int chainDepth = 0,
         CTModel? forced = null, HashSet<int>? visited = null)
@@ -1123,6 +1131,10 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     ///     Tries to retrieve chat triggers associated with the provided user message.
     /// </summary>
     /// <param name="umsg">The user message to match against chat triggers.</param>
+    /// <param name="fromBot">
+    ///     Whether the message was authored by another bot, in which case only triggers that opted into bot messages
+    ///     are considered.
+    /// </param>
     /// <returns>The matched chat trigger model, or null if no match is found.</returns>
     private async Task<(CTModel? Trigger, Match? Match)> TryGetChatTriggers(IUserMessage umsg,
         bool fromBot = false)
@@ -1162,6 +1174,10 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <param name="content">The content to match against chat triggers.</param>
     /// <param name="crs">The array of chat triggers to match against.</param>
     /// <param name="guild">The guild associated with the chat triggers.</param>
+    /// <param name="fromBot">
+    ///     Whether the message was authored by another bot. Triggers that opted into bot messages only match when this
+    ///     is true, and never match human messages.
+    /// </param>
     /// <returns>The matched chat trigger model, or null if no match is found.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private async Task<(CTModel? Trigger, Match? Match)> MatchChatTriggers(string content, CTModel[] crs,
@@ -2472,6 +2488,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// </summary>
     /// <param name="ct">The trigger being fired.</param>
     /// <param name="guildId">The guild the trigger fired in.</param>
+    /// <param name="channelId">The channel the trigger fired in, used for channel scoped cooldowns.</param>
     /// <param name="user">The user that fired the trigger.</param>
     /// <returns>True if the trigger may fire.</returns>
     /// <remarks>

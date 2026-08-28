@@ -42,6 +42,7 @@ public class TicketService : INService
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="chatLogService">The chat log service for transcript management.</param>
     /// <param name="credentials">The bot credentials for dashboard URL.</param>
+    /// <param name="triggerEvents">Publishes ticket events to chat triggers.</param>
     public TicketService(
         IDataConnectionFactory dbFactory,
         DiscordShardedClient client,
