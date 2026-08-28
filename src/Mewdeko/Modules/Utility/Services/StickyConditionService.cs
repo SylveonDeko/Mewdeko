@@ -32,24 +32,40 @@ public class StickyConditionService : INService
     /// <returns>True if the sticky should be active at the current time.</returns>
     public bool ShouldDisplayAtCurrentTime(GuildRepeater repeater, ulong guildId)
     {
-        if (string.IsNullOrWhiteSpace(repeater.TimeConditions))
+        return IsWithinTimeConditions(repeater.TimeConditions, guildId, $"repeater {repeater.Id}");
+    }
+
+    /// <summary>
+    ///     Checks whether the guild's current local time satisfies a set of serialized time conditions.
+    /// </summary>
+    /// <param name="timeConditionsJson">The serialized conditions, or null or empty for no restriction.</param>
+    /// <param name="guildId">The guild ID, used to resolve the guild's timezone.</param>
+    /// <param name="context">A description of what owns the conditions, used only for logging.</param>
+    /// <returns>True if any condition matches the current time, or if there are no conditions.</returns>
+    /// <remarks>
+    ///     Shared by sticky messages and chat triggers so both interpret an identical condition format, including
+    ///     overnight ranges and day-of-week filters.
+    /// </remarks>
+    public bool IsWithinTimeConditions(string? timeConditionsJson, ulong guildId, string context)
+    {
+        if (string.IsNullOrWhiteSpace(timeConditionsJson))
             return true;
 
         try
         {
-            var conditions = JsonSerializer.Deserialize<TimeCondition[]>(repeater.TimeConditions);
+            var conditions = JsonSerializer.Deserialize<TimeCondition[]>(timeConditionsJson);
             if (conditions == null || conditions.Length == 0)
                 return true;
 
             var guildTime = GetGuildTime(guildId);
 
-            // If ANY condition matches, the sticky should be displayed
+            // If ANY condition matches, the owner should be active
             return conditions.Any(condition => condition.IsActiveAt(guildTime));
         }
         catch (Exception ex)
         {
-            logger.LogWarning(ex, "Failed to parse time conditions for repeater {RepeaterId}", repeater.Id);
-            return true; // Default to showing if parsing fails
+            logger.LogWarning(ex, "Failed to parse time conditions for {Context}", context);
+            return true; // Default to active if parsing fails
         }
     }
 

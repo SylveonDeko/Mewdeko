@@ -132,6 +132,30 @@ public static class ChatTriggersExtensions
     }
 
     /// <summary>
+    ///     Gets every response this trigger can send, with the primary response first.
+    /// </summary>
+    /// <param name="trigger">The ChatTrigger instance.</param>
+    /// <returns>The trigger's responses, in the order they were defined.</returns>
+    /// <remarks>
+    ///     Additional responses share the "@@@" separator the rest of the trigger's list columns use.
+    /// </remarks>
+    public static List<string> GetResponses(this ChatTrigger trigger)
+    {
+        var responses = new List<string>();
+
+        if (!string.IsNullOrWhiteSpace(trigger.Response))
+            responses.Add(trigger.Response);
+
+        if (!string.IsNullOrWhiteSpace(trigger.AdditionalResponses))
+        {
+            responses.AddRange(trigger.AdditionalResponses.Split("@@@")
+                .Where(x => !string.IsNullOrWhiteSpace(x)));
+        }
+
+        return responses;
+    }
+
+    /// <summary>
     ///     Gets the real name of the trigger, which is either the application command name or the trigger text.
     /// </summary>
     public static string? RealName(this ChatTrigger ct)

@@ -71,7 +71,136 @@ public enum ChatTriggerType
     /// <summary>
     ///     Triggered by reactions.
     /// </summary>
-    Reactions = 0b1000
+    Reactions = 0b1000,
+
+    /// <summary>
+    ///     Triggered by a reaction being removed, which makes reaction role style toggles possible.
+    /// </summary>
+    ReactionsRemoved = 0b10000,
+
+    /// <summary>
+    ///     Triggered by an event raised elsewhere in the bot, such as an XP level up or a member joining.
+    /// </summary>
+    Event = 0b100000
+}
+
+/// <summary>
+///     Specifies the bot event a chat trigger listens for.
+/// </summary>
+/// <remarks>
+///     These let a trigger act as the formatting layer for another module's notification, so a server can use the full
+///     trigger response toolkit, embeds, components, conditions and role grants, in place of that module's own fixed
+///     message.
+/// </remarks>
+public enum CtEventType
+{
+    /// <summary>
+    ///     The trigger does not listen for an event.
+    /// </summary>
+    None,
+
+    /// <summary>
+    ///     A member gained a level.
+    /// </summary>
+    XpLevelUp,
+
+    /// <summary>
+    ///     A member lost a level.
+    /// </summary>
+    XpLevelDown,
+
+    /// <summary>
+    ///     A member joined the server.
+    /// </summary>
+    MemberJoin,
+
+    /// <summary>
+    ///     A member left the server.
+    /// </summary>
+    MemberLeave,
+
+    /// <summary>
+    ///     A member joined a voice channel.
+    /// </summary>
+    VoiceJoin,
+
+    /// <summary>
+    ///     A member left a voice channel.
+    /// </summary>
+    VoiceLeave,
+
+    /// <summary>
+    ///     A member started boosting the server.
+    /// </summary>
+    Boost,
+
+    /// <summary>
+    ///     A member stopped boosting the server.
+    /// </summary>
+    BoostEnd,
+
+    /// <summary>
+    ///     A ticket was opened.
+    /// </summary>
+    TicketOpened,
+
+    /// <summary>
+    ///     A ticket was closed.
+    /// </summary>
+    TicketClosed,
+
+    /// <summary>
+    ///     A giveaway was won.
+    /// </summary>
+    GiveawayWon
+}
+
+/// <summary>
+///     Specifies who a chat trigger's cooldown applies to.
+/// </summary>
+public enum CtCooldownScope
+{
+    /// <summary>
+    ///     Each member has their own cooldown.
+    /// </summary>
+    User,
+
+    /// <summary>
+    ///     The cooldown is shared by everyone in a channel.
+    /// </summary>
+    Channel,
+
+    /// <summary>
+    ///     The cooldown is shared by the whole server.
+    /// </summary>
+    Guild
+}
+
+/// <summary>
+///     Specifies how a chat trigger picks between its responses when it has more than one.
+/// </summary>
+public enum CtResponseMode
+{
+    /// <summary>
+    ///     Always send the primary response, ignoring any additional ones.
+    /// </summary>
+    Single,
+
+    /// <summary>
+    ///     Send one response chosen at random. Repeating a response makes it proportionally more likely, which is how
+    ///     weighting is expressed.
+    /// </summary>
+    Random,
+
+    /// <summary>
+    ///     Send responses in order, advancing one place each time the trigger fires and wrapping at the end.
+    /// </summary>
+    RoundRobin,
+
+    /// <summary>
+    ///     Send every response, in order.
+    /// </summary>
+    All
 }
 
 /// <summary>

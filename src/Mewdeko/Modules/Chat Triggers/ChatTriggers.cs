@@ -1,10 +1,14 @@
-﻿using System.Net.Http;
+using System.Net.Http;
+using System.Text.Json;
+using DataModel;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Chat_Triggers.Common;
 using Mewdeko.Modules.Chat_Triggers.Services;
+using Mewdeko.Modules.Utility.Common;
 
 namespace Mewdeko.Modules.Chat_Triggers;
 
@@ -13,7 +17,11 @@ namespace Mewdeko.Modules.Chat_Triggers;
 /// </summary>
 /// <param name="clientFactory"></param>
 /// <param name="serv"></param>
-public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService serv)
+/// <param name="counterService">Store for the counters trigger responses read and update.</param>
+public class ChatTriggers(
+    IHttpClientFactory clientFactory,
+    InteractiveService serv,
+    TriggerCounterService counterService)
     : MewdekoModuleBase<ChatTriggersService>
 {
     /// <summary>
@@ -961,6 +969,848 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
             await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, Strings.EditedChatTrig(ctx.Guild.Id)))
                 .ConfigureAwait(false);
         }
+    }
+
+    /// <summary>
+    ///     Makes a chat trigger fire on a bot event rather than on a message.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="eventType">The event to listen for, or None to stop listening. <see cref="CtEventType" /></param>
+    /// <remarks>
+    ///     Setting an event also enables the Event trigger type, so the trigger starts responding without a second
+    ///     command. Setting it back to None disables that type again.
+    /// </remarks>
+    /// <example>.ctevent 9987 XpLevelUp</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task CtEvent(int id, CtEventType eventType)
+    {
+        var res = await Service.ModifyAsync(ctx.Guild?.Id, id, ct =>
+        {
+            ct.EventType = (int)eventType;
+            ct.ValidTriggerTypes = eventType == CtEventType.None
+                ? ct.ValidTriggerTypes & ~(int)ChatTriggerType.Event
+                : ct.ValidTriggerTypes | (int)ChatTriggerType.Event;
+        }).ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, Strings.EditedChatTrig(ctx.Guild.Id)))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Sets the channel an event chat trigger responds in.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="channel">The channel to respond in, or omit it to respond where the event happened.</param>
+    /// <example>.cteventchannel 9987 #level-ups</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task CtEventChannel(int id, ITextChannel? channel = null)
+    {
+        var res = await Service.ModifyAsync(ctx.Guild?.Id, id, ct => ct.EventChannelId = channel?.Id ?? 0)
+            .ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, Strings.EditedChatTrig(ctx.Guild.Id)))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Toggles whether a chat trigger replies to the message that fired it.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <example>.ctreply 9987</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public Task CtReply(int id)
+    {
+        return ApplyAndShow(id, ct => ct.ReplyToTrigger = !ct.ReplyToTrigger);
+    }
+
+    /// <summary>
+    ///     Sets how long a chat trigger's own response stays before it is deleted.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="seconds">How many seconds to wait, or 0 to keep the response.</param>
+    /// <example>.ctdeleteafter 9987 30</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public Task CtDeleteAfter(int id, int seconds)
+    {
+        return ApplyEconomyEdit(id, seconds, (ct, value) => ct.DeleteResponseAfter = (int)value);
+    }
+
+    /// <summary>
+    ///     Sets a chat trigger's own cooldown, separate from the server-wide command cooldown.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="seconds">The cooldown in seconds, or 0 to remove it.</param>
+    /// <param name="scope">Who the cooldown applies to. <see cref="CtCooldownScope" /></param>
+    /// <example>.ctcooldown 9987 30 Channel</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public Task CtCooldown(int id, int seconds, CtCooldownScope scope = CtCooldownScope.User)
+    {
+        return ApplyEconomyEdit(id, seconds, (ct, value) =>
+        {
+            ct.CooldownSeconds = (int)value;
+            ct.CooldownScope = (int)scope;
+        });
+    }
+
+    /// <summary>
+    ///     Requires a counter to be within a range before a chat trigger will fire.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="name">The counter's name, or "clear" to remove the requirement.</param>
+    /// <param name="min">The lowest value that allows the trigger to fire, or null for no lower bound.</param>
+    /// <param name="max">The highest value that allows the trigger to fire, or null for no upper bound.</param>
+    /// <example>.ctrequirecounter 9987 signups 10 50</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task CtRequireCounter(int id, string name, long? min = null, long? max = null)
+    {
+        var clearing = string.Equals(name, "clear", StringComparison.OrdinalIgnoreCase);
+
+        var res = await Service.ModifyAsync(ctx.Guild?.Id, id, ct =>
+        {
+            ct.CounterName = clearing ? null : name.ToLowerInvariant();
+            ct.CounterMin = clearing ? null : min;
+            ct.CounterMax = clearing ? null : max;
+        }).ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, Strings.EditedChatTrig(ctx.Guild.Id)))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Puts a chat trigger into a category so it can be managed alongside related triggers.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="category">The category name, or omit it to remove the trigger from its category.</param>
+    /// <example>.ctcategory 9987 welcome</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task CtCategory(int id, [Remainder] string? category = null)
+    {
+        var res = await Service.ModifyAsync(ctx.Guild?.Id, id,
+            ct => ct.Category = string.IsNullOrWhiteSpace(category) ? null : category.Trim()).ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(category))
+        {
+            await ReplyConfirmAsync(Strings.CtCategoryCleared(ctx.Guild.Id, id)).ConfigureAwait(false);
+            return;
+        }
+
+        await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, Strings.EditedChatTrig(ctx.Guild.Id)))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Enables or disables every chat trigger in a category at once.
+    /// </summary>
+    /// <param name="category">The category to act on.</param>
+    /// <param name="enabled">Whether the triggers should be enabled.</param>
+    /// <example>.ctcategorytoggle welcome false</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    [RequireContext(ContextType.Guild)]
+    public async Task CtCategoryToggle(string category, bool enabled)
+    {
+        var changed = await Service.SetCategoryDisabledAsync(ctx.Guild.Id, category, !enabled).ConfigureAwait(false);
+
+        if (changed == 0)
+        {
+            await ReplyErrorAsync(Strings.CtCategoryNone(ctx.Guild.Id, category)).ConfigureAwait(false);
+            return;
+        }
+
+        var state = enabled ? Strings.CtEnabledWord(ctx.Guild.Id) : Strings.CtDisabledWord(ctx.Guild.Id);
+        await ReplyConfirmAsync(Strings.CtCategoryToggled(ctx.Guild.Id, changed, category, state))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Applies a change to a chat trigger and shows the result.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="apply">The change to make.</param>
+    private async Task ApplyAndShow(int id, Action<ChatTrigger> apply)
+    {
+        var res = await Service.ModifyAsync(ctx.Guild?.Id, id, apply).ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, Strings.EditedChatTrig(ctx.Guild.Id)))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Reports whether a chat trigger would fire for a sample message, and what is blocking it if not.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="sample">The message text to test against.</param>
+    /// <remarks>
+    ///     Nothing is charged, sent or recorded. The test runs as the caller, so permission entries, cooldowns and
+    ///     level or balance requirements are evaluated against them.
+    /// </remarks>
+    /// <example>.cttest 9987 hello there</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    [RequireContext(ContextType.Guild)]
+    public async Task CtTest(int id, [Remainder] string? sample = null)
+    {
+        var ct = await Service.GetGuildOrGlobalTriggers(ctx.Guild.Id, id).ConfigureAwait(false);
+
+        if (ct is null)
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(sample))
+        {
+            await ReplyErrorAsync(Strings.CtTestNoSample(ctx.Guild.Id, id)).ConfigureAwait(false);
+            return;
+        }
+
+        var (matched, blocker) = await Service
+            .TestTriggerAsync(ct, (SocketGuild)ctx.Guild, (IGuildUser)ctx.User, ctx.Channel, sample)
+            .ConfigureAwait(false);
+
+        var eb = new EmbedBuilder()
+            .WithTitle(Strings.CtTestTitle(ctx.Guild.Id, id))
+            .AddField(Strings.Trigger(ctx.Guild.Id), ct.Trigger?.TrimTo(1024) ?? "-")
+            .AddField(Strings.CtTestMatched(ctx.Guild.Id),
+                matched ? Strings.CtTestMatched(ctx.Guild.Id) : Strings.CtTestNotMatched(ctx.Guild.Id));
+
+        if (blocker is null)
+        {
+            eb.WithOkColor().WithDescription(Strings.CtTestWouldFire(ctx.Guild.Id));
+
+            var preview = ct.GetResponses().FirstOrDefault();
+            if (!string.IsNullOrWhiteSpace(preview))
+                eb.AddField(Strings.CtTestResponse(ctx.Guild.Id), preview.TrimTo(1024));
+        }
+        else
+        {
+            eb.WithErrorColor().AddField(Strings.CtTestBlockedBy(ctx.Guild.Id), blocker);
+        }
+
+        await ctx.Channel.EmbedAsync(eb).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Shows how often a chat trigger has fired, and who fired it most recently.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <example>.ctstats 9987</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    [RequireContext(ContextType.Guild)]
+    public async Task CtStats(int id)
+    {
+        var ct = await Service.GetGuildOrGlobalTriggers(ctx.Guild.Id, id).ConfigureAwait(false);
+
+        if (ct is null)
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var (total, recent) = await Service.GetTriggerHistoryAsync(ctx.Guild.Id, id).ConfigureAwait(false);
+
+        if (total == 0)
+        {
+            await ReplyConfirmAsync(Strings.CtStatsNone(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var eb = new EmbedBuilder()
+            .WithOkColor()
+            .WithTitle(Strings.CtStatsTitle(ctx.Guild.Id, id))
+            .AddField(Strings.CtStatsTotal(ctx.Guild.Id), total.ToString("N0"));
+
+        var lines = recent.Select(x =>
+        {
+            var when = x.DateAdded.HasValue
+                ? TimestampTag.FromDateTime(x.DateAdded.Value, TimestampTagStyles.Relative).ToString()
+                : "-";
+            return $"<@{x.UserId}> in <#{x.ChannelId}> {when}";
+        }).ToList();
+
+        if (lines.Count > 0)
+            eb.AddField(Strings.CtStatsRecent(ctx.Guild.Id), string.Join("\n", lines).TrimTo(1024));
+
+        await ctx.Channel.EmbedAsync(eb).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Chains a chat trigger to another, so firing the first also runs the second.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="nextId">The ID of the trigger to chain to, or 0 to remove the chain.</param>
+    /// <remarks>
+    ///     The chained trigger is evaluated on its own terms, so its conditions, costs and permissions still apply.
+    ///     Chains are capped in depth and cannot revisit a trigger, so a loop stops on its first repeat.
+    /// </remarks>
+    /// <example>.ctchain 9987 9988</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task CtChain(int id, int nextId)
+    {
+        if (id == nextId)
+        {
+            await ReplyErrorAsync(Strings.CtChainSelf(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (nextId != 0 && await Service.GetGuildOrGlobalTriggers(ctx.Guild.Id, nextId).ConfigureAwait(false) is null)
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var res = await Service.ModifyAsync(ctx.Guild?.Id, id, ct => ct.NextTriggerId = nextId == 0 ? null : nextId)
+            .ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (nextId == 0)
+        {
+            await ReplyConfirmAsync(Strings.CtChainCleared(ctx.Guild.Id, id)).ConfigureAwait(false);
+            return;
+        }
+
+        await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, Strings.EditedChatTrig(ctx.Guild.Id)))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Toggles whether a chat trigger responds to messages from other bots and webhooks.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <remarks>
+    ///     A trigger set this way responds only to bot messages, never to human ones. The bot never responds to its
+    ///     own messages, so two triggers cannot answer each other indefinitely.
+    /// </remarks>
+    /// <example>.ctallowbots 9987</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task CtAllowBots(int id)
+    {
+        var res = await Service.ModifyAsync(ctx.Guild?.Id, id, ct => ct.AllowBots = !ct.AllowBots)
+            .ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, Strings.EditedChatTrig(ctx.Guild.Id)))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Lists the counters chat triggers in this server read and update.
+    /// </summary>
+    /// <example>.ctcounters</example>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    public async Task CtCounters()
+    {
+        var counters = await counterService.ListAsync(ctx.Guild.Id).ConfigureAwait(false);
+
+        if (counters.Count == 0)
+        {
+            await ReplyConfirmAsync(Strings.CtCountersNone(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var eb = new EmbedBuilder()
+            .WithOkColor()
+            .WithTitle(Strings.CtCountersTitle(ctx.Guild.Id))
+            .WithDescription(string.Join("\n", counters.Select(x => $"`{x.Name}`: {x.Value:N0}")));
+
+        await ctx.Channel.EmbedAsync(eb).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Sets a counter to an exact value.
+    /// </summary>
+    /// <param name="name">The counter's name.</param>
+    /// <param name="value">The value to set it to.</param>
+    /// <example>.ctcounterset daysSinceIncident 0</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task CtCounterSet(string name, long value)
+    {
+        name = name.ToLowerInvariant();
+        await counterService.SetAsync(ctx.Guild.Id, name, value).ConfigureAwait(false);
+        await ReplyConfirmAsync(Strings.CtCounterSet(ctx.Guild.Id, name, value.ToString("N0")))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Deletes a counter along with every per-user value stored under its name.
+    /// </summary>
+    /// <param name="name">The counter's name.</param>
+    /// <example>.ctcounterdelete daysSinceIncident</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task CtCounterDelete(string name)
+    {
+        name = name.ToLowerInvariant();
+        var removed = await counterService.DeleteAsync(ctx.Guild.Id, name).ConfigureAwait(false);
+
+        await (removed == 0
+                ? ReplyErrorAsync(Strings.CtCounterNotFound(ctx.Guild.Id, name))
+                : ReplyConfirmAsync(Strings.CtCounterDeleted(ctx.Guild.Id, name, removed)))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Lists the placeholders other modules contribute to chat trigger responses.
+    /// </summary>
+    /// <example>.ctplaceholders</example>
+    [Cmd]
+    [Aliases]
+    public async Task CtPlaceholders()
+    {
+        var available = Service.GetContextualPlaceholders();
+
+        if (available.Count == 0)
+        {
+            await ReplyErrorAsync(Strings.CtPlaceholdersNone(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var eb = new EmbedBuilder()
+            .WithOkColor()
+            .WithTitle(Strings.CtPlaceholdersTitle(ctx.Guild.Id))
+            .WithDescription(string.Join("\n", available.Select(x => $"`{x}`")));
+
+        await ctx.Channel.EmbedAsync(eb).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Restricts a chat trigger to a window of the day, optionally on specific days of the week.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="start">The start of the window in 24-hour HH:mm format, or "clear" to remove the restriction.</param>
+    /// <param name="end">The end of the window in 24-hour HH:mm format.</param>
+    /// <param name="days">
+    ///     Optional days of the week the window applies on, as names or numbers where 0 is Sunday. Defaults to every
+    ///     day.
+    /// </param>
+    /// <example>.cttime 9987 22:00 02:00 friday saturday</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task CtTime(int id, string start, string? end = null, params string[] days)
+    {
+        if (string.Equals(start, "clear", StringComparison.OrdinalIgnoreCase))
+        {
+            var cleared = await Service.ModifyAsync(ctx.Guild?.Id, id, ct => ct.TimeConditions = null)
+                .ConfigureAwait(false);
+
+            await (cleared is null
+                    ? ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id))
+                    : ReplyConfirmAsync(Strings.CtTimeCleared(ctx.Guild.Id, id)))
+                .ConfigureAwait(false);
+            return;
+        }
+
+        if (end is null || !TimeSpan.TryParse(start, out _) || !TimeSpan.TryParse(end, out _))
+        {
+            await ReplyErrorAsync(Strings.CtTimeInvalid(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var parsedDays = new List<int>();
+        foreach (var day in days)
+        {
+            if (int.TryParse(day, out var dayNumber) && dayNumber is >= 0 and <= 6)
+                parsedDays.Add(dayNumber);
+            else if (Enum.TryParse<DayOfWeek>(day, true, out var parsedDay))
+                parsedDays.Add((int)parsedDay);
+        }
+
+        var condition = new TimeCondition
+        {
+            StartTime = start, EndTime = end, DaysOfWeek = parsedDays.Count > 0 ? parsedDays.ToArray() : null
+        };
+
+        var json = JsonSerializer.Serialize(new[]
+        {
+            condition
+        });
+
+        var res = await Service.ModifyAsync(ctx.Guild?.Id, id, ct => ct.TimeConditions = json).ConfigureAwait(false);
+
+        await (res is null
+                ? ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id))
+                : ReplyConfirmAsync(Strings.CtTimeSet(ctx.Guild.Id, id, start, end)))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Sets how long a chat trigger stays active before it stops firing.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="duration">How long the trigger stays active, or omit it to remove the expiry.</param>
+    /// <example>.ctexpiry 9987 7d</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task CtExpiry(int id, StoopidTime? duration = null)
+    {
+        var expiry = duration is null ? (DateTime?)null : DateTime.UtcNow + duration.Time;
+        var res = await Service.ModifyAsync(ctx.Guild?.Id, id, ct => ct.ExpiresAt = expiry).ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (expiry is null)
+        {
+            await ReplyConfirmAsync(Strings.CtExpiryCleared(ctx.Guild.Id, id)).ConfigureAwait(false);
+            return;
+        }
+
+        await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, Strings.EditedChatTrig(ctx.Guild.Id)))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Sets how many times a chat trigger may fire before it stops.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="uses">The maximum number of uses, or 0 to remove the limit.</param>
+    /// <example>.ctmaxuses 9987 100</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task CtMaxUses(int id, int uses)
+    {
+        if (uses < 0)
+        {
+            await ReplyErrorAsync(Strings.CtNegativeAmount(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var res = await Service.ModifyAsync(ctx.Guild?.Id, id, ct => ct.MaxUses = uses == 0 ? null : uses)
+            .ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (uses == 0)
+        {
+            await ReplyConfirmAsync(Strings.CtMaxUsesCleared(ctx.Guild.Id, id)).ConfigureAwait(false);
+            return;
+        }
+
+        await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, Strings.EditedChatTrig(ctx.Guild.Id)))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Sets how old an account must be before a chat trigger will fire for it.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="age">The minimum account age, or omit it to remove the requirement.</param>
+    /// <example>.ctminage 9987 7d</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public Task CtMinAge(int id, StoopidTime? age = null)
+    {
+        return ApplyEconomyEdit(id, (long)(age?.Time.TotalMinutes ?? 0),
+            (ct, value) => ct.MinAccountAgeMinutes = (int)value);
+    }
+
+    /// <summary>
+    ///     Sets how long a user must have been in the server before a chat trigger will fire for them.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="membership">The minimum membership duration, or omit it to remove the requirement.</param>
+    /// <example>.ctminmember 9987 1d</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public Task CtMinMember(int id, StoopidTime? membership = null)
+    {
+        return ApplyEconomyEdit(id, (long)(membership?.Time.TotalMinutes ?? 0),
+            (ct, value) => ct.MinServerMembershipMinutes = (int)value);
+    }
+
+    /// <summary>
+    ///     Enables or disables a chat trigger without deleting it.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <example>.cttoggle 9987</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task CtToggle(int id)
+    {
+        var res = await Service.ModifyAsync(ctx.Guild?.Id, id, ct => ct.IsDisabled = !ct.IsDisabled)
+            .ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await ReplyConfirmAsync(res.IsDisabled
+                ? Strings.CtDisabled(ctx.Guild.Id, id)
+                : Strings.CtEnabled(ctx.Guild.Id, id))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Adds an extra response to a chat trigger, for use with the trigger's response mode.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="response">The response to add.</param>
+    /// <example>.ctaddresponse 9987 Another possible reply</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task CtAddResponse(int id, [Remainder] string response)
+    {
+        if (string.IsNullOrWhiteSpace(response))
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var res = await Service.ModifyAsync(ctx.Guild?.Id, id, ct => ct.AdditionalResponses =
+                string.IsNullOrWhiteSpace(ct.AdditionalResponses)
+                    ? response
+                    : $"{ct.AdditionalResponses}@@@{response}")
+            .ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await ReplyConfirmAsync(Strings.CtResponseAdded(ctx.Guild.Id, id, res.GetResponses().Count))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Removes every extra response from a chat trigger, leaving its primary response in place.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <example>.ctclearresponses 9987</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task CtClearResponses(int id)
+    {
+        var res = await Service.ModifyAsync(ctx.Guild?.Id, id, ct => ct.AdditionalResponses = null)
+            .ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await ReplyConfirmAsync(Strings.CtResponsesCleared(ctx.Guild.Id, id)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Sets how a chat trigger picks between its responses when it has more than one.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="mode">The response mode to use. <see cref="CtResponseMode" /></param>
+    /// <example>.ctresponsemode 9987 Random</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task CtResponseMode(int id, CtResponseMode mode)
+    {
+        var res = await Service.ModifyAsync(ctx.Guild?.Id, id, ct => ct.ResponseMode = (int)mode)
+            .ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, Strings.EditedChatTrig(ctx.Guild.Id)))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Sets how much currency a chat trigger costs the user that fires it.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="amount">The amount to charge, or 0 to make the trigger free.</param>
+    /// <example>.ctcost 9987 250</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public Task CtCost(int id, long amount)
+    {
+        return ApplyEconomyEdit(id, amount, (ct, value) => ct.CurrencyCost = value);
+    }
+
+    /// <summary>
+    ///     Sets how much currency a chat trigger pays out to the user that fires it.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="amount">The amount to pay out, or 0 for none.</param>
+    /// <example>.ctreward 9987 100</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public Task CtReward(int id, long amount)
+    {
+        return ApplyEconomyEdit(id, amount, (ct, value) => ct.CurrencyReward = value);
+    }
+
+    /// <summary>
+    ///     Sets how much XP a chat trigger grants the user that fires it.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="amount">The amount of XP to grant, or 0 for none.</param>
+    /// <example>.ctxpreward 9987 25</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public Task CtXpReward(int id, int amount)
+    {
+        return ApplyEconomyEdit(id, amount, (ct, value) => ct.XpReward = (int)value);
+    }
+
+    /// <summary>
+    ///     Sets the XP level a user must have reached before a chat trigger will fire for them.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="level">The required level, or 0 for no requirement.</param>
+    /// <example>.ctreqlevel 9987 10</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public Task CtReqLevel(int id, int level)
+    {
+        return ApplyEconomyEdit(id, level, (ct, value) => ct.RequiredXpLevel = (int)value);
+    }
+
+    /// <summary>
+    ///     Sets the message shown when a user does not meet a chat trigger's requirements.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="message">The message to show, or omit it to fail silently.</param>
+    /// <example>.ctreqmsg 9987 You need 250 coins to use this.</example>
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public async Task CtReqMsg(int id, [Remainder] string? message = null)
+    {
+        var res = await Service.ModifyAsync(ctx.Guild?.Id, id, ct => ct.RequirementFailMessage = message)
+            .ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(message))
+        {
+            await ReplyConfirmAsync(Strings.CtRequirementFailCleared(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, Strings.EditedChatTrig(ctx.Guild.Id)))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Applies an economy-related edit to a chat trigger, rejecting negative amounts.
+    /// </summary>
+    /// <param name="id">The ID of the chat trigger.</param>
+    /// <param name="amount">The amount the caller supplied.</param>
+    /// <param name="apply">The assignment to perform on the trigger.</param>
+    private async Task ApplyEconomyEdit(int id, long amount, Action<ChatTrigger, long> apply)
+    {
+        if (amount < 0)
+        {
+            await ReplyErrorAsync(Strings.CtNegativeAmount(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var res = await Service.ModifyAsync(ctx.Guild?.Id, id, ct => apply(ct, amount)).ConfigureAwait(false);
+
+        if (res is null)
+        {
+            await ReplyErrorAsync(Strings.NoFoundId(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await ctx.Channel.EmbedAsync(Service.GetEmbed(res, ctx.Guild?.Id, Strings.EditedChatTrig(ctx.Guild.Id)))
+            .ConfigureAwait(false);
     }
 
     /// <summary>

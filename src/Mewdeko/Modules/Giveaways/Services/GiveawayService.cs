@@ -3,6 +3,8 @@ using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.Configs;
+using Mewdeko.Common.TriggerPlaceholders;
+using Mewdeko.Modules.Chat_Triggers.Common;
 using Mewdeko.Modules.Utility.Services;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.Strings;
@@ -30,6 +32,7 @@ public class GiveawayService : INService, IDisposable
     private readonly MessageCountService msgCntService;
     private readonly GeneratedBotStrings strings;
     private readonly SemaphoreSlim timerLock = new(1, 1);
+    private readonly TriggerEventPublisher triggerEvents;
     private bool isDisposed;
 
     /// <summary>
@@ -43,6 +46,7 @@ public class GiveawayService : INService, IDisposable
     /// <param name="msgCntService">Service for tracking message counts.</param>
     /// <param name="strings">Service for localized strings.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="triggerEvents">Publishes giveaway events to chat triggers.</param>
     public GiveawayService(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
@@ -50,8 +54,9 @@ public class GiveawayService : INService, IDisposable
         BotConfig config,
         BotCredentials credentials,
         MessageCountService msgCntService,
-        GeneratedBotStrings strings, ILogger<GiveawayService> logger)
+        GeneratedBotStrings strings, ILogger<GiveawayService> logger, TriggerEventPublisher triggerEvents)
     {
+        this.triggerEvents = triggerEvents;
         this.client = client;
         this.dbFactory = dbFactory;
         this.guildConfig = guildConfig;
@@ -677,6 +682,9 @@ public class GiveawayService : INService, IDisposable
         {
             await SendWinnerDm(winner, giveaway, guild, guildSettings, channel);
         }
+
+        // Let chat triggers listening for a giveaway win respond
+        await triggerEvents.PublishAsync(guild.Id, CtEventType.GiveawayWon, winner, channel).ConfigureAwait(false);
 
         // Update giveaway message
         var winnerEmbed = message.Embeds.FirstOrDefault().ToEmbedBuilder()

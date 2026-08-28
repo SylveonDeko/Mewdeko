@@ -43,6 +43,32 @@ namespace DataModel
 		[Column("EphemeralResponse"                                                                                              )] public bool      EphemeralResponse             { get; set; } // boolean
 		[Column("CrosspostingChannelId"                                                                                          )] public ulong   CrosspostingChannelId         { get; set; } // numeric(20,0)
 		[Column("CrosspostingWebhookUrl"                                                                                         )] public string?   CrosspostingWebhookUrl        { get; set; } // text
+		[Column("ReplyToTrigger"                                                                                                 )] public bool      ReplyToTrigger                { get; set; } // boolean
+		[Column("DeleteResponseAfter"                                                                                            )] public int       DeleteResponseAfter           { get; set; } // integer
+		[Column("CooldownSeconds"                                                                                                )] public int       CooldownSeconds               { get; set; } // integer
+		[Column("CooldownScope"                                                                                                  )] public int       CooldownScope                 { get; set; } // integer
+		[Column("CounterName"                                                                                                    )] public string?   CounterName                   { get; set; } // text
+		[Column("CounterMin"                                                                                                     )] public long?     CounterMin                    { get; set; } // bigint
+		[Column("CounterMax"                                                                                                     )] public long?     CounterMax                    { get; set; } // bigint
+		[Column("Category"                                                                                                       )] public string?   Category                      { get; set; } // text
+		[Column("AllowBots"                                                                                                      )] public bool      AllowBots                     { get; set; } // boolean
+		[Column("NextTriggerId"                                                                                                  )] public int?      NextTriggerId                 { get; set; } // integer
+		[Column("EventType"                                                                                                      )] public int       EventType                     { get; set; } // integer
+		[Column("EventChannelId"                                                                                                 )] public ulong     EventChannelId                { get; set; } // numeric(20,0)
+		[Column("TimeConditions"                                                                                                 )] public string?   TimeConditions                { get; set; } // text
+		[Column("ExpiresAt"                                                                                                      )] public DateTime? ExpiresAt                     { get; set; } // timestamp (6) without time zone
+		[Column("MaxUses"                                                                                                        )] public int?      MaxUses                       { get; set; } // integer
+		[Column("MinAccountAgeMinutes"                                                                                           )] public int       MinAccountAgeMinutes          { get; set; } // integer
+		[Column("MinServerMembershipMinutes"                                                                                     )] public int       MinServerMembershipMinutes    { get; set; } // integer
+		[Column("IsDisabled"                                                                                                     )] public bool      IsDisabled                    { get; set; } // boolean
+		[Column("AdditionalResponses"                                                                                            )] public string?   AdditionalResponses           { get; set; } // text
+		[Column("ResponseMode"                                                                                                   )] public int       ResponseMode                  { get; set; } // integer
+		[Column("RoundRobinIndex"                                                                                                )] public int       RoundRobinIndex               { get; set; } // integer
+		[Column("CurrencyCost"                                                                                                   )] public long      CurrencyCost                  { get; set; } // bigint
+		[Column("CurrencyReward"                                                                                                 )] public long      CurrencyReward                { get; set; } // bigint
+		[Column("XpReward"                                                                                                       )] public int       XpReward                      { get; set; } // integer
+		[Column("RequiredXpLevel"                                                                                                )] public int       RequiredXpLevel               { get; set; } // integer
+		[Column("RequirementFailMessage"                                                                                         )] public string?   RequirementFailMessage        { get; set; } // text
 		[Column("DateAdded"                                                                                                      )] public DateTime? DateAdded                     { get; set; } // timestamp (6) without time zone
 	}
 }

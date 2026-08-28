@@ -622,6 +622,11 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
 
             if (!id.HasValue) continue;
             var chatTrigger = await Service.GetChatTriggers(guildId, id.Value);
+
+            // A selected option may point at a trigger that has since been deleted; skip it rather than reporting
+            // one missing trigger per selection
+            if (chatTrigger is null) continue;
+
             await Service.RunInteractionTrigger(ctx.Interaction as SocketInteraction, chatTrigger, ++i >= 1);
         }
     }

@@ -870,6 +870,96 @@ ctprefix:
   - ctprefix
   - chattriggersprefix
   - chattriggerprefix
+ctreply:
+  - ctreply
+  - chattriggerreply
+ctdeleteafter:
+  - ctdeleteafter
+  - chattriggerdeleteafter
+ctcooldown:
+  - ctcooldown
+  - chattriggercooldown
+ctrequirecounter:
+  - ctrequirecounter
+  - chattriggerrequirecounter
+ctcategory:
+  - ctcategory
+  - chattriggercategory
+ctcategorytoggle:
+  - ctcategorytoggle
+  - chattriggercategorytoggle
+ctstats:
+  - ctstats
+  - chattriggerstats
+cttest:
+  - cttest
+  - chattriggertest
+ctchain:
+  - ctchain
+  - chattriggerchain
+ctallowbots:
+  - ctallowbots
+  - chattriggerallowbots
+ctcounters:
+  - ctcounters
+  - chattriggercounters
+ctcounterset:
+  - ctcounterset
+  - chattriggercounterset
+ctcounterdelete:
+  - ctcounterdelete
+  - chattriggercounterdelete
+ctevent:
+  - ctevent
+  - chattriggerevent
+cteventchannel:
+  - cteventchannel
+  - chattriggereventchannel
+ctplaceholders:
+  - ctplaceholders
+  - chattriggerplaceholders
+cttime:
+  - cttime
+  - chattriggertime
+ctexpiry:
+  - ctexpiry
+  - chattriggerexpiry
+ctmaxuses:
+  - ctmaxuses
+  - chattriggermaxuses
+ctminage:
+  - ctminage
+  - chattriggerminimumage
+ctminmember:
+  - ctminmember
+  - chattriggerminimummembership
+cttoggle:
+  - cttoggle
+  - chattriggertoggle
+ctaddresponse:
+  - ctaddresponse
+  - chattriggeraddresponse
+ctclearresponses:
+  - ctclearresponses
+  - chattriggerclearresponses
+ctresponsemode:
+  - ctresponsemode
+  - chattriggerresponsemode
+ctcost:
+  - ctcost
+  - chattriggercost
+ctreward:
+  - ctreward
+  - chattriggerreward
+ctxpreward:
+  - ctxpreward
+  - chattriggerxpreward
+ctreqlevel:
+  - ctreqlevel
+  - chattriggerrequiredlevel
+ctreqmsg:
+  - ctreqmsg
+  - chattriggerrequirementmessage
 ctprefixtype:
   - ctprefixtype
   - chattriggersprefixtype

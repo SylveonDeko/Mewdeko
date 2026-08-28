@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using Discord.Commands;
 using Mewdeko.Modules.Chat_Triggers.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -70,21 +70,25 @@ public class CommandOrCrTypeReader : MewdekoTypeReader<CommandOrCrInfo>
     public override async Task<TypeReaderResult> ReadAsync(ICommandContext context, string input,
         IServiceProvider services)
     {
-        input = input.ToUpperInvariant(); // Converts the input string to uppercase for case-insensitive comparison
-
         var crs = services
             .GetService<ChatTriggersService>(); // Retrieves the ChatTriggersService instance from services
 
         Debug.Assert(crs != null, $"{nameof(crs)} != null");
 
+        // Trigger text is stored lower-cased, so the lookup has to be case-insensitive rather than upper-casing
+        // the input the way the plain command lookup below does.
         var triggers = await crs.GetChatTriggersFor(context.Guild.Id);
         var trigger = int.TryParse(input, out var id)
             ? triggers.FirstOrDefault(x => x.Id == id)
-            : triggers.FirstOrDefault(x => x.Trigger == input);
+            : triggers.FirstOrDefault(x =>
+                string.Equals(x.Trigger, input, StringComparison.InvariantCultureIgnoreCase));
 
         // Checks if the input matches any custom reaction
         if (trigger is not null)
-            return TypeReaderResult.FromSuccess(new CommandOrCrInfo(trigger.Trigger!, CommandOrCrInfo.Type.Custom));
+        {
+            return TypeReaderResult.FromSuccess(new CommandOrCrInfo(trigger.Trigger!, CommandOrCrInfo.Type.Custom,
+                trigger.Id.ToString()));
+        }
 
         // Parses the input as a command if not a custom reaction
         var cmd = await new CommandTypeReader(client, cmds).ReadAsync(context, input, services)
@@ -127,10 +131,15 @@ public class CommandOrCrInfo
     /// </summary>
     /// <param name="input">The name of the command or custom reaction.</param>
     /// <param name="type">The type of the command or custom reaction.</param>
-    public CommandOrCrInfo(string input, Type type)
+    /// <param name="permKey">
+    ///     The key permission entries are stored under. Chat triggers use their numeric id so that permissions
+    ///     survive a rename; defaults to <paramref name="input" />.
+    /// </param>
+    public CommandOrCrInfo(string input, Type type, string? permKey = null)
     {
         Name = input;
         CmdType = type;
+        PermKey = permKey ?? input;
     }
 
     /// <summary>
@@ -153,4 +162,10 @@ public class CommandOrCrInfo
             return CmdType == Type.Custom;
         }
     }
+
+    /// <summary>
+    ///     Gets the key that permission entries are stored under. For chat triggers this is the trigger id, so that
+    ///     renaming the trigger does not orphan its permissions; for normal commands it is the command name.
+    /// </summary>
+    public string PermKey { get; set; }
 }

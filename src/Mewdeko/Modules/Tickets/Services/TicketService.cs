@@ -3,8 +3,10 @@ using System.Text.Json;
 using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
+using Mewdeko.Common.TriggerPlaceholders;
 using Mewdeko.Controllers.Common.Chat;
 using Mewdeko.Database.L2DB;
+using Mewdeko.Modules.Chat_Triggers.Common;
 using Mewdeko.Modules.Tickets.Common;
 using Mewdeko.Modules.Utility.Services;
 using Mewdeko.Services.Impl;
@@ -28,6 +30,7 @@ public class TicketService : INService
     private readonly EventHandler eventHandler;
     private readonly ILogger<TicketService> logger;
     private readonly GeneratedBotStrings strings;
+    private readonly TriggerEventPublisher triggerEvents;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="TicketService" /> class.
@@ -46,8 +49,10 @@ public class TicketService : INService
         GeneratedBotStrings strings,
         ILogger<TicketService> logger,
         ChatLogService chatLogService,
-        BotCredentials credentials)
+        BotCredentials credentials,
+        TriggerEventPublisher triggerEvents)
     {
+        this.triggerEvents = triggerEvents;
         this.dbFactory = dbFactory;
         this.client = client;
         this.eventHandler = eventHandler;
@@ -987,6 +992,9 @@ public class TicketService : INService
                     await logChannel.SendMessageAsync(embed: logEmbed);
                 }
             }
+
+            // Let chat triggers listening for a ticket being opened respond
+            await triggerEvents.PublishAsync(guild.Id, CtEventType.TicketOpened, creator).ConfigureAwait(false);
 
             return ticket;
         }
@@ -2977,6 +2985,11 @@ public class TicketService : INService
                     await HandleChannelCleanupAsync(guild, channel, ticket);
                 }
             }
+
+            // Let chat triggers listening for a ticket being closed respond
+            var opener = await guild.GetUserAsync(ticket.CreatorId).ConfigureAwait(false);
+            if (opener is not null)
+                await triggerEvents.PublishAsync(guild.Id, CtEventType.TicketClosed, opener).ConfigureAwait(false);
 
             return true;
         }

@@ -100,5 +100,10 @@ public enum CurrencyCategory
     /// <summary>
     ///     Manual adjustment by a server administrator.
     /// </summary>
-    AdminAdjust
+    AdminAdjust,
+
+    /// <summary>
+    ///     Currency taken or paid out by a chat trigger.
+    /// </summary>
+    ChatTrigger
 }

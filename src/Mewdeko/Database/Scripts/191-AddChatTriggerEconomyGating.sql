@@ -1,0 +1,6 @@
+ALTER TABLE "ChatTriggers"
+    ADD COLUMN IF NOT EXISTS "CurrencyCost"           BIGINT  NOT NULL DEFAULT 0,
+    ADD COLUMN IF NOT EXISTS "CurrencyReward"         BIGINT  NOT NULL DEFAULT 0,
+    ADD COLUMN IF NOT EXISTS "XpReward"               INTEGER NOT NULL DEFAULT 0,
+    ADD COLUMN IF NOT EXISTS "RequiredXpLevel"        INTEGER NOT NULL DEFAULT 0,
+    ADD COLUMN IF NOT EXISTS "RequirementFailMessage" TEXT    NULL;

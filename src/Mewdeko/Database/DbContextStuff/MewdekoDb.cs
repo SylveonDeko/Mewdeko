@@ -26,6 +26,11 @@ public class MewdekoDb : DataConnection
     }
 
     /// <summary>
+    ///     Counters that chat trigger responses read and increment through %counter% placeholders.
+    /// </summary>
+    public ITable<ChatTriggerCounter> ChatTriggerCounters => this.GetTable<ChatTriggerCounter>();
+
+    /// <summary>
     ///     Table for accessing scheduled ticket deletions
     /// </summary>
     public ITable<ScheduledTicketDeletion> ScheduledTicketDeletions => this.GetTable<ScheduledTicketDeletion>();

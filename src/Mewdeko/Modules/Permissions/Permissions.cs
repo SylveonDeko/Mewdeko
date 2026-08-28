@@ -1,4 +1,4 @@
-﻿using DataModel;
+using DataModel;
 using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -331,7 +331,7 @@ public partial class Permissions(
             PrimaryTarget = (int)PrimaryPermissionType.Server,
             PrimaryTargetId = 0,
             SecondaryTarget = (int)SecondaryPermissionType.Command,
-            SecondaryTargetName = command.Name.ToLowerInvariant(),
+            SecondaryTargetName = command.PermKey.ToLowerInvariant(),
             State = action.Value,
             IsCustomCommand = command.IsCustom
         }).ConfigureAwait(false);
@@ -405,7 +405,7 @@ public partial class Permissions(
             PrimaryTarget = (int)PrimaryPermissionType.User,
             PrimaryTargetId = user.Id,
             SecondaryTarget = (int)SecondaryPermissionType.Command,
-            SecondaryTargetName = command.Name.ToLowerInvariant(),
+            SecondaryTargetName = command.PermKey.ToLowerInvariant(),
             State = action.Value,
             IsCustomCommand = command.IsCustom
         }).ConfigureAwait(false);
@@ -487,7 +487,7 @@ public partial class Permissions(
             PrimaryTarget = (int)PrimaryPermissionType.Role,
             PrimaryTargetId = role.Id,
             SecondaryTarget = (int)SecondaryPermissionType.Command,
-            SecondaryTargetName = command.Name.ToLowerInvariant(),
+            SecondaryTargetName = command.PermKey.ToLowerInvariant(),
             State = action.Value,
             IsCustomCommand = command.IsCustom
         }).ConfigureAwait(false);
@@ -569,7 +569,7 @@ public partial class Permissions(
             PrimaryTarget = (int)PrimaryPermissionType.Channel,
             PrimaryTargetId = chnl.Id,
             SecondaryTarget = (int)SecondaryPermissionType.Command,
-            SecondaryTargetName = command.Name.ToLowerInvariant(),
+            SecondaryTargetName = command.PermKey.ToLowerInvariant(),
             State = action.Value,
             IsCustomCommand = command.IsCustom
         }).ConfigureAwait(false);
@@ -682,7 +682,7 @@ public partial class Permissions(
             PrimaryTarget = (int)PrimaryPermissionType.Category,
             PrimaryTargetId = chnl.Id,
             SecondaryTarget = (int)SecondaryPermissionType.Command,
-            SecondaryTargetName = command.Name.ToLowerInvariant(),
+            SecondaryTargetName = command.PermKey.ToLowerInvariant(),
             State = action.Value,
             IsCustomCommand = command.IsCustom
         }).ConfigureAwait(false);
