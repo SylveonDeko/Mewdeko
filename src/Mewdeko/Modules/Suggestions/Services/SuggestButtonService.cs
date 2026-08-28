@@ -195,12 +195,15 @@ public class SuggestButtonService(ILogger<SuggestButtonService> logger) : Mewdek
     ///     This method prompts the user with a modal to input their suggestion, which is then processed accordingly.
     /// </remarks>
     [ComponentInteraction("suggestbutton")]
-    public Task SendSuggestModal()
+    public async Task SendSuggestModal()
     {
-        return ctx.Interaction.RespondWithModalAsync<SuggestionModal>("suggest.sendsuggestion",
+        var maxLength = Math.Clamp(await Service.GetMaxLength(ctx.Guild.Id), 1, 4000);
+        var minLength = Math.Clamp(await Service.GetMinLength(ctx.Guild.Id), 0, maxLength - 1);
+
+        await ctx.Interaction.RespondWithModalAsync<SuggestionModal>("suggest.sendsuggestion",
             null,
-            x => x.UpdateTextInput("suggestion", async s
-                => s.WithMaxLength(Math.Min(4000, await Service.GetMaxLength(ctx.Guild.Id)))
-                    .WithMinLength(Math.Min(await Service.GetMinLength(ctx.Guild.Id), 4000))));
+            x => x.UpdateTextInput("suggestion", s
+                => s.WithMaxLength(maxLength)
+                    .WithMinLength(minLength)));
     }
 }

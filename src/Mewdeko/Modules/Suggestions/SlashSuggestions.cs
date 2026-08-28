@@ -52,13 +52,16 @@ public partial class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsServic
     [SlashCommand("suggest", "Sends a suggestion to the suggestion channel, if there is one set.", true)]
     [RequireContext(ContextType.Guild)]
     [CheckPermissions]
-    public Task Suggest()
+    public async Task Suggest()
     {
-        return ctx.Interaction.RespondWithModalAsync<SuggestionModal>("suggest.sendsuggestion",
+        var maxLength = Math.Clamp(await Service.GetMaxLength(ctx.Guild.Id), 1, 4000);
+        var minLength = Math.Clamp(await Service.GetMinLength(ctx.Guild.Id), 0, maxLength - 1);
+
+        await ctx.Interaction.RespondWithModalAsync<SuggestionModal>("suggest.sendsuggestion",
             null,
-            x => x.UpdateTextInput("suggestion", async s => s
-                .WithMaxLength(Math.Min(4000, await Service.GetMaxLength(ctx.Guild.Id)))
-                .WithMinLength(Math.Min(await Service.GetMinLength(ctx.Guild.Id), 4000))));
+            x => x.UpdateTextInput("suggestion", s => s
+                .WithMaxLength(maxLength)
+                .WithMinLength(minLength)));
     }
 
     /// <summary>
