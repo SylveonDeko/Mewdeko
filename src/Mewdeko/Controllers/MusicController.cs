@@ -528,6 +528,7 @@ public class MusicController : Controller
     /// </summary>
     /// <param name="guildId">The Discord guild ID</param>
     /// <param name="request">The play request containing URL and requester information</param>
+    /// <param name="userId">The user requesting playback.</param>
     /// <returns>The loaded track and its position in the queue</returns>
     [Authorize("ApiKeyPolicy")]
     [HttpPost("play")]

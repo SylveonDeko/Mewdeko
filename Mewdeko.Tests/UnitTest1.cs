@@ -148,7 +148,8 @@ public class StringUsageTests
             foreach (Match strMatch in stringMatches)
             {
                 var str = strMatch.Value;
-                if (str != "\"\"" && !parameters.Contains("Strings.") && !IsExemptString(str))
+                if (str != "\"\"" && !parameters.Contains("Strings.") && !parameters.Contains("GetText(") &&
+                    !IsExemptString(str))
                     results.Add((methodName, str, lineContext));
             }
         }

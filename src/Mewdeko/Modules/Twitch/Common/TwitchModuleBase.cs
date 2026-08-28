@@ -73,7 +73,7 @@ public abstract class TwitchModuleBase
     /// <param name="message">The already-resolved message to send.</param>
     protected Task ReplyAsync(string message)
     {
-        return TwitchSvc.SendMessageAsync(Context.TwitchChannel, $"@{Context.DisplayName} {message}");
+        return TwitchSvc.SendMessageAsync(Context.TwitchChannel, GetText("twitch_reply", Context.DisplayName, message));
     }
 
     /// <summary>

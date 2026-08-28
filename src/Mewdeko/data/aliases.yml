@@ -912,6 +912,68 @@ ctcounterdelete:
 ctevent:
   - ctevent
   - chattriggerevent
+statchanneltwitchcounter:
+  - statchanneltwitchcounter
+statchannelmechanism:
+  - statchannelmechanism
+statchannelstyle:
+  - statchannelstyle
+statchanneldefaults:
+  - statchanneldefaults
+statchanneltypes:
+  - statchanneltypes
+musiclinkchannel:
+  - musiclinkchannel
+musiclinkchannels:
+  - musiclinkchannels
+economyconfig:
+  - economyconfig
+economyset:
+  - economyset
+economyreset:
+  - economyreset
+economystats:
+  - economystats
+economyflow:
+  - economyflow
+gamestats:
+  - gamestats
+work:
+  - work
+crime:
+  - crime
+rob:
+  - rob
+pay:
+  - pay
+bank:
+  - bank
+deposit:
+  - deposit
+withdraw:
+  - withdraw
+shop:
+  - shop
+buy:
+  - buy
+inventory:
+  - inventory
+use:
+  - use
+shopaddrole:
+  - shopaddrole
+shopadditem:
+  - shopadditem
+shopremove:
+  - shopremove
+shopprice:
+  - shopprice
+shopstock:
+  - shopstock
+shopdesc:
+  - shopdesc
+shoptoggle:
+  - shoptoggle
 cteventchannel:
   - cteventchannel
   - chattriggereventchannel

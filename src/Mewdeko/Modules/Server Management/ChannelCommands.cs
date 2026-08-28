@@ -70,7 +70,7 @@ public partial class ServerManagement
             {
                 if (action is not (PunishmentAction.Kick or PunishmentAction.Ban))
                 {
-                    embed.WithDescription("Join lockdown action must be `Kick` or `Ban`.")
+                    embed.WithDescription(Strings.JoinLockdownInvalidAction(ctx.Guild.Id))
                         .WithErrorColor();
                     await loadingMessage.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
                     return;

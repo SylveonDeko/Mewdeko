@@ -36,7 +36,7 @@ public class Switch : MewdekoModuleBase<SwitchService>
             var moduleName = lookup.ModuleName ?? Strings.Unknown(ctx.Guild.Id);
 
             var embed = new EmbedBuilder()
-                .WithTitle($"{lookup.ErrorCode} / {lookup.HexCode}")
+                .WithTitle(Strings.SwitchErrorTitle(ctx.Guild.Id, lookup.ErrorCode, lookup.HexCode))
                 .WithDescription(description)
                 .WithColor(lookup.IsKnownDescription ? Mewdeko.OkColor : Mewdeko.ErrorColor)
                 .AddField(Strings.SwitchErrModuleField(ctx.Guild.Id),
@@ -83,7 +83,8 @@ public class Switch : MewdekoModuleBase<SwitchService>
             return;
         }
 
-        await ctx.Channel.SendConfirmAsync($"0x{hex:X}").ConfigureAwait(false);
+        await ctx.Channel.SendConfirmAsync(Strings.SwitchHexValue(ctx.Guild.Id, hex.Value.ToString("X")))
+            .ConfigureAwait(false);
     }
 
     /// <summary>

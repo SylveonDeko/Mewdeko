@@ -93,3 +93,23 @@ statchannellist:
     - ''
   desc: 'Lists all stat channels for this server.'
   params: [ ]
+statchanneltwitchcounter:
+  args:
+    - '#voice-channel counter [template]'
+  desc: 'Sets a stat channel to show a Twitch counter.'
+statchannelmechanism:
+  args:
+    - '#voice-channel Rename|Recreate|Auto [interval-minutes]'
+  desc: 'Sets the update mechanism for a stat channel.'
+statchannelstyle:
+  args:
+    - '#voice-channel Plain|Comma|Abbreviated|ProgressBar'
+  desc: 'Sets the display style for a stat channel.'
+statchanneldefaults:
+  args:
+    - '[Rename|Recreate|Auto] [interval-minutes] [Plain|Comma|Abbreviated|ProgressBar]'
+  desc: 'Shows the default settings for stat channels.'
+statchanneltypes:
+  args:
+    - ''
+  desc: 'Lists the available stat-channel types.'

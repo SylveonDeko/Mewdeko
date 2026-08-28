@@ -238,7 +238,7 @@ public class CommandStrings
     ///     Command usage examples
     /// </summary>
     [YamlMember(Alias = "args")]
-    public string[] Args { get; set; }
+    public string[] Args { get; set; } = [];
 
     /// <summary>
     ///     Parameter information for this command

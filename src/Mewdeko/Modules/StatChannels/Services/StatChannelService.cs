@@ -445,7 +445,7 @@ public class StatChannelService : INService, IReadyExecutor, IDisposable
                 return ResolvedStat.Num(role?.Members.Count() ?? 0)
                     .With("%role.name%", role?.Name ?? "Unknown Role")
                     .With("%role.id%", role?.Id.ToString() ?? "0")
-                    .With("%role.color%", role?.Color.ToString() ?? "#000000");
+                    .With("%role.color%", role?.Colors.PrimaryColor.ToString() ?? "#000000");
             }
 
             case StatChannelType.NewestMember:

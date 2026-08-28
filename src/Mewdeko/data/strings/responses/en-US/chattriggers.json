@@ -20,6 +20,8 @@
   "ct_counter_set": "Counter `{0}` is now {1}.",
   "ct_counters_none": "No counters have been set in this server.",
   "ct_counters_title": "Chat Trigger Counters",
+  "ct_counter_entry": "`{0}`: {1}",
+  "ct_code_value": "`{0}`",
   "ct_crossposting": "Crossposting",
   "ct_crossposting_channel": "To <#{0}>",
   "ct_crossposting_webhook": "To a webhook",

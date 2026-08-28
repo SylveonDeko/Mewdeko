@@ -1,4 +1,5 @@
 {
+  "help_page_of": "{0}/{1}",
   "help_all_commands": "All commands",
   "help_back": "Back",
   "help_categories_description": "Pick a category below to browse its modules.\nDo `{0}h commandname` for help on a single command, or `{0}searchcmd term` to search every command.",

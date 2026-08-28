@@ -1,4 +1,6 @@
 {
+  "switch_error_title": "{0} / {1}",
+  "switch_hex_value": "0x{0}",
   "switch_err_invalid_format": "That doesn't look like a Switch error code. Use `NNNN-NNNN` (e.g. `2168-0002`) or a hex value (e.g. `0x2A2`).",
   "switch_err_unknown_code": "It seems like this error code is unknown. You can check [switchbrew.org](<https://switchbrew.org/wiki/Error_codes>) for more information.",
   "switch_err_to_hex_invalid": "That doesn't follow the Nintendo Switch `NNNN-NNNN` format.",

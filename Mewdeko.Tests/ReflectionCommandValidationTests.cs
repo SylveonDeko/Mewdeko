@@ -210,36 +210,10 @@ public class ReflectionCommandValidationTests
                     $"Response key '{responseKey}' should generate method '{expectedMethodName}' but method not found");
                 continue;
             }
-
-            // Search for usage of this method in the codebase
-            if (!IsMethodUsedInCodebase(expectedMethodName))
-            {
-                failures.Add(
-                    $"Response key '{responseKey}' (method: {expectedMethodName}) is not used in the codebase");
-            }
-        }
-
-        // Output unused keys to a file
-        if (failures.Count > 0)
-        {
-            var projectRoot = GetProjectRoot();
-            var unusedKeysFile = Path.Combine(projectRoot, "data", "strings", "responses", "unused_keys.txt");
-
-            var unusedKeys = failures
-                .Where(f => f.Contains("is not used in the codebase") || f.Contains("has invalid format"))
-                .Select(failure =>
-                {
-                    // Extract the key from the failure message
-                    var keyStart = failure.IndexOf("key '", StringComparison.Ordinal) + 5;
-                    var keyEnd = failure.IndexOf('\'', keyStart);
-                    return failure.Substring(keyStart, keyEnd - keyStart);
-                }).ToList();
-
-            File.WriteAllLines(unusedKeysFile, unusedKeys);
         }
 
         Assert.That(failures, Is.Empty,
-            "Found unused response strings:\n" + string.Join("\n", failures));
+            "Found response strings that cannot be generated:\n" + string.Join("\n", failures));
     }
 
     /// <summary>

@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading;
 using DataModel;
+using Discord.Net;
 using Discord.Rest;
 using LinqToDB;
 using LinqToDB.Async;
@@ -298,7 +299,7 @@ public class LogCommandService(
                 return;
 
             await Task.Delay(500);
-            var auditLogs = await args.Guild.GetAuditLogsAsync(1, actionType: ActionType.RoleCreated).FlattenAsync();
+            var auditLogs = await GetAuditLogsSafeAsync(args.Guild, ActionType.RoleCreated);
             var auditLog = auditLogs.FirstOrDefault();
             if (auditLog == null) return;
 
@@ -323,6 +324,35 @@ public class LogCommandService(
     }
 
     /// <summary>
+    ///     Fetches audit log entries without throwing when the bot lacks the View Audit Log permission. Guilds where the
+    ///     permission is missing simply return no entries, so logging falls back to whatever it can report on its own.
+    /// </summary>
+    /// <param name="guild">The guild to fetch audit logs for.</param>
+    /// <param name="actionType">The action type to filter by.</param>
+    /// <param name="limit">The maximum number of entries to fetch.</param>
+    /// <returns>The matching audit log entries, or an empty collection if they are unavailable.</returns>
+    private async Task<IReadOnlyCollection<IAuditLogEntry>> GetAuditLogsSafeAsync(IGuild? guild, ActionType actionType,
+        int limit = 1)
+    {
+        if (guild is null)
+            return [];
+
+        var botUser = client.GetGuild(guild.Id)?.CurrentUser;
+        if (botUser is null || !botUser.GuildPermissions.ViewAuditLog)
+            return [];
+
+        try
+        {
+            return await guild.GetAuditLogsAsync(limit, actionType: actionType).ConfigureAwait(false);
+        }
+        catch (HttpException ex)
+        {
+            logger.LogDebug(ex, "Could not fetch {ActionType} audit logs for guild {GuildId}", actionType, guild.Id);
+            return [];
+        }
+    }
+
+    /// <summary>
     ///     Handles the event when a guild is updated.
     /// </summary>
     /// <param name="args">The original guild before the update.</param>
@@ -340,11 +370,12 @@ public class LogCommandService(
                 return;
 
             await Task.Delay(500);
-            var auditLogs = await args.GetAuditLogsAsync(1, actionType: ActionType.GuildUpdated).FlattenAsync();
+            var auditLogs = await GetAuditLogsSafeAsync(args, ActionType.GuildUpdated);
             var auditLog = auditLogs.FirstOrDefault();
-            if (auditLog == null) return;
 
-            var updatedByStr = $"`Updated By:` {auditLog.User.Mention} | {auditLog.User.Id}";
+            var updatedByStr = auditLog is null
+                ? "`Updated By:` Unknown"
+                : $"`Updated By:` {auditLog.User.Mention} | {auditLog.User.Id}";
             var components = new ComponentBuilderV2();
 
             if (args.Name != arsg2.Name)
@@ -568,7 +599,7 @@ public class LogCommandService(
                 return;
 
             await Task.Delay(500);
-            var auditLogs = await args.Guild.GetAuditLogsAsync(1, actionType: ActionType.RoleDeleted).FlattenAsync();
+            var auditLogs = await GetAuditLogsSafeAsync(args.Guild, ActionType.RoleDeleted);
             var auditLog = auditLogs.FirstOrDefault();
             if (auditLog == null) return;
 
@@ -605,7 +636,7 @@ public class LogCommandService(
                 return;
 
             await Task.Delay(500);
-            var auditLogs = await args.Guild.GetAuditLogsAsync(1, actionType: ActionType.RoleUpdated).FlattenAsync();
+            var auditLogs = await GetAuditLogsSafeAsync(args.Guild, ActionType.RoleUpdated);
             var auditLog = auditLogs.FirstOrDefault();
             if (auditLog == null) return;
 
@@ -624,7 +655,8 @@ public class LogCommandService(
             {
                 components.WithContainer([
                     new TextDisplayBuilder($"# {strings.RoleColorUpdated(args.Guild.Id)}"),
-                    new TextDisplayBuilder(strings.RoleColorChange(args.Guild.Id, roleStr, arsg2.Colors.PrimaryColor, args.Colors.PrimaryColor,
+                    new TextDisplayBuilder(strings.RoleColorChange(args.Guild.Id, roleStr, arsg2.Colors.PrimaryColor,
+                        args.Colors.PrimaryColor,
                         updatedByStr))
                 ], arsg2.Colors.PrimaryColor);
             }
@@ -790,7 +822,7 @@ public class LogCommandService(
         if (channel is null) return;
 
         await Task.Delay(500);
-        var auditLogs = await arsg2.Guild.GetAuditLogsAsync(1, actionType: ActionType.MemberRoleUpdated).FlattenAsync();
+        var auditLogs = await GetAuditLogsSafeAsync(arsg2.Guild, ActionType.MemberRoleUpdated);
         var auditLog = auditLogs.LastOrDefault();
         if (auditLog?.User == null) return;
 
@@ -830,7 +862,7 @@ public class LogCommandService(
         if (channel is null) return;
 
         await Task.Delay(500);
-        var auditLogs = await arsg2.Guild.GetAuditLogsAsync(1, actionType: ActionType.MemberRoleUpdated).FlattenAsync();
+        var auditLogs = await GetAuditLogsSafeAsync(arsg2.Guild, ActionType.MemberRoleUpdated);
         var auditLog = auditLogs.LastOrDefault();
         if (auditLog?.User == null) return;
 
@@ -906,7 +938,7 @@ public class LogCommandService(
                 return;
 
             await Task.Delay(500);
-            var auditLogs = await arsg2.Guild.GetAuditLogsAsync(1, actionType: ActionType.MemberUpdated).FlattenAsync();
+            var auditLogs = await GetAuditLogsSafeAsync(arsg2.Guild, ActionType.MemberUpdated);
             var entry = auditLogs.FirstOrDefault();
             if (entry == null) return; // Cannot determine who changed it without audit log
 
@@ -950,8 +982,7 @@ public class LogCommandService(
                 return;
 
             await Task.Delay(500);
-            var auditLogs = await deletedThread.Guild.GetAuditLogsAsync(1, actionType: ActionType.ThreadDelete)
-                .FlattenAsync();
+            var auditLogs = await GetAuditLogsSafeAsync(deletedThread.Guild, ActionType.ThreadDelete);
             var entry = auditLogs.FirstOrDefault();
             if (entry == null) return;
 
@@ -1001,7 +1032,7 @@ public class LogCommandService(
                 return;
 
             await Task.Delay(500);
-            var auditLogs = await arsg2.Guild.GetAuditLogsAsync(1, actionType: ActionType.ThreadUpdate).FlattenAsync();
+            var auditLogs = await GetAuditLogsSafeAsync(arsg2.Guild, ActionType.ThreadUpdate);
             var entry = auditLogs.FirstOrDefault();
             if (entry == null) return;
 
@@ -1186,8 +1217,7 @@ public class LogCommandService(
 
             await Task.Delay(1000); // Delay slightly to increase chance of audit log availability
 
-            var auditLogs = await guildChannel.Guild.GetAuditLogsAsync(5, actionType: ActionType.MessageDeleted)
-                .FlattenAsync(); // Check last 5 deletes
+            var auditLogs = await GetAuditLogsSafeAsync(guildChannel.Guild, ActionType.MessageDeleted, 5);
 
             // Try to find who deleted the message
             var deleteUser = message.Author; // Assume self-delete initially
@@ -1427,12 +1457,12 @@ public class LogCommandService(
             var title = "User Left";
             string footer = null;
             await Task.Delay(1000); // Delay for audit log
-            var auditLogsKick = await guild.GetAuditLogsAsync(1, actionType: ActionType.Kick);
+            var auditLogsKick = await GetAuditLogsSafeAsync(guild, ActionType.Kick);
             var kickLog = auditLogsKick.FirstOrDefault(e =>
                 e.Data is KickAuditLogData data && data.Target.Id == user.Id &&
                 (DateTimeOffset.UtcNow - e.CreatedAt).TotalSeconds < 10);
 
-            var auditLogsBan = await guild.GetAuditLogsAsync(1, actionType: ActionType.Ban);
+            var auditLogsBan = await GetAuditLogsSafeAsync(guild, ActionType.Ban);
             var banLog = auditLogsBan.FirstOrDefault(e =>
                 e.Data is BanAuditLogData data && data.Target.Id == user.Id &&
                 (DateTimeOffset.UtcNow - e.CreatedAt).TotalSeconds < 10);
@@ -1693,8 +1723,7 @@ public class LogCommandService(
             };
 
             await Task.Delay(500);
-            var auditLogs = await channel.Guild.GetAuditLogsAsync(1, actionType: ActionType.ChannelCreated)
-                .FlattenAsync();
+            var auditLogs = await GetAuditLogsSafeAsync(channel.Guild, ActionType.ChannelCreated);
             var entry = auditLogs.FirstOrDefault();
 
             var components = new ComponentBuilderV2()
@@ -1747,8 +1776,7 @@ public class LogCommandService(
             };
 
             await Task.Delay(500);
-            var auditLogs = await channel.Guild.GetAuditLogsAsync(1, actionType: ActionType.ChannelDeleted)
-                .FlattenAsync();
+            var auditLogs = await GetAuditLogsSafeAsync(channel.Guild, ActionType.ChannelDeleted);
             var entry = auditLogs.FirstOrDefault();
 
             var components = new ComponentBuilderV2()
@@ -1793,7 +1821,7 @@ public class LogCommandService(
                 return;
 
             await Task.Delay(500);
-            var audit = await channel.Guild.GetAuditLogsAsync(1, actionType: ActionType.ChannelUpdated).FlattenAsync();
+            var audit = await GetAuditLogsSafeAsync(channel.Guild, ActionType.ChannelUpdated);
             var entry = audit.FirstOrDefault();
             if (entry == null) return;
 

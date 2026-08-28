@@ -757,7 +757,7 @@ public abstract class TwitchSlashModuleBase : MewdekoSlashModuleBase<TwitchServi
 
         await FollowupAsync(embed: new EmbedBuilder()
             .WithOkColor()
-            .WithDescription($"Saved Twitch timer **{timer.Name}**.")
+            .WithDescription(Strings.TwitchTimerSaved(ctx.Guild.Id, timer.Name))
             .Build(), ephemeral: true).ConfigureAwait(false);
     }
 
@@ -770,7 +770,9 @@ public abstract class TwitchSlashModuleBase : MewdekoSlashModuleBase<TwitchServi
         var removed = await Service.RemoveTimerAsync(ctx.Guild.Id, name).ConfigureAwait(false);
         await FollowupAsync(embed: new EmbedBuilder()
             .WithColor(removed ? Mewdeko.OkColor : Mewdeko.ErrorColor)
-            .WithDescription(removed ? $"Removed Twitch timer **{name}**." : "No Twitch timer found with that name.")
+            .WithDescription(removed
+                ? Strings.TwitchTimerRemoved(ctx.Guild.Id, name)
+                : Strings.TwitchTimerNotFound(ctx.Guild.Id))
             .Build(), ephemeral: true).ConfigureAwait(false);
     }
 
@@ -788,7 +790,7 @@ public abstract class TwitchSlashModuleBase : MewdekoSlashModuleBase<TwitchServi
 
         await FollowupAsync(embed: new EmbedBuilder()
             .WithOkColor()
-            .WithTitle("Twitch Timers")
+            .WithTitle(Strings.TwitchTimersTitle(ctx.Guild.Id))
             .WithDescription(description)
             .Build(), ephemeral: true).ConfigureAwait(false);
     }
@@ -818,7 +820,9 @@ public abstract class TwitchSlashModuleBase : MewdekoSlashModuleBase<TwitchServi
         var sent = await Service.TestTimerAsync(ctx.Guild.Id, name).ConfigureAwait(false);
         await FollowupAsync(embed: new EmbedBuilder()
             .WithColor(sent is null ? Mewdeko.ErrorColor : Mewdeko.OkColor)
-            .WithDescription(sent is null ? "No Twitch timer found with that name." : $"Sent timer message:\n{sent}")
+            .WithDescription(sent is null
+                ? Strings.TwitchTimerNotFound(ctx.Guild.Id)
+                : Strings.TwitchTimerSent(ctx.Guild.Id, sent))
             .Build(), ephemeral: true).ConfigureAwait(false);
     }
 
@@ -829,8 +833,10 @@ public abstract class TwitchSlashModuleBase : MewdekoSlashModuleBase<TwitchServi
         await FollowupAsync(embed: new EmbedBuilder()
             .WithColor(updated ? Mewdeko.OkColor : Mewdeko.ErrorColor)
             .WithDescription(updated
-                ? $"{(enabled ? "Enabled" : "Disabled")} Twitch timer **{name}**."
-                : "No Twitch timer found with that name.")
+                ? Strings.TwitchTimerState(ctx.Guild.Id,
+                    enabled ? Strings.TwitchTimerEnabled(ctx.Guild.Id) : Strings.TwitchTimerDisabled(ctx.Guild.Id),
+                    name)
+                : Strings.TwitchTimerNotFound(ctx.Guild.Id))
             .Build(), ephemeral: true).ConfigureAwait(false);
     }
 }

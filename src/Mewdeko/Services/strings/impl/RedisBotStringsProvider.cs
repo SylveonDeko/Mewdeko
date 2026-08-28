@@ -114,7 +114,7 @@ public class RedisBotStringsProvider : IBotStringsProvider
                 // Add basic command information
                 hashFields.Add(new HashEntry(
                     $"{commandEntry.Key}::args",
-                    string.Join('&', Array.ConvertAll(commandEntry.Value.Args, HttpUtility.UrlEncode))
+                    string.Join('&', Array.ConvertAll(commandEntry.Value.Args ?? [], HttpUtility.UrlEncode))
                 ));
 
                 hashFields.Add(new HashEntry(
