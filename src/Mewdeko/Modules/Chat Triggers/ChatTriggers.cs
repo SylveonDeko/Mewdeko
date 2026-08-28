@@ -1375,7 +1375,8 @@ public class ChatTriggers(
         var eb = new EmbedBuilder()
             .WithOkColor()
             .WithTitle(Strings.CtCountersTitle(ctx.Guild.Id))
-            .WithDescription(string.Join("\n", counters.Select(x => $"`{x.Name}`: {x.Value:N0}")));
+            .WithDescription(string.Join("\n", counters.Select(x =>
+                Strings.CtCounterEntry(ctx.Guild.Id, x.Name, x.Value.ToString("N0")))));
 
         await ctx.Channel.EmbedAsync(eb).ConfigureAwait(false);
     }
@@ -1435,7 +1436,7 @@ public class ChatTriggers(
         var eb = new EmbedBuilder()
             .WithOkColor()
             .WithTitle(Strings.CtPlaceholdersTitle(ctx.Guild.Id))
-            .WithDescription(string.Join("\n", available.Select(x => $"`{x}`")));
+            .WithDescription(string.Join("\n", available.Select(x => Strings.CtCodeValue(ctx.Guild.Id, x))));
 
         await ctx.Channel.EmbedAsync(eb).ConfigureAwait(false);
     }

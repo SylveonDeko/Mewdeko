@@ -93,3 +93,13 @@ statchannellist:
     - ''
   desc: 'Lists all stat channels for this server.'
   params: [ ]
+statchanneltwitchcounter:
+  desc: 'Sets a stat channel to show a Twitch counter.'
+statchannelmechanism:
+  desc: 'Sets the update mechanism for a stat channel.'
+statchannelstyle:
+  desc: 'Sets the display style for a stat channel.'
+statchanneldefaults:
+  desc: 'Shows the default settings for stat channels.'
+statchanneltypes:
+  desc: 'Lists the available stat-channel types.'

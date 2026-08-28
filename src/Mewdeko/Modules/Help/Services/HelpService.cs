@@ -486,7 +486,7 @@ public class HelpService : INService, IReadyExecutor
                 .WithOkColor()
                 .WithTitle(header)
                 .WithDescription(genStrings.HelpModuleListHint(guildId, prefix))
-                .WithFooter($"{page + 1}/{totalPages}");
+                .WithFooter(genStrings.HelpPageOf(guildId, page + 1, totalPages));
 
             var skipped = 0;
             var taken = 0;

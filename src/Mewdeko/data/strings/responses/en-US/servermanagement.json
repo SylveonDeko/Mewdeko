@@ -1,4 +1,5 @@
 {
+  "join_lockdown_invalid_action": "Join lockdown action must be `Kick` or `Ban`.",
   "cape": "CAPE",
   "category": "Category",
   "channel_unlocked": "{0} Unlocked {1}",

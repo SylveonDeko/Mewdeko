@@ -984,7 +984,8 @@ public class ChannelAccessService : INService, IReadyExecutor, IDisposable
         var gatedChannel = guild.GetTextChannel(config.ChannelId);
         var embed = new EmbedBuilder()
             .WithOkColor()
-            .WithTitle(strings.ChannelAccessPanelTitle(config.GuildId, gatedChannel?.Name ?? "channel"))
+            .WithTitle(strings.ChannelAccessPanelTitle(config.GuildId,
+                gatedChannel?.Name ?? strings.Channel(config.GuildId)))
             .WithDescription(strings.ChannelAccessPanelBody(config.GuildId))
             .Build();
 

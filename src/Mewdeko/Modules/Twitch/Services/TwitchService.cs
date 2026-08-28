@@ -7,6 +7,7 @@ using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Twitch.Common;
+using Mewdeko.Services.Strings;
 using TwitchLib.Api;
 
 namespace Mewdeko.Modules.Twitch.Services;
@@ -33,6 +34,7 @@ public class TwitchService : INService, IReadyExecutor
         new();
 
     private readonly SemaphoreSlim snapshotLock = new(1, 1);
+    private readonly GeneratedBotStrings strings;
 
     private readonly TwitchApiClient twitchApiClient;
     private TwitchAPI? helixApi;
@@ -49,13 +51,15 @@ public class TwitchService : INService, IReadyExecutor
     /// <param name="commandHandler">Handler that dispatches Twitch chat commands.</param>
     /// <param name="twitchApiClient">Client for modern Twitch OAuth, EventSub, and Helix chat APIs.</param>
     /// <param name="client">The Discord client instance, used to deliver go-live notifications.</param>
+    /// <param name="strings">The localized response-string accessor.</param>
     public TwitchService(
         IBotCredentials creds,
         IDataConnectionFactory dbFactory,
         ILogger<TwitchService> logger,
         TwitchCommandHandler commandHandler,
         TwitchApiClient twitchApiClient,
-        DiscordShardedClient client)
+        DiscordShardedClient client,
+        GeneratedBotStrings strings)
     {
         this.creds = creds;
         this.dbFactory = dbFactory;
@@ -63,6 +67,7 @@ public class TwitchService : INService, IReadyExecutor
         this.commandHandler = commandHandler;
         this.twitchApiClient = twitchApiClient;
         this.client = client;
+        this.strings = strings;
 
         StreamOnline += SendGoLiveNotificationAsync;
         StreamOffline += SendGoOfflineNotificationAsync;
@@ -925,7 +930,7 @@ public class TwitchService : INService, IReadyExecutor
 
         var embed = new EmbedBuilder()
             .WithOkColor()
-            .WithTitle($"{stream.BroadcasterUserName} stream recap")
+            .WithTitle(strings.TwitchStreamRecapTitle(stream.GuildId, stream.BroadcasterUserName))
             .WithDescription($"https://twitch.tv/{stream.BroadcasterUserLogin}")
             .AddField("Duration", $"{(int)duration.TotalHours}h {duration.Minutes}m", true)
             .AddField("Peak Viewers", stats.PeakViewers.ToString("N0"), true)

@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
 using DataModel;
+using Discord.Net;
 using IF.Lastfm.Core.Api;
 using IF.Lastfm.Core.Objects;
 using Lavalink4NET;
@@ -27,6 +28,8 @@ namespace Mewdeko.Modules.Music.CustomPlayer;
 public sealed class MewdekoPlayer : LavalinkPlayer
 {
     private const ulong SourceGuildId = 843489716674494475;
+
+    private readonly GeneratedBotStrings Strings;
     private readonly IAudioService audioService;
     private readonly IDataCache cache;
     private readonly IMessageChannel channel;
@@ -44,8 +47,6 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     ];
 
     private readonly PlayerStateTracker stateTracker;
-
-    private readonly GeneratedBotStrings Strings;
     private readonly TtsService? ttsService;
     private bool isAprilFoolsJokeRunning;
     private DateTime? trackStartTime;
@@ -116,7 +117,7 @@ public sealed class MewdekoPlayer : LavalinkPlayer
 
                         if (nextTrack is null)
                         {
-                            await musicChannel.SendMessageAsync(Strings.QueueEmpty(GuildId));
+                            await TrySendAsync(musicChannel, c => c.SendMessageAsync(Strings.QueueEmpty(GuildId)));
                             await StopAsync(token);
                             await cache.SetCurrentTrack(GuildId, null);
                         }
@@ -155,8 +156,8 @@ public sealed class MewdekoPlayer : LavalinkPlayer
                     ], Mewdeko.ErrorColor)
                     .WithSeparator()
                     .WithContainer(new TextDisplayBuilder(Strings.TrackLoadFailed(GuildId, item.Track.Title)));
-                await musicChannel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
-                    allowedMentions: AllowedMentions.None);
+                await TrySendAsync(musicChannel, c => c.SendMessageAsync(components: components.Build(),
+                    flags: MessageFlags.ComponentsV2, allowedMentions: AllowedMentions.None));
                 if (nextTrack is not null)
                 {
                     await PlayAsync(nextTrack.Track, cancellationToken: token);
@@ -201,8 +202,8 @@ public sealed class MewdekoPlayer : LavalinkPlayer
         // Create now playing display with integrated control buttons
         var nowPlayingComponents = await PrettyNowPlayingAsync(queue);
 
-        var message = await musicChannel.SendMessageAsync(components: nowPlayingComponents,
-            flags: MessageFlags.ComponentsV2, allowedMentions: AllowedMentions.None);
+        await TrySendAsync(musicChannel, c => c.SendMessageAsync(components: nowPlayingComponents,
+            flags: MessageFlags.ComponentsV2, allowedMentions: AllowedMentions.None));
 
         if (DateTime.Now.Month == 4 && DateTime.Now.Day == 1 && !isAprilFoolsJokeRunning)
         {
@@ -248,7 +249,8 @@ public sealed class MewdekoPlayer : LavalinkPlayer
             var success = await AutoPlay();
             if (!success)
             {
-                await musicChannel.SendErrorAsync(Strings.LastfmCredentialsInvalidAutoplay(GuildId), config);
+                await TrySendAsync(musicChannel,
+                    c => c.SendErrorAsync(Strings.LastfmCredentialsInvalidAutoplay(GuildId), config));
                 await SetAutoPlay(0);
             }
         }
@@ -256,15 +258,87 @@ public sealed class MewdekoPlayer : LavalinkPlayer
 
 
     /// <summary>
-    ///     Gets the music channel for the player.
+    ///     Gets the music channel for the player, or null if it no longer exists or the bot cannot post in it.
     /// </summary>
     /// <returns>The music channel for the player.</returns>
     public async Task<IMessageChannel?> GetMusicChannel()
     {
         var settings = await GetMusicSettings();
-        return settings.MusicChannelId.HasValue
+        var resolved = settings.MusicChannelId.HasValue
             ? client.GetGuild(GuildId)?.GetTextChannel(settings.MusicChannelId.Value)
             : channel;
+
+        return CanSendTo(resolved) ? resolved : null;
+    }
+
+    /// <summary>
+    ///     Checks whether the bot can currently post messages in the given channel.
+    /// </summary>
+    /// <param name="target">The channel to check.</param>
+    /// <returns>True if the channel is a guild channel the bot can view and send messages in, or a non guild channel.</returns>
+    private bool CanSendTo(IMessageChannel? target)
+    {
+        if (target is null)
+            return false;
+
+        if (target is not IGuildChannel guildChannel)
+            return true;
+
+        var botUser = client.GetGuild(guildChannel.GuildId)?.CurrentUser;
+        if (botUser is null)
+            return false;
+
+        var perms = botUser.GetPermissions(guildChannel);
+        return perms is { ViewChannel: true, SendMessages: true };
+    }
+
+    /// <summary>
+    ///     Sends a message to the music channel, swallowing and reporting permission failures instead of letting them
+    ///     bubble up into the Lavalink event pump.
+    /// </summary>
+    /// <param name="target">The channel to send to. May be null, in which case nothing is sent.</param>
+    /// <param name="send">The send operation to perform.</param>
+    /// <returns>The sent message, or null if the message could not be sent.</returns>
+    private async Task<IUserMessage?> TrySendAsync(IMessageChannel? target,
+        Func<IMessageChannel, Task<IUserMessage>> send)
+    {
+        if (target is null)
+            return null;
+
+        try
+        {
+            return await send(target);
+        }
+        catch (HttpException ex) when (ex.DiscordCode is DiscordErrorCode.MissingPermissions
+                                           or DiscordErrorCode.InsufficientPermissions)
+        {
+            logger.LogInformation(
+                "Cannot post music messages in channel {ChannelId} of guild {GuildId}, clearing music channel",
+                target.Id, GuildId);
+            await ClearMusicChannelAsync();
+            return null;
+        }
+        catch (HttpException ex)
+        {
+            logger.LogWarning(ex, "Failed to send music message in guild {GuildId}", GuildId);
+            return null;
+        }
+    }
+
+    /// <summary>
+    ///     Clears the configured music channel so failed sends are not retried on every track.
+    /// </summary>
+    private async Task ClearMusicChannelAsync()
+    {
+        var settings = await GetMusicSettings();
+        if (settings.MusicChannelId is null)
+            return;
+
+        settings.MusicChannelId = null;
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        await db.UpdateAsync(settings);
+        await cache.SetMusicPlayerSettings(GuildId, settings);
     }
 
     /// <summary>

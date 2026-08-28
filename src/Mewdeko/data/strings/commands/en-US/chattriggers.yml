@@ -1007,3 +1007,63 @@ showchattrigger_int_2:
       name: id
       optional: false
       type: int
+ctevent:
+  desc: 'Sets the event that can fire a chat trigger.'
+cteventchannel:
+  desc: 'Sets the channel where a chat-trigger event is handled.'
+ctreply:
+  desc: 'Sets the message that a chat trigger replies to.'
+ctdeleteafter:
+  desc: 'Sets how long after sending a chat-trigger response is deleted.'
+ctcooldown:
+  desc: 'Sets a cooldown for a chat trigger.'
+ctrequirecounter:
+  desc: 'Sets a counter requirement for a chat trigger.'
+ctcategory:
+  desc: 'Sets the category for a chat trigger.'
+ctcategorytoggle:
+  desc: 'Enables or disables a chat-trigger category.'
+cttest:
+  desc: 'Tests whether a sample message would fire a chat trigger.'
+ctstats:
+  desc: 'Shows chat-trigger activity statistics.'
+ctchain:
+  desc: 'Sets a chat trigger that runs after another trigger.'
+ctallowbots:
+  desc: 'Controls whether a chat trigger responds to bots.'
+ctcounters:
+  desc: 'Lists chat-trigger counters.'
+ctcounterset:
+  desc: 'Sets a chat-trigger counter value.'
+ctcounterdelete:
+  desc: 'Deletes a chat-trigger counter.'
+ctplaceholders:
+  desc: 'Lists placeholders available to chat triggers.'
+cttime:
+  desc: 'Sets the active time range for a chat trigger.'
+ctexpiry:
+  desc: 'Sets an expiry time for a chat trigger.'
+ctmaxuses:
+  desc: 'Sets the maximum number of times a chat trigger can run.'
+ctminage:
+  desc: 'Sets a minimum account age for a chat trigger.'
+ctminmember:
+  desc: 'Sets a minimum server-membership age for a chat trigger.'
+cttoggle:
+  desc: 'Enables or disables a chat trigger.'
+ctaddresponse:
+  desc: 'Adds an additional response to a chat trigger.'
+ctclearresponses:
+  desc: 'Removes additional responses from a chat trigger.'
+ctresponsemode:
+  desc: 'Sets how a chat trigger chooses its responses.'
+ctcost:
+  desc: 'Sets the currency cost for a chat trigger.'
+ctreward:
+  desc: 'Sets the currency reward for a chat trigger.'
+ctxpreward:
+  desc: 'Sets the XP reward for a chat trigger.'
+ctreqlevel:
+  desc: 'Sets the required XP level for a chat trigger.'
+ctreqmsg:
+  desc: 'Sets the requirement-failure message for a chat trigger.'

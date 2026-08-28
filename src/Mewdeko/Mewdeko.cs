@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using DataModel;
 using Discord.Commands;
 using Discord.Interactions;
@@ -32,6 +33,12 @@ public class Mewdeko : IDisposable
     {
         PropertyNameCaseInsensitive = true
     };
+
+    /// <summary>
+    ///     Matches the channel or guild id in a raw Discord.Net log line, so route only messages can be attributed.
+    /// </summary>
+    private static readonly Regex LogRouteRegex = new(@"(?<kind>channels|guilds)/(?<id>\d{15,25})",
+        RegexOptions.Compiled | RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(100));
 
     private readonly BotConfigService bss;
 
@@ -372,8 +379,44 @@ public class Mewdeko : IDisposable
             LogSeverity.Debug => LogEventLevel.Debug,
             _ => LogEventLevel.Information
         };
-        Log.Write(severity, arg.Exception, "[{Source}] {Message}", arg.Source, arg.Message);
+
+        var origin = DescribeLogOrigin(arg.Message);
+        if (origin is not null)
+            Log.Write(severity, arg.Exception, "[{Source}] {Message} ({Origin})", arg.Source, arg.Message, origin);
+        else
+            Log.Write(severity, arg.Exception, "[{Source}] {Message}", arg.Source, arg.Message);
+
         await Task.CompletedTask;
+    }
+
+    /// <summary>
+    ///     Resolves the guild behind a raw Discord.Net log line so route only messages, such as rate limit warnings,
+    ///     can be attributed to a server.
+    /// </summary>
+    /// <param name="message">The raw log message.</param>
+    /// <returns>A description of the originating guild, or null if it cannot be determined.</returns>
+    private string? DescribeLogOrigin(string? message)
+    {
+        if (string.IsNullOrEmpty(message))
+            return null;
+
+        var match = LogRouteRegex.Match(message);
+        if (!match.Success)
+            return null;
+
+        if (!ulong.TryParse(match.Groups["id"].Value, out var id))
+            return null;
+
+        if (match.Groups["kind"].Value == "guilds")
+        {
+            var directGuild = Client.GetGuild(id);
+            return directGuild is null ? $"Guild {id}" : $"Guild {directGuild.Name} | {id}";
+        }
+
+        if (Client.GetChannel(id) is not IGuildChannel guildChannel)
+            return null;
+
+        return $"Guild {guildChannel.Guild.Name} | {guildChannel.Guild.Id}, Channel #{guildChannel.Name}";
     }
 
     private void HandleStatusChanges()
