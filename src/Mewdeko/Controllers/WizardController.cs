@@ -3,6 +3,7 @@ using LinqToDB;
 using LinqToDB.Async;
 using LinqToDB.Data;
 using Mewdeko.Controllers.Common.AuditLog;
+using Mewdeko.Controllers.Common.DashboardAccess;
 using Mewdeko.Controllers.Common.Wizard;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -53,10 +54,25 @@ public class WizardController : Controller
     /// <returns>Decision on whether to show wizard</returns>
     [HttpGet("should-show/{userId:long}/{guildId:long}")]
     [SkipAudit]
+    [SkipDashboardAccess]
     public async Task<ActionResult<WizardDecisionResponse>> ShouldShowWizard(ulong userId, ulong guildId)
     {
         try
         {
+            // The dashboard's guild list comes from Discord OAuth, so it can still offer a guild the bot
+            // was removed from. Answering "no wizard" there beats erroring: the caller polls this endpoint.
+            if (client.GetGuild(guildId) is null)
+            {
+                return Ok(new WizardDecisionResponse
+                {
+                    ShowWizard = false,
+                    ShowSuggestion = false,
+                    WizardType = WizardTypeController.None,
+                    Reason = "Bot is not in this guild",
+                    Context = new WizardContext()
+                });
+            }
+
             var decision = await wizardService.ShouldShowWizardAsync(userId, guildId);
             await using var db = await dbFactory.CreateConnectionAsync();
             var user = await db.GetTable<DiscordUser>().FirstOrDefaultAsync(u => u.UserId == userId);
