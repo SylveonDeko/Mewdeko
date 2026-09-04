@@ -282,12 +282,22 @@ public class MessageCountService : INService, IDisposable
 
                 if (record == null)
                 {
-                    record = new MessageCount
-                    {
-                        GuildId = guildId, ChannelId = channelId, UserId = userId, Count = 0
-                    };
+                    await db.MessageCounts
+                        .InsertOrUpdateAsync(() => new MessageCount
+                        {
+                            GuildId = guildId, ChannelId = channelId, UserId = userId, Count = 0
+                        }, null, () => new MessageCount
+                        {
+                            GuildId = guildId, ChannelId = channelId, UserId = userId
+                        }, cancellationToken);
 
-                    record.Id = await db.InsertWithInt64IdentityAsync(record, token: cancellationToken);
+                    record = await db.MessageCounts
+                        .LoadWithAsTable(x => x.MessageTimestamps)
+                        .FirstAsync(x =>
+                                x.GuildId == guildId &&
+                                x.ChannelId == channelId &&
+                                x.UserId == userId,
+                            cancellationToken);
                 }
 
                 // Cache the result
@@ -449,14 +459,14 @@ public class MessageCountService : INService, IDisposable
         switch (queryType)
         {
             case CountQueryType.Guild:
-                query = db.MessageCounts.LoadWithAsTable(x => x.MessageTimestamps).Where(x => x.GuildId == snowflakeId);
+                query = db.MessageCounts.Where(x => x.GuildId == snowflakeId);
                 break;
             case CountQueryType.Channel:
-                query = db.MessageCounts.LoadWithAsTable(x => x.MessageTimestamps)
+                query = db.MessageCounts
                     .Where(x => x.ChannelId == snowflakeId && x.GuildId == guildId);
                 break;
             case CountQueryType.User:
-                query = db.MessageCounts.LoadWithAsTable(x => x.MessageTimestamps)
+                query = db.MessageCounts
                     .Where(x => x.UserId == snowflakeId && x.GuildId == guildId);
                 break;
             default:
@@ -468,6 +478,8 @@ public class MessageCountService : INService, IDisposable
 
         if (counts.Length > 0)
         {
+            var timestampCutoff = DateTime.UtcNow - MessageTimestampRetentionService.RetentionPeriod;
+
             var timestampQuery = queryType switch
             {
                 CountQueryType.Guild => db.MessageTimestamps.Where(x => x.GuildId == snowflakeId),
@@ -477,7 +489,9 @@ public class MessageCountService : INService, IDisposable
                 _ => throw new ArgumentOutOfRangeException(nameof(queryType), queryType, null)
             };
 
-            var timestamps = await timestampQuery.ToListAsync();
+            var timestamps = await timestampQuery
+                .Where(x => x.Timestamp >= timestampCutoff)
+                .ToListAsync();
 
             // Group timestamps by their identifiers for efficient lookup
             var timestampGroups = timestamps.GroupBy(

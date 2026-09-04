@@ -44,6 +44,7 @@ public sealed class BotConfig
         LogChatTriggerFires = true;
         LogPunishments = true;
         LogXpRewards = true;
+        LeaveFeedbackEnabled = true;
     }
 
     /// <summary>
@@ -179,6 +180,24 @@ public sealed class BotConfig
     /// </summary>
     [Comment("Used for global command logs")]
     public ulong CommandLogChannel { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether the owner of a guild gets a dm asking why the bot was removed.
+    /// </summary>
+    [Comment("""
+             Whether the owner of a server gets a dm asking why the bot was removed,
+             right after the bot leaves or is kicked from their server.
+             """)]
+    public bool LeaveFeedbackEnabled { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the channel ID that answered leave feedback gets posted to.
+    /// </summary>
+    [Comment("""
+             Channel that leave feedback answers get posted to.
+             Set to 0 to fall back to the guild joins/leaves channel from creds.
+             """)]
+    public ulong LeaveFeedbackChannel { get; set; }
 
     /// <summary>
     ///     Gets or sets whether the bot will support youtube links. (Or hides that it supports them lol)

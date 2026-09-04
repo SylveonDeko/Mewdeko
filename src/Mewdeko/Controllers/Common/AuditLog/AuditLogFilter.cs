@@ -26,6 +26,7 @@ public class AuditLogFilter(
     private static readonly HashSet<string> ExcludedControllers = new(StringComparer.OrdinalIgnoreCase)
     {
         "AuditLog",
+        "LeaveFeedback",
         "InstanceManagement",
         "SystemInfo",
         "Performance",

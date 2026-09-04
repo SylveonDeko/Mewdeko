@@ -1,7 +1,6 @@
 using System.Text.Json;
 using System.Threading;
 using DataModel;
-using LinqToDB.Async;
 using Mewdeko.Modules.Xp.Models;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -688,17 +687,9 @@ public class XpVoiceTracker : INService, IDisposable
     /// <param name="guildId">The guild ID.</param>
     /// <param name="channelId">The channel ID.</param>
     /// <returns>A task representing the asynchronous operation with a boolean result.</returns>
-    private async Task<bool> IsChannelExcludedAsync(ulong guildId, ulong channelId)
+    private Task<bool> IsChannelExcludedAsync(ulong guildId, ulong channelId)
     {
-        // Check from database using Redis caching
-        await using var db = await dbFactory.CreateConnectionAsync();
-        var isExcluded = await db.XpExcludedItems
-            .AnyAsync(x => x.GuildId == guildId &&
-                           x.ItemId == channelId &&
-                           x.ItemType == (int)ExcludedItemType.Channel)
-            .ConfigureAwait(false);
-
-        return isExcluded;
+        return cacheManager.IsChannelExcludedAsync(guildId, channelId);
     }
 
     /// <summary>
@@ -707,35 +698,12 @@ public class XpVoiceTracker : INService, IDisposable
     /// <param name="guildId">The guild ID.</param>
     /// <param name="userId">The user ID.</param>
     /// <returns>A task representing the asynchronous operation with a boolean result.</returns>
-    private async Task<bool> IsUserExcludedAsync(ulong guildId, ulong userId)
+    private Task<bool> IsUserExcludedAsync(ulong guildId, ulong userId)
     {
-        // Check database for user exclusion
-        await using var db = await dbFactory.CreateConnectionAsync();
+        var user = client.GetGuild(guildId)?.GetUser(userId);
+        var roleIds = user?.Roles.Select(r => r.Id) ?? [];
 
-        // Direct user exclusion
-        var isExcluded = await db.XpExcludedItems
-            .AnyAsync(x => x.GuildId == guildId &&
-                           x.ItemId == userId &&
-                           x.ItemType == (int)ExcludedItemType.User)
-            .ConfigureAwait(false);
-
-        if (!isExcluded)
-        {
-            // User could be excluded by role
-            var user = client.GetGuild(guildId)?.GetUser(userId);
-            if (user != null)
-            {
-                var excludedRoles = await db.XpExcludedItems
-                    .Where(x => x.GuildId == guildId && x.ItemType == (int)ExcludedItemType.Role)
-                    .Select(x => x.ItemId)
-                    .ToListAsync()
-                    .ConfigureAwait(false);
-
-                isExcluded = user.Roles.Any(r => excludedRoles.Contains(r.Id));
-            }
-        }
-
-        return isExcluded;
+        return cacheManager.IsUserExcludedAsync(guildId, userId, roleIds);
     }
 
     /// <summary>

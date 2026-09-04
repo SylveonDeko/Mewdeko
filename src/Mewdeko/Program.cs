@@ -521,5 +521,6 @@ public class Program
         services.AddHostedService<MewdekoService>();
         services.AddHostedService<ScheduledDeletionService>();
         services.AddHostedService<PatreonService>();
+        services.AddHostedService<MessageTimestampRetentionService>();
     }
 }

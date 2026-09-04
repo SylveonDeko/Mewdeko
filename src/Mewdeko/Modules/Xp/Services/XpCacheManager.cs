@@ -208,22 +208,27 @@ public class XpCacheManager : INService
 
         if (settings == null)
         {
-            // Create default settings
-            settings = new GuildXpSetting
-            {
-                GuildId = guildId,
-                XpPerMessage = XpService.DefaultXpPerMessage,
-                MessageXpCooldown = XpService.DefaultMessageXpCooldown,
-                VoiceXpPerMinute = XpService.DefaultVoiceXpPerMinute,
-                VoiceXpTimeout = XpService.DefaultVoiceXpTimeout,
-                XpMultiplier = 1.0,
-                FirstMessageBonus = 0,
-                CustomXpImageUrl = "",
-                LevelUpMessage = "{UserMention} has reached level {Level}!"
-            };
+            await db.GuildXpSettings
+                .InsertOrUpdateAsync(() => new GuildXpSetting
+                {
+                    GuildId = guildId,
+                    XpPerMessage = XpService.DefaultXpPerMessage,
+                    MessageXpCooldown = XpService.DefaultMessageXpCooldown,
+                    VoiceXpPerMinute = XpService.DefaultVoiceXpPerMinute,
+                    VoiceXpTimeout = XpService.DefaultVoiceXpTimeout,
+                    XpMultiplier = 1.0,
+                    FirstMessageBonus = 0,
+                    CustomXpImageUrl = "",
+                    LevelUpMessage = "{UserMention} has reached level {Level}!"
+                }, null, () => new GuildXpSetting
+                {
+                    GuildId = guildId
+                })
+                .ConfigureAwait(false);
 
-            // Insert using LinqToDB
-            await db.InsertAsync(settings).ConfigureAwait(false);
+            settings = await db.GuildXpSettings
+                .FirstAsync(x => x.GuildId == guildId)
+                .ConfigureAwait(false);
         }
 
         // Update both caches
@@ -388,6 +393,84 @@ public class XpCacheManager : INService
     }
 
     /// <summary>
+    ///     Gets every XP exclusion for a guild as an in-process snapshot.
+    /// </summary>
+    /// <remarks>
+    ///     The exclusion table holds only a few dozen rows in total, but it was previously probed with up to three
+    ///     queries per message and per voice tick, keyed in Redis by guild, user and channel together. That key is
+    ///     cardinal enough to miss constantly, and the misses produced 7.49 billion sequential scans. Snapshotting
+    ///     the whole guild instead turns the check into a hash lookup and leaves one query per guild per
+    ///     <see cref="ExclusionTtl" />.
+    /// </remarks>
+    /// <param name="guildId">The guild ID.</param>
+    /// <returns>The guild's channel, user and role exclusions.</returns>
+    private async Task<GuildExclusions> GetGuildExclusionsAsync(ulong guildId)
+    {
+        var cacheKey = ExclusionCacheKey(guildId);
+        if (hotGuildCache.TryGetValue(cacheKey, out GuildExclusions cached))
+            return cached;
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var items = await db.XpExcludedItems
+            .Where(x => x.GuildId == guildId)
+            .Select(x => new
+            {
+                x.ItemId, x.ItemType
+            })
+            .ToListAsync()
+            .ConfigureAwait(false);
+
+        var exclusions = new GuildExclusions(
+            items.Where(x => x.ItemType == (int)ExcludedItemType.Channel).Select(x => x.ItemId).ToHashSet(),
+            items.Where(x => x.ItemType == (int)ExcludedItemType.User).Select(x => x.ItemId).ToHashSet(),
+            items.Where(x => x.ItemType == (int)ExcludedItemType.Role).Select(x => x.ItemId).ToHashSet());
+
+        hotGuildCache.Set(cacheKey, exclusions, new MemoryCacheEntryOptions()
+            .SetAbsoluteExpiration(ExclusionTtl));
+
+        return exclusions;
+    }
+
+    /// <summary>
+    ///     Drops the cached exclusion snapshot for a guild, so the next check reloads it.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    public void InvalidateGuildExclusions(ulong guildId)
+    {
+        hotGuildCache.Remove(ExclusionCacheKey(guildId));
+    }
+
+    /// <summary>
+    ///     Checks whether a channel is excluded from XP gain.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="channelId">The channel ID.</param>
+    /// <returns>True if the channel is excluded.</returns>
+    public async Task<bool> IsChannelExcludedAsync(ulong guildId, ulong channelId)
+    {
+        var exclusions = await GetGuildExclusionsAsync(guildId).ConfigureAwait(false);
+        return exclusions.Channels.Contains(channelId);
+    }
+
+    /// <summary>
+    ///     Checks whether a user is excluded from XP gain, directly or through one of their roles.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="userId">The user ID.</param>
+    /// <param name="roleIds">The user's role IDs.</param>
+    /// <returns>True if the user is excluded.</returns>
+    public async Task<bool> IsUserExcludedAsync(ulong guildId, ulong userId, IEnumerable<ulong> roleIds)
+    {
+        var exclusions = await GetGuildExclusionsAsync(guildId).ConfigureAwait(false);
+
+        if (exclusions.Users.Contains(userId))
+            return true;
+
+        return exclusions.Roles.Count > 0 && roleIds.Any(exclusions.Roles.Contains);
+    }
+
+    /// <summary>
     ///     Checks if a user can gain XP with caching.
     /// </summary>
     /// <param name="user">The guild user.</param>
@@ -395,60 +478,22 @@ public class XpCacheManager : INService
     /// <returns>True if the user can gain XP, false otherwise.</returns>
     public async Task<bool> CanUserGainXpAsync(IGuildUser user, ulong channelId)
     {
-        var exclusionCacheKey = $"{RedisKeyPrefix}{ExclusionKey}:{user.GuildId}:{user.Id}:{channelId}";
+        var exclusions = await GetGuildExclusionsAsync(user.GuildId).ConfigureAwait(false);
 
-        // Check Redis cache
-        var redisValue = await redisCache.StringGetAsync(exclusionCacheKey).ConfigureAwait(false);
-        if (redisValue.HasValue && bool.TryParse(redisValue, out var isExcluded))
-        {
-            return !isExcluded;
-        }
-
-        // Need to check database
-        await using var db = await dbFactory.CreateConnectionAsync();
-
-        // Check channel exclusion first (most granular)
-        var channelExcluded = await db.XpExcludedItems
-            .AnyAsync(x => x.GuildId == user.GuildId &&
-                           x.ItemId == channelId &&
-                           x.ItemType == (int)ExcludedItemType.Channel)
-            .ConfigureAwait(false);
-
-        if (channelExcluded)
-        {
-            await redisCache.StringSetAsync(exclusionCacheKey, "true", ExclusionTtl).ConfigureAwait(false);
+        if (exclusions.Channels.Contains(channelId) || exclusions.Users.Contains(user.Id))
             return false;
-        }
 
-        // Check user exclusion
-        var userExcluded = await db.XpExcludedItems
-            .AnyAsync(x => x.GuildId == user.GuildId &&
-                           x.ItemId == user.Id &&
-                           x.ItemType == (int)ExcludedItemType.User)
-            .ConfigureAwait(false);
+        return exclusions.Roles.Count == 0 || !user.RoleIds.Any(exclusions.Roles.Contains);
+    }
 
-        if (userExcluded)
-        {
-            await redisCache.StringSetAsync(exclusionCacheKey, "true", ExclusionTtl).ConfigureAwait(false);
-            return false;
-        }
-
-        // Check role exclusions
-        var excludedRoles = await db.XpExcludedItems
-            .Where(x => x.GuildId == user.GuildId && x.ItemType == (int)ExcludedItemType.Role)
-            .Select(x => x.ItemId)
-            .ToListAsync()
-            .ConfigureAwait(false);
-
-        if (user.RoleIds.Any(r => excludedRoles.Contains(r)))
-        {
-            await redisCache.StringSetAsync(exclusionCacheKey, "true", ExclusionTtl).ConfigureAwait(false);
-            return false;
-        }
-
-        // User is not excluded
-        await redisCache.StringSetAsync(exclusionCacheKey, "false", ExclusionTtl).ConfigureAwait(false);
-        return true;
+    /// <summary>
+    ///     Builds the hot cache key holding a guild's exclusion snapshot.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <returns>The cache key.</returns>
+    private static string ExclusionCacheKey(ulong guildId)
+    {
+        return $"{ExclusionKey}:{guildId}";
     }
 
     /// <summary>
@@ -614,6 +659,7 @@ public class XpCacheManager : INService
         {
             // Clear hot cache
             hotGuildCache.Remove($"guild:{guildId}");
+            InvalidateGuildExclusions(guildId);
 
             // Get the Redis server instance
             var server = dataCache.Redis.GetServer(dataCache.Redis.GetEndPoints().First());
@@ -829,4 +875,15 @@ public class XpCacheManager : INService
         var elapsedTime = DateTime.UtcNow - startTime;
         logger.LogInformation("Completed reward cache preload in {ElapsedMs}ms", elapsedTime.TotalMilliseconds);
     }
+
+    /// <summary>
+    ///     A guild's XP exclusions, split by the kind of thing excluded.
+    /// </summary>
+    /// <param name="Channels">Channels that grant no XP.</param>
+    /// <param name="Users">Users that gain no XP.</param>
+    /// <param name="Roles">Roles whose members gain no XP.</param>
+    private sealed record GuildExclusions(
+        HashSet<ulong> Channels,
+        HashSet<ulong> Users,
+        HashSet<ulong> Roles);
 }

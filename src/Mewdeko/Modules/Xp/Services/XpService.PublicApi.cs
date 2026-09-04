@@ -744,6 +744,7 @@ public partial class XpService
                 GuildId = guildId, ItemId = itemId, ItemType = (int)itemType
             };
             await db.InsertAsync(newItem);
+            cacheManager.InvalidateGuildExclusions(guildId);
         }
     }
 
@@ -764,6 +765,7 @@ public partial class XpService
         if (excludedItem != null)
         {
             await db.DeleteAsync(excludedItem);
+            cacheManager.InvalidateGuildExclusions(guildId);
         }
     }
 

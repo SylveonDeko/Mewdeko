@@ -31,6 +31,17 @@ public class MewdekoDb : DataConnection
     public ITable<ChatTriggerCounter> ChatTriggerCounters => this.GetTable<ChatTriggerCounter>();
 
     /// <summary>
+    ///     Feedback collected from guild owners after the bot was removed from their server.
+    /// </summary>
+    public ITable<GuildLeaveFeedback> GuildLeaveFeedbacks
+    {
+        get
+        {
+            return this.GetTable<GuildLeaveFeedback>();
+        }
+    }
+
+    /// <summary>
     ///     Table for accessing scheduled ticket deletions
     /// </summary>
     public ITable<ScheduledTicketDeletion> ScheduledTicketDeletions => this.GetTable<ScheduledTicketDeletion>();

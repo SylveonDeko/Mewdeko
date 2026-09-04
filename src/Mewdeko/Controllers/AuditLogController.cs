@@ -2,7 +2,6 @@ using System.Text.Json.Nodes;
 using DataModel;
 using Mewdeko.Controllers.Common.AuditLog;
 using Mewdeko.Database.Enums;
-using Mewdeko.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,10 +43,7 @@ public class AuditLogController(DashboardAuditService auditService) : Controller
 
         return Ok(new AuditLogPageResponse
         {
-            Items = items.Select(MapEntry).ToList(),
-            Total = total,
-            Page = page < 1 ? 1 : page,
-            PageSize = pageSize
+            Items = items.Select(MapEntry).ToList(), Total = total, Page = page < 1 ? 1 : page, PageSize = pageSize
         });
     }
 

@@ -2,6 +2,7 @@ using System.Threading;
 using LinqToDB;
 using LinqToDB.DataProvider.PostgreSQL;
 using Mewdeko.Database.DbContextStuff;
+using Npgsql;
 
 namespace Mewdeko.Database.Impl;
 
@@ -11,6 +12,27 @@ namespace Mewdeko.Database.Impl;
 /// </summary>
 public class PostgreSqlConnectionFactory : IDataConnectionFactory
 {
+    /// <summary>
+    ///     Upper bound on pooled connections. The server allows 400 in total and that budget is shared with the
+    ///     other bots on the same instance, so the pool is capped well below the default of 100.
+    /// </summary>
+    private const int MaxPoolSize = 50;
+
+    /// <summary>
+    ///     Connections kept open while idle, so a burst of traffic does not pay connection setup cost.
+    /// </summary>
+    private const int MinPoolSize = 5;
+
+    /// <summary>
+    ///     SQL dialect level used against the production server, which runs PostgreSQL 17.6.
+    /// </summary>
+    /// <remarks>
+    ///     linq2db exposes no <c>v17</c> member; the enum jumps from <c>v15</c> straight to <c>v18</c>. This is the
+    ///     highest level the server can actually satisfy, because <c>v18</c> would emit PostgreSQL 18 syntax that
+    ///     17.6 rejects. Raise this to <c>v18</c> only after the server itself is upgraded.
+    /// </remarks>
+    private const PostgreSQLVersion ServerDialect = PostgreSQLVersion.v15;
+
     private readonly DataOptions dataOptions;
 
     /// <summary>
@@ -23,9 +45,8 @@ public class PostgreSqlConnectionFactory : IDataConnectionFactory
             throw new ArgumentNullException(nameof(connectionString));
 
         dataOptions = new DataOptions()
-            .UsePostgreSQL(connectionString, PostgreSQLVersion.v15);
+            .UsePostgreSQL(BuildConnectionString(connectionString), ServerDialect);
     }
-
 
     /// <summary>
     ///     Creates a new instance of <see cref="MewdekoDb" /> data connection.
@@ -47,5 +68,23 @@ public class PostgreSqlConnectionFactory : IDataConnectionFactory
     public Task<MewdekoDb> CreateConnectionAsync(CancellationToken cancellationToken = default)
     {
         return Task.FromResult(CreateConnection());
+    }
+
+    /// <summary>
+    ///     Applies the pooling and error-reporting settings this bot requires on top of the configured connection
+    ///     string, overriding them if they were set elsewhere.
+    /// </summary>
+    /// <remarks>
+    ///     <c>IncludeErrorDetail</c> is forced off because it puts parameter values into exception messages, which
+    ///     then reach the logs and Sentry and leak user data out of the database.
+    /// </remarks>
+    /// <param name="connectionString">The configured connection string.</param>
+    /// <returns>The connection string with the required settings applied.</returns>
+    private static string BuildConnectionString(string connectionString)
+    {
+        return new NpgsqlConnectionStringBuilder(connectionString)
+        {
+            IncludeErrorDetail = false, Pooling = true, MaxPoolSize = MaxPoolSize, MinPoolSize = MinPoolSize
+        }.ConnectionString;
     }
 }

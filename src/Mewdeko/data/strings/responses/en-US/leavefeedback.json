@@ -1,0 +1,18 @@
+{
+  "leave_feedback_title": "Sorry to see me go!",
+  "leave_feedback_desc": "I was just removed from **{0}**. If you have a moment, could you let me know why? It genuinely helps decide what to work on next, and you will never be asked about this server again.",
+  "leave_feedback_footer": "Answering is completely optional.",
+  "leave_feedback_placeholder": "Why was the bot removed?",
+  "leave_feedback_write_button": "Write something",
+  "leave_feedback_dismiss_button": "No thanks",
+  "leave_feedback_reason_not_needed": "We didn't need it anymore",
+  "leave_feedback_reason_confusing": "Too confusing to set up",
+  "leave_feedback_reason_missing_features": "Missing features we wanted",
+  "leave_feedback_reason_unreliable": "It was broken or unreliable",
+  "leave_feedback_reason_other_bot": "We switched to another bot",
+  "leave_feedback_reason_temporary": "Temporary, I'm adding it back",
+  "leave_feedback_reason_testing": "Just testing something",
+  "leave_feedback_thanks": "Thanks, noted: **{0}**. If you want to add anything else, use the button below.",
+  "leave_feedback_submitted": "Thank you, your feedback has been passed along!",
+  "leave_feedback_dismissed": "No problem, you won't be asked again."
+}

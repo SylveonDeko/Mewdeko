@@ -25,8 +25,7 @@ public class DatabaseUpgrader
     /// <returns>True if upgrade is needed</returns>
     public bool IsUpgradeRequired()
     {
-        var upgrader = BuildUpgrader();
-        return upgrader.IsUpgradeRequired();
+        return BuildUpgrader().IsUpgradeRequired() || BuildConcurrentUpgrader().IsUpgradeRequired();
     }
 
     /// <summary>
@@ -35,8 +34,8 @@ public class DatabaseUpgrader
     /// <returns>List of scripts to execute</returns>
     public IEnumerable<string> GetScriptsToExecute()
     {
-        var upgrader = BuildUpgrader();
-        return upgrader.GetScriptsToExecute().Select(s => s.Name);
+        return BuildUpgrader().GetScriptsToExecute().Select(x => x.Name)
+            .Concat(BuildConcurrentUpgrader().GetScriptsToExecute().Select(x => x.Name));
     }
 
     /// <summary>
@@ -55,8 +54,13 @@ public class DatabaseUpgrader
     /// <returns>Upgrade result with success status and error information</returns>
     public DatabaseUpgradeResult PerformUpgrade()
     {
-        var upgrader = BuildUpgrader();
-        return upgrader.PerformUpgrade();
+        // Transactional scripts run first so that any schema they introduce exists before the
+        // concurrent lane (indexes) references it.
+        var result = BuildUpgrader().PerformUpgrade();
+        if (!result.Successful)
+            return result;
+
+        return BuildConcurrentUpgrader().PerformUpgrade();
     }
 
     /// <summary>
@@ -65,8 +69,8 @@ public class DatabaseUpgrader
     /// <returns>True if operation was successful</returns>
     public bool MarkAsExecuted()
     {
-        var upgrader = BuildUpgrader();
-        return upgrader.MarkAsExecuted().Successful;
+        return BuildUpgrader().MarkAsExecuted().Successful
+               && BuildConcurrentUpgrader().MarkAsExecuted().Successful;
     }
 
     /// <summary>
@@ -77,9 +81,41 @@ public class DatabaseUpgrader
     {
         return DeployChanges.To
             .PostgresqlDatabase(connectionString)
-            .WithScriptsEmbeddedInAssembly(typeof(DatabaseUpgrader).Assembly)
-            .WithTransaction() // Wrap each script in a transaction
+            .WithScriptsEmbeddedInAssembly(typeof(DatabaseUpgrader).Assembly, x => !IsConcurrentScript(x))
+            .WithTransaction() // Single transaction across the whole upgrade run
             .LogToConsole()
             .Build();
+    }
+
+    /// <summary>
+    ///     Builds an upgrader for scripts that cannot run inside a transaction.
+    /// </summary>
+    /// <remarks>
+    ///     PostgreSQL forbids <c>CREATE INDEX CONCURRENTLY</c>, <c>DROP INDEX CONCURRENTLY</c>,
+    ///     <c>REINDEX CONCURRENTLY</c> and <c>VACUUM</c> inside a transaction block, so these scripts
+    ///     get their own journal and run with transactions disabled. Because there is no transaction,
+    ///     each script must be individually re-runnable: a failed <c>CREATE INDEX CONCURRENTLY</c>
+    ///     leaves an INVALID index behind, which the scripts drop before recreating.
+    /// </remarks>
+    /// <returns>Configured upgrade engine for non-transactional scripts.</returns>
+    private UpgradeEngine BuildConcurrentUpgrader()
+    {
+        return DeployChanges.To
+            .PostgresqlDatabase(connectionString)
+            .WithScriptsEmbeddedInAssembly(typeof(DatabaseUpgrader).Assembly, IsConcurrentScript)
+            .WithoutTransaction()
+            .JournalToPostgresqlTable("public", "schemaversions_concurrent")
+            .LogToConsole()
+            .Build();
+    }
+
+    /// <summary>
+    ///     Identifies scripts that must run outside a transaction by their <c>.concurrent.sql</c> suffix.
+    /// </summary>
+    /// <param name="scriptName">The embedded resource name of the script.</param>
+    /// <returns>True when the script must run without a transaction.</returns>
+    private static bool IsConcurrentScript(string scriptName)
+    {
+        return scriptName.EndsWith(".concurrent.sql", StringComparison.OrdinalIgnoreCase);
     }
 }
