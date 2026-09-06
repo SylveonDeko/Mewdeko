@@ -1,6 +1,7 @@
 using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
+using Mewdeko.Controllers.Common.DashboardAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,6 +34,12 @@ public class ReviewsController(DiscordShardedClient client, IDataConnectionFacto
     [HttpPost]
     public async Task<IActionResult> SubmitReview([FromBody] BotReview review)
     {
+        var authenticatedUserId = await HttpContext.GetDashboardUserIdAsync();
+        if (authenticatedUserId is null)
+            return Unauthorized("You must be signed in to leave a review.");
+
+        review.UserId = authenticatedUserId.Value;
+
         await using var db = await dbFactory.CreateConnectionAsync();
         var user = await client.Rest.GetUserAsync(review.UserId);
         review.AvatarUrl = user.GetAvatarUrl();

@@ -1,3 +1,4 @@
+using Mewdeko.Controllers.Common.DashboardAccess;
 using Mewdeko.Modules.Utility.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -90,6 +91,7 @@ public class MessageCountController(
     ///     Gets message count statistics for a specific user
     /// </summary>
     [HttpGet("user/{userId}")]
+    [SkipDashboardAccess]
     public async Task<IActionResult> GetUserMessageStats(ulong guildId, ulong userId)
     {
         var guild = client.GetGuild(guildId);

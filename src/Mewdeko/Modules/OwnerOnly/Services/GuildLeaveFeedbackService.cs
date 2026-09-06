@@ -137,13 +137,19 @@ public class GuildLeaveFeedbackService : INService, IReadyExecutor
         if (recentlyPrompted)
             return;
 
+        var joinedAt = guild.CurrentUser?.JoinedAt?.UtcDateTime
+                       ?? await db.GuildConfigs
+                           .Where(x => x.GuildId == guild.Id)
+                           .Select(x => x.DateAdded)
+                           .FirstOrDefaultAsync().ConfigureAwait(false);
+
         var record = new GuildLeaveFeedback
         {
             GuildId = guild.Id,
             GuildName = guild.Name ?? string.Empty,
             MemberCount = guild.MemberCount,
             OwnerId = ownerId,
-            JoinedAt = guild.CurrentUser?.JoinedAt?.UtcDateTime,
+            JoinedAt = joinedAt,
             DateAdded = DateTime.UtcNow
         };
 

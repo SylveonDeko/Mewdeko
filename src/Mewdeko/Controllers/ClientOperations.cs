@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Mewdeko.Controllers.Common.ClientOperations;
+using Mewdeko.Controllers.Common.DashboardAccess;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ChannelType = Mewdeko.Controllers.Common.ClientOperations.ChannelType;
@@ -253,6 +254,7 @@ public class ClientOperations(DiscordShardedClient client, DashboardAccessServic
     /// <param name="guildId">The guild ID to check</param>
     /// <returns>Whether this instance has the guild with basic info</returns>
     [HttpGet("hasguild/{guildId}")]
+    [SkipDashboardAccess]
     public async Task<IActionResult> HasGuild(ulong guildId)
     {
         await Task.CompletedTask;

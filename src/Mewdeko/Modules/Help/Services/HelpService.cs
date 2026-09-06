@@ -3,6 +3,7 @@ using System.Text;
 using CommandLine;
 using Discord.Commands;
 using Discord.Interactions;
+using Discord.Net;
 using Discord.Rest;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -12,6 +13,7 @@ using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.OwnerOnly.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
+using Mewdeko.Services.Impl;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Mewdeko.Services.Strings;
@@ -84,6 +86,7 @@ public class HelpService : INService, IReadyExecutor
     private readonly ConcurrentDictionary<ulong, IReadOnlyCollection<RestGuildCommand>> cachedGuildCommands = new();
     private readonly DiscordShardedClient client;
     private readonly CommandService cmds;
+    private readonly BotCredentials creds;
     private readonly DiscordPermOverrideService dpos;
     private readonly GeneratedBotStrings genStrings;
     private readonly GuildSettingsService guildSettings;
@@ -117,6 +120,7 @@ public class HelpService : INService, IReadyExecutor
     /// <param name="genStrings">The class that holds generated locale strings.</param>
     /// <param name="stringsProvider">The raw strings provider, used for convention based module descriptions.</param>
     /// <param name="localization">The localization service used to resolve a guild's culture.</param>
+    /// <param name="creds">The bot credentials, used for the dashboard URL in the join message.</param>
     /// <param name="logger">The logger instance.</param>
     public HelpService(
         IBotStrings strings,
@@ -134,8 +138,10 @@ public class HelpService : INService, IReadyExecutor
         GeneratedBotStrings genStrings,
         IBotStringsProvider stringsProvider,
         ILocalization localization,
+        BotCredentials creds,
         ILogger<HelpService> logger)
     {
+        this.creds = creds;
         this.dpos = dpos;
         this.strings = strings;
         this.stringsProvider = stringsProvider;
@@ -724,29 +730,84 @@ public class HelpService : INService, IReadyExecutor
         if (blacklistService.BlacklistEntries.Select(x => x.ItemId).Contains(guild.Id))
             return;
 
-        var cb = new ComponentBuilder();
-        var e = await guild.GetDefaultChannelAsync();
         var px = await guildSettings.GetPrefix(guild);
+        var dashboard = string.IsNullOrWhiteSpace(creds.DashboardUrl)
+            ? "https://mewdeko.tech"
+            : creds.DashboardUrl.TrimEnd('/');
+        var setupUrl = $"{dashboard}/wizard?guild={guild.Id}&type=quick-setup";
+
         var eb = new EmbedBuilder
         {
             Description =
-                $"Hi, thanks for inviting Mewdeko! I hope you like the bot, and discover all its features! The default prefix is `{px}.` This can be changed with the prefix command."
+                $"Hi, thanks for inviting Mewdeko! The quickest way to get set up is the dashboard, which walks you through the features most servers want. Everything is also available from commands, using the `{px}` prefix."
         };
-        eb.AddField("How to look for commands",
-            $"1) Use the {px}cmds command to see all the categories\n2) use {px}cmds with the category name to glance at what commands it has. ex: `{px}cmds mod`\n3) Use {px}h with a command name to view its help. ex: `{px}h purge`");
-        eb.AddField("Have any questions, or need my invite link?",
-            "Support Server: https://discord.gg/mewdeko \nInvite Link: https://mewdeko.tech/invite");
-        eb.AddField("Youtube Channel", "https://youtube.com/channel/UCKJEaaZMJQq6lH33L3b_sTg");
+        eb.AddField("Set up in your browser",
+            $"[Open the setup wizard]({setupUrl}) to configure greetings, moderation, logging and the rest without learning any commands.");
+        eb.AddField("Prefer commands?",
+            $"1) `{px}cmds` lists the categories\n2) `{px}cmds mod` shows the commands in one\n3) `{px}h purge` explains a single command");
+        eb.AddField("Need a hand?",
+            "Support Server: https://discord.gg/mewdeko");
         eb.WithThumbnailUrl(
             "https://cdn.discordapp.com/emojis/968564817784877066.gif");
         eb.WithOkColor();
+
+        var cb = new ComponentBuilder()
+            .WithButton("Set Up Mewdeko", style: ButtonStyle.Link, url: setupUrl);
         if (bss.Data.ShowInviteButton)
-            cb.WithButton("Invite Me!", style: ButtonStyle.Link,
-                    url:
-                    "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands")
-                .WithButton("Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/Mewdeko");
-        await e.SendMessageAsync(embed: eb.Build(), components: bss.Data.ShowInviteButton ? cb.Build() : null)
-            .ConfigureAwait(false);
+            cb.WithButton("Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/Mewdeko");
+
+        var inviter = await ResolveInviter(guild).ConfigureAwait(false);
+        if (inviter is null)
+        {
+            logger.LogDebug("Could not identify who invited the bot to {GuildId}, skipping the welcome message",
+                guild.Id);
+            return;
+        }
+
+        try
+        {
+            await inviter.SendMessageAsync(embed: eb.Build(), components: cb.Build()).ConfigureAwait(false);
+        }
+        catch (HttpException)
+        {
+            logger.LogDebug("Inviter {UserId} for guild {GuildId} has DMs closed", inviter.Id, guild.Id);
+        }
+    }
+
+    /// <summary>
+    ///     Finds the user who added the bot, from the guild's audit log. Requires the View
+    ///     Audit Log permission, and the entry can lag the join event slightly, so this
+    ///     retries briefly before giving up.
+    /// </summary>
+    /// <param name="guild">The guild the bot just joined.</param>
+    /// <returns>The inviting user, or null when they cannot be determined.</returns>
+    private async Task<IUser?> ResolveInviter(IGuild guild)
+    {
+        var botUser = client.GetGuild(guild.Id)?.CurrentUser;
+        if (botUser is null || !botUser.GuildPermissions.ViewAuditLog)
+            return null;
+
+        for (var attempt = 0; attempt < 3; attempt++)
+        {
+            try
+            {
+                var logs = await guild.GetAuditLogsAsync(10, actionType: ActionType.BotAdded).ConfigureAwait(false);
+                var entry = logs.FirstOrDefault(x =>
+                    x.Data is BotAddAuditLogData data && data.Target.Id == botUser.Id);
+
+                if (entry?.User is not null && !entry.User.IsBot)
+                    return entry.User;
+            }
+            catch (HttpException ex)
+            {
+                logger.LogDebug(ex, "Could not read the bot-add audit log for guild {GuildId}", guild.Id);
+                return null;
+            }
+
+            await Task.Delay(TimeSpan.FromSeconds(2)).ConfigureAwait(false);
+        }
+
+        return null;
     }
 
 

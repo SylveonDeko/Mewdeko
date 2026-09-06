@@ -2,6 +2,7 @@ using System.Net.Http;
 using System.Text.Json;
 using DataModel;
 using LinqToDB.Async;
+using Mewdeko.Controllers.Common.DashboardAccess;
 using Mewdeko.Controllers.Common.Giveaways;
 using Mewdeko.Modules.Giveaways.Services;
 using Mewdeko.Services.Impl;
@@ -18,12 +19,12 @@ namespace Mewdeko.Controllers;
 [Authorize("ApiKeyPolicy")]
 public class GiveawaysController : Controller
 {
+    private readonly IDashboardAuditContext auditContext;
     private readonly HttpClient client;
     private readonly BotCredentials creds;
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<GiveawaysController> logger;
     private readonly GiveawayService service;
-    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="GiveawaysController" /> class.
@@ -61,13 +62,17 @@ public class GiveawaysController : Controller
     public async Task<IActionResult> EnterGiveaway(
         [FromBody] GiveawayEntryRequest request)
     {
+        var authenticatedUserId = await HttpContext.GetDashboardUserIdAsync();
+        if (authenticatedUserId is null)
+            return Unauthorized("You must be signed in to enter a giveaway.");
+
         var verificationResponse = await VerifyTurnstileToken(request.TurnstileToken);
         if (!verificationResponse.Success)
         {
             return BadRequest("Captcha verification failed");
         }
 
-        var (successful, reason) = await service.AddUserToGiveaway(request.UserId, request.GiveawayId);
+        var (successful, reason) = await service.AddUserToGiveaway(authenticatedUserId.Value, request.GiveawayId);
 
         if (!successful)
             return BadRequest(reason);

@@ -10,8 +10,10 @@ namespace Mewdeko.Controllers.Common.DashboardAccess;
 
 /// <summary>
 ///     Enforces per-section restricted dashboard access before a guild-scoped controller action runs.
-///     Requests made with only the shared API key retain their existing behavior; dashboard requests carry
-///     a user JWT and are evaluated against the per-guild cache in <see cref="DashboardAccessService" />.
+///     Guild-scoped requests must carry a dashboard user JWT and are evaluated against the per-guild cache
+///     in <see cref="DashboardAccessService" />. The shared API key is not sufficient on its own, because the
+///     dashboard proxy attaches it to anonymous requests too. Requests that name no guild, and actions marked
+///     with <see cref="SkipDashboardAccessAttribute" />, are left alone.
 /// </summary>
 public sealed class DashboardAccessEnforcementFilter(
     DiscordShardedClient client,
@@ -27,7 +29,8 @@ public sealed class DashboardAccessEnforcementFilter(
         }
 
         var http = context.HttpContext;
-        if (!http.Request.Headers.Authorization.ToString().StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+
+        if (!TryResolveGuildId(context, out var guildId))
         {
             await next();
             return;
@@ -38,12 +41,6 @@ public sealed class DashboardAccessEnforcementFilter(
             !ulong.TryParse(principal.FindFirst(DashJwtConstants.UserIdClaim)?.Value, out var userId))
         {
             context.Result = new UnauthorizedResult();
-            return;
-        }
-
-        if (!TryResolveGuildId(context, out var guildId))
-        {
-            await next();
             return;
         }
 

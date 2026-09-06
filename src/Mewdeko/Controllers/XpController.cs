@@ -1,6 +1,7 @@
 using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
+using Mewdeko.Controllers.Common.DashboardAccess;
 using Mewdeko.Modules.Xp.Models;
 using Mewdeko.Modules.Xp.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -178,6 +179,7 @@ public class XpController(
     /// <param name="pageSize">Number of entries per page</param>
     /// <returns>A page of the XP leaderboard</returns>
     [HttpGet("leaderboard")]
+    [SkipDashboardAccess]
     public async Task<IActionResult> GetLeaderboard(ulong guildId, [FromQuery] int page = 1,
         [FromQuery] int pageSize = 10)
     {
@@ -610,6 +612,7 @@ public class XpController(
     /// <param name="guildId">The guild ID</param>
     /// <returns>Server XP statistics</returns>
     [HttpGet("stats")]
+    [SkipDashboardAccess]
     public async Task<IActionResult> GetServerStats(ulong guildId)
     {
         await using var db = await dbFactory.CreateConnectionAsync();
