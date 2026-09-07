@@ -1,9 +1,10 @@
 using System.Text.RegularExpressions;
 using DataModel;
-using Discord.Net;
 using LinqToDB;
 using LinqToDB.Async;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Database.Enums;
+using Mewdeko.Modules.Forms.Common;
 using Mewdeko.Services.Strings;
 
 namespace Mewdeko.Modules.Forms.Services;
@@ -11,10 +12,11 @@ namespace Mewdeko.Modules.Forms.Services;
 /// <summary>
 ///     Service for managing custom forms with conditional logic and Discord integration.
 /// </summary>
-public class FormsService : INService
+public partial class FormsService : INService
 {
     private readonly DiscordShardedClient client;
     private readonly IDataConnectionFactory dbFactory;
+    private readonly GuildSettingsService guildSettings;
     private readonly ILogger<FormsService> logger;
     private readonly GeneratedBotStrings strings;
 
@@ -23,16 +25,19 @@ public class FormsService : INService
     /// </summary>
     /// <param name="client">The Discord client instance.</param>
     /// <param name="dbFactory">Provider for database connections.</param>
+    /// <param name="guildSettings">Provides the guild's own defaults, such as the review button emotes.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="strings">The localization strings provider.</param>
     public FormsService(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
+        GuildSettingsService guildSettings,
         ILogger<FormsService> logger,
         GeneratedBotStrings strings)
     {
         this.client = client;
         this.dbFactory = dbFactory;
+        this.guildSettings = guildSettings;
         this.logger = logger;
         this.strings = strings;
     }
@@ -89,28 +94,31 @@ public class FormsService : INService
 
             embed.AddField("Submitted", $"<t:{((DateTimeOffset)response.SubmittedAt).ToUnixTimeSeconds()}:R>", true);
 
-            // Get questions for context
+            // Each answer carries the question as it was worded at the time, so a response posted
+            // here still reads correctly after the form is edited underneath it.
             var questions = await GetFormQuestionsAsync(form.Id);
             var questionDict = questions.ToDictionary(q => q.Id, q => q);
 
-            // Add answers
             foreach (var answer in answers.Take(20)) // Limit to 20 fields (Discord limit is 25)
             {
-                if (questionDict.TryGetValue(answer.QuestionId, out var question))
+                var questionText = answer.QuestionText
+                                   ?? (questionDict.TryGetValue(answer.QuestionId, out var question)
+                                       ? question.QuestionText
+                                       : "Question");
+
+                var answerValue = answer.AnswerDisplay;
+
+                if (string.IsNullOrWhiteSpace(answerValue))
                 {
-                    var answerValue = answer.AnswerValues != null && answer.AnswerValues.Length > 0
+                    answerValue = answer.AnswerValues is { Length: > 0 }
                         ? string.Join(", ", answer.AnswerValues)
-                        : answer.AnswerText ?? "*(No answer)*";
-
-                    // Truncate long answers
-                    if (answerValue.Length > 1024)
-                        answerValue = answerValue[..1021] + "...";
-
-                    embed.AddField(
-                        $"❓ {question.QuestionText}",
-                        $"└─ {answerValue}"
-                    );
+                        : answer.AnswerText;
                 }
+
+                if (string.IsNullOrWhiteSpace(answerValue))
+                    answerValue = "*(No answer)*";
+
+                embed.AddField($"❓ {questionText.TrimTo(256)}", $"└─ {answerValue.TrimTo(1018)}");
             }
 
             if (answers.Count > 20)
@@ -119,7 +127,21 @@ public class FormsService : INService
                     $"Showing 20 of {answers.Count} answers. View full response in the dashboard.");
             }
 
-            var msg = await channel.SendMessageAsync(embed: embed.Build());
+            var content = form.NotifyRoleId is { } notifyRoleId and > 0
+                ? MentionUtils.MentionRole(notifyRoleId)
+                : null;
+
+            var mentions = form.NotifyRoleId is { } pingRole and > 0
+                ? new AllowedMentions
+                {
+                    RoleIds = [pingRole]
+                }
+                : AllowedMentions.None;
+
+            var components = await BuildReviewComponentsAsync(form, response.Id);
+
+            var msg = await channel.SendMessageAsync(content, embed: embed.Build(), allowedMentions: mentions,
+                components: components);
 
             // Update response with message ID
             await using var db = await dbFactory.CreateConnectionAsync();
@@ -127,6 +149,9 @@ public class FormsService : INService
                 .Where(r => r.Id == response.Id)
                 .Set(r => r.MessageId, msg.Id)
                 .UpdateAsync();
+
+            if (components != null)
+                await SetReviewMessageAsync(response.Id, msg.Id);
 
             logger.LogInformation("Logged form submission {ResponseId} to channel {ChannelId}",
                 response.Id, channel.Id);
@@ -163,6 +188,9 @@ public class FormsService : INService
         form.Id = id;
 
         logger.LogInformation("Created form {FormId} '{FormName}' for guild {GuildId}", form.Id, form.Name, guildId);
+
+        await SaveVersionAsync(form.Id, form.CreatedBy);
+
         return form;
     }
 
@@ -215,6 +243,10 @@ public class FormsService : INService
         var updated = await db.UpdateAsync(form);
 
         logger.LogInformation("Updated form {FormId} '{FormName}'", form.Id, form.Name);
+
+        if (updated > 0)
+            await SaveVersionAsync(form.Id, null);
+
         return updated > 0;
     }
 
@@ -272,6 +304,13 @@ public class FormsService : INService
             .UpdateAsync();
 
         logger.LogInformation("Published form {FormId}", formId);
+
+        if (updated > 0)
+        {
+            await SaveVersionAsync(formId, null);
+            await AnnounceLaunchAsync(formId);
+        }
+
         return updated > 0;
     }
 
@@ -566,67 +605,6 @@ public class FormsService : INService
     #region Response Management
 
     /// <summary>
-    ///     Checks if a user can submit a response to a form.
-    /// </summary>
-    /// <param name="formId">The form ID.</param>
-    /// <param name="userId">The user ID.</param>
-    /// <returns>True if the user can submit.</returns>
-    public async Task<(bool CanSubmit, string? Reason)> CanUserSubmitAsync(int formId, ulong userId)
-    {
-        await using var db = await dbFactory.CreateConnectionAsync();
-
-        var form = await GetFormAsync(formId);
-        if (form == null)
-            return (false, "Form not found");
-
-        if (!form.IsActive)
-            return (false, "This form is no longer accepting responses");
-
-        // Check expiration
-        if (form.ExpiresAt.HasValue && DateTime.UtcNow > form.ExpiresAt.Value)
-            return (false, "This form has expired and is no longer accepting responses");
-
-        // Check required role
-        if (form.RequiredRoleId.HasValue)
-        {
-            var guild = client.GetGuild(form.GuildId);
-            if (guild?.GetUser(userId) is not IGuildUser guildUser)
-                return (false, "You must be a member of this server to submit this form");
-
-            if (!guildUser.RoleIds.Contains(form.RequiredRoleId.Value))
-            {
-                var role = guild?.GetRole(form.RequiredRoleId.Value);
-                var roleName = role?.Name ?? "the required role";
-                return (false, $"You must have the {roleName} role to submit this form");
-            }
-        }
-
-        // Check max responses
-        if (form.MaxResponses.HasValue)
-        {
-            var responseCount = await db.FormResponses
-                .Where(r => r.FormId == formId)
-                .CountAsync();
-
-            if (responseCount >= form.MaxResponses.Value)
-                return (false, "This form has reached its maximum number of responses");
-        }
-
-        // Check multiple submissions
-        if (!form.AllowMultipleSubmissions)
-        {
-            var hasSubmitted = await db.FormResponses
-                .Where(r => r.FormId == formId && r.UserId == userId)
-                .AnyAsync();
-
-            if (hasSubmitted)
-                return (false, "You have already submitted a response to this form");
-        }
-
-        return (true, null);
-    }
-
-    /// <summary>
     ///     Submits a response to a form.
     /// </summary>
     /// <param name="formId">The form ID.</param>
@@ -642,14 +620,25 @@ public class FormsService : INService
         Dictionary<int, object> answers,
         string? ipAddress = null)
     {
-        await using var db = await dbFactory.CreateConnectionAsync();
-
-        // Get form to check if anonymous submissions are allowed
         var form = await GetFormAsync(formId);
         if (form == null)
             throw new InvalidOperationException("Form not found");
 
-        // Create response
+        var check = await PrepareAnswersAsync(form, answers, userId);
+
+        if (check.Errors.Count > 0)
+            throw new FormSubmissionException(check.Errors);
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        // The form may be edited after this is submitted, so the response records which version of
+        // it was actually filled in.
+        var versionId = await db.FormVersions
+            .Where(v => v.FormId == formId)
+            .OrderByDescending(v => v.VersionNumber)
+            .Select(v => (int?)v.Id)
+            .FirstOrDefaultAsync();
+
         var response = new FormResponse
         {
             FormId = formId,
@@ -658,37 +647,56 @@ public class FormsService : INService
             Username = form.AllowAnonymous ? null : username,
             SubmittedAt = DateTime.UtcNow,
             // Never store IP for anonymous submissions
-            IpAddress = form.AllowAnonymous ? null : ipAddress
+            IpAddress = form.AllowAnonymous ? null : ipAddress,
+            FormVersionId = versionId
         };
 
         var responseId = await db.InsertWithInt32IdentityAsync(response);
         response.Id = responseId;
 
-        // Create answers
-        foreach (var (questionId, answer) in answers)
-        {
-            var formAnswer = new FormAnswer
-            {
-                ResponseId = responseId, QuestionId = questionId, CreatedAt = DateTime.UtcNow
-            };
+        await StoreAnswersAsync(db, responseId, versionId, check);
 
-            // Handle different answer types
-            if (answer is string[] arrayAnswer)
-            {
-                formAnswer.AnswerValues = arrayAnswer;
-            }
-            else
-            {
-                formAnswer.AnswerText = answer?.ToString();
-            }
-
-            await db.InsertAsync(formAnswer);
-        }
+        await DeleteDraftAsync(formId, userId);
 
         logger.LogInformation("User {UserId} submitted response {ResponseId} to form {FormId}",
             userId, responseId, formId);
 
         return response;
+    }
+
+    /// <summary>
+    ///     Writes the accepted answers of a submission, recording alongside each one the question as
+    ///     it was worded and the answer as it read, so the response survives later edits to the form.
+    /// </summary>
+    private static async Task StoreAnswersAsync(
+        MewdekoDb db,
+        int responseId,
+        int? versionId,
+        AnswerCheck check)
+    {
+        foreach (var (questionId, answer) in check.Accepted)
+        {
+            var question = check.Questions.First(q => q.Id == questionId);
+            var options = check.Options.GetValueOrDefault(questionId, []);
+
+            var formAnswer = new FormAnswer
+            {
+                ResponseId = responseId,
+                QuestionId = questionId,
+                QuestionText = question.QuestionText,
+                QuestionType = question.QuestionType,
+                AnswerDisplay = FormatAnswerForDisplay(question, options, answer),
+                FormVersionId = versionId,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            if (answer is string[] arrayAnswer)
+                formAnswer.AnswerValues = arrayAnswer;
+            else
+                formAnswer.AnswerText = answer.ToString();
+
+            await db.InsertAsync(formAnswer);
+        }
     }
 
     /// <summary>
@@ -1560,27 +1568,22 @@ public class FormsService : INService
                 // Handle role actions for regular forms if approval workflow is configured
                 if (form.RequireApproval && response.UserId.HasValue)
                 {
-                    if (form.ApprovalActionType != (int)RoleActionType.None &&
-                        !string.IsNullOrWhiteSpace(form.ApprovalRoleIds))
-                    {
-                        var roleActionSuccess = await ApplyRoleActionsAsync(
-                            form,
-                            response.UserId.Value,
-                            form.ApprovalRoleIds,
-                            (RoleActionType)form.ApprovalActionType,
-                            reviewerId,
-                            true
-                        );
-
-                        if (roleActionSuccess)
-                            actionTaken = WorkflowAction.RolesAssigned;
-                    }
+                    if (await ApplyDecisionRolesAsync(form, response.UserId.Value, true))
+                        actionTaken = WorkflowAction.RolesAssigned;
                 }
 
                 break;
         }
 
         workflow.ActionTaken = (int)actionTaken;
+
+        // A decision the submitter never hears about looks to them like no decision at all, so a
+        // failed delivery is recorded rather than swallowed.
+        if (response.UserId is { } approvedUserId)
+        {
+            workflow.DmFailed = !await NotifySubmitterAsync(form, approvedUserId, true, notes, inviteCode);
+        }
+
         await db.UpdateAsync(workflow);
 
         logger.LogInformation("Approved response {ResponseId} by reviewer {ReviewerId}. Action: {Action}",
@@ -1625,331 +1628,29 @@ public class FormsService : INService
         workflow.ReviewNotes = notes;
         workflow.UpdatedAt = DateTime.UtcNow;
 
-        // Handle role actions for regular forms on rejection
+        // Handle role actions on rejection. This runs for every form type, because a ban appeal or
+        // an application that is turned down still has to shed whatever the submission granted.
         var actionTaken = WorkflowAction.None;
-        if (form.FormType == (int)FormType.Regular &&
-            form.RequireApproval &&
-            response.UserId.HasValue)
-        {
-            if (form.RejectionActionType != (int)RoleActionType.None &&
-                !string.IsNullOrWhiteSpace(form.RejectionRoleIds))
-            {
-                var roleActionSuccess = await ApplyRoleActionsAsync(
-                    form,
-                    response.UserId.Value,
-                    form.RejectionRoleIds,
-                    (RoleActionType)form.RejectionActionType,
-                    reviewerId,
-                    false
-                );
 
-                if (roleActionSuccess)
-                    actionTaken = WorkflowAction.RolesRemoved;
-            }
+        if (response.UserId is { } rejectedUserId)
+        {
+            if (await ApplyDecisionRolesAsync(form, rejectedUserId, false))
+                actionTaken = WorkflowAction.RolesRemoved;
         }
 
         workflow.ActionTaken = (int)actionTaken;
+
+        if (response.UserId is { } notifyUserId)
+        {
+            workflow.DmFailed = !await NotifySubmitterAsync(form, notifyUserId, false, notes, null);
+        }
+
         await db.UpdateAsync(workflow);
 
         logger.LogInformation("Rejected response {ResponseId} by reviewer {ReviewerId}. Action: {Action}",
             responseId, reviewerId, actionTaken);
 
         return true;
-    }
-
-    /// <summary>
-    ///     Checks if a user is eligible to submit a specific form type.
-    /// </summary>
-    /// <param name="formId">The form ID.</param>
-    /// <param name="userId">The user ID.</param>
-    /// <returns>Tuple of eligibility and reason if not eligible.</returns>
-    public async Task<(bool IsEligible, string? Reason)> CheckFormEligibilityAsync(int formId, ulong userId)
-    {
-        var form = await GetFormAsync(formId);
-        if (form == null)
-            return (false, "Form not found");
-
-        var guild = client.GetGuild(form.GuildId);
-        if (guild == null)
-            return (false, "Guild not found");
-
-        switch ((FormType)form.FormType)
-        {
-            case FormType.BanAppeal:
-                // Check if user is actually banned
-                try
-                {
-                    var ban = await guild.GetBanAsync(userId);
-                    if (ban == null)
-                        return (false, "You are not banned from this server");
-                }
-                catch
-                {
-                    return (false, "You are not banned from this server");
-                }
-
-                break;
-
-            case FormType.JoinApplication:
-                // Check if user is already in the guild
-                var member = guild.GetUser(userId);
-                if (member != null)
-                    return (false, "You are already a member of this server");
-                break;
-
-            case FormType.Regular:
-                // Regular forms require guild membership unless explicitly allowed
-                if (!form.AllowExternalUsers)
-                {
-                    var regularMember = guild.GetUser(userId);
-                    if (regularMember == null)
-                        return (false, "You must be a member of this server to submit this form");
-                }
-
-                break;
-        }
-
-        return (true, null);
-    }
-
-    /// <summary>
-    ///     Applies role actions (add/remove) to a user for form workflow approvals or rejections.
-    /// </summary>
-    /// <param name="form">The form.</param>
-    /// <param name="userId">The user ID to apply role actions to.</param>
-    /// <param name="roleIds">Comma-separated list of role IDs.</param>
-    /// <param name="actionType">The type of action to perform (AddRoles or RemoveRoles).</param>
-    /// <param name="reviewerId">The Discord user ID of the reviewer performing the action.</param>
-    /// <param name="isApproval">Whether this is an approval (true) or rejection (false) action.</param>
-    /// <returns>True if successful.</returns>
-    private async Task<bool> ApplyRoleActionsAsync(
-        Form form,
-        ulong userId,
-        string roleIds,
-        RoleActionType actionType,
-        ulong reviewerId,
-        bool isApproval)
-    {
-        // Validate: Regular forms cannot have anonymous submissions if role actions are configured
-        if (form.AllowAnonymous)
-        {
-            logger.LogWarning(
-                "Cannot apply role actions for anonymous form {FormId}. User ID not available.",
-                form.Id
-            );
-            return false;
-        }
-
-        var guild = client.GetGuild(form.GuildId);
-        if (guild == null)
-        {
-            logger.LogWarning("Guild {GuildId} not found for role action application", form.GuildId);
-            return false;
-        }
-
-        var guildUser = guild.GetUser(userId);
-        if (guildUser == null)
-        {
-            logger.LogWarning(
-                "User {UserId} not found in guild {GuildId} for role action application. User must be a guild member for role actions to work.",
-                userId,
-                form.GuildId
-            );
-            return false;
-        }
-
-        // Parse and validate role IDs
-        List<ulong> parsedRoleIds;
-        try
-        {
-            parsedRoleIds = roleIds
-                .Split(',', StringSplitOptions.RemoveEmptyEntries)
-                .Select(x => ulong.Parse(x.Trim()))
-                .ToList();
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "Failed to parse role IDs '{RoleIds}' for form {FormId}", roleIds, form.Id);
-            return false;
-        }
-
-        if (!parsedRoleIds.Any())
-        {
-            logger.LogWarning("No valid role IDs provided for form {FormId} role action", form.Id);
-            return false;
-        }
-
-        // Get role objects and validate they exist
-        var roles = new List<IRole>();
-        var missingRoles = new List<ulong>();
-
-        foreach (var roleId in parsedRoleIds)
-        {
-            var role = guild.GetRole(roleId);
-            if (role == null)
-            {
-                missingRoles.Add(roleId);
-                logger.LogWarning("Role {RoleId} not found in guild {GuildId}", roleId, form.GuildId);
-                continue;
-            }
-
-            // Validate: Bot's highest role must be higher than the role being assigned/removed
-            var botUser = guild.CurrentUser;
-            if (botUser.Hierarchy <= role.Position)
-            {
-                logger.LogWarning(
-                    "Bot lacks permission to manage role {RoleId} '{RoleName}' in guild {GuildId}. Bot hierarchy: {BotHierarchy}, Role position: {RolePosition}",
-                    roleId,
-                    role.Name,
-                    form.GuildId,
-                    botUser.Hierarchy,
-                    role.Position
-                );
-                continue;
-            }
-
-            // Validate: Cannot manage @everyone role
-            if (role.IsEveryone)
-            {
-                logger.LogWarning("Cannot manage @everyone role in guild {GuildId}", form.GuildId);
-                continue;
-            }
-
-            // Validate: Cannot manage managed roles (bot/integration roles)
-            if (role.IsManaged)
-            {
-                logger.LogWarning(
-                    "Cannot manage managed role {RoleId} '{RoleName}' in guild {GuildId}",
-                    roleId,
-                    role.Name,
-                    form.GuildId
-                );
-                continue;
-            }
-
-            roles.Add(role);
-        }
-
-        if (!roles.Any())
-        {
-            logger.LogError(
-                "No valid roles available for action on form {FormId} in guild {GuildId}. All roles were either missing, managed, or above bot hierarchy.",
-                form.Id,
-                form.GuildId
-            );
-            return false;
-        }
-
-        // Validate: Bot must have ManageRoles permission
-        var botPermissions = guild.CurrentUser.GuildPermissions;
-        if (!botPermissions.ManageRoles)
-        {
-            logger.LogError(
-                "Bot lacks ManageRoles permission in guild {GuildId}. Cannot apply role actions for form {FormId}",
-                form.GuildId,
-                form.Id
-            );
-            return false;
-        }
-
-        // Apply role actions
-        try
-        {
-            var formName = form.Name.Length > 50 ? form.Name[..47] + "..." : form.Name;
-            var actionDescription = isApproval ? "approved" : "rejected";
-            var auditReason =
-                $"Form response {actionDescription} by <@{reviewerId}> (Form #{form.Id}: {formName})";
-
-            switch (actionType)
-            {
-                case RoleActionType.AddRoles:
-                    // Filter out roles the user already has
-                    var rolesToAdd = roles.Where(r => !guildUser.Roles.Any(ur => ur.Id == r.Id)).ToList();
-                    if (rolesToAdd.Any())
-                    {
-                        await guildUser.AddRolesAsync(rolesToAdd, new RequestOptions
-                        {
-                            AuditLogReason = auditReason
-                        });
-
-                        logger.LogInformation(
-                            "Added {RoleCount} roles to user {UserId} in guild {GuildId} for form {FormId}: {RoleNames}",
-                            rolesToAdd.Count,
-                            userId,
-                            form.GuildId,
-                            form.Id,
-                            string.Join(", ", rolesToAdd.Select(r => r.Name))
-                        );
-                    }
-                    else
-                    {
-                        logger.LogInformation(
-                            "User {UserId} already has all specified roles for form {FormId}",
-                            userId,
-                            form.Id
-                        );
-                    }
-
-                    break;
-
-                case RoleActionType.RemoveRoles:
-                    // Filter to only roles the user actually has
-                    var rolesToRemove = roles.Where(r => guildUser.Roles.Any(ur => ur.Id == r.Id)).ToList();
-                    if (rolesToRemove.Any())
-                    {
-                        await guildUser.RemoveRolesAsync(rolesToRemove, new RequestOptions
-                        {
-                            AuditLogReason = auditReason
-                        });
-
-                        logger.LogInformation(
-                            "Removed {RoleCount} roles from user {UserId} in guild {GuildId} for form {FormId}: {RoleNames}",
-                            rolesToRemove.Count,
-                            userId,
-                            form.GuildId,
-                            form.Id,
-                            string.Join(", ", rolesToRemove.Select(r => r.Name))
-                        );
-                    }
-                    else
-                    {
-                        logger.LogInformation(
-                            "User {UserId} does not have any of the specified roles to remove for form {FormId}",
-                            userId,
-                            form.Id
-                        );
-                    }
-
-                    break;
-
-                default:
-                    logger.LogWarning("Unknown role action type {ActionType} for form {FormId}", actionType, form.Id);
-                    return false;
-            }
-
-            return true;
-        }
-        catch (HttpException httpEx) when (httpEx.DiscordCode == DiscordErrorCode.MissingPermissions)
-        {
-            logger.LogError(
-                httpEx,
-                "Missing permissions to apply role actions for form {FormId} in guild {GuildId}",
-                form.Id,
-                form.GuildId
-            );
-            return false;
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(
-                ex,
-                "Failed to apply role actions for user {UserId} in guild {GuildId} for form {FormId}",
-                userId,
-                form.GuildId,
-                form.Id
-            );
-            return false;
-        }
     }
 
     /// <summary>

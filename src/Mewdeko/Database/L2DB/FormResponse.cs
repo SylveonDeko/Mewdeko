@@ -31,4 +31,16 @@ public class FormResponse
 
     [Column("message_id")]
     public ulong? MessageId { get; set; }
+
+    /// <summary>
+    ///     When the submitter last changed their answers, or null when they never have.
+    /// </summary>
+    [Column("edited_at")]
+    public DateTime? EditedAt { get; set; }
+
+    /// <summary>
+    ///     The form version this response was submitted against.
+    /// </summary>
+    [Column("form_version_id")]
+    public int? FormVersionId { get; set; }
 }

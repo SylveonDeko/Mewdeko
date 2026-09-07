@@ -92,6 +92,8 @@ namespace DataModel
 		[Column("BoostMessageChannelId"                                                                                               )] public ulong   BoostMessageChannelId              { get; set; } // numeric(20,0)
 		[Column("BoostMessageDeleteAfter"                                                                                             )] public int       BoostMessageDeleteAfter            { get; set; } // integer
 		[Column("GiveawayEmote"                                                                                                       )] public string?   GiveawayEmote                      { get; set; } // text
+		[Column("FormApproveEmote"                                                                                                    )] public string?   FormApproveEmote                   { get; set; } // text
+		[Column("FormRejectEmote"                                                                                                     )] public string?   FormRejectEmote                    { get; set; } // text
 		[Column("TicketChannel"                                                                                                       )] public ulong   TicketChannel                      { get; set; } // numeric(20,0)
 		[Column("TicketCategory"                                                                                                      )] public ulong   TicketCategory                     { get; set; } // numeric(20,0)
 		[Column("snipeset"                                                                                                            )] public bool      Snipeset                           { get; set; } // boolean

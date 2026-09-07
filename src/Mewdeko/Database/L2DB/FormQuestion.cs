@@ -134,6 +134,12 @@ public class FormQuestion
     [Column("enable_answer_piping", CanBeNull = false)]
     public bool EnableAnswerPiping { get; set; }
 
+    /// <summary>
+    ///     Image shown above the question, used to illustrate what is being asked.
+    /// </summary>
+    [Column("image_url")]
+    public string? ImageUrl { get; set; }
+
     [Column("created_at", CanBeNull = false)]
     public DateTime CreatedAt { get; set; }
 }

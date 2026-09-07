@@ -95,6 +95,41 @@ public class FormsController : Controller
 
     #endregion
 
+    /// <summary>
+    ///     Saves a whole form in one call: its settings, questions, options and conditions.
+    /// </summary>
+    /// <remarks>
+    ///     Replaces the per-question and per-option calls the builder used to make, which for a
+    ///     long form meant dozens of sequential requests and could leave a form half saved.
+    /// </remarks>
+    /// <param name="guildId">The guild the form belongs to.</param>
+    /// <param name="request">The form and its questions.</param>
+    /// <returns>The saved form, or the validation errors that stopped it.</returns>
+    [HttpPost("guild/{guildId:ulong}/save")]
+    public async Task<IActionResult> SaveForm(ulong guildId, [FromBody] FormSaveRequest request)
+    {
+        try
+        {
+            var (form, errors) = await service.SaveFormAsync(guildId, request);
+
+            if (errors.Count > 0)
+                return BadRequest(new
+                {
+                    message = "This form could not be saved", errors
+                });
+
+            return Ok(form);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to save form for guild {GuildId}", guildId);
+            return StatusCode(500, new
+            {
+                message = "Failed to save form"
+            });
+        }
+    }
+
     #region Form Management
 
     /// <summary>
@@ -109,54 +144,25 @@ public class FormsController : Controller
         try
         {
             var forms = await service.GetGuildFormsAsync(guildId, activeOnly);
+            var counts = await service.GetFormCountsAsync(guildId);
 
-            // Include response counts and pending counts
             var formsWithCounts = new List<object>();
+
             foreach (var form in forms)
             {
-                var responseCount = await service.GetResponseCountAsync(form.Id);
+                var formCounts = counts.GetValueOrDefault(form.Id, new FormsService.FormCounts(0, 0, 0));
 
-                // Get pending response count for workflow forms and Regular forms with approval
-                var pendingCount = 0;
-                if (form.FormType != (int)FormType.Regular || form.RequireApproval)
-                {
-                    var pendingResponses = await service.GetPendingResponsesAsync(form.Id);
-                    pendingCount = pendingResponses.Count;
-                }
+                // Every form setting is carried, rather than a hand written field list, because a
+                // list like that silently stops covering a column the moment somebody adds one and
+                // the dashboard then loses that setting on its next save.
+                var summary = DescribeForm(form);
+                summary["questionCount"] = formCounts.QuestionCount;
+                summary["responseCount"] = formCounts.ResponseCount;
 
-                formsWithCounts.Add(new
-                {
-                    form.Id,
-                    form.GuildId,
-                    form.Name,
-                    form.Description,
-                    form.SubmitChannelId,
-                    form.AllowMultipleSubmissions,
-                    form.MaxResponses,
-                    form.RequireCaptcha,
-                    form.IsActive,
-                    form.IsDraft,
-                    form.AllowAnonymous,
-                    form.ExpiresAt,
-                    form.RequiredRoleId,
-                    form.SuccessMessage,
-                    form.FormType,
-                    form.AllowExternalUsers,
-                    form.AutoApproveRoleIds,
-                    form.InviteMaxUses,
-                    form.InviteMaxAge,
-                    form.NotificationWebhookUrl,
-                    form.RequireApproval,
-                    form.ApprovalActionType,
-                    form.ApprovalRoleIds,
-                    form.RejectionActionType,
-                    form.RejectionRoleIds,
-                    form.CreatedBy,
-                    form.CreatedAt,
-                    form.UpdatedAt,
-                    ResponseCount = responseCount,
-                    PendingCount = pendingCount
-                });
+                // A form that does not review its responses has nothing pending to show.
+                summary["pendingCount"] = FormsService.ReviewsResponses(form) ? formCounts.PendingCount : 0;
+
+                formsWithCounts.Add(summary);
             }
 
             return Ok(formsWithCounts);
@@ -391,6 +397,33 @@ public class FormsController : Controller
     {
         try
         {
+            var form = await service.GetFormAsync(formId);
+            if (form == null)
+                return NotFound(new
+                {
+                    message = "Form not found"
+                });
+
+            // Publishing is the point at which the form has to make sense as a whole, so the
+            // checks that span more than one question run here rather than on each edit, where an
+            // intermediate state is legitimately half finished.
+            var questions = await service.GetFormQuestionsAsync(formId);
+            var errors = FormValidator.ValidateForm(form);
+
+            errors.AddRange(FormValidator.ValidatePiping(questions));
+
+            foreach (var question in questions)
+            {
+                var options = await service.GetQuestionOptionsAsync(question.Id);
+                errors.AddRange(FormValidator.ValidateQuestionOptions(question.QuestionType, options));
+            }
+
+            if (errors.Count > 0)
+                return BadRequest(new
+                {
+                    message = "This form cannot be published yet", errors
+                });
+
             var success = await service.PublishFormAsync(formId);
 
             if (!success)
@@ -464,6 +497,7 @@ public class FormsController : Controller
                     question.RequiredWhenOperator,
                     question.RequiredWhenValue,
                     question.EnableAnswerPiping,
+                    question.ImageUrl,
                     question.CreatedAt,
                     Options = options,
                     Conditions = conditions
@@ -833,28 +867,6 @@ public class FormsController : Controller
                     message = "Guild not found"
                 });
 
-            // Skip guild membership check for external form types
-            if (!form.AllowExternalUsers && form.FormType == (int)FormType.Regular)
-            {
-                var guildUser = guild.GetUser(request.UserId);
-                if (guildUser == null)
-                    return BadRequest(new
-                    {
-                        message = "You must be a member of this server to submit this form"
-                    });
-            }
-
-            // For ban appeals and join applications, check eligibility
-            if (form.FormType != (int)FormType.Regular)
-            {
-                var (isEligible, eligibilityReason) = await service.CheckFormEligibilityAsync(formId, request.UserId);
-                if (!isEligible)
-                    return BadRequest(new
-                    {
-                        message = eligibilityReason
-                    });
-            }
-
             // Verify captcha if required
             if (form.RequireCaptcha)
             {
@@ -872,15 +884,17 @@ public class FormsController : Controller
                     });
             }
 
-            // Check if user can submit
-            var (canSubmit, submitReason) = await service.CanUserSubmitAsync(formId, request.UserId);
-            if (!canSubmit)
+            // One gate covers who may submit, when, and how often, so nothing depends on which
+            // endpoint the submission arrived through.
+            var eligibility = await service.CheckFormEligibilityAsync(form, request.UserId);
+            if (!eligibility.IsEligible)
                 return BadRequest(new
                 {
-                    message = submitReason
+                    message = eligibility.Reason, retryAt = eligibility.RetryAt
                 });
 
-            // Submit response
+            // Submit response. The answers themselves are validated inside, against the questions
+            // the form's own conditions actually showed this person.
             var response = await service.SubmitResponseAsync(
                 formId,
                 request.UserId,
@@ -891,6 +905,8 @@ public class FormsController : Controller
 
             // Create workflow entry for the response
             var workflow = await service.CreateWorkflowForResponseAsync(response.Id);
+
+            await service.ApplySubmitRolesAsync(form, request.UserId);
 
             // Log to Discord if configured
             var answers = await service.GetResponseAnswersAsync(response.Id);
@@ -904,6 +920,15 @@ public class FormsController : Controller
                 statusCheckUrl = $"/forms/status/{workflow.StatusCheckToken}"
             });
         }
+        catch (FormSubmissionException ex)
+        {
+            // Reported per question so the page can mark the answers that need fixing where they
+            // sit, rather than showing one message at the foot of a long form.
+            return BadRequest(new
+            {
+                message = ex.Message, errors = ex.Errors.ToDictionary(e => e.Key.ToString(), e => e.Value)
+            });
+        }
         catch (Exception ex)
         {
             logger.LogError(ex, "Failed to submit form {FormId}", formId);
@@ -915,30 +940,37 @@ public class FormsController : Controller
     }
 
     /// <summary>
-    ///     Gets all responses for a form with pagination.
+    ///     Gets a page of a form's responses, each with its review state and answers.
     /// </summary>
     /// <param name="formId">The form ID.</param>
     /// <param name="page">Page number (1-indexed).</param>
     /// <param name="pageSize">Number of responses per page.</param>
-    /// <returns>List of responses.</returns>
+    /// <param name="status">Only responses in this review state, or omitted for all of them.</param>
+    /// <returns>The page of responses, with the count in each review state.</returns>
     [HttpGet("{formId:int}/responses")]
     public async Task<IActionResult> GetFormResponses(
         int formId,
         [FromQuery] int page = 1,
-        [FromQuery] int pageSize = 50)
+        [FromQuery] int pageSize = 25,
+        [FromQuery] ResponseStatus? status = null)
     {
         try
         {
-            var responses = await service.GetFormResponsesAsync(formId, page, pageSize);
-            var totalCount = await service.GetResponseCountAsync(formId);
+            // The queue carries each response's review state and answers with it, so the page a
+            // reviewer works through is one request rather than one per row.
+            var queue = await service.GetResponseQueueAsync(formId, status, page, pageSize);
 
             return Ok(new
             {
-                responses,
-                totalCount,
-                page,
-                pageSize,
-                totalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
+                responses = queue.Responses.Select(r => new
+                {
+                    r.Response, r.Workflow, r.Answers, r.RevisionCount
+                }),
+                totalCount = queue.TotalCount,
+                page = queue.Page,
+                pageSize = queue.PageSize,
+                totalPages = queue.TotalPages,
+                statusCounts = queue.StatusCounts
             });
         }
         catch (Exception ex)
@@ -1192,10 +1224,13 @@ public class FormsController : Controller
     {
         try
         {
-            var (isEligible, reason) = await service.CheckFormEligibilityAsync(formId, request.UserId);
+            var eligibility = await service.CheckFormEligibilityAsync(formId, request.UserId);
+
+            // RetryAt lets the page count down to the moment a temporary refusal lifts, instead of
+            // telling someone they cannot submit and leaving them to guess when they can.
             return Ok(new
             {
-                isEligible, reason
+                eligibility.IsEligible, eligibility.Reason, eligibility.RetryAt
             });
         }
         catch (Exception ex)
@@ -1341,6 +1376,14 @@ public class FormsController : Controller
                     message = "Response not found"
                 });
 
+            // The status page is the only thing a submitter reliably still has a link to, so it is
+            // also where they need to be able to correct an answer a reviewer asked about.
+            var response = await service.GetResponseDetailsAsync(workflow.ResponseId);
+            var (canEdit, editReason) = await service.CanEditResponseAsync(workflow.ResponseId);
+
+            var form = response == null ? null : await service.GetFormAsync(response.FormId);
+            var guild = form == null ? null : client.GetGuild(form.GuildId);
+
             return Ok(new
             {
                 status = ((ResponseStatus)workflow.Status).ToString(),
@@ -1348,7 +1391,22 @@ public class FormsController : Controller
                 reviewNotes = workflow.ReviewNotes,
                 inviteCode = workflow.InviteCode,
                 inviteExpiresAt = workflow.InviteExpiresAt,
-                actionTaken = ((WorkflowAction)workflow.ActionTaken).ToString()
+                actionTaken = ((WorkflowAction)workflow.ActionTaken).ToString(),
+                dmFailed = workflow.DmFailed,
+                responseId = workflow.ResponseId,
+                formId = response?.FormId,
+                formName = form?.Name,
+                shareCode = response == null ? null : await service.GetShareCodeAsync(response.FormId),
+
+                // A status link is often the only thing somebody still has, so the page it opens
+                // has to say on its own which server the response was sent to.
+                guildId = form?.GuildId,
+                guildName = guild?.Name,
+                guildIconUrl = guild?.IconUrl,
+                submittedAt = response?.SubmittedAt,
+                editedAt = response?.EditedAt,
+                canEdit,
+                editReason
             });
         }
         catch (Exception ex)
@@ -1357,6 +1415,486 @@ public class FormsController : Controller
             return StatusCode(500, new
             {
                 message = "Failed to retrieve response status"
+            });
+        }
+    }
+
+    #endregion
+
+    #region Guild Defaults
+
+    /// <summary>
+    ///     Gets the guild's default review button emotes, which every form falls back to.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <returns>The configured emotes, null where the guild has not set one.</returns>
+    [HttpGet("guild/{guildId:ulong}/review-emotes")]
+    public async Task<IActionResult> GetReviewEmotes(ulong guildId)
+    {
+        try
+        {
+            var (approve, reject) = await service.GetGuildReviewEmotesAsync(guildId);
+
+            return Ok(new
+            {
+                approveEmote = approve, rejectEmote = reject
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to read review emotes for guild {GuildId}", guildId);
+            return StatusCode(500, new
+            {
+                message = "Failed to retrieve review emotes"
+            });
+        }
+    }
+
+    /// <summary>
+    ///     Sets the guild's default review button emotes. An empty value clears one, restoring the
+    ///     built-in tick or cross.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="request">The emotes to store.</param>
+    /// <returns>Success status.</returns>
+    [HttpPost("guild/{guildId:ulong}/review-emotes")]
+    public async Task<IActionResult> SetReviewEmotes(ulong guildId, [FromBody] FormReviewEmotesRequest request)
+    {
+        try
+        {
+            var error = await service.SetGuildReviewEmotesAsync(guildId, request.ApproveEmote, request.RejectEmote);
+
+            if (error != null)
+                return BadRequest(new
+                {
+                    message = error
+                });
+
+            return Ok(new
+            {
+                message = "Review emotes updated"
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to set review emotes for guild {GuildId}", guildId);
+            return StatusCode(500, new
+            {
+                message = "Failed to update review emotes"
+            });
+        }
+    }
+
+    #endregion
+
+    #region Versions
+
+    /// <summary>
+    ///     Lists the saved versions of a form, newest first.
+    /// </summary>
+    /// <param name="formId">The form ID.</param>
+    /// <returns>The versions, without their snapshots.</returns>
+    [HttpGet("{formId:int}/versions")]
+    public async Task<IActionResult> GetFormVersions(int formId)
+    {
+        try
+        {
+            var versions = await service.GetFormVersionsAsync(formId);
+
+            return Ok(new
+            {
+                versionsKept = FormsService.VersionsKept,
+                versions = versions.Select(v => new
+                {
+                    v.Id,
+                    v.VersionNumber,
+                    v.QuestionCount,
+                    v.CreatedBy,
+                    v.CreatedAt
+                })
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to list versions for form {FormId}", formId);
+            return StatusCode(500, new
+            {
+                message = "Failed to retrieve versions"
+            });
+        }
+    }
+
+    /// <summary>
+    ///     Describes what a saved version changed, compared against the version before it.
+    /// </summary>
+    /// <param name="formId">The form ID.</param>
+    /// <param name="versionNumber">The version to describe.</param>
+    /// <returns>The changes, grouped by section.</returns>
+    [HttpGet("{formId:int}/versions/{versionNumber:int}/diff")]
+    public async Task<IActionResult> GetVersionDiff(int formId, int versionNumber)
+    {
+        try
+        {
+            var form = await service.GetFormAsync(formId);
+            if (form == null)
+                return NotFound(new
+                {
+                    message = "Form not found"
+                });
+
+            var changes = await service.DescribeVersionAsync(formId, versionNumber, NamesFor(form.GuildId));
+
+            return Ok(changes.Select(c => new
+            {
+                kind = c.Kind.ToString(),
+                c.Section,
+                c.Label,
+                c.Before,
+                c.After
+            }));
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to diff version {VersionNumber} of form {FormId}", versionNumber, formId);
+            return StatusCode(500, new
+            {
+                message = "Failed to compare versions"
+            });
+        }
+    }
+
+    /// <summary>
+    ///     Saves the current state of a form as a new version. A save that changes nothing reuses
+    ///     the existing version rather than adding a duplicate to the history.
+    /// </summary>
+    /// <param name="formId">The form ID.</param>
+    /// <param name="userId">Who made the edit.</param>
+    /// <returns>The saved version.</returns>
+    [HttpPost("{formId:int}/versions")]
+    public async Task<IActionResult> SaveFormVersion(int formId, [FromBody] ulong userId)
+    {
+        try
+        {
+            var version = await service.SaveVersionAsync(formId, userId);
+
+            if (version == null)
+                return NotFound(new
+                {
+                    message = "Form not found"
+                });
+
+            return Ok(new
+            {
+                version.Id, version.VersionNumber, version.QuestionCount, version.CreatedAt
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to save a version of form {FormId}", formId);
+            return StatusCode(500, new
+            {
+                message = "Failed to save version"
+            });
+        }
+    }
+
+    /// <summary>
+    ///     Puts a form back to the way it was in a saved version.
+    /// </summary>
+    /// <param name="formId">The form ID.</param>
+    /// <param name="versionNumber">The version to restore.</param>
+    /// <param name="userId">Who performed the restore.</param>
+    /// <returns>Success status.</returns>
+    [HttpPost("{formId:int}/versions/{versionNumber:int}/restore")]
+    public async Task<IActionResult> RestoreFormVersion(int formId, int versionNumber, [FromBody] ulong userId)
+    {
+        try
+        {
+            var restored = await service.RestoreVersionAsync(formId, versionNumber, userId);
+
+            if (!restored)
+                return NotFound(new
+                {
+                    message = "That version could not be restored"
+                });
+
+            return Ok(new
+            {
+                message = "Form restored"
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to restore form {FormId} to version {VersionNumber}", formId, versionNumber);
+            return StatusCode(500, new
+            {
+                message = "Failed to restore version"
+            });
+        }
+    }
+
+    /// <summary>
+    ///     Writes out every setting of a form, keyed the way the dashboard expects to read it.
+    /// </summary>
+    /// <remarks>
+    ///     Driven by reflection rather than by a written out field list, so a column added to the
+    ///     form later reaches the dashboard without anything here being touched. A field list that
+    ///     falls behind does not fail loudly, it just drops a setting on the next save.
+    /// </remarks>
+    /// <param name="form">The form to describe.</param>
+    /// <returns>The form's settings, keyed by their camel cased names.</returns>
+    private static Dictionary<string, object?> DescribeForm(Form form)
+    {
+        var described = new Dictionary<string, object?>();
+
+        foreach (var property in typeof(Form).GetProperties())
+        {
+            var name = char.ToLowerInvariant(property.Name[0]) + property.Name[1..];
+            described[name] = property.GetValue(form);
+        }
+
+        return described;
+    }
+
+    /// <summary>
+    ///     Names the roles and channels of a guild, so a version comparison reads as names rather
+    ///     than as snowflakes.
+    /// </summary>
+    private Dictionary<ulong, string> NamesFor(ulong guildId)
+    {
+        var guild = client.GetGuild(guildId);
+        var names = new Dictionary<ulong, string>();
+
+        if (guild == null)
+            return names;
+
+        foreach (var role in guild.Roles)
+            names[role.Id] = role.Name;
+
+        foreach (var channel in guild.Channels)
+            names[channel.Id] = channel.Name;
+
+        return names;
+    }
+
+    #endregion
+
+    #region Drafts
+
+    /// <summary>
+    ///     Reads a submitter's partly filled copy of a form, so they resume where they left off.
+    /// </summary>
+    /// <param name="formId">The form ID.</param>
+    /// <param name="userId">The submitter.</param>
+    /// <returns>The draft, or a null draft when there is none.</returns>
+    [HttpGet("{formId:int}/draft/{userId:ulong}")]
+    public async Task<IActionResult> GetDraft(int formId, ulong userId)
+    {
+        try
+        {
+            var draft = await service.GetDraftAsync(formId, userId);
+
+            if (draft == null)
+                return Ok(new
+                {
+                    hasDraft = false
+                });
+
+            return Ok(new
+            {
+                hasDraft = true,
+                answers = FormsService.ReadDraftAnswers(draft).ToDictionary(a => a.Key.ToString(), a => a.Value),
+                draft.Page,
+                draft.UpdatedAt
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to read the draft of form {FormId} for user {UserId}", formId, userId);
+            return StatusCode(500, new
+            {
+                message = "Failed to read draft"
+            });
+        }
+    }
+
+    /// <summary>
+    ///     Saves what a submitter has filled in so far.
+    /// </summary>
+    /// <param name="formId">The form ID.</param>
+    /// <param name="request">The answers so far and the page they had reached.</param>
+    /// <returns>When the draft was saved.</returns>
+    [HttpPost("{formId:int}/draft")]
+    public async Task<IActionResult> SaveDraft(int formId, [FromBody] FormDraftRequest request)
+    {
+        try
+        {
+            var savedAt = await service.SaveDraftAsync(formId, request.UserId, request.Answers, request.Page);
+
+            return Ok(new
+            {
+                savedAt
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to save the draft of form {FormId}", formId);
+            return StatusCode(500, new
+            {
+                message = "Failed to save draft"
+            });
+        }
+    }
+
+    /// <summary>
+    ///     Discards a submitter's draft, for when they want to start over.
+    /// </summary>
+    /// <param name="formId">The form ID.</param>
+    /// <param name="userId">The submitter.</param>
+    /// <returns>Success status.</returns>
+    [HttpDelete("{formId:int}/draft/{userId:ulong}")]
+    public async Task<IActionResult> DeleteDraft(int formId, ulong userId)
+    {
+        try
+        {
+            await service.DeleteDraftAsync(formId, userId);
+
+            return Ok(new
+            {
+                message = "Draft discarded"
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to discard the draft of form {FormId} for user {UserId}", formId, userId);
+            return StatusCode(500, new
+            {
+                message = "Failed to discard draft"
+            });
+        }
+    }
+
+    #endregion
+
+    #region Response Editing
+
+    /// <summary>
+    ///     Lists everything a person has submitted, newest first.
+    /// </summary>
+    /// <param name="userId">The submitter.</param>
+    /// <param name="guildId">A guild to narrow the list to, or null for everything.</param>
+    /// <returns>Their submissions.</returns>
+    [HttpGet("submissions/{userId:ulong}")]
+    public async Task<IActionResult> GetUserSubmissions(ulong userId, [FromQuery] ulong? guildId = null)
+    {
+        try
+        {
+            var submissions = await service.GetUserSubmissionsAsync(userId, guildId);
+
+            return Ok(submissions.Select(s => new
+            {
+                s.ResponseId,
+                s.FormId,
+                s.FormName,
+                s.GuildId,
+                s.GuildName,
+                s.GuildIconUrl,
+                status = s.Status.ToString(),
+                s.SubmittedAt,
+                s.EditedAt,
+                s.ReviewedAt,
+                s.ReviewNotes,
+                s.StatusToken,
+                s.CanEdit
+            }));
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to list submissions for user {UserId}", userId);
+            return StatusCode(500, new
+            {
+                message = "Failed to retrieve submissions"
+            });
+        }
+    }
+
+    /// <summary>
+    ///     Replaces the answers of a response with a corrected set, keeping the original as a revision.
+    /// </summary>
+    /// <param name="responseId">The response to change.</param>
+    /// <param name="request">Who is making the change and the corrected answers.</param>
+    /// <returns>Success status.</returns>
+    [HttpPut("responses/{responseId:int}")]
+    public async Task<IActionResult> EditResponse(int responseId, [FromBody] FormSubmissionRequest request)
+    {
+        try
+        {
+            var response = await service.EditResponseAsync(responseId, request.UserId, request.Answers);
+
+            return Ok(new
+            {
+                message = "Response updated", response.Id, response.EditedAt
+            });
+        }
+        catch (FormSubmissionException ex)
+        {
+            return BadRequest(new
+            {
+                message = ex.Message, errors = ex.Errors.ToDictionary(e => e.Key.ToString(), e => e.Value)
+            });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new
+            {
+                message = ex.Message
+            });
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to edit response {ResponseId}", responseId);
+            return StatusCode(500, new
+            {
+                message = "Failed to update response"
+            });
+        }
+    }
+
+    /// <summary>
+    ///     Lists the earlier versions of a response's answers, newest first, so a reviewer can see
+    ///     what an edit replaced.
+    /// </summary>
+    /// <param name="responseId">The response.</param>
+    /// <returns>The revisions and the answers each one held.</returns>
+    [HttpGet("responses/{responseId:int}/revisions")]
+    public async Task<IActionResult> GetResponseRevisions(int responseId)
+    {
+        try
+        {
+            var revisions = await service.GetResponseRevisionsAsync(responseId);
+
+            return Ok(revisions.Select(r => new
+            {
+                r.Id,
+                r.EditedBy,
+                r.CreatedAt,
+                answers = FormsService.ReadRevisionAnswers(r).Select(a => new
+                {
+                    a.QuestionId,
+                    a.QuestionText,
+                    a.QuestionType,
+                    a.AnswerText,
+                    a.AnswerValues,
+                    a.AnswerDisplay
+                })
+            }));
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to list revisions of response {ResponseId}", responseId);
+            return StatusCode(500, new
+            {
+                message = "Failed to retrieve revisions"
             });
         }
     }

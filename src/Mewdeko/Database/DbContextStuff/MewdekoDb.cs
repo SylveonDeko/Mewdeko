@@ -1536,6 +1536,39 @@ public class MewdekoDb : DataConnection
     }
 
     /// <summary>
+    ///     Gets the saved form versions table.
+    /// </summary>
+    public ITable<FormVersion> FormVersions
+    {
+        get
+        {
+            return this.GetTable<FormVersion>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the form response revisions table.
+    /// </summary>
+    public ITable<FormResponseRevision> FormResponseRevisions
+    {
+        get
+        {
+            return this.GetTable<FormResponseRevision>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the partly filled form responses table.
+    /// </summary>
+    public ITable<FormResponseDraft> FormResponseDrafts
+    {
+        get
+        {
+            return this.GetTable<FormResponseDraft>();
+        }
+    }
+
+    /// <summary>
     ///     Gets the form share links table.
     /// </summary>
     public ITable<FormShareLink> FormShareLinks

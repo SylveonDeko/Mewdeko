@@ -101,6 +101,133 @@ public class Form
     [Column("notification_webhook_url")]
     public string? NotificationWebhookUrl { get; set; }
 
+    /// <summary>
+    ///     When the form begins accepting responses. Null means it opens the moment it is published.
+    /// </summary>
+    [Column("opens_at")]
+    public DateTime? OpensAt { get; set; }
+
+    /// <summary>
+    ///     Channel the launch announcement is posted to once <see cref="OpensAt" /> passes.
+    /// </summary>
+    [Column("announce_channel_id")]
+    public ulong? AnnounceChannelId { get; set; }
+
+    /// <summary>
+    ///     Role pinged by the launch announcement.
+    /// </summary>
+    [Column("announce_role_id")]
+    public ulong? AnnounceRoleId { get; set; }
+
+    /// <summary>
+    ///     Body of the launch announcement.
+    /// </summary>
+    [Column("announce_message")]
+    public string? AnnounceMessage { get; set; }
+
+    /// <summary>
+    ///     Stamped just before the launch announcement is sent, so a send that fails is not retried forever.
+    /// </summary>
+    [Column("announced_at")]
+    public DateTime? AnnouncedAt { get; set; }
+
+    /// <summary>
+    ///     Role pinged when a response arrives in the submit channel.
+    /// </summary>
+    [Column("notify_role_id")]
+    public ulong? NotifyRoleId { get; set; }
+
+    /// <summary>
+    ///     Comma separated roles granted the moment a response is submitted.
+    /// </summary>
+    [Column("submit_role_ids")]
+    public string? SubmitRoleIds { get; set; }
+
+    /// <summary>
+    ///     Role held while a response awaits review, removed once it is decided.
+    /// </summary>
+    [Column("pending_role_id")]
+    public ulong? PendingRoleId { get; set; }
+
+    /// <summary>
+    ///     Role permitted to decide this form's responses from the buttons posted in Discord. Null
+    ///     falls back to requiring Manage Server, so the buttons are never open to everyone.
+    /// </summary>
+    [Column("reviewer_role_id")]
+    public ulong? ReviewerRoleId { get; set; }
+
+    /// <summary>
+    ///     Emote on this form's approve button. Null falls back to the guild's default.
+    /// </summary>
+    [Column("approve_emote")]
+    public string? ApproveEmote { get; set; }
+
+    /// <summary>
+    ///     Emote on this form's reject button. Null falls back to the guild's default.
+    /// </summary>
+    [Column("reject_emote")]
+    public string? RejectEmote { get; set; }
+
+    /// <summary>
+    ///     Minimum age of the submitter's Discord account, in days.
+    /// </summary>
+    [Column("min_account_age_days")]
+    public int? MinAccountAgeDays { get; set; }
+
+    /// <summary>
+    ///     Lets a rejected submitter try again without opening the form to unlimited submissions.
+    /// </summary>
+    [Column("allow_resubmit_after_rejection", CanBeNull = false)]
+    public bool AllowResubmitAfterRejection { get; set; }
+
+    /// <summary>
+    ///     Whether a single rejection ends a submitter's ability to appeal.
+    /// </summary>
+    [Column("block_reappeal_after_rejection", CanBeNull = false)]
+    public bool BlockReappealAfterRejection { get; set; }
+
+    /// <summary>
+    ///     How many rejected appeals a submitter may accumulate before being locked out.
+    /// </summary>
+    [Column("max_appeal_attempts")]
+    public int? MaxAppealAttempts { get; set; }
+
+    /// <summary>
+    ///     Days a submitter must wait after a rejection before appealing again.
+    /// </summary>
+    [Column("reappeal_cooldown_days")]
+    public int? ReappealCooldownDays { get; set; }
+
+    /// <summary>
+    ///     Days after the ban before a first appeal may be filed.
+    /// </summary>
+    [Column("appeal_delay_days")]
+    public int? AppealDelayDays { get; set; }
+
+    /// <summary>
+    ///     Comma separated roles added on approval, applied alongside <see cref="ApprovalRemoveRoleIds" />.
+    /// </summary>
+    [Column("approval_add_role_ids")]
+    public string? ApprovalAddRoleIds { get; set; }
+
+    /// <summary>
+    ///     Comma separated roles removed on approval.
+    /// </summary>
+    [Column("approval_remove_role_ids")]
+    public string? ApprovalRemoveRoleIds { get; set; }
+
+    /// <summary>
+    ///     Comma separated roles added on rejection.
+    /// </summary>
+    [Column("rejection_add_role_ids")]
+    public string? RejectionAddRoleIds { get; set; }
+
+    /// <summary>
+    ///     Comma separated roles removed on rejection.
+    /// </summary>
+    [Column("rejection_remove_role_ids")]
+    public string? RejectionRemoveRoleIds { get; set; }
+
     [Column("created_by", CanBeNull = false)]
     public ulong CreatedBy { get; set; }
 

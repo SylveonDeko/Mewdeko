@@ -18,6 +18,7 @@ using Mewdeko.Controllers.Common.DashboardAccess;
 using Mewdeko.Database.Impl;
 using Mewdeko.Modules.Currency.Services;
 using Mewdeko.Modules.Currency.Services.Impl;
+using Mewdeko.Modules.Forms.Services;
 using Mewdeko.Modules.Nsfw;
 using Mewdeko.Modules.Patreon.Services;
 using Mewdeko.Modules.Searches.Services;
@@ -522,5 +523,6 @@ public class Program
         services.AddHostedService<ScheduledDeletionService>();
         services.AddHostedService<PatreonService>();
         services.AddHostedService<MessageTimestampRetentionService>();
+        services.AddHostedService<FormLaunchService>();
     }
 }

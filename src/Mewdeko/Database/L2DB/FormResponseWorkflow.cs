@@ -32,6 +32,21 @@ public class FormResponseWorkflow
     [Column("action_taken", CanBeNull = false)]
     public int ActionTaken { get; set; }
 
+    /// <summary>
+    ///     Whether the decision could not be delivered to the submitter by direct message, so a
+    ///     reviewer can see that the person was never told.
+    /// </summary>
+    [Column("dm_failed", CanBeNull = false)]
+    public bool DmFailed { get; set; }
+
+    /// <summary>
+    ///     The Discord message carrying this response's review buttons, so a decision made anywhere
+    ///     can go back and settle that message rather than leaving live buttons on a decided
+    ///     response.
+    /// </summary>
+    [Column("review_message_id")]
+    public ulong? ReviewMessageId { get; set; }
+
     [Column("invite_code")]
     public string? InviteCode { get; set; }
 

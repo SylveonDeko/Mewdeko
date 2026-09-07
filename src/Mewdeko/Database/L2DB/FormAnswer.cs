@@ -26,6 +26,31 @@ public class FormAnswer
     [Column("answer_values")]
     public string[]? AnswerValues { get; set; } // For multi-select questions (checkboxes)
 
+    /// <summary>
+    ///     The question as it was worded when this answer was given. Kept here so a response stays
+    ///     readable after its question is reworded or deleted.
+    /// </summary>
+    [Column("question_text")]
+    public string? QuestionText { get; set; }
+
+    /// <summary>
+    ///     The kind of input the question presented when this answer was given.
+    /// </summary>
+    [Column("question_type")]
+    public string? QuestionType { get; set; }
+
+    /// <summary>
+    ///     The answer rendered for reading, with option values resolved to the labels the submitter saw.
+    /// </summary>
+    [Column("answer_display")]
+    public string? AnswerDisplay { get; set; }
+
+    /// <summary>
+    ///     The form version this answer was given against, so the exact form can be replayed.
+    /// </summary>
+    [Column("form_version_id")]
+    public int? FormVersionId { get; set; }
+
     [Column("created_at", CanBeNull = false)]
     public DateTime CreatedAt { get; set; }
 }
