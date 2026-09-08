@@ -219,7 +219,14 @@ public class XpCacheManager : INService
                     XpMultiplier = 1.0,
                     FirstMessageBonus = 0,
                     CustomXpImageUrl = "",
-                    LevelUpMessage = "{UserMention} has reached level {Level}!"
+                    LevelUpMessage = "{UserMention} has reached level {Level}!",
+                    XpCurveType = (int)XpCurveType.Standard,
+                    XpGainDisabled = false,
+                    LevelUpChannel = 0,
+                    ExclusiveRoleRewards = false,
+                    EnableXpDecay = false,
+                    InactivityDaysBeforeDecay = 0,
+                    DailyDecayPercentage = 0.0
                 }, null, () => new GuildXpSetting
                 {
                     GuildId = guildId
