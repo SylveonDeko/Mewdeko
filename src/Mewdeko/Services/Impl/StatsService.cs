@@ -178,6 +178,27 @@ public class StatsService : IStatsService, IDisposable, IReadyExecutor
         }
     }
 
+    /// <inheritdoc />
+    public string CacheCounts
+    {
+        get
+        {
+            var guilds = client.Guilds;
+            long members = 0;
+            long channels = 0;
+            long roles = 0;
+
+            foreach (var guild in guilds)
+            {
+                members += guild.DownloadedMemberCount;
+                channels += guild.Channels.Count;
+                roles += guild.Roles.Count;
+            }
+
+            return $"{members:N0} members\n{channels:N0} channels\n{roles:N0} roles";
+        }
+    }
+
     /// <summary>
     ///     Gets the uptime of the bot as a human-readable string.
     /// </summary>

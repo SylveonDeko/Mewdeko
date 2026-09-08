@@ -1893,6 +1893,7 @@ public partial class Utility(
                     $"#{client.GetShardFor(ctx.Guild).ShardId} / {creds.TotalShards}")
                 .AddField(Strings.Memory(ctx.Guild.Id),
                     $"{stats.Heap} MB resident\n{stats.ManagedHeap} MB managed\n{stats.CommittedHeap} MB committed\n{stats.GcMode}")
+                .AddField("Cache", stats.CacheCounts)
                 .AddField(Strings.Uptime(ctx.Guild.Id), stats.GetUptimeString("\n"))
                 .AddField("Servers", $"{client.Guilds.Count} Servers"));
     }

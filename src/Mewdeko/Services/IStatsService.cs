@@ -26,6 +26,11 @@ public interface IStatsService : INService
     public string GcMode { get; }
 
     /// <summary>
+    ///     Gets a summary of how many guild members and channels are currently cached.
+    /// </summary>
+    public string CacheCounts { get; }
+
+    /// <summary>
     ///     Gets a string representing the library information.
     /// </summary>
     public string Library { get; }
