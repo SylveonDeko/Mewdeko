@@ -76,11 +76,11 @@ public class StatusRolesService : INService
 
     private async Task EventHandlerOnPresenceUpdated(SocketUser args, SocketPresence args2, SocketPresence args3)
     {
-        if (args is not SocketGuildUser user)
-            return;
-
         var isOffline = args3?.Status == UserStatus.Offline || args3?.Status == UserStatus.Invisible;
         if (isOffline)
+            return;
+
+        if (guildStatusRoles.IsEmpty)
             return;
 
         var status = args3.Activities?.FirstOrDefault() as CustomStatusGame;
@@ -90,7 +90,7 @@ public class StatusRolesService : INService
         string cachedStatus;
         try
         {
-            cachedStatus = await cache.GetOrDefaultAsync<string>($"userStatus_{user.Id}");
+            cachedStatus = await cache.GetOrDefaultAsync<string>($"userStatus_{args.Id}");
         }
         catch (ObjectDisposedException)
         {
@@ -102,10 +102,7 @@ public class StatusRolesService : INService
             return;
 
         // Status changed - update cache
-        await cache.SetAsync($"userStatus_{user.Id}", currentEncodedStatus);
-
-        if (!this.guildStatusRoles.TryGetValue(user.Guild.Id, out var guildStatusRoles))
-            return;
+        await cache.SetAsync($"userStatus_{args.Id}", currentEncodedStatus);
 
         // Process role changes using cached status as "before"
         CustomStatusGame beforeStatus = null;
@@ -115,16 +112,22 @@ public class StatusRolesService : INService
             beforeStatus = new CustomStatusGame(decodedStatus);
         }
 
-        foreach (var statusRole in guildStatusRoles)
+        foreach (var (guildId, statusRoles) in guildStatusRoles)
         {
-            await ProcessStatusRole(user, status, beforeStatus, statusRole);
+            var user = client.GetGuild(guildId)?.GetUser(args.Id);
+            if (user is null)
+                continue;
+
+            foreach (var statusRole in statusRoles.ToArray())
+            {
+                await ProcessStatusRole(user, status, beforeStatus, statusRole);
+            }
         }
     }
 
     private async Task ProcessStatusRole(SocketGuildUser user, CustomStatusGame status, CustomStatusGame? beforeStatus,
         StatusRole? statusRole)
     {
-        if (user.Guild.Id != 900378009188565022) return;
         var toAdd = string.IsNullOrWhiteSpace(statusRole.ToAdd)
             ? []
             : statusRole.ToAdd.Split(" ").Select(ulong.Parse).ToList();
@@ -132,7 +135,7 @@ public class StatusRolesService : INService
             ? []
             : statusRole.ToRemove.Split(" ").Select(ulong.Parse).ToList();
 
-        if (status.State?.Contains(statusRole.Status) != true)
+        if (status?.State?.Contains(statusRole.Status) != true)
         {
             if (beforeStatus?.State?.Contains(statusRole.Status) == true)
             {

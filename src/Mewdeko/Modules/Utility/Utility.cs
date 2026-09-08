@@ -1891,7 +1891,8 @@ public partial class Utility(
                 .AddField(Strings.OwnerIds(ctx.Guild.Id), string.Join("\n", creds.OwnerIds.Select(x => $"<@{x}>")))
                 .AddField(Strings.Shard(ctx.Guild.Id),
                     $"#{client.GetShardFor(ctx.Guild).ShardId} / {creds.TotalShards}")
-                .AddField(Strings.Memory(ctx.Guild.Id), $"{stats.Heap} MB")
+                .AddField(Strings.Memory(ctx.Guild.Id),
+                    $"{stats.Heap} MB resident\n{stats.ManagedHeap} MB managed\n{stats.CommittedHeap} MB committed\n{stats.GcMode}")
                 .AddField(Strings.Uptime(ctx.Guild.Id), stats.GetUptimeString("\n"))
                 .AddField("Servers", $"{client.Guilds.Count} Servers"));
     }

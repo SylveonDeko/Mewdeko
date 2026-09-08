@@ -30,11 +30,11 @@
   <ItemGroup>
     <PackageReference Include="Claudia" Version="1.3.2"/>
     <PackageReference Include="dbup-postgresql" Version="7.0.1"/>
-    <PackageReference Include="Discord.Net.WebSocket" Version="3.20.1"/>
-    <PackageReference Include="Discord.Net.Rest" Version="3.20.1"/>
-    <PackageReference Include="Discord.Net.Webhook" Version="3.20.1"/>
-    <PackageReference Include="Discord.Net.Interactions" Version="3.20.1"/>
-    <PackageReference Include="Discord.Net.Commands" Version="3.20.1"/>
+    <PackageReference Include="Mewdeko.Discord.Net.WebSocket" Version="3.20.1-alpha.1"/>
+    <PackageReference Include="Mewdeko.Discord.Net.Rest" Version="3.20.1-alpha.1"/>
+    <PackageReference Include="Mewdeko.Discord.Net.Webhook" Version="3.20.1-alpha.1"/>
+    <PackageReference Include="Mewdeko.Discord.Net.Interactions" Version="3.20.1-alpha.1"/>
+    <PackageReference Include="Mewdeko.Discord.Net.Commands" Version="3.20.1-alpha.1"/>
     <PackageReference Include="Discord.Addons.Hosting" Version="6.1.0"/>
     <PackageReference Include="Figgle.Fonts" Version="0.6.6"/>
     <PackageReference Include="FluentMigrator" Version="8.0.1"/>

@@ -6,9 +6,24 @@
 public interface IStatsService : INService
 {
     /// <summary>
-    ///     Gets a string representing the current heap usage statistics.
+    ///     Gets a string representing the process working set, in megabytes.
     /// </summary>
     public string Heap { get; }
+
+    /// <summary>
+    ///     Gets a string representing the size of the live managed heap, in megabytes.
+    /// </summary>
+    public string ManagedHeap { get; }
+
+    /// <summary>
+    ///     Gets a string representing the memory committed by the garbage collector, in megabytes.
+    /// </summary>
+    public string CommittedHeap { get; }
+
+    /// <summary>
+    ///     Gets a description of the garbage collector the runtime is using.
+    /// </summary>
+    public string GcMode { get; }
 
     /// <summary>
     ///     Gets a string representing the library information.

@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Runtime;
 using System.Threading;
 using Humanizer;
 using Mewdeko.Common.ModuleBehaviors;
@@ -133,7 +134,47 @@ public class StatsService : IStatsService, IDisposable, IReadyExecutor
         get
         {
             return ByteSize.FromBytes(Process.GetCurrentProcess().WorkingSet64).Megabytes
-                .ToString(CultureInfo.InvariantCulture);
+                .ToString("N0", CultureInfo.InvariantCulture);
+        }
+    }
+
+    /// <inheritdoc />
+    public string ManagedHeap
+    {
+        get
+        {
+            return ByteSize.FromBytes(GC.GetTotalMemory(false)).Megabytes
+                .ToString("N0", CultureInfo.InvariantCulture);
+        }
+    }
+
+    /// <inheritdoc />
+    public string CommittedHeap
+    {
+        get
+        {
+            return ByteSize.FromBytes(GC.GetGCMemoryInfo().TotalCommittedBytes).Megabytes
+                .ToString("N0", CultureInfo.InvariantCulture);
+        }
+    }
+
+    /// <inheritdoc />
+    public string GcMode
+    {
+        get
+        {
+            if (!GCSettings.IsServerGC)
+                return "Workstation";
+
+            // Null means the runtime default is in effect rather than DATAS being off.
+            var datas = AppContext.GetData("System.GC.DynamicAdaptationMode") switch
+            {
+                int mode => mode != 0 ? "DATAS on" : "DATAS off",
+                string mode => mode != "0" ? "DATAS on" : "DATAS off",
+                _ => "DATAS default"
+            };
+
+            return $"Server, {datas}, {Environment.ProcessorCount} cores";
         }
     }
 
