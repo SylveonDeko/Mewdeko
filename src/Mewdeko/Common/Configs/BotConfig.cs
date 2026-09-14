@@ -202,6 +202,15 @@ public sealed class BotConfig
     public ulong LeaveFeedbackChannel { get; set; }
 
     /// <summary>
+    ///     Gets or sets the channel ID that new feature requests from the dashboard get posted to.
+    /// </summary>
+    [Comment("""
+             Channel that feature requests submitted from the dashboard get posted to.
+             Set to 0 to fall back to the guild joins/leaves channel from creds.
+             """)]
+    public ulong FeatureRequestChannel { get; set; }
+
+    /// <summary>
     ///     Gets or sets whether the bot records analytics for the owner dashboard.
     /// </summary>
     [Comment("Whether the bot records analytics for the owner dashboard.")]

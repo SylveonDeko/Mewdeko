@@ -196,6 +196,28 @@ public class MewdekoDb : DataConnection
     }
 
     /// <summary>
+    ///     Feature requests submitted from the dashboard.
+    /// </summary>
+    public ITable<FeatureRequest> FeatureRequests
+    {
+        get
+        {
+            return this.GetTable<FeatureRequest>();
+        }
+    }
+
+    /// <summary>
+    ///     Upvotes on feature requests, one row per user and request.
+    /// </summary>
+    public ITable<FeatureRequestVote> FeatureRequestVotes
+    {
+        get
+        {
+            return this.GetTable<FeatureRequestVote>();
+        }
+    }
+
+    /// <summary>
     ///     Table for accessing scheduled ticket deletions
     /// </summary>
     public ITable<ScheduledTicketDeletion> ScheduledTicketDeletions => this.GetTable<ScheduledTicketDeletion>();

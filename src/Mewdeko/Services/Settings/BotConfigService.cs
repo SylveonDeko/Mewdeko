@@ -46,6 +46,8 @@ public sealed class BotConfigService : ConfigServiceBase<BotConfig>
             ConfigPrinters.ToString);
         AddParsedProp("leaveFeedbackChannel", bs => bs.LeaveFeedbackChannel, ulong.TryParse,
             ConfigPrinters.ToString);
+        AddParsedProp("featureRequestChannel", bs => bs.FeatureRequestChannel, ulong.TryParse,
+            ConfigPrinters.ToString);
         AddParsedProp("analyticsEnabled", bs => bs.AnalyticsEnabled, bool.TryParse, ConfigPrinters.ToString);
         AddParsedProp("analyticsRetentionDays", bs => bs.AnalyticsRetentionDays, int.TryParse,
             ConfigPrinters.ToString);
