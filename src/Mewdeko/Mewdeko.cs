@@ -285,6 +285,7 @@ public class Mewdeko : IDisposable
     {
         var sw = Stopwatch.StartNew();
 
+        var audioService = Services.GetRequiredService<IAudioService>();
 
         await LoginAsync(Credentials.Token).ConfigureAwait(false);
 
@@ -292,14 +293,13 @@ public class Mewdeko : IDisposable
         try
         {
             LoadTypeReaders(typeof(Mewdeko).Assembly);
-            var audioService = Services.GetService<IAudioService>();
             try
             {
                 await audioService.StartAsync();
             }
             catch (Exception e)
             {
-                logger.LogError("Unable to start audio service: {Message}", e.Message);
+                logger.LogError(e, "Unable to start audio service: {Message}", e.Message);
             }
 
             var dbProvider = Services.GetRequiredService<IDataConnectionFactory>();

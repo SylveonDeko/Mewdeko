@@ -6,6 +6,7 @@ using Discord.Commands;
 using Discord.Interactions;
 using Discord.Rest;
 using Fergun.Interactive;
+using Lavalink4NET;
 using Lavalink4NET.Extensions;
 using MartineApiNet;
 using Mewdeko.AuthHandlers;
@@ -449,6 +450,8 @@ public class Program
             {
                 x.Passphrase = "Hope4a11";
                 x.BaseAddress = new Uri(credentials.LavalinkUrl);
+                x.ReadyTimeout = TimeSpan.FromMinutes(5);
+                x.ResumptionOptions = new LavalinkSessionResumptionOptions(TimeSpan.FromMinutes(2));
             });
         services.AddSingleton<ISearchImagesService, SearchImagesService>();
         services.AddSingleton<ToneTagService>();
