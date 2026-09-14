@@ -100,7 +100,10 @@ public sealed class AnalyticsWriter : INService, IReadyExecutor, IDisposable
     public async Task FlushAsync(bool includeBuckets)
     {
         if (!collector.Enabled) return;
-        if (!await gate.WaitAsync(0).ConfigureAwait(false)) return;
+        var acquired = includeBuckets
+            ? await gate.WaitAsync(TimeSpan.FromSeconds(45)).ConfigureAwait(false)
+            : await gate.WaitAsync(0).ConfigureAwait(false);
+        if (!acquired) return;
 
         var started = Stopwatch.GetTimestamp();
         try

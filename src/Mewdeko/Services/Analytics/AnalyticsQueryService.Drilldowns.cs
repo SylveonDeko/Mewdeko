@@ -1025,7 +1025,7 @@ public sealed partial class AnalyticsQueryService
 
     private sealed class TopCommandRow
     {
-        public string Command { get; } = string.Empty;
+        public string Command { get; set; } = string.Empty;
         public string? Module { get; set; }
         public long Count { get; set; }
         public long Failures { get; set; }
@@ -1043,7 +1043,7 @@ public sealed partial class AnalyticsQueryService
 
     private sealed class RouteRow
     {
-        public string Route { get; } = string.Empty;
+        public string Route { get; set; } = string.Empty;
         public long Views { get; set; }
         public long Visitors { get; set; }
         public double? P95Ms { get; set; }

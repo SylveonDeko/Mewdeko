@@ -958,15 +958,13 @@ public sealed class EventHandler : IDisposable
                     sw.Stop();
                     Interlocked.Increment(ref orCreateModuleMetrics.EventsProcessed);
                     Interlocked.Add(ref orCreateModuleMetrics.TotalExecutionTime, sw.ElapsedMilliseconds);
-                    collector.Duration("ev.duration", sw.Elapsed.TotalMilliseconds, ("type", eventType),
-                        ("module", moduleName));
+                    collector.HandlerDuration(eventType, moduleName, sw.Elapsed.TotalMilliseconds);
                 }
                 catch (Exception)
                 {
                     sw.Stop();
                     Interlocked.Increment(ref orCreateModuleMetrics.Errors);
-                    collector.Duration("ev.duration", sw.Elapsed.TotalMilliseconds, ("type", eventType),
-                        ("module", moduleName));
+                    collector.HandlerDuration(eventType, moduleName, sw.Elapsed.TotalMilliseconds);
                     throw;
                 }
             }
@@ -1299,8 +1297,8 @@ public sealed class EventHandler : IDisposable
                 }
                 finally
                 {
-                    collector.Duration("ev.duration", Stopwatch.GetElapsedTime(started).TotalMilliseconds,
-                        ("type", eventType), ("module", moduleName));
+                    collector.HandlerDuration(eventType, moduleName,
+                        Stopwatch.GetElapsedTime(started).TotalMilliseconds);
                 }
             }
         });

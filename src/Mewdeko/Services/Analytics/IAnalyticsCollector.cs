@@ -55,6 +55,15 @@ public interface IAnalyticsCollector
     public void Event(string eventType, int? shard, int count = 1);
 
     /// <summary>
+    ///     Records how long one module's handler took for a gateway event, using cached labels so hot
+    ///     events do not allocate.
+    /// </summary>
+    /// <param name="eventType">The event name as used by the event handler.</param>
+    /// <param name="module">The subscribing module.</param>
+    /// <param name="milliseconds">Elapsed time in milliseconds.</param>
+    public void HandlerDuration(string eventType, string module, double milliseconds);
+
+    /// <summary>
     ///     Counts a gateway event against a guild, and keeps the raw row when it is security relevant.
     /// </summary>
     /// <param name="guildId">The guild.</param>

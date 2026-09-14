@@ -90,6 +90,10 @@ public sealed class AnalyticsCollector : IAnalyticsCollector, INService
 
     private NonBlocking.ConcurrentDictionary<SeriesKey, Series> series = new();
 
+    private readonly NonBlocking.ConcurrentDictionary<(string Type, int? Shard), string> eventLabels = new();
+    private readonly NonBlocking.ConcurrentDictionary<(string Type, string Module), string> handlerLabels = new();
+    private string? botLabel;
+
     /// <summary>
     ///     Initializes a new instance of the <see cref="AnalyticsCollector" /> class.
     /// </summary>
@@ -115,7 +119,13 @@ public sealed class AnalyticsCollector : IAnalyticsCollector, INService
     {
         get
         {
-            return client.CurrentUser?.Id.ToString() ?? "starting";
+            var cached = botLabel;
+            if (cached is not null) return cached;
+            var id = client.CurrentUser?.Id;
+            if (id is null) return "starting";
+            cached = id.Value.ToString();
+            botLabel = cached;
+            return cached;
         }
     }
 
@@ -184,7 +194,32 @@ public sealed class AnalyticsCollector : IAnalyticsCollector, INService
     public void Event(string eventType, int? shard, int count = 1)
     {
         if (!Enabled || count <= 0) return;
-        Counter("ev.count", count, ("shard", shard?.ToString() ?? string.Empty), ("type", eventType));
+        var bot = Bot;
+        if (bot == "starting")
+        {
+            Counter("ev.count", count, ("shard", shard?.ToString() ?? string.Empty), ("type", eventType));
+            return;
+        }
+
+        var labels = eventLabels.GetOrAdd((eventType, shard), static (key, bot) =>
+            CanonicalLabels([("shard", key.Shard?.ToString() ?? string.Empty), ("type", key.Type)], bot), bot);
+        Observe("ev.count", MetricKind.Counter, count, labels);
+    }
+
+    /// <inheritdoc />
+    public void HandlerDuration(string eventType, string module, double milliseconds)
+    {
+        if (!Enabled) return;
+        var bot = Bot;
+        if (bot == "starting")
+        {
+            Duration("ev.duration", milliseconds, ("type", eventType), ("module", module));
+            return;
+        }
+
+        var labels = handlerLabels.GetOrAdd((eventType, module), static (key, bot) =>
+            CanonicalLabels([("type", key.Type), ("module", key.Module)], bot), bot);
+        Observe("ev.duration", MetricKind.Histogram, milliseconds, labels);
     }
 
     /// <inheritdoc />
@@ -374,7 +409,14 @@ public sealed class AnalyticsCollector : IAnalyticsCollector, INService
     {
         if (double.IsNaN(value) || double.IsInfinity(value)) return;
 
-        var key = new SeriesKey(MinuteOf(DateTime.UtcNow), metric, CanonicalLabels(labels, Bot));
+        Observe(metric, kind, value, CanonicalLabels(labels, Bot));
+    }
+
+    private void Observe(string metric, MetricKind kind, double value, string canonicalLabels)
+    {
+        if (double.IsNaN(value) || double.IsInfinity(value)) return;
+
+        var key = new SeriesKey(MinuteOf(DateTime.UtcNow), metric, canonicalLabels);
         var current = series;
         if (current.Count >= MaxSeriesPerMinute && !current.ContainsKey(key)) return;
 
@@ -450,7 +492,11 @@ public sealed class AnalyticsCollector : IAnalyticsCollector, INService
     /// </summary>
     public sealed class Series
     {
-        private readonly object gate = new();
+        private long count;
+        private double sum;
+        private double min = double.MaxValue;
+        private double max = double.MinValue;
+        private double last;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Series" /> class.
@@ -466,40 +512,108 @@ public sealed class AnalyticsCollector : IAnalyticsCollector, INService
         public MetricKind Kind { get; }
 
         /// <summary>Number of observations.</summary>
-        public double Count { get; private set; }
+        public double Count
+        {
+            get
+            {
+                return Interlocked.Read(ref count);
+            }
+        }
 
         /// <summary>Sum of the observations.</summary>
-        public double Sum { get; private set; }
+        public double Sum
+        {
+            get
+            {
+                return Volatile.Read(ref sum);
+            }
+        }
 
         /// <summary>Smallest observation.</summary>
-        public double Min { get; private set; } = double.MaxValue;
+        public double Min
+        {
+            get
+            {
+                return Volatile.Read(ref min);
+            }
+        }
 
         /// <summary>Largest observation.</summary>
-        public double Max { get; private set; } = double.MinValue;
+        public double Max
+        {
+            get
+            {
+                return Volatile.Read(ref max);
+            }
+        }
 
         /// <summary>Latest observation.</summary>
-        public double Last { get; private set; }
+        public double Last
+        {
+            get
+            {
+                return Volatile.Read(ref last);
+            }
+        }
 
         /// <summary>Histogram bucket counts, or null for counters and gauges.</summary>
         public long[]? Hist { get; }
 
         /// <summary>
-        ///     Folds one observation in.
+        ///     Folds one observation in without taking a lock, so gateway threads never block on it.
         /// </summary>
         /// <param name="value">The value.</param>
         public void Add(double value)
         {
-            lock (gate)
-            {
-                Count += 1;
-                Sum += value;
-                if (value < Min) Min = value;
-                if (value > Max) Max = value;
-                Last = value;
-                if (Hist is null) return;
+            Interlocked.Increment(ref count);
+            AddTo(ref sum, value);
+            LowerTo(ref min, value);
+            RaiseTo(ref max, value);
+            Volatile.Write(ref last, value);
+            if (Hist is null) return;
 
-                var index = Array.FindIndex(HistogramBounds, bound => value <= bound);
-                Hist[index < 0 ? Hist.Length - 1 : index]++;
+            var index = -1;
+            for (var i = 0; i < HistogramBounds.Length; i++)
+            {
+                if (value > HistogramBounds[i]) continue;
+                index = i;
+                break;
+            }
+
+            Interlocked.Increment(ref Hist[index < 0 ? Hist.Length - 1 : index]);
+        }
+
+        private static void AddTo(ref double target, double value)
+        {
+            var seen = Volatile.Read(ref target);
+            while (true)
+            {
+                var updated = seen + value;
+                var previous = Interlocked.CompareExchange(ref target, updated, seen);
+                if (previous.Equals(seen)) return;
+                seen = previous;
+            }
+        }
+
+        private static void LowerTo(ref double target, double value)
+        {
+            var seen = Volatile.Read(ref target);
+            while (value < seen)
+            {
+                var previous = Interlocked.CompareExchange(ref target, value, seen);
+                if (previous.Equals(seen)) return;
+                seen = previous;
+            }
+        }
+
+        private static void RaiseTo(ref double target, double value)
+        {
+            var seen = Volatile.Read(ref target);
+            while (value > seen)
+            {
+                var previous = Interlocked.CompareExchange(ref target, value, seen);
+                if (previous.Equals(seen)) return;
+                seen = previous;
             }
         }
     }
