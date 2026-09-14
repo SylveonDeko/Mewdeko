@@ -30,6 +30,9 @@ public sealed class AnalyticsCollector : IAnalyticsCollector, INService
 
     private const int MaxSeriesPerMinute = 20000;
     private const int MaxRawRows = 50000;
+    private const long EnabledRefreshMs = 5000;
+    private long enabledCheckedAt = long.MinValue / 2;
+    private volatile bool enabled;
 
     /// <summary>
     ///     Upper bounds in milliseconds of the histogram buckets; the last bucket is the overflow.
@@ -110,7 +113,13 @@ public sealed class AnalyticsCollector : IAnalyticsCollector, INService
     {
         get
         {
-            return config.Data.AnalyticsEnabled;
+            var now = Environment.TickCount64;
+            if (now - Volatile.Read(ref enabledCheckedAt) < EnabledRefreshMs)
+                return enabled;
+
+            Volatile.Write(ref enabledCheckedAt, now);
+            enabled = config.Data.AnalyticsEnabled;
+            return enabled;
         }
     }
 
