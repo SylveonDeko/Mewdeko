@@ -79,12 +79,13 @@ public sealed class AnalyticsInstrumentation : INService, IReadyExecutor, IDispo
         if (!collector.Enabled)
             return Task.CompletedTask;
 
-        client.ShardConnected += OnShardConnected;
-        client.ShardDisconnected += OnShardDisconnected;
-        client.ShardReady += OnShardReady;
-        client.ShardLatencyUpdated += OnShardLatencyUpdated;
-        client.JoinedGuild += OnJoinedGuild;
-        client.LeftGuild += OnLeftGuild;
+        var eventHandler = services.GetRequiredService<EventHandler>();
+        eventHandler.Subscribe("ShardConnected", "AnalyticsInstrumentation", OnShardConnected);
+        eventHandler.Subscribe("ShardDisconnected", "AnalyticsInstrumentation", OnShardDisconnected);
+        eventHandler.Subscribe("ShardReady", "AnalyticsInstrumentation", OnShardReady);
+        eventHandler.Subscribe("ShardLatencyUpdated", "AnalyticsInstrumentation", OnShardLatencyUpdated);
+        eventHandler.Subscribe("JoinedGuild", "AnalyticsInstrumentation", OnJoinedGuild);
+        eventHandler.Subscribe("LeftGuild", "AnalyticsInstrumentation", OnLeftGuild);
 
         AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;

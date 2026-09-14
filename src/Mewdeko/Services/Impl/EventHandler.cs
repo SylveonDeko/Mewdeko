@@ -145,6 +145,9 @@ public sealed class EventHandler : IDisposable
             case "UserJoined":
             case "VoiceServerUpdated":
             case "GuildMembersDownloaded":
+            case "ShardConnected":
+            case "ShardReady":
+            case "Log":
             case "XpLevelChanged":
                 switch (handler)
                 {
@@ -668,6 +671,40 @@ public sealed class EventHandler : IDisposable
 
                 break;
 
+            case "ShardDisconnected":
+                if (args is ValueTuple<Exception, DiscordSocketClient> shardDisconnectedArgs)
+                {
+                    switch (handler)
+                    {
+                        case AsyncEventHandler<Exception, DiscordSocketClient> shardDisconnectedHandler:
+                            await shardDisconnectedHandler(shardDisconnectedArgs.Item1, shardDisconnectedArgs.Item2);
+                            break;
+                        case Func<Exception, DiscordSocketClient, Task> shardDisconnectedFunc:
+                            await shardDisconnectedFunc(shardDisconnectedArgs.Item1, shardDisconnectedArgs.Item2);
+                            break;
+                    }
+                }
+
+                break;
+
+            case "ShardLatencyUpdated":
+                if (args is ValueTuple<int, int, DiscordSocketClient> shardLatencyArgs)
+                {
+                    switch (handler)
+                    {
+                        case AsyncEventHandler<int, int, DiscordSocketClient> shardLatencyHandler:
+                            await shardLatencyHandler(shardLatencyArgs.Item1, shardLatencyArgs.Item2,
+                                shardLatencyArgs.Item3);
+                            break;
+                        case Func<int, int, DiscordSocketClient, Task> shardLatencyFunc:
+                            await shardLatencyFunc(shardLatencyArgs.Item1, shardLatencyArgs.Item2,
+                                shardLatencyArgs.Item3);
+                            break;
+                    }
+                }
+
+                break;
+
             case "UserVoiceStateUpdated":
                 if (args is ValueTuple<SocketUser, SocketVoiceState, SocketVoiceState> voiceStateArgs)
                 {
@@ -840,6 +877,11 @@ public sealed class EventHandler : IDisposable
         client.UserIsTyping += ClientOnUserIsTyping;
         client.PresenceUpdated += ClientOnPresenceUpdated;
         client.JoinedGuild += ClientOnJoinedGuild;
+        client.ShardConnected += ClientOnShardConnected;
+        client.ShardDisconnected += ClientOnShardDisconnected;
+        client.ShardReady += ClientOnShardReady;
+        client.ShardLatencyUpdated += ClientOnShardLatencyUpdated;
+        client.Log += ClientOnLog;
         client.GuildScheduledEventCreated += ClientOnEventCreated;
         client.RoleUpdated += ClientOnRoleUpdated;
         client.GuildUpdated += ClientOnGuildUpdated;
@@ -1176,6 +1218,31 @@ public sealed class EventHandler : IDisposable
     private Task ClientOnLeftGuild(SocketGuild arg)
     {
         return ProcessDirectEvent("LeftGuild", arg);
+    }
+
+    private Task ClientOnShardConnected(DiscordSocketClient shard)
+    {
+        return ProcessDirectEvent("ShardConnected", shard);
+    }
+
+    private Task ClientOnShardDisconnected(Exception exception, DiscordSocketClient shard)
+    {
+        return ProcessDirectEvent("ShardDisconnected", (exception, shard));
+    }
+
+    private Task ClientOnShardReady(DiscordSocketClient shard)
+    {
+        return ProcessDirectEvent("ShardReady", shard);
+    }
+
+    private Task ClientOnShardLatencyUpdated(int oldLatency, int newLatency, DiscordSocketClient shard)
+    {
+        return ProcessDirectEvent("ShardLatencyUpdated", (oldLatency, newLatency, shard));
+    }
+
+    private Task ClientOnLog(LogMessage message)
+    {
+        return ProcessDirectEvent("Log", message);
     }
 
     private Task ClientOnInviteCreated(SocketInvite arg)
@@ -1533,6 +1600,11 @@ public sealed class EventHandler : IDisposable
         client.UserIsTyping -= ClientOnUserIsTyping;
         client.PresenceUpdated -= ClientOnPresenceUpdated;
         client.JoinedGuild -= ClientOnJoinedGuild;
+        client.ShardConnected -= ClientOnShardConnected;
+        client.ShardDisconnected -= ClientOnShardDisconnected;
+        client.ShardReady -= ClientOnShardReady;
+        client.ShardLatencyUpdated -= ClientOnShardLatencyUpdated;
+        client.Log -= ClientOnLog;
         client.GuildScheduledEventCreated -= ClientOnEventCreated;
         client.RoleUpdated -= ClientOnRoleUpdated;
         client.GuildUpdated -= ClientOnGuildUpdated;

@@ -43,7 +43,7 @@ public class InviteCountService : INService, IReadyExecutor
         handler.Subscribe("InviteDeleted", "InviteCountService", OnInviteDeleted);
 
         // Clean up when leaving guilds
-        this.client.LeftGuild += OnLeftGuild;
+        handler.Subscribe("LeftGuild", "InviteCountService", OnLeftGuild);
     }
 
     /// <inheritdoc />

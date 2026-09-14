@@ -50,7 +50,7 @@ public class HighlightsService : INService, IReadyExecutor, IUnloadableService
         eventHandler.Subscribe("UserIsTyping", "HighlightsService", AddHighlightTimer);
 
         // Clean up cache when leaving guilds
-        this.client.LeftGuild += OnLeftGuild;
+        eventHandler.Subscribe("LeftGuild", "HighlightsService", OnLeftGuild);
 
         _ = HighlightLoop();
     }
@@ -117,7 +117,7 @@ public class HighlightsService : INService, IReadyExecutor, IUnloadableService
     {
         eventHandler.Unsubscribe("MessageReceived", "HighlightsService", StaggerHighlights);
         eventHandler.Unsubscribe("UserIsTyping", "HighlightsService", AddHighlightTimer);
-        client.LeftGuild -= OnLeftGuild;
+        eventHandler.Unsubscribe("LeftGuild", "HighlightsService", OnLeftGuild);
         return Task.CompletedTask;
     }
 

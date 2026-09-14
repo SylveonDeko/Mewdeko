@@ -161,7 +161,8 @@ public class Mewdeko : IDisposable
 
     private async Task LoginAsync(string token)
     {
-        Client.Log += Client_Log;
+        var eventHandler = Services.GetRequiredService<EventHandler>();
+        eventHandler.Subscribe("Log", "Mewdeko", Client_Log);
         var clientReady = new TaskCompletionSource<bool>();
 
         logger.LogInformation("Logging in...");
@@ -204,11 +205,11 @@ public class Mewdeko : IDisposable
             Helpers.ReadErrorAndExit(4);
         }
 
-        Client.ShardReady += SetClientReady;
+        eventHandler.Subscribe("ShardReady", "Mewdeko", SetClientReady);
         await clientReady.Task.ConfigureAwait(false);
-        Client.ShardReady -= SetClientReady;
-        Client.JoinedGuild += Client_JoinedGuild;
-        Client.LeftGuild += Client_LeftGuild;
+        eventHandler.Unsubscribe("ShardReady", "Mewdeko", SetClientReady);
+        eventHandler.Subscribe("JoinedGuild", "Mewdeko", Client_JoinedGuild);
+        eventHandler.Subscribe("LeftGuild", "Mewdeko", Client_LeftGuild);
         logger.LogInformation("Logged in.");
         logger.LogInformation("Logged in as:");
         Console.WriteLine(FiggleFonts.Digital.Render(Client.CurrentUser.Username));
