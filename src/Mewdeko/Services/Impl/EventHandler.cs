@@ -994,7 +994,7 @@ public sealed class EventHandler : IDisposable
 
     private Task ClientOnPresenceUpdated(SocketUser arg1, SocketPresence arg2, SocketPresence arg3)
     {
-        CountEvent("PresenceUpdated", (arg1 as SocketGuildUser)?.Guild ?? arg1.MutualGuilds.FirstOrDefault());
+        CountEvent("PresenceUpdated", (arg1 as SocketGuildUser)?.Guild);
         if (rateLimiters.TryGetValue("PresenceUpdated", out var limiter) && !limiter.TryAcquire())
             return Task.CompletedTask;
 
@@ -1286,7 +1286,7 @@ public sealed class EventHandler : IDisposable
                 (tuple.Item2.HasValue ? tuple.Item2.Value as SocketGuildChannel : null)?.Guild,
             ValueTuple<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction> tuple =>
                 (tuple.Item2.HasValue ? tuple.Item2.Value as SocketGuildChannel : null)?.Guild,
-            ValueTuple<SocketUser, SocketUser> tuple => tuple.Item2.MutualGuilds.FirstOrDefault(),
+            ValueTuple<SocketUser, SocketUser> tuple => (tuple.Item2 as SocketGuildUser)?.Guild,
             SocketUser user => user.MutualGuilds.FirstOrDefault(),
             ValueTuple<SocketUser, SocketGuild> tuple => tuple.Item2,
             ValueTuple<SocketGuild, SocketUser> tuple => tuple.Item1,
