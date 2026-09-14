@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json;
 using System.Threading;
+using DataModel;
 using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
@@ -13,6 +14,7 @@ using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Modules.Music.Common;
 using Mewdeko.Modules.Music.CustomPlayer;
 using Mewdeko.Modules.Music.Services;
+using Mewdeko.Services.Analytics;
 using SpotifyAPI.Web;
 using Swan;
 
@@ -22,14 +24,15 @@ namespace Mewdeko.Modules.Music;
 ///     Slash commands module containing music commands.
 /// </summary>
 [Group("music", "Music commands")]
-public class SlashMusic(
+public partial class SlashMusic(
     IAudioService service,
     IDataCache cache,
     InteractiveService interactiveService,
     GuildSettingsService guildSettingsService,
     ILogger<SlashMusic> logger,
     MusicEventManager eventManager,
-    MusicLinkService musicLinkService) : MewdekoSlashCommandModule
+    MusicLinkService musicLinkService,
+    IAnalyticsCollector collector) : MewdekoSlashCommandModule
 {
     /// <summary>
     ///     Joins the voice channel.
@@ -240,10 +243,13 @@ public class SlashMusic(
             {
                 await HandleSearchPlay(query);
             }
+
+            collector.Feature("music_play", Context.Guild.Id);
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Error in Play command with query: {Query}", query);
+            collector.Feature("music_play", Context.Guild.Id, false, ex.GetType().Name);
             var components = new ComponentBuilderV2()
                 .WithContainer([
                     new TextDisplayBuilder($"# {Config.ErrorEmote} {Strings.MusicErrorTitle(Context.Guild.Id)}")
@@ -1017,6 +1023,362 @@ public class SlashMusic(
         await cache.SetMusicQueue(ctx.Guild.Id, queue);
         await cache.Redis.GetDatabase().KeyDeleteAsync($"{ctx.User.Id}_{componentInteraction.Message.Id}_tracks");
         await ctx.Channel.DeleteMessageAsync(componentInteraction.Message.Id);
+    }
+
+    /// <summary>
+    ///     Seeks to a specific position in the current track.
+    /// </summary>
+    /// <param name="position">Time to seek to in format mm:ss</param>
+    [SlashCommand("seek", "Seeks to a position in the current track")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    public async Task Seek([Summary("position", "Position in mm:ss format, e.g. 01:30")] string position)
+    {
+        var user = ctx.User as IGuildUser;
+        if (user.VoiceChannel is null)
+        {
+            await ReplyErrorAsync(Strings.MusicNotInChannel(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await DeferAsync();
+
+        var (player, result) = await GetPlayerAsync(false);
+        if (result is not null)
+        {
+            await SendPlayerErrorAsync(result).ConfigureAwait(false);
+            return;
+        }
+
+        if (player.CurrentItem is null)
+        {
+            await ReplyErrorAsync(Strings.MusicNoCurrentTrack(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (!TimeSpan.TryParseExact(position, "mm\\:ss", null, out var parsed))
+        {
+            await ReplyErrorAsync(Strings.MusicInvalidTimeFormat(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (parsed > player.CurrentItem.Track.Duration)
+        {
+            await ReplyErrorAsync(Strings.MusicSeekOutOfRange(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await player.SeekAsync(parsed).ConfigureAwait(false);
+        await ReplyConfirmAsync(Strings.MusicSeekedTo(ctx.Guild.Id, parsed.ToString(@"mm\:ss")))
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Initiates or participates in a vote to skip the current track.
+    ///     Requires 70% of users in the voice channel to vote for skipping.
+    ///     Users with the DJ role or administrators skip instantly.
+    /// </summary>
+    [SlashCommand("vote-skip", "Votes to skip the current track")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    public async Task VoteSkip()
+    {
+        var user = ctx.User as IGuildUser;
+        if (user.VoiceChannel is null)
+        {
+            await ReplyErrorAsync(Strings.MusicNotInChannel(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await DeferAsync();
+
+        var (player, result) = await GetPlayerAsync(false);
+        if (result is not null)
+        {
+            await SendPlayerErrorAsync(result).ConfigureAwait(false);
+            return;
+        }
+
+        if (player.CurrentItem is null)
+        {
+            await ReplyErrorAsync(Strings.MusicNoCurrentTrack(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (await HasDjRole(ctx.Guild, user))
+        {
+            await player.SeekAsync(player.CurrentItem.Track.Duration).ConfigureAwait(false);
+            await ReplyConfirmAsync(Strings.MusicSkipDj(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var voiceChannel = user.VoiceChannel;
+
+        var votes = await cache.GetVoteSkip(ctx.Guild.Id) ?? [];
+        if (votes.Add(ctx.User.Id))
+            await cache.SetVoteSkip(ctx.Guild.Id, votes);
+
+        var usersInVoice = (await voiceChannel.GetUsersAsync().FlattenAsync()).Count(x => !x.IsBot);
+        var votesNeeded = (int)Math.Ceiling(usersInVoice * 0.7);
+
+        if (votes.Count >= votesNeeded)
+        {
+            await player.SeekAsync(player.CurrentItem.Track.Duration).ConfigureAwait(false);
+            await cache.SetVoteSkip(ctx.Guild.Id, null);
+            await ReplyConfirmAsync(Strings.MusicSkipVoteSuccess(ctx.Guild.Id)).ConfigureAwait(false);
+        }
+        else
+        {
+            await ReplyConfirmAsync(Strings.MusicSkipVoteCount(ctx.Guild.Id, votes.Count, votesNeeded))
+                .ConfigureAwait(false);
+        }
+    }
+
+    /// <summary>
+    ///     Sets the DJ role for music commands that require elevated permissions.
+    /// </summary>
+    /// <param name="role">The role to set as DJ. If omitted, removes the DJ role.</param>
+    [SlashCommand("dj-role", "Sets or removes the DJ role")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
+    public async Task SetDjRole([Summary("role", "The DJ role. Omit to remove it")] IRole? role = null)
+    {
+        var settings = await cache.GetMusicPlayerSettings(ctx.Guild.Id)
+                       ?? new MusicPlayerSetting
+                       {
+                           GuildId = ctx.Guild.Id
+                       };
+
+        settings.DjRoleId = role?.Id;
+        await cache.SetMusicPlayerSettings(ctx.Guild.Id, settings);
+
+        if (role == null)
+            await ReplyConfirmAsync(Strings.MusicDjRoleRemoved(ctx.Guild.Id)).ConfigureAwait(false);
+        else
+            await ReplyConfirmAsync(Strings.MusicDjRoleSet(ctx.Guild.Id, role.Name)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Shuffles the current music queue, keeping the current track in place.
+    /// </summary>
+    [SlashCommand("shuffle", "Shuffles the current music queue")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    public async Task Shuffle()
+    {
+        var user = ctx.User as IGuildUser;
+        if (user.VoiceChannel is null)
+        {
+            await ReplyErrorAsync(Strings.MusicNotInChannel(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var (_, result) = await GetPlayerAsync(false);
+        if (result is not null)
+        {
+            await SendPlayerErrorAsync(result).ConfigureAwait(false);
+            return;
+        }
+
+        var queue = await cache.GetMusicQueue(ctx.Guild.Id);
+        if (queue.Count <= 1)
+        {
+            await ReplyErrorAsync(Strings.MusicQueueTooShort(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var currentTrack = await cache.GetCurrentTrack(ctx.Guild.Id);
+        var remainingTracks = queue.Where(x => x.Index != currentTrack.Index).ToList();
+
+        var rng = new Random();
+        var n = remainingTracks.Count;
+        while (n > 1)
+        {
+            n--;
+            var k = rng.Next(n + 1);
+            (remainingTracks[k], remainingTracks[n]) = (remainingTracks[n], remainingTracks[k]);
+        }
+
+        for (var i = 0; i < remainingTracks.Count; i++)
+        {
+            remainingTracks[i].Index = i + 1;
+        }
+
+        var newQueue = new List<MewdekoTrack>
+        {
+            currentTrack
+        };
+        newQueue.AddRange(remainingTracks);
+
+        await cache.SetMusicQueue(ctx.Guild.Id, newQueue);
+        await ReplyConfirmAsync(Strings.MusicQueueShuffled(ctx.Guild.Id)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Searches for tracks without automatically playing them and lets the invoking user pick one to play.
+    /// </summary>
+    /// <param name="query">The search query</param>
+    [SlashCommand("search", "Searches for tracks and lets you pick one to play")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    public async Task Search([Summary("query", "What to search for")] string query)
+    {
+        var user = ctx.User as IGuildUser;
+        if (user.VoiceChannel is null)
+        {
+            await ReplyErrorAsync(Strings.MusicNotInChannel(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await DeferAsync();
+
+        var tracks = await service.Tracks.LoadTracksAsync(query, TrackSearchMode.YouTube);
+
+        if (!tracks.IsSuccess)
+        {
+            await ReplyErrorAsync(Strings.MusicNoTracks(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var trackList = tracks.Tracks.Take(10).ToList();
+        var components = new ComponentBuilderV2()
+            .WithContainer([
+                new TextDisplayBuilder($"# {Strings.MusicSearchResults(ctx.Guild.Id)}")
+            ], Mewdeko.OkColor)
+            .WithSeparator();
+
+        for (var i = 0; i < trackList.Count; i++)
+        {
+            var track = trackList[i];
+            components.WithContainer(new TextDisplayBuilder($"`{i + 1}.` [{track.Title}]({track.Uri})\n" +
+                                                            $"Duration: `{track.Duration}`\n" +
+                                                            $"Artist: {track.Author}"));
+        }
+
+        var selectMenu = new SelectMenuBuilder()
+            .WithCustomId($"music_search_select:{ctx.User.Id}")
+            .WithPlaceholder(Strings.MusicSelectTracks(ctx.Guild.Id))
+            .WithMinValues(1)
+            .WithMaxValues(1);
+
+        for (var i = 0; i < trackList.Count; i++)
+        {
+            selectMenu.AddOption($"{i + 1}. {trackList[i].Title}".Truncate(100), $"search_{i}");
+        }
+
+        components.WithSeparator()
+            .AddComponent(new ActionRowBuilder().WithSelectMenu(selectMenu));
+
+        var message = await FollowupAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
+            allowedMentions: AllowedMentions.None);
+
+        await cache.Redis.GetDatabase().StringSetAsync(
+            $"{ctx.User.Id}_{message.Id}_searchtracks",
+            JsonSerializer.Serialize(trackList),
+            TimeSpan.FromMinutes(5)
+        );
+    }
+
+    /// <summary>
+    ///     Handles track selection for the search command select menu, queueing and playing the chosen track.
+    /// </summary>
+    /// <param name="userId">The user who ran the search command.</param>
+    /// <param name="selectedValue">The selected track value.</param>
+    [ComponentInteraction("music_search_select:*", true)]
+    [CheckPermissions]
+    public async Task SearchSelect(ulong userId, string[] selectedValue)
+    {
+        if (ctx.User.Id != userId)
+        {
+            await EphemeralReplyErrorAsync(Strings.MusicSearchNotYours(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await DeferAsync();
+
+        var componentInteraction = ctx.Interaction as IComponentInteraction;
+
+        var (player, result) = await GetPlayerAsync();
+        if (result is not null)
+        {
+            await SendPlayerErrorAsync(result).ConfigureAwait(false);
+            return;
+        }
+
+        var key = $"{ctx.User.Id}_{componentInteraction.Message.Id}_searchtracks";
+        var tracks = await cache.Redis.GetDatabase().StringGetAsync(key);
+        if (!tracks.HasValue)
+        {
+            await ReplyErrorAsync(Strings.MusicSearchExpired(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var trackList = JsonSerializer.Deserialize<List<LavalinkTrack>>((string)tracks);
+        var index = Convert.ToInt32(selectedValue[0].Split("_")[1]);
+        if (trackList is null || index < 0 || index >= trackList.Count)
+        {
+            await ReplyErrorAsync(Strings.MusicSearchExpired(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var selected = trackList[index];
+        var queue = await cache.GetMusicQueue(ctx.Guild.Id);
+        var mewdekoTrack = new MewdekoTrack(queue.Count + 1, selected, new PartialUser
+        {
+            Id = ctx.User.Id, Username = ctx.User.Username, AvatarUrl = ctx.User.GetAvatarUrl()
+        });
+        queue.Add(mewdekoTrack);
+        await cache.SetMusicQueue(ctx.Guild.Id, queue);
+
+        if (player.CurrentItem == null)
+        {
+            await cache.SetCurrentTrack(ctx.Guild.Id, mewdekoTrack);
+            await player.PlayAsync(selected);
+        }
+
+        var eb = new EmbedBuilder()
+            .WithAuthor(Strings.MusicAdded(ctx.Guild.Id))
+            .WithDescription($"[{selected.Title}]({selected.Uri}) by {selected.Author}")
+            .WithOkColor();
+
+        if (selected.ArtworkUri is not null)
+            eb.WithImageUrl(selected.ArtworkUri.ToString());
+
+        await FollowupAsync(embed: eb.Build());
+
+        await cache.Redis.GetDatabase().KeyDeleteAsync(key);
+        await ctx.Channel.DeleteMessageAsync(componentInteraction.Message.Id);
+    }
+
+    private async Task<bool> HasDjRole(IGuild guild, IGuildUser user)
+    {
+        if (user.GuildPermissions.Administrator) return true;
+
+        var settings = await cache.GetMusicPlayerSettings(guild.Id);
+        if (settings?.DjRoleId == null) return false;
+
+        return user.RoleIds.Contains(settings.DjRoleId.Value);
+    }
+
+    private async Task SendPlayerErrorAsync(string result)
+    {
+        var components = new ComponentBuilderV2()
+            .WithContainer([
+                new TextDisplayBuilder($"# {Strings.MusicPlayerError(ctx.Guild.Id)}")
+            ], Mewdeko.ErrorColor)
+            .WithSeparator()
+            .WithContainer(new TextDisplayBuilder(result));
+
+        if (ctx.Interaction.HasResponded)
+        {
+            await FollowupAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
+                allowedMentions: AllowedMentions.None).ConfigureAwait(false);
+            return;
+        }
+
+        await Context.Channel.SendMessageAsync(components: components.Build(),
+            flags: MessageFlags.ComponentsV2, allowedMentions: AllowedMentions.None).ConfigureAwait(false);
     }
 
     /// <summary>

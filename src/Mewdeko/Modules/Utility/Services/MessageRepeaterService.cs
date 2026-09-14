@@ -5,6 +5,7 @@ using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Utility.Common;
+using Mewdeko.Services.Analytics;
 
 namespace Mewdeko.Modules.Utility.Services;
 
@@ -16,6 +17,7 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
 {
     private readonly Mewdeko bot;
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector? collector;
     private readonly StickyConditionService? conditionService;
     private readonly IDataConnectionFactory dbFactory;
     private readonly GuildTimezoneService? guildTimezoneService;
@@ -35,13 +37,15 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
     /// <param name="conditionService">Service for evaluating sticky conditions.</param>
     /// <param name="messageCountService">Service for activity detection.</param>
     /// <param name="guildTimezoneService">Service for timezone handling.</param>
+    /// <param name="collector">The analytics collector.</param>
     public MessageRepeaterService(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
         Mewdeko bot, EventHandler handler, ILogger<MessageRepeaterService> logger,
         StickyConditionService? conditionService = null, MessageCountService? messageCountService = null,
-        GuildTimezoneService? guildTimezoneService = null)
+        GuildTimezoneService? guildTimezoneService = null, IAnalyticsCollector? collector = null)
     {
+        this.collector = collector;
         this.client = client;
         this.dbFactory = dbFactory;
         this.bot = bot;
@@ -188,7 +192,7 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
                 try
                 {
                     var runner = new RepeatRunner(client, guild, repeater, this, conditionService, messageCountService,
-                        guildTimezoneService);
+                        guildTimezoneService, collector);
                     repeaterDictionary.TryAdd(repeater.Id, runner);
                 }
                 catch (Exception ex)
@@ -403,7 +407,7 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
             if (guild == null) return null;
 
             var runner = new RepeatRunner(client, guild, toAdd, this, conditionService, messageCountService,
-                guildTimezoneService);
+                guildTimezoneService, collector);
 
             Repeaters.AddOrUpdate(guildId,
                 new ConcurrentDictionary<int, RepeatRunner>([

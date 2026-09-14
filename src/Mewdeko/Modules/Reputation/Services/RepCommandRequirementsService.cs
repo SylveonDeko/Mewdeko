@@ -21,6 +21,7 @@ public class RepCommandRequirementsService : INService, ILateBlocker
 
     private readonly BotConfig config;
     private readonly IDataConnectionFactory dbFactory;
+    private readonly SlashCommandIdentityService identity;
     private readonly ILogger<RepCommandRequirementsService> logger;
     private readonly RepService repService;
     private readonly GeneratedBotStrings strings;
@@ -38,8 +39,9 @@ public class RepCommandRequirementsService : INService, ILateBlocker
         IDataConnectionFactory dbFactory,
         GeneratedBotStrings strings,
         RepService repService,
-        ILogger<RepCommandRequirementsService> logger, BotConfig config)
+        ILogger<RepCommandRequirementsService> logger, BotConfig config, SlashCommandIdentityService identity)
     {
+        this.identity = identity;
         this.dbFactory = dbFactory;
         this.strings = strings;
         this.repService = repService;
@@ -122,7 +124,8 @@ public class RepCommandRequirementsService : INService, ILateBlocker
 
         try
         {
-            var requirement = await GetCommandRequirementInternalAsync(ctx.Guild.Id, command.MethodName);
+            var requirement =
+                await GetCommandRequirementInternalAsync(ctx.Guild.Id, identity.Resolve(command).Alias);
             if (requirement is not { IsActive: true }) return false;
 
             // Check if user has bypass roles

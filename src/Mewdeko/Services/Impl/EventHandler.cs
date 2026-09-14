@@ -2,6 +2,7 @@
 using System.Threading;
 using Discord.Interactions;
 using Discord.Rest;
+using Mewdeko.Services.Analytics;
 using Serilog;
 
 namespace Mewdeko.Services.Impl;
@@ -18,6 +19,7 @@ public sealed class EventHandler : IDisposable
     private readonly ConcurrentDictionary<string, CircuitBreaker> circuitBreakers = new();
     private readonly Timer cleanupTimer; // New cleanup timer
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
 
     // Metrics tracking with bounded collections
     private readonly ConcurrentDictionary<string, EventMetrics> eventMetrics = new();
@@ -53,15 +55,18 @@ public sealed class EventHandler : IDisposable
     /// <param name="options">Configuration options for the event handler.</param>
     /// <exception cref="ArgumentNullException">Thrown when any parameter is null.</exception>
     /// <param name="interaction">The interaction service.</param>
+    /// <param name="collector">The analytics collector that counts and times events.</param>
     public EventHandler(
         DiscordShardedClient client,
         InteractionService interaction,
         PerformanceMonitorService perfService,
         ILogger<EventHandler> logger,
-        EventHandlerOptions options)
+        EventHandlerOptions options,
+        IAnalyticsCollector collector)
     {
         this.client = client ?? throw new ArgumentNullException(nameof(client));
         this.interaction = interaction;
+        this.collector = collector;
         this.perfService = perfService ?? throw new ArgumentNullException(nameof(perfService));
         this.logger = logger;
         this.options = options ?? throw new ArgumentNullException(nameof(options));
@@ -911,16 +916,21 @@ public sealed class EventHandler : IDisposable
                     sw.Stop();
                     Interlocked.Increment(ref orCreateModuleMetrics.EventsProcessed);
                     Interlocked.Add(ref orCreateModuleMetrics.TotalExecutionTime, sw.ElapsedMilliseconds);
+                    collector.Duration("ev.duration", sw.Elapsed.TotalMilliseconds, ("type", eventType),
+                        ("module", moduleName));
                 }
                 catch (Exception)
                 {
                     sw.Stop();
                     Interlocked.Increment(ref orCreateModuleMetrics.Errors);
+                    collector.Duration("ev.duration", sw.Elapsed.TotalMilliseconds, ("type", eventType),
+                        ("module", moduleName));
                     throw;
                 }
             }
             catch (Exception ex)
             {
+                RecordHandlerError(eventType, moduleName, args, ex);
                 logger.LogError(ex, "Error executing batch handler for {EventType} in module {ModuleName}", eventType,
                     moduleName);
             }
@@ -976,6 +986,7 @@ public sealed class EventHandler : IDisposable
 
     private Task ClientOnMessageReceived(SocketMessage arg)
     {
+        CountEvent("MessageReceived", (arg.Channel as SocketGuildChannel)?.Guild);
         if (messageProcessor != null)
             messageProcessor.Enqueue(arg);
         return Task.CompletedTask;
@@ -983,6 +994,7 @@ public sealed class EventHandler : IDisposable
 
     private Task ClientOnPresenceUpdated(SocketUser arg1, SocketPresence arg2, SocketPresence arg3)
     {
+        CountEvent("PresenceUpdated", (arg1 as SocketGuildUser)?.Guild ?? arg1.MutualGuilds.FirstOrDefault());
         if (rateLimiters.TryGetValue("PresenceUpdated", out var limiter) && !limiter.TryAcquire())
             return Task.CompletedTask;
 
@@ -993,6 +1005,7 @@ public sealed class EventHandler : IDisposable
 
     private Task ClientOnUserIsTyping(Cacheable<IUser, ulong> arg1, Cacheable<IMessageChannel, ulong> arg2)
     {
+        CountEvent("UserIsTyping", (arg2.HasValue ? arg2.Value as SocketGuildChannel : null)?.Guild);
         if (rateLimiters.TryGetValue("UserIsTyping", out var limiter) && !limiter.TryAcquire())
             return Task.CompletedTask;
 
@@ -1190,6 +1203,8 @@ public sealed class EventHandler : IDisposable
             return Task.CompletedTask;
         }
 
+        CountEvent(eventType, GuildOf(args));
+
         if (!stringEventSubscriptions.TryGetValue(eventType, out var handlers))
         {
             logger.LogDebug("No subscriptions found for event type {EventType}. Available event types: {EventTypes}",
@@ -1203,19 +1218,92 @@ public sealed class EventHandler : IDisposable
         {
             foreach (var (moduleName, handler) in handlers)
             {
+                var started = Stopwatch.GetTimestamp();
                 try
                 {
                     await ExecuteHandlerByEventType(eventType, handler, args);
                 }
                 catch (Exception ex)
                 {
+                    RecordHandlerError(eventType, moduleName, args, ex);
                     logger.LogError(ex, "Error executing subscription for {EventType} in module {ModuleName}",
                         eventType,
                         moduleName);
                 }
+                finally
+                {
+                    collector.Duration("ev.duration", Stopwatch.GetElapsedTime(started).TotalMilliseconds,
+                        ("type", eventType), ("module", moduleName));
+                }
             }
         });
         return Task.CompletedTask;
+    }
+
+    private void CountEvent(string eventType, SocketGuild? guild)
+    {
+        if (guild is null)
+        {
+            collector.Event(eventType, 0);
+            return;
+        }
+
+        var shard = client.GetShardIdFor(guild);
+        collector.Event(eventType, shard);
+        collector.GuildEvent(guild.Id, eventType, shard, false);
+    }
+
+    private void RecordHandlerError<T>(string eventType, string moduleName, T args, Exception exception)
+    {
+        collector.Counter("ev.errors", 1, ("type", eventType), ("module", moduleName));
+        var guild = GuildOf(args);
+        collector.Error(exception, $"EventHandler.{eventType}", moduleName, guild?.Id,
+            guild is null ? null : client.GetShardIdFor(guild));
+    }
+
+    private static SocketGuild? GuildOf<T>(T args)
+    {
+        return args switch
+        {
+            SocketGuild guild => guild,
+            SocketGuildUser guildUser => guildUser.Guild,
+            SocketThreadUser threadUser => threadUser.Guild,
+            SocketGuildChannel guildChannel => guildChannel.Guild,
+            SocketMessage { Channel: SocketGuildChannel channel } => channel.Guild,
+            SocketRole role => role.Guild,
+            SocketInteraction { Channel: SocketGuildChannel channel } => channel.Guild,
+            SocketInvite invite => invite.Guild,
+            SocketGuildEvent guildEvent => guildEvent.Guild,
+            ValueTuple<SocketAuditLogEntry, SocketGuild> tuple => tuple.Item2,
+            ValueTuple<Cacheable<SocketGuildUser, ulong>, SocketGuildUser> tuple => tuple.Item2.Guild,
+            ValueTuple<Cacheable<IMessage, ulong>, Cacheable<IMessageChannel, ulong>> tuple =>
+                (tuple.Item2.HasValue ? tuple.Item2.Value as SocketGuildChannel : null)?.Guild,
+            ValueTuple<Cacheable<IMessage, ulong>, SocketMessage, ISocketMessageChannel> tuple =>
+                (tuple.Item3 as SocketGuildChannel)?.Guild,
+            ValueTuple<IReadOnlyCollection<Cacheable<IMessage, ulong>>, Cacheable<IMessageChannel, ulong>> tuple =>
+                (tuple.Item2.HasValue ? tuple.Item2.Value as SocketGuildChannel : null)?.Guild,
+            ValueTuple<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>> tuple =>
+                (tuple.Item2.HasValue ? tuple.Item2.Value as SocketGuildChannel : null)?.Guild,
+            ValueTuple<Cacheable<IUserMessage, ulong>, Cacheable<IMessageChannel, ulong>, SocketReaction> tuple =>
+                (tuple.Item2.HasValue ? tuple.Item2.Value as SocketGuildChannel : null)?.Guild,
+            ValueTuple<SocketUser, SocketUser> tuple => tuple.Item2.MutualGuilds.FirstOrDefault(),
+            SocketUser user => user.MutualGuilds.FirstOrDefault(),
+            ValueTuple<SocketUser, SocketGuild> tuple => tuple.Item2,
+            ValueTuple<SocketGuild, SocketUser> tuple => tuple.Item1,
+            ValueTuple<SocketGuild, SocketChannel> tuple => tuple.Item1,
+            ValueTuple<SocketGuild, SocketGuild> tuple => tuple.Item2,
+            ValueTuple<SocketUser, SocketVoiceState, SocketVoiceState> tuple =>
+                (tuple.Item1 as SocketGuildUser)?.Guild,
+            ValueTuple<SocketChannel, SocketChannel> tuple => (tuple.Item2 as SocketGuildChannel)?.Guild,
+            ValueTuple<SocketRole, SocketRole> tuple => tuple.Item2.Guild,
+            ValueTuple<SocketGuildChannel, string> tuple => tuple.Item1.Guild,
+            ValueTuple<Cacheable<SocketThreadChannel, ulong>, SocketThreadChannel?> tuple => tuple.Item2?.Guild,
+            ValueTuple<Cacheable<SocketGuildEvent, ulong>, SocketGuildEvent> tuple => tuple.Item2.Guild,
+            ValueTuple<SocketStageChannel, SocketGuildUser> tuple => tuple.Item1.Guild,
+            ValueTuple<SocketStageChannel, SocketStageChannel> tuple => tuple.Item2.Guild,
+            ValueTuple<SocketCustomSticker, SocketCustomSticker> tuple => tuple.Item2.Guild,
+            _ => null
+        };
     }
 
     #endregion

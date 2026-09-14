@@ -17,16 +17,18 @@ namespace Mewdeko.Modules.Permissions.Services;
 /// </summary>
 public class PermissionService : ILateBlocker, INService, IReadyExecutor
 {
+    /// <summary>
+    ///     Service for accessing localized bot strings.
+    /// </summary>
+    public readonly GeneratedBotStrings Strings;
+
     private readonly DiscordShardedClient client;
     private readonly BotConfig config;
     private readonly IDataConnectionFactory dbFactory;
 
     private readonly GuildSettingsService guildSettings;
 
-    /// <summary>
-    ///     Service for accessing localized bot strings.
-    /// </summary>
-    public readonly GeneratedBotStrings Strings;
+    private readonly SlashCommandIdentityService identity;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="PermissionService" /> class.
@@ -36,10 +38,13 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     /// <param name="guildSettings">The service for managing guild-specific settings.</param>
     /// <param name="client">The discord socket client</param>
     /// <param name="configService">The service for bot-wide configurations.</param>
+    /// <param name="identity">The resolver mapping slash commands to text command identities.</param>
     public PermissionService(IDataConnectionFactory dbFactory,
         GeneratedBotStrings strings,
-        GuildSettingsService guildSettings, DiscordShardedClient client, BotConfig configService)
+        GuildSettingsService guildSettings, DiscordShardedClient client, BotConfig configService,
+        SlashCommandIdentityService identity)
     {
+        this.identity = identity;
         config = configService;
         this.dbFactory = dbFactory;
         Strings = strings;
@@ -170,16 +175,16 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     public async Task<bool> TryBlockLate(DiscordShardedClient client, IInteractionContext ctx, ICommandInfo command)
     {
         var guild = ctx.Guild;
-        var commandName = command.MethodName.ToLowerInvariant();
+        var resolved = identity.Resolve(command);
 
         await Task.Yield();
         if (guild == null)
             return false;
 
-        var resetCommand = commandName == "resetperms";
+        var resetCommand = resolved.Alias == "resetperms";
 
         var pc = await GetCacheFor(guild.Id);
-        if (resetCommand || pc.Permissions.CheckSlashPermissions(command.Module.SlashGroupName, commandName, ctx.User,
+        if (resetCommand || pc.Permissions.CheckSlashPermissions(resolved.ModuleName, resolved.Alias, ctx.User,
                 ctx.Channel, out var index))
             return false;
         try

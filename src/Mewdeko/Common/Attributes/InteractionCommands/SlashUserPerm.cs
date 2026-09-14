@@ -48,8 +48,9 @@ public class SlashUserPermAttribute : PreconditionAttribute
         var permService = services.GetService<DiscordPermOverrideService>();
 
         // Try to get the permission overrides.
+        var identity = services.GetRequiredService<SlashCommandIdentityService>().Resolve(command);
         var permResult =
-            permService.TryGetOverrides(context.Guild?.Id ?? 0, command.Name.ToUpperInvariant(), out var perm);
+            permService.TryGetOverrides(context.Guild?.Id ?? 0, identity.Alias, out var perm);
 
         // If the module name is "chattriggers", check if the user is a bot owner or has the required permissions.
         if (command.Module.Name.Equals("chattriggers", StringComparison.OrdinalIgnoreCase))

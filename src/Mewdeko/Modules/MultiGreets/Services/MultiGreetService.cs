@@ -3,6 +3,7 @@ using Discord.Net;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Modules.Utility.Services;
+using Mewdeko.Services.Analytics;
 
 namespace Mewdeko.Modules.MultiGreets.Services;
 
@@ -12,6 +13,7 @@ namespace Mewdeko.Modules.MultiGreets.Services;
 public class MultiGreetService : INService
 {
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
     private readonly IDataConnectionFactory dbFactory;
     private readonly EventHandler eventHandler;
     private readonly GuildSettingsService guildSettingsService;
@@ -27,10 +29,12 @@ public class MultiGreetService : INService
     /// <param name="eventHandler">The event handler for user join events.</param>
     /// <param name="inviteCountService">The invite count service.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="collector">The analytics collector.</param>
     public MultiGreetService(IDataConnectionFactory dbFactory, DiscordShardedClient client,
         GuildSettingsService guildSettingsService, EventHandler eventHandler, InviteCountService inviteCountService,
-        ILogger<MultiGreetService> logger)
+        ILogger<MultiGreetService> logger, IAnalyticsCollector collector)
     {
+        this.collector = collector;
         this.client = client;
         this.guildSettingsService = guildSettingsService;
         this.inviteCountService = inviteCountService;
@@ -290,9 +294,12 @@ public class MultiGreetService : INService
             {
                 await SendSmartEmbedMessage(channel, content, user.Guild.Id, greet.DeleteTime);
             }
+
+            collector.Feature("greet", user.Guild.Id);
         }
         catch (HttpException ex)
         {
+            collector.Feature("greet", user.Guild.Id, false, ex.DiscordCode?.ToString() ?? ex.GetType().Name);
             if (ex.DiscordCode is DiscordErrorCode.UnknownWebhook or DiscordErrorCode.InvalidWebhookToken
                 or DiscordErrorCode.MissingPermissions)
             {

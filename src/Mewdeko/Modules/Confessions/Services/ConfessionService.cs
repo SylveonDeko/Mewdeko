@@ -2,6 +2,7 @@
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.Configs;
+using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Strings;
 
 namespace Mewdeko.Modules.Confessions.Services;
@@ -15,13 +16,15 @@ namespace Mewdeko.Modules.Confessions.Services;
 /// <param name="config">The bot configuration.</param>
 /// <param name="strings">The localization service.</param>
 /// <param name="logger">The logger instance for structured logging.</param>
+/// <param name="collector">The analytics collector.</param>
 public class ConfessionService(
     IDataConnectionFactory dbFactory,
     DiscordShardedClient client,
     GuildSettingsService guildSettings,
     BotConfig config,
     GeneratedBotStrings strings,
-    ILogger<ConfessionService> logger)
+    ILogger<ConfessionService> logger,
+    IAnalyticsCollector collector)
     : INService
 {
     /// <summary>
@@ -119,6 +122,7 @@ public class ConfessionService(
                     UserId = user.Id
                 };
                 await dbContext.InsertAsync(toadd);
+                collector.Feature("confession", serverId);
                 if (await GetConfessionLogChannel(serverId) != 0)
                 {
                     var logChannel = guild.GetTextChannel(await GetConfessionLogChannel(serverId));
@@ -206,6 +210,7 @@ public class ConfessionService(
                     UserId = user.Id
                 };
                 await dbContext.InsertAsync(toadd);
+                collector.Feature("confession", serverId);
                 if (await GetConfessionLogChannel(serverId) != 0)
                 {
                     var logChannel = guild.GetTextChannel(await GetConfessionLogChannel(serverId));
@@ -223,6 +228,7 @@ public class ConfessionService(
         }
         catch (Exception e)
         {
+            collector.Feature("confession", serverId, false, e.GetType().Name);
             logger.LogInformation($"{e}");
         }
     }

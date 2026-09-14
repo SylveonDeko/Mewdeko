@@ -139,22 +139,43 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
     /// <summary>
     ///     Sets or resets a role that can change command permissions without requiring admin rights.
     /// </summary>
-    /// <param name="role">The role to set as the permission role. If null, resets the permission role.</param>
+    /// <param name="role">The role to set as the permission role. If null, shows the current permission role.</param>
+    /// <param name="reset">Whether to reset the permission role to its default state.</param>
     /// <remarks>
     ///     This command allows for setting a specific role to manage command permissions, providing a way to delegate
     ///     permissions management without granting full Administrator rights.
-    ///     If the command is invoked without specifying a role, or if the @everyone role is selected, it will reset the
-    ///     permission role to its default state.
+    ///     If the command is invoked without specifying a role, it shows the current permission role. Passing reset
+    ///     clears the permission role to its default state.
     ///     Requires Administrator permissions to execute. Confirmation is sent upon changing the permission role.
     /// </remarks>
     [SlashCommand("permrole", "Sets a role to change command permissions without admin")]
     [Discord.Interactions.RequireContext(ContextType.Guild)]
     [SlashUserPerm(GuildPermission.Administrator)]
     [Priority(0)]
-    public async Task PermRole(IRole? role = null)
+    public async Task PermRole(IRole? role = null,
+        [Discord.Interactions.Summary("reset", "Reset the permission role")]
+        bool reset = false)
     {
         if (role != null && role == role.Guild.EveryoneRole)
             return;
+
+        if (role == null && !reset)
+        {
+            var cache = await Service.GetCacheFor(ctx.Guild.Id);
+            if (!ulong.TryParse(cache.PermRole, out var roleId) ||
+                (role = ((SocketGuild)ctx.Guild).GetRole(roleId)) == null)
+            {
+                await ReplyConfirmAsync(Strings.PermroleNotSet(ctx.Guild.Id))
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                await ReplyConfirmAsync(Strings.Permrole(ctx.Guild.Id, Format.Bold(role.ToString())))
+                    .ConfigureAwait(false);
+            }
+
+            return;
+        }
 
         await using var dbContext = await dbFactory.CreateConnectionAsync();
 
@@ -162,7 +183,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var config = await dbContext.GuildConfigs
             .FirstOrDefaultAsync(gc => gc.GuildId == ctx.Guild.Id);
 
-        if (role == null)
+        if (reset || role == null)
         {
             config.PermissionRole = 0.ToString();
 
@@ -300,6 +321,81 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
     }
 
     /// <summary>
+    ///     Moves a permission higher in the hierarchy.
+    /// </summary>
+    /// <param name="from">Initial index of the permission, as shown in listperms.</param>
+    /// <param name="to">Replacement index for the permission.</param>
+    [SlashCommand("move-perm", "Move a permission to a different position in the list")]
+    [Discord.Interactions.RequireContext(ContextType.Guild)]
+    [PermRoleCheck]
+    public async Task MovePerm(
+        [Discord.Interactions.Summary("from", "Current number of the permission")]
+        int from,
+        [Discord.Interactions.Summary("to", "Number to move the permission to")]
+        int to)
+    {
+        from--;
+        to--;
+        if (!(from == to || from < 0 || to < 0))
+        {
+            try
+            {
+                await using var dbContext = await dbFactory.CreateConnectionAsync();
+
+                var permissions = await dbContext.Permissions1
+                    .Where(p => p.GuildId == ctx.Guild.Id)
+                    .OrderBy(p => p.Index)
+                    .ToListAsync();
+
+                var config = await guildSettings.GetGuildConfig(ctx.Guild.Id);
+
+                var permsCol = new List<Permission1>(permissions);
+
+                var fromFound = from < permsCol.Count;
+                var toFound = to < permsCol.Count;
+
+                if (!fromFound)
+                {
+                    await ReplyErrorAsync(Strings.PermNotFound(ctx.Guild.Id, ++from)).ConfigureAwait(false);
+                    return;
+                }
+
+                if (!toFound)
+                {
+                    await ReplyErrorAsync(Strings.PermNotFound(ctx.Guild.Id, ++to)).ConfigureAwait(false);
+                    return;
+                }
+
+                var fromPerm = permsCol[from];
+
+                permsCol.RemoveAt(from);
+                permsCol.Insert(to, fromPerm);
+
+                for (var i = 0; i < permsCol.Count; i++)
+                {
+                    permsCol[i].Index = i;
+                    await dbContext.UpdateAsync(permsCol[i]);
+                }
+
+                Service.UpdateCache(ctx.Guild.Id, permsCol.ToList(), config);
+
+                await ReplyConfirmAsync(Strings.MovedPermission(ctx.Guild.Id,
+                        Format.Code(fromPerm.GetCommand(await guildSettings.GetPrefix(ctx.Guild),
+                            (SocketGuild)ctx.Guild)),
+                        ++from,
+                        ++to))
+                    .ConfigureAwait(false);
+                return;
+            }
+            catch (Exception e) when (e is ArgumentOutOfRangeException or IndexOutOfRangeException)
+            {
+            }
+        }
+
+        await ReplyErrorAsync(Strings.PermOutOfRange(ctx.Guild.Id)).ConfigureAwait(false);
+    }
+
+    /// <summary>
     ///     Enables or disables a specific command server-wide.
     /// </summary>
     /// <param name="command">The command to set permissions on.</param>
@@ -313,7 +409,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
     [SlashCommand("servercommand", "Enable or disable a command in the server")]
     [Discord.Interactions.RequireContext(ContextType.Guild)]
     [PermRoleCheck]
-    public async Task ServerCmd(
+    public async Task SrvrCmd(
         [Discord.Interactions.Summary("command", "the command to set permissions on")]
         [Autocomplete(typeof(GenericCommandAutocompleter))]
         string command,

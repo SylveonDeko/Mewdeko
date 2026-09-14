@@ -7,6 +7,7 @@ using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Services.Settings;
+using ContextType = Discord.Interactions.ContextType;
 
 namespace Mewdeko.Modules.Help;
 
@@ -261,6 +262,57 @@ public class HelpSlashCommand(
     }
 
     /// <summary>
+    ///     Shows commands for a specific module, optionally narrowed by a search term.
+    /// </summary>
+    /// <param name="module">The module to look at.</param>
+    /// <param name="filter">An optional term to filter the module's commands by.</param>
+    [SlashCommand("commands", "Shows the commands in a module")]
+    [CheckPermissions]
+    public async Task Commands(
+        [Discord.Interactions.Summary("module", "The module to list commands for")]
+        [Autocomplete(typeof(ModuleAutoCompleter))]
+        string module,
+        [Discord.Interactions.Summary("filter", "Only show commands matching this term")]
+        string? filter = null)
+    {
+        var resolved = Service.ResolveModule(module, out var candidates);
+        if (resolved is null)
+        {
+            if (candidates.Count > 1)
+            {
+                await ReplyErrorAsync(Strings.ModuleAmbiguous(ctx.Guild.Id,
+                    string.Join(", ", candidates.Select(c => c.Name)))).ConfigureAwait(false);
+                return;
+            }
+
+            await ReplyErrorAsync(Strings.ModuleNotFoundOrCantExec(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(filter))
+        {
+            var overview = Service.GetModuleOverview(resolved.Name, ctx.Guild);
+            if (overview is not null)
+            {
+                await RespondAsync(embed: overview.Value.Embed.Build(),
+                    components: overview.Value.Components.Build()).ConfigureAwait(false);
+                return;
+            }
+        }
+
+        var builder = await Service.BuildCommandPaginator(resolved.Name, null, filter, ctx.Guild, ctx.User);
+        if (builder is null)
+        {
+            await ReplyErrorAsync(Strings.HelpSearchNoResults(ctx.Guild.Id, resolved.Name, filter ?? ""))
+                .ConfigureAwait(false);
+            return;
+        }
+
+        await interactivity.SendPaginatorAsync(builder.Build(), (ctx.Interaction as SocketInteraction)!,
+            TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+    }
+
+    /// <summary>
     ///     Allows you to run a command from the commands help.
     /// </summary>
     /// <param name="command">The command in question</param>
@@ -320,5 +372,49 @@ public class HelpSlashCommand(
             x.Embed = embed.Build();
             x.Components = Service.GetHelpComponents(ctx.Guild, ctx.User, !description).Build();
         }).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Shows how to support the bot.
+    /// </summary>
+    [SlashCommand("donate", "Shows how to support the bot")]
+    [CheckPermissions]
+    public async Task Donate()
+    {
+        await ctx.Interaction.SendConfirmAsync(Strings.DonateMessage(ctx.Guild?.Id ?? 0));
+    }
+
+    /// <summary>
+    ///     Shows the guide for the bot.
+    /// </summary>
+    [SlashCommand("guide", "Shows the guide for the bot")]
+    [CheckPermissions]
+    public async Task Guide()
+    {
+        await ctx.Interaction.SendConfirmAsync(Strings.GuideMessage(ctx.Guild?.Id ?? 0));
+    }
+
+    /// <summary>
+    ///     Shows the source code link for the bot.
+    /// </summary>
+    [SlashCommand("source", "Shows the source code link for the bot")]
+    [CheckPermissions]
+    public async Task Source()
+    {
+        await ctx.Interaction.SendConfirmAsync(Strings.SourceMessage(ctx.Guild?.Id ?? 0));
+    }
+
+    /// <summary>
+    ///     Shows a link to vote for the bot.
+    /// </summary>
+    [SlashCommand("vote", "Shows a link to vote for the bot")]
+    [Discord.Interactions.RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    public async Task Vote()
+    {
+        await ctx.Interaction.RespondAsync(embed: new EmbedBuilder()
+            .WithOkColor()
+            .WithDescription(Strings.VoteDescription(ctx.Guild.Id))
+            .Build());
     }
 }

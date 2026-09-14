@@ -1,4 +1,5 @@
-﻿using Discord.Interactions;
+﻿using System.Net.Http;
+using Discord.Interactions;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Common.Modals;
@@ -152,6 +153,136 @@ public partial class SlashUtility
                 .WithOkColor()
                 .WithDescription(Strings.AiSystemPromptUpdated(ctx.Guild.Id))
                 .Build());
+        }
+
+        /// <summary>
+        ///     Sets the webhook for AI responses in this guild. Leaving the name empty disables the webhook.
+        /// </summary>
+        /// <param name="name">The name of the webhook. If null, disables the webhook.</param>
+        /// <param name="avatar">Optional URL for the webhook's avatar.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        [SlashCommand("webhook", "Set or disable the webhook used for AI responses")]
+        [RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [RequireBotPermission(GuildPermission.ManageWebhooks)]
+        public async Task AiWebhook(
+            [Summary("name", "Webhook name. Leave empty to disable the webhook")]
+            string? name = null,
+            [Summary("avatar", "Url of the webhook avatar")]
+            string? avatar = null)
+        {
+            await DeferAsync();
+            var config = await Service.GetOrCreateConfig(ctx.Guild.Id);
+            var channel = await ctx.Guild.GetTextChannelAsync(config.ChannelId);
+
+            if (name is null)
+            {
+                await Service.SetWebhook(ctx.Guild.Id, null);
+                await ConfirmAsync(Strings.AiWebhookDisabled(ctx.Guild.Id));
+                return;
+            }
+
+            if (channel is null)
+            {
+                await ErrorAsync(Strings.AiNoChannelSet(ctx.Guild.Id, Config.Prefix));
+                return;
+            }
+
+            if (avatar is not null)
+            {
+                if (!Uri.IsWellFormedUriString(avatar, UriKind.Absolute))
+                {
+                    await ErrorAsync(Strings.AiWebhookInvalidAvatar(ctx.Guild.Id));
+                    return;
+                }
+
+                var http = new HttpClient();
+                using var sr = await http.GetAsync(avatar, HttpCompletionOption.ResponseHeadersRead);
+                var imgData = await sr.Content.ReadAsByteArrayAsync();
+                var imgStream = imgData.ToStream();
+                await using var _ = imgStream;
+                var webhook = await channel.CreateWebhookAsync(name, imgStream);
+                await Service.SetWebhook(ctx.Guild.Id,
+                    $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}");
+            }
+            else
+            {
+                var webhook = await channel.CreateWebhookAsync(name);
+                await Service.SetWebhook(ctx.Guild.Id,
+                    $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}");
+            }
+
+            await ConfirmAsync(Strings.AiWebhookSet(ctx.Guild.Id));
+        }
+
+        /// <summary>
+        ///     Enables or disables web search for AI (Claude only).
+        /// </summary>
+        /// <param name="enabled">Whether to enable or disable web search.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        [SlashCommand("web-search", "Enable or disable web search for AI responses (Claude only)")]
+        [RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.ManageGuild)]
+        public async Task AiWebSearch(bool enabled)
+        {
+            var config = await Service.GetOrCreateConfig(ctx.Guild.Id);
+
+            if (config.Provider != (int)AiService.AiProvider.Claude)
+            {
+                await ErrorAsync(Strings.AiWebSearchClaudeOnly(ctx.Guild.Id));
+                return;
+            }
+
+            config.WebSearchEnabled = enabled;
+            await Service.UpdateConfig(config);
+
+            if (enabled)
+                await ConfirmAsync(Strings.AiWebSearchEnabled(ctx.Guild.Id));
+            else
+                await ConfirmAsync(Strings.AiWebSearchDisabled(ctx.Guild.Id));
+        }
+
+        /// <summary>
+        ///     Sets or displays the custom embed template for AI responses.
+        ///     Use %airesponse% to specify where the AI response should appear in the embed.
+        /// </summary>
+        /// <param name="view">When true, shows the current template instead of opening the editor.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        [SlashCommand("custom-embed", "Set or view the custom embed template for AI responses")]
+        [RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        public async Task AiCustomEmbed(
+            [Summary("view", "Show the current template instead of editing it")]
+            bool view = false)
+        {
+            if (!view)
+            {
+                await RespondWithModalAsync<AiCustomEmbedModal>("utility_ai_custom_embed");
+                return;
+            }
+
+            var config = await Service.GetOrCreateConfig(ctx.Guild.Id);
+            if (string.IsNullOrEmpty(config.CustomEmbed))
+            {
+                await ErrorAsync(Strings.AiNoCustomEmbed(ctx.Guild.Id));
+                return;
+            }
+
+            await ConfirmAsync(config.CustomEmbed);
+        }
+
+        /// <summary>
+        ///     Handles the custom embed modal and stores the submitted template.
+        /// </summary>
+        /// <param name="modal">The modal containing the embed template.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        [ModalInteraction("utility_ai_custom_embed", true)]
+        [RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        public async Task AiCustomEmbedSubmitted(AiCustomEmbedModal modal)
+        {
+            await Service.SetCustomEmbed(ctx.Guild.Id, modal.EmbedTemplate);
+            await ConfirmAsync(Strings.AiCustomEmbedSet(ctx.Guild.Id));
         }
 
         /// <summary>

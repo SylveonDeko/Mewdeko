@@ -31,6 +31,160 @@ public class MewdekoDb : DataConnection
     public ITable<ChatTriggerCounter> ChatTriggerCounters => this.GetTable<ChatTriggerCounter>();
 
     /// <summary>
+    ///     Analytics metric buckets at 1, 5 and 60 minute resolution.
+    /// </summary>
+    public ITable<AnalyticsBucket> AnalyticsBuckets
+    {
+        get
+        {
+            return this.GetTable<AnalyticsBucket>();
+        }
+    }
+
+    /// <summary>
+    ///     Analytics raw command and interaction executions.
+    /// </summary>
+    public ITable<AnalyticsCommandInvocation> AnalyticsCommandInvocations
+    {
+        get
+        {
+            return this.GetTable<AnalyticsCommandInvocation>();
+        }
+    }
+
+    /// <summary>
+    ///     Analytics hourly feature use per guild.
+    /// </summary>
+    public ITable<AnalyticsFeatureActivity> AnalyticsFeatureActivities
+    {
+        get
+        {
+            return this.GetTable<AnalyticsFeatureActivity>();
+        }
+    }
+
+    /// <summary>
+    ///     Analytics hourly gateway event counts per guild.
+    /// </summary>
+    public ITable<AnalyticsGuildActivity> AnalyticsGuildActivities
+    {
+        get
+        {
+            return this.GetTable<AnalyticsGuildActivity>();
+        }
+    }
+
+    /// <summary>
+    ///     Analytics raw security relevant guild events.
+    /// </summary>
+    public ITable<AnalyticsGuildEventLog> AnalyticsGuildEventLogs
+    {
+        get
+        {
+            return this.GetTable<AnalyticsGuildEventLog>();
+        }
+    }
+
+    /// <summary>
+    ///     Analytics distinct error messages per hour.
+    /// </summary>
+    public ITable<AnalyticsErrorSample> AnalyticsErrorSamples
+    {
+        get
+        {
+            return this.GetTable<AnalyticsErrorSample>();
+        }
+    }
+
+    /// <summary>
+    ///     Analytics nightly fleet snapshots.
+    /// </summary>
+    public ITable<AnalyticsDailySnapshot> AnalyticsDailySnapshots
+    {
+        get
+        {
+            return this.GetTable<AnalyticsDailySnapshot>();
+        }
+    }
+
+    /// <summary>
+    ///     Analytics daily metric totals.
+    /// </summary>
+    public ITable<AnalyticsDailyTotal> AnalyticsDailyTotals
+    {
+        get
+        {
+            return this.GetTable<AnalyticsDailyTotal>();
+        }
+    }
+
+    /// <summary>
+    ///     Analytics nightly configuration census.
+    /// </summary>
+    public ITable<AnalyticsConfigCensus> AnalyticsConfigCensuses
+    {
+        get
+        {
+            return this.GetTable<AnalyticsConfigCensus>();
+        }
+    }
+
+    /// <summary>
+    ///     Analytics dashboard page views.
+    /// </summary>
+    public ITable<AnalyticsPageView> AnalyticsPageViews
+    {
+        get
+        {
+            return this.GetTable<AnalyticsPageView>();
+        }
+    }
+
+    /// <summary>
+    ///     Analytics metric registry.
+    /// </summary>
+    public ITable<AnalyticsMetricRegistry> AnalyticsMetricRegistries
+    {
+        get
+        {
+            return this.GetTable<AnalyticsMetricRegistry>();
+        }
+    }
+
+    /// <summary>
+    ///     Analytics alert rules.
+    /// </summary>
+    public ITable<AnalyticsAlertRule> AnalyticsAlertRules
+    {
+        get
+        {
+            return this.GetTable<AnalyticsAlertRule>();
+        }
+    }
+
+    /// <summary>
+    ///     Analytics alert live state per rule and group.
+    /// </summary>
+    public ITable<AnalyticsAlertState> AnalyticsAlertStates
+    {
+        get
+        {
+            return this.GetTable<AnalyticsAlertState>();
+        }
+    }
+
+    /// <summary>
+    ///     Analytics alert state transitions.
+    /// </summary>
+    public ITable<AnalyticsAlertEvent> AnalyticsAlertEvents
+    {
+        get
+        {
+            return this.GetTable<AnalyticsAlertEvent>();
+        }
+    }
+
+    /// <summary>
     ///     Feedback collected from guild owners after the bot was removed from their server.
     /// </summary>
     public ITable<GuildLeaveFeedback> GuildLeaveFeedbacks

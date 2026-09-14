@@ -8,6 +8,7 @@ using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Moderation.Services;
+using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Strings;
 using DiscordShardedClient = Discord.WebSocket.DiscordShardedClient;
 
@@ -24,13 +25,15 @@ namespace Mewdeko.Modules.Administration.Services;
 /// <param name="muteService">The mute service.</param>
 /// <param name="strings">The localization service.</param>
 /// <param name="logger">The logger instance for structured logging.</param>
+/// <param name="collector">The analytics collector.</param>
 public class LogCommandService(
     IDataConnectionFactory dbFactory,
     DiscordShardedClient client,
     EventHandler handler,
     MuteService muteService,
     GeneratedBotStrings strings,
-    ILogger<LogCommandService> logger) : INService, IReadyExecutor
+    ILogger<LogCommandService> logger,
+    IAnalyticsCollector collector) : INService, IReadyExecutor
 {
     /// <summary>
     ///     Result of toggling a channel's ignore status
@@ -320,6 +323,7 @@ public class LogCommandService(
 
             await channel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
                 allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", channel.Guild.Id);
         }
     }
 
@@ -579,6 +583,7 @@ public class LogCommandService(
             if (components.Components.Count > 0)
                 await channel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
                     allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", channel.Guild.Id);
         }
     }
 
@@ -615,6 +620,7 @@ public class LogCommandService(
 
             await channel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
                 allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", channel.Guild.Id);
         }
     }
 
@@ -717,6 +723,7 @@ public class LogCommandService(
             if (components.Components.Count > 0)
                 await channel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
                     allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", channel.Guild.Id);
         }
     }
 
@@ -762,6 +769,7 @@ public class LogCommandService(
 
             await channel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
                 allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", channel.Guild.Id);
         }
     }
 
@@ -799,6 +807,7 @@ public class LogCommandService(
 
             await channel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
                 allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", channel.Guild.Id);
         }
     }
 
@@ -839,6 +848,7 @@ public class LogCommandService(
 
         await channel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
             allowedMentions: AllowedMentions.None);
+        collector.Feature("logging", channel.Guild.Id);
     }
 
 
@@ -878,6 +888,7 @@ public class LogCommandService(
 
         await channel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
             allowedMentions: AllowedMentions.None);
+        collector.Feature("logging", channel.Guild.Id);
     }
 
 
@@ -915,6 +926,7 @@ public class LogCommandService(
 
                 await channel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
                     allowedMentions: AllowedMentions.None);
+                collector.Feature("logging", channel.Guild.Id);
             }
         }
     }
@@ -954,6 +966,7 @@ public class LogCommandService(
 
             await channel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
                 allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", channel.Guild.Id);
         }
     }
 
@@ -1004,6 +1017,7 @@ public class LogCommandService(
 
             await channel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
                 allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", channel.Guild.Id);
         }
     }
 
@@ -1100,6 +1114,7 @@ public class LogCommandService(
             if (components.Components.Count > 0)
                 await channel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
                     allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", channel.Guild.Id);
         }
     }
 
@@ -1184,6 +1199,7 @@ public class LogCommandService(
 
             await channel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
                 allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", channel.Guild.Id);
         }
     }
 
@@ -1354,6 +1370,7 @@ public class LogCommandService(
                         components: components.Build(),
                         flags: MessageFlags.ComponentsV2,
                         allowedMentions: AllowedMentions.None);
+                    collector.Feature("logging", logChannel.Guild.Id);
                 }
             }
             finally
@@ -1434,6 +1451,7 @@ public class LogCommandService(
 
             await channel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
                 allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", channel.Guild.Id);
         }
     }
 
@@ -1524,6 +1542,7 @@ public class LogCommandService(
 
             await channel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
                 allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", channel.Guild.Id);
         }
     }
 
@@ -1572,6 +1591,7 @@ public class LogCommandService(
 
             await channel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
                 allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", channel.Guild.Id);
         }
     }
 
@@ -1614,6 +1634,7 @@ public class LogCommandService(
 
             await channel.SendMessageAsync(components: components.Build(),
                 flags: MessageFlags.ComponentsV2, allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", channel.Guild.Id);
         }
     }
 
@@ -1665,6 +1686,7 @@ public class LogCommandService(
 
                 await logChannel.SendMessageAsync(components: avatarComponents.Build(),
                     flags: MessageFlags.ComponentsV2, allowedMentions: AllowedMentions.None);
+                collector.Feature("logging", logChannel.Guild.Id);
             }
 
             if (!hasGlobalNameChanged) continue;
@@ -1688,6 +1710,7 @@ public class LogCommandService(
 
             await logChannel.SendMessageAsync(components: globalNameComponents.Build(),
                 flags: MessageFlags.ComponentsV2, allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", logChannel.Guild.Id);
         }
     }
 
@@ -1741,6 +1764,7 @@ public class LogCommandService(
 
             await logChannel.SendMessageAsync(components: components.Build(),
                 flags: MessageFlags.ComponentsV2, allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", logChannel.Guild.Id);
         }
     }
 
@@ -1794,6 +1818,7 @@ public class LogCommandService(
 
             await logChannel.SendMessageAsync(components: components.Build(),
                 flags: MessageFlags.ComponentsV2, allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", logChannel.Guild.Id);
         }
     }
 
@@ -1935,6 +1960,7 @@ public class LogCommandService(
 
                 await logChannel.SendMessageAsync(components: components.Build(),
                     flags: MessageFlags.ComponentsV2, allowedMentions: AllowedMentions.None);
+                collector.Feature("logging", logChannel.Guild.Id);
             }
         }
     }
@@ -2052,6 +2078,7 @@ public class LogCommandService(
 
                 await logChannel.SendMessageAsync(components: components.Build(),
                     flags: MessageFlags.ComponentsV2, allowedMentions: AllowedMentions.None);
+                collector.Feature("logging", logChannel.Guild.Id);
             }
         }
     }
@@ -2118,6 +2145,7 @@ public class LogCommandService(
 
             await logChannel.SendMessageAsync(components: components.Build(),
                 flags: MessageFlags.ComponentsV2, allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", logChannel.Guild.Id);
         }
     }
 
@@ -2155,6 +2183,7 @@ public class LogCommandService(
 
             await logChannel.SendMessageAsync(components: components.Build(),
                 flags: MessageFlags.ComponentsV2, allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", logChannel.Guild.Id);
         }
     }
 
@@ -2539,6 +2568,7 @@ public class LogCommandService(
 
             await channel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
                 allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", channel.Guild.Id);
         }
     }
 
@@ -2572,6 +2602,7 @@ public class LogCommandService(
 
             await logChannel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
                 allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", logChannel.Guild.Id);
         }
     }
 
@@ -2624,6 +2655,7 @@ public class LogCommandService(
 
             await logChannel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
                 allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", logChannel.Guild.Id);
         }
     }
 
@@ -2791,6 +2823,7 @@ public class LogCommandService(
         {
             await logChannel.SendMessageAsync(components: components.Build(), flags: MessageFlags.ComponentsV2,
                 allowedMentions: AllowedMentions.None);
+            collector.Feature("logging", logChannel.Guild.Id);
         }
         catch (Exception ex)
         {

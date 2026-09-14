@@ -5,6 +5,7 @@ using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Counting.Common;
+using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Strings;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -33,6 +34,7 @@ public class CountingService : INService, IReadyExecutor
 
     private readonly IMemoryCache cache;
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
     private readonly IDataConnectionFactory dbFactory;
     private readonly EventHandler eventHandler;
     private readonly ILogger<CountingService> logger;
@@ -50,7 +52,7 @@ public class CountingService : INService, IReadyExecutor
         DiscordShardedClient client,
         CountingStatsService statsService,
         CountingModerationService moderationService,
-        EventHandler eventHandler, GeneratedBotStrings strings)
+        EventHandler eventHandler, GeneratedBotStrings strings, IAnalyticsCollector collector)
     {
         this.dbFactory = dbFactory;
         this.cache = cache;
@@ -60,6 +62,7 @@ public class CountingService : INService, IReadyExecutor
         this.moderationService = moderationService;
         this.eventHandler = eventHandler;
         this.strings = strings;
+        this.collector = collector;
 
         // Subscribe to message events
         this.eventHandler.Subscribe("MessageReceived", "CountingService", MessageReceived);
@@ -242,6 +245,7 @@ public class CountingService : INService, IReadyExecutor
         if (parseResult.Number != expectedNumber)
         {
             await HandleWrongNumberAsync(channel, config, userId, messageId, parseResult.Number, expectedNumber);
+            collector.Feature("counting", channel.GuildId, false, "wrong_number");
             return new CountingResult
             {
                 Success = false,
@@ -277,6 +281,8 @@ public class CountingService : INService, IReadyExecutor
         // Log the successful count
         await LogEventAsync(channelId, CountingEventType.SuccessfulCount, userId,
             channel.CurrentNumber, parseResult.Number, messageId);
+
+        collector.Feature("counting", channel.GuildId);
 
         return new CountingResult
         {

@@ -12,13 +12,16 @@ public class GlobalPermissionService : ILateBlocker, INService
 {
     private readonly BotConfigService bss;
 
+    private readonly SlashCommandIdentityService identity;
+
     /// <summary>
     ///     Initializes a new instance of the <see cref="GlobalPermissionService" /> class.
     /// </summary>
     /// <param name="bss">The bot configuration service.</param>
-    public GlobalPermissionService(BotConfigService bss)
+    public GlobalPermissionService(BotConfigService bss, SlashCommandIdentityService identity)
     {
         this.bss = bss;
+        this.identity = identity;
     }
 
     /// <summary>
@@ -79,11 +82,11 @@ public class GlobalPermissionService : ILateBlocker, INService
         ICommandInfo command)
     {
         var settings = bss.Data;
-        var commandName = command.MethodName.ToLowerInvariant();
+        var resolved = identity.Resolve(command);
 
-        // If the command is blocked, prevent its execution unless it's the resetglobalperms command
-        return Task.FromResult(commandName != "resetglobalperms" &&
-                               settings.Blocked.Commands.Contains(commandName));
+        return Task.FromResult(resolved.Alias != "resetglobalperms" &&
+                               (settings.Blocked.Commands.Contains(resolved.Alias) ||
+                                settings.Blocked.Modules.Contains(resolved.ModuleName.ToLowerInvariant())));
     }
 
     /// <summary>

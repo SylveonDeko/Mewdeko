@@ -90,7 +90,7 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     /// </summary>
     [SlashCommand("deletestatsdata", "Deletes your stats data, irreversible.")]
     [InteractionRatelimit(3600)]
-    public async Task DeleteStatsData()
+    public async Task DeleteUserStatsData()
     {
         if (await PromptUserConfirmAsync(
                 "Are you sure you want to delete your command stats? This action is irreversible!", ctx.User.Id))
@@ -507,5 +507,20 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         {
             await RespondAsync("Failed to dm user.").ConfigureAwait(false);
         }
+    }
+
+    /// <summary>
+    ///     Toggles opting out of greet dms. Only works if the server being joined uses mewdeko for dm greets.
+    /// </summary>
+    [SlashCommand("greet-dm-opt-out", "Toggle whether you receive greet dms from servers using Mewdeko")]
+    [CheckPermissions]
+    public async Task GreetDmOptOut()
+    {
+        var optOut = await Service.ToggleDmGreetOptOutAsync(ctx.User);
+
+        if (optOut)
+            await EphemeralReplyConfirmAsync(Strings.GreetdmOptOut(ctx.Guild?.Id ?? 0));
+        else
+            await EphemeralReplyConfirmAsync(Strings.GreetdmOptIn(ctx.Guild?.Id ?? 0));
     }
 }

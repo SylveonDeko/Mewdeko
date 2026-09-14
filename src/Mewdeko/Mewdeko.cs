@@ -147,9 +147,11 @@ public class Mewdeko : IDisposable
             new TryParseTypeReader<Emote>(Emote.TryParse),
             new TryParseTypeReader<Emoji>(Emoji.TryParse));
 
+        interactionService.AddTypeConverter<ulong>(new UlongConverter());
         interactionService.AddTypeConverter<TimeSpan>(new TimeSpanConverter());
         interactionService.AddTypeConverter<IRole[]>(new RoleArrayConverter());
         interactionService.AddTypeConverter<IUser[]>(new UserArrayConverter());
+        interactionService.AddTypeConverter<IGuildChannel[]>(new ChannelArrayConverter());
         interactionService.AddTypeConverter<StatusRole>(new StatusRolesTypeConverter());
 
 

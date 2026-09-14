@@ -20,12 +20,13 @@ namespace Mewdeko.Modules.Moderation;
 /// </summary>
 [Group("moderation", "Do all your moderation stuffs here!")]
 [CheckPermissions]
-public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
+public partial class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
 {
     private readonly BanPruneService banPrune;
     private readonly IDataConnectionFactory dbFactory;
     private readonly InteractiveService interactivity;
     private readonly ILogger<SlashPunishCommands> logger;
+    private readonly MuteService mute;
     private readonly NekosBestApi nekos;
 
 
@@ -37,15 +38,17 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
     /// <param name="nekos">The service used to get anime gifs from the nekos.best api</param>
     /// <param name="banPrune">The service resolving how many days of messages a ban purges</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="mute">The mute service used for timed bans</param>
     public SlashPunishCommands(IDataConnectionFactory dbFactory,
         InteractiveService serv,
-        NekosBestApi nekos, BanPruneService banPrune, ILogger<SlashPunishCommands> logger)
+        NekosBestApi nekos, BanPruneService banPrune, ILogger<SlashPunishCommands> logger, MuteService mute)
     {
         interactivity = serv;
         this.nekos = nekos;
         this.banPrune = banPrune;
         this.logger = logger;
         this.dbFactory = dbFactory;
+        this.mute = mute;
     }
 
     /// <summary>
@@ -560,11 +563,14 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
     /// <param name="user">The user to ban</param>
     /// <param name="reason">The reason for the ban</param>
     /// <param name="time">The duration of the ban</param>
+    /// <param name="pruneDays">How many days of messages to delete, overrides the configured purge</param>
     [SlashCommand("ban", "Bans a user by their ID")]
     [RequireContext(ContextType.Guild)]
     [SlashUserPerm(GuildPermission.BanMembers)]
     [BotPerm(GuildPermission.BanMembers)]
-    public async Task Ban(IGuildUser? user, string reason = null, string time = null)
+    public async Task Ban(IGuildUser? user, string reason = null, string time = null,
+        [Summary("prune-days", "How many days of messages to delete, 0 to 7")] [MinValue(0)] [MaxValue(7)]
+        int? pruneDays = null)
     {
         if (time is not null)
         {
@@ -580,11 +586,11 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
                 return;
             }
 
-            await InternalBanAsync(user: user, reason: reason, time: stoopid.Time);
+            await InternalBanAsync(user: user, reason: reason, time: stoopid.Time, pruneDays: pruneDays);
         }
         else
         {
-            await InternalBanAsync(user: user, reason: reason);
+            await InternalBanAsync(user: user, reason: reason, pruneDays: pruneDays);
         }
     }
 
@@ -593,7 +599,8 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         bool hackBan = false,
         string reason = null,
         TimeSpan time = default,
-        IGuildUser? user = null)
+        IGuildUser? user = null,
+        int? pruneDays = null)
     {
         if (hackBan)
         {
@@ -649,17 +656,36 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
                     dmFailed = true;
                 }
 
-                await ctx.Guild.AddBanAsync(user, time.Days, options: new RequestOptions
+                if (pruneDays.HasValue)
                 {
-                    AuditLogReason = $"{ctx.User} | {reason}"
-                }).ConfigureAwait(false);
+                    await mute.TimedBan(ctx.Guild, user, time, $"{ctx.User} | {reason}",
+                        TimeSpan.FromDays(pruneDays.Value)).ConfigureAwait(false);
+                }
+                else
+                {
+                    await ctx.Guild.AddBanAsync(user, time.Days, options: new RequestOptions
+                    {
+                        AuditLogReason = $"{ctx.User} | {reason}"
+                    }).ConfigureAwait(false);
+                }
 
                 var toSend = new EmbedBuilder().WithOkColor()
                     .WithTitle($"⛔️ {Strings.BannedUser(ctx.Guild.Id)}")
                     .AddField(efb =>
                         efb.WithName(Strings.Username(ctx.Guild.Id)).WithValue(user.ToString()).WithIsInline(true))
-                    .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true))
-                    .WithImageUrl((await nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
+                    .AddField(efb => efb.WithName("ID").WithValue(user.Id.ToString()).WithIsInline(true));
+
+                if (pruneDays.HasValue)
+                {
+                    toSend.AddField(efb =>
+                        efb.WithName(Strings.Duration(ctx.Guild.Id))
+                            .WithValue($"{time.Days}d {time.Hours}h {time.Minutes}m")
+                            .WithIsInline(true));
+                }
+                else
+                {
+                    toSend.WithImageUrl((await nekos.ActionsApi.Kick().ConfigureAwait(false)).Results.First().Url);
+                }
 
                 if (dmFailed) toSend.WithFooter($"⚠️ {Strings.UnableToDmUser(ctx.Guild.Id)}");
 
@@ -688,10 +714,10 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
                     dmFailed = true;
                 }
 
-                var pruneDays = await banPrune
+                var banPruneDays = pruneDays ?? await banPrune
                     .GetPruneDaysAsync(ctx.Guild.Id, BanPruneAction.Ban, ctx.Channel)
                     .ConfigureAwait(false);
-                await ctx.Guild.AddBanAsync(user, pruneDays, options: new RequestOptions
+                await ctx.Guild.AddBanAsync(user, banPruneDays, options: new RequestOptions
                 {
                     AuditLogReason = $"{ctx.User} | {reason}"
                 }).ConfigureAwait(false);

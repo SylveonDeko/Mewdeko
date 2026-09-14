@@ -6,6 +6,7 @@ using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Starboard.Common;
+using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Strings;
 
 namespace Mewdeko.Modules.Starboard.Services;
@@ -16,6 +17,7 @@ namespace Mewdeko.Modules.Starboard.Services;
 public class StarboardService : INService, IReadyExecutor, IUnloadableService
 {
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
     private readonly IDataConnectionFactory dbFactory;
     private readonly EventHandler eventHandler;
     private readonly ILogger<StarboardService> logger;
@@ -33,14 +35,17 @@ public class StarboardService : INService, IReadyExecutor, IUnloadableService
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="strings">The localized strings service.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="collector">The analytics collector.</param>
     public StarboardService(DiscordShardedClient client, IDataConnectionFactory dbFactory,
-        EventHandler eventHandler, GeneratedBotStrings strings, ILogger<StarboardService> logger)
+        EventHandler eventHandler, GeneratedBotStrings strings, ILogger<StarboardService> logger,
+        IAnalyticsCollector collector)
     {
         this.client = client;
         this.dbFactory = dbFactory;
         this.eventHandler = eventHandler;
         this.strings = strings;
         this.logger = logger;
+        this.collector = collector;
         eventHandler.Subscribe("ReactionAdded", "StarboardService", OnReactionAddedAsync);
         eventHandler.Subscribe("MessageDeleted", "StarboardService", OnMessageDeletedAsync);
         eventHandler.Subscribe("ReactionRemoved", "StarboardService", OnReactionRemoveAsync);
@@ -938,6 +943,7 @@ public class StarboardService : INService, IReadyExecutor, IUnloadableService
             };
             starboardPosts.Add(toAdd);
             await dbContext.InsertAsync(toAdd);
+            collector.Feature("starboard", starboardConfigs.Find(x => x.Id == starboardId)?.GuildId);
 
             return;
         }

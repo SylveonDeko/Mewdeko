@@ -6,6 +6,7 @@ using Mewdeko.Common.Configs;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
+using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Strings;
 using Embed = Discord.Embed;
 
@@ -50,6 +51,7 @@ public class SuggestionsService : INService
 
     private readonly AdministrationService adminserv;
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
     private readonly BotConfig config;
     private readonly IDataConnectionFactory dbFactory;
     private readonly EventHandler eventHandler;
@@ -72,14 +74,16 @@ public class SuggestionsService : INService
     /// <param name="config">The bot config service.</param>
     /// <param name="strings">The generated bot strings service for localization.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="collector">The analytics collector.</param>
     public SuggestionsService(
         IDataConnectionFactory dbFactory,
         DiscordShardedClient client,
         AdministrationService aserv,
         PermissionService permserv,
         GuildSettingsService guildSettings, EventHandler eventHandler, BotConfig config, GeneratedBotStrings strings,
-        ILogger<SuggestionsService> logger)
+        ILogger<SuggestionsService> logger, IAnalyticsCollector collector)
     {
+        this.collector = collector;
         perms = permserv;
         this.guildSettings = guildSettings;
         this.config = config;
@@ -265,6 +269,7 @@ public class SuggestionsService : INService
             return;
 
         await dbContext.UpdateAsync(maybeSuggest);
+        collector.Feature("suggestion_vote", channel.GuildId);
     }
 
     private async Task UpdateCountOnRemoveReact(Cacheable<IUserMessage, ulong> arg1,
@@ -1155,6 +1160,7 @@ public class SuggestionsService : INService
         }
 
         await dbContext.InsertAsync(suggest);
+        collector.Feature("suggestion_vote", suggest.GuildId);
     }
 
     /// <summary>
@@ -1978,9 +1984,11 @@ public class SuggestionsService : INService
             await using var dbContext = await dbFactory.CreateConnectionAsync();
 
             await dbContext.InsertAsync(suggest);
+            collector.Feature("suggestion", guildId);
         }
         catch (Exception e)
         {
+            collector.Feature("suggestion", guildId, false, e.GetType().Name);
             Console.WriteLine(e);
             throw;
         }

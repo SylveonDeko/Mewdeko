@@ -6,6 +6,7 @@ using Humanizer;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.Strings;
 using ZiggyCreatures.Caching.Fusion;
@@ -22,6 +23,7 @@ public class AfkService : INService, IReadyExecutor, IDisposable
     private readonly IFusionCache cache;
     private readonly Timer cleanupTimer;
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
     private readonly BotConfigService config;
     private readonly IDataConnectionFactory dbFactory;
     private readonly EventHandler eventHandler;
@@ -47,6 +49,7 @@ public class AfkService : INService, IReadyExecutor, IDisposable
     /// <param name="config">The bot's configuration service.</param>
     /// <param name="strings">The localization service.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="collector">The analytics collector.</param>
     public AfkService(
         IDataConnectionFactory dbFactory,
         DiscordShardedClient client,
@@ -54,8 +57,9 @@ public class AfkService : INService, IReadyExecutor, IDisposable
         GuildSettingsService guildSettings,
         EventHandler eventHandler,
         BotConfigService config,
-        GeneratedBotStrings strings, ILogger<AfkService> logger)
+        GeneratedBotStrings strings, ILogger<AfkService> logger, IAnalyticsCollector collector)
     {
+        this.collector = collector;
         this.cache = cache;
         this.guildSettings = guildSettings;
         this.config = config;
@@ -665,7 +669,7 @@ public class AfkService : INService, IReadyExecutor, IDisposable
                             break;
                         // Check timeout for non-timed AFKs
                         case false when afkEntry.DateAdded.HasValue && afkEntry.DateAdded.Value <
-                            DateTime.UtcNow.AddSeconds(-(guildConfig.AfkTimeout == 0 ? guildConfig.AfkTimeout : 10)):
+                            DateTime.UtcNow.AddSeconds(-guildConfig.AfkTimeout):
                         {
                             await AfkSet(user.GuildId, user.Id, ""); // Clear AFK
                             var notifyMsg = await msg.Channel
@@ -762,12 +766,14 @@ public class AfkService : INService, IReadyExecutor, IDisposable
                         }
                     }
 
+                    collector.Feature("afk", user.GuildId);
                     break; // Only show for first mentioned AFK user
                 }
             }
         }
         catch (Exception ex)
         {
+            collector.Feature("afk", user.GuildId, false, ex.GetType().Name);
             logger.LogError(ex, "Error in AfkHandler MessageReceived");
         }
     }
@@ -844,7 +850,7 @@ public class AfkService : INService, IReadyExecutor, IDisposable
                 if (afkEntry != null &&
                     (!afkEntry.WasTimed || afkEntry.When.HasValue && afkEntry.When.Value < DateTime.UtcNow) &&
                     afkEntry.DateAdded.HasValue && afkEntry.DateAdded.Value <
-                    DateTime.UtcNow.AddSeconds(-(guildConfig.AfkTimeout == 0 ? guildConfig.AfkTimeout : 10)))
+                    DateTime.UtcNow.AddSeconds(-guildConfig.AfkTimeout))
                 {
                     await AfkSet(guildUser.GuildId, guildUser.Id, ""); // Clear AFK
 

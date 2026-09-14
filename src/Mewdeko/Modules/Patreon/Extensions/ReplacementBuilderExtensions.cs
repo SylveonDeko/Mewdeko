@@ -34,6 +34,9 @@ public static class ReplacementBuilderExtensions
         var topSupporter = analytics?.TopSupporters?.FirstOrDefault();
         builder.WithOverride("%top.supporter.name%", () => topSupporter?.Name ?? "Anonymous Supporter");
         builder.WithOverride("%top.supporter.amount%", () => $"{topSupporter?.Amount ?? 0:F2}");
+        builder.WithOverride("%patron.name%", () => topSupporter?.Name ?? "Anonymous Supporter");
+        builder.WithOverride("%patron.tier%", () => topSupporter?.Tier ?? "Unknown");
+        builder.WithOverride("%patron.amount%", () => $"{topSupporter?.Amount ?? 0:F2}");
 
         // Tier distribution (simplified)
         var totalTiers = analytics?.TierDistribution?.Count ?? 0;

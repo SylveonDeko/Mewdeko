@@ -221,6 +221,76 @@ public class LogSlashCommands : MewdekoSlashModuleBase<LogCommandService>
     }
 
     /// <summary>
+    ///     Toggles a channel as ignored for logging events. When a channel is ignored, no log events that occur in that
+    ///     channel will be logged.
+    /// </summary>
+    /// <param name="channel">The channel to toggle ignore status for. If not specified, uses the current channel.</param>
+    [SlashCommand("ignore", "Toggles whether a channel is ignored for logging")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    public async Task LogIgnore(
+        [Summary("channel", "The channel to toggle, defaults to the current channel")]
+        ITextChannel? channel = null)
+    {
+        channel ??= (ITextChannel)ctx.Channel;
+
+        var result = await Service.LogIgnore(ctx.Guild.Id, channel.Id);
+
+        switch (result)
+        {
+            case LogCommandService.IgnoreResult.Added:
+                await ConfirmAsync(Strings.LogIgnoreChannelAdded(ctx.Guild.Id, channel.Mention))
+                    .ConfigureAwait(false);
+                break;
+            case LogCommandService.IgnoreResult.Removed:
+                await ConfirmAsync(Strings.LogIgnoreChannelRemoved(ctx.Guild.Id, channel.Mention))
+                    .ConfigureAwait(false);
+                break;
+            default:
+                await ErrorAsync(Strings.LogIgnoreError(ctx.Guild.Id)).ConfigureAwait(false);
+                break;
+        }
+    }
+
+    /// <summary>
+    ///     Lists all channels that are currently ignored for logging.
+    /// </summary>
+    [SlashCommand("ignore-list", "Lists every channel ignored for logging")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    public async Task LogIgnoreList()
+    {
+        await DeferAsync();
+        var ignoredChannels = await Service.GetIgnoredChannels(ctx.Guild.Id);
+
+        if (ignoredChannels.Count == 0)
+        {
+            await ConfirmAsync(Strings.LogIgnoreListEmpty(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var channelMentions = new List<string>();
+        foreach (var channelId in ignoredChannels)
+        {
+            var ch = await ctx.Guild.GetChannelAsync(channelId);
+            if (ch is ITextChannel textChannel)
+                channelMentions.Add(textChannel.Mention);
+        }
+
+        if (channelMentions.Count == 0)
+        {
+            await ConfirmAsync(Strings.LogIgnoreListEmpty(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        await ctx.Interaction.FollowupAsync(embed: new EmbedBuilder().WithOkColor()
+            .WithTitle(Strings.LogIgnoreList(ctx.Guild.Id))
+            .WithDescription(string.Join("\n", channelMentions)).Build()).ConfigureAwait(false);
+    }
+
+    /// <summary>
     ///     Handles the interaction when users select log types from the select menu.
     /// </summary>
     /// <param name="channelId">The ID of the channel to set up logging for</param>

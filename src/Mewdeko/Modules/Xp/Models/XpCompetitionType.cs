@@ -20,3 +20,24 @@ public enum XpCompetitionType
     /// </summary>
     HighestTotal
 }
+
+/// <summary>
+///     Defines the kind of reward attached to a competition placement.
+/// </summary>
+public enum XpCompetitionRewardType
+{
+    /// <summary>
+    ///     A role granted to the placing user.
+    /// </summary>
+    Role,
+
+    /// <summary>
+    ///     An amount of XP granted to the placing user.
+    /// </summary>
+    Xp,
+
+    /// <summary>
+    ///     An amount of currency granted to the placing user.
+    /// </summary>
+    Currency
+}

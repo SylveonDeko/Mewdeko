@@ -8,6 +8,7 @@ using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.StatChannels.Common;
 using Mewdeko.Modules.Twitch.Services;
+using Mewdeko.Services.Analytics;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Mewdeko.Modules.StatChannels.Services;
@@ -39,6 +40,7 @@ public class StatChannelService : INService, IReadyExecutor, IDisposable
 
     private readonly IMemoryCache cache;
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<StatChannelService> logger;
 
@@ -56,8 +58,10 @@ public class StatChannelService : INService, IReadyExecutor, IDisposable
         DiscordShardedClient client,
         IMemoryCache cache,
         TwitchService twitchService,
-        ILogger<StatChannelService> logger)
+        ILogger<StatChannelService> logger,
+        IAnalyticsCollector collector)
     {
+        this.collector = collector;
         this.dbFactory = dbFactory;
         this.client = client;
         this.cache = cache;
@@ -881,10 +885,12 @@ public class StatChannelService : INService, IReadyExecutor, IDisposable
         {
             await channel.ModifyAsync(c => c.Name = newName);
             RecordRename(sc.ChannelId);
+            collector.Feature("stat_channel", sc.GuildId);
             return true;
         }
         catch (Exception ex)
         {
+            collector.Feature("stat_channel", sc.GuildId, false, ex.GetType().Name);
             logger.LogDebug(ex, "Failed to rename stat channel {ChannelId}", sc.ChannelId);
             return false;
         }
@@ -918,10 +924,12 @@ public class StatChannelService : INService, IReadyExecutor, IDisposable
 
             renameHistory.TryRemove(oldChannelId, out _);
             InvalidateCache(sc.GuildId);
+            collector.Feature("stat_channel", sc.GuildId);
             return true;
         }
         catch (Exception ex)
         {
+            collector.Feature("stat_channel", sc.GuildId, false, ex.GetType().Name);
             logger.LogWarning(ex, "Failed to recreate stat channel {ChannelId} in guild {GuildId}",
                 sc.ChannelId, sc.GuildId);
             return false;

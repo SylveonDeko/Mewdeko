@@ -14,13 +14,16 @@ public class CmdCdService : ILateBlocker, INService
 {
     private readonly IDataConnectionFactory dbFactory;
 
+    private readonly SlashCommandIdentityService identity;
+
     /// <summary>
     ///     Initializes a new instance of the <see cref="CmdCdService" /> class.
     /// </summary>
     /// <param name="dbFactory">The database connection factory.</param>
-    public CmdCdService(IDataConnectionFactory dbFactory)
+    public CmdCdService(IDataConnectionFactory dbFactory, SlashCommandIdentityService identity)
     {
         this.dbFactory = dbFactory;
+        this.identity = identity;
     }
 
     /// <summary>
@@ -81,7 +84,7 @@ public class CmdCdService : ILateBlocker, INService
     {
         var guild = ctx.Guild;
         var user = ctx.User;
-        var commandName = command.Name.ToLowerInvariant();
+        var commandName = identity.Resolve(command).MethodName;
 
         return await TryBlock(guild, user, commandName);
     }

@@ -9,6 +9,7 @@ using Mewdeko.Database.L2DB;
 using Mewdeko.Modules.Chat_Triggers.Common;
 using Mewdeko.Modules.Tickets.Common;
 using Mewdeko.Modules.Utility.Services;
+using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.Strings;
 using Embed = Mewdeko.Common.Embed;
@@ -25,6 +26,7 @@ public class TicketService : INService
     private const string CloseButtonId = "ticket_close";
     private readonly ChatLogService chatLogService;
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
     private readonly BotCredentials credentials;
     private readonly IDataConnectionFactory dbFactory;
     private readonly EventHandler eventHandler;
@@ -43,6 +45,7 @@ public class TicketService : INService
     /// <param name="chatLogService">The chat log service for transcript management.</param>
     /// <param name="credentials">The bot credentials for dashboard URL.</param>
     /// <param name="triggerEvents">Publishes ticket events to chat triggers.</param>
+    /// <param name="collector">The analytics collector.</param>
     public TicketService(
         IDataConnectionFactory dbFactory,
         DiscordShardedClient client,
@@ -51,8 +54,10 @@ public class TicketService : INService
         ILogger<TicketService> logger,
         ChatLogService chatLogService,
         BotCredentials credentials,
-        TriggerEventPublisher triggerEvents)
+        TriggerEventPublisher triggerEvents,
+        IAnalyticsCollector collector)
     {
+        this.collector = collector;
         this.triggerEvents = triggerEvents;
         this.dbFactory = dbFactory;
         this.client = client;
@@ -884,6 +889,7 @@ public class TicketService : INService
         }
         catch (Exception ex)
         {
+            collector.Feature("ticket_open", guild.Id, false, ex.GetType().Name);
             logger.LogError(ex, "Failed to create ticket channel");
             throw new InvalidOperationException("Failed to create ticket channel. Please check bot permissions.");
         }
@@ -996,11 +1002,13 @@ public class TicketService : INService
 
             // Let chat triggers listening for a ticket being opened respond
             await triggerEvents.PublishAsync(guild.Id, CtEventType.TicketOpened, creator).ConfigureAwait(false);
+            collector.Feature("ticket_open", guild.Id);
 
             return ticket;
         }
         catch (Exception ex)
         {
+            collector.Feature("ticket_open", guild.Id, false, ex.GetType().Name);
             // Cleanup on failure
             logger.LogError(ex, "Error during ticket creation messages/notifications");
             try
@@ -2992,10 +3000,12 @@ public class TicketService : INService
             if (opener is not null)
                 await triggerEvents.PublishAsync(guild.Id, CtEventType.TicketClosed, opener).ConfigureAwait(false);
 
+            collector.Feature("ticket_close", guild.Id);
             return true;
         }
         catch (Exception ex)
         {
+            collector.Feature("ticket_close", guild.Id, false, ex.GetType().Name);
             logger.LogError(ex, "Error closing ticket {TicketId}", ticket.Id);
             return false;
         }
@@ -4964,12 +4974,12 @@ public class TicketService : INService
                         ChannelNameFormat = sourceButton.ChannelNameFormat,
                         CategoryId = sourceButton.CategoryId,
                         ArchiveCategoryId = sourceButton.ArchiveCategoryId,
-                        SupportRoles = [..sourceButton.SupportRoles ?? []],
-                        ViewerRoles = [..sourceButton.ViewerRoles ?? []],
+                        SupportRoles = [.. sourceButton.SupportRoles ?? []],
+                        ViewerRoles = [.. sourceButton.ViewerRoles ?? []],
                         AutoCloseTime = sourceButton.AutoCloseTime,
                         RequiredResponseTime = sourceButton.RequiredResponseTime,
                         MaxActiveTickets = sourceButton.MaxActiveTickets,
-                        AllowedPriorities = [..sourceButton.AllowedPriorities ?? []],
+                        AllowedPriorities = [.. sourceButton.AllowedPriorities ?? []],
                         DefaultPriority = sourceButton.DefaultPriority,
                         SaveTranscript = sourceButton.SaveTranscript
                     };
@@ -5007,12 +5017,12 @@ public class TicketService : INService
                             ChannelNameFormat = sourceOption.ChannelNameFormat,
                             CategoryId = sourceOption.CategoryId,
                             ArchiveCategoryId = sourceOption.ArchiveCategoryId,
-                            SupportRoles = [..sourceOption.SupportRoles ?? []],
-                            ViewerRoles = [..sourceOption.ViewerRoles ?? []],
+                            SupportRoles = [.. sourceOption.SupportRoles ?? []],
+                            ViewerRoles = [.. sourceOption.ViewerRoles ?? []],
                             AutoCloseTime = sourceOption.AutoCloseTime,
                             RequiredResponseTime = sourceOption.RequiredResponseTime,
                             MaxActiveTickets = sourceOption.MaxActiveTickets,
-                            AllowedPriorities = [..sourceOption.AllowedPriorities ?? []],
+                            AllowedPriorities = [.. sourceOption.AllowedPriorities ?? []],
                             DefaultPriority = sourceOption.DefaultPriority,
                             SaveTranscript = sourceOption.SaveTranscript
                         };
@@ -5108,12 +5118,12 @@ public class TicketService : INService
                         ChannelNameFormat = originalButton.ChannelNameFormat,
                         CategoryId = originalButton.CategoryId,
                         ArchiveCategoryId = originalButton.ArchiveCategoryId,
-                        SupportRoles = [..originalButton.SupportRoles ?? []],
-                        ViewerRoles = [..originalButton.ViewerRoles ?? []],
+                        SupportRoles = [.. originalButton.SupportRoles ?? []],
+                        ViewerRoles = [.. originalButton.ViewerRoles ?? []],
                         AutoCloseTime = originalButton.AutoCloseTime,
                         RequiredResponseTime = originalButton.RequiredResponseTime,
                         MaxActiveTickets = originalButton.MaxActiveTickets,
-                        AllowedPriorities = [..originalButton.AllowedPriorities ?? []],
+                        AllowedPriorities = [.. originalButton.AllowedPriorities ?? []],
                         DefaultPriority = originalButton.DefaultPriority,
                         SaveTranscript = originalButton.SaveTranscript
                     };

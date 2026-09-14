@@ -16,9 +16,9 @@ namespace Mewdeko.Controllers;
 [Authorize("ApiKeyPolicy")]
 public class MultiGreetController : Controller
 {
+    private readonly IDashboardAuditContext auditContext;
     private readonly DiscordShardedClient client;
     private readonly MultiGreetService multiGreetService;
-    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     ///     Initializes a new instance of the MultiGreetController
@@ -257,7 +257,7 @@ public class MultiGreetController : Controller
     ///     Updates the MultiGreet type for a guild
     /// </summary>
     /// <param name="guildId">The ID of the guild to update</param>
-    /// <param name="type">The new MultiGreet type (0: MultiGreet, 1: RandomGreet, 3: Off)</param>
+    /// <param name="type">The new MultiGreet type (0: MultiGreet, 1: RandomGreet, 2: Off)</param>
     /// <returns>Success or bad request response</returns>
     [HttpPut("type")]
     public async Task<IActionResult> UpdateGreetType(ulong guildId, [FromBody] int type)

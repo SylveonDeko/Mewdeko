@@ -17,6 +17,7 @@ using Mewdeko.Common.PubSub;
 using Mewdeko.Modules.Music.Common;
 using Mewdeko.Modules.Music.CustomPlayer;
 using Mewdeko.Modules.Music.Services;
+using Mewdeko.Services.Analytics;
 using SpotifyAPI.Web;
 using Swan;
 
@@ -37,7 +38,8 @@ public partial class Music(
     IBotCredentials creds,
     MusicLinkService musicLinkService,
     LastFmStatsService lastFmStats,
-    IHttpClientFactory httpClientFactory) : MewdekoModule
+    IHttpClientFactory httpClientFactory,
+    IAnalyticsCollector collector) : MewdekoModule
 {
     /// <summary>
     ///     Retrieves the music player an attempts to join the voice channel.
@@ -245,10 +247,13 @@ public partial class Music(
             {
                 await HandleSearchPlay(query);
             }
+
+            collector.Feature("music_play", ctx.Guild.Id);
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Error in Play command with query: {Query}", query);
+            collector.Feature("music_play", ctx.Guild.Id, false, ex.GetType().Name);
             await ReplyErrorAsync(Strings.MusicGenericError(ctx.Guild.Id));
         }
     }

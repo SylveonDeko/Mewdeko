@@ -6,6 +6,7 @@ using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Patreon.Common;
 using Mewdeko.Modules.Patreon.Extensions;
+using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Strings;
 using Microsoft.Extensions.Hosting;
 
@@ -23,6 +24,7 @@ public class PatreonService : BackgroundService, INService, IReadyExecutor
 
     private readonly PatreonApiClient apiClient;
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
     private readonly IBotCredentials creds;
     private readonly IDataConnectionFactory db;
     private readonly GuildSettingsService guildSettings;
@@ -39,14 +41,16 @@ public class PatreonService : BackgroundService, INService, IReadyExecutor
     /// <param name="creds">The bot credentials.</param>
     /// <param name="apiClient">The Patreon API client.</param>
     /// <param name="logger">Serilog logger.</param>
+    /// <param name="collector">The analytics collector.</param>
     public PatreonService(
         DiscordShardedClient client,
         IDataConnectionFactory db,
         GuildSettingsService guildSettings,
         GeneratedBotStrings strings,
         IBotCredentials creds,
-        PatreonApiClient apiClient, ILogger<PatreonService> logger)
+        PatreonApiClient apiClient, ILogger<PatreonService> logger, IAnalyticsCollector collector)
     {
+        this.collector = collector;
         this.client = client;
         this.db = db;
         this.guildSettings = guildSettings;
@@ -400,9 +404,11 @@ public class PatreonService : BackgroundService, INService, IReadyExecutor
             logger.LogInformation(
                 "Patreon announcement sent for guild {GuildId} in channel {ChannelId} (Manual: {IsManual})",
                 guild.Id, channel.Id, isManual);
+            collector.Feature("patreon", guild.Id);
         }
         catch (Exception ex)
         {
+            collector.Feature("patreon", guild.Id, false, ex.GetType().Name);
             logger.LogError(ex, "Error sending Patreon announcement for guild {GuildId}", guild.Id);
         }
     }
@@ -1092,6 +1098,14 @@ public class PatreonService : BackgroundService, INService, IReadyExecutor
                 .Where(x => x.GuildId == guildId)
                 .ToListAsync();
 
+            var tiers = await uow.PatreonTiers
+                .Where(x => x.GuildId == guildId)
+                .ToListAsync();
+
+            var tierTitles = tiers
+                .GroupBy(x => x.TierId)
+                .ToDictionary(g => g.Key, g => g.First().TierTitle);
+
             var activeSupporters = supporters.Where(s =>
                 s.PatronStatus == "active_patron" ||
                 s.PatronStatus == "declined_patron" ||
@@ -1130,7 +1144,10 @@ public class PatreonService : BackgroundService, INService, IReadyExecutor
                     .Take(5)
                     .Select(s => new TopSupporter
                     {
-                        Name = s.FullName, Amount = s.AmountCents / 100.0, IsLinked = s.DiscordUserId != 0
+                        Name = s.FullName,
+                        Amount = s.AmountCents / 100.0,
+                        IsLinked = s.DiscordUserId != 0,
+                        Tier = s.TierId != null ? tierTitles.GetValueOrDefault(s.TierId) : null
                     })
                     .ToList()
             };
@@ -1436,4 +1453,9 @@ public class TopSupporter
     ///     Whether supporter is linked to Discord
     /// </summary>
     public bool IsLinked { get; set; }
+
+    /// <summary>
+    ///     Title of the tier the supporter is on, when it is known
+    /// </summary>
+    public string? Tier { get; set; }
 }

@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Threading;
 using DataModel;
 using Mewdeko.Modules.Xp.Models;
+using Mewdeko.Services.Analytics;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Mewdeko.Modules.Xp.Services;
@@ -26,6 +27,7 @@ public class XpVoiceTracker : INService, IDisposable
     // Small cache for channel eligibility only
     private readonly MemoryCache channelEligibilityCache;
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
     private readonly IDataConnectionFactory dbFactory;
     private readonly Timer diagnosticsTimer;
 
@@ -53,17 +55,19 @@ public class XpVoiceTracker : INService, IDisposable
     /// <param name="cacheManager">The cache manager.</param>
     /// <param name="backgroundProcessor">The background processor.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="collector">The analytics collector.</param>
     public XpVoiceTracker(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
         XpCacheManager cacheManager,
-        XpBackgroundProcessor backgroundProcessor, ILogger<XpVoiceTracker> logger)
+        XpBackgroundProcessor backgroundProcessor, ILogger<XpVoiceTracker> logger, IAnalyticsCollector collector)
     {
         this.client = client;
         this.dbFactory = dbFactory;
         this.cacheManager = cacheManager;
         this.backgroundProcessor = backgroundProcessor;
         this.logger = logger;
+        this.collector = collector;
 
         // Initialize memory cache for channel eligibility only
         channelEligibilityCache = new MemoryCache(cacheOptions);
@@ -412,6 +416,7 @@ public class XpVoiceTracker : INService, IDisposable
                 channelId,
                 XpSource.Voice
             );
+            collector.Feature("xp_voice", guildId);
 
             // Log significant XP awards
             if (xpAmount > 50)
@@ -423,6 +428,7 @@ public class XpVoiceTracker : INService, IDisposable
         }
         catch (Exception ex)
         {
+            collector.Feature("xp_voice", guildId, false, ex.GetType().Name);
             logger.LogInformation("{GuildId}|{UserId}|{XpAmount}|{ChannelId}|{VoiceXpMinutes}", guildId, userId,
                 xpAmount,
                 channelId, JsonSerializer.Serialize(settings));

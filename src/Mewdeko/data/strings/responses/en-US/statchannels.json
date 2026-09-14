@@ -10,5 +10,6 @@
   "stat_channel_unknown_type": "That stat type does not exist. Use the types command to browse the available ones.",
   "stat_channel_mechanism_set": "**{0}** now updates by **{1}** every **{2}** minutes.",
   "stat_channel_style_set": "**{0}** now uses the **{1}** style, for example `{2}`.",
-  "stat_channel_defaults_set": "New stat channels will default to **{0}** every **{1}** minutes with the **{2}** style."
+  "stat_channel_defaults_set": "New stat channels will default to **{0}** every **{1}** minutes with the **{2}** style.",
+  "stat_channel_invalid_date": "Could not parse that date. Use a format like 2026-12-31 18:00."
 }

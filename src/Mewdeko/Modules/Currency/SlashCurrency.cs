@@ -9,13 +9,8 @@ namespace Mewdeko.Modules.Currency;
 ///     Slash command module for currency game interactions.
 /// </summary>
 [Group("currency", "Currency and gambling games")]
-public class SlashCurrency : MewdekoSlashCommandModule
+public partial class SlashCurrency : SlashCurrencyBase
 {
-    /// <summary>
-    ///     The currency service for managing user balances.
-    /// </summary>
-    public ICurrencyService Service { get; set; }
-
     /// <summary>
     ///     The trivia chain service for managing trivia chain games.
     /// </summary>

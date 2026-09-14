@@ -4,6 +4,7 @@ using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Modules.Currency.Services;
 using Mewdeko.Modules.Xp.Models;
+using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Strings;
 
 namespace Mewdeko.Modules.Xp.Services;
@@ -60,6 +61,7 @@ public partial class XpService : INService, IUnloadableService
     internal readonly IHttpClientFactory HttpClientFactory;
     private readonly ILogger<XpService> logger;
     private readonly IServiceProvider serviceProvider;
+    private readonly IAnalyticsCollector collector;
 
 
     // Core components
@@ -88,6 +90,7 @@ public partial class XpService : INService, IUnloadableService
     /// <param name="strings">The localized strings service.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="serviceProvider">The service provider for dependency injection.</param>
+    /// <param name="collector">The analytics collector.</param>
     public XpService(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
@@ -99,7 +102,8 @@ public partial class XpService : INService, IUnloadableService
         XpCacheManager cacheManager,
         XpCompetitionManager competitionManager,
         XpVoiceTracker voiceTracker,
-        XpBackgroundProcessor backgroundProcessor, ILogger<XpService> logger, IServiceProvider serviceProvider)
+        XpBackgroundProcessor backgroundProcessor, ILogger<XpService> logger, IServiceProvider serviceProvider,
+        IAnalyticsCollector collector)
     {
         Client = client;
         DbFactory = dbFactory;
@@ -113,6 +117,7 @@ public partial class XpService : INService, IUnloadableService
         this.backgroundProcessor = backgroundProcessor;
         this.logger = logger;
         this.serviceProvider = serviceProvider;
+        this.collector = collector;
 
         // Register event handlers
         EventHandler.Subscribe("MessageReceived", "XpService", HandleMessageXp);
@@ -189,9 +194,11 @@ public partial class XpService : INService, IUnloadableService
 
             // Add to processing queue
             backgroundProcessor.QueueXpGain(user.GuildId, user.Id, xpAmount, message.Channel.Id, XpSource.Message);
+            collector.Feature("xp", user.GuildId);
         }
         catch (Exception ex)
         {
+            collector.Feature("xp", user.GuildId, false, ex.GetType().Name);
             logger.LogError($"Error handling message XP for {user.Id} in {user.Guild.Id}\n{ex}");
         }
     }

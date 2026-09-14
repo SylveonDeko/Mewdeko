@@ -1,6 +1,7 @@
 using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
+using Mewdeko.Services.Analytics;
 
 namespace Mewdeko.Modules.RoleStates.Services;
 
@@ -10,6 +11,7 @@ namespace Mewdeko.Modules.RoleStates.Services;
 /// </summary>
 public class RoleStatesService : INService
 {
+    private readonly IAnalyticsCollector collector;
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<RoleStatesService> logger;
 
@@ -19,9 +21,11 @@ public class RoleStatesService : INService
     /// <param name="dbFactory">The database service to interact with stored data.</param>
     /// <param name="eventHandler">The event handler to subscribe to guild member events.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="collector">The analytics collector.</param>
     public RoleStatesService(IDataConnectionFactory dbFactory, EventHandler eventHandler,
-        ILogger<RoleStatesService> logger)
+        ILogger<RoleStatesService> logger, IAnalyticsCollector collector)
     {
+        this.collector = collector;
         this.dbFactory = dbFactory;
         this.logger = logger;
         eventHandler.Subscribe("UserLeft", "RoleStatesService", OnUserLeft);
@@ -78,9 +82,11 @@ public class RoleStatesService : INService
             try
             {
                 await usr.AddRolesAsync(savedRoleIds);
+                collector.Feature("role_state", usr.Guild.Id);
             }
             catch (Exception ex)
             {
+                collector.Feature("role_state", usr.Guild.Id, false, ex.GetType().Name);
                 logger.LogError(
                     "Failed to assign roles to {User} in {Guild}. Most likely missing permissions\n{Exception}",
                     usr.Username, usr.Guild, ex);

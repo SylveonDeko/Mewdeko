@@ -9,7 +9,7 @@ namespace Mewdeko.Modules.Reputation;
 ///     Slash command module for managing user reputation system.
 /// </summary>
 [Group("rep", "Reputation system commands")]
-public class SlashReputation : MewdekoSlashModuleBase<RepService>
+public partial class SlashReputation : MewdekoSlashModuleBase<RepService>
 {
     private readonly RepConfigService configService;
 
@@ -26,80 +26,82 @@ public class SlashReputation : MewdekoSlashModuleBase<RepService>
     ///     Gives reputation to a specified user.
     /// </summary>
     /// <param name="user">The user to give reputation to.</param>
+    /// <param name="repType">The type of reputation to give.</param>
+    /// <param name="reason">Optional reason or comment for giving reputation.</param>
+    /// <param name="anonymous">Whether to give the reputation anonymously.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     [SlashCommand("give", "Give reputation to a user")]
+    [RequireContext(ContextType.Guild)]
     [CheckPermissions]
-    public async Task RepGive(IGuildUser user)
+    public async Task RepGive(
+        [Summary("user", "The user to give reputation to")]
+        IGuildUser user,
+        [Summary("type", "The reputation type to give (default: standard)")]
+        string repType = "standard",
+        [Summary("reason", "Optional reason for giving reputation")]
+        string? reason = null,
+        [Summary("anonymous", "Give the reputation anonymously")]
+        bool anonymous = false)
     {
+        if (!await Service.IsValidReputationTypeAsync(ctx.Guild.Id, repType))
+        {
+            await ReplyErrorAsync(Strings.RepInvalidType(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
         if (user.Id == ctx.User.Id)
         {
-            await ReplyAsync(embed: new EmbedBuilder()
-                .WithErrorColor()
-                .WithDescription(Strings.RepSelf(ctx.Guild.Id))
-                .Build()).ConfigureAwait(false);
+            await ReplyErrorAsync(Strings.RepSelf(ctx.Guild.Id)).ConfigureAwait(false);
             return;
         }
 
         if (user.IsBot)
         {
-            await RespondAsync(embed: new EmbedBuilder()
-                .WithErrorColor()
-                .WithDescription(Strings.RepBot(ctx.Guild.Id))
-                .Build(), ephemeral: true).ConfigureAwait(false);
+            await ReplyErrorAsync(Strings.RepBot(ctx.Guild.Id)).ConfigureAwait(false);
             return;
         }
 
-        var result = await Service.GiveReputationAsync(ctx.Guild.Id, ctx.User.Id, user.Id, ctx.Channel.Id);
-
-        var eb = new EmbedBuilder();
+        var result = await Service.GiveReputationAsync(ctx.Guild.Id, ctx.User.Id, user.Id, ctx.Channel.Id, repType,
+            reason, null, anonymous);
 
         switch (result.Result)
         {
             case GiveRepResultType.Success:
-                eb.WithOkColor()
-                    .WithDescription(
-                        $"{Config.SuccessEmote} {Strings.RepGiven(ctx.Guild.Id, result.Amount, user.Mention, result.NewTotal)}");
+                await ConfirmAsync(Strings.RepGiven(ctx.Guild.Id, result.Amount, user.Mention, result.NewTotal))
+                    .ConfigureAwait(false);
                 break;
             case GiveRepResultType.Cooldown:
                 var remaining = result.CooldownRemaining?.ToString(@"hh\:mm\:ss") ?? "unknown";
-                eb.WithErrorColor()
-                    .WithDescription(Strings.RepCooldown(ctx.Guild.Id, remaining));
+                await ReplyErrorAsync(Strings.RepCooldown(ctx.Guild.Id, remaining)).ConfigureAwait(false);
                 break;
             case GiveRepResultType.DailyLimit:
-                eb.WithErrorColor()
-                    .WithDescription(Strings.RepDailyLimit(ctx.Guild.Id, result.DailyLimit));
+                await ReplyErrorAsync(Strings.RepDailyLimit(ctx.Guild.Id, result.DailyLimit)).ConfigureAwait(false);
                 break;
             case GiveRepResultType.WeeklyLimit:
-                eb.WithErrorColor()
-                    .WithDescription(Strings.RepWeeklyLimit(ctx.Guild.Id, result.DailyLimit));
+                await ReplyErrorAsync(Strings.RepWeeklyLimit(ctx.Guild.Id, result.WeeklyLimit)).ConfigureAwait(false);
                 break;
             case GiveRepResultType.ChannelDisabled:
-                eb.WithErrorColor()
-                    .WithDescription(Strings.RepChannelDisabled(ctx.Guild.Id));
+                await ReplyErrorAsync(Strings.RepChannelDisabled(ctx.Guild.Id)).ConfigureAwait(false);
                 break;
             case GiveRepResultType.UserFrozen:
-                eb.WithErrorColor()
-                    .WithDescription(Strings.RepUserFrozen(ctx.Guild.Id));
+                await ReplyErrorAsync(Strings.RepUserFrozen(ctx.Guild.Id)).ConfigureAwait(false);
                 break;
             case GiveRepResultType.MinimumAccountAge:
-                eb.WithErrorColor()
-                    .WithDescription(Strings.RepMinAccountAge(ctx.Guild.Id, result.RequiredDays));
+                await ReplyErrorAsync(Strings.RepMinAccountAge(ctx.Guild.Id, result.RequiredDays))
+                    .ConfigureAwait(false);
                 break;
             case GiveRepResultType.MinimumServerMembership:
-                eb.WithErrorColor()
-                    .WithDescription(Strings.RepMinMembership(ctx.Guild.Id, result.RequiredHours));
+                await ReplyErrorAsync(Strings.RepMinMembership(ctx.Guild.Id, result.RequiredHours))
+                    .ConfigureAwait(false);
                 break;
             case GiveRepResultType.MinimumMessages:
-                eb.WithErrorColor()
-                    .WithDescription(Strings.RepMinMessages(ctx.Guild.Id, result.RequiredDays));
+                await ReplyErrorAsync(Strings.RepMinMessages(ctx.Guild.Id, result.RequiredMessages))
+                    .ConfigureAwait(false);
                 break;
             case GiveRepResultType.Disabled:
-                eb.WithErrorColor()
-                    .WithDescription(Strings.RepDisabled(ctx.Guild.Id));
+                await ReplyErrorAsync(Strings.RepDisabled(ctx.Guild.Id)).ConfigureAwait(false);
                 break;
         }
-
-        await ReplyAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
     /// <summary>

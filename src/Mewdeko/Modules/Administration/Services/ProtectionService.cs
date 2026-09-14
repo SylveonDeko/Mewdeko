@@ -6,6 +6,7 @@ using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Moderation.Services;
+using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.Strings;
 
@@ -33,6 +34,7 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
     private readonly BotConfigService bss;
 
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
     private readonly IDataConnectionFactory dbFactory;
     private readonly EventHandler eventHandler;
     private readonly ImageHashingService imageHashing;
@@ -66,12 +68,14 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
     /// <param name="imageHashing">The perceptual image hashing service.</param>
     /// <param name="scamPresets">The known scam image hashes that ship with the bot.</param>
     /// <param name="bss">The bot configuration service.</param>
+    /// <param name="collector">The analytics collector.</param>
     public ProtectionService(DiscordShardedClient client,
         MuteService mute, IDataConnectionFactory dbFactory, UserPunishService punishService, EventHandler eventHandler,
         ILogger<ProtectionService> logger, GeneratedBotStrings strings, ImageHashingService imageHashing,
-        ScamImagePresetService scamPresets, BotConfigService bss)
+        ScamImagePresetService scamPresets, BotConfigService bss, IAnalyticsCollector collector)
     {
         this.client = client;
+        this.collector = collector;
         this.mute = mute;
         this.dbFactory = dbFactory;
         this.punishService = punishService;
@@ -607,6 +611,15 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
                 "[{PunishType}] - Punishing [{Count}] users with [{PunishAction}] in {GuildName} guild", pt,
                 gus.Length, action, gus[0].Guild.Name);
         }
+
+        collector.Feature(pt switch
+        {
+            ProtectionType.Raiding or ProtectionType.Alting or ProtectionType.PatternMatching => "automod_raid",
+            ProtectionType.Spamming => "automod_spam",
+            ProtectionType.MassMention => "automod_mention",
+            ProtectionType.ImageHash => "automod_image",
+            _ => "automod_post"
+        }, gus[0].GuildId);
 
         foreach (var gu in gus)
         {

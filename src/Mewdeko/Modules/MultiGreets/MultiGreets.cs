@@ -237,7 +237,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
                 ).ConfigureAwait(false);
                 break;
             case MultiGreetTypes.Off:
-                await Service.SetMultiGreetType(ctx.Guild, 3).ConfigureAwait(false);
+                await Service.SetMultiGreetType(ctx.Guild, 2).ConfigureAwait(false);
                 await ctx.Channel.SendConfirmAsync(
                     Strings.MultigreetTypeDisabled(ctx.Guild.Id)
                 ).ConfigureAwait(false);

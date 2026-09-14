@@ -5,6 +5,7 @@ using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
+using Microsoft.Extensions.DependencyInjection;
 using CommandInfo = Discord.Commands.CommandInfo;
 using DiscordShardedClient = Discord.WebSocket.DiscordShardedClient;
 using PreconditionResult = Discord.Commands.PreconditionResult;
@@ -75,7 +76,8 @@ public class DiscordPermOverrideService : INService, ILateBlocker
     public async Task<bool> TryBlockLate(DiscordShardedClient client, IInteractionContext context,
         ICommandInfo command)
     {
-        if (!TryGetOverrides(context.Guild?.Id ?? 0, command.MethodName, out var perm)) return false;
+        var alias = services.GetRequiredService<SlashCommandIdentityService>().Resolve(command).Alias;
+        if (!TryGetOverrides(context.Guild?.Id ?? 0, alias, out var perm)) return false;
         var result = await new Discord.Interactions.RequireUserPermissionAttribute(perm)
             .CheckRequirementsAsync(context, command, services).ConfigureAwait(false);
         if (!result.IsSuccess)

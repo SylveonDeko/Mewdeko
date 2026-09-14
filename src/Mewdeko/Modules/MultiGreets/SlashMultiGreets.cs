@@ -223,7 +223,7 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
                 ).ConfigureAwait(false);
                 break;
             case MultiGreetTypes.Off:
-                await Service.SetMultiGreetType(ctx.Guild, 3).ConfigureAwait(false);
+                await Service.SetMultiGreetType(ctx.Guild, 2).ConfigureAwait(false);
                 await ctx.Interaction.SendConfirmAsync(
                     Strings.MultigreetTypeDisabled(ctx.Guild.Id)
                 ).ConfigureAwait(false);
@@ -401,5 +401,36 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
                     $"#{Array.IndexOf(greets, curgreet) + 1}\n`Channel:` {((await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId).ConfigureAwait(false))?.Mention == null ? "Deleted" : (await ctx.Guild.GetTextChannelAsync(curgreet.ChannelId).ConfigureAwait(false))?.Mention)} {curgreet.ChannelId}\n`Delete After:` {curgreet.DeleteTime}s\n`Webhook:` {curgreet.WebhookUrl != null}\n`Greet Bots:` {curgreet.GreetBots}\n`Message:` {curgreet.Message.TrimTo(1000)}")
                 .WithOkColor();
         }
+    }
+
+    /// <summary>
+    ///     Changes whether a MultiGreet greets bots.
+    /// </summary>
+    /// <param name="id">The id of the MultiGreet to change</param>
+    /// <param name="enabled">Whether to greet bots</param>
+    [SlashCommand("greet-bots", "Set whether a MultiGreet greets bots")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
+    public async Task MultiGreetGreetBots(
+        [Summary("id", "The id of the MultiGreet to change")]
+        int id,
+        [Summary("enabled", "Whether to greet bots")]
+        bool enabled)
+    {
+        var greet = (await Service.GetGreets(ctx.Guild.Id))?.ElementAtOrDefault(id - 1);
+        if (greet is null)
+        {
+            await ctx.Interaction.SendErrorAsync(
+                Strings.MultigreetNotFound(ctx.Guild.Id),
+                Config
+            ).ConfigureAwait(false);
+            return;
+        }
+
+        await Service.ChangeMgGb(greet, enabled).ConfigureAwait(false);
+        await ctx.Interaction.SendConfirmAsync(Strings.MultigreetGreetBots(ctx.Guild.Id, greet.Id,
+                enabled ? Strings.Will(ctx.Guild.Id) : Strings.WillNot(ctx.Guild.Id)))
+            .ConfigureAwait(false);
     }
 }

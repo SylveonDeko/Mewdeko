@@ -584,7 +584,7 @@ public partial class TicketsSlash : MewdekoSlashModuleBase<TicketService>
     ///     Group for managing ticket panels.
     /// </summary>
     [Group("panel", "Manage ticket panels")]
-    public class PanelCommands : MewdekoSlashModuleBase<TicketService>
+    public partial class PanelCommands : MewdekoSlashModuleBase<TicketService>
     {
         private readonly IDataCache cache;
 

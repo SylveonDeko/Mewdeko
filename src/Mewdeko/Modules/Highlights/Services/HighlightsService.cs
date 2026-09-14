@@ -3,6 +3,7 @@ using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Services.Analytics;
 using ZiggyCreatures.Caching.Fusion;
 
 namespace Mewdeko.Modules.Highlights.Services;
@@ -14,6 +15,7 @@ public class HighlightsService : INService, IReadyExecutor, IUnloadableService
 {
     private readonly IFusionCache cache;
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
     private readonly IDataConnectionFactory dbFactory;
     private readonly EventHandler eventHandler;
 
@@ -34,9 +36,11 @@ public class HighlightsService : INService, IReadyExecutor, IUnloadableService
     /// <param name="dbFactory">The database provider</param>
     /// <param name="eventHandler">Async event handler because discord stoopid</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="collector">The analytics collector.</param>
     public HighlightsService(DiscordShardedClient client, IFusionCache cache, IDataConnectionFactory dbFactory,
-        EventHandler eventHandler, ILogger<HighlightsService> logger)
+        EventHandler eventHandler, ILogger<HighlightsService> logger, IAnalyticsCollector collector)
     {
+        this.collector = collector;
         this.client = client;
         this.cache = cache;
         this.dbFactory = dbFactory;
@@ -239,10 +243,11 @@ public class HighlightsService : INService, IReadyExecutor, IUnloadableService
                         $"In {Format.Bold(channel.Guild.Name)} {channel.Mention} you were mentioned with highlight word {i.Word}",
                         embed: eb.Build(), components: cb.Build()).ConfigureAwait(false);
                     usersDMd.Add(user.Id);
+                    collector.Feature("highlight", channel.GuildId);
                 }
                 catch
                 {
-                    // ignored in case a user has dms off
+                    collector.Feature("highlight", channel.GuildId, false, "dm_failed");
                 }
             }
         }

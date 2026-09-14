@@ -5,6 +5,7 @@ using LinqToDB.Async;
 using Mewdeko.Common.Configs;
 using Mewdeko.Modules.Birthday.Common;
 using Mewdeko.Modules.UserProfile.Common;
+using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Strings;
 
 namespace Mewdeko.Modules.Birthday.Services;
@@ -16,6 +17,7 @@ public class BirthdayService : INService, IDisposable
 {
     private readonly SemaphoreSlim cacheLock = new(1, 1);
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
     private readonly BotConfig config;
 
     // Memory management and caching
@@ -36,14 +38,17 @@ public class BirthdayService : INService, IDisposable
     /// <param name="config">Bot configuration settings.</param>
     /// <param name="strings">Service for localized strings.</param>
     /// <param name="logger">Logger instance.</param>
+    /// <param name="collector">The analytics collector.</param>
     public BirthdayService(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
         GuildSettingsService guildSettings,
         BotConfig config,
         GeneratedBotStrings strings,
-        ILogger<BirthdayService> logger)
+        ILogger<BirthdayService> logger,
+        IAnalyticsCollector collector)
     {
+        this.collector = collector;
         this.client = client;
         this.dbFactory = dbFactory;
         this.guildSettings = guildSettings;
@@ -429,6 +434,7 @@ public class BirthdayService : INService, IDisposable
             {
                 await AnnounceBirthdayAsync(guild, channel, user, birthdayConfig);
                 announcementsMade = true;
+                collector.Feature("birthday", guild.Id);
 
                 // Assign birthday role if configured
                 if (birthdayConfig.BirthdayRoleId.HasValue &&
@@ -439,6 +445,7 @@ public class BirthdayService : INService, IDisposable
             }
             catch (Exception ex)
             {
+                collector.Feature("birthday", guild.Id, false, ex.GetType().Name);
                 logger.LogError(ex, "Failed to announce birthday for user {UserId} in guild {GuildId}",
                     user.UserId, guild.Id);
             }

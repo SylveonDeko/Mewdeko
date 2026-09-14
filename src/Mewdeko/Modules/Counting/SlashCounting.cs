@@ -608,6 +608,48 @@ public partial class SlashCounting(
     }
 
     /// <summary>
+    ///     Temporarily timeouts a user from counting.
+    /// </summary>
+    /// <param name="user">The user to timeout from counting.</param>
+    /// <param name="duration">Duration of the timeout (e.g., 30m, 2h).</param>
+    /// <param name="channel">The counting channel. Defaults to current channel.</param>
+    /// <param name="reason">The reason for the timeout.</param>
+    [SlashCommand("timeout", "Temporarily timeout a user from counting")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    public async Task CountingTimeout(
+        [Summary("user", "User to timeout from counting")]
+        IGuildUser user,
+        [Summary("duration", "Duration of the timeout, e.g. 30m or 2h")]
+        TimeSpan duration,
+        [Summary("channel", "Counting channel, defaults to current")]
+        ITextChannel? channel = null,
+        [Summary("reason", "Reason for the timeout")]
+        string? reason = null)
+    {
+        channel ??= (ITextChannel)ctx.Channel;
+
+        var countingChannel = await Service.GetCountingChannelAsync(channel.Id);
+        if (countingChannel == null)
+        {
+            await ErrorAsync(Strings.CountingNotSetup(ctx.Guild.Id, channel.Mention));
+            return;
+        }
+
+        var success =
+            await moderationService.BanUserFromCountingAsync(channel.Id, user.Id, ctx.User.Id, duration, reason);
+
+        if (!success)
+        {
+            await ErrorAsync(Strings.CountingTimeoutFailed(ctx.Guild.Id));
+            return;
+        }
+
+        await ConfirmAsync(Strings.CountingUserTimedOut(ctx.Guild.Id, user.Mention, channel.Mention,
+            duration.Humanize()));
+    }
+
+    /// <summary>
     /// Lists all active counting channels in the server.
     /// </summary>
     [SlashCommand("list", "List all counting channels in the server")]

@@ -4,6 +4,7 @@ using Discord.Net;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Services.Analytics;
 
 namespace Mewdeko.Modules.Utility.Services;
 
@@ -13,6 +14,7 @@ namespace Mewdeko.Modules.Utility.Services;
 public class InviteCountService : INService, IReadyExecutor
 {
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
     private readonly IDataConnectionFactory dbFactory;
     private readonly ConcurrentDictionary<ulong, ConcurrentDictionary<string, IInviteMetadata>> guildInvites = new();
     private readonly ConcurrentDictionary<ulong, InviteCountSetting> inviteCountSettings = new();
@@ -25,12 +27,14 @@ public class InviteCountService : INService, IReadyExecutor
     /// <param name="dbFactory"></param>
     /// <param name="client"></param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="collector">The analytics collector.</param>
     public InviteCountService(EventHandler handler, IDataConnectionFactory dbFactory, DiscordShardedClient client,
-        ILogger<InviteCountService> logger)
+        ILogger<InviteCountService> logger, IAnalyticsCollector collector)
     {
         this.dbFactory = dbFactory;
         this.client = client;
         this.logger = logger;
+        this.collector = collector;
 
         handler.Subscribe("JoinedGuild", "InviteCountService", UpdateGuildInvites);
         handler.Subscribe("UserJoined", "InviteCountService", OnUserJoined);
@@ -326,6 +330,7 @@ public class InviteCountService : INService, IReadyExecutor
         {
             await UpdateInviteCount(usedInvite.Inviter.Id, guild.Id);
             await UpdateInvitedBy(user.Id, usedInvite.Inviter.Id, guild.Id);
+            collector.Feature("invite", guild.Id);
         }
 
         await UpdateGuildInvites(user.Guild);

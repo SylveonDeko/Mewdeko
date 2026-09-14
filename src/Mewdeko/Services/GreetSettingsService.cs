@@ -1,5 +1,6 @@
 ﻿using DataModel;
 using LinqToDB.Async;
+using Mewdeko.Services.Analytics;
 
 namespace Mewdeko.Services;
 
@@ -9,6 +10,7 @@ namespace Mewdeko.Services;
 public class GreetSettingsService : INService
 {
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
     private readonly IDataConnectionFactory dbFactory;
 
     private readonly Channel<(GreetSettings, IGuildUser, TaskCompletionSource<bool>)> greetDmQueue =
@@ -33,9 +35,11 @@ public class GreetSettingsService : INService
     ///     activities such as joining, leaving, or boosting.
     /// </remarks>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="collector">The analytics collector.</param>
     public GreetSettingsService(DiscordShardedClient client, GuildSettingsService gss, IDataConnectionFactory dbFactory,
-        EventHandler eventHandler, ILogger<GreetSettingsService> logger)
+        EventHandler eventHandler, ILogger<GreetSettingsService> logger, IAnalyticsCollector collector)
     {
+        this.collector = collector;
         this.dbFactory = dbFactory;
         this.logger = logger;
         this.client = client;
@@ -306,9 +310,12 @@ public class GreetSettingsService : INService
                         msg.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
                     }
                 }
+
+                collector.Feature("bye", channel.GuildId);
             }
             catch (Exception ex)
             {
+                collector.Feature("bye", channel.GuildId, false, ex.GetType().Name);
                 logger.LogWarning(ex, "Error embeding bye message");
             }
         }
@@ -334,9 +341,12 @@ public class GreetSettingsService : INService
                         msg2.DeleteAfter(conf.AutoDeleteByeMessagesTimer);
                     }
                 }
+
+                collector.Feature("bye", channel.GuildId);
             }
             catch (Exception ex)
             {
+                collector.Feature("bye", channel.GuildId, false, ex.GetType().Name);
                 logger.LogWarning(ex, "Error sending bye message");
             }
         }
@@ -380,6 +390,7 @@ public class GreetSettingsService : INService
             }
             catch
             {
+                collector.Feature("greet", user.GuildId, false, "dm_failed");
                 return false;
             }
         }
@@ -393,10 +404,12 @@ public class GreetSettingsService : INService
             }
             catch
             {
+                collector.Feature("greet", user.GuildId, false, "dm_failed");
                 return false;
             }
         }
 
+        collector.Feature("greet", user.GuildId);
         return true;
     }
 

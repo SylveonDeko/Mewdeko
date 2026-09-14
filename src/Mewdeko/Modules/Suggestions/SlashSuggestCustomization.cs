@@ -1,5 +1,6 @@
 ﻿using Discord.Interactions;
 using Mewdeko.Common.Attributes.InteractionCommands;
+using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Suggestions.Services;
 
 namespace Mewdeko.Modules.Suggestions;
@@ -393,6 +394,144 @@ public partial class SlashSuggestions
             await Service.SetArchiveOnImplement(ctx.Guild, !current).ConfigureAwait(false);
             await ctx.Interaction.SendConfirmAsync(Strings.ArchiveOnImplementSet(ctx.Guild.Id, !current))
                 .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Sets the suggestion button channel where the suggest button message is posted.
+        /// </summary>
+        /// <param name="channel">The channel to set as the suggestion button channel.</param>
+        [SlashCommand("button-channel", "Set the channel where the suggest button is posted")]
+        [RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        public async Task SuggestButtonChannel(
+            [Summary("channel", "The channel to post the suggest button in")]
+            ITextChannel channel)
+        {
+            await DeferAsync().ConfigureAwait(false);
+            await Service.SetSuggestButtonChannel(ctx.Guild, channel.Id).ConfigureAwait(false);
+            await Service
+                .UpdateSuggestionButtonMessage(ctx.Guild, await Service.GetSuggestButtonMessage(ctx.Guild), true)
+                .ConfigureAwait(false);
+            await ConfirmAsync(Strings.SuggestButtonChannelSet(ctx.Guild.Id, channel.Mention)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Opens a modal to set or reset the suggest button message.
+        /// </summary>
+        [SlashCommand("button-message", "Set the message shown with the suggest button")]
+        [RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        public Task SuggestButtonMessage()
+        {
+            return RespondWithModalAsync<SuggestButtonMessageModal>("suggestions_button_message");
+        }
+
+        /// <summary>
+        ///     Handles the suggest button message modal submission. Providing "-" resets the message to its default.
+        /// </summary>
+        /// <param name="modal">The modal containing the message.</param>
+        [ModalInteraction("suggestions_button_message", true)]
+        [RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        public async Task SuggestButtonMessageSubmitted(SuggestButtonMessageModal modal)
+        {
+            await DeferAsync().ConfigureAwait(false);
+            var toSet = modal.Message;
+            if (toSet == "-")
+            {
+                await Service.SetSuggestButtonMessage(ctx.Guild, "-").ConfigureAwait(false);
+                await Service.UpdateSuggestionButtonMessage(ctx.Guild, toSet).ConfigureAwait(false);
+                await ConfirmAsync(Strings.SuggestButtonDefault(ctx.Guild.Id)).ConfigureAwait(false);
+            }
+            else
+            {
+                await Service.SetSuggestButtonMessage(ctx.Guild, toSet).ConfigureAwait(false);
+                await Service.UpdateSuggestionButtonMessage(ctx.Guild, toSet).ConfigureAwait(false);
+                await ConfirmAsync(Strings.SuggestButtonCustom(ctx.Guild.Id)).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        ///     Sets the label for the suggest button. Use "-" to reset to default. Max length is 80 characters.
+        /// </summary>
+        /// <param name="label">The label text for the suggest button.</param>
+        [SlashCommand("button-label", "Set the label of the suggest button, use - to reset")]
+        [RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        public async Task SuggestButtonLabel(
+            [Summary("label", "The label text, use - to reset to default")] [MaxLength(80)]
+            string label)
+        {
+            if (label.Length > 80)
+            {
+                await ErrorAsync(Strings.LabelMaxLength(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            await DeferAsync().ConfigureAwait(false);
+            if (label is "-" or "disabled")
+            {
+                await Service.SetSuggestButtonLabel(ctx.Guild, "-").ConfigureAwait(false);
+                await Service.UpdateSuggestionButtonMessage(ctx.Guild, await Service.GetSuggestButtonMessage(ctx.Guild))
+                    .ConfigureAwait(false);
+                await ConfirmAsync(Strings.SuggestButtonLabelDefault(ctx.Guild.Id)).ConfigureAwait(false);
+            }
+            else
+            {
+                await Service.SetSuggestButtonLabel(ctx.Guild, label).ConfigureAwait(false);
+                await Service.UpdateSuggestionButtonMessage(ctx.Guild, await Service.GetSuggestButtonMessage(ctx.Guild))
+                    .ConfigureAwait(false);
+                await ConfirmAsync(Strings.SuccessfullySetSuggestButtonLabel(ctx.Guild.Id, label))
+                    .ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        ///     Sets the emote for the suggest button. Omit the emote to reset to default.
+        /// </summary>
+        /// <param name="emote">The emote to use for the suggest button.</param>
+        [SlashCommand("button-emote", "Set the emote of the suggest button, omit to reset")]
+        [RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        public async Task SuggestButtonEmote(
+            [Summary("emote", "The emote to use, omit to reset to default")]
+            string? emote = null)
+        {
+            IEmote? parsed = null;
+            if (!string.IsNullOrWhiteSpace(emote))
+            {
+                if (Emote.TryParse(emote, out var customEmote))
+                    parsed = customEmote;
+                else if (Emoji.TryParse(emote, out var unicodeEmote))
+                    parsed = unicodeEmote;
+                else
+                {
+                    await ErrorAsync(Strings.InvalidEmote(ctx.Guild.Id)).ConfigureAwait(false);
+                    return;
+                }
+            }
+
+            await DeferAsync().ConfigureAwait(false);
+            if (parsed is null)
+            {
+                await Service.SetSuggestButtonEmote(ctx.Guild, "-").ConfigureAwait(false);
+                await Service.UpdateSuggestionButtonMessage(ctx.Guild, await Service.GetSuggestButtonMessage(ctx.Guild))
+                    .ConfigureAwait(false);
+                await ConfirmAsync(Strings.SuggestButtonEmoteDefault(ctx.Guild.Id)).ConfigureAwait(false);
+            }
+            else
+            {
+                await Service.SetSuggestButtonEmote(ctx.Guild, parsed.ToString()).ConfigureAwait(false);
+                await Service.UpdateSuggestionButtonMessage(ctx.Guild, await Service.GetSuggestButtonMessage(ctx.Guild))
+                    .ConfigureAwait(false);
+                await ConfirmAsync(Strings.SuccessfullySetSuggestButtonLabel(ctx.Guild.Id, parsed.ToString()))
+                    .ConfigureAwait(false);
+            }
         }
     }
 }

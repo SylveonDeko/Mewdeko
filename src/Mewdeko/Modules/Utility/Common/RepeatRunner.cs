@@ -3,6 +3,7 @@ using DataModel;
 using Discord.Net;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Utility.Services;
+using Mewdeko.Services.Analytics;
 using Serilog;
 
 namespace Mewdeko.Modules.Utility.Common;
@@ -13,6 +14,7 @@ namespace Mewdeko.Modules.Utility.Common;
 public class RepeatRunner : IDisposable
 {
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector? collector;
     private readonly StickyConditionService? conditionService;
     private readonly GuildTimezoneService? guildTimezoneService;
     private readonly MessageCountService? messageCountService;
@@ -33,10 +35,13 @@ public class RepeatRunner : IDisposable
     /// <param name="conditionService">Service for evaluating sticky conditions.</param>
     /// <param name="messageCountService">Service for activity detection.</param>
     /// <param name="guildTimezoneService">Service for timezone handling.</param>
+    /// <param name="collector">The analytics collector.</param>
     public RepeatRunner(DiscordShardedClient client, IGuild guild, GuildRepeater repeater,
         MessageRepeaterService mrs, StickyConditionService? conditionService = null,
-        MessageCountService? messageCountService = null, GuildTimezoneService? guildTimezoneService = null)
+        MessageCountService? messageCountService = null, GuildTimezoneService? guildTimezoneService = null,
+        IAnalyticsCollector? collector = null)
     {
+        this.collector = collector;
         Repeater = repeater ?? throw new ArgumentNullException(nameof(repeater));
         Guild = guild ?? throw new ArgumentNullException(nameof(guild));
         this.mrs = mrs ?? throw new ArgumentNullException(nameof(mrs));
@@ -326,17 +331,20 @@ public class RepeatRunner : IDisposable
                 // Always track the last message ID for all modes
                 await mrs.SetRepeaterLastMessage(Repeater.Id, newMsg.Id);
                 Repeater.LastMessageId = newMsg.Id;
+                collector?.Feature("repeater", Guild.Id);
             }
 
             ScheduleNextCheck();
         }
         catch (HttpException ex)
         {
+            collector?.Feature("repeater", Guild.Id, false, ex.GetType().Name);
             Log.Warning(ex, "HTTP error in repeater for channel {ChannelId}", Repeater.ChannelId);
             await RemoveRepeater();
         }
         catch (Exception ex)
         {
+            collector?.Feature("repeater", Guild.Id, false, ex.GetType().Name);
             Log.Error(ex, "Error in repeater for channel {ChannelId}", Repeater.ChannelId);
             await RemoveRepeater();
         }

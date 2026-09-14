@@ -5,6 +5,7 @@ using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Reputation.Common;
 using Mewdeko.Modules.Utility.Services;
+using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Strings;
 using Newtonsoft.Json;
 
@@ -17,6 +18,7 @@ public class RepService : INService, IReadyExecutor, IUnloadableService
 {
     private readonly ConcurrentDictionary<(ulong, ulong), RepChannelConfig> channelConfigCache = new();
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
 
     // Cache for performance
     private readonly ConcurrentDictionary<ulong, RepConfig> configCache = new();
@@ -38,6 +40,7 @@ public class RepService : INService, IReadyExecutor, IUnloadableService
     /// <param name="notificationService">The reputation notification service.</param>
     /// <param name="messageCountService">The message count service.</param>
     /// <param name="logger">The logger instance.</param>
+    /// <param name="collector">The analytics collector.</param>
     public RepService(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
@@ -45,8 +48,10 @@ public class RepService : INService, IReadyExecutor, IUnloadableService
         GeneratedBotStrings strings,
         RepNotificationService notificationService,
         MessageCountService messageCountService,
-        ILogger<RepService> logger)
+        ILogger<RepService> logger,
+        IAnalyticsCollector collector)
     {
+        this.collector = collector;
         this.client = client;
         this.dbFactory = dbFactory;
         this.eventHandler = eventHandler;
@@ -289,6 +294,7 @@ public class RepService : INService, IReadyExecutor, IUnloadableService
                 });
             }
 
+            collector.Feature("reputation", guildId);
             return new GiveRepResult
             {
                 Result = GiveRepResultType.Success, NewTotal = userRep.TotalRep, Amount = finalAmount
@@ -296,6 +302,7 @@ public class RepService : INService, IReadyExecutor, IUnloadableService
         }
         catch (Exception ex)
         {
+            collector.Feature("reputation", guildId, false, ex.GetType().Name);
             await transaction.RollbackAsync();
             logger.LogError(ex, "Error giving reputation from {GiverId} to {ReceiverId} in guild {GuildId}",
                 giverId, receiverId, guildId);

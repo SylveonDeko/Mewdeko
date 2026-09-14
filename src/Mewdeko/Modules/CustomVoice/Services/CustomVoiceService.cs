@@ -3,6 +3,7 @@ using System.Threading;
 using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
+using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Strings;
 
 namespace Mewdeko.Modules.CustomVoice.Services;
@@ -14,9 +15,10 @@ public class CustomVoiceService : INService, IUnloadableService
 {
     private readonly ConcurrentDictionary<ulong, HashSet<ulong>> activeChannels = new();
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
     private readonly IDataConnectionFactory dbFactory;
-    private readonly ConcurrentDictionary<ulong, DateTime> emptyChannels = new();
     private readonly ConcurrentDictionary<ulong, Timer> emptyChannelTimers = new();
+    private readonly ConcurrentDictionary<ulong, DateTime> emptyChannels = new();
     private readonly EventHandler eventHandler;
     private readonly SemaphoreSlim @lock = new(1, 1);
     private readonly ILogger<CustomVoiceService> logger;
@@ -31,12 +33,14 @@ public class CustomVoiceService : INService, IUnloadableService
     /// <param name="eventHandler">The event handler service.</param>
     /// <param name="strings">The localized strings service.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="collector">The analytics collector.</param>
     public CustomVoiceService(
         IDataConnectionFactory dbFactory,
         DiscordShardedClient client,
         EventHandler eventHandler,
-        GeneratedBotStrings strings, ILogger<CustomVoiceService> logger)
+        GeneratedBotStrings strings, ILogger<CustomVoiceService> logger, IAnalyticsCollector collector)
     {
+        this.collector = collector;
         this.dbFactory = dbFactory;
         this.client = client;
         this.eventHandler = eventHandler;
@@ -773,6 +777,7 @@ public class CustomVoiceService : INService, IUnloadableService
                 voiceChannel.Id);
         }
 
+        collector.Feature("custom_voice", guild.Id);
         return voiceChannel;
     }
 

@@ -2,6 +2,7 @@
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.InteractionCommands;
+using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Giveaways.Services;
 using SkiaSharp;
 
@@ -406,6 +407,73 @@ public class SlashGiveaways(
         {
             await Service.GiveawayTimerAction(gway).ConfigureAwait(false);
             await ctx.Interaction.SendConfirmAsync(Strings.GiveawayEndedSuccess(ctx.Guild.Id)).ConfigureAwait(false);
+        }
+    }
+
+    /// <summary>
+    ///     Opens a modal to set the dm message sent to users when they win a giveaway.
+    /// </summary>
+    [SlashCommand("dm-message", "Set the dm message sent to giveaway winners")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    [CheckPermissions]
+    public Task GdmMessage()
+    {
+        return RespondWithModalAsync<GiveawayDmMessageModal>("giveaways_dm_message");
+    }
+
+    /// <summary>
+    ///     Handles the giveaway dm message modal. Providing "-" removes the message, otherwise it is saved and previewed.
+    /// </summary>
+    /// <param name="modal">The modal containing the message.</param>
+    [ModalInteraction("giveaways_dm_message", true)]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    [CheckPermissions]
+    public async Task GdmMessageSubmitted(GiveawayDmMessageModal modal)
+    {
+        await DeferAsync().ConfigureAwait(false);
+        var gc = await guildSettings.GetGuildConfig(ctx.Guild.Id);
+        var message = modal.Message?.Trim();
+
+        if (string.IsNullOrWhiteSpace(message) || message == "-")
+        {
+            gc.GiveawayEndMessage = null;
+            await guildSettings.UpdateGuildConfig(ctx.Guild.Id, gc);
+            await ConfirmAsync(Strings.GiveawayHostMessageRemoved(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        gc.GiveawayEndMessage = message;
+        await guildSettings.UpdateGuildConfig(ctx.Guild.Id, gc);
+
+        var rep = new ReplacementBuilder()
+            .WithChannel(ctx.Channel)
+            .WithClient(ctx.Client as DiscordShardedClient)
+            .WithServer(ctx.Client as DiscordShardedClient, ctx.Guild as SocketGuild)
+            .WithUser(ctx.User);
+
+        rep.WithOverride("%messagelink%",
+            () => $"https://discord.com/channels/{ctx.Guild.Id}/{ctx.Channel.Id}");
+        rep.WithOverride("%giveawayitem%", () => "test Item");
+        rep.WithOverride("%giveawaywinners%", () => "10");
+
+        var replacer = rep.Build();
+
+        if (SmartEmbed.TryParse(replacer.Replace(message), ctx.Guild.Id, out var embeds, out var plaintext,
+                out var components))
+        {
+            await ctx.Interaction.FollowupAsync(
+                    string.IsNullOrWhiteSpace(plaintext)
+                        ? Strings.GiveawayHostMessageSet(ctx.Guild.Id)
+                        : $"{Strings.GiveawayHostMessageSet(ctx.Guild.Id)}\n{plaintext}",
+                    embeds, components: components?.Build())
+                .ConfigureAwait(false);
+        }
+        else
+        {
+            await ConfirmAsync($"{Strings.GiveawayHostMessageSet(ctx.Guild.Id)}\n{replacer.Replace(message)}")
+                .ConfigureAwait(false);
         }
     }
 }

@@ -20,6 +20,7 @@ using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Services;
 using Mewdeko.Modules.Xp.Events;
 using Mewdeko.Modules.Xp.Services;
+using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.Strings;
 using Newtonsoft.Json;
@@ -146,6 +147,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
     private readonly DiscordShardedClient client;
     private readonly CmdCdService cmdCds;
+    private readonly IAnalyticsCollector collector;
     private readonly BotConfigService configService;
     private readonly TriggerCounterService counters;
     private readonly TypedKey<CTModel> crAdded = new("cr.added");
@@ -213,6 +215,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <param name="xpService">The XP service, for level requirements and XP rewards.</param>
     /// <param name="stickyConditions">Evaluates the time conditions shared with sticky messages.</param>
     /// <param name="counters">The counter store used by counter placeholders and conditions.</param>
+    /// <param name="collector">The analytics collector.</param>
     public ChatTriggersService(
         PermissionService perms,
         IDataConnectionFactory dbFactory,
@@ -227,9 +230,10 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         IBotCredentials creds, GeneratedBotStrings strings,
         EventHandler eventHandler, ILogger<ChatTriggersService> logger,
         TriggerPlaceholderService placeholders, ICurrencyService currency, XpService xpService,
-        StickyConditionService stickyConditions, TriggerCounterService counters)
+        StickyConditionService stickyConditions, TriggerCounterService counters, IAnalyticsCollector collector)
     {
         this.stickyConditions = stickyConditions;
+        this.collector = collector;
         this.counters = counters;
         this.placeholders = placeholders;
         this.currency = currency;
@@ -2007,9 +2011,19 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         {
             var guildConfig = await guildSettings.GetGuildConfig(guildId).ConfigureAwait(false);
             await using var dbContext = await dbFactory.CreateConnectionAsync();
-            var dbUser = await dbContext.GetOrCreateUser(user).ConfigureAwait(false);
+            var optedOut = guildConfig.StatsOptOut;
+            if (!optedOut)
+            {
+                var dbUser = await dbContext.GetOrCreateUser(user).ConfigureAwait(false);
+                optedOut = dbUser.StatsOptOut;
+            }
 
-            if (guildConfig.StatsOptOut || dbUser.StatsOptOut)
+            collector.Feature("chat_trigger", guildId);
+            collector.Command(new CommandSample("trigger", null, ct.Id.ToString(), true, null, null, 0, null,
+                guildId, client.GetGuild(guildId)?.MemberCount,
+                client.GetGuild(guildId) is { } shardGuild ? client.GetShardIdFor(shardGuild) : null, null, optedOut));
+
+            if (optedOut)
                 return;
 
             await dbContext.InsertAsync(new CommandStat

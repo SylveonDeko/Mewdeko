@@ -1,3 +1,4 @@
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using DataModel;
 using LinqToDB;
@@ -5,7 +6,9 @@ using LinqToDB.Async;
 using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Database.Enums;
 using Mewdeko.Modules.Forms.Common;
+using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Strings;
+using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.Forms.Services;
 
@@ -15,8 +18,10 @@ namespace Mewdeko.Modules.Forms.Services;
 public partial class FormsService : INService
 {
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
     private readonly IDataConnectionFactory dbFactory;
     private readonly GuildSettingsService guildSettings;
+    private readonly IHttpClientFactory httpFactory;
     private readonly ILogger<FormsService> logger;
     private readonly GeneratedBotStrings strings;
 
@@ -28,24 +33,31 @@ public partial class FormsService : INService
     /// <param name="guildSettings">Provides the guild's own defaults, such as the review button emotes.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="strings">The localization strings provider.</param>
+    /// <param name="collector">The analytics collector.</param>
+    /// <param name="httpFactory">Creates the clients that post to form notification webhooks.</param>
     public FormsService(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
         GuildSettingsService guildSettings,
         ILogger<FormsService> logger,
-        GeneratedBotStrings strings)
+        GeneratedBotStrings strings,
+        IAnalyticsCollector collector,
+        IHttpClientFactory httpFactory)
     {
         this.client = client;
         this.dbFactory = dbFactory;
         this.guildSettings = guildSettings;
         this.logger = logger;
         this.strings = strings;
+        this.collector = collector;
+        this.httpFactory = httpFactory;
     }
 
     #region Discord Integration
 
     /// <summary>
-    ///     Logs a form submission to the configured Discord channel.
+    ///     Logs a form submission to the configured Discord channel and to the form's notification
+    ///     webhook, when either is set.
     /// </summary>
     /// <param name="form">The form that was submitted.</param>
     /// <param name="response">The response data.</param>
@@ -53,12 +65,30 @@ public partial class FormsService : INService
     /// <returns>The Discord message ID if successful.</returns>
     public async Task<ulong?> LogSubmissionToChannelAsync(Form form, FormResponse response, List<FormAnswer> answers)
     {
+        var guild = client.GetGuild(form.GuildId);
+
+        Embed embed;
+        try
+        {
+            embed = await BuildSubmissionEmbedAsync(form, response, answers, guild);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to build the submission embed for response {ResponseId}", response.Id);
+            return null;
+        }
+
+        var content = form.NotifyRoleId is { } notifyRoleId and > 0
+            ? MentionUtils.MentionRole(notifyRoleId)
+            : null;
+
+        await PostSubmissionToWebhookAsync(form, content, embed);
+
         if (!form.SubmitChannelId.HasValue)
             return null;
 
         try
         {
-            var guild = client.GetGuild(form.GuildId);
             if (guild == null)
             {
                 logger.LogWarning("Guild {GuildId} not found for form submission logging", form.GuildId);
@@ -73,64 +103,6 @@ public partial class FormsService : INService
                 return null;
             }
 
-            var embed = new EmbedBuilder()
-                .WithTitle(strings.FormSubmissionTitle(form.GuildId, form.Name))
-                .WithDescription(form.Description)
-                .WithColor(Color.Blue)
-                .WithFooter(strings.FormSubmissionFooter(form.GuildId, response.Id, form.Id))
-                .WithTimestamp(response.SubmittedAt);
-
-            // Only add user field if NOT anonymous
-            if (response.UserId.HasValue)
-            {
-                var user = guild.GetUser(response.UserId.Value);
-                var username = user?.ToString() ?? response.Username ?? $"<@{response.UserId.Value}>";
-                embed.AddField("User", username, true);
-            }
-            else
-            {
-                embed.AddField("User", "Anonymous (login required)", true);
-            }
-
-            embed.AddField("Submitted", $"<t:{((DateTimeOffset)response.SubmittedAt).ToUnixTimeSeconds()}:R>", true);
-
-            // Each answer carries the question as it was worded at the time, so a response posted
-            // here still reads correctly after the form is edited underneath it.
-            var questions = await GetFormQuestionsAsync(form.Id);
-            var questionDict = questions.ToDictionary(q => q.Id, q => q);
-
-            foreach (var answer in answers.Take(20)) // Limit to 20 fields (Discord limit is 25)
-            {
-                var questionText = answer.QuestionText
-                                   ?? (questionDict.TryGetValue(answer.QuestionId, out var question)
-                                       ? question.QuestionText
-                                       : "Question");
-
-                var answerValue = answer.AnswerDisplay;
-
-                if (string.IsNullOrWhiteSpace(answerValue))
-                {
-                    answerValue = answer.AnswerValues is { Length: > 0 }
-                        ? string.Join(", ", answer.AnswerValues)
-                        : answer.AnswerText;
-                }
-
-                if (string.IsNullOrWhiteSpace(answerValue))
-                    answerValue = "*(No answer)*";
-
-                embed.AddField($"❓ {questionText.TrimTo(256)}", $"└─ {answerValue.TrimTo(1018)}");
-            }
-
-            if (answers.Count > 20)
-            {
-                embed.AddField("⚠️ Note",
-                    $"Showing 20 of {answers.Count} answers. View full response in the dashboard.");
-            }
-
-            var content = form.NotifyRoleId is { } notifyRoleId and > 0
-                ? MentionUtils.MentionRole(notifyRoleId)
-                : null;
-
             var mentions = form.NotifyRoleId is { } pingRole and > 0
                 ? new AllowedMentions
                 {
@@ -140,7 +112,7 @@ public partial class FormsService : INService
 
             var components = await BuildReviewComponentsAsync(form, response.Id);
 
-            var msg = await channel.SendMessageAsync(content, embed: embed.Build(), allowedMentions: mentions,
+            var msg = await channel.SendMessageAsync(content, embed: embed, allowedMentions: mentions,
                 components: components);
 
             // Update response with message ID
@@ -163,6 +135,75 @@ public partial class FormsService : INService
             logger.LogError(ex, "Failed to log form submission {ResponseId} to Discord", response.Id);
             return null;
         }
+    }
+
+    /// <summary>
+    ///     Builds the embed that describes a submission, as posted to the submit channel and to the
+    ///     notification webhook.
+    /// </summary>
+    /// <param name="form">The form that was submitted.</param>
+    /// <param name="response">The response data.</param>
+    /// <param name="answers">The list of answers.</param>
+    /// <param name="guild">The guild the form belongs to, when the bot can see it.</param>
+    /// <returns>The built embed.</returns>
+    private async Task<Embed> BuildSubmissionEmbedAsync(Form form, FormResponse response, List<FormAnswer> answers,
+        SocketGuild? guild)
+    {
+        var embed = new EmbedBuilder()
+            .WithTitle(strings.FormSubmissionTitle(form.GuildId, form.Name))
+            .WithDescription(form.Description)
+            .WithColor(Color.Blue)
+            .WithFooter(strings.FormSubmissionFooter(form.GuildId, response.Id, form.Id))
+            .WithTimestamp(response.SubmittedAt);
+
+        // Only add user field if NOT anonymous
+        if (response.UserId.HasValue)
+        {
+            var user = guild?.GetUser(response.UserId.Value);
+            var username = user?.ToString() ?? response.Username ?? $"<@{response.UserId.Value}>";
+            embed.AddField("User", username, true);
+        }
+        else
+        {
+            embed.AddField("User", "Anonymous (login required)", true);
+        }
+
+        embed.AddField("Submitted", $"<t:{((DateTimeOffset)response.SubmittedAt).ToUnixTimeSeconds()}:R>", true);
+
+        // Each answer carries the question as it was worded at the time, so a response posted
+        // here still reads correctly after the form is edited underneath it.
+        var questions = await GetFormQuestionsAsync(form.Id);
+        var questionDict = questions.ToDictionary(q => q.Id, q => q);
+
+        foreach (var answer in answers.Take(20)) // Limit to 20 fields (Discord limit is 25)
+        {
+            var questionText = answer.QuestionText
+                               ?? (questionDict.TryGetValue(answer.QuestionId, out var question)
+                                   ? question.QuestionText
+                                   : "Question");
+
+            var answerValue = answer.AnswerDisplay;
+
+            if (string.IsNullOrWhiteSpace(answerValue))
+            {
+                answerValue = answer.AnswerValues is { Length: > 0 }
+                    ? string.Join(", ", answer.AnswerValues)
+                    : answer.AnswerText;
+            }
+
+            if (string.IsNullOrWhiteSpace(answerValue))
+                answerValue = "*(No answer)*";
+
+            embed.AddField($"❓ {questionText.TrimTo(256)}", $"└─ {answerValue.TrimTo(1018)}");
+        }
+
+        if (answers.Count > 20)
+        {
+            embed.AddField("⚠️ Note",
+                $"Showing 20 of {answers.Count} answers. View full response in the dashboard.");
+        }
+
+        return embed.Build();
     }
 
     #endregion
@@ -660,6 +701,8 @@ public partial class FormsService : INService
 
         logger.LogInformation("User {UserId} submitted response {ResponseId} to form {FormId}",
             userId, responseId, formId);
+
+        collector.Feature("form_submit", form.GuildId);
 
         return response;
     }
@@ -1586,8 +1629,12 @@ public partial class FormsService : INService
 
         await db.UpdateAsync(workflow);
 
+        await PostDecisionToWebhookAsync(form, response, true, reviewerId, notes);
+
         logger.LogInformation("Approved response {ResponseId} by reviewer {ReviewerId}. Action: {Action}",
             responseId, reviewerId, actionTaken);
+
+        collector.Feature("form_review", form.GuildId);
 
         return (true, inviteCode);
     }
@@ -1647,8 +1694,12 @@ public partial class FormsService : INService
 
         await db.UpdateAsync(workflow);
 
+        await PostDecisionToWebhookAsync(form, response, false, reviewerId, notes);
+
         logger.LogInformation("Rejected response {ResponseId} by reviewer {ReviewerId}. Action: {Action}",
             responseId, reviewerId, actionTaken);
+
+        collector.Feature("form_review", form.GuildId);
 
         return true;
     }

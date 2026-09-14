@@ -46,6 +46,11 @@ public sealed class BotConfigService : ConfigServiceBase<BotConfig>
             ConfigPrinters.ToString);
         AddParsedProp("leaveFeedbackChannel", bs => bs.LeaveFeedbackChannel, ulong.TryParse,
             ConfigPrinters.ToString);
+        AddParsedProp("analyticsEnabled", bs => bs.AnalyticsEnabled, bool.TryParse, ConfigPrinters.ToString);
+        AddParsedProp("analyticsRetentionDays", bs => bs.AnalyticsRetentionDays, int.TryParse,
+            ConfigPrinters.ToString);
+        AddParsedProp("analyticsDigestWebhook", bs => bs.AnalyticsDigestWebhook, ConfigParsers.String,
+            ConfigPrinters.ToString);
         AddParsedProp("showinvitebutton", bs => bs.ShowInviteButton, bool.TryParse, ConfigPrinters.ToString);
         AddParsedProp("successemote", bs => bs.SuccessEmote, ConfigParsers.String, ConfigPrinters.ToString);
         AddParsedProp("loadingemote", bs => bs.LoadingEmote, ConfigParsers.String, ConfigPrinters.ToString);

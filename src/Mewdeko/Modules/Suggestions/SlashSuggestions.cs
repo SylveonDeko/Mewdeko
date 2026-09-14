@@ -1,4 +1,5 @@
 ﻿using Discord.Interactions;
+using Humanizer;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Common.Modals;
@@ -307,5 +308,63 @@ public partial class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsServic
     {
         return Service.SendConsiderEmbed(ctx.Guild, ctx.User, suggestid,
             ctx.Channel as ITextChannel, reason.EscapeWeirdStuff(), ctx.Interaction);
+    }
+
+    /// <summary>
+    ///     Displays information about a specific suggestion, including its content, author, state and emote counts.
+    /// </summary>
+    /// <param name="number">The unique number of the suggestion to retrieve information for.</param>
+    [SlashCommand("info", "Shows information about a suggestion")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    [CheckPermissions]
+    public async Task SuggestInfo(
+        [Summary("number", "The number of the suggestion")] [Autocomplete(typeof(SuggestionAutocompleter))]
+        ulong number)
+    {
+        await DeferAsync().ConfigureAwait(false);
+        var suggest = (await Service.Suggestions(ctx.Guild.Id, number))?.FirstOrDefault();
+        if (suggest is null)
+        {
+            await ErrorAsync(Strings.SuggestionNotFound(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var emoteCount = new List<string>();
+        var emotes = await Service.GetEmotes(ctx.Guild.Id);
+        var count = 0;
+        if (emotes is not null and not "disable ")
+        {
+            foreach (var i in emotes.Split(","))
+            {
+                emoteCount.Add(
+                    $"{i.ToIEmote()} `{await Service.GetCurrentCount(suggest.MessageId, ++count).ConfigureAwait(false)}`");
+            }
+        }
+        else
+        {
+            emoteCount.Add(
+                $"{await Service.GetSuggestMote(ctx.Guild, 1)} `{await Service.GetCurrentCount(suggest.MessageId, 1).ConfigureAwait(false)}`");
+            emoteCount.Add(
+                $"{await Service.GetSuggestMote(ctx.Guild, 2)} `{await Service.GetCurrentCount(suggest.MessageId, 2).ConfigureAwait(false)}`");
+        }
+
+        var components = new ComponentBuilder()
+            .WithButton("Accept", $"accept:{suggest.SuggestionId}")
+            .WithButton("Deny", $"deny:{suggest.SuggestionId}")
+            .WithButton("Consider", $"consider:{suggest.SuggestionId}")
+            .WithButton("Implement", $"implement:{suggest.SuggestionId}");
+        var eb = new EmbedBuilder()
+            .WithOkColor()
+            .AddField("Suggestion",
+                $"{suggest.Suggestion1.Truncate(256)} \n[Jump To Suggestion](https://discord.com/channels/{ctx.Guild.Id}/{await Service.GetSuggestionChannel(ctx.Guild.Id)}/{suggest.MessageId})")
+            .AddField("Suggested By", $"<@{suggest.UserId}> `{suggest.UserId}`")
+            .AddField("Current State", (SuggestionsService.SuggestState)suggest.CurrentState)
+            .AddField("Last Changed By",
+                suggest.StateChangeUser == 0 ? "Nobody" : $"<@{suggest.StateChangeUser}> `{suggest.StateChangeUser}`")
+            .AddField("State Change Count", suggest.StateChangeCount)
+            .AddField("Emote Count", string.Join("\n", emoteCount));
+        await ctx.Interaction.FollowupAsync(embed: eb.Build(), components: components.Build())
+            .ConfigureAwait(false);
     }
 }

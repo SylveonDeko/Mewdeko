@@ -328,4 +328,68 @@ public class VoteSlashCommands(InteractiveService interactivity) : MewdekoSlashM
             return eb;
         }
     }
+
+    /// <summary>
+    ///     Removes a role from the list of roles to be granted to users when they vote.
+    /// </summary>
+    /// <param name="role">The role to remove from vote rewards.</param>
+    [SlashCommand("role-remove", "Removes a vote role")]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    public async Task VoteRoleRemove([Summary("role", "The role to remove from vote rewards")] IRole role)
+    {
+        var removed = await Service.RemoveVoteRole(ctx.Guild.Id, role.Id);
+        if (removed.Item1)
+            await ctx.Interaction.SendConfirmAsync(Strings.VoteRoleRemoved(ctx.Guild.Id));
+        else
+            await ctx.Interaction.SendErrorAsync(
+                $"Vote role remove failed for the following reason:\n{Format.Code(removed.Item2)}", Config);
+    }
+
+    /// <summary>
+    ///     Lists all roles that are granted to users when they vote.
+    /// </summary>
+    [SlashCommand("roles-list", "Lists all vote roles")]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    public async Task VoteRolesList()
+    {
+        var roles = await Service.GetVoteRoles(ctx.Guild.Id);
+        if (!roles.Any())
+        {
+            await ctx.Interaction.SendErrorAsync(Strings.NoVoteRoles(ctx.Guild.Id), Config);
+        }
+        else
+        {
+            var eb = new EmbedBuilder()
+                .WithTitle(Strings.VoteRolesTitle(ctx.Guild.Id, roles.Count))
+                .WithOkColor()
+                .WithDescription(string.Join("\n",
+                    roles.Select(x =>
+                        $"<@&{x.RoleId}>: {(x.Timer == 0 ? Strings.None(ctx.Guild.Id) : $"{TimeSpan.FromSeconds(x.Timer).Humanize()}")}")));
+            await ctx.Interaction.RespondAsync(embed: eb.Build());
+        }
+    }
+
+    /// <summary>
+    ///     Clears all roles that are granted to users when they vote.
+    /// </summary>
+    [SlashCommand("roles-clear", "Clears all vote roles")]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    public async Task VoteRolesClear()
+    {
+        if (!await PromptUserConfirmAsync(Strings.ClearVoteRolesConfirm(ctx.Guild.Id), ctx.User.Id))
+            return;
+
+        var cleared = await Service.ClearVoteRoles(ctx.Guild.Id);
+        if (cleared.Item1)
+            await ctx.Interaction.SendConfirmFollowupAsync(Strings.VoteRolesCleared(ctx.Guild.Id));
+        else
+            await ctx.Interaction.SendErrorFollowupAsync(
+                $"Vote roles not cleared for the following reason:\n{Format.Code(cleared.Item2)}", Config);
+    }
 }

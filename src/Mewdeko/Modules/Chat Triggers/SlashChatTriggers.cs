@@ -16,7 +16,10 @@ namespace Mewdeko.Modules.Chat_Triggers;
 /// </summary>
 [Group("triggers", "Manage chat triggers.")]
 // [RequireUserPermission(GuildPermission.Administrator)] coming soon???
-public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveService interactivity, BotConfig config)
+public partial class SlashChatTriggers(
+    IHttpClientFactory clientFactory,
+    InteractiveService interactivity,
+    BotConfig config)
     : MewdekoSlashModuleBase<ChatTriggersService>
 {
     /// <summary>

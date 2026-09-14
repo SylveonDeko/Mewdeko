@@ -355,6 +355,45 @@ public class SlashStatChannels : MewdekoSlashModuleBase<StatChannelService>
         await RespondAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
+    /// <summary>
+    ///     Adds a countdown stat channel that counts down to a target date.
+    /// </summary>
+    /// <param name="channel">The voice channel to use.</param>
+    /// <param name="date">The target date and time, for example 2026-12-31 18:00.</param>
+    /// <param name="template">The display template.</param>
+    [SlashCommand("countdown", "Add a stat channel that counts down to a date")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.ManageChannels)]
+    [CheckPermissions]
+    public async Task Countdown(
+        [Summary("channel", "The voice channel to use")]
+        IVoiceChannel channel,
+        [Summary("date", "The target date and time, for example 2026-12-31 18:00")]
+        string date,
+        [Summary("template", "The display template")]
+        string? template = null)
+    {
+        if (!DateTime.TryParse(date, out var parsedDate))
+        {
+            await ErrorAsync(Strings.StatChannelInvalidDate(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        template ??= StatChannelDefinitions.DefaultTemplate(StatChannelType.Countdown);
+
+        try
+        {
+            await Service.AddStatChannelAsync(ctx.Guild.Id, channel.Id, StatChannelType.Countdown, template,
+                countdownDate: parsedDate);
+            await ConfirmAsync(Strings.StatChannelAdded(ctx.Guild.Id, channel.Name, "Countdown"))
+                .ConfigureAwait(false);
+        }
+        catch (InvalidOperationException)
+        {
+            await ErrorAsync(Strings.StatChannelExists(ctx.Guild.Id)).ConfigureAwait(false);
+        }
+    }
+
     private static StatChannelOptions? BuildOptions(StatChannelDisplayStyle? style,
         StatChannelUpdateMechanism? mechanism, int? interval)
     {

@@ -2,6 +2,7 @@
   "afk_already_in_list": "No channels were added because the channels you specified are already in the list.",
   "afk_channels_updated": "Added {0} to the list of channels afk ignores",
   "afk_deletion_disabled": "Deletion of the Afk Message has been disabled!",
+  "afk_deletion_invalid": "The deletion time must be 0 or a positive number of seconds.",
   "afk_deletion_set": "Afk messages will now delete after {0} seconds.",
   "afk_disabled": "Afk disabled.",
   "afk_disabled_channels_none": "You don't have any disabled channels!",

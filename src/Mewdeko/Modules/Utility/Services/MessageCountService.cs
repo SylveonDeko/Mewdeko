@@ -4,6 +4,7 @@ using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
 using LinqToDB.Data;
+using Mewdeko.Services.Analytics;
 using Microsoft.Extensions.Caching.Memory;
 using Polly;
 using Polly.CircuitBreaker;
@@ -74,6 +75,7 @@ public class MessageCountService : INService, IDisposable
             .WrapAsync(Policy.BulkheadAsync<MessageCount>(100, 500));
 
     private readonly IMemoryCache cache;
+    private readonly IAnalyticsCollector collector;
     private readonly HashSet<ulong> countGuilds = [];
     private readonly CancellationTokenSource cts = new();
 
@@ -89,12 +91,14 @@ public class MessageCountService : INService, IDisposable
     /// <param name="handler">The handler parameter.</param>
     /// <param name="cache">The cache service.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="collector">The analytics collector.</param>
     public MessageCountService(IDataConnectionFactory dbFactory, EventHandler handler, IMemoryCache cache,
-        ILogger<MessageCountService> logger)
+        ILogger<MessageCountService> logger, IAnalyticsCollector collector)
     {
         this.dbFactory = dbFactory;
         this.cache = cache;
         this.logger = logger;
+        this.collector = collector;
         _ = InitializeGuildSettings();
         handler.Subscribe("MessageReceived", "MessageCountService", HandleCount);
         updateChannel = Channel.CreateUnbounded<(ulong, ulong, ulong, DateTime)>();
@@ -236,6 +240,7 @@ public class MessageCountService : INService, IDisposable
             msg.Author.Id,
             msg.Timestamp.UtcDateTime
         ));
+        collector.Feature("message_count", channel.GuildId);
     }
 
     /// <summary>

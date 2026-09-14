@@ -516,4 +516,53 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         await Service.AfkSet(ctx.Guild.Id, user.Id, "").ConfigureAwait(false);
         await EphemeralReplyErrorAsync(Strings.AfkNoted(ctx.Guild.Id, user.Mention));
     }
+
+    /// <summary>
+    ///     Shows or sets the auto-deletion duration for AFK messages. Omit the seconds to view the current value, set 0 to
+    ///     disable auto-deletion.
+    /// </summary>
+    /// <param name="seconds">The duration in seconds. Set to 0 to disable auto-deletion. Omit to view.</param>
+    [SlashCommand("deletion", "Shows or sets how long until afk messages are deleted, in seconds")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
+    [CheckPermissions]
+    public async Task AfkDel(
+        [Summary("seconds", "Seconds until afk messages are deleted, 0 disables, omit to view")]
+        int? seconds = null)
+    {
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
+        {
+            await ReplyErrorAsync(Strings.AfkStillStarting(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (seconds is null)
+        {
+            if (await Service.GetAfkDel(ctx.Guild.Id) == 0)
+            {
+                await ReplyConfirmAsync(Strings.AfkMessagesNodelete(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            await ReplyConfirmAsync(Strings.AfkMessagesDelete(ctx.Guild.Id,
+                    TimeSpan.FromSeconds(await Service.GetAfkDel(ctx.Guild.Id))).Humanize())
+                .ConfigureAwait(false);
+            return;
+        }
+
+        switch (seconds.Value)
+        {
+            case < 0:
+                await ErrorAsync(Strings.AfkDeletionInvalid(ctx.Guild.Id)).ConfigureAwait(false);
+                break;
+            case 0:
+                await Service.AfkDelSet(ctx.Guild, 0).ConfigureAwait(false);
+                await ConfirmAsync(Strings.AfkDeletionDisabled(ctx.Guild.Id)).ConfigureAwait(false);
+                break;
+            default:
+                await Service.AfkDelSet(ctx.Guild, seconds.Value).ConfigureAwait(false);
+                await ConfirmAsync(Strings.AfkDeletionSet(ctx.Guild.Id, seconds.Value)).ConfigureAwait(false);
+                break;
+        }
+    }
 }

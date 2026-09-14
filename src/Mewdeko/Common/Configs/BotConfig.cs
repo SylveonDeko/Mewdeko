@@ -45,6 +45,8 @@ public sealed class BotConfig
         LogPunishments = true;
         LogXpRewards = true;
         LeaveFeedbackEnabled = true;
+        AnalyticsEnabled = true;
+        AnalyticsRetentionDays = 30;
     }
 
     /// <summary>
@@ -198,6 +200,24 @@ public sealed class BotConfig
              Set to 0 to fall back to the guild joins/leaves channel from creds.
              """)]
     public ulong LeaveFeedbackChannel { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether the bot records analytics for the owner dashboard.
+    /// </summary>
+    [Comment("Whether the bot records analytics for the owner dashboard.")]
+    public bool AnalyticsEnabled { get; set; }
+
+    /// <summary>
+    ///     Gets or sets how many days raw analytics rows are kept.
+    /// </summary>
+    [Comment("Days raw analytics rows (commands, page views, guild events) are kept.")]
+    public int AnalyticsRetentionDays { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the Discord webhook the weekly analytics digest is posted to.
+    /// </summary>
+    [Comment("Discord webhook the weekly analytics digest is posted to. Empty disables the digest.")]
+    public string? AnalyticsDigestWebhook { get; set; }
 
     /// <summary>
     ///     Gets or sets whether the bot will support youtube links. (Or hides that it supports them lol)

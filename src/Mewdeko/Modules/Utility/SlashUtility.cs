@@ -1,7 +1,11 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading;
 using Discord.Interactions;
+using Fergun.Interactive;
+using Fergun.Interactive.Pagination;
 using Humanizer;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Autocompleters;
@@ -24,8 +28,192 @@ public partial class SlashUtility(
     IBotCredentials creds,
     MuteService muteService,
     BotConfigService config,
-    IDataConnectionFactory dbFactory) : MewdekoSlashModuleBase<UtilityService>
+    IDataConnectionFactory dbFactory,
+    InteractiveService interactivity,
+    IDataCache cache,
+    DownloadTracker tracker,
+    MediaConversionService mediaConversionService) : MewdekoSlashModuleBase<UtilityService>
 {
+    private static readonly SemaphoreSlim PingSem = new(1, 1);
+
+    /// <summary>
+    ///     Displays the banner of a specified user or the command invoker. Has a button to view the non guild banner if a
+    ///     guild banner is set.
+    /// </summary>
+    /// <param name="usr">Optional. The user whose banner to display.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    [SlashCommand("banner", "Shows a user's banner")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    public async Task Banner(IUser? usr = null)
+    {
+        await DeferAsync();
+        usr ??= ctx.User;
+        var components = new ComponentBuilder().WithButton("Non-Guild Banner", $"bannertype:real,{usr.Id}");
+        var guildUser = await client.Rest.GetGuildUserAsync(ctx.Guild.Id, usr.Id);
+        var user = await client.Rest.GetUserAsync(usr.Id);
+        if (user.GetBannerUrl(size: 2048) == null && guildUser.GetBannerUrl() == null)
+        {
+            await ReplyErrorAsync(Strings.AvatarNone(ctx.Guild.Id, usr.ToString())).ConfigureAwait(false);
+            return;
+        }
+
+        var bannerUrl = guildUser.GetBannerUrl() ?? user.GetBannerUrl(size: 2048);
+
+        await ctx.Interaction.FollowupAsync(embed: new EmbedBuilder()
+                .WithOkColor()
+                .AddField(efb => efb.WithName("Username").WithValue(usr.ToString()).WithIsInline(true))
+                .AddField(efb =>
+                    efb.WithName($"{(guildUser.BannerId is null ? "" : "Guild")} Banner Url")
+                        .WithValue($"[Link]({bannerUrl})").WithIsInline(true))
+                .WithImageUrl(bannerUrl).Build(), components: guildUser.BannerId is null ? null : components.Build())
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Shows the bot's ping, gateway latency and redis ping.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    [SlashCommand("ping", "Shows the bot's ping")]
+    [CheckPermissions]
+    [InteractionRatelimit(30)]
+    public async Task Ping()
+    {
+        await PingSem.WaitAsync(5000).ConfigureAwait(false);
+        try
+        {
+            var guildId = ctx.Guild?.Id ?? 0;
+            var redisPing = await cache.Redis.GetDatabase().PingAsync();
+
+            var sw = Stopwatch.StartNew();
+            await ctx.Interaction.RespondAsync(Strings.PingResponse(guildId)).ConfigureAwait(false);
+            sw.Stop();
+
+            await ctx.Interaction.ModifyOriginalResponseAsync(x =>
+            {
+                x.Content = "";
+                x.Embed = new EmbedBuilder().WithOkColor()
+                    .WithDescription(Strings.PingResult(guildId, (int)sw.Elapsed.TotalMilliseconds,
+                        client.Latency, redisPing.Nanoseconds))
+                    .Build();
+            }).ConfigureAwait(false);
+        }
+        finally
+        {
+            PingSem.Release();
+        }
+    }
+
+    /// <summary>
+    ///     Rolls a dice with the specified number of sides. Dnd dice are supported.
+    /// </summary>
+    /// <param name="roll">The roll to make, for example 2d6+3.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    [SlashCommand("roll", "Rolls dice. Dnd dice notation is supported.")]
+    [CheckPermissions]
+    public async Task Roll([Summary("roll", "The roll to make, for example 2d6+3")] string roll)
+    {
+        var guildId = ctx.Guild?.Id ?? 0;
+        RollResult result;
+        try
+        {
+            result = RollCommandService.ParseRoll(roll);
+        }
+        catch (ArgumentException ex)
+        {
+            await ReplyErrorAsync(Strings.RollFailNewDm(guildId, ex.Message)).ConfigureAwait(false);
+            return;
+        }
+
+        var paginator = new LazyPaginatorBuilder()
+            .AddUser(ctx.User)
+            .WithPageFactory(PageFactory)
+            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+            .WithMaxPageIndex(result.Results.Count / 10)
+            .WithDefaultCanceledPage()
+            .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+            .Build();
+
+        await interactivity.SendPaginatorAsync(paginator, (ctx.Interaction as SocketInteraction)!,
+            TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+
+        async Task<PageBuilder> PageFactory(int page)
+        {
+            await Task.CompletedTask.ConfigureAwait(false);
+            return new PageBuilder()
+                .WithOkColor()
+                .WithFields(result.Results.Skip(page * 10)
+                    .Take(10)
+                    .Select(x => new EmbedFieldBuilder()
+                        .WithName(x.Key.ToString())
+                        .WithValue(string.Join(',', x.Value))).ToArray())
+                .WithDescription(result.InacurateTotal
+                    ? Strings.RollFailTooLarge(guildId)!
+                    : result.ToString());
+        }
+    }
+
+    /// <summary>
+    ///     O-OwoIfy WoIfy's the specified input.
+    /// </summary>
+    /// <param name="input">The input to owoify woify.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    [SlashCommand("owoify", "Owoifies the given text")]
+    [CheckPermissions]
+    public Task OwoIfy([Summary("input", "The text to owoify")] string input)
+    {
+        return ctx.Interaction.RespondAsync(OwoServices.OwoIfy(input).SanitizeMentions(true));
+    }
+
+    /// <summary>
+    ///     Opens a modal to test how the bot parses embed json or plain text.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    [SlashCommand("debug-embed", "Tests how the bot parses embed json or plain text")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    public Task DebugEmbed()
+    {
+        return RespondWithModalAsync<DebugEmbedModal>("utility_debug_embed");
+    }
+
+    /// <summary>
+    ///     Handles the debug embed modal, parses the given text and reports the parse result.
+    /// </summary>
+    /// <param name="modal">The modal containing the embed text to parse.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    [ModalInteraction("utility_debug_embed", true)]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    public async Task DebugEmbedSubmitted(DebugEmbedModal modal)
+    {
+        var watch = Stopwatch.StartNew();
+        try
+        {
+            SmartEmbed.TryParse(modal.EmbedText, ctx.Guild.Id, out var embeds, out var plainText,
+                out var components);
+            var comps = components?.Build();
+            watch.Stop();
+            var eb = new EmbedBuilder()
+                .WithTitle(Strings.EmbedParsed(ctx.Guild.Id))
+                .WithOkColor()
+                .WithDescription(Strings.PlaintextLength(ctx.Guild.Id, plainText.Length) +
+                                 $"`Embed Count:` ***{embeds?.Length}***\n" +
+                                 $"`Component Count:` ***{comps?.Components.Count}")
+                .WithFooter(Strings.ExecutionTime(ctx.Guild.Id, watch.Elapsed));
+            await ctx.Channel.SendMessageAsync(plainText, embeds: embeds, components: comps);
+            await ctx.Interaction.RespondAsync(embed: eb.Build());
+        }
+        catch (Exception e)
+        {
+            var eb = new EmbedBuilder()
+                .WithTitle(Strings.ErrorParsingEmbed(ctx.Guild.Id))
+                .WithDescription(e.ToString());
+            await ctx.Interaction.RespondAsync(embed: eb.Build());
+        }
+    }
+
     /// <summary>
     ///     Displays the avatar of a user. This can either be their global Discord avatar or their server-specific avatar if
     ///     available.

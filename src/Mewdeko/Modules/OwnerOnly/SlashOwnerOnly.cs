@@ -38,16 +38,20 @@ namespace Mewdeko.Modules.OwnerOnly;
 /// <param name="cache">Cache service for storing and retrieving temporary data.</param>
 /// <param name="guildSettings">Service for accessing and modifying guild-specific settings.</param>
 /// <param name="commandHandler">Handler for processing and executing commands received from users.</param>
+/// <param name="creds">Bot credentials and configuration secrets.</param>
+/// <param name="logger">The logger instance for structured logging.</param>
 [SlashOwnerOnly]
 [Discord.Interactions.Group("owneronly", "Commands only the bot owner can use")]
-public class SlashOwnerOnly(
+public partial class SlashOwnerOnly(
     DiscordShardedClient client,
     IBotStrings strings,
     InteractiveService serv,
     IDataConnectionFactory dbFactory,
     IDataCache cache,
     GuildSettingsService guildSettings,
-    CommandHandler commandHandler)
+    CommandHandler commandHandler,
+    BotCredentials creds,
+    ILogger<SlashOwnerOnly> logger)
     : MewdekoSlashModuleBase<OwnerOnlyService>
 {
     /// <summary>

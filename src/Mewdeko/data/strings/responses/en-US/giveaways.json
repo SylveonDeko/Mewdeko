@@ -20,6 +20,7 @@
   "giveaway_entry_successful": "Giveaway entry successful!",
   "giveaway_guild_not_found": "The guild for this giveaway could not be found.",
   "giveaway_host_message_removed": "Giveaway host message has been removed.",
+  "giveaway_host_message_set": "Giveaway host message has been set.",
   "giveaway_invalid_color": "That's not a valid color! Please use proper hex (starts with #) or use html color names!",
   "giveaway_invalid_emote": "I'm unable to use that emote for giveaways! Most likely because I'm not in a server with it.",
   "giveaway_invalid_emote_current": "The current giveaway emote is invalid or I can't access it! Please set it again and start a new giveaway.",

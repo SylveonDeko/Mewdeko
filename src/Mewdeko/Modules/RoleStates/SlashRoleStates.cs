@@ -463,4 +463,34 @@ public class SlashRoleStates(BotConfigService bss, InteractiveService interactiv
             await ctx.Interaction.SendConfirmAsync(
                 Strings.RoleStateDeletedSuccess(ctx.Guild.Id, bss.Data.SuccessEmote, user));
     }
+
+    /// <summary>
+    ///     Saves role states for all users in the server.
+    /// </summary>
+    [SlashCommand("save-all", "Saves role states for every user in the server")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
+    public async Task SaveAllRoleStates()
+    {
+        var roleStateSettings = await Service.GetRoleStateSettings(ctx.Guild.Id);
+        if (roleStateSettings is null || !roleStateSettings.Enabled)
+        {
+            await ctx.Interaction.SendErrorAsync(
+                Strings.RoleStatesNotEnabled(ctx.Guild.Id, bss.Data.ErrorEmote), Config);
+            return;
+        }
+
+        await ctx.Interaction.SendConfirmAsync(
+            $"{bss.Data.LoadingEmote} {Strings.SavingAllRoleStates(ctx.Guild.Id)}");
+
+        var result = await Service.SaveAllUserRoleStates(ctx.Guild);
+
+        if (result.SavedCount > 0)
+            await ctx.Interaction.SendConfirmFollowupAsync(
+                $"{bss.Data.SuccessEmote} {Strings.RoleStatesSaved(ctx.Guild.Id, result.SavedCount)}");
+        else
+            await ctx.Interaction.SendErrorFollowupAsync(
+                $"{bss.Data.ErrorEmote} {Strings.NoRoleStatesSaved(ctx.Guild.Id)}", Config);
+    }
 }

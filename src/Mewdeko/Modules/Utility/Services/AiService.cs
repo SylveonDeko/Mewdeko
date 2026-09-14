@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -10,6 +11,7 @@ using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.Configs;
 using Mewdeko.Modules.Utility.Services.Impl;
+using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Strings;
 using Microsoft.Extensions.DependencyInjection;
 using Embed = Discord.Embed;
@@ -45,6 +47,7 @@ public class AiService : INService
     private readonly AiClientFactory aiClientFactory;
     private readonly BotConfig botConfig;
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
     private readonly IDataConnectionFactory dbFactory;
     private readonly IHttpClientFactory httpFactory;
     private readonly ILogger<AiService> logger;
@@ -71,9 +74,10 @@ public class AiService : INService
     /// <param name="client">The Discord client instance.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="serviceProvider">The service provider for dependency injection.</param>
+    /// <param name="collector">The analytics collector.</param>
     public AiService(IDataConnectionFactory dbFactory, IHttpClientFactory httpFactory,
         GeneratedBotStrings strings, BotConfig config, EventHandler handler, DiscordShardedClient client,
-        ILogger<AiService> logger, IServiceProvider serviceProvider)
+        ILogger<AiService> logger, IServiceProvider serviceProvider, IAnalyticsCollector collector)
     {
         this.dbFactory = dbFactory;
         this.httpFactory = httpFactory;
@@ -82,6 +86,7 @@ public class AiService : INService
         this.client = client;
         this.logger = logger;
         this.serviceProvider = serviceProvider;
+        this.collector = collector;
         aiClientFactory = new AiClientFactory(httpFactory);
         handler.Subscribe("MessageReceived", "AiService", HandleMessage);
         modelCache = new ConcurrentDictionary<AiProvider, List<AiModel>>();
@@ -185,10 +190,14 @@ public class AiService : INService
         {
             await StreamResponse(config, webhookMessageId, msg, webhook);
             await UpdateConfig(config);
+            collector.Feature("ai_chat", guildChannel.GuildId);
         }
         catch (Exception ex)
         {
             logger.LogWarning(ex, "Error in AI processing");
+            collector.Feature("ai_chat", guildChannel.GuildId, false, ex.GetType().Name);
+            collector.Counter("ai.requests", 1, ("model", config.Model ?? string.Empty),
+                ("provider", ((AiProvider)config.Provider).ToString().ToLowerInvariant()), ("ok", "0"));
             if (webhook != null && webhookMessageId.HasValue)
             {
                 await webhook.ModifyMessageAsync(webhookMessageId.Value, x =>
@@ -347,6 +356,11 @@ public class AiService : INService
         var responseBuilder = new StringBuilder();
         var lastUpdate = DateTime.UtcNow;
         var tokenCount = 0;
+        var inputTokens = 0;
+        var outputTokens = 0;
+        var model = config.Model ?? string.Empty;
+        var provider = ((AiProvider)config.Provider).ToString().ToLowerInvariant();
+        var requestTimer = Stopwatch.StartNew();
 
         // Store response message for regular (non-webhook) updates
         IUserMessage? regularMessage = null;
@@ -408,6 +422,8 @@ public class AiService : INService
             if (usage.HasValue)
             {
                 tokenCount = usage.Value.TotalTokens;
+                inputTokens = usage.Value.InputTokens;
+                outputTokens = usage.Value.OutputTokens;
                 logger.LogInformation($"Updated token count: {tokenCount}");
             }
 
@@ -436,6 +452,14 @@ public class AiService : INService
             logger.LogWarning("AI stream timed out");
             break;
         }
+
+        requestTimer.Stop();
+        collector.Counter("ai.requests", 1, ("model", model), ("provider", provider), ("ok", "1"));
+        collector.Duration("ai.duration", requestTimer.Elapsed.TotalMilliseconds, ("model", model));
+        if (inputTokens > 0)
+            collector.Counter("ai.tokens", inputTokens, ("model", model), ("dir", "in"));
+        if (outputTokens > 0)
+            collector.Counter("ai.tokens", outputTokens, ("model", model), ("dir", "out"));
 
         // Handle tool use if the stream ended with tool_use stop reason
         if (stopReason == "tool_use" && toolUseRequests.Any())

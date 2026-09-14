@@ -6,6 +6,7 @@ using Mewdeko.Common.Configs;
 using Mewdeko.Common.TriggerPlaceholders;
 using Mewdeko.Modules.Chat_Triggers.Common;
 using Mewdeko.Modules.Utility.Services;
+using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.Strings;
 using Swan;
@@ -19,6 +20,7 @@ public class GiveawayService : INService, IDisposable
 {
     private readonly Timer cleanupTimer;
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
     private readonly BotConfig config;
     private readonly BotCredentials credentials;
     private readonly IDataConnectionFactory dbFactory;
@@ -47,6 +49,7 @@ public class GiveawayService : INService, IDisposable
     /// <param name="strings">Service for localized strings.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="triggerEvents">Publishes giveaway events to chat triggers.</param>
+    /// <param name="collector">The analytics collector.</param>
     public GiveawayService(
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
@@ -54,8 +57,10 @@ public class GiveawayService : INService, IDisposable
         BotConfig config,
         BotCredentials credentials,
         MessageCountService msgCntService,
-        GeneratedBotStrings strings, ILogger<GiveawayService> logger, TriggerEventPublisher triggerEvents)
+        GeneratedBotStrings strings, ILogger<GiveawayService> logger, TriggerEventPublisher triggerEvents,
+        IAnalyticsCollector collector)
     {
+        this.collector = collector;
         this.triggerEvents = triggerEvents;
         this.client = client;
         this.dbFactory = dbFactory;
@@ -156,6 +161,7 @@ public class GiveawayService : INService, IDisposable
         {
             UserId = userId, GiveawayId = giveawayId
         });
+        collector.Feature("giveaway_enter", giveaway.ServerId);
         return (true, null);
     }
 
@@ -247,6 +253,7 @@ public class GiveawayService : INService, IDisposable
 
         // Schedule timer
         await ScheduleGiveaway(gway);
+        collector.Feature("giveaway", serverId);
 
         return gway;
     }
@@ -392,6 +399,7 @@ public class GiveawayService : INService, IDisposable
 
         // Schedule the giveaway
         await ScheduleGiveaway(gway);
+        collector.Feature("giveaway", serverId);
 
         // Send confirmation
         if (interaction is not null)

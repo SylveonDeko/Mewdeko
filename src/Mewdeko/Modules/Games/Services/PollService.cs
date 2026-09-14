@@ -4,6 +4,7 @@ using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Games.Common;
+using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Strings;
 using Poll = DataModel.Poll;
 
@@ -15,6 +16,7 @@ namespace Mewdeko.Modules.Games.Services;
 public class PollService : INService, IReadyExecutor
 {
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<PollService> logger;
     private readonly GeneratedBotStrings strings;
@@ -26,9 +28,11 @@ public class PollService : INService, IReadyExecutor
     /// <param name="logger">The logger instance.</param>
     /// <param name="strings">The localized strings service.</param>
     /// <param name="client">The Discord client.</param>
+    /// <param name="collector">The analytics collector.</param>
     public PollService(IDataConnectionFactory dbFactory, ILogger<PollService> logger,
-        GeneratedBotStrings strings, DiscordShardedClient client)
+        GeneratedBotStrings strings, DiscordShardedClient client, IAnalyticsCollector collector)
     {
+        this.collector = collector;
         this.dbFactory = dbFactory;
         this.logger = logger;
         this.strings = strings;
@@ -142,10 +146,12 @@ public class PollService : INService, IReadyExecutor
             logger.LogInformation("Created poll {PollId} in guild {GuildId} by user {CreatorId}",
                 pollId, guildId, creatorId);
 
+            collector.Feature("poll", guildId);
             return poll;
         }
         catch (Exception ex)
         {
+            collector.Feature("poll", guildId, false, ex.GetType().Name);
             logger.LogError(ex, "Failed to create poll in guild {GuildId}", guildId);
             throw;
         }
@@ -335,10 +341,12 @@ public class PollService : INService, IReadyExecutor
             };
 
             await db.InsertAsync(newVote);
+            collector.Feature("poll", poll.GuildId);
             return (true, VoteResult.Success);
         }
         catch (Exception ex)
         {
+            collector.Feature("poll", null, false, ex.GetType().Name);
             logger.LogError(ex, "Failed to process vote for poll {PollId} by user {UserId}", pollId, userId);
             return (false, VoteResult.InvalidOption);
         }

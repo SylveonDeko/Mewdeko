@@ -1,4 +1,4 @@
-﻿using Discord.Interactions;
+using Discord.Interactions;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,7 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Mewdeko.Common.Attributes.InteractionCommands;
 
 /// <summary>
-///     Attribute to check permissions before executing a command or method.
+///     Checks the guild permission system before executing a slash or context command. The command is resolved to
+///     its text command identity first, so rules written against text commands and modules apply here too.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
 public sealed class CheckPermissions : PreconditionAttribute
@@ -17,53 +18,25 @@ public sealed class CheckPermissions : PreconditionAttribute
     /// <param name="context">The interaction context.</param>
     /// <param name="executingCommand">The command being executed.</param>
     /// <param name="services">The service provider.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains the precondition result.</returns>
+    /// <returns>The precondition result.</returns>
     public override async Task<PreconditionResult> CheckRequirementsAsync(IInteractionContext context,
         ICommandInfo executingCommand, IServiceProvider services)
     {
-        // If the context does not have a guild, return success.
         if (context.Guild is null) return PreconditionResult.FromSuccess();
 
-        // Determine the command name based on the method name and group name.
-        var commandname = executingCommand.MethodName.ToLower() switch
-        {
-            "addhighlight" when executingCommand.Module.SlashGroupName == "highlights" => "highlights",
-            "listhighlights" when executingCommand.Module.SlashGroupName == "highlights" => "highlights",
-            "deletehighlight" when executingCommand.Module.SlashGroupName == "highlights" => "highlights",
-            "matchhighlight" when executingCommand.Module.SlashGroupName == "highlights" => "highlights",
-            "toggleuser" when executingCommand.Module.SlashGroupName == "highlights" => "highlights",
-            "togglechannel" when executingCommand.Module.SlashGroupName == "highlights" => "highlights",
-            "toggleglobal" when executingCommand.Module.SlashGroupName == "highlights" => "highlights",
-            _ => executingCommand.MethodName.ToLower()
-        };
+        var perms = services.GetRequiredService<PermissionService>();
+        var guildSettingsService = services.GetRequiredService<GuildSettingsService>();
+        var identity = services.GetRequiredService<SlashCommandIdentityService>().Resolve(executingCommand);
 
-        // Get the permission service and guild settings service.
-        var perms = services.GetService<PermissionService>();
-        var guildSettingsService = services.GetService<GuildSettingsService>();
-
-        // Determine the group name based on the method name and group name.
-        var groupname = executingCommand.MethodName switch
-        {
-            "Confess" => "Confessions",
-            "StealEmotes" => "servermanagement",
-            _ => executingCommand.Module.SlashGroupName
-        };
-
-        // If the group name is "snipe", set it to "utility".
-        if (executingCommand.Module.SlashGroupName?.Equals("snipe", StringComparison.OrdinalIgnoreCase) == true)
-            groupname = "utility";
-
-        // Get the permission cache for the guild.
         var pc = await perms.GetCacheFor(context.Guild.Id);
+        if (pc.Permissions is null)
+            return PreconditionResult.FromSuccess();
 
-        // Check the permissions and return the result.
-        var index = 0;
-        return
-            pc.Permissions != null &&
-            pc.Permissions.CheckSlashPermissions(groupname, commandname, context.User, context.Channel, out index)
-                ? PreconditionResult.FromSuccess()
-                : PreconditionResult.FromError(perms.Strings.PermPrevent(context.Guild.Id, index + 1,
-                    Format.Bold(pc.Permissions[index].GetCommand(await guildSettingsService.GetPrefix(context.Guild),
-                        context.Guild as SocketGuild))));
+        return pc.Permissions.CheckSlashPermissions(identity.ModuleName, identity.Alias, context.User,
+            context.Channel, out var index)
+            ? PreconditionResult.FromSuccess()
+            : PreconditionResult.FromError(perms.Strings.PermPrevent(context.Guild.Id, index + 1,
+                Format.Bold(pc.Permissions[index].GetCommand(await guildSettingsService.GetPrefix(context.Guild),
+                    context.Guild as SocketGuild))));
     }
 }

@@ -17,13 +17,13 @@ namespace Mewdeko.Controllers;
 [Authorize("ApiKeyPolicy")]
 public class CountingController : Controller
 {
+    private readonly IDashboardAuditContext auditContext;
     private readonly DiscordShardedClient client;
     private readonly CountingService countingService;
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<CountingController> logger;
     private readonly CountingModerationService moderationService;
     private readonly CountingStatsService statsService;
-    private readonly IDashboardAuditContext auditContext;
 
     /// <summary>
     /// Initializes a new instance of the CountingController.
@@ -859,6 +859,57 @@ public class CountingController : Controller
         {
             logger.LogError(ex, "Error unbanning user {UserId} from counting in channel {ChannelId} in guild {GuildId}",
                 userId, channelId, guildId);
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    /// <summary>
+    ///     Lists users currently banned from counting in a channel.
+    /// </summary>
+    /// <param name="guildId">The Discord guild ID</param>
+    /// <param name="channelId">The Discord channel ID</param>
+    /// <returns>Active counting bans with resolved usernames where possible</returns>
+    [HttpGet("channels/{channelId}/bans")]
+    public async Task<IActionResult> GetCountingBans(ulong guildId, ulong channelId)
+    {
+        try
+        {
+            var countingChannel = await countingService.GetCountingChannelAsync(channelId);
+            if (countingChannel == null || countingChannel.GuildId != guildId)
+                return NotFound("Counting channel not found");
+
+            await using var db = await dbFactory.CreateConnectionAsync();
+            var now = DateTime.UtcNow;
+            var bans = await db.CountingUserBans
+                .Where(x => x.ChannelId == channelId && x.IsActive && (x.ExpiresAt == null || x.ExpiresAt > now))
+                .OrderByDescending(x => x.BannedAt)
+                .ToListAsync();
+
+            var guild = client.GetGuild(guildId);
+            var result = bans.Select(ban =>
+            {
+                var user = guild?.GetUser(ban.UserId);
+                var moderator = guild?.GetUser(ban.BannedBy);
+                return new
+                {
+                    ban.Id,
+                    ban.UserId,
+                    user?.Username,
+                    AvatarUrl = user?.GetAvatarUrl() ?? user?.GetDefaultAvatarUrl(),
+                    ban.BannedBy,
+                    BannedByUsername = moderator?.Username,
+                    ban.BannedAt,
+                    ban.ExpiresAt,
+                    ban.Reason
+                };
+            });
+
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error listing counting bans for channel {ChannelId} in guild {GuildId}", channelId,
+                guildId);
             return StatusCode(500, "Internal server error");
         }
     }

@@ -205,8 +205,6 @@ anime:
   - aq
 anonrep:
   - anonrep
-  - repanon
-  - anongiverep
 antialt:
   - antialt
 antimassmention:
@@ -426,7 +424,7 @@ catmdl:
   - cam
 challengeleaderboard:
   - challengeleaderboard
-  - clb
+  - chlb
 channelaccessapply:
   - channelaccessapply
   - caapply
@@ -514,8 +512,6 @@ checkpanels:
   - tcheckpanels
 checkrep:
   - checkrep
-  - repcheck
-  - rc
 chnlcmd:
   - chnlcmd
   - cc
@@ -538,7 +534,7 @@ chucknorris:
   - cn
 claimchallenge:
   - claimchallenge
-  - cc
+  - claimch
 clearqueue:
   - clearqueue
   - cq
@@ -715,7 +711,6 @@ countingsetup:
   - countsetup
 countingstats:
   - countingstats
-  - cstats
   - countstats
 countingstatus:
   - countingstatus
@@ -1052,7 +1047,7 @@ cuddle:
   - cuddle
 currencyreward:
   - currencyreward
-  - cr
+  - curreward
 currencyrewards:
   - currencyrewards
 customafkmessage:
@@ -1166,7 +1161,7 @@ dragon:
   - dragon
 duckrace:
   - duckrace
-  - dr
+  - duck
 e621:
   - e621
 edit:
@@ -1200,7 +1195,6 @@ embedsave:
   - embedsave
   - esave
 emotelist:
-  - emotelist
   - emotelist
 endcompetition:
   - endcompetition
@@ -1289,7 +1283,6 @@ getjson:
   - getjson
 giverep:
   - giverep
-  - rep
   - +rep
   - gr
 glist:
@@ -1383,7 +1376,6 @@ highlight:
   - hl
 highlow:
   - highlow
-  - hl
 hit:
   - hit
 horserace:
@@ -1740,8 +1732,6 @@ mwarnpunishlist:
   - mwarnpl
 myrep:
   - myrep
-  - repcheck
-  - rc
 nameban:
   - nameban
   - nban
@@ -1815,7 +1805,7 @@ patternadd:
   - padd
 patternlist:
   - patternlist
-  - plist
+  - patterns
 patternremove:
   - patternremove
   - premove
@@ -1858,7 +1848,6 @@ patreontop:
   - pttop
 pause:
   - pause
-  - p
 permcontrol:
   - permcontrol
   - permc
@@ -2137,24 +2126,17 @@ renamerole:
   - renr
 rep:
   - rep
-  - +rep
-  - giverep
-  - gr
 repanon:
   - repanon
-  - anonrep
   - anongiverep
 repanonymous:
   - repanonymous
-  - repanon
+  - repanonym
 repchannel:
   - repchannel
   - repch
 repcheck:
   - repcheck
-  - rc
-  - myrep
-  - checkrep
 repcommandbypass:
   - repcommandbypass
   - repcmdbypass
@@ -2276,8 +2258,6 @@ repfreeze:
   - freezerep
 repgive:
   - repgive
-  - giverep
-  - gr
 rephistory:
   - rephistory
   - rephist
@@ -2286,14 +2266,8 @@ repimport:
   - repim
 replb:
   - replb
-  - repleaderboard
-  - reptop
-  - toprep
 repleaderboard:
   - repleaderboard
-  - replb
-  - reptop
-  - toprep
 repmilestonelost:
   - repmilestonelost
   - repml
@@ -2305,7 +2279,7 @@ repminmembership:
   - repmm
 repminmessages:
   - repminmessages
-  - repmsg
+  - repminmsg
 repnegative:
   - repnegative
   - repneg
@@ -2351,16 +2325,13 @@ repstats:
   - repstat
 repstatus:
   - repstatus
-  - repstat
+  - repsettings
 reptake:
   - reptake
   - '-rep'
   - takerep
 reptop:
   - reptop
-  - repleaderboard
-  - replb
-  - toprep
 reptypeadd:
   - reptypeadd
   - repaddtype
@@ -2469,7 +2440,6 @@ rolepermlist:
   - roleperms
 rolereward:
   - rolereward
-  - rr
 rolerewards:
   - rolerewards
 roles:
@@ -2508,7 +2478,7 @@ rule34:
   - r34
 russianroulette:
   - russianroulette
-  - rr
+  - rroulette
 safebooru:
   - safebooru
 sanitize:
@@ -2948,7 +2918,6 @@ streamrolewhitelist:
   - srwl
 streamsclear:
   - streamsclear
-  - stc
   - stclear
 streamtemplate:
   - streamtemplate
@@ -3193,7 +3162,6 @@ todogrant:
   - tg
 todolists:
   - todolists
-  - tl
 todopermissions:
   - todopermissions
   - tp
@@ -3259,9 +3227,6 @@ togglexclsar:
   - tesar
 toprep:
   - toprep
-  - repleaderboard
-  - replb
-  - reptop
 topusers:
   - topusers
   - topu
@@ -3273,7 +3238,7 @@ traceroute:
   - trcrt
 transactions:
   - transactions
-  - trans
+  - txs
 transferrolestates:
   - transferrolestates
   - copyrolestates
@@ -3290,7 +3255,7 @@ trivia:
   - t
 triviachain:
   - triviachain
-  - tc
+  - tchain
 ttsenable:
   - ttsenable
   - tts
@@ -3317,7 +3282,6 @@ ttsdefaultvoice:
   - ttsdefvoice
 ttsvoice:
   - ttsvoice
-  - myvoice
 ttsvoices:
   - ttsvoices
   - ttsvoicelist
@@ -3687,7 +3651,7 @@ statchannelgoal:
   - scg
 statchannelremove:
   - statchannelremove
-  - scrm
+  - statchrm
 statchannellist:
   - statchannellist
   - scl
@@ -3821,7 +3785,6 @@ hex2err:
   - h2e
 switchbrew:
   - switchbrew
-  - sb
   - svc
 analyselog:
   - analyselog

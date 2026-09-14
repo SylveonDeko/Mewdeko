@@ -119,6 +119,9 @@
   "xp_notification_set": "Your level-up notifications are now set to: {0}",
   "xp_progress": "Progress",
   "xp_reset": "Reset {0}'s XP to zero.",
+  "xp_reset_guild_admin": "You need the Administrator permission to reset XP for the whole server.",
+  "xp_reset_guild_confirm": "Resetting the whole server's XP is permanent. Run the command again with confirm set to true.",
+  "xp_exclude_target_required": "Specify exactly one of user, role, or channel.",
   "xp_reset_guild": "XP has been reset in this server.",
   "xp_reset_with_bonus": "Reset {0}'s XP and bonus XP to zero.",
   "xp_role_excluded": "Users with role {0} will no longer gain XP.",
@@ -181,5 +184,8 @@
   "xp_level_up_new_level": "New Level",
   "xp_first_time_info_title": "Level-Up Notifications",
   "xp_first_time_info_desc": "You can disable level-up pings or DMs at any time using the command: ```.leveluppings false```",
-  "xp_first_time_info_footer": "This message only appears once"
+  "xp_first_time_info_footer": "This message only appears once",
+  "xp_reset_guild_admin": "Only server administrators can reset the whole server's XP.",
+  "xp_reset_guild_confirm": "This will wipe XP for every member. Run the command again with confirm set to true to proceed.",
+  "xp_exclude_target_required": "Pick exactly one of a user, a role or a channel to exclude."
 }

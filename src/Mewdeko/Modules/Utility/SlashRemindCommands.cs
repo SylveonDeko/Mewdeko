@@ -1,7 +1,6 @@
 using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
-using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Utility.Services;
 
@@ -14,132 +13,104 @@ namespace Mewdeko.Modules.Utility;
 public class SlashRemindCommands(InteractiveService interactivity) : MewdekoSlashModuleBase<RemindService>
 {
     /// <summary>
-    ///     Sends a reminder to the user invoking the command.
+    ///     The targets a reminder can be sent to.
     /// </summary>
+    public enum RemindTarget
+    {
+        /// <summary>
+        ///     Sends the reminder to the user directly.
+        /// </summary>
+        Me,
+
+        /// <summary>
+        ///     Sends the reminder to the current channel.
+        /// </summary>
+        Here,
+
+        /// <summary>
+        ///     Sends the reminder to a specified channel.
+        /// </summary>
+        Channel
+    }
+
+    /// <summary>
+    ///     Creates a reminder for the user, the current channel, or a specified channel.
+    /// </summary>
+    /// <param name="target">Whether to send the reminder to you, this channel, or another channel.</param>
     /// <param name="time">When the reminder should trigger.</param>
     /// <param name="reminder">The message for the reminder. If empty, prompts the user to input the reminder text.</param>
-    /// <returns>A task that represents the asynchronous operation of adding a personal reminder.</returns>
-    [SlashCommand("me", "Send a reminder to yourself.")]
-    public async Task Me(
+    /// <param name="channel">The target channel when the target is Channel.</param>
+    /// <returns>A task that represents the asynchronous operation of adding a reminder.</returns>
+    [SlashCommand("set", "Send a reminder to yourself, this channel, or another channel.")]
+    public async Task Remind(
+        [Summary("target", "Where the reminder should be sent.")]
+        RemindTarget target,
         [Summary("time", "When should the reminder respond.")]
         TimeSpan time,
         [Summary("reminder", "(optional) what should the reminder message be")]
-        string? reminder = "")
+        string? reminder = "",
+        [Summary("channel", "The channel to send the reminder to when the target is Channel.")]
+        ITextChannel? channel = null)
     {
-        await DeferAsync(true);
+        if (target == RemindTarget.Here && ctx.Guild is null)
+            target = RemindTarget.Me;
+
+        if (target == RemindTarget.Channel && channel is null)
+            target = ctx.Guild is null ? RemindTarget.Me : RemindTarget.Here;
+
+        ulong targetId;
+        bool isPrivate;
+        bool shouldSanitize;
+
+        switch (target)
+        {
+            case RemindTarget.Me:
+                targetId = ctx.User.Id;
+                isPrivate = true;
+                shouldSanitize = false;
+                break;
+            case RemindTarget.Here:
+                targetId = ctx.Channel.Id;
+                isPrivate = false;
+                shouldSanitize = !((IGuildUser)ctx.User).GetPermissions((IGuildChannel)ctx.Channel).MentionEveryone;
+                break;
+            default:
+                var guildUser = (IGuildUser)ctx.User;
+                if (!guildUser.GuildPermissions.ManageMessages)
+                {
+                    await ReplyErrorAsync(Strings.CantReadOrSend(ctx.Guild.Id)).ConfigureAwait(false);
+                    return;
+                }
+
+                var perms = guildUser.GetPermissions(channel!);
+                if (!perms.SendMessages || !perms.ViewChannel)
+                {
+                    await ReplyErrorAsync(Strings.CantReadOrSend(ctx.Guild.Id)).ConfigureAwait(false);
+                    return;
+                }
+
+                targetId = channel!.Id;
+                isPrivate = false;
+                shouldSanitize = !perms.MentionEveryone;
+                break;
+        }
+
         if (string.IsNullOrEmpty(reminder))
         {
-            await RespondWithModalAsync<ReminderModal>($"remind:{ctx.User.Id},1,{time};")
+            await RespondWithModalAsync<ReminderModal>($"remind:{targetId},{(isPrivate ? 1 : 0)},{time};")
                 .ConfigureAwait(false);
             return;
         }
 
+        await DeferAsync(isPrivate);
+
         var (success, message) = await Service.CreateReminderAsync(
-            ctx.User.Id,
-            true,
+            targetId,
+            isPrivate,
             time,
             reminder,
             ctx.User.Id,
             ctx.Guild?.Id,
-            false
-        );
-
-        if (success)
-        {
-            await ReplyConfirmAsync(message).ConfigureAwait(false);
-        }
-        else
-        {
-            await ReplyErrorAsync(Strings.RemindTooLong(ctx.Guild.Id)).ConfigureAwait(false);
-        }
-    }
-
-    /// <summary>
-    ///     Sends a reminder to the channel where the command was invoked.
-    /// </summary>
-    /// <param name="time">When the reminder should trigger.</param>
-    /// <param name="reminder">The message for the reminder. If empty, prompts the user to input the reminder text.</param>
-    /// <returns>A task that represents the asynchronous operation of adding a channel reminder.</returns>
-    [SlashCommand("here", "Send a reminder to this channel.")]
-    public async Task Here(
-        [Summary("time", "When should the reminder respond.")]
-        TimeSpan time,
-        [Summary("reminder", "(optional) what should the reminder message be")]
-        string? reminder = "")
-    {
-        if (ctx.Guild is null)
-        {
-            await Me(time, reminder).ConfigureAwait(false);
-            return;
-        }
-
-        if (string.IsNullOrEmpty(reminder))
-        {
-            await RespondWithModalAsync<ReminderModal>($"remind:{ctx.Channel.Id},0,{time};")
-                .ConfigureAwait(false);
-            return;
-        }
-
-        var shouldSanitize = !((IGuildUser)ctx.User).GetPermissions((IGuildChannel)ctx.Channel).MentionEveryone;
-        var (success, message) = await Service.CreateReminderAsync(
-            ctx.Channel.Id,
-            false,
-            time,
-            reminder,
-            ctx.User.Id,
-            ctx.Guild.Id,
-            shouldSanitize
-        );
-
-        if (success)
-        {
-            await ReplyConfirmAsync(message).ConfigureAwait(false);
-        }
-        else
-        {
-            await ReplyErrorAsync(Strings.RemindTooLong(ctx.Guild.Id)).ConfigureAwait(false);
-        }
-    }
-
-    /// <summary>
-    ///     Sends a reminder to a specified channel.
-    /// </summary>
-    /// <param name="channel">The target channel for the reminder.</param>
-    /// <param name="time">When the reminder should trigger.</param>
-    /// <param name="reminder">The message for the reminder. If empty, prompts the user to input the reminder text.</param>
-    /// <returns>A task that represents the asynchronous operation of adding a reminder to a specific channel.</returns>
-    [SlashCommand("channel", "Send a reminder to this channel.")]
-    [UserPerm(ChannelPermission.ManageMessages)]
-    public async Task Channel(
-        [Summary("channel", "where should the reminder be sent?")]
-        ITextChannel channel,
-        [Summary("time", "When should the reminder respond.")]
-        TimeSpan time,
-        [Summary("reminder", "(optional) what should the reminder message be")]
-        string? reminder = "")
-    {
-        var perms = ((IGuildUser)ctx.User).GetPermissions(channel);
-        if (!perms.SendMessages || !perms.ViewChannel)
-        {
-            await ReplyErrorAsync(Strings.CantReadOrSend(ctx.Guild.Id)).ConfigureAwait(false);
-            return;
-        }
-
-        if (string.IsNullOrEmpty(reminder))
-        {
-            await RespondWithModalAsync<ReminderModal>($"remind:{channel.Id},0,{time};")
-                .ConfigureAwait(false);
-            return;
-        }
-
-        var shouldSanitize = !perms.MentionEveryone;
-        var (success, message) = await Service.CreateReminderAsync(
-            channel.Id,
-            false,
-            time,
-            reminder,
-            ctx.User.Id,
-            ctx.Guild.Id,
             shouldSanitize
         );
 

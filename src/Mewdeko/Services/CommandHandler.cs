@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using DataModel;
@@ -15,7 +16,10 @@ using Mewdeko.Modules.Chat_Triggers.Services;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
+using Mewdeko.Services.Analytics;
+using Mewdeko.Services.Impl;
 using Mewdeko.Services.Settings;
+using Mewdeko.Services.Strings;
 using Microsoft.Extensions.DependencyInjection;
 using ExecuteResult = Discord.Commands.ExecuteResult;
 using IResult = Discord.Interactions.IResult;
@@ -31,6 +35,13 @@ public class CommandHandler : INService
     private const int GlobalCommandsCooldown = 750;
 
     private const float OneThousandth = 1.0f / 1000;
+
+    /// <summary>
+    ///     Services stuffs
+    /// </summary>
+    public readonly IServiceProvider Services;
+
+    private readonly InteractionAckTracker ackTracker;
     private readonly Mewdeko bot;
     private readonly BotConfigService bss;
     private readonly IDataCache cache;
@@ -38,17 +49,14 @@ public class CommandHandler : INService
     // ReSharper disable once NotAccessedField.Local
     private readonly Timer clearUsersOnShortCooldown;
     private readonly DiscordShardedClient client;
+    private readonly IAnalyticsCollector collector;
     private readonly CommandService commandService;
     private readonly IDataConnectionFactory dbFactory;
     private readonly GuildSettingsService gss;
     private readonly InteractionService interactionService;
     private readonly InteractiveService interactiveService;
+    private readonly Localization localization;
     private readonly ILogger<CommandHandler> logger;
-
-    /// <summary>
-    ///     Services stuffs
-    /// </summary>
-    public readonly IServiceProvider Services;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="CommandHandler" /> class.
@@ -65,17 +73,24 @@ public class CommandHandler : INService
     /// <param name="cache">The data cache service.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="interactiveService">The interactiveservice service.</param>
+    /// <param name="collector">The analytics collector that records command executions.</param>
+    /// <param name="ackTracker">Tracks interaction timings shared with the REST hook.</param>
+    /// <param name="localization">Resolves the guild locale recorded with each command.</param>
     public CommandHandler(DiscordShardedClient client, IDataConnectionFactory dbFactory, CommandService commandService,
         BotConfigService bss, Mewdeko bot, IServiceProvider services,
         InteractionService interactionService,
         GuildSettingsService gss, EventHandler eventHandler, IDataCache cache, ILogger<CommandHandler> logger,
-        InteractiveService interactiveService)
+        InteractiveService interactiveService, IAnalyticsCollector collector, InteractionAckTracker ackTracker,
+        Localization localization)
     {
         this.interactionService = interactionService;
         this.gss = gss;
         this.cache = cache;
         this.logger = logger;
         this.interactiveService = interactiveService;
+        this.collector = collector;
+        this.ackTracker = ackTracker;
+        this.localization = localization;
         this.client = client;
         this.commandService = commandService;
         this.bss = bss;
@@ -85,6 +100,10 @@ public class CommandHandler : INService
         eventHandler.Subscribe("InteractionCreated", "CommandHandler", TryRunInteraction);
         this.interactionService.SlashCommandExecuted += HandleCommands;
         this.interactionService.ContextCommandExecuted += HandleContextCommands;
+        this.interactionService.ComponentCommandExecuted += HandleComponentExecuted;
+        this.interactionService.ModalCommandExecuted += HandleModalExecuted;
+        this.interactionService.AutocompleteCommandExecuted += HandleAutocompleteCommandExecuted;
+        this.interactionService.AutocompleteHandlerExecuted += HandleAutocompleteHandlerExecuted;
         clearUsersOnShortCooldown = new Timer(_ => UsersOnShortCooldown.Clear(), null, GlobalCommandsCooldown,
             GlobalCommandsCooldown);
         eventHandler.Subscribe("MessageReceived", "CommandHandler", MessageReceivedHandler);
@@ -128,15 +147,19 @@ public class CommandHandler : INService
 
     private async Task HandleContextCommandsInternal(ContextCommandInfo info, IInteractionContext ctx, IResult result)
     {
+        var measured = ackTracker.End(ctx.Interaction.Id);
         await using var dbContext = await dbFactory.CreateConnectionAsync();
 
+        var optedOut = false;
         if (ctx.Guild is not null)
         {
             var gconf = await gss.GetGuildConfig(ctx.Guild.Id);
-            if (!gconf.StatsOptOut)
+            optedOut = gconf.StatsOptOut;
+            if (!optedOut)
             {
                 var user = await dbContext.GetOrCreateUser(ctx.User);
-                if (!user.StatsOptOut)
+                optedOut = user.StatsOptOut;
+                if (!optedOut)
                 {
                     var comStats = new CommandStat
                     {
@@ -151,6 +174,10 @@ public class CommandHandler : INService
                 }
             }
         }
+
+        var kind = info?.CommandType == ApplicationCommandType.User ? "user_ctx" : "msg_ctx";
+        EmitInteraction(kind, info?.Module.Name, info?.Name ?? InteractionName(ctx), ctx, result, measured,
+            optedOut);
 
         if (!result.IsSuccess)
         {
@@ -262,19 +289,82 @@ public class CommandHandler : INService
         }
     }
 
+    /// <summary>
+    ///     Runs the late blockers (guild permissions, cooldowns, global permissions, overrides, and reputation
+    ///     requirements) against an application command before it executes, mirroring the text command pipeline.
+    /// </summary>
+    /// <param name="ctx">The interaction context.</param>
+    /// <param name="interaction">The incoming interaction.</param>
+    /// <returns>True when a blocker refused the command and the interaction has been answered.</returns>
+    private async Task<bool> IsBlockedByLateBlockers(IInteractionContext ctx, SocketInteraction interaction)
+    {
+        ICommandInfo? command = interaction switch
+        {
+            ISlashCommandInteraction slash => interactionService.SearchSlashCommand(slash) is
+            {
+                IsSuccess: true
+            } slashResult
+                ? slashResult.Command
+                : null,
+            IUserCommandInteraction user => interactionService.SearchUserCommand(user) is
+            {
+                IsSuccess: true
+            } userResult
+                ? userResult.Command
+                : null,
+            IMessageCommandInteraction message => interactionService.SearchMessageCommand(message) is
+            {
+                IsSuccess: true
+            } messageResult
+                ? messageResult.Command
+                : null,
+            _ => null
+        };
+
+        if (command is null)
+            return false;
+
+        foreach (var blocker in Services.GetServices<ILateBlocker>())
+        {
+            if (!await blocker.TryBlockLate(client, ctx, command).ConfigureAwait(false))
+                continue;
+
+            if (!interaction.HasResponded)
+            {
+                try
+                {
+                    var strings = Services.GetRequiredService<GeneratedBotStrings>();
+                    await interaction.SendEphemeralErrorAsync(
+                        strings.CommandBlocked((interaction.Channel as IGuildChannel)?.GuildId ?? 0), bss.Data);
+                }
+                catch
+                {
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
     private Task HandleCommands(SlashCommandInfo slashInfo, IInteractionContext ctx, IResult result)
     {
+        var measured = ackTracker.End(ctx.Interaction.Id);
         _ = Task.Run(async () =>
         {
             await using var dbContext = await dbFactory.CreateConnectionAsync();
 
+            var optedOut = false;
             if (ctx.Guild is not null)
             {
                 var gconf = await gss.GetGuildConfig(ctx.Guild.Id);
-                if (!gconf.StatsOptOut)
+                optedOut = gconf.StatsOptOut;
+                if (!optedOut)
                 {
                     var user = await dbContext.GetOrCreateUser(ctx.User);
-                    if (!user.StatsOptOut)
+                    optedOut = user.StatsOptOut;
+                    if (!optedOut)
                     {
                         var comStats = new CommandStat
                         {
@@ -289,6 +379,9 @@ public class CommandHandler : INService
                     }
                 }
             }
+
+            EmitInteraction("slash", slashInfo?.Module.Name, slashInfo?.Name ?? InteractionName(ctx), ctx, result,
+                measured, optedOut);
 
             if (!result.IsSuccess)
             {
@@ -402,6 +495,86 @@ public class CommandHandler : INService
         return Task.CompletedTask;
     }
 
+    private Task HandleComponentExecuted(ComponentCommandInfo info, IInteractionContext ctx, IResult result)
+    {
+        var kind = ctx.Interaction is SocketMessageComponent { Data.Type: ComponentType.Button } ? "button" : "select";
+        return RecordInteractionAsync(kind, info?.Module.Name, info?.Name ?? InteractionName(ctx), ctx, result);
+    }
+
+    private Task HandleModalExecuted(ModalCommandInfo info, IInteractionContext ctx, IResult result)
+    {
+        return RecordInteractionAsync("modal", info?.Module.Name, info?.Name ?? InteractionName(ctx), ctx, result);
+    }
+
+    private Task HandleAutocompleteCommandExecuted(AutocompleteCommandInfo info, IInteractionContext ctx,
+        IResult result)
+    {
+        return RecordInteractionAsync("autocomplete", info?.Module.Name, info?.Name ?? InteractionName(ctx), ctx,
+            result);
+    }
+
+    private Task HandleAutocompleteHandlerExecuted(IAutocompleteHandler handler, IInteractionContext ctx,
+        IResult result)
+    {
+        return RecordInteractionAsync("autocomplete", null, InteractionName(ctx), ctx, result);
+    }
+
+    private async Task RecordInteractionAsync(string kind, string? module, string command, IInteractionContext ctx,
+        IResult result)
+    {
+        var measured = ackTracker.End(ctx.Interaction.Id);
+        var optedOut = false;
+        if (ctx.Guild is not null)
+        {
+            var gconf = await gss.GetGuildConfig(ctx.Guild.Id).ConfigureAwait(false);
+            optedOut = gconf?.StatsOptOut ?? false;
+        }
+
+        EmitInteraction(kind, module, command, ctx, result, measured, optedOut);
+    }
+
+    private void EmitInteraction(string kind, string? module, string command, IInteractionContext ctx,
+        IResult result, (long? AckMs, long DurationMs) measured, bool optedOut)
+    {
+        var guild = ctx.Guild as SocketGuild;
+        var shard = guild is null ? (int?)null : client.GetShardIdFor(guild);
+        var exception = result is Discord.Interactions.ExecuteResult executeResult ? executeResult.Exception : null;
+        string? errorClass = null;
+        if (!result.IsSuccess)
+            errorClass = exception is null ? result.Error?.ToString() : Innermost(exception).GetType().Name;
+
+        var language = ctx.Guild is null
+            ? ctx.Interaction.UserLocale
+            : localization.GetCultureInfo(ctx.Guild.Id)?.Name;
+
+        collector.Command(new CommandSample(kind, module, command, result.IsSuccess, errorClass,
+            result.IsSuccess ? null : result.ErrorReason, measured.DurationMs, measured.AckMs, ctx.Guild?.Id,
+            guild?.MemberCount, shard, language, optedOut));
+
+        if (exception is not null)
+            collector.Error(exception, $"CommandHandler.{kind}", module, ctx.Guild?.Id, shard);
+    }
+
+    private static string InteractionName(IInteractionContext ctx)
+    {
+        return ctx.Interaction switch
+        {
+            SocketCommandBase command => command.CommandName,
+            SocketMessageComponent component => component.Data.CustomId,
+            SocketModal modal => modal.Data.CustomId,
+            SocketAutocompleteInteraction autocomplete => autocomplete.Data.CommandName,
+            _ => ctx.Interaction.Type.ToString()
+        };
+    }
+
+    private static Exception Innermost(Exception exception)
+    {
+        var current = exception;
+        while (current.InnerException is not null)
+            current = current.InnerException;
+        return current;
+    }
+
     private async Task TryRunInteraction(SocketInteraction interaction)
     {
         try
@@ -449,13 +622,25 @@ public class CommandHandler : INService
             //     && !compInter.Data.CustomId.StartsWith("trigger.")) return;
 
             var ctx = new ShardedInteractionContext(client, interaction);
+            ackTracker.Begin(interaction.Id, interaction.CreatedAt);
+            if (await IsBlockedByLateBlockers(ctx, interaction).ConfigureAwait(false))
+            {
+                ackTracker.End(interaction.Id);
+                return;
+            }
+
             var result = await interactionService.ExecuteCommandAsync(ctx, Services).ConfigureAwait(false);
+            if (!result.IsSuccess)
+                ackTracker.End(interaction.Id);
 #if DEBUG
             logger.LogInformation($"Button was executed:{result.IsSuccess}\nReason:{result.ErrorReason}");
 #endif
         }
         catch (Exception e)
         {
+            ackTracker.End(interaction.Id);
+            collector.Error(e, "CommandHandler.TryRunInteraction", null,
+                (interaction.Channel as IGuildChannel)?.GuildId);
             logger.LogError(e, "Interaction failed to execute");
             throw;
         }
@@ -555,6 +740,8 @@ public class CommandHandler : INService
                 }
                 catch (Exception e)
                 {
+                    collector.Error(e, "CommandHandler.ExecuteCommandsInChannelAsync", null,
+                        (msg.Channel as IGuildChannel)?.GuildId);
                     logger.LogError("Error occured in the handler: {E}", e);
                 }
             }
@@ -611,12 +798,22 @@ public class CommandHandler : INService
             return;
         }
 
-        var (success, error, info) = await ExecuteCommandAsync(new CommandContext(client, usrMsg),
+        var started = Stopwatch.GetTimestamp();
+        var (success, error, info, errorClass) = await ExecuteCommandAsync(new CommandContext(client, usrMsg),
             messageContent, prefixLength, MultiMatchHandling.Best).ConfigureAwait(false);
+        var durationMs = (long)Stopwatch.GetElapsedTime(started).TotalMilliseconds;
 
         execTime = Environment.TickCount - execTime;
 
-        await UpdateCommandStats(guild, channel, usrMsg, info).ConfigureAwait(false);
+        var optedOut = await UpdateCommandStats(guild, channel, usrMsg, info).ConfigureAwait(false);
+        if (info is not null)
+        {
+            var socketGuild = guild as SocketGuild;
+            collector.Command(new CommandSample("text", info.Module.Name, info.Name, success,
+                success ? null : errorClass, success ? null : error, durationMs, null, guild?.Id,
+                socketGuild?.MemberCount, socketGuild is null ? null : client.GetShardIdFor(socketGuild),
+                localization.GetCultureInfo(guild?.Id)?.Name, optedOut));
+        }
 
         if (success)
         {
@@ -661,12 +858,13 @@ public class CommandHandler : INService
         };
     }
 
-    private async Task<(bool Success, string Error, CommandInfo? Info)> ExecuteCommandAsync(CommandContext context,
-        string input, int argPos, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
+    private async Task<(bool Success, string Error, CommandInfo? Info, string? ErrorClass)> ExecuteCommandAsync(
+        CommandContext context, string input, int argPos,
+        MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
     {
         var searchResult = commandService.Search(context, input[argPos..]);
         if (!searchResult.IsSuccess)
-            return (false, searchResult.ErrorReason, null);
+            return (false, searchResult.ErrorReason, null, searchResult.Error?.ToString());
 
         var lateBlockers = Services.GetServices<ILateBlocker>().ToArray();
 
@@ -681,7 +879,8 @@ public class CommandHandler : INService
             var bestCandidate = preconditionResults
                 .OrderByDescending(x => x.match.Command.Priority)
                 .FirstOrDefault(x => !x.Item2.IsSuccess);
-            return (false, bestCandidate.Item2.ErrorReason, commands[0].Command);
+            return (false, bestCandidate.Item2.ErrorReason, commands[0].Command,
+                bestCandidate.Item2.Error?.ToString());
         }
 
         var parseResults = await Task.WhenAll(successfulPreconditions.Select(async x =>
@@ -699,37 +898,46 @@ public class CommandHandler : INService
         if (successfulParses.Length == 0)
         {
             var bestMatch = parseResults.FirstOrDefault(x => !x.parseResult.IsSuccess);
-            return (false, bestMatch.parseResult.ErrorReason, commands[0].Command);
+            return (false, bestMatch.parseResult.ErrorReason, commands[0].Command,
+                bestMatch.parseResult.Error?.ToString());
         }
 
         var cmd = successfulParses[0].match.Command;
 
         if (!UsersOnShortCooldown.Add(context.User.Id))
-            return (false, "You are on a short cooldown.", cmd);
+            return (false, "You are on a short cooldown.", cmd, "Cooldown");
 
         var chosenOverload = successfulParses[0];
 
         foreach (var i in lateBlockers)
         {
-            var blocked = await i.TryBlockLate(client, context, chosenOverload.match.Command.Module.Name,
+            var blocked = await i.TryBlockLate(client, context,
+                chosenOverload.match.Command.Module.GetTopLevelModule().Name,
                 chosenOverload.match.Command);
             if (blocked)
-                return (false, "lateblocker", null);
+                return (false, "lateblocker", null, "Blocked");
         }
 
         var result = await chosenOverload.match.ExecuteAsync(context, chosenOverload.parseResult, Services)
             .ConfigureAwait(false);
 
-        if (result is not ExecuteResult executeResult) return (result.IsSuccess, result.ErrorReason, cmd);
+        if (result is not ExecuteResult executeResult)
+            return (result.IsSuccess, result.ErrorReason, cmd, result.Error?.ToString());
         if (executeResult.Exception != null && executeResult.Exception is not HttpException
             {
                 DiscordCode: DiscordErrorCode.InsufficientPermissions
             })
         {
+            var guild = context.Guild as SocketGuild;
+            collector.Error(executeResult.Exception, "CommandHandler.ExecuteCommandAsync", cmd.Module.Name,
+                guild?.Id, guild is null ? null : client.GetShardIdFor(guild));
             logger.LogWarning(executeResult.Exception, "Command execution error");
         }
 
-        return (executeResult.IsSuccess, executeResult.ErrorReason, cmd);
+        return (executeResult.IsSuccess, executeResult.ErrorReason, cmd,
+            executeResult.Exception is null
+                ? executeResult.Error?.ToString()
+                : Innermost(executeResult.Exception).GetType().Name);
     }
 
     private async Task LogCommandExecution(IMessage usrMsg, ITextChannel? channel, CommandInfo? commandInfo,
@@ -807,16 +1015,17 @@ public class CommandHandler : INService
             select mention.Length + 1).FirstOrDefault();
     }
 
-    private async Task UpdateCommandStats(IGuild? guild, IChannel channel, IUserMessage usrMsg, CommandInfo? info)
+    private async Task<bool> UpdateCommandStats(IGuild? guild, IChannel channel, IUserMessage usrMsg,
+        CommandInfo? info)
     {
-        if (guild == null || info == null) return;
+        if (guild == null || info == null) return false;
 
         var guildConfig = await gss.GetGuildConfig(guild.Id).ConfigureAwait(false);
-        if (guildConfig.StatsOptOut) return;
+        if (guildConfig.StatsOptOut) return true;
 
         await using var dbContext = await dbFactory.CreateConnectionAsync().ConfigureAwait(false);
         var user = await dbContext.GetOrCreateUser(usrMsg.Author).ConfigureAwait(false);
-        if (user.StatsOptOut) return;
+        if (user.StatsOptOut) return true;
 
         var commandStats = new CommandStat
         {
@@ -828,5 +1037,6 @@ public class CommandHandler : INService
             Module = info.Module.Name
         };
         await dbContext.InsertAsync(commandStats).ConfigureAwait(false);
+        return false;
     }
 }

@@ -1,5 +1,7 @@
+using System.Diagnostics;
 using System.Threading;
 using LinqToDB;
+using LinqToDB.Data;
 using LinqToDB.DataProvider.PostgreSQL;
 using Mewdeko.Database.DbContextStuff;
 using Npgsql;
@@ -33,7 +35,7 @@ public class PostgreSqlConnectionFactory : IDataConnectionFactory
     /// </remarks>
     private const PostgreSQLVersion ServerDialect = PostgreSQLVersion.v15;
 
-    private readonly DataOptions dataOptions;
+    private DataOptions dataOptions;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="PostgreSqlConnectionFactory" /> class.
@@ -68,6 +70,15 @@ public class PostgreSqlConnectionFactory : IDataConnectionFactory
     public Task<MewdekoDb> CreateConnectionAsync(CancellationToken cancellationToken = default)
     {
         return Task.FromResult(CreateConnection());
+    }
+
+    /// <summary>
+    ///     Routes linq2db trace events for every connection created from now on to the given handler.
+    /// </summary>
+    /// <param name="handler">Receives a trace event for each command execution step.</param>
+    public void UseTracing(Action<TraceInfo> handler)
+    {
+        dataOptions = dataOptions.UseTracing(TraceLevel.Info, handler);
     }
 
     /// <summary>
