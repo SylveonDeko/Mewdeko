@@ -3716,8 +3716,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         if (!ready)
             return;
 
-        // Don't process reactions from bots
-        if (reaction.User.Value?.IsBot == true)
+        var cachedUser = reaction.User.IsSpecified ? reaction.User.Value : null;
+        if (cachedUser?.IsBot == true)
             return;
 
         // Get the message and channel
@@ -3732,9 +3732,9 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             return;
 
         var guild = guildChannel.Guild;
-        var user = reaction.User.Value;
+        var user = cachedUser ?? await guild.GetUserAsync(reaction.UserId).ConfigureAwait(false);
 
-        if (user is null)
+        if (user is null || user.IsBot)
             return;
 
         // Get reaction triggers for this guild

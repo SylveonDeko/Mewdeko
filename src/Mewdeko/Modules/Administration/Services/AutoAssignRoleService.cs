@@ -59,105 +59,101 @@ public sealed class AutoAssignRoleService : INService
             if (user is null)
                 continue;
 
-            // Check if skip auto-assign roles is enabled and user has a role state
-            if (await roleStatesService.ShouldSkipAutoAssignRoles(user.Guild.Id) &&
-                await roleStatesService.UserHasRoleState(user.Guild.Id, user.Id))
+            try
             {
-                logger.LogDebug(
-                    "Skipping auto-assign roles for {User} in {Guild} because they have a saved role state",
-                    user.Username,
-                    user.Guild.Name);
-                continue;
+                await AssignAsync(user).ConfigureAwait(false);
             }
-
-            var autoroles = await TryGetNormalRoles(user.Guild.Id);
-            var autobotroles = await TryGetBotRoles(user.Guild.Id);
-            if (user.IsBot && autobotroles.Any())
+            catch (Exception ex)
             {
-                try
-                {
-                    var roleIds = autobotroles
-                        .Select(roleId => user.Guild.GetRole(roleId))
-                        .Where(x => x is not null)
-                        .ToList();
-
-                    if (roleIds.Count > 0)
-                    {
-                        try
-                        {
-                            await user.AddRolesAsync(roleIds).ConfigureAwait(false);
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex);
-                        }
-
-                        continue;
-                    }
-
-                    logger.LogWarning(
-                        "Disabled 'Auto assign bot role' feature on {GuildName} [{GuildId}] server the roles dont exist",
-                        user.Guild.Name,
-                        user.Guild.Id);
-
-                    await DisableAabrAsync(user.Guild.Id).ConfigureAwait(false);
-                    continue;
-                }
-                catch (HttpException ex) when (ex.HttpCode == HttpStatusCode.Forbidden)
-                {
-                    logger.LogWarning(
-                        "Disabled 'Auto assign bot role' feature on {GuildName} [{GuildId}] server because I don't have role management permissions",
-                        user.Guild.Name,
-                        user.Guild.Id);
-
-                    await DisableAabrAsync(user.Guild.Id).ConfigureAwait(false);
-                    continue;
-                }
-                catch
-                {
-                    logger.LogWarning("Error in aar. Probably one of the roles doesn't exist");
-                    continue;
-                }
-            }
-
-            if (!autoroles.Any()) continue;
-            {
-                try
-                {
-                    var roleIds = autoroles
-                        .Select(roleId => user.Guild.GetRole(roleId))
-                        .Where(x => x is not null)
-                        .ToList();
-
-                    if (roleIds.Count > 0)
-                    {
-                        await user.AddRolesAsync(roleIds).ConfigureAwait(false);
-                        await Task.Delay(250).ConfigureAwait(false);
-                        continue;
-                    }
-
-                    logger.LogWarning(
-                        "Disabled 'Auto assign  role' feature on {GuildName} [{GuildId}] server the roles dont exist",
-                        user.Guild.Name,
-                        user.Guild.Id);
-
-                    await DisableAarAsync(user.Guild.Id).ConfigureAwait(false);
-                }
-                catch (HttpException ex) when (ex.HttpCode == HttpStatusCode.Forbidden)
-                {
-                    logger.LogWarning(
-                        "Disabled 'Auto assign bot role' feature on {GuildName} [{GuildId}] server because I don't have role management permissions",
-                        user.Guild.Name,
-                        user.Guild.Id);
-
-                    await DisableAarAsync(user.Guild.Id).ConfigureAwait(false);
-                }
-                catch
-                {
-                    logger.LogWarning("Error in aar. Probably one of the roles doesn't exist");
-                }
+                logger.LogWarning(ex, "Auto assign roles failed for {UserId} in {GuildName} [{GuildId}]", user.Id,
+                    user.Guild.Name, user.Guild.Id);
             }
         }
+    }
+
+    /// <summary>
+    ///     Applies the guild's auto-assign roles to one user: the bot set when the user is a bot and one is configured,
+    ///     otherwise the member set.
+    /// </summary>
+    /// <param name="user">The user who joined or passed screening.</param>
+    private async Task AssignAsync(IGuildUser user)
+    {
+        if (await roleStatesService.ShouldSkipAutoAssignRoles(user.Guild.Id) &&
+            await roleStatesService.UserHasRoleState(user.Guild.Id, user.Id))
+        {
+            logger.LogDebug(
+                "Skipping auto-assign roles for {User} in {Guild} because they have a saved role state",
+                user.Username,
+                user.Guild.Name);
+            return;
+        }
+
+        var autobotroles = await TryGetBotRoles(user.Guild.Id);
+        if (user.IsBot && autobotroles.Any())
+        {
+            await AddRolesAsync(user, autobotroles, true).ConfigureAwait(false);
+            return;
+        }
+
+        var autoroles = await TryGetNormalRoles(user.Guild.Id);
+        if (autoroles.Any())
+            await AddRolesAsync(user, autoroles, false).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Adds the configured roles the bot is actually able to assign. The feature is disabled for the guild when
+    ///     none of its roles exist or sit below the bot any more, or when Discord refuses with missing permissions, so
+    ///     the same failure isn't retried on every join.
+    /// </summary>
+    /// <param name="user">The user to add roles to.</param>
+    /// <param name="roleIds">The configured role IDs.</param>
+    /// <param name="botFeature">True for the bot role set, false for the member role set.</param>
+    private async Task AddRolesAsync(IGuildUser user, IEnumerable<ulong> roleIds, bool botFeature)
+    {
+        var featureName = botFeature ? "Auto assign bot role" : "Auto assign role";
+        var roles = roleIds.Select(id => user.Guild.GetRole(id)).Where(x => x is not null).ToList();
+        if (user.Guild is SocketGuild socketGuild && socketGuild.CurrentUser is { } me)
+        {
+            var unassignable = roles.Where(r => r.IsManaged || r.Position >= me.Hierarchy).ToList();
+            if (unassignable.Count > 0)
+            {
+                logger.LogDebug("Skipping {Roles} in {GuildId} for '{Feature}': managed or above my highest role",
+                    string.Join(", ", unassignable.Select(r => r.Name)), user.Guild.Id, featureName);
+                roles = roles.Except(unassignable).ToList();
+            }
+        }
+
+        if (roles.Count == 0)
+        {
+            logger.LogWarning(
+                "Disabled '{Feature}' on {GuildName} [{GuildId}] because none of its roles exist below my highest role",
+                featureName, user.Guild.Name, user.Guild.Id);
+            await DisableFeatureAsync(user.Guild.Id, botFeature).ConfigureAwait(false);
+            return;
+        }
+
+        try
+        {
+            await user.AddRolesAsync(roles).ConfigureAwait(false);
+            await Task.Delay(250).ConfigureAwait(false);
+        }
+        catch (HttpException ex) when (ex.HttpCode == HttpStatusCode.Forbidden)
+        {
+            logger.LogWarning(
+                "Disabled '{Feature}' on {GuildName} [{GuildId}] because I can't manage roles there: {Reason}",
+                featureName, user.Guild.Name, user.Guild.Id, ex.Reason);
+            await DisableFeatureAsync(user.Guild.Id, botFeature).ConfigureAwait(false);
+        }
+    }
+
+    /// <summary>
+    ///     Turns off the bot or member auto-assign feature for a guild.
+    /// </summary>
+    /// <param name="guildId">The guild.</param>
+    /// <param name="botFeature">True for the bot role set, false for the member role set.</param>
+    private Task DisableFeatureAsync(ulong guildId, bool botFeature)
+    {
+        return botFeature ? DisableAabrAsync(guildId) : DisableAarAsync(guildId);
     }
 
     /// <summary>

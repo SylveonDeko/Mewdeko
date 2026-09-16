@@ -715,7 +715,10 @@ public class RepService : INService, IReadyExecutor, IUnloadableService
             var reactorId = reaction.UserId;
 
             // Don't give rep for own reactions or bot reactions
-            if (reaction.User.Value?.IsBot != false) return;
+            var reactingUser = reaction.User.IsSpecified
+                ? reaction.User.Value
+                : await textChannel.Guild.GetUserAsync(reactorId);
+            if (reactingUser is null || reactingUser.IsBot) return;
 
             // Check if we have reaction configs for this guild
             if (!reactionConfigCache.ContainsKey(guildId)) return;

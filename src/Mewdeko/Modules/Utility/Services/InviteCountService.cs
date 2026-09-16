@@ -893,9 +893,10 @@ public class InviteCountService : INService, IReadyExecutor
                     if (vanity != null)
                         vanityUses[guild.Id] = vanity.Uses ?? 0;
                 }
-                catch (HttpException)
+                catch (Exception ex) when (ex is HttpException or InvalidOperationException
+                                               or NullReferenceException)
                 {
-                    // Vanity metadata is optional; a missing feature or permission just disables vanity detection.
+                    logger.LogDebug(ex, "Vanity invite unavailable for guild {GuildId}", guild.Id);
                 }
             }
 

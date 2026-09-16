@@ -128,9 +128,9 @@ public static class SmartEmbed
             components = newEmbed.GetComponents(guildId);
             return true;
         }
-        catch
+        catch (Exception ex)
         {
-            Log.Error("Unable to parse embed");
+            Log.Warning(ex, "Unable to parse embed for guild {GuildId}", guildId);
             embeds = null;
             plainText = null;
             components = null;

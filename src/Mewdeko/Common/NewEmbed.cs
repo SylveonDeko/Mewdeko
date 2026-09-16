@@ -359,9 +359,9 @@ public class NewEmbed
             var embed = new EmbedBuilder();
 
             if (!string.IsNullOrWhiteSpace(i.Title))
-                embed.WithTitle(i.Title);
+                embed.WithTitle(i.Title.TrimTo(EmbedBuilder.MaxTitleLength));
             if (!string.IsNullOrWhiteSpace(i.Description))
-                embed.WithDescription(i.Description);
+                embed.WithDescription(i.Description.TrimTo(EmbedBuilder.MaxDescriptionLength));
             if (i.Url != null && Uri.IsWellFormedUriString(i.Url, UriKind.Absolute))
                 embed.WithUrl(i.Url);
             if (i.Color is not null)
@@ -370,7 +370,7 @@ public class NewEmbed
             {
                 embed.WithFooter(efb =>
                 {
-                    efb.WithText(i.Footer.Text);
+                    efb.WithText(i.Footer.Text.TrimTo(EmbedFooterBuilder.MaxFooterTextLength));
                     if (Uri.IsWellFormedUriString(i.Footer.IconUrl, UriKind.Absolute))
                         efb.WithIconUrl(i.Footer.IconUrl);
                 });
@@ -387,7 +387,8 @@ public class NewEmbed
                 if (!Uri.IsWellFormedUriString(i.Author.Url, UriKind.Absolute))
                     i.Author.Url = null;
 
-                embed.WithAuthor(i.Author.Name, i.Author.IconUrl, i.Author.Url);
+                embed.WithAuthor(i.Author.Name.TrimTo(EmbedAuthorBuilder.MaxAuthorNameLength), i.Author.IconUrl,
+                    i.Author.Url);
             }
 
             if (i.Fields != null)
