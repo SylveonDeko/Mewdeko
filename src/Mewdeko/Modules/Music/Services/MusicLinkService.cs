@@ -252,6 +252,9 @@ public partial class MusicLinkService : INService, IDisposable
                 : $"{entity.ArtistName} {entity.Title}";
 
             await FillMissingLinkAsync(links, "spotify", query).ConfigureAwait(false);
+            await FillMissingLinkAsync(links, "appleMusic", query).ConfigureAwait(false);
+            await FillMissingLinkAsync(links, "deezer", query).ConfigureAwait(false);
+            await FillMissingLinkAsync(links, "soundcloud", query).ConfigureAwait(false);
             await FillMissingLinkAsync(links, "youtubeMusic", query).ConfigureAwait(false);
             await FillMissingLinkAsync(links, "youtube", query).ConfigureAwait(false);
         }
@@ -323,6 +326,9 @@ public partial class MusicLinkService : INService, IDisposable
             var mode = platform switch
             {
                 "spotify" => TrackSearchMode.Spotify,
+                "appleMusic" => TrackSearchMode.AppleMusic,
+                "deezer" => TrackSearchMode.Deezer,
+                "soundcloud" => TrackSearchMode.SoundCloud,
                 "youtubeMusic" => TrackSearchMode.YouTubeMusic,
                 "youtube" => TrackSearchMode.YouTube,
                 _ => (TrackSearchMode?)null

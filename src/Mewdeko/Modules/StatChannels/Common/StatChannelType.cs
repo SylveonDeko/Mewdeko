@@ -288,5 +288,80 @@ public enum StatChannelType
     /// <summary>
     ///     Currently active polls.
     /// </summary>
-    ActivePolls = 56
+    ActivePolls = 56,
+
+    /// <summary>
+    ///     The current date and time in the server's timezone.
+    /// </summary>
+    Clock = 57,
+
+    /// <summary>
+    ///     Messages sent in the last 24 hours.
+    /// </summary>
+    MessagesToday = 58,
+
+    /// <summary>
+    ///     Messages sent in the last 7 days.
+    /// </summary>
+    MessagesWeek = 59,
+
+    /// <summary>
+    ///     Hours spent in voice across all members in the last 24 hours.
+    /// </summary>
+    VoiceHoursToday = 60,
+
+    /// <summary>
+    ///     Hours spent in voice across all members in the last 7 days.
+    /// </summary>
+    VoiceHoursWeek = 61,
+
+    /// <summary>
+    ///     The most active chatter of the last 7 days.
+    /// </summary>
+    TopChatter = 62,
+
+    /// <summary>
+    ///     The member with the most voice time in the last 7 days.
+    /// </summary>
+    TopVoiceMember = 63,
+
+    /// <summary>
+    ///     Members holding a role who are not offline.
+    /// </summary>
+    RoleMembersOnline = 64,
+
+    /// <summary>
+    ///     The member with the most invites.
+    /// </summary>
+    TopInviter = 65,
+
+    /// <summary>
+    ///     Members who left in the last 24 hours.
+    /// </summary>
+    MembersLeftToday = 66,
+
+    /// <summary>
+    ///     Joins minus leaves over the last 7 days.
+    /// </summary>
+    NetGrowthWeek = 67,
+
+    /// <summary>
+    ///     Joins credited to inviters in the last 7 days.
+    /// </summary>
+    InvitesWeek = 68,
+
+    /// <summary>
+    ///     Members who left in the last 7 days.
+    /// </summary>
+    MembersLeftWeek = 69,
+
+    /// <summary>
+    ///     The most played game or app of the last 7 days.
+    /// </summary>
+    TopGame = 70,
+
+    /// <summary>
+    ///     Members currently in a tracked game or app.
+    /// </summary>
+    PlayingNow = 71
 }

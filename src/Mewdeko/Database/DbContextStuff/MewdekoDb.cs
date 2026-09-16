@@ -799,9 +799,163 @@ public class MewdekoDb : DataConnection
     public ITable<InvitedBy> InvitedBies => this.GetTable<InvitedBy>();
 
     /// <summary>
+    ///     Gets the invite tracking exclusions table (blacklisted inviters, hidden leaderboard members).
+    /// </summary>
+    public ITable<InviteTrackingExclusion> InviteTrackingExclusions
+    {
+        get
+        {
+            return this.GetTable<InviteTrackingExclusion>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the invite labels table.
+    /// </summary>
+    public ITable<InviteLabel> InviteLabels
+    {
+        get
+        {
+            return this.GetTable<InviteLabel>();
+        }
+    }
+
+    /// <summary>
     ///     Gets the join/leave logs table.
     /// </summary>
     public ITable<JoinLeaveLog> JoinLeaveLogs => this.GetTable<JoinLeaveLog>();
+
+    /// <summary>
+    ///     Gets the voice segments table (voice time with a retention window).
+    /// </summary>
+    public ITable<VoiceSegment> VoiceSegments
+    {
+        get
+        {
+            return this.GetTable<VoiceSegment>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the all time voice totals table.
+    /// </summary>
+    public ITable<VoiceTotal> VoiceTotals
+    {
+        get
+        {
+            return this.GetTable<VoiceTotal>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the hourly guild member and status snapshots table.
+    /// </summary>
+    public ITable<GuildSnapshot> GuildSnapshots
+    {
+        get
+        {
+            return this.GetTable<GuildSnapshot>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the server stats settings table.
+    /// </summary>
+    public ITable<ServerStatsSetting> ServerStatsSettings
+    {
+        get
+        {
+            return this.GetTable<ServerStatsSetting>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the server stats exclusions table.
+    /// </summary>
+    public ITable<ServerStatsExclusion> ServerStatsExclusions
+    {
+        get
+        {
+            return this.GetTable<ServerStatsExclusion>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the stats privacy opt outs table.
+    /// </summary>
+    public ITable<StatsPrivacyOptOut> StatsPrivacyOptOuts
+    {
+        get
+        {
+            return this.GetTable<StatsPrivacyOptOut>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the presence activity segments table (game and app time with a retention window).
+    /// </summary>
+    public ITable<ActivitySegment> ActivitySegments
+    {
+        get
+        {
+            return this.GetTable<ActivitySegment>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the all time presence activity totals table.
+    /// </summary>
+    public ITable<ActivityTotal> ActivityTotals
+    {
+        get
+        {
+            return this.GetTable<ActivityTotal>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the activity name filters table.
+    /// </summary>
+    public ITable<ActivityFilter> ActivityFilters
+    {
+        get
+        {
+            return this.GetTable<ActivityFilter>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the stat roles table.
+    /// </summary>
+    public ITable<StatRole> StatRoles
+    {
+        get
+        {
+            return this.GetTable<StatRole>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the live boards table (auto refreshing leaderboards and charts).
+    /// </summary>
+    public ITable<LiveBoard> LiveBoards
+    {
+        get
+        {
+            return this.GetTable<LiveBoard>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the server report settings table.
+    /// </summary>
+    public ITable<ServerReportSetting> ServerReportSettings
+    {
+        get
+        {
+            return this.GetTable<ServerReportSetting>();
+        }
+    }
 
     /// <summary>
     ///     Gets the lockdown channel permissions table.

@@ -1174,6 +1174,8 @@ editsnipe:
 editsnipelist:
   - editsnipelist
   - esnipelist
+echo:
+  - echo
 eightball:
   - eightball
   - 8ball
@@ -1583,6 +1585,8 @@ loop:
   - loop
   - queuerepeat
   - qrp
+lowpass:
+  - lowpass
   - rpl
 lottery:
   - lottery
@@ -1745,6 +1749,9 @@ nhentaisearch:
 nightcore:
   - nightcore
   - nc
+normalize:
+  - normalize
+  - normalization
 nowplaying:
   - nowplaying
   - np
@@ -3793,3 +3800,222 @@ analyselog:
   - analyzelogs
   - analyze
   - analyse
+togglecountrejoins:
+  - togglecountrejoins
+  - invitesrejoins
+togglefakenoavatar:
+  - togglefakenoavatar
+  - invitesnoavatar
+invitelinkchannel:
+  - invitelinkchannel
+invitelogchannel:
+  - invitelogchannel
+invitestats:
+  - invitestats
+  - inviteanalytics
+  - growthstats
+invitedbycode:
+  - invitedbycode
+invitedbylabel:
+  - invitedbylabel
+invitecodes:
+  - invitecodes
+  - mycodes
+invitelink:
+  - invitelink
+  - findlink
+  - mylink
+addinvites:
+  - addinvites
+removeinvites:
+  - removeinvites
+addbonusinvites:
+  - addbonusinvites
+  - addbonus
+removebonusinvites:
+  - removebonusinvites
+  - removebonus
+addfakeinvites:
+  - addfakeinvites
+removefakeinvites:
+  - removefakeinvites
+resetinvites:
+  - resetinvites
+syncinvites:
+  - syncinvites
+deleteinvite:
+  - deleteinvite
+  - delinvite
+purgeinvites:
+  - purgeinvites
+  - purgeinvitecodes
+inviteblacklist:
+  - inviteblacklist
+  - invbl
+invitehide:
+  - invitehide
+  - invhide
+inviteexclusions:
+  - inviteexclusions
+  - invitebllist
+invitelabelset:
+  - invitelabelset
+  - labelinvite
+invitelabelrole:
+  - invitelabelrole
+invitelabelremove:
+  - invitelabelremove
+  - unlabelinvite
+invitelabels:
+  - invitelabels
+inviteexport:
+  - inviteexport
+  - exportinvites
+invitedexport:
+  - invitedexport
+  - exportinvitedlist
+invitemassban:
+  - invitemassban
+  - massbaninviter
+invitemassbancode:
+  - invitemassbancode
+  - massbancode
+serveractivity:
+  - serveractivity
+  - sstats
+  - activitystats
+useractivity:
+  - useractivity
+  - ustats
+  - mystats
+channelactivity:
+  - channelactivity
+  - cstats
+activitytop:
+  - activitytop
+  - topactivity
+  - topchatters
+  - topvoice
+activitytopchannels:
+  - activitytopchannels
+  - topchannels
+activitychart:
+  - activitychart
+  - statschart
+  - graph
+activityexport:
+  - activityexport
+  - exportactivity
+statssettings:
+  - statssettings
+  - activitysettings
+statslookback:
+  - statslookback
+  - lookback
+statscooldown:
+  - statscooldown
+statstrackvoice:
+  - statstrackvoice
+  - trackvoice
+statstracksnapshots:
+  - statstracksnapshots
+  - tracksnapshots
+statscountbots:
+  - statscountbots
+statsignorevoicestate:
+  - statsignorevoicestate
+  - ignorevoicestate
+statsignore:
+  - statsignore
+  - activityignore
+statsignored:
+  - statsignored
+  - activityignored
+statsprivacy:
+  - statsprivacy
+  - activityprivacy
+  - optoutstats
+topgames:
+  - topgames
+  - topactivities
+  - games
+whoplays:
+  - whoplays
+  - whosplayingstats
+statstrackactivities:
+  - statstrackactivities
+  - trackactivities
+  - trackgames
+statsverifyactivities:
+  - statsverifyactivities
+  - verifyactivities
+statsactivityfiltermode:
+  - statsactivityfiltermode
+  - activityfiltermode
+statsactivityfilter:
+  - statsactivityfilter
+  - activityfilter
+  - gamefilter
+statsactivityfilters:
+  - statsactivityfilters
+  - activityfilters
+  - gamefilters
+statroleadd:
+  - statroleadd
+  - sradd
+statroletop:
+  - statroletop
+  - srtop
+statrolepercent:
+  - statrolepercent
+  - srpercent
+statrolestreak:
+  - statrolestreak
+  - srstreak
+statrolelist:
+  - statrolelist
+  - statroles
+  - srlist
+statroleinfo:
+  - statroleinfo
+  - srinfo
+statroleremove:
+  - statroleremove
+  - srremove
+  - srdel
+statroletoggle:
+  - statroletoggle
+  - srtoggle
+statrolepreview:
+  - statrolepreview
+  - srpreview
+statrolerun:
+  - statrolerun
+  - srrun
+statroleset:
+  - statroleset
+  - srset
+statrolefilter:
+  - statrolefilter
+  - srfilter
+liveboardadd:
+  - liveboardadd
+  - pinleaderboard
+  - pinboard
+liveboardlist:
+  - liveboardlist
+  - liveboards
+liveboardremove:
+  - liveboardremove
+  - unpinboard
+liveboardrefresh:
+  - liveboardrefresh
+serverreportchannel:
+  - serverreportchannel
+  - reportchannel
+serverreportfrequency:
+  - serverreportfrequency
+  - reportfrequency
+serverreportnow:
+  - serverreportnow
+  - reportnow

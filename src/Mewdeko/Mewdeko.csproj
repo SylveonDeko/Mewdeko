@@ -86,7 +86,9 @@
     <PackageReference Include="JikanDotNet" Version="2.10.4"/>
     <PackageReference Include="Google.Apis.YouTube.v3" Version="1.75.0.4176"/>
     <PackageReference Include="Google.Apis.Customsearch.v1" Version="1.49.0.2084"/>
+    <PackageReference Include="Lavalink4NET.Cluster" Version="4.2.2"/>
     <PackageReference Include="Lavalink4NET.Discord.NET" Version="4.2.2"/>
+    <PackageReference Include="Lavalink4NET.Integrations.ExtraFilters" Version="4.2.2"/>
     <PackageReference Include="Lavalink4NET.Integrations.Lavasearch" Version="4.2.2"/>
     <PackageReference Include="Lavalink4NET.Integrations.Lavasrc" Version="4.2.2"/>
     <PackageReference Include="LazyCache" Version="2.4.0"/>

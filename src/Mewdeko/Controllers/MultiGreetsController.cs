@@ -218,9 +218,28 @@ public class MultiGreetController : Controller
             return Ok();
         }
 
-        var webhook = request.AvatarUrl != null
-            ? await channel.CreateWebhookAsync(request.Name, await GetAvatarStream(request.AvatarUrl))
-            : await channel.CreateWebhookAsync(request.Name);
+        if (string.IsNullOrWhiteSpace(request.Name) || request.Name.Length > 80)
+            return BadRequest("Webhook name must be between 1 and 80 characters");
+
+        Stream? avatar = null;
+        if (!string.IsNullOrWhiteSpace(request.AvatarUrl))
+        {
+            if (!Uri.TryCreate(request.AvatarUrl.Trim(), UriKind.Absolute, out var avatarUri) ||
+                avatarUri.Scheme is not ("http" or "https"))
+                return BadRequest("Avatar URL must be an absolute http or https link");
+
+            avatar = await GetAvatarStream(avatarUri);
+            if (avatar == null)
+                return BadRequest("Could not download the avatar from that URL");
+        }
+
+        IWebhook webhook;
+        await using (avatar)
+        {
+            webhook = avatar != null
+                ? await channel.CreateWebhookAsync(request.Name, avatar)
+                : await channel.CreateWebhookAsync(request.Name);
+        }
 
         await multiGreetService.ChangeMgWebhook(greet,
             $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}");
@@ -284,11 +303,30 @@ public class MultiGreetController : Controller
         return Ok(type);
     }
 
-    private static async Task<Stream?> GetAvatarStream(string url)
+    /// <summary>
+    ///     Downloads a webhook avatar, or returns null when the URL does not answer with a reasonably sized image.
+    /// </summary>
+    private static async Task<Stream?> GetAvatarStream(Uri url)
     {
-        using var http = new HttpClient();
-        var response = await http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
-        var imgData = await response.Content.ReadAsByteArrayAsync();
-        return imgData.ToStream();
+        const int maxBytes = 8 * 1024 * 1024;
+
+        try
+        {
+            using var http = new HttpClient();
+            http.Timeout = TimeSpan.FromSeconds(15);
+            using var response = await http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            if (response.Content.Headers.ContentLength is > maxBytes)
+                return null;
+
+            var imgData = await response.Content.ReadAsByteArrayAsync();
+            return imgData.Length is 0 or > maxBytes ? null : imgData.ToStream();
+        }
+        catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException or IOException)
+        {
+            return null;
+        }
     }
 }

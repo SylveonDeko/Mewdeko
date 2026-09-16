@@ -1132,7 +1132,10 @@ public class TwitchService : INService, IReadyExecutor
     /// </summary>
     public async Task<bool> TryExecuteCustomCommandAsync(TwitchCommandContext ctx, string name)
     {
-        name = NormalizeCommandName(name);
+        // Chat can send anything after the prefix; a name that could never be a command is simply not one.
+        if (!TryNormalizeCommandName(name, out name))
+            return false;
+
         await using var conn = await dbFactory.CreateConnectionAsync();
         var command = await conn.TwitchCustomCommands
             .FirstOrDefaultAsync(c => c.GuildId == ctx.GuildId && c.Name == name);
@@ -2048,15 +2051,31 @@ public class TwitchService : INService, IReadyExecutor
     /// </summary>
     public static string NormalizeCommandName(string name)
     {
-        name = name.Trim().TrimStart('!').ToLowerInvariant();
-        if (string.IsNullOrWhiteSpace(name))
-            throw new ArgumentException("Command name cannot be empty.", nameof(name));
+        if (!TryNormalizeCommandName(name, out var normalized))
+        {
+            throw new ArgumentException(
+                string.IsNullOrWhiteSpace(name?.Trim().TrimStart('!'))
+                    ? "Command name cannot be empty."
+                    : "Command names can only use letters, numbers, hyphens, and underscores.", nameof(name));
+        }
 
-        if (name.Length > 32 || name.Any(c => !char.IsLetterOrDigit(c) && c != '-' && c != '_'))
-            throw new ArgumentException("Command names can only use letters, numbers, hyphens, and underscores.",
-                nameof(name));
+        return normalized;
+    }
 
-        return name;
+    /// <summary>
+    ///     Normalizes a Twitch chat command name without throwing, for text that came from chat rather than from
+    ///     someone defining a command.
+    /// </summary>
+    /// <param name="name">The raw name, with or without a leading exclamation mark.</param>
+    /// <param name="normalized">The lower case name when valid.</param>
+    /// <returns>True when the name is a usable command name.</returns>
+    public static bool TryNormalizeCommandName(string? name, out string normalized)
+    {
+        normalized = (name ?? "").Trim().TrimStart('!').ToLowerInvariant();
+        if (normalized.Length is 0 or > 32)
+            return false;
+
+        return normalized.All(c => char.IsAsciiLetterOrDigit(c) || c == '-' || c == '_');
     }
 
     private void StartLivePoll()

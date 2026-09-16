@@ -68,6 +68,22 @@ distortion:
       name: true
       optional: false
       type: '='
+echo:
+  args:
+    - 1 0.5
+    - 0
+  desc: >-
+    Applies an echo effect to the current track. Requires the echo filter
+    plugin on the Lavalink node.
+  params:
+    - desc: 'The echo delay in seconds between 0.1 and 5. 0 disables the effect.'
+      name: delay
+      optional: true
+      type: float
+    - desc: 'How much each echo fades, between 0 and 1.'
+      name: decay
+      optional: true
+      type: float
 eightd:
   args:
     - true
@@ -187,6 +203,16 @@ loop_PlayerRepeatType:
       name: repeatType
       optional: false
       type: PlayerRepeatType
+lowpass:
+  args:
+    - 20
+    - 0
+  desc: 'Applies a low pass filter that muffles the audio by cutting high frequencies.'
+  params:
+    - desc: 'The smoothing amount between 1 and 100. Higher values cut more treble. 0 disables the filter.'
+      name: smoothing
+      optional: true
+      type: float
 movesong:
   args:
     - number number
@@ -248,6 +274,18 @@ nightcore:
       name: true
       optional: false
       type: '='
+normalize:
+  args:
+    - ''
+    - false
+  desc: >-
+    Toggles volume normalization, which evens out loud and quiet parts of the
+    audio. Requires the normalization filter plugin on the Lavalink node.
+  params:
+    - desc: 'Whether to enable or disable normalization. Defaults to true.'
+      name: enable
+      optional: true
+      type: bool
 nowplaying:
   args:
     - ''
@@ -288,23 +326,33 @@ play_int:
 play_string:
   args:
     - text
+    - 'deezer: text'
   desc: >-
-    Plays music from various sources including YouTube, Spotify, and direct
-    searches. Supports tracks, playlists, and albums from supported platforms.
+    Plays music from a URL or a search query. URLs from any source enabled on
+    the Lavalink node (YouTube, Spotify, Apple Music, Deezer, SoundCloud,
+    Bandcamp, Twitch, Vimeo, TikTok, Reddit and more) are loaded directly.
+    Plain text searches the configured default source unless the query starts
+    with a source prefix such as "spotify:", "deezer:", "applemusic:",
+    "soundcloud:" or "youtube:".
   params:
     - &ref_347
-      desc: 'URL or search query for the music to play'
+      desc: 'URL or search query for the music to play, optionally prefixed with a source name'
       name: query
       optional: false
       type: string
 play_string_1:
   args:
     - text
+    - 'deezer: text'
   desc: >-
-    Plays music from various sources including YouTube, Spotify, and direct
-    searches. Supports tracks, playlists, and albums from supported platforms.
+    Plays music from a URL or a search query. URLs from any source enabled on
+    the Lavalink node (YouTube, Spotify, Apple Music, Deezer, SoundCloud,
+    Bandcamp, Twitch, Vimeo, TikTok, Reddit and more) are loaded directly.
+    Plain text searches the configured default source unless the query starts
+    with a source prefix such as "spotify:", "deezer:", "applemusic:",
+    "soundcloud:" or "youtube:".
   params:
-    - desc: 'URL or search query for the music to play'
+    - desc: 'URL or search query for the music to play, optionally prefixed with a source name'
       name: query
       optional: false
       type: string
@@ -345,19 +393,27 @@ saveplaylist_string:
 search:
   args:
     - text
-  desc: 'Searches for tracks without automatically playing them.'
+    - 'spotify: text'
+  desc: >-
+    Searches for tracks without automatically playing them. Searches the
+    configured default source unless the query starts with a source prefix such
+    as "spotify:", "deezer:" or "soundcloud:".
   params:
     - &ref_480
-      desc: 'The search query'
+      desc: 'The search query, optionally prefixed with a source name'
       name: query
       optional: false
       type: string
 search_string:
   args:
     - text
-  desc: 'Searches for tracks without automatically playing them.'
+    - 'spotify: text'
+  desc: >-
+    Searches for tracks without automatically playing them. Searches the
+    configured default source unless the query starts with a source prefix such
+    as "spotify:", "deezer:" or "soundcloud:".
   params:
-    - desc: 'The search query'
+    - desc: 'The search query, optionally prefixed with a source name'
       name: query
       optional: false
       type: string

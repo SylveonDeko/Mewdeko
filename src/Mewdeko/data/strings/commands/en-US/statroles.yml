@@ -1,0 +1,206 @@
+statroleadd:
+  args:
+    - '@role Messages 500 [lookbackDays] [name]'
+    - '@role VoiceMinutes 600 30 Voice Regular'
+    - '@role Invites 10'
+  desc: 'Creates a threshold stat role: members with at least the minimum (Messages, VoiceMinutes, Invites, JoinedDays, AccountDays or ActivityMinutes) get the role, and lose it again when they drop below unless it is made permanent. For ActivityMinutes, set the game with "statroleset <id> activity <name>" or leave it as any game.'
+  params:
+    - desc: 'The role to manage.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'What to measure: Messages, VoiceMinutes, Invites, JoinedDays, AccountDays or ActivityMinutes.'
+      name: stat
+      optional: false
+      type: StatRoleStat
+    - desc: 'The minimum value.'
+      name: minimum
+      optional: false
+      type: long
+    - desc: 'The window in days, or 0 for all time.'
+      name: lookbackDays
+      optional: true
+      type: int
+    - desc: 'A display name.'
+      name: name
+      optional: true
+      type: string
+statroletop:
+  args:
+    - '@role Messages 10 [lookbackDays] [name]'
+    - '@role VoiceMinutes 3 7'
+  desc: 'Creates a top rank stat role: the members ranked 1 through the given place get the role.'
+  params:
+    - desc: 'The role to manage.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'What to measure.'
+      name: stat
+      optional: false
+      type: StatRoleStat
+    - desc: 'The worst rank that still qualifies.'
+      name: topEnd
+      optional: false
+      type: int
+    - desc: 'The window in days, or 0 for all time.'
+      name: lookbackDays
+      optional: true
+      type: int
+    - desc: 'A display name.'
+      name: name
+      optional: true
+      type: string
+statrolepercent:
+  args:
+    - '@role Messages 10 [lookbackDays] [name]'
+  desc: 'Creates a top percent stat role: members in the top given percent of ranked members get the role.'
+  params:
+    - desc: 'The role to manage.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'What to measure.'
+      name: stat
+      optional: false
+      type: StatRoleStat
+    - desc: 'The percentile cutoff, 1 to 100.'
+      name: topPercent
+      optional: false
+      type: int
+    - desc: 'The window in days, or 0 for all time.'
+      name: lookbackDays
+      optional: true
+      type: int
+    - desc: 'A display name.'
+      name: name
+      optional: true
+      type: string
+statrolestreak:
+  args:
+    - '@role Messages 5 7 [lookbackDays] [name]'
+  desc: 'Creates a daily streak stat role: members who hit the per day minimum on at least the required number of days inside the window get the role.'
+  params:
+    - desc: 'The role to manage.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'Messages or VoiceMinutes.'
+      name: stat
+      optional: false
+      type: StatRoleStat
+    - desc: 'The per day minimum.'
+      name: perDay
+      optional: false
+      type: long
+    - desc: 'How many days in the window must meet it.'
+      name: requiredDays
+      optional: false
+      type: int
+    - desc: 'The window in days.'
+      name: lookbackDays
+      optional: true
+      type: int
+    - desc: 'A display name.'
+      name: name
+      optional: true
+      type: string
+statrolelist:
+  args:
+    - ''
+  desc: 'Lists stat roles with their conditions.'
+  params: [ ]
+statroleinfo:
+  args:
+    - '3'
+  desc: 'Shows a stat role''s full configuration: condition, filters, notifications and schedule.'
+  params:
+    - desc: 'The stat role ID.'
+      name: id
+      optional: false
+      type: int
+statroleremove:
+  args:
+    - '3'
+  desc: 'Deletes a stat role. Members keep whatever they currently hold.'
+  params:
+    - desc: 'The stat role ID.'
+      name: id
+      optional: false
+      type: int
+statroletoggle:
+  args:
+    - '3'
+  desc: 'Enables or disables a stat role.'
+  params:
+    - desc: 'The stat role ID.'
+      name: id
+      optional: false
+      type: int
+statrolepreview:
+  args:
+    - '3'
+  desc: 'Shows who would gain and lose the role on the next run without changing anything.'
+  params:
+    - desc: 'The stat role ID.'
+      name: id
+      optional: false
+      type: int
+statrolerun:
+  args:
+    - '3'
+  desc: 'Evaluates and applies a stat role right now instead of waiting for its schedule.'
+  params:
+    - desc: 'The stat role ID.'
+      name: id
+      optional: false
+      type: int
+statroleset:
+  args:
+    - '3 permanent true'
+    - '3 lookback 30'
+    - '3 notifychannel #announcements'
+    - '3 message %user% just %action% %role%!'
+    - '3 activity Minecraft'
+  desc: 'Changes one setting on a stat role. Settings: name, min, max, lookback, topstart, topend, days, permanent, invert, bots, group, interval, notifychannel, notifydm, message, activity (a game name or "any" for the ActivityMinutes stat). Use "none" to clear max, group, notifychannel or message.'
+  params:
+    - desc: 'The stat role ID.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'The setting name.'
+      name: setting
+      optional: false
+      type: string
+    - desc: 'The new value.'
+      name: value
+      optional: false
+      type: string
+statrolefilter:
+  args:
+    - '3 #channel'
+    - '3 @role'
+    - '3 @role true'
+    - '3 @user'
+  desc: 'Toggles a filter on a stat role: a channel the stat is limited to, a role members need (or, with true, must not have), or a member the role never touches.'
+  params:
+    - desc: 'The stat role ID.'
+      name: id
+      optional: false
+      type: int
+    - desc: 'A channel to limit the stat to.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'A role to require or exclude.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'True to toggle the role blacklist instead of the whitelist.'
+      name: blacklist
+      optional: true
+      type: bool
+    - desc: 'A member the stat role never touches.'
+      name: user
+      optional: false
+      type: IGuildUser

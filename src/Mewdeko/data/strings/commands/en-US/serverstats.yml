@@ -1,0 +1,298 @@
+serveractivity:
+  args:
+    - '[days]'
+    - '7'
+    - '0'
+  desc: 'Shows the server''s activity summary for a window: messages, voice time, contributors, joins and leaves, and the most active member and channels. Use 0 for all time.'
+  params:
+    - desc: 'The window in days, 0 for all time, or omitted for the server default.'
+      name: days
+      optional: true
+      type: int
+useractivity:
+  args:
+    - '[@user] [days]'
+    - '@user 30'
+  desc: 'Shows a member''s activity summary for a window: messages and voice time with ranks, lifetime totals and their most used channels.'
+  params:
+    - desc: 'The member, or omitted for yourself.'
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: 'The window in days, 0 for all time, or omitted for the server default.'
+      name: days
+      optional: true
+      type: int
+channelactivity:
+  args:
+    - '[#channel] [days]'
+  desc: 'Shows a channel''s activity summary for a window: messages, voice time, contributors and its most active members.'
+  params:
+    - desc: 'The channel, or omitted for the current one.'
+      name: channel
+      optional: true
+      type: IGuildChannel
+    - desc: 'The window in days, 0 for all time, or omitted for the server default.'
+      name: days
+      optional: true
+      type: int
+activitytop:
+  args:
+    - '[Messages|Voice] [days] [@role]'
+    - 'Voice 7'
+  desc: 'Ranks members by messages or voice time over a window, optionally only members with a role.'
+  params:
+    - desc: 'Messages or Voice.'
+      name: kind
+      optional: true
+      type: StatKind
+    - desc: 'The window in days, 0 for all time, or omitted for the server default.'
+      name: days
+      optional: true
+      type: int
+    - desc: 'Only include members with this role.'
+      name: role
+      optional: true
+      type: IRole
+activitytopchannels:
+  args:
+    - '[Messages|Voice] [days]'
+  desc: 'Ranks channels by messages or voice time over a window.'
+  params:
+    - desc: 'Messages or Voice.'
+      name: kind
+      optional: true
+      type: StatKind
+    - desc: 'The window in days, 0 for all time, or omitted for the server default.'
+      name: days
+      optional: true
+      type: int
+activitychart:
+  args:
+    - '[Messages|Voice|Members|Status|Joins|Leaves|Growth|InVoice] [days]'
+    - 'Members 30'
+  desc: 'Draws a chart of messages, voice hours, member count, member status, joins, leaves, growth or members in voice over a window.'
+  params:
+    - desc: 'What to chart.'
+      name: kind
+      optional: true
+      type: StatChartKind
+    - desc: 'The window in days, 1 to 90, or omitted for the server default.'
+      name: days
+      optional: true
+      type: int
+activityexport:
+  args:
+    - '[Messages|Voice] [days]'
+  desc: 'Exports a member ranking by messages or voice time as a CSV file.'
+  params:
+    - desc: 'Messages or Voice.'
+      name: kind
+      optional: true
+      type: StatKind
+    - desc: 'The window in days, 0 for all time, or omitted for the server default.'
+      name: days
+      optional: true
+      type: int
+statssettings:
+  args:
+    - ''
+  desc: 'Shows the activity stats tracking settings.'
+  params: [ ]
+statslookback:
+  args:
+    - '14'
+  desc: 'Sets the default window in days that stats commands use when none is given.'
+  params:
+    - desc: 'The window in days, 1 to 90.'
+      name: days
+      optional: false
+      type: int
+statscooldown:
+  args:
+    - '30'
+  desc: 'Sets how many seconds must pass between two counted messages from the same member. 0 counts every message.'
+  params:
+    - desc: 'The cooldown in seconds, 0 to 300.'
+      name: seconds
+      optional: false
+      type: int
+statstrackvoice:
+  args:
+    - ''
+  desc: 'Toggles voice time tracking for activity stats.'
+  params: [ ]
+statstracksnapshots:
+  args:
+    - ''
+  desc: 'Toggles the hourly member and status snapshots used for member and status charts.'
+  params: [ ]
+statscountbots:
+  args:
+    - ''
+  desc: 'Toggles whether bots are counted in activity stats.'
+  params: [ ]
+statsignorevoicestate:
+  args:
+    - 'SelfMuted'
+    - 'Afk'
+  desc: 'Toggles whether time spent in a voice state (SelfMuted, SelfDeafened, ServerMuted, ServerDeafened, Afk, Alone, Streaming, Video) counts toward voice stats.'
+  params:
+    - desc: 'The state to toggle.'
+      name: state
+      optional: false
+      type: VoiceStateFlags
+statsignore:
+  args:
+    - '#channel'
+    - '@role'
+    - '@user'
+  desc: 'Toggles whether a channel, every holder of a role, or a member is left out of activity stats.'
+  params:
+    - desc: 'The channel to toggle.'
+      name: channel
+      optional: false
+      type: IGuildChannel
+    - desc: 'The role to toggle.'
+      name: role
+      optional: false
+      type: IRole
+    - desc: 'The member to toggle.'
+      name: user
+      optional: false
+      type: IGuildUser
+statsignored:
+  args:
+    - ''
+  desc: 'Lists the channels, roles and members left out of activity stats.'
+  params: [ ]
+statsprivacy:
+  args:
+    - ''
+  desc: 'Opts you out of activity stats in every server, permanently deleting your recorded message and voice stats, or opts you back in.'
+  params: [ ]
+topgames:
+  args:
+    - '[days]'
+    - '30'
+  desc: 'Ranks the games and apps members spend the most time in over a window, with player counts. Requires game tracking to be enabled.'
+  params:
+    - desc: 'The window in days, 0 for all time, or omitted for the server default.'
+      name: days
+      optional: true
+      type: int
+whoplays:
+  args:
+    - 'Minecraft'
+  desc: 'Shows who plays a game or uses an app: how many members are in it right now and the members with the most time in it.'
+  params:
+    - desc: 'The game or app name.'
+      name: game
+      optional: false
+      type: string
+statstrackactivities:
+  args:
+    - ''
+  desc: 'Toggles tracking of the games and apps members use (playing, streaming, listening, watching, competing). Off by default.'
+  params: [ ]
+statsverifyactivities:
+  args:
+    - ''
+  desc: 'Toggles whether only activities backed by a Discord application, Spotify or a stream are counted, which blocks presences spoofed by custom clients.'
+  params: [ ]
+statsactivityfiltermode:
+  args:
+    - 'Whitelist'
+    - 'Blacklist'
+  desc: 'Sets whether the activity filter list only allows the listed games (Whitelist) or ignores them (Blacklist).'
+  params:
+    - desc: 'Whitelist or Blacklist.'
+      name: mode
+      optional: false
+      type: ActivityFilterMode
+statsactivityfilter:
+  args:
+    - 'Spotify'
+  desc: 'Toggles a game or app name on the activity filter list.'
+  params:
+    - desc: 'The activity name.'
+      name: name
+      optional: false
+      type: string
+statsactivityfilters:
+  args:
+    - ''
+  desc: 'Lists the activity filter and whether it is a whitelist or blacklist.'
+  params: [ ]
+liveboardadd:
+  args:
+    - '#channel InviteLeaderboard [Weekly] [entries] [intervalMinutes]'
+    - '#stats GrowthChart Monthly'
+  desc: 'Posts a leaderboard, chart or overview that the bot keeps refreshing and pins it. Kinds: InviteLeaderboard, MessageLeaderboard, VoiceLeaderboard, JoinsChart, LeavesChart, GrowthChart, MembersChart, MessagesChart, ServerOverview, InviteStats.'
+  params:
+    - desc: 'The channel to post in.'
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: 'What to show.'
+      name: kind
+      optional: false
+      type: LiveBoardKind
+    - desc: 'The window: AllTime, Daily, Weekly or Monthly.'
+      name: range
+      optional: true
+      type: StatsRange
+    - desc: 'Rows for leaderboards, 3 to 25.'
+      name: entries
+      optional: true
+      type: int
+    - desc: 'How often to refresh, at least 5 minutes.'
+      name: intervalMinutes
+      optional: true
+      type: int
+liveboardlist:
+  args:
+    - ''
+  desc: 'Lists live boards.'
+  params: [ ]
+liveboardremove:
+  args:
+    - '3'
+  desc: 'Deletes a live board and its message.'
+  params:
+    - desc: 'The board ID from the list.'
+      name: id
+      optional: false
+      type: int
+liveboardrefresh:
+  args:
+    - ''
+  desc: 'Refreshes every live board right now.'
+  params: [ ]
+serverreportchannel:
+  args:
+    - '[#channel]'
+  desc: 'Sets the channel that receives scheduled server reports and enables them. Omit the channel to disable reports.'
+  params:
+    - desc: 'The channel, or omitted to disable.'
+      name: channel
+      optional: true
+      type: ITextChannel
+serverreportfrequency:
+  args:
+    - 'Weekly'
+  desc: 'Sets how often server reports are posted: Daily, Weekly or Monthly.'
+  params:
+    - desc: 'Daily, Weekly or Monthly.'
+      name: frequency
+      optional: false
+      type: ReportFrequency
+serverreportnow:
+  args:
+    - '[Weekly]'
+  desc: 'Posts a server report right now in the current channel, covering the given period or the configured one.'
+  params:
+    - desc: 'The period to cover, or omitted for the configured one.'
+      name: frequency
+      optional: true
+      type: ReportFrequency

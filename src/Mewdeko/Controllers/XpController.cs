@@ -44,8 +44,10 @@ public class XpController(
     /// <param name="settings">XP settings to update</param>
     /// <returns>The updated XP settings</returns>
     [HttpPost("settings")]
-    public async Task<IActionResult> UpdateXpSettings(ulong guildId, [FromBody] GuildXpSetting settings)
+    public async Task<IActionResult> UpdateXpSettings(ulong guildId, [FromBody] GuildXpSetting? settings)
     {
+        if (settings == null)
+            return BadRequest(BodyError());
         if (settings.GuildId != guildId)
             return BadRequest("Guild ID mismatch");
 
@@ -274,8 +276,10 @@ public class XpController(
     /// <param name="reward">A <see cref="XpRoleReward" /> object.</param>
     /// <returns>A 200 status code if successful</returns>
     [HttpPost("rewards/roles")]
-    public async Task<IActionResult> AddRoleReward(ulong guildId, [FromBody] XpRoleReward reward)
+    public async Task<IActionResult> AddRoleReward(ulong guildId, [FromBody] XpRoleReward? reward)
     {
+        if (reward == null)
+            return BadRequest(BodyError());
         if (reward.Level < 1)
             return BadRequest("Level must be at least a positive integer");
 
@@ -331,8 +335,10 @@ public class XpController(
     /// <param name="reward">The currency reward to add</param>
     /// <returns>A 200 status code if successful</returns>
     [HttpPost("rewards/currency")]
-    public async Task<IActionResult> AddCurrencyReward(ulong guildId, [FromBody] XpCurrencyReward reward)
+    public async Task<IActionResult> AddCurrencyReward(ulong guildId, [FromBody] XpCurrencyReward? reward)
     {
+        if (reward == null)
+            return BadRequest(BodyError());
         if (reward.Level < 1)
             return BadRequest("Level must be at least a positive integer");
 
@@ -468,8 +474,10 @@ public class XpController(
     /// <param name="template">The template to update</param>
     /// <returns>A 200 status code if successful</returns>
     [HttpPost("template")]
-    public async Task<IActionResult> UpdateTemplate(ulong guildId, [FromBody] Template template)
+    public async Task<IActionResult> UpdateTemplate(ulong guildId, [FromBody] Template? template)
     {
+        if (template == null)
+            return BadRequest(BodyError());
         if (template.GuildId != guildId)
             return BadRequest("Guild ID mismatch");
 
@@ -678,5 +686,23 @@ public class XpController(
             HighestLevel = highestLevel,
             RecentActivity = recentGainsDetails
         });
+    }
+
+    /// <summary>
+    ///     Explains why a request body bound to null. Model validation is suppressed globally, so a body that
+    ///     failed to deserialize reaches the action as null with the reason left in model state.
+    /// </summary>
+    private string BodyError()
+    {
+        var reasons = ModelState.Values
+            .SelectMany(v => v.Errors)
+            .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? e.Exception?.Message : e.ErrorMessage)
+            .Where(m => !string.IsNullOrWhiteSpace(m))
+            .Distinct()
+            .ToList();
+
+        return reasons.Count == 0
+            ? "The request body is missing or is not valid JSON for this endpoint"
+            : string.Join(" ", reasons);
     }
 }

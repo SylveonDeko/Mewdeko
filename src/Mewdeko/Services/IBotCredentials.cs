@@ -175,12 +175,31 @@ public interface IBotCredentials
     public string SentryDsn { get; }
 
     /// <summary>
+    ///     Gets the Lavalink nodes the bot connects to. Multiple nodes are load balanced round robin.
+    /// </summary>
+    public ImmutableArray<LavalinkNodeCredentials> LavalinkNodes { get; }
+
+    /// <summary>
+    ///     Gets the source used when a plain text query is searched with no explicit source prefix.
+    ///     One of: youtube, youtubemusic, soundcloud, spotify, applemusic, deezer, yandexmusic, bandcamp.
+    /// </summary>
+    public string LavalinkDefaultSearchSource { get; }
+
+    /// <summary>
     ///     Checks if the given user is an owner of the bot.
     /// </summary>
     /// <param name="u">The user to check.</param>
     /// <returns><see langword="true" /> if the user is an owner; otherwise, <see langword="false" />.</returns>
     public bool IsOwner(IUser u);
 }
+
+/// <summary>
+///     Connection details for a single Lavalink node.
+/// </summary>
+/// <param name="Url">The HTTP base address of the node, for example http://127.0.0.1:2333.</param>
+/// <param name="Password">The node's passphrase.</param>
+/// <param name="Label">A human readable label for the node, used in logs.</param>
+public record LavalinkNodeCredentials(string Url, string Password, string Label);
 
 /// <summary>
 ///     Represents configuration for restarting the bot.

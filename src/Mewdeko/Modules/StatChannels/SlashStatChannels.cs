@@ -113,18 +113,19 @@ public class SlashStatChannels : MewdekoSlashModuleBase<StatChannelService>
     /// <param name="channel">The voice channel.</param>
     /// <param name="role">The role to count.</param>
     /// <param name="template">The display template.</param>
+    /// <param name="onlineOnly">Whether to count only members who are not offline.</param>
     [SlashCommand("role", "Add a stat channel for role member count")]
     [RequireContext(ContextType.Guild)]
     [SlashUserPerm(GuildPermission.ManageChannels)]
     [CheckPermissions]
-    public async Task Role(IVoiceChannel channel, IRole role, string? template = null)
+    public async Task Role(IVoiceChannel channel, IRole role, string? template = null, bool onlineOnly = false)
     {
-        template ??= StatChannelDefinitions.DefaultTemplate(StatChannelType.RoleMembers);
+        var type = onlineOnly ? StatChannelType.RoleMembersOnline : StatChannelType.RoleMembers;
+        template ??= StatChannelDefinitions.DefaultTemplate(type);
 
         try
         {
-            await Service.AddStatChannelAsync(ctx.Guild.Id, channel.Id, StatChannelType.RoleMembers, template,
-                role.Id);
+            await Service.AddStatChannelAsync(ctx.Guild.Id, channel.Id, type, template, role.Id);
             await ConfirmAsync(Strings.StatChannelAdded(ctx.Guild.Id, channel.Name, $"Role: {role.Name}"))
                 .ConfigureAwait(false);
         }

@@ -30,6 +30,7 @@ public class MusicController : Controller
     private readonly IDashboardAuditContext auditContext;
     private readonly IDataCache cache;
     private readonly DiscordShardedClient client;
+    private readonly IBotCredentials creds;
     private readonly IDataConnectionFactory dbFactory;
     private readonly MusicEventManager eventManager;
     private readonly ILogger<MusicController> logger;
@@ -46,6 +47,7 @@ public class MusicController : Controller
     /// <param name="musicLinkService">The service managing music link auto-conversion channels</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="auditContext">Records before/after state for the dashboard audit log.</param>
+    /// <param name="creds">The bot credentials, used for the default search source.</param>
     public MusicController(
         IAudioService audioService,
         IDataCache cache,
@@ -53,7 +55,8 @@ public class MusicController : Controller
         IDataConnectionFactory dbFactory,
         MusicEventManager eventManager,
         MusicLinkService musicLinkService, ILogger<MusicController> logger,
-        IDashboardAuditContext auditContext)
+        IDashboardAuditContext auditContext,
+        IBotCredentials creds)
     {
         this.audioService = audioService;
         this.cache = cache;
@@ -63,6 +66,7 @@ public class MusicController : Controller
         this.musicLinkService = musicLinkService;
         this.logger = logger;
         this.auditContext = auditContext;
+        this.creds = creds;
     }
 
     /// <summary>
@@ -170,12 +174,15 @@ public class MusicController : Controller
     ///     Searches for tracks using the provided query and search mode
     /// </summary>
     /// <param name="query">The search query</param>
-    /// <param name="mode">The search mode (YouTube, Spotify, SoundCloud)</param>
+    /// <param name="mode">
+    ///     The search source (youtube, youtubemusic, spotify, applemusic, deezer, soundcloud, bandcamp,
+    ///     yandexmusic, tidal, qobuz, vkmusic). Falls back to the configured default when omitted or unknown.
+    /// </param>
     /// <param name="limit">Maximum number of results to return</param>
     /// <returns>A list of matching tracks</returns>
     [HttpGet("search")]
     [Authorize("ApiKeyPolicy")]
-    public async Task<IActionResult> SearchTracks([FromQuery] string query, [FromQuery] string mode = "YouTube",
+    public async Task<IActionResult> SearchTracks([FromQuery] string query, [FromQuery] string? mode = null,
         [FromQuery] int limit = 10)
     {
         if (string.IsNullOrWhiteSpace(query))
@@ -186,15 +193,9 @@ public class MusicController : Controller
 
         try
         {
-            // Parse the search mode
-            var searchMode = mode.ToLower() switch
-            {
-                "youtube" => TrackSearchMode.YouTube,
-                "spotify" => TrackSearchMode.Spotify,
-                "soundcloud" => TrackSearchMode.SoundCloud,
-                "youtubemusic" => TrackSearchMode.YouTubeMusic,
-                _ => TrackSearchMode.YouTube
-            };
+            var searchMode = MusicSearchSources.TryParse(mode, out var parsedMode)
+                ? parsedMode
+                : MusicSearchSources.GetDefault(creds);
 
             // Perform the search
             var trackResults = await audioService.Tracks.LoadTracksAsync(query, new TrackLoadOptions
@@ -248,20 +249,10 @@ public class MusicController : Controller
 
         try
         {
-            // Determine the appropriate search mode based on the URL
-            var searchMode = url.ToLower() switch
-            {
-                var u when u.Contains("spotify.com") => TrackSearchMode.Spotify,
-                var u when u.Contains("music.youtube") => TrackSearchMode.YouTubeMusic,
-                var u when u.Contains("youtube.com") || u.Contains("youtu.be") => TrackSearchMode.YouTube,
-                var u when u.Contains("soundcloud.com") => TrackSearchMode.SoundCloud,
-                _ => TrackSearchMode.None
-            };
-
             // Load the track
             var track = await audioService.Tracks.LoadTrackAsync(url, new TrackLoadOptions
             {
-                SearchMode = searchMode
+                SearchMode = TrackSearchMode.None, SearchBehavior = StrictSearchBehavior.Passthrough
             });
 
             if (track == null)

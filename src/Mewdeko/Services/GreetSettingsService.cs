@@ -1,5 +1,6 @@
 ﻿using DataModel;
 using LinqToDB.Async;
+using Mewdeko.Modules.Utility.Services;
 using Mewdeko.Services.Analytics;
 
 namespace Mewdeko.Services;
@@ -20,6 +21,7 @@ public class GreetSettingsService : INService
         });
 
     private readonly GuildSettingsService gss;
+    private readonly InviteCountService inviteCountService;
     private readonly ILogger<GreetSettingsService> logger;
 
     /// <summary>
@@ -36,14 +38,17 @@ public class GreetSettingsService : INService
     /// </remarks>
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="collector">The analytics collector.</param>
+    /// <param name="inviteCountService">Supplies inviter placeholders for greet and leave messages.</param>
     public GreetSettingsService(DiscordShardedClient client, GuildSettingsService gss, IDataConnectionFactory dbFactory,
-        EventHandler eventHandler, ILogger<GreetSettingsService> logger, IAnalyticsCollector collector)
+        EventHandler eventHandler, ILogger<GreetSettingsService> logger, IAnalyticsCollector collector,
+        InviteCountService inviteCountService)
     {
         this.collector = collector;
         this.dbFactory = dbFactory;
         this.logger = logger;
         this.client = client;
         this.gss = gss;
+        this.inviteCountService = inviteCountService;
 
         eventHandler.Subscribe("UserJoined", "GreetSettingsService", UserJoined);
         eventHandler.Subscribe("UserLeft", "GreetSettingsService", UserLeft);
@@ -278,12 +283,15 @@ public class GreetSettingsService : INService
         if (!users.Any())
             return;
 
-        var rep = new ReplacementBuilder()
+        var userList = users.ToList();
+        var builder = new ReplacementBuilder()
             .WithChannel(channel)
             .WithClient(client)
             .WithServer(client, (SocketGuild)channel.Guild)
-            .WithManyUsers(users)
-            .Build();
+            .WithManyUsers(userList);
+        if (userList.Count == 1)
+            await inviteCountService.ApplyLeavePlaceholdersAsync(channel.Guild, userList[0], builder);
+        var rep = builder.Build();
         var lh = await GetLeaveHook(channel.GuildId);
 
         if (SmartEmbed.TryParse(rep.Replace(conf.ChannelByeMessageText), channel.GuildId, out var embed,
@@ -376,9 +384,10 @@ public class GreetSettingsService : INService
 
         var channel = await user.CreateDMChannelAsync();
 
-        var rep = new ReplacementBuilder()
-            .WithDefault(user, channel, (SocketGuild)user.Guild, client)
-            .Build();
+        var builder = new ReplacementBuilder()
+            .WithDefault(user, channel, (SocketGuild)user.Guild, client);
+        await inviteCountService.ApplyGreetPlaceholdersAsync(user, builder);
+        var rep = builder.Build();
 
         if (SmartEmbed.TryParse(rep.Replace(conf.DmGreetMessageText), user.GuildId, out var embed, out var plainText,
                 out var components))

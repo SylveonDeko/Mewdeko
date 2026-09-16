@@ -209,10 +209,12 @@ public partial class Music(
     }
 
     /// <summary>
-    ///     Plays music from various sources including YouTube, Spotify, and direct searches.
-    ///     Supports tracks, playlists, and albums from supported platforms.
+    ///     Plays music from a URL or a search query. URLs from any source enabled on the Lavalink node
+    ///     (YouTube, Spotify, Apple Music, Deezer, SoundCloud, Bandcamp, Twitch, Vimeo, TikTok, Reddit and more)
+    ///     are loaded directly. Plain text searches the configured default source unless the query starts with a
+    ///     source prefix such as "spotify:", "deezer:", "applemusic:", "soundcloud:" or "youtube:".
     /// </summary>
-    /// <param name="query">URL or search query for the music to play</param>
+    /// <param name="query">URL or search query for the music to play, optionally prefixed with a source name</param>
     [Cmd]
     [Aliases]
     [RequireContext(ContextType.Guild)]
@@ -239,7 +241,7 @@ public partial class Music(
             await player.SetVolumeAsync(await player.GetVolume() / 100f);
             var queue = await cache.GetMusicQueue(ctx.Guild.Id);
 
-            if (Uri.TryCreate(query, UriKind.Absolute, out var uri))
+            if (!MusicSearchSources.HasSourcePrefix(query) && Uri.TryCreate(query, UriKind.Absolute, out var uri))
             {
                 await HandleUrlPlay(uri, queue, player);
             }
@@ -811,7 +813,7 @@ public partial class Music(
 
         foreach (var savedTrack in playlist.MusicPlaylistTracks)
         {
-            var trackResult = await service.Tracks.LoadTrackAsync(savedTrack.Uri, TrackSearchMode.YouTube);
+            var trackResult = await service.Tracks.LoadTrackAsync(savedTrack.Uri, TrackSearchMode.None);
             if (trackResult is null) continue;
 
             queue.Add(new MewdekoTrack(startIndex++, trackResult, new PartialUser
@@ -886,9 +888,10 @@ public partial class Music(
     }
 
     /// <summary>
-    ///     Searches for tracks without automatically playing them.
+    ///     Searches for tracks without automatically playing them. Searches the configured default source unless
+    ///     the query starts with a source prefix such as "spotify:", "deezer:" or "soundcloud:".
     /// </summary>
-    /// <param name="query">The search query</param>
+    /// <param name="query">The search query, optionally prefixed with a source name</param>
     [Cmd]
     [Aliases]
     [RequireContext(ContextType.Guild)]
@@ -901,7 +904,8 @@ public partial class Music(
             return;
         }
 
-        var tracks = await service.Tracks.LoadTracksAsync(query, TrackSearchMode.YouTube);
+        var (mode, searchQuery) = MusicSearchSources.Resolve(query, MusicSearchSources.GetDefault(creds));
+        var tracks = await service.Tracks.LoadTracksAsync(searchQuery, mode);
 
         if (!tracks.IsSuccess)
         {
@@ -1536,8 +1540,17 @@ public partial class Music(
 
         try
         {
+            var trackResults = await service.Tracks.LoadTracksAsync(url, new TrackLoadOptions
+            {
+                SearchMode = TrackSearchMode.None, SearchBehavior = StrictSearchBehavior.Passthrough
+            });
+
             List<LavalinkTrack> tracks;
-            if (url.Contains("spotify.com"))
+            if (trackResults.IsSuccess)
+            {
+                tracks = trackResults.Tracks.ToList();
+            }
+            else if (url.Contains("spotify.com"))
             {
                 var spotify = await player.GetSpotifyClient();
                 tracks = await ProcessSpotifyUrl(url, spotify);
@@ -1550,19 +1563,8 @@ public partial class Music(
             }
             else
             {
-                var options = new TrackLoadOptions
-                {
-                    SearchMode = GetSearchMode(url)
-                };
-
-                var trackResults = await service.Tracks.LoadTracksAsync(url, options);
-                if (!trackResults.IsSuccess)
-                {
-                    await ReplyErrorAsync(Strings.MusicSearchFail(ctx.Guild.Id));
-                    return;
-                }
-
-                tracks = trackResults.Tracks.ToList();
+                await ReplyErrorAsync(Strings.MusicSearchFail(ctx.Guild.Id));
+                return;
             }
 
             await AddTracksToQueue(tracks, queue, player);
@@ -1581,7 +1583,8 @@ public partial class Music(
     {
         try
         {
-            var tracks = await service.Tracks.LoadTracksAsync(query, TrackSearchMode.YouTube);
+            var (mode, searchQuery) = MusicSearchSources.Resolve(query, MusicSearchSources.GetDefault(creds));
+            var tracks = await service.Tracks.LoadTracksAsync(searchQuery, mode);
 
             if (!tracks.IsSuccess)
             {
@@ -1736,20 +1739,6 @@ public partial class Music(
     }
 
     /// <summary>
-    ///     Determines the appropriate search mode based on the URL
-    /// </summary>
-    private static TrackSearchMode GetSearchMode(string url)
-    {
-        return url switch
-        {
-            var u when u.Contains("music.youtube") => TrackSearchMode.YouTubeMusic,
-            var u when u.Contains("youtube.com") || u.Contains("youtu.be") => TrackSearchMode.YouTube,
-            var u when u.Contains("soundcloud.com") => TrackSearchMode.SoundCloud,
-            _ => TrackSearchMode.None
-        };
-    }
-
-    /// <summary>
     ///     Processes Spotify URLs and converts them to playable tracks
     /// </summary>
     private async Task<List<LavalinkTrack>> ProcessSpotifyUrl(string url, SpotifyClient spotify)
@@ -1767,7 +1756,7 @@ public partial class Music(
                 var id = url.Split("/track/")[1].Split("?")[0];
                 var track = await spotify.Tracks.Get(id);
                 var searchQuery = $"{track.Name} {string.Join(" ", track.Artists.Select(a => a.Name))}";
-                var ytTrack = await service.Tracks.LoadTrackAsync(searchQuery, TrackSearchMode.YouTube);
+                var ytTrack = await service.Tracks.LoadTrackAsync(searchQuery, MusicSearchSources.GetDefault(creds));
                 if (ytTrack != null) tracks.Add(ytTrack);
             }
             else if (url.Contains("/album/"))
@@ -1803,7 +1792,8 @@ public partial class Music(
                 foreach (var searchQuery in album.Tracks.Items.Select(track =>
                              $"{track.Name} {string.Join(" ", track.Artists.Select(a => a.Name))}"))
                 {
-                    var ytTrack = await service.Tracks.LoadTrackAsync(searchQuery, TrackSearchMode.YouTube);
+                    var ytTrack =
+                        await service.Tracks.LoadTrackAsync(searchQuery, MusicSearchSources.GetDefault(creds));
                     if (ytTrack == null) continue;
                     tracks.Add(ytTrack);
 
@@ -1910,7 +1900,8 @@ public partial class Music(
                     if (item.Track is not FullTrack track) continue;
 
                     var searchQuery = $"{track.Name} {string.Join(" ", track.Artists.Select(a => a.Name))}";
-                    var ytTrack = await service.Tracks.LoadTrackAsync(searchQuery, TrackSearchMode.YouTube);
+                    var ytTrack =
+                        await service.Tracks.LoadTrackAsync(searchQuery, MusicSearchSources.GetDefault(creds));
                     if (ytTrack != null)
                     {
                         tracks.Add(ytTrack);

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
@@ -21,6 +22,12 @@ public class InstanceManagementService : INService, IReadyExecutor
     {
         PropertyNameCaseInsensitive = true
     };
+
+    /// <summary>
+    ///     How long a status probe waits before treating the instance as down. Far shorter than the HttpClient
+    ///     default of 100 seconds, since a healthy instance answers in milliseconds.
+    /// </summary>
+    private static readonly TimeSpan StatusProbeTimeout = TimeSpan.FromSeconds(10);
 
     private readonly string apiKey;
     private readonly DiscordShardedClient client;
@@ -195,13 +202,26 @@ public class InstanceManagementService : INService, IReadyExecutor
         try
         {
             using var httpClient = CreateAuthenticatedClient();
-            var response = await httpClient.GetAsync($"http://{resolvedHost}:{port}/botapi/BotStatus");
+            using var timeout = new CancellationTokenSource(StatusProbeTimeout);
+            var response = await httpClient.GetAsync($"http://{resolvedHost}:{port}/botapi/BotStatus",
+                timeout.Token);
 
             if (!response.IsSuccessStatusCode)
+            {
+                logger.LogDebug("Instance on {Host}:{Port} answered {Status} to the status probe", resolvedHost,
+                    port, (int)response.StatusCode);
                 return null;
+            }
 
-            var actuResponse = await response.Content.ReadAsStringAsync();
+            var actuResponse = await response.Content.ReadAsStringAsync(timeout.Token);
             return JsonSerializer.Deserialize<BotStatusModel>(actuResponse, CachedJsonOptions);
+        }
+        catch (Exception ex) when (ex is HttpRequestException or OperationCanceledException or IOException)
+        {
+            // An instance that is down or unreachable is the normal case this probe exists to detect, not an
+            // error worth paging over. Transitions are logged once by the monitor loop.
+            logger.LogDebug(ex, "Instance on {Host}:{Port} is unreachable", resolvedHost, port);
+            return null;
         }
         catch (Exception ex)
         {
@@ -227,7 +247,16 @@ public class InstanceManagementService : INService, IReadyExecutor
             foreach (var instance in instances)
             {
                 var status = await GetInstanceStatusAsync(instance.Port, instance.Host);
-                instance.IsActive = status != null;
+                var reachable = status != null;
+
+                if (instance.IsActive && !reachable)
+                    logger.LogWarning("Instance {Name} on {Host}:{Port} stopped responding", instance.BotName,
+                        instance.Host, instance.Port);
+                else if (!instance.IsActive && reachable)
+                    logger.LogInformation("Instance {Name} on {Host}:{Port} is responding again", instance.BotName,
+                        instance.Host, instance.Port);
+
+                instance.IsActive = reachable;
                 instance.LastStatusUpdate = DateTime.UtcNow;
 
                 // Update each instance individually

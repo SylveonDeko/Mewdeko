@@ -4,6 +4,7 @@ using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
 using LinqToDB.Data;
+using Mewdeko.Modules.ServerStats.Services;
 using Mewdeko.Services.Analytics;
 using Microsoft.Extensions.Caching.Memory;
 using Polly;
@@ -82,6 +83,7 @@ public class MessageCountService : INService, IDisposable
     private readonly IDataConnectionFactory dbFactory;
     private readonly ILogger<MessageCountService> logger;
     private readonly ConcurrentDictionary<ulong, int> minCounts = [];
+    private readonly ServerStatsSettingsService statsSettings;
     private readonly Channel<(ulong GuildId, ulong ChannelId, ulong UserId, DateTime Timestamp)> updateChannel;
     private readonly SemaphoreSlim updateLock = new(1);
 
@@ -92,13 +94,15 @@ public class MessageCountService : INService, IDisposable
     /// <param name="cache">The cache service.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     /// <param name="collector">The analytics collector.</param>
+    /// <param name="statsSettings">Exclusions, cooldowns and privacy opt outs that gate counting.</param>
     public MessageCountService(IDataConnectionFactory dbFactory, EventHandler handler, IMemoryCache cache,
-        ILogger<MessageCountService> logger, IAnalyticsCollector collector)
+        ILogger<MessageCountService> logger, IAnalyticsCollector collector, ServerStatsSettingsService statsSettings)
     {
         this.dbFactory = dbFactory;
         this.cache = cache;
         this.logger = logger;
         this.collector = collector;
+        this.statsSettings = statsSettings;
         _ = InitializeGuildSettings();
         handler.Subscribe("MessageReceived", "MessageCountService", HandleCount);
         updateChannel = Channel.CreateUnbounded<(ulong, ulong, ulong, DateTime)>();
@@ -343,12 +347,22 @@ public class MessageCountService : INService, IDisposable
         if (countGuilds.Count == 0 ||
             message.Channel is IDMChannel ||
             message.Channel is not IGuildChannel channel ||
-            !countGuilds.Contains(channel.GuildId) ||
-            message.Author.IsBot)
+            !countGuilds.Contains(channel.GuildId))
             return false;
 
-        return !minCounts.TryGetValue(channel.GuildId, out var minValue) ||
-               message.Content.Length >= minValue;
+        if (message.Author is not IGuildUser author)
+            return false;
+
+        if (author.IsBot && !statsSettings.GetCachedSettings(channel.GuildId).CountBots)
+            return false;
+
+        if (statsSettings.IsExcluded(channel.GuildId, channel.Id, author))
+            return false;
+
+        if (minCounts.TryGetValue(channel.GuildId, out var minValue) && message.Content.Length < minValue)
+            return false;
+
+        return statsSettings.PassesCooldown(channel.GuildId, author.Id, message.Timestamp.UtcDateTime);
     }
 
     /// <summary>

@@ -881,21 +881,23 @@ public class TicketService : INService
         ITextChannel channel;
         try
         {
+            // Overwrites go in with the create call so the channel is never briefly visible to everyone and the
+            // bot cannot lock itself out of a channel whose category denies it View Channel.
+            var overwrites = await BuildTicketOverwritesAsync(guild, creator, button, option);
             channel = await guild.CreateTextChannelAsync(channelName, props =>
             {
                 if (category != null)
                     props.CategoryId = category.Id;
+                props.PermissionOverwrites = overwrites;
             });
         }
         catch (Exception ex)
         {
             collector.Feature("ticket_open", guild.Id, false, ex.GetType().Name);
             logger.LogError(ex, "Failed to create ticket channel");
-            throw new InvalidOperationException("Failed to create ticket channel. Please check bot permissions.");
+            throw new InvalidOperationException(
+                "Failed to create ticket channel. The bot needs Manage Channels and Manage Roles, and must be able to see the ticket category.");
         }
-
-        // Set permissions
-        await SetTicketPermissionsAsync(channel, creator, button, option);
 
         // Create ticket entity
         var ticket = new Ticket
@@ -1451,54 +1453,68 @@ public class TicketService : INService
         }
     }
 
-    private async Task SetTicketPermissionsAsync(ITextChannel channel, IUser creator, PanelButton button = null,
-        SelectMenuOption option = null)
+    /// <summary>
+    ///     Builds the permission overwrites for a new ticket channel: everyone denied, the bot and the creator
+    ///     allowed, support roles with full access and viewer roles read only.
+    /// </summary>
+    private static async Task<List<Overwrite>> BuildTicketOverwritesAsync(IGuild guild, IUser creator,
+        PanelButton button = null, SelectMenuOption option = null)
     {
         var supportRoles = button?.SupportRoles ?? option?.SupportRoles ?? [];
         var viewerRoles = button?.ViewerRoles ?? option?.ViewerRoles ?? [];
+        var bot = await guild.GetCurrentUserAsync();
 
-        // Deny everyone
-        await channel.AddPermissionOverwriteAsync(channel.Guild.EveryoneRole,
-            new OverwritePermissions(viewChannel: PermValue.Deny));
-
-        await channel.AddPermissionOverwriteAsync(creator,
-            new OverwritePermissions(
-                viewChannel: PermValue.Allow,
-                sendMessages: PermValue.Allow,
-                readMessageHistory: PermValue.Allow,
-                attachFiles: PermValue.Allow,
-                embedLinks: PermValue.Allow));
-
-        // Support roles get full access
-        foreach (var roleId in supportRoles)
+        var overwrites = new List<Overwrite>
         {
-            var role = channel.Guild.GetRole(roleId);
-            if (role != null)
-            {
-                await channel.AddPermissionOverwriteAsync(role,
-                    new OverwritePermissions(
-                        viewChannel: PermValue.Allow,
-                        sendMessages: PermValue.Allow,
-                        readMessageHistory: PermValue.Allow,
-                        attachFiles: PermValue.Allow,
-                        embedLinks: PermValue.Allow,
-                        manageMessages: PermValue.Allow));
-            }
+            new(guild.EveryoneRole.Id, PermissionTarget.Role,
+                new OverwritePermissions(viewChannel: PermValue.Deny)),
+            new(bot.Id, PermissionTarget.User,
+                new OverwritePermissions(
+                    viewChannel: PermValue.Allow,
+                    sendMessages: PermValue.Allow,
+                    readMessageHistory: PermValue.Allow,
+                    manageChannel: PermValue.Allow,
+                    manageMessages: PermValue.Allow,
+                    manageRoles: PermValue.Allow,
+                    attachFiles: PermValue.Allow,
+                    embedLinks: PermValue.Allow)),
+            new(creator.Id, PermissionTarget.User,
+                new OverwritePermissions(
+                    viewChannel: PermValue.Allow,
+                    sendMessages: PermValue.Allow,
+                    readMessageHistory: PermValue.Allow,
+                    attachFiles: PermValue.Allow,
+                    embedLinks: PermValue.Allow))
+        };
+
+        foreach (var roleId in supportRoles.Distinct())
+        {
+            if (guild.GetRole(roleId) == null)
+                continue;
+
+            overwrites.Add(new Overwrite(roleId, PermissionTarget.Role,
+                new OverwritePermissions(
+                    viewChannel: PermValue.Allow,
+                    sendMessages: PermValue.Allow,
+                    readMessageHistory: PermValue.Allow,
+                    attachFiles: PermValue.Allow,
+                    embedLinks: PermValue.Allow,
+                    manageMessages: PermValue.Allow)));
         }
 
-        // Viewer roles can only view
-        foreach (var roleId in viewerRoles)
+        foreach (var roleId in viewerRoles.Distinct())
         {
-            var role = channel.Guild.GetRole(roleId);
-            if (role != null)
-            {
-                await channel.AddPermissionOverwriteAsync(role,
-                    new OverwritePermissions(
-                        viewChannel: PermValue.Allow,
-                        readMessageHistory: PermValue.Allow,
-                        sendMessages: PermValue.Deny));
-            }
+            if (guild.GetRole(roleId) == null || supportRoles.Contains(roleId))
+                continue;
+
+            overwrites.Add(new Overwrite(roleId, PermissionTarget.Role,
+                new OverwritePermissions(
+                    viewChannel: PermValue.Allow,
+                    readMessageHistory: PermValue.Allow,
+                    sendMessages: PermValue.Deny)));
         }
+
+        return overwrites;
     }
 
     /// <summary>

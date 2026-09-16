@@ -10,7 +10,6 @@ using IF.Lastfm.Core.Objects;
 using Lavalink4NET;
 using Lavalink4NET.Players;
 using Lavalink4NET.Protocol.Payloads.Events;
-using Lavalink4NET.Rest.Entities.Tracks;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.Configs;
@@ -863,7 +862,8 @@ public sealed class MewdekoPlayer : LavalinkPlayer
                 // Create search query with track name and artist
                 var searchQuery = $"{track.Name} {track.ArtistName}";
 
-                var trackToLoad = await audioService.Tracks.LoadTrackAsync(searchQuery, TrackSearchMode.YouTube);
+                var trackToLoad =
+                    await audioService.Tracks.LoadTrackAsync(searchQuery, MusicSearchSources.GetDefault(creds));
                 if (trackToLoad is null)
                 {
                     logger.LogDebug($"Could not load track: {searchQuery}");

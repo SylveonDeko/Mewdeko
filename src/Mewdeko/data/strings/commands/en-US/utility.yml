@@ -1522,9 +1522,18 @@ invitedusers:
       type: user
 inviteleaderboard:
   args:
-    - ''
-  desc: 'Displays a leaderboard of users with the most invites.'
-  params: [ ]
+    - '[AllTime] [@role]'
+    - 'Weekly'
+  desc: 'Displays a leaderboard of users with the most invites, with a regular/left/fake/bonus breakdown. Optionally limited to a window or a role.'
+  params:
+    - desc: 'The window: AllTime, Daily, Weekly or Monthly.'
+      name: range
+      optional: true
+      type: StatsRange
+    - desc: 'Only include inviters with this role.'
+      name: role
+      optional: true
+      type: IRole
 invites_=:
   args:
     - '[@user]'
@@ -4587,3 +4596,311 @@ usermessages:
       name: user
       optional: true
       type: IUser
+togglecountrejoins:
+  args:
+    - ''
+  desc: 'Toggles whether members who rejoin earn their inviter a regular invite again, or are flagged as a fake invite instead.'
+  params: [ ]
+togglefakenoavatar:
+  args:
+    - ''
+  desc: 'Toggles whether members who join without an avatar are flagged as fake invites.'
+  params: [ ]
+invitelinkchannel:
+  args:
+    - '[#channel]'
+  desc: 'Sets the channel that personal invite links (from the invitelink command) point at. Omit the channel to use the system channel.'
+  params:
+    - desc: 'The channel, or omitted for the system channel.'
+      name: channel
+      optional: true
+      type: ITextChannel
+invitelogchannel:
+  args:
+    - '[#channel]'
+  desc: 'Sets a channel that receives an embed for every tracked join and leave, showing who invited whom and how. Omit the channel to disable.'
+  params:
+    - desc: 'The channel, or omitted to disable.'
+      name: channel
+      optional: true
+      type: ITextChannel
+invitestats:
+  args:
+    - '[Monthly]'
+    - 'Weekly'
+  desc: 'Shows growth analytics for a window: joins, leaves, net growth, retention, fake joins, join sources, top inviters and top invite codes.'
+  params:
+    - desc: 'The window: AllTime, Daily, Weekly or Monthly.'
+      name: range
+      optional: true
+      type: StatsRange
+invitedbycode:
+  args:
+    - 'abc123'
+  desc: 'Lists the members who joined through a specific invite code.'
+  params:
+    - desc: 'The invite code or URL.'
+      name: code
+      optional: false
+      type: string
+invitedbylabel:
+  args:
+    - 'Twitter'
+  desc: 'Lists the members who joined through any invite code carrying a label.'
+  params:
+    - desc: 'The label.'
+      name: label
+      optional: false
+      type: string
+invitecodes:
+  args:
+    - '[user]'
+  desc: 'Lists the invite codes a user has created, with their use counts.'
+  params:
+    - desc: 'The user, or omitted for yourself.'
+      name: user
+      optional: true
+      type: IUser
+invitelink:
+  args:
+    - ''
+  desc: 'Shows your personal invite link, creating a permanent one for you if you do not have one yet. Joins through it are credited to you.'
+  params: [ ]
+addinvites:
+  args:
+    - '@user 5'
+  desc: 'Adds regular invites to a user.'
+  params:
+    - desc: 'The user.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'How many to add.'
+      name: amount
+      optional: false
+      type: int
+removeinvites:
+  args:
+    - '@user 5'
+  desc: 'Removes regular invites from a user.'
+  params:
+    - desc: 'The user.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'How many to remove.'
+      name: amount
+      optional: false
+      type: int
+addbonusinvites:
+  args:
+    - '@user 10'
+  desc: 'Grants bonus invites to a user. Bonus invites count toward the total but are tracked separately.'
+  params:
+    - desc: 'The user.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'How many to grant.'
+      name: amount
+      optional: false
+      type: int
+removebonusinvites:
+  args:
+    - '@user 10'
+  desc: 'Takes bonus invites away from a user.'
+  params:
+    - desc: 'The user.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'How many to remove.'
+      name: amount
+      optional: false
+      type: int
+addfakeinvites:
+  args:
+    - '@user 3'
+  desc: 'Marks some of a user''s invites as fake, lowering their total.'
+  params:
+    - desc: 'The user.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'How many to flag.'
+      name: amount
+      optional: false
+      type: int
+removefakeinvites:
+  args:
+    - '@user 3'
+  desc: 'Clears fake invites from a user, raising their total.'
+  params:
+    - desc: 'The user.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'How many to clear.'
+      name: amount
+      optional: false
+      type: int
+resetinvites:
+  args:
+    - '@user'
+    - 'Server'
+    - 'LeftMembers'
+  desc: 'Resets invites for one user, for everyone in the server, or only for inviters who have since left.'
+  params:
+    - desc: 'The user to reset.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'Server to reset everyone, or LeftMembers to reset only inviters who left.'
+      name: scope
+      optional: false
+      type: InviteResetScope
+syncinvites:
+  args:
+    - '[user]'
+  desc: 'Imports invite use counts from Discord, raising each inviter''s regular total to the sum of uses across their codes. Totals are never lowered, so it is safe to run more than once.'
+  params:
+    - desc: 'Only sync this user, or omitted for everyone.'
+      name: user
+      optional: true
+      type: IGuildUser
+deleteinvite:
+  args:
+    - 'abc123'
+  desc: 'Deletes an invite code from the server.'
+  params:
+    - desc: 'The invite code or URL.'
+      name: code
+      optional: false
+      type: string
+purgeinvites:
+  args:
+    - '[maxUses] [#channel]'
+    - '0 #general'
+  desc: 'Deletes every unlabelled invite code that has been used at most the given number of times, optionally only for one channel.'
+  params:
+    - desc: 'Codes used more than this are kept. Defaults to 0 (unused codes only).'
+      name: maxUses
+      optional: true
+      type: int
+    - desc: 'Only purge codes pointing at this channel.'
+      name: channel
+      optional: true
+      type: ITextChannel
+inviteblacklist:
+  args:
+    - '@user'
+    - '@role'
+  desc: 'Toggles whether a user, or every holder of a role, can earn invite credit.'
+  params:
+    - desc: 'The user to toggle.'
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: 'The role to toggle.'
+      name: role
+      optional: false
+      type: IRole
+invitehide:
+  args:
+    - '@user'
+  desc: 'Toggles whether a user is hidden from invite leaderboards. Their invites are still tracked.'
+  params:
+    - desc: 'The user.'
+      name: user
+      optional: false
+      type: IGuildUser
+inviteexclusions:
+  args:
+    - ''
+  desc: 'Lists blacklisted inviters, blacklisted roles and members hidden from the leaderboard.'
+  params: [ ]
+invitelabelset:
+  args:
+    - 'abc123 Twitter campaign'
+  desc: 'Labels an invite code so it shows up by name in stats, exports and greet placeholders.'
+  params:
+    - desc: 'The invite code or URL.'
+      name: code
+      optional: false
+      type: string
+    - desc: 'The label text, up to 64 characters.'
+      name: label
+      optional: false
+      type: string
+invitelabelrole:
+  args:
+    - 'abc123 @role'
+    - 'abc123'
+  desc: 'Sets or clears a role that is granted to everyone who joins through a labelled invite code.'
+  params:
+    - desc: 'The invite code or URL.'
+      name: code
+      optional: false
+      type: string
+    - desc: 'The role, or omitted to clear it.'
+      name: role
+      optional: true
+      type: IRole
+invitelabelremove:
+  args:
+    - 'abc123'
+  desc: 'Removes the label from an invite code.'
+  params:
+    - desc: 'The invite code or URL.'
+      name: code
+      optional: false
+      type: string
+invitelabels:
+  args:
+    - ''
+  desc: 'Lists labelled invite codes with their roles and owners.'
+  params: [ ]
+inviteexport:
+  args:
+    - '[AllTime]'
+  desc: 'Exports the invite leaderboard as a CSV file.'
+  params:
+    - desc: 'The window: AllTime, Daily, Weekly or Monthly.'
+      name: range
+      optional: true
+      type: StatsRange
+invitedexport:
+  args:
+    - '[user]'
+  desc: 'Exports the members a user invited (or every witnessed join) as a CSV file.'
+  params:
+    - desc: 'The inviter, or omitted for every join.'
+      name: user
+      optional: true
+      type: IUser
+invitemassban:
+  args:
+    - '@user [reason]'
+  desc: 'Bans every member who is still in the server and was invited by a user. Asks for confirmation first.'
+  params:
+    - desc: 'The inviter.'
+      name: inviter
+      optional: false
+      type: IUser
+    - desc: 'The ban reason.'
+      name: reason
+      optional: true
+      type: string
+invitemassbancode:
+  args:
+    - 'abc123 [reason]'
+  desc: 'Bans every member who is still in the server and joined through an invite code. Asks for confirmation first.'
+  params:
+    - desc: 'The invite code or URL.'
+      name: code
+      optional: false
+      type: string
+    - desc: 'The ban reason.'
+      name: reason
+      optional: true
+      type: string

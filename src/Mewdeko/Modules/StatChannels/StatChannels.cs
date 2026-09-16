@@ -67,19 +67,21 @@ public class StatChannels : MewdekoModuleBase<StatChannelService>
     /// </summary>
     /// <param name="channel">The voice channel to use.</param>
     /// <param name="role">The role to count.</param>
+    /// <param name="onlineOnly">Whether to count only members who are not offline.</param>
     /// <param name="template">The display template.</param>
     [Cmd]
     [Aliases]
     [RequireContext(ContextType.Guild)]
     [UserPerm(GuildPermission.ManageChannels)]
-    public async Task StatChannelRole(IVoiceChannel channel, IRole role, [Remainder] string? template = null)
+    public async Task StatChannelRole(IVoiceChannel channel, IRole role, bool onlineOnly = false,
+        [Remainder] string? template = null)
     {
-        template ??= StatChannelDefinitions.DefaultTemplate(StatChannelType.RoleMembers);
+        var type = onlineOnly ? StatChannelType.RoleMembersOnline : StatChannelType.RoleMembers;
+        template ??= StatChannelDefinitions.DefaultTemplate(type);
 
         try
         {
-            await Service.AddStatChannelAsync(ctx.Guild.Id, channel.Id, StatChannelType.RoleMembers, template,
-                role.Id);
+            await Service.AddStatChannelAsync(ctx.Guild.Id, channel.Id, type, template, role.Id);
             await ConfirmAsync(Strings.StatChannelAdded(ctx.Guild.Id, channel.Name, $"Role: {role.Name}"))
                 .ConfigureAwait(false);
         }

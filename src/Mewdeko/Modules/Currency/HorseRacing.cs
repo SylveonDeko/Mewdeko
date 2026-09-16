@@ -1,4 +1,5 @@
 using Discord.Commands;
+using Discord.Net;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Database.Enums;
 using Mewdeko.Modules.Currency.Services;
@@ -59,13 +60,26 @@ public partial class Currency
             }
             else
             {
-                _ = Task.Delay(10000).ContinueWith(async _ =>
-                {
-                    if (await Service.UpdateRaceProgress(ctx.Guild.Id) != null)
-                    {
-                        await StartRace();
-                    }
-                });
+                _ = StartRaceLaterAsync();
+            }
+        }
+
+        /// <summary>
+        ///     Waits for the join window to close and then runs the race. Runs detached from the command, so any
+        ///     Discord failure is caught here and the race cancelled with stakes refunded rather than left as an
+        ///     unobserved exception with the bets gone.
+        /// </summary>
+        private async Task StartRaceLaterAsync()
+        {
+            await Task.Delay(10000);
+            try
+            {
+                if (await Service.UpdateRaceProgress(ctx.Guild.Id) != null)
+                    await StartRace();
+            }
+            catch (Exception ex) when (ex is HttpException or TimeoutException)
+            {
+                await Service.CancelRace(ctx.Guild.Id);
             }
         }
 

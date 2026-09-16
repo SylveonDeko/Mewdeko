@@ -2,8 +2,11 @@
 using Lavalink4NET;
 using Lavalink4NET.DiscordNet;
 using Lavalink4NET.Filters;
+using Lavalink4NET.Integrations.ExtraFilters;
+using Lavalink4NET.Player;
 using Lavalink4NET.Players;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Modules.Music.Common;
 using Mewdeko.Modules.Music.CustomPlayer;
 
 namespace Mewdeko.Modules.Music;
@@ -414,6 +417,134 @@ public partial class Music
         }
 
         /// <summary>
+        ///     Applies a low pass filter that muffles the audio by cutting high frequencies.
+        /// </summary>
+        /// <param name="smoothing">
+        ///     The smoothing amount between 1 and 100. Higher values cut more treble. 0 disables the filter.
+        /// </param>
+        /// <remarks>
+        ///     Usage: .lowpass 20 or .lowpass 0 to disable
+        /// </remarks>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task LowPass(float smoothing = 20)
+        {
+            var (player, result) = await GetPlayerAsync(false);
+            if (result is not null)
+            {
+                var eb = new EmbedBuilder()
+                    .WithErrorColor()
+                    .WithTitle(Strings.MusicPlayerError(ctx.Guild.Id))
+                    .WithDescription(result);
+
+                await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+                return;
+            }
+
+            if (smoothing <= 0)
+            {
+                player.Filters.LowPass = null;
+                await player.Filters.CommitAsync().ConfigureAwait(false);
+                await ReplyConfirmAsync(Strings.MusicLowPassDisabled(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            if (smoothing is < 1 or > 100)
+            {
+                await ReplyErrorAsync(Strings.MusicInvalidLowPass(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            player.Filters.LowPass = new LowPassFilterOptions(smoothing);
+            await player.Filters.CommitAsync().ConfigureAwait(false);
+            await ReplyConfirmAsync(Strings.MusicLowPassEnabled(ctx.Guild.Id, smoothing)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Applies an echo effect to the current track. Requires the echo filter plugin on the Lavalink node.
+        /// </summary>
+        /// <param name="delay">The echo delay in seconds between 0.1 and 5. 0 disables the effect.</param>
+        /// <param name="decay">How much each echo fades, between 0 and 1.</param>
+        /// <remarks>
+        ///     Usage: .echo 1 0.5 or .echo 0 to disable
+        /// </remarks>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Echo(float delay = 1, float decay = 0.5f)
+        {
+            var (player, result) = await GetPlayerAsync(false);
+            if (result is not null)
+            {
+                var eb = new EmbedBuilder()
+                    .WithErrorColor()
+                    .WithTitle(Strings.MusicPlayerError(ctx.Guild.Id))
+                    .WithDescription(result);
+
+                await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+                return;
+            }
+
+            if (delay <= 0)
+            {
+                player.Filters.TryRemove<EchoFilterOptions>();
+                await player.Filters.CommitAsync().ConfigureAwait(false);
+                await ReplyConfirmAsync(Strings.MusicEchoDisabled(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            if (delay is < 0.1f or > 5 || decay is < 0 or > 1)
+            {
+                await ReplyErrorAsync(Strings.MusicInvalidEcho(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            player.Filters.Echo(new EchoFilterOptions(delay, decay));
+            await player.Filters.CommitAsync().ConfigureAwait(false);
+            await ReplyConfirmAsync(Strings.MusicEchoEnabled(ctx.Guild.Id, delay, decay)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Toggles volume normalization, which evens out loud and quiet parts of the audio. Requires the
+        ///     normalization filter plugin on the Lavalink node.
+        /// </summary>
+        /// <param name="enable">Whether to enable or disable normalization. Defaults to true.</param>
+        /// <remarks>
+        ///     Usage: .normalize or .normalize false
+        /// </remarks>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Normalize(bool enable = true)
+        {
+            var (player, result) = await GetPlayerAsync(false);
+            if (result is not null)
+            {
+                var eb = new EmbedBuilder()
+                    .WithErrorColor()
+                    .WithTitle(Strings.MusicPlayerError(ctx.Guild.Id))
+                    .WithDescription(result);
+
+                await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+                return;
+            }
+
+            if (enable)
+            {
+                player.Filters.SetFilter(new NormalizationFilterOptions(0.75f, true));
+                await player.Filters.CommitAsync().ConfigureAwait(false);
+                await ReplyConfirmAsync(Strings.MusicNormalizeEnabled(ctx.Guild.Id)).ConfigureAwait(false);
+            }
+            else
+            {
+                player.Filters.TryRemove<NormalizationFilterOptions>();
+                await player.Filters.CommitAsync().ConfigureAwait(false);
+                await ReplyConfirmAsync(Strings.MusicNormalizeDisabled(ctx.Guild.Id)).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
         ///     Removes all active audio filters from the current track.
         /// </summary>
         /// <remarks>
@@ -423,6 +554,7 @@ public partial class Music
         ///     - Karaoke
         ///     - Tremolo
         ///     - Vibrato
+        ///     - Low pass, echo and normalization
         /// </remarks>
         [Cmd]
         [Aliases]
@@ -502,6 +634,9 @@ public partial class Music
             if (player.Filters.Rotation != null) activeFilters.Add("8D Audio");
             if (player.Filters.Distortion != null) activeFilters.Add("Distortion");
             if (player.Filters.ChannelMix != null) activeFilters.Add("Stereo Widen");
+            if (player.Filters.LowPass != null) activeFilters.Add("Low Pass");
+            if (player.Filters.GetFilter<EchoFilterOptions>() != null) activeFilters.Add("Echo");
+            if (player.Filters.GetFilter<NormalizationFilterOptions>() != null) activeFilters.Add("Normalization");
 
             if (activeFilters.Count == 0)
             {

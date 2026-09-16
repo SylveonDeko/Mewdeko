@@ -245,28 +245,7 @@ public class MultiGreetService : INService
         if (greet.Disabled)
             return;
 
-        var inviteSettings = await inviteCountService.GetInviteCountSettingsAsync(user.Guild.Id);
-        if (inviteSettings.IsEnabled)
-        {
-            await Task.Delay(500);
-            var inviter = await inviteCountService.GetInviter(user.Id, user.Guild);
-            if (inviter == null)
-            {
-                replacer.WithOverride("%inviter.username%", () => "Unknown");
-                replacer.WithOverride("%inviter.avatar%", () => "Unknown");
-                replacer.WithOverride("%inviter.id%", () => "Unknown");
-                replacer.WithOverride("%inviter.mention%", () => "Unknown");
-            }
-            else
-            {
-                var invCount = await inviteCountService.GetInviteCount(inviter.Id, user.Guild.Id);
-                replacer.WithOverride("%inviter.username%", () => inviter.Username);
-                replacer.WithOverride("%inviter.avatar%", () => inviter.GetAvatarUrl());
-                replacer.WithOverride("%inviter.id%", () => user.Id.ToString());
-                replacer.WithOverride("%inviter.mention%", () => user.Mention);
-                replacer.WithOverride("%inviter.count%", () => invCount.ToString());
-            }
-        }
+        await inviteCountService.ApplyGreetPlaceholdersAsync(user, replacer);
 
         var rep = replacer.Build();
         var content = rep.Replace(greet.Message);

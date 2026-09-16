@@ -140,9 +140,16 @@ public class BotCredentials : IBotCredentials
 
 
     /// <summary>
-    ///     Gets or sets the URL of the Lavalink server.
+    ///     Gets or sets the URL of the Lavalink server. Used as a single node when <see cref="LavalinkNodes" /> is
+    ///     not configured.
     /// </summary>
     public string LavalinkUrl { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the passphrase used for <see cref="LavalinkUrl" /> and for any node in
+    ///     <see cref="LavalinkNodes" /> that does not specify its own.
+    /// </summary>
+    public string LavalinkPassword { get; set; }
 
 
     /// <summary>
@@ -163,6 +170,12 @@ public class BotCredentials : IBotCredentials
     ///     route to it.
     /// </summary>
     public string InstanceApiHost { get; set; } = "localhost";
+
+    /// <inheritdoc />
+    public ImmutableArray<LavalinkNodeCredentials> LavalinkNodes { get; set; }
+
+    /// <inheritdoc />
+    public string LavalinkDefaultSearchSource { get; set; }
 
     /// <summary>
     ///     Gets or sets the Dashboard URL for mobile OAuth redirects
@@ -543,7 +556,7 @@ public class BotCredentials : IBotCredentials
             Token = data[nameof(Token)];
             OwnerIds =
             [
-                ..data.GetSection(nameof(OwnerIds)).GetChildren()
+                .. data.GetSection(nameof(OwnerIds)).GetChildren()
                     .Select(c => ulong.Parse(c.Value))
             ];
             TurnstileKey = data[nameof(TurnstileKey)];
@@ -606,6 +619,21 @@ public class BotCredentials : IBotCredentials
             OpenMeteoApiUrl = data[nameof(OpenMeteoApiUrl)] ?? "https://api.open-meteo.com";
             PostgresSetupCompleted = bool.TryParse(data[nameof(PostgresSetupCompleted)], out var pgSetup) && pgSetup;
             SentryDsn = data[nameof(SentryDsn)];
+            LavalinkPassword = data[nameof(LavalinkPassword)] ?? "youshallnotpass";
+            LavalinkDefaultSearchSource = data[nameof(LavalinkDefaultSearchSource)] ?? "youtube";
+
+            var configuredNodes = data.GetSection(nameof(LavalinkNodes)).GetChildren()
+                .Select((section, index) => new LavalinkNodeCredentials(
+                    section["Url"] ?? "",
+                    section["Password"] ?? LavalinkPassword,
+                    section["Label"] ?? $"Node{index + 1}"))
+                .Where(node => !string.IsNullOrWhiteSpace(node.Url))
+                .ToList();
+
+            if (configuredNodes.Count == 0 && !string.IsNullOrWhiteSpace(LavalinkUrl))
+                configuredNodes.Add(new LavalinkNodeCredentials(LavalinkUrl, LavalinkPassword, "Node1"));
+
+            LavalinkNodes = [.. configuredNodes];
 
             // Check for missing or invalid critical credentials
             var missingCredentials = new List<string>();
@@ -726,9 +754,12 @@ public class BotCredentials : IBotCredentials
         public ulong PronounAbuseReportChannelId { get; set; } = 970086914826858547;
         public bool IsApiEnabled { get; set; } = false;
         public string LavalinkUrl { get; set; } = "http://localhost:2333";
+        public string LavalinkPassword { get; set; } = "youshallnotpass";
+        public List<LavalinkNodeCredentials> LavalinkNodes { get; set; } = [];
         public int ApiPort { get; set; } = 5001;
         public string InstanceApiHost { get; set; } = "localhost";
         public bool IsMasterInstance { get; set; } = true;
+        public string LavalinkDefaultSearchSource { get; set; } = "youtube";
         public string DashboardUrl { get; set; } = "https://mewdeko.tech";
         public string RedisConnections { get; } = "127.0.0.1:6379";
         public string LastFmApiKey { get; } = "";
@@ -767,7 +798,18 @@ public class BotCredentials : IBotCredentials
         {
             get
             {
-                return [..OwnerIds];
+                return [.. OwnerIds];
+            }
+        }
+
+        [JsonIgnore]
+        ImmutableArray<LavalinkNodeCredentials> IBotCredentials.LavalinkNodes
+        {
+            get
+            {
+                return LavalinkNodes.Count > 0
+                    ? [.. LavalinkNodes]
+                    : [new LavalinkNodeCredentials(LavalinkUrl, LavalinkPassword, "Node1")];
             }
         }
 

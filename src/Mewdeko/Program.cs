@@ -7,7 +7,10 @@ using Discord.Interactions;
 using Discord.Rest;
 using Fergun.Interactive;
 using Lavalink4NET;
-using Lavalink4NET.Extensions;
+using Lavalink4NET.Cluster.Extensions;
+using Lavalink4NET.Cluster.LoadBalancing.Strategies;
+using Lavalink4NET.Cluster.Nodes;
+using Lavalink4NET.DiscordNet;
 using MartineApiNet;
 using Mewdeko.AuthHandlers;
 using Mewdeko.Common.Configs;
@@ -32,6 +35,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
@@ -121,9 +125,17 @@ public class Program
         await discordRestClient.LogoutAsync();
         Cache = new RedisCache(credentials, botGatewayInfo.Shards);
 
-        if (!Uri.TryCreate(credentials.LavalinkUrl, UriKind.Absolute, out _))
+        if (credentials.LavalinkNodes.Length == 0)
         {
-            log.Error("The Lavalink URL is invalid! Please check the Lavalink URL in the configuration");
+            log.Error("No Lavalink nodes are configured! Set LavalinkUrl or LavalinkNodes in the configuration");
+            Helpers.ReadErrorAndExit(5);
+        }
+
+        foreach (var node in credentials.LavalinkNodes.Where(node =>
+                     !Uri.TryCreate(node.Url, UriKind.Absolute, out _)))
+        {
+            log.Error("The Lavalink URL for {Label} ({Url}) is invalid! Please check the configuration",
+                node.Label, node.Url);
             Helpers.ReadErrorAndExit(5);
         }
 
@@ -445,14 +457,23 @@ public class Program
             // Disable size tracking for better performance
             options.TrackLinkedCacheEntries = false;
         });
-        services.AddLavalink()
-            .ConfigureLavalink(x =>
+        services.AddLavalinkCluster<DiscordClientWrapper>()
+            .ConfigureLavalinkCluster(x =>
             {
-                x.Passphrase = "Hope4a11";
-                x.BaseAddress = new Uri(credentials.LavalinkUrl);
                 x.ReadyTimeout = TimeSpan.FromMinutes(5);
-                x.ResumptionOptions = new LavalinkSessionResumptionOptions(TimeSpan.FromMinutes(2));
+                x.Nodes =
+                [
+                    .. credentials.LavalinkNodes.Select(node => new LavalinkClusterNodeOptions
+                    {
+                        BaseAddress = new Uri(node.Url),
+                        Passphrase = node.Password,
+                        Label = node.Label,
+                        ReadyTimeout = TimeSpan.FromMinutes(5),
+                        ResumptionOptions = new LavalinkSessionResumptionOptions(TimeSpan.FromMinutes(2))
+                    })
+                ];
             });
+        services.Replace(ServiceDescriptor.Singleton<INodeBalancingStrategy, RoundRobinBalancingStrategy>());
         services.AddSingleton<ISearchImagesService, SearchImagesService>();
         services.AddSingleton<ToneTagService>();
         services.AddTransient<GuildSettingsService>();

@@ -6,6 +6,9 @@ using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Modules.ServerStats.Common;
+using Mewdeko.Modules.ServerStats.Services;
 using Mewdeko.Modules.StatChannels.Common;
 using Mewdeko.Modules.Twitch.Services;
 using Mewdeko.Services.Analytics;
@@ -45,6 +48,8 @@ public class StatChannelService : INService, IReadyExecutor, IDisposable
     private readonly ILogger<StatChannelService> logger;
 
     private readonly ConcurrentDictionary<ulong, List<DateTime>> renameHistory = new();
+    private readonly ServerStatsService serverStats;
+    private readonly GuildTimezoneService timezones;
     private readonly TwitchService twitchService;
     private readonly SemaphoreSlim updateSemaphore = new(1, 1);
     private bool isDisposed;
@@ -59,7 +64,9 @@ public class StatChannelService : INService, IReadyExecutor, IDisposable
         IMemoryCache cache,
         TwitchService twitchService,
         ILogger<StatChannelService> logger,
-        IAnalyticsCollector collector)
+        IAnalyticsCollector collector,
+        ServerStatsService serverStats,
+        GuildTimezoneService timezones)
     {
         this.collector = collector;
         this.dbFactory = dbFactory;
@@ -67,6 +74,8 @@ public class StatChannelService : INService, IReadyExecutor, IDisposable
         this.cache = cache;
         this.twitchService = twitchService;
         this.logger = logger;
+        this.serverStats = serverStats;
+        this.timezones = timezones;
     }
 
     /// <summary>
@@ -763,6 +772,125 @@ public class StatChannelService : INService, IReadyExecutor, IDisposable
                     .SumAsync(i => (long?)i.Count) ?? 0;
                 return ResolvedStat.Num(total);
             }
+
+            case StatChannelType.Clock:
+            {
+                var tz = timezones.GetTimeZoneOrDefault(guild.Id) ?? TimeZoneInfo.Utc;
+                var now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, tz);
+                var abbreviation = tz.Id == "UTC" || tz.Id == "Etc/UTC" ? "UTC" : tz.StandardName.GetInitials();
+                return ResolvedStat.Str(now.ToString("HH:mm"))
+                    .With("%time%", now.ToString("HH:mm"))
+                    .With("%date%", now.ToString("dd MMM"))
+                    .With("%datetime%", now.ToString("dd MMM HH:mm"))
+                    .With("%weekday%", now.ToString("dddd"))
+                    .With("%tz%", abbreviation);
+            }
+
+            case StatChannelType.MessagesToday:
+                return ResolvedStat.Num(await serverStats.CountMessagesSinceAsync(guild.Id,
+                    DateTime.UtcNow.AddDays(-1)));
+            case StatChannelType.MessagesWeek:
+                return ResolvedStat.Num(await serverStats.CountMessagesSinceAsync(guild.Id,
+                    DateTime.UtcNow.AddDays(-7)));
+            case StatChannelType.VoiceHoursToday:
+                return ResolvedStat.Num(await serverStats.CountVoiceSecondsSinceAsync(guild.Id,
+                    DateTime.UtcNow.AddDays(-1)) / 3600);
+            case StatChannelType.VoiceHoursWeek:
+                return ResolvedStat.Num(await serverStats.CountVoiceSecondsSinceAsync(guild.Id,
+                    DateTime.UtcNow.AddDays(-7)) / 3600);
+
+            case StatChannelType.TopChatter:
+            {
+                var top = (await serverStats.GetTopUsersAsync(guild.Id, StatKind.Messages, 7, 1)).FirstOrDefault();
+                var name = top == null ? "Nobody" : guild.GetUser(top.Id)?.DisplayName ?? "Unknown";
+                return ResolvedStat.Str(name)
+                    .With("%member.name%", name)
+                    .With("%member.id%", top?.Id.ToString() ?? "0")
+                    .With("%member.messages%", (top?.Value ?? 0).ToString("N0"));
+            }
+
+            case StatChannelType.TopVoiceMember:
+            {
+                var top = (await serverStats.GetTopUsersAsync(guild.Id, StatKind.Voice, 7, 1)).FirstOrDefault();
+                var name = top == null ? "Nobody" : guild.GetUser(top.Id)?.DisplayName ?? "Unknown";
+                return ResolvedStat.Str(name)
+                    .With("%member.name%", name)
+                    .With("%member.id%", top?.Id.ToString() ?? "0")
+                    .With("%member.hours%", ((top?.Value ?? 0) / 3600.0).ToString("N1"));
+            }
+
+            case StatChannelType.RoleMembersOnline:
+            {
+                var role = sc.RoleId.HasValue ? guild.GetRole(sc.RoleId.Value) : null;
+                var members = role?.Members.ToList() ?? [];
+                return ResolvedStat.Num(members.Count(m => m.Status != UserStatus.Offline))
+                    .With("%role.name%", role?.Name ?? "Unknown Role")
+                    .With("%role.id%", role?.Id.ToString() ?? "0")
+                    .With("%role.total%", members.Count.ToString("N0"));
+            }
+
+            case StatChannelType.TopInviter:
+            {
+                await using var db = await dbFactory.CreateConnectionAsync();
+                var top = await db.InviteCounts
+                    .Where(i => i.GuildId == guild.Id)
+                    .OrderByDescending(i => i.Count)
+                    .FirstOrDefaultAsync();
+                var name = top == null ? "Nobody" : guild.GetUser(top.UserId)?.DisplayName ?? "Unknown";
+                return ResolvedStat.Str(name)
+                    .With("%member.name%", name)
+                    .With("%member.id%", top?.UserId.ToString() ?? "0")
+                    .With("%member.invites%", (top?.Count ?? 0).ToString("N0"));
+            }
+
+            case StatChannelType.InvitesWeek:
+            {
+                await using var db = await dbFactory.CreateConnectionAsync();
+                var since = DateTime.UtcNow.AddDays(-7);
+                return ResolvedStat.Num(await db.InvitedBies.CountAsync(i =>
+                    i.GuildId == guild.Id && i.InviterId != 0 && !i.IsFake && i.DateAdded >= since));
+            }
+
+            case StatChannelType.MembersLeftToday:
+            {
+                await using var db = await dbFactory.CreateConnectionAsync();
+                var since = DateTime.UtcNow.AddDays(-1);
+                return ResolvedStat.Num(await db.JoinLeaveLogs.CountAsync(x =>
+                    x.GuildId == guild.Id && !x.IsJoin && x.DateAdded >= since));
+            }
+
+            case StatChannelType.MembersLeftWeek:
+            {
+                await using var db = await dbFactory.CreateConnectionAsync();
+                var since = DateTime.UtcNow.AddDays(-7);
+                return ResolvedStat.Num(await db.JoinLeaveLogs.CountAsync(x =>
+                    x.GuildId == guild.Id && !x.IsJoin && x.DateAdded >= since));
+            }
+
+            case StatChannelType.NetGrowthWeek:
+            {
+                await using var db = await dbFactory.CreateConnectionAsync();
+                var since = DateTime.UtcNow.AddDays(-7);
+                var joins = await db.JoinLeaveLogs.CountAsync(x =>
+                    x.GuildId == guild.Id && x.IsJoin && x.DateAdded >= since);
+                var leaves = await db.JoinLeaveLogs.CountAsync(x =>
+                    x.GuildId == guild.Id && !x.IsJoin && x.DateAdded >= since);
+                return ResolvedStat.Num(joins - leaves)
+                    .With("%joins%", joins.ToString("N0"))
+                    .With("%leaves%", leaves.ToString("N0"));
+            }
+
+            case StatChannelType.TopGame:
+            {
+                var top = (await serverStats.GetTopActivitiesAsync(guild.Id, 7, 1)).FirstOrDefault();
+                return ResolvedStat.Str(top?.Name ?? "Nothing yet")
+                    .With("%game%", top?.Name ?? "Nothing yet")
+                    .With("%hours%", ((top?.Seconds ?? 0) / 3600.0).ToString("N1"))
+                    .With("%players%", (top?.Players ?? 0).ToString("N0"));
+            }
+
+            case StatChannelType.PlayingNow:
+                return ResolvedStat.Num(serverStats.CountActiveNow(guild.Id));
 
             default:
                 return ResolvedStat.Num(0);

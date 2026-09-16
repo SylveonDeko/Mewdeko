@@ -111,7 +111,7 @@ public partial class SlashMusic
 
             foreach (var savedTrack in playlist.MusicPlaylistTracks)
             {
-                var trackResult = await service.Tracks.LoadTrackAsync(savedTrack.Uri, TrackSearchMode.YouTube);
+                var trackResult = await service.Tracks.LoadTrackAsync(savedTrack.Uri, TrackSearchMode.None);
                 if (trackResult is null) continue;
 
                 queue.Add(new MewdekoTrack(startIndex++, trackResult, new PartialUser

@@ -163,6 +163,32 @@ public class HorseRacingService : INService
     }
 
     /// <summary>
+    ///     Abandons a race that could not be shown in its channel and hands every human participant their stake
+    ///     back, so a lost permission never swallows the bets.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild where the race was taking place.</param>
+    /// <returns>True when a race was pending and has been cancelled.</returns>
+    public async Task<bool> CancelRace(ulong guildId)
+    {
+        if (!races.TryRemove(guildId, out var race))
+            return false;
+
+        List<Racer> participants;
+        lock (race)
+        {
+            participants = race.Participants.ToList();
+        }
+
+        foreach (var racer in participants.Where(r => r.UserId < ulong.MaxValue - 4 && r.BetAmount > 0))
+        {
+            await cs.CreditAsync(racer.UserId, racer.BetAmount, "Horse Race Refund", CurrencyCategory.GamePayout,
+                guildId, "horserace");
+        }
+
+        return true;
+    }
+
+    /// <summary>
     ///     Represents the data for a single race.
     /// </summary>
     private class RaceData
