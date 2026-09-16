@@ -10,6 +10,7 @@ using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Extensions;
 using Mewdeko.Services.Analytics;
 using Mewdeko.Services.Strings;
+using Npgsql;
 
 namespace Mewdeko.Modules.Utility.Services;
 
@@ -206,7 +207,7 @@ public class InviteCountService : INService, IReadyExecutor
         {
             settings = NewDefaultSettings(guildId);
             settings.RemoveInviteOnLeave = false;
-            settings.Id = await uow.InsertWithInt32IdentityAsync(settings);
+            settings = await InsertOrReadSettingsAsync(uow, settings);
         }
 
         inviteCountSettings[guildId] = settings;
@@ -223,7 +224,13 @@ public class InviteCountService : INService, IReadyExecutor
         {
             settings = inviteCountSettings.TryGetValue(guildId, out var cached) ? cached : NewDefaultSettings(guildId);
             updateAction(settings);
-            settings.Id = await uow.InsertWithInt32IdentityAsync(settings);
+            var stored = await InsertOrReadSettingsAsync(uow, settings);
+            if (!ReferenceEquals(stored, settings))
+            {
+                settings = stored;
+                updateAction(settings);
+                await uow.UpdateAsync(settings);
+            }
         }
         else
         {
@@ -233,6 +240,28 @@ public class InviteCountService : INService, IReadyExecutor
 
         inviteCountSettings[guildId] = settings;
         return settings;
+    }
+
+    /// <summary>
+    ///     Inserts a guild's settings row, or returns the row another request created in the meantime. The dashboard
+    ///     fetches a fresh guild's settings from several requests at once, so a plain read-then-insert races itself
+    ///     into the GuildId unique constraint.
+    /// </summary>
+    /// <param name="uow">The open connection.</param>
+    /// <param name="settings">The row to insert.</param>
+    /// <returns>The inserted row, or the existing one when the insert lost the race.</returns>
+    private static async Task<InviteCountSetting> InsertOrReadSettingsAsync(MewdekoDb uow,
+        InviteCountSetting settings)
+    {
+        try
+        {
+            settings.Id = await uow.InsertWithInt32IdentityAsync(settings);
+            return settings;
+        }
+        catch (PostgresException ex) when (ex.SqlState == PostgresErrorCodes.UniqueViolation)
+        {
+            return await uow.InviteCountSettings.FirstAsync(x => x.GuildId == settings.GuildId);
+        }
     }
 
     /// <summary>
