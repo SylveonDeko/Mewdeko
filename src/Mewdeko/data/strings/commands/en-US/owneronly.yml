@@ -408,6 +408,39 @@ instancestatus_int:
       name: instancePort
       optional: false
       type: int
+retentionpending:
+  args:
+    - ''
+  desc: 'Lists servers the bot has left whose data is waiting to be purged, soonest first.'
+  params: [ ]
+retentionrecent:
+  args:
+    - ''
+  desc: 'Lists the most recent completed data purges with how many rows each removed.'
+  params: [ ]
+retentioncancel:
+  args:
+    - 123456789012345678
+  desc: 'Removes a server from the purge queue so its data is kept.'
+  params:
+    - desc: 'The server to keep.'
+      name: guildId
+      optional: false
+      type: ulong
+retentionpurge:
+  args:
+    - 123456789012345678
+  desc: 'Purges a server''s data immediately instead of waiting for the grace period. Refuses while the bot is still in it.'
+  params:
+    - desc: 'The server to purge.'
+      name: guildId
+      optional: false
+      type: ulong
+retentionscan:
+  args:
+    - ''
+  desc: 'Scans every guild scoped table for servers the bot is no longer in and queues them for purging after the grace period.'
+  params: [ ]
 leaveserver:
   args:
     - text

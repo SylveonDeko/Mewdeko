@@ -114,10 +114,12 @@ public sealed class AutoAssignRoleService : INService
         var roles = roleIds.Select(id => user.Guild.GetRole(id)).Where(x => x is not null).ToList();
         if (user.Guild is SocketGuild socketGuild && socketGuild.CurrentUser is { } me)
         {
-            var unassignable = roles.Where(r => r.IsManaged || r.Position >= me.Hierarchy).ToList();
+            var unassignable = roles.Where(r => r.Id == user.Guild.Id || r.IsManaged || r.Position >= me.Hierarchy)
+                .ToList();
             if (unassignable.Count > 0)
             {
-                logger.LogDebug("Skipping {Roles} in {GuildId} for '{Feature}': managed or above my highest role",
+                logger.LogDebug(
+                    "Skipping {Roles} in {GuildId} for '{Feature}': everyone, managed or above my highest role",
                     string.Join(", ", unassignable.Select(r => r.Name)), user.Guild.Id, featureName);
                 roles = roles.Except(unassignable).ToList();
             }

@@ -368,6 +368,20 @@ public class AnalyticsController(AnalyticsQueryService queries, IAnalyticsCollec
     }
 
     /// <summary>
+    ///     Returns one row per server the bot is in with member makeup, activity in range and feature use.
+    /// </summary>
+    /// <param name="search">Optional match on server name or id.</param>
+    /// <param name="from">ISO start.</param>
+    /// <param name="to">ISO end.</param>
+    /// <param name="range">Named range.</param>
+    [HttpGet("servers/overview")]
+    public async Task<IActionResult> GetServerOverview([FromQuery] string? search = null,
+        [FromQuery] string? from = null, [FromQuery] string? to = null, [FromQuery] string? range = null)
+    {
+        return Ok(await queries.GuildOverviewAsync(AnalyticsRange.Parse(from, to, range), Bot(), search));
+    }
+
+    /// <summary>
     ///     Returns joins, leaves and bounces over the range.
     /// </summary>
     /// <param name="from">ISO start.</param>

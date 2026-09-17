@@ -22,6 +22,7 @@ public sealed partial class AnalyticsQueryService : INService
     private readonly AnalyticsCollector collector;
     private readonly IDataConnectionFactory dbFactory;
     private readonly InstanceManagementService instances;
+    private readonly ILogger<AnalyticsQueryService> logger;
     private readonly AnalyticsWriter writer;
 
     /// <summary>
@@ -32,14 +33,17 @@ public sealed partial class AnalyticsQueryService : INService
     /// <param name="collector">The collector, for pending counts.</param>
     /// <param name="writer">The writer, for pipeline timestamps.</param>
     /// <param name="instances">The instance registry.</param>
+    /// <param name="logger">The logger instance for structured logging.</param>
     public AnalyticsQueryService(IDataConnectionFactory dbFactory, DiscordShardedClient client,
-        AnalyticsCollector collector, AnalyticsWriter writer, InstanceManagementService instances)
+        AnalyticsCollector collector, AnalyticsWriter writer, InstanceManagementService instances,
+        ILogger<AnalyticsQueryService> logger)
     {
         this.dbFactory = dbFactory;
         this.client = client;
         this.collector = collector;
         this.writer = writer;
         this.instances = instances;
+        this.logger = logger;
     }
 
     /// <summary>

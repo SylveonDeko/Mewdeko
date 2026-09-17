@@ -233,6 +233,39 @@ public sealed record GuildEventItem(long Id, DateTime At, string EventType, stri
 public sealed record FeatureUse(string Feature, long Count, long Errors);
 
 /// <summary>
+///     Member makeup and shape of a guild, read from the gateway cache.
+/// </summary>
+/// <param name="MemberCount">Total members as reported by Discord.</param>
+/// <param name="Humans">Cached members that are not bots.</param>
+/// <param name="Bots">Cached members that are bots.</param>
+/// <param name="Online">Cached members that are online, idle or do not disturb.</param>
+/// <param name="Boosts">Active nitro boosts.</param>
+/// <param name="BoostTier">Boost tier, 0 to 3.</param>
+/// <param name="Channels">Channel count including categories and threads in cache.</param>
+/// <param name="Roles">Role count.</param>
+/// <param name="OwnerId">The owner.</param>
+/// <param name="CreatedAt">When the guild was created.</param>
+public sealed record GuildShape(
+    int MemberCount,
+    int Humans,
+    int Bots,
+    int Online,
+    int Boosts,
+    int BoostTier,
+    int Channels,
+    int Roles,
+    string OwnerId,
+    DateTime CreatedAt);
+
+/// <summary>
+///     Use of one command by a guild.
+/// </summary>
+/// <param name="Command">The command name.</param>
+/// <param name="Count">Invocations in range.</param>
+/// <param name="Failures">Invocations that failed.</param>
+public sealed record CommandUse(string Command, long Count, long Failures);
+
+/// <summary>
 ///     Summary card for one guild.
 /// </summary>
 /// <param name="GuildId">The guild.</param>
@@ -244,6 +277,10 @@ public sealed record FeatureUse(string Feature, long Count, long Errors);
 /// <param name="Commands">Commands run in range.</param>
 /// <param name="Events">Gateway events in range.</param>
 /// <param name="Features">Features used in range.</param>
+/// <param name="Shape">Member makeup when the bot is in the guild.</param>
+/// <param name="ConfiguredFeatures">Feature keys the guild has set up, per the live feature definitions.</param>
+/// <param name="EnabledFeatures">Feature keys the guild has set up and switched on.</param>
+/// <param name="TopCommands">Most used commands in range.</param>
 public sealed record GuildCard(
     string GuildId,
     string? Name,
@@ -253,7 +290,38 @@ public sealed record GuildCard(
     bool Present,
     long Commands,
     long Events,
-    List<FeatureUse> Features);
+    List<FeatureUse> Features,
+    GuildShape? Shape,
+    List<string> ConfiguredFeatures,
+    List<string> EnabledFeatures,
+    List<CommandUse> TopCommands);
+
+/// <summary>
+///     One row of the per server overview table.
+/// </summary>
+/// <param name="GuildId">The guild.</param>
+/// <param name="Name">Guild name.</param>
+/// <param name="Shard">The shard the guild lives on.</param>
+/// <param name="Shape">Member makeup and size.</param>
+/// <param name="JoinedAt">When the bot joined, when known.</param>
+/// <param name="Commands">Commands run in range.</param>
+/// <param name="Events">Gateway events in range.</param>
+/// <param name="FeaturesUsed">Distinct features used in range.</param>
+/// <param name="FeaturesConfigured">Distinct features the guild has set up.</param>
+/// <param name="FeaturesEnabled">Distinct features the guild has set up and switched on.</param>
+/// <param name="Features">Feature keys used in range, most used first.</param>
+public sealed record GuildOverviewRow(
+    string GuildId,
+    string Name,
+    int Shard,
+    GuildShape Shape,
+    DateTime? JoinedAt,
+    long Commands,
+    long Events,
+    int FeaturesUsed,
+    int FeaturesConfigured,
+    int FeaturesEnabled,
+    List<string> Features);
 
 /// <summary>
 ///     One feature in the adoption table.

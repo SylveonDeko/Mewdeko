@@ -196,6 +196,17 @@ public class MewdekoDb : DataConnection
     }
 
     /// <summary>
+    ///     Servers the bot has left whose data is queued for purging after a grace period.
+    /// </summary>
+    public ITable<GuildDataRetention> GuildDataRetention
+    {
+        get
+        {
+            return this.GetTable<GuildDataRetention>();
+        }
+    }
+
+    /// <summary>
     ///     Feature requests submitted from the dashboard.
     /// </summary>
     public ITable<FeatureRequest> FeatureRequests

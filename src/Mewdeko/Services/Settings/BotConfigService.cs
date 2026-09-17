@@ -53,6 +53,10 @@ public sealed class BotConfigService : ConfigServiceBase<BotConfig>
             ConfigPrinters.ToString);
         AddParsedProp("analyticsDigestWebhook", bs => bs.AnalyticsDigestWebhook, ConfigParsers.String,
             ConfigPrinters.ToString);
+        AddParsedProp("guildDataRetentionEnabled", bs => bs.GuildDataRetentionEnabled, bool.TryParse,
+            ConfigPrinters.ToString);
+        AddParsedProp("guildDataRetentionDays", bs => bs.GuildDataRetentionDays, int.TryParse,
+            ConfigPrinters.ToString);
         AddParsedProp("showinvitebutton", bs => bs.ShowInviteButton, bool.TryParse, ConfigPrinters.ToString);
         AddParsedProp("successemote", bs => bs.SuccessEmote, ConfigParsers.String, ConfigPrinters.ToString);
         AddParsedProp("loadingemote", bs => bs.LoadingEmote, ConfigParsers.String, ConfigPrinters.ToString);

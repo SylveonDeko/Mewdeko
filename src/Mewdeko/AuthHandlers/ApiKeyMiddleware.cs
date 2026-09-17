@@ -24,13 +24,12 @@ public class ApiKeyAuthHandler : AuthenticationHandler<AuthenticationSchemeOptio
     /// <inheritdoc />
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        var route = $"{Request.Method} {Request.Path}{Request.QueryString} from {Context.Connection.RemoteIpAddress}";
-
         if (!Request.Headers.TryGetValue(ApiConstants.HeaderName, out var apiKeyHeaderValues))
         {
-            return Task.FromResult(AuthenticateResult.Fail($"API Key is missing ({route})"));
+            return Task.FromResult(AuthenticateResult.NoResult());
         }
 
+        var route = $"{Request.Method} {Request.Path}{Request.QueryString} from {Context.Connection.RemoteIpAddress}";
         var providedApiKey = apiKeyHeaderValues.ToString();
 
         if (!apiKeyValidation.IsValidApiKey(providedApiKey))

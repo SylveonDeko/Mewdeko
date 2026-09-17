@@ -366,10 +366,22 @@ public sealed partial class AnalyticsQueryService
             .GroupBy(x => x.Feature)
             .Select(g => new FeatureUse(g.Key, g.Sum(x => (long)x.Count), g.Sum(x => (long)x.Errors)))
             .ToListAsync().ConfigureAwait(false);
+        var topCommands = await db.AnalyticsCommandInvocations
+            .Where(x => x.GuildId == guildId && x.At >= range.From && x.At < range.To)
+            .GroupBy(x => x.Command)
+            .Select(g => new CommandUse(g.Key, g.LongCount(), g.LongCount(x => !x.Ok)))
+            .OrderByDescending(x => x.Count)
+            .Take(15)
+            .ToListAsync().ConfigureAwait(false);
+
+        var sets = await GetFeatureSetsAsync(db).ConfigureAwait(false);
+        var configured = sets.Configured.GetValueOrDefault(guildId)?.Order(StringComparer.Ordinal).ToList() ?? [];
+        var enabled = sets.Enabled.GetValueOrDefault(guildId)?.Order(StringComparer.Ordinal).ToList() ?? [];
 
         return new GuildCard(Snowflake(guildId)!, guild?.Name, guild?.MemberCount,
             guild is null ? null : client.GetShardIdFor(guild), joinedAt, guild is not null, commands, events,
-            features.OrderByDescending(f => f.Count).ToList());
+            features.OrderByDescending(f => f.Count).ToList(), guild is null ? null : Shape(guild), configured,
+            enabled, topCommands);
     }
 
     /// <summary>
@@ -934,6 +946,14 @@ public sealed partial class AnalyticsQueryService
         }
 
         return (string.Join(" AND ", clauses), parameters);
+    }
+
+    private static IQueryable<AnalyticsCommandInvocation> CommandsIn(MewdekoDb db, AnalyticsRange range,
+        string? bot)
+    {
+        var query = db.AnalyticsCommandInvocations.Where(x => x.At >= range.From && x.At < range.To);
+        if (!string.IsNullOrEmpty(bot)) query = query.Where(x => x.Bot == bot);
+        return query;
     }
 
     private static IQueryable<AnalyticsGuildActivity> ActivityIn(MewdekoDb db, AnalyticsRange range, string? bot)

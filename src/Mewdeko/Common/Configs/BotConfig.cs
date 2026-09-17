@@ -47,6 +47,8 @@ public sealed class BotConfig
         LeaveFeedbackEnabled = true;
         AnalyticsEnabled = true;
         AnalyticsRetentionDays = 30;
+        GuildDataRetentionEnabled = true;
+        GuildDataRetentionDays = 7;
     }
 
     /// <summary>
@@ -227,6 +229,22 @@ public sealed class BotConfig
     /// </summary>
     [Comment("Discord webhook the weekly analytics digest is posted to. Empty disables the digest.")]
     public string? AnalyticsDigestWebhook { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether data for servers the bot has left is purged automatically.
+    /// </summary>
+    [Comment("""
+             Whether stored data for servers the bot has left gets purged automatically
+             once the grace period below has passed. Servers that re-add the bot before
+             then keep their data.
+             """)]
+    public bool GuildDataRetentionEnabled { get; set; }
+
+    /// <summary>
+    ///     Gets or sets how many days after leaving a server its data is kept before being purged.
+    /// </summary>
+    [Comment("Days a server's data is kept after the bot leaves it before being purged.")]
+    public int GuildDataRetentionDays { get; set; }
 
     /// <summary>
     ///     Gets or sets whether the bot will support youtube links. (Or hides that it supports them lol)

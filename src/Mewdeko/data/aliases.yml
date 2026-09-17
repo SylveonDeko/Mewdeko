@@ -1494,6 +1494,21 @@ leavehook:
   - byehook
 leaveserver:
   - leaveserver
+retentionpending:
+  - retentionpending
+  - purgepending
+retentionrecent:
+  - retentionrecent
+  - purgerecent
+retentioncancel:
+  - retentioncancel
+  - purgecancel
+retentionpurge:
+  - retentionpurge
+  - purgenow
+retentionscan:
+  - retentionscan
+  - purgescan
 leavestats:
   - leavestats
   - lstats

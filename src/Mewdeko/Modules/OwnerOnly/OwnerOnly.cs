@@ -47,6 +47,7 @@ namespace Mewdeko.Modules.OwnerOnly;
 /// <param name="localization">Service for handling localization and translations.</param>
 /// <param name="logger">The logger instance for structured logging.</param>
 /// <param name="creds">Bot credentials and configuration secrets.</param>
+/// <param name="retention">Service that purges data for servers the bot has left.</param>
 [OwnerOnly]
 public class OwnerOnly(
     DiscordShardedClient client,
@@ -64,7 +65,8 @@ public class OwnerOnly(
     HttpClient httpClient,
     Localization localization,
     ILogger<OwnerOnly> logger,
-    BotCredentials creds)
+    BotCredentials creds,
+    GuildDataRetentionService retention)
     : MewdekoModuleBase<OwnerOnlyService>
 {
     /// <summary>
@@ -1185,6 +1187,140 @@ public class OwnerOnly(
     public Task LeaveServer([Remainder] string guildStr)
     {
         return Service.LeaveGuild(guildStr);
+    }
+
+    /// <summary>
+    ///     Lists servers the bot has left whose data is waiting to be purged, soonest first.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    public async Task RetentionPending()
+    {
+        var pending = await retention.GetPendingAsync().ConfigureAwait(false);
+        if (pending.Count == 0)
+        {
+            await ConfirmAsync(Strings.RetentionNoPending(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var paginator = new LazyPaginatorBuilder()
+            .AddUser(ctx.User)
+            .WithPageFactory(PageFactory)
+            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+            .WithMaxPageIndex((pending.Count - 1) / 10)
+            .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+            .Build();
+
+        await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+
+        async Task<PageBuilder> PageFactory(int page)
+        {
+            await Task.CompletedTask;
+            var eb = new PageBuilder()
+                .WithOkColor()
+                .WithTitle(Strings.RetentionPendingTitle(ctx.Guild.Id, pending.Count));
+
+            if (!retention.Enabled)
+                eb.WithDescription(Strings.RetentionDisabledNote(ctx.Guild.Id));
+
+            foreach (var entry in pending.Skip(10 * page).Take(10))
+            {
+                var name = string.IsNullOrWhiteSpace(entry.GuildName)
+                    ? Strings.RetentionUnknownServer(ctx.Guild.Id)
+                    : entry.GuildName;
+                eb.AddField($"{name} `{entry.GuildId}`",
+                    Strings.RetentionEntry(ctx.Guild.Id,
+                        TimestampTag.FromDateTime(entry.LeftAt, TimestampTagStyles.Relative),
+                        TimestampTag.FromDateTime(entry.PurgeAfter, TimestampTagStyles.Relative),
+                        entry.Source));
+            }
+
+            return eb;
+        }
+    }
+
+    /// <summary>
+    ///     Lists the most recent completed data purges with how many rows each removed.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    public async Task RetentionRecent()
+    {
+        var recent = await retention.GetRecentPurgesAsync(500).ConfigureAwait(false);
+        if (recent.Count == 0)
+        {
+            await ConfirmAsync(Strings.RetentionNoRecent(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var eb = new EmbedBuilder()
+            .WithOkColor()
+            .WithTitle(Strings.RetentionRecentTitle(ctx.Guild.Id));
+
+        foreach (var batch in recent.GroupBy(x => x.PurgedAt!.Value).OrderByDescending(g => g.Key).Take(15))
+        {
+            var names = batch.Take(5).Select(entry => string.IsNullOrWhiteSpace(entry.GuildName)
+                ? $"`{entry.GuildId}`"
+                : $"{entry.GuildName} `{entry.GuildId}`");
+            var listed = string.Join(", ", names);
+            if (batch.Count() > 5)
+                listed += $" +{batch.Count() - 5}";
+            eb.AddField(
+                Strings.RetentionRecentEntry(ctx.Guild.Id,
+                    TimestampTag.FromDateTime(batch.Key, TimestampTagStyles.Relative), batch.Count(),
+                    batch.First().RowsDeleted),
+                listed.TrimTo(1024));
+        }
+
+        await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Removes a server from the purge queue so its data is kept.
+    /// </summary>
+    /// <param name="guildId">The server to keep.</param>
+    [Cmd]
+    [Aliases]
+    public async Task RetentionCancel(ulong guildId)
+    {
+        if (await retention.CancelAsync(guildId).ConfigureAwait(false))
+            await ConfirmAsync(Strings.RetentionCancelled(ctx.Guild.Id, guildId)).ConfigureAwait(false);
+        else
+            await ErrorAsync(Strings.RetentionNothingPending(ctx.Guild.Id, guildId)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Purges a server's data immediately instead of waiting for the grace period. Refuses while the bot is still in it.
+    /// </summary>
+    /// <param name="guildId">The server to purge.</param>
+    [Cmd]
+    [Aliases]
+    public async Task RetentionPurge(ulong guildId)
+    {
+        var rows = await retention.PurgeNowAsync(guildId).ConfigureAwait(false);
+        if (rows is null)
+            await ErrorAsync(Strings.RetentionStillInGuild(ctx.Guild.Id, guildId)).ConfigureAwait(false);
+        else
+            await ConfirmAsync(Strings.RetentionPurged(ctx.Guild.Id, rows.Value, guildId)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Scans every guild scoped table for servers the bot is no longer in and queues them for purging after the grace
+    ///     period.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    public async Task RetentionScan()
+    {
+        if (client.Shards.Any(s => s.ConnectionState != ConnectionState.Connected))
+        {
+            await ErrorAsync(Strings.RetentionScanSkipped(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var count = await retention.ScanOrphansAsync().ConfigureAwait(false);
+        await ConfirmAsync(Strings.RetentionScanDone(ctx.Guild.Id, count)).ConfigureAwait(false);
     }
 
     /// <summary>
