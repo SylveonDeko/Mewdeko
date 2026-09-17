@@ -1506,6 +1506,9 @@ retentioncancel:
 retentionpurge:
   - retentionpurge
   - purgenow
+retentionpurgeall:
+  - retentionpurgeall
+  - purgeall
 retentionscan:
   - retentionscan
   - purgescan

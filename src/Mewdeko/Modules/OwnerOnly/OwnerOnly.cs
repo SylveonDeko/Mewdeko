@@ -1306,6 +1306,37 @@ public class OwnerOnly(
     }
 
     /// <summary>
+    ///     Purges every pending server right now, ignoring the grace period. Servers the bot has rejoined are skipped.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    public async Task RetentionPurgeAll()
+    {
+        if (client.Shards.Any(s => s.ConnectionState != ConnectionState.Connected))
+        {
+            await ErrorAsync(Strings.RetentionScanSkipped(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var pending = await retention.GetPendingAsync().ConfigureAwait(false);
+        if (pending.Count == 0)
+        {
+            await ConfirmAsync(Strings.RetentionNoPending(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        if (!await PromptUserConfirmAsync(Strings.RetentionPurgeAllConfirm(ctx.Guild.Id, pending.Count), ctx.User.Id)
+                .ConfigureAwait(false))
+            return;
+
+        var msg = await ctx.Channel.SendConfirmAsync(Strings.RetentionPurgeAllRunning(ctx.Guild.Id, pending.Count))
+            .ConfigureAwait(false);
+        var (guilds, rows) = await retention.PurgePendingAsync(true).ConfigureAwait(false);
+        await msg.ModifyAsync(x => x.Embed = new EmbedBuilder().WithOkColor()
+            .WithDescription(Strings.RetentionPurgeAllDone(ctx.Guild.Id, guilds, rows)).Build()).ConfigureAwait(false);
+    }
+
+    /// <summary>
     ///     Scans every guild scoped table for servers the bot is no longer in and queues them for purging after the grace
     ///     period.
     /// </summary>

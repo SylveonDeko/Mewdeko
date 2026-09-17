@@ -436,6 +436,11 @@ retentionpurge:
       name: guildId
       optional: false
       type: ulong
+retentionpurgeall:
+  args:
+    - ''
+  desc: 'Purges every pending server right now, ignoring the grace period. Servers the bot has rejoined are skipped.'
+  params: [ ]
 retentionscan:
   args:
     - ''

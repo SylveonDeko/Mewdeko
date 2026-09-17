@@ -26,10 +26,11 @@ namespace Mewdeko.Modules.OwnerOnly.Services;
 public class GuildDataRetentionService : INService, IReadyExecutor
 {
     /// <summary>
-    ///     How many due guilds are purged per pass over the tables. The first orphan scan on a long lived database
-    ///     queues tens of thousands of guilds, and one pass per guild would take weeks.
+    ///     How many due guilds are purged per pass over the tables. Each table is one statement per batch, so the
+    ///     batch bounds how long a single transaction holds locks and how much WAL it writes on the big tables,
+    ///     while still draining a backlog of tens of thousands of guilds in a handful of passes.
     /// </summary>
-    private const int PurgeBatchSize = 100;
+    private const int PurgeBatchSize = 5000;
 
     /// <summary>
     ///     Tables with more estimated rows than this are skipped by the orphan scan. Every guild that ever touched
@@ -54,7 +55,7 @@ public class GuildDataRetentionService : INService, IReadyExecutor
     private static readonly TimeSpan StartupDelay = TimeSpan.FromMinutes(5);
 
     /// <summary>
-    ///     Pause between per-table statements so a large purge doesn't starve normal traffic.
+    ///     Pause between per-table scans during the orphan scan so it doesn't starve normal traffic.
     /// </summary>
     private static readonly TimeSpan TableDelay = TimeSpan.FromMilliseconds(100);
 
@@ -363,14 +364,27 @@ public class GuildDataRetentionService : INService, IReadyExecutor
         if (DateTime.UtcNow - lastOrphanScan >= OrphanScanInterval)
             await ScanOrphansAsync().ConfigureAwait(false);
 
+        await PurgePendingAsync(false).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Purges queued guilds in batches, skipping any the bot has since rejoined.
+    /// </summary>
+    /// <param name="ignoreDeadline">True to purge every pending guild now, false to only take those past their grace period.</param>
+    /// <returns>How many guilds were purged and how many rows that removed.</returns>
+    public async Task<(int Guilds, long Rows)> PurgePendingAsync(bool ignoreDeadline)
+    {
+        if (!AllShardsConnected())
+            return (0, 0);
+
         List<GuildDataRetention> due;
         await using (var db = await dbFactory.CreateConnectionAsync().ConfigureAwait(false))
         {
             var now = DateTime.UtcNow;
-            due = await db.GuildDataRetention
-                .Where(x => x.PurgedAt == null && x.PurgeAfter <= now)
-                .OrderBy(x => x.PurgeAfter)
-                .ToListAsync().ConfigureAwait(false);
+            var query = db.GuildDataRetention.Where(x => x.PurgedAt == null);
+            if (!ignoreDeadline)
+                query = query.Where(x => x.PurgeAfter <= now);
+            due = await query.OrderBy(x => x.PurgeAfter).ToListAsync().ConfigureAwait(false);
         }
 
         var rejoined = due.Where(x => client.GetGuild(x.GuildId) is not null).ToList();
@@ -378,12 +392,16 @@ public class GuildDataRetentionService : INService, IReadyExecutor
             await CancelAsync(entry.GuildId).ConfigureAwait(false);
         due = due.Except(rejoined).ToList();
 
+        var guilds = 0;
+        var rows = 0L;
         foreach (var batch in due.Chunk(PurgeBatchSize))
         {
             try
             {
-                var rows = await PurgeGuildsAsync(batch.Select(x => x.GuildId).ToList()).ConfigureAwait(false);
-                await NotifyAsync(batch, rows).ConfigureAwait(false);
+                var removed = await PurgeGuildsAsync(batch.Select(x => x.GuildId).ToList()).ConfigureAwait(false);
+                await NotifyAsync(batch, removed).ConfigureAwait(false);
+                guilds += batch.Length;
+                rows += removed;
             }
             catch (Exception ex)
             {
@@ -391,6 +409,8 @@ public class GuildDataRetentionService : INService, IReadyExecutor
                     batch[0].GuildId);
             }
         }
+
+        return (guilds, rows);
     }
 
     /// <summary>
@@ -442,7 +462,6 @@ public class GuildDataRetentionService : INService, IReadyExecutor
                     $"""{Quote(table)}."GuildId" = ANY(ARRAY[{idList}]::{snapshot.GuildIdType(table)}[])""",
                     []).ConfigureAwait(false);
                 await transaction.CommitAsync().ConfigureAwait(false);
-                await Task.Delay(TableDelay).ConfigureAwait(false);
             }
 
             var now = DateTime.UtcNow;
