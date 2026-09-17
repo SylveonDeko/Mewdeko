@@ -594,17 +594,17 @@ public class GuildDataRetentionService : INService, IReadyExecutor
 
     private sealed class GuildTableRow
     {
-        public string Table { get; } = string.Empty;
-        public string DataType { get; } = string.Empty;
+        public string Table { get; set; } = string.Empty;
+        public string DataType { get; set; } = string.Empty;
         public double EstimatedRows { get; set; }
     }
 
     private sealed class ForeignKeyRow
     {
-        public string ChildTable { get; } = string.Empty;
-        public string ChildColumn { get; } = string.Empty;
-        public string ParentTable { get; } = string.Empty;
-        public string ParentColumn { get; } = string.Empty;
+        public string ChildTable { get; set; } = string.Empty;
+        public string ChildColumn { get; set; } = string.Empty;
+        public string ParentTable { get; set; } = string.Empty;
+        public string ParentColumn { get; set; } = string.Empty;
         public char DeleteAction { get; set; }
     }
 
