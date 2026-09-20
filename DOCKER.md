@@ -64,6 +64,17 @@ docker run -d \
 
 Only publish port `5001` when another service outside Docker needs the bot API. Keep it private when the dashboard runs on the same Docker network.
 
+## Owner Docker page
+
+Bot owners get a Docker page in the dashboard's Owner Panel that lists the containers on the bot's host, samples their CPU and memory, follows their logs, and can start, stop and restart them. It talks to the daemon over its socket, so the bot needs it mounted:
+
+```yaml
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+```
+
+Compose pull, up and build per project also need the `docker` CLI with the compose plugin inside the image, and the project's compose directory mounted at the same path it has on the host. Without the socket the page just reports that Docker is not configured. Anyone the bot treats as an owner can then control every container on that machine, so keep the owner list short.
+
 ## Dashboard
 
 The companion image is [`sylveondeko/mewdash`](https://hub.docker.com/r/sylveondeko/mewdash). Its required environment variables and standalone launch command are documented in the [dashboard Docker guide](https://github.com/SylveonDeko/MewdekoDash/blob/main/DOCKER.md).
