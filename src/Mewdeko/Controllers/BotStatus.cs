@@ -1,9 +1,6 @@
-using System.Diagnostics;
-using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Discord.Commands;
-using Mewdeko.Common.Attributes.ASPNET;
 using Mewdeko.Controllers.Common.Bot;
 using Mewdeko.Services.Impl;
 using Microsoft.AspNetCore.Authorization;
@@ -67,40 +64,8 @@ public class BotStatus(DiscordShardedClient client, StatsService statsService, C
         return Ok(JsonSerializer.Serialize(client.Guilds.Select(x => x.Id), Options));
     }
 
-    private string GetCommitHash()
+    private static string GetCommitHash()
     {
-        var assembly = Assembly.GetExecutingAssembly();
-        var gitHashAttribute = assembly.GetCustomAttribute<GitHashAttribute>();
-
-        if (gitHashAttribute != null)
-        {
-            return gitHashAttribute.Hash;
-        }
-
-        // Fallback method if attribute is not available
-        try
-        {
-            var process = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = "git",
-                    Arguments = "rev-parse HEAD",
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    CreateNoWindow = true
-                }
-            };
-
-            process.Start();
-            var output = process.StandardOutput.ReadToEnd().Trim();
-            process.WaitForExit();
-
-            return output.Length == 40 ? output : "Unknown";
-        }
-        catch
-        {
-            return "Unknown";
-        }
+        return BuildInfo.GitSha ?? "Unknown";
     }
 }

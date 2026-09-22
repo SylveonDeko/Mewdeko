@@ -441,6 +441,21 @@ retentionpurgeall:
     - ''
   desc: 'Purges every pending server right now, ignoring the grace period. Servers the bot has rejoined are skipped.'
   params: [ ]
+bothells:
+  args:
+    - ''
+  desc: 'Lists servers littered with bots, based on the bot count and bot percentage thresholds in bot config.'
+  params: [ ]
+bothellcheck:
+  args:
+    - ''
+    - 123456789012345678
+  desc: 'Checks a single server against the bot hell thresholds after downloading its full member list.'
+  params:
+    - desc: 'The server to check, or the current one when omitted.'
+      name: guildId
+      optional: true
+      type: ulong
 retentionscan:
   args:
     - ''

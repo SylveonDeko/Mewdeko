@@ -11,8 +11,9 @@ namespace Mewdeko.Controllers;
 
 /// <summary>
 ///     The Docker daemon on the host this instance runs on: container list, resource samples, logs, start,
-///     stop and restart, plus compose pull and up per project. Everything here can affect every service on
-///     the machine, so it is limited to bot owners.
+///     stop and restart, compose pull and up per project, and the running build's version against what the
+///     registry has published. Everything here can affect every service on the machine, so it is limited to
+///     bot owners.
 /// </summary>
 [ApiController]
 [Route("botapi/[controller]")]
@@ -50,6 +51,39 @@ public class DockerController(DockerService docker, BotCredentials creds, ILogge
     public async Task<IActionResult> GetOverview()
     {
         return Ok(await docker.GetOverviewAsync());
+    }
+
+    /// <summary>
+    ///     Describes this instance: its build, the container it runs in, and whether a newer image is published.
+    /// </summary>
+    /// <param name="refresh">Ask the registry again instead of using the cached answer.</param>
+    [HttpGet("self")]
+    public async Task<IActionResult> GetSelf([FromQuery] bool refresh = false)
+    {
+        if (refresh)
+            await docker.GetPublishedAsync(true);
+
+        return Ok(await docker.GetSelfAsync());
+    }
+
+    /// <summary>
+    ///     Pulls the newest image and recreates this instance's own container. The work runs in a helper
+    ///     container, so the job outlives this process; poll the returned job from any instance on the host.
+    /// </summary>
+    [HttpPost("self/update")]
+    public Task<IActionResult> UpdateSelf()
+    {
+        return UpdateFleet(false);
+    }
+
+    /// <summary>
+    ///     Pulls the newest image and recreates every container in this instance's compose project, which for a
+    ///     fleet means every bot on the host. Only containers whose image or config changed are restarted.
+    /// </summary>
+    [HttpPost("self/update-all")]
+    public Task<IActionResult> UpdateAll()
+    {
+        return UpdateFleet(true);
     }
 
     /// <summary>
@@ -119,40 +153,36 @@ public class DockerController(DockerService docker, BotCredentials creds, ILogge
     }
 
     /// <summary>
-    ///     Starts a compose operation on a project in the background and returns the job to poll.
+    ///     Starts a compose operation on a project in a helper container and returns the job to poll.
     /// </summary>
     /// <param name="name">The compose project name.</param>
-    /// <param name="operation">pull, up, update (pull then up) or build (build then up).</param>
+    /// <param name="operation">pull (fetch and rebuild, restart nothing), up, or update (both).</param>
+    /// <param name="services">Comma separated service names to limit the operation to; empty for the whole project.</param>
     [HttpPost("projects/{name}/{operation}")]
-    public async Task<IActionResult> StartComposeJob(string name, string operation)
+    public async Task<IActionResult> StartComposeJob(string name, string operation,
+        [FromQuery] string? services = null)
     {
-        var overview = await docker.GetOverviewAsync();
-        if (!overview.ComposeAvailable)
-            return BadRequest("docker compose is not available to the bot on this host");
-
         var project = await docker.FindProjectAsync(name);
         if (project == null)
             return NotFound("No container carries that compose project label");
 
-        if (!project.Operable)
-            return BadRequest(
-                "The project's compose files are not visible from the bot, so it cannot be operated on from here");
-
-        var job = docker.StartComposeJob(project, operation.ToLowerInvariant());
+        var scope = (services ?? "").Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        var (job, error) = await docker.StartComposeJobAsync(project, operation.ToLowerInvariant(), scope);
         if (job == null)
-            return BadRequest("operation must be pull, up, update or build");
+            return BadRequest(error ?? "The job could not be started");
 
-        logger.LogInformation("Compose {Operation} started on {Project} as job {Job}", operation, name, job.Id);
+        logger.LogInformation("Compose {Operation} started on {Project} ({Services}) as job {Job}", operation, name,
+            scope.Length > 0 ? string.Join(',', scope) : "all", job.Id[..12]);
         return Ok(job);
     }
 
     /// <summary>
-    ///     Lists the compose jobs still in memory, newest first.
+    ///     Lists the compose jobs whose helper containers still exist, newest first, without output.
     /// </summary>
     [HttpGet("jobs")]
-    public IActionResult ListJobs()
+    public async Task<IActionResult> ListJobs()
     {
-        return Ok(docker.ListJobs());
+        return Ok(await docker.ListJobsAsync());
     }
 
     /// <summary>
@@ -160,10 +190,29 @@ public class DockerController(DockerService docker, BotCredentials creds, ILogge
     /// </summary>
     /// <param name="id">The job id.</param>
     [HttpGet("jobs/{id}")]
-    public IActionResult GetJob(string id)
+    public async Task<IActionResult> GetJob(string id)
     {
-        var job = docker.FindJob(id);
+        var job = await docker.FindJobAsync(id);
         return job == null ? NotFound("That job is not known or has been trimmed") : Ok(job);
+    }
+
+    private async Task<IActionResult> UpdateFleet(bool wholeProject)
+    {
+        var self = await docker.GetSelfAsync();
+        if (!self.CanUpdate || self.Project == null || self.Container?.ComposeService == null)
+            return BadRequest(self.UpdateBlockedReason ?? "This instance cannot be updated from the dashboard");
+
+        var scope = wholeProject ? [] : new[]
+        {
+            self.Container.ComposeService
+        };
+        var (job, error) = await docker.StartComposeJobAsync(self.Project, "update", scope);
+        if (job == null)
+            return BadRequest(error ?? "The update could not be started");
+
+        logger.LogInformation("Update of {Scope} in {Project} started as job {Job}",
+            wholeProject ? "the whole fleet" : self.Container.ComposeService, self.Project.Name, job.Id[..12]);
+        return Ok(job);
     }
 
     private async Task<IActionResult> RunAction(string id, string action)

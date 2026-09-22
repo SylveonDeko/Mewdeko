@@ -295,6 +295,106 @@ public sealed class DockerActionResult
 }
 
 /// <summary>
+///     The newest image published for the bot, as the registry reports it.
+/// </summary>
+public sealed class DockerPublishedImage
+{
+    /// <summary>
+    ///     The repository that was queried, such as sylveondeko/mewdeko.
+    /// </summary>
+    public string Repository { get; set; } = "";
+
+    /// <summary>
+    ///     The moving tag that was resolved, normally nightly.
+    /// </summary>
+    public string Tag { get; set; } = "nightly";
+
+    /// <summary>
+    ///     The commit the tag currently points at, when the registry also carries a sha tag for the same digest.
+    /// </summary>
+    public string? GitSha { get; set; }
+
+    /// <summary>
+    ///     The manifest digest the tag points at.
+    /// </summary>
+    public string? Digest { get; set; }
+
+    /// <summary>
+    ///     When the tag was last pushed.
+    /// </summary>
+    public DateTime? PublishedAt { get; set; }
+
+    /// <summary>
+    ///     When the registry was last asked.
+    /// </summary>
+    public DateTime CheckedAt { get; set; }
+
+    /// <summary>
+    ///     Why the registry could not be queried, or null when it answered.
+    /// </summary>
+    public string? Error { get; set; }
+}
+
+/// <summary>
+///     What the answering bot instance runs: its build, the container it lives in, and whether a newer image
+///     has been published.
+/// </summary>
+public sealed class DockerSelfInfo
+{
+    /// <summary>
+    ///     The bot's declared version string.
+    /// </summary>
+    public string BotVersion { get; set; } = "";
+
+    /// <summary>
+    ///     The commit the running build came from, or null when unknown.
+    /// </summary>
+    public string? GitSha { get; set; }
+
+    /// <summary>
+    ///     When the running image was built, or null outside CI built images.
+    /// </summary>
+    public DateTime? BuildDate { get; set; }
+
+    /// <summary>
+    ///     When this process started.
+    /// </summary>
+    public DateTime StartedAt { get; set; }
+
+    /// <summary>
+    ///     The container this instance runs in, or null when it runs directly on the host.
+    /// </summary>
+    public DockerContainerInfo? Container { get; set; }
+
+    /// <summary>
+    ///     The compose project the container belongs to, when it was brought up by compose.
+    /// </summary>
+    public DockerComposeProject? Project { get; set; }
+
+    /// <summary>
+    ///     The newest published image, or null when the registry could not be reached.
+    /// </summary>
+    public DockerPublishedImage? Published { get; set; }
+
+    /// <summary>
+    ///     True when the published commit differs from the running one, false when they match, null when either
+    ///     side is unknown.
+    /// </summary>
+    public bool? UpdateAvailable { get; set; }
+
+    /// <summary>
+    ///     Whether this instance can be updated from the dashboard: it runs in a compose managed container
+    ///     whose project files are visible to the bot.
+    /// </summary>
+    public bool CanUpdate { get; set; }
+
+    /// <summary>
+    ///     Why <see cref="CanUpdate" /> is false, for the dashboard to show.
+    /// </summary>
+    public string? UpdateBlockedReason { get; set; }
+}
+
+/// <summary>
 ///     Where a long running compose operation is up to.
 /// </summary>
 public enum DockerJobStatus
@@ -316,14 +416,26 @@ public enum DockerJobStatus
 }
 
 /// <summary>
-///     A compose operation run in the background, with the output it has produced so far.
+///     A compose operation run in a helper container, with the output it has produced so far. Running it in
+///     its own container rather than inside the bot means it survives the bot's own container being
+///     recreated by the very update it is performing.
 /// </summary>
 public sealed class DockerJob
 {
     /// <summary>
-    ///     The job id to poll with.
+    ///     The helper container's id, which is also the job id to poll with.
     /// </summary>
     public string Id { get; set; } = "";
+
+    /// <summary>
+    ///     The helper container's name.
+    /// </summary>
+    public string Name { get; set; } = "";
+
+    /// <summary>
+    ///     The compose services the job was limited to, empty for the whole project.
+    /// </summary>
+    public List<string> Services { get; set; } = [];
 
     /// <summary>
     ///     The compose project the job operates on.

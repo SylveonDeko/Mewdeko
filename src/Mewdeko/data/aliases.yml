@@ -1512,6 +1512,12 @@ retentionpurgeall:
 retentionscan:
   - retentionscan
   - purgescan
+bothells:
+  - bothells
+  - bothell
+bothellcheck:
+  - bothellcheck
+  - checkbothell
 leavestats:
   - leavestats
   - lstats

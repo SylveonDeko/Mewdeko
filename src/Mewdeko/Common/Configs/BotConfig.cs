@@ -49,6 +49,10 @@ public sealed class BotConfig
         AnalyticsRetentionDays = 30;
         GuildDataRetentionEnabled = true;
         GuildDataRetentionDays = 7;
+        BotHellMinMembers = 30;
+        BotHellBotCount = 50;
+        BotHellBotPercent = 50;
+        BotHellAutoLeave = false;
     }
 
     /// <summary>
@@ -245,6 +249,45 @@ public sealed class BotConfig
     /// </summary>
     [Comment("Days a server's data is kept after the bot leaves it before being purged.")]
     public int GuildDataRetentionDays { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the member count a server needs before it is considered for bot hell detection.
+    /// </summary>
+    [Comment("""
+             Servers with fewer members than this are never flagged as bot hells.
+             A bot hell is a server littered with bots, checked on join and via the bothells command.
+             """)]
+    public int BotHellMinMembers { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the number of bots at or above which a server is flagged as a bot hell.
+    /// </summary>
+    [Comment("A server with this many bots or more is flagged as a bot hell. Set to 0 to disable the count check.")]
+    public int BotHellBotCount { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the percentage of members that are bots at or above which a server is flagged as a bot hell.
+    /// </summary>
+    [Comment("""
+             A server where this percentage of members or more are bots is flagged as a bot hell.
+             Set to 0 to disable the ratio check.
+             """)]
+    public int BotHellBotPercent { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether the bot leaves servers that are flagged as bot hells when it joins them.
+    /// </summary>
+    [Comment("Whether the bot automatically leaves a server flagged as a bot hell right after joining it.")]
+    public bool BotHellAutoLeave { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the channel ID that bot hell detections get posted to.
+    /// </summary>
+    [Comment("""
+             Channel that bot hell detections on join get posted to.
+             Set to 0 to fall back to the guild joins/leaves channel from creds.
+             """)]
+    public ulong BotHellReportChannel { get; set; }
 
     /// <summary>
     ///     Gets or sets whether the bot will support youtube links. (Or hides that it supports them lol)

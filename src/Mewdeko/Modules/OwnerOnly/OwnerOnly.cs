@@ -48,6 +48,7 @@ namespace Mewdeko.Modules.OwnerOnly;
 /// <param name="logger">The logger instance for structured logging.</param>
 /// <param name="creds">Bot credentials and configuration secrets.</param>
 /// <param name="retention">Service that purges data for servers the bot has left.</param>
+/// <param name="botHells">Service that flags servers littered with bots.</param>
 [OwnerOnly]
 public class OwnerOnly(
     DiscordShardedClient client,
@@ -66,7 +67,8 @@ public class OwnerOnly(
     Localization localization,
     ILogger<OwnerOnly> logger,
     BotCredentials creds,
-    GuildDataRetentionService retention)
+    GuildDataRetentionService retention,
+    BotHellService botHells)
     : MewdekoModuleBase<OwnerOnlyService>
 {
     /// <summary>
@@ -1352,6 +1354,84 @@ public class OwnerOnly(
 
         var count = await retention.ScanOrphansAsync().ConfigureAwait(false);
         await ConfirmAsync(Strings.RetentionScanDone(ctx.Guild.Id, count)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Lists servers littered with bots, based on the bot count and bot percentage thresholds in bot config.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    public async Task BotHells()
+    {
+        var hells = botHells.Scan();
+        if (hells.Count == 0)
+        {
+            await ConfirmAsync(Strings.BotHellNone(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var paginator = new LazyPaginatorBuilder()
+            .AddUser(ctx.User)
+            .WithPageFactory(PageFactory)
+            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+            .WithMaxPageIndex((hells.Count - 1) / 10)
+            .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+            .Build();
+
+        await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+
+        async Task<PageBuilder> PageFactory(int page)
+        {
+            await Task.CompletedTask;
+            var eb = new PageBuilder()
+                .WithOkColor()
+                .WithTitle(Strings.BotHellTitle(ctx.Guild.Id, hells.Count))
+                .WithDescription(Strings.BotHellThresholds(ctx.Guild.Id, botHells.MinMembers,
+                    botHells.BotCountLimit, botHells.BotPercentLimit));
+
+            foreach (var entry in hells.Skip(10 * page).Take(10))
+            {
+                eb.AddField($"{entry.GuildName} `{entry.GuildId}`",
+                    Strings.BotHellEntry(ctx.Guild.Id, entry.Humans, entry.Bots, entry.Percent, entry.Total,
+                        entry.TriggerDescription));
+            }
+
+            return eb;
+        }
+    }
+
+    /// <summary>
+    ///     Checks a single server against the bot hell thresholds after downloading its full member list.
+    /// </summary>
+    /// <param name="guildId">The server to check, or the current one when omitted.</param>
+    [Cmd]
+    [Aliases]
+    public async Task BotHellCheck(ulong guildId = 0)
+    {
+        var guild = client.GetGuild(guildId == 0 ? ctx.Guild.Id : guildId);
+        if (guild is null)
+        {
+            await ErrorAsync(Strings.BotHellGuildNotFound(ctx.Guild.Id, guildId)).ConfigureAwait(false);
+            return;
+        }
+
+        var verdict = await botHells.EvaluateFullAsync(guild).ConfigureAwait(false);
+        var eb = new EmbedBuilder()
+            .WithTitle($"{verdict.GuildName} `{verdict.GuildId}`")
+            .WithDescription(verdict.IsBotHell
+                ? Strings.BotHellVerdictYes(ctx.Guild.Id, verdict.TriggerDescription)
+                : Strings.BotHellVerdictNo(ctx.Guild.Id))
+            .AddField(Strings.BotHellFieldMembers(ctx.Guild.Id), verdict.Total, true)
+            .AddField(Strings.BotHellFieldHumans(ctx.Guild.Id), verdict.Humans, true)
+            .AddField(Strings.BotHellFieldBots(ctx.Guild.Id), $"{verdict.Bots} ({verdict.Percent}%)", true);
+
+        if (verdict.IsBotHell)
+            eb.WithErrorColor();
+        else
+            eb.WithOkColor();
+
+        await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
     /// <summary>

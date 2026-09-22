@@ -73,7 +73,9 @@ Bot owners get a Docker page in the dashboard's Owner Panel that lists the conta
       - /var/run/docker.sock:/var/run/docker.sock
 ```
 
-Compose pull, up and build per project also need the `docker` CLI with the compose plugin inside the image, and the project's compose directory mounted at the same path it has on the host. Without the socket the page just reports that Docker is not configured. Anyone the bot treats as an owner can then control every container on that machine, so keep the owner list short.
+The page also shows, per registered instance, the commit it runs (stamped into the image by CI as `MEWDEKO_GIT_SHA`) against the newest `sylveondeko/mewdeko:nightly` on Docker Hub, with an Update button per bot and an Update all for the whole compose project. Compose pull, up and update run in a throwaway `docker:cli` helper container the bot creates through the socket, so they survive the bot's own container being recreated; the project's compose directory has to be mounted into the bot at the same path it has on the host for that to work. Without the socket the page just reports that Docker is not configured. Anyone the bot treats as an owner can then control every container on that machine, so keep the owner list short.
+
+Forks publishing under another name can point the version check elsewhere with `MEWDEKO_IMAGE_REPO` and `MEWDEKO_IMAGE_TAG`.
 
 ## Dashboard
 

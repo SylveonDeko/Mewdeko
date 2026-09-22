@@ -44,6 +44,16 @@ COPY --from=build /source/src/Mewdeko/data ./data
 # Create directories for runtime data
 RUN mkdir -p /app/data /app/logs
 
+# Build provenance, passed in by CI so the bot can report which commit it runs and the dashboard
+# can tell whether a newer image has been published.
+ARG GIT_SHA=unknown
+ARG BUILD_DATE=unknown
+ENV MEWDEKO_GIT_SHA=$GIT_SHA \
+    MEWDEKO_BUILD_DATE=$BUILD_DATE
+LABEL org.opencontainers.image.revision=$GIT_SHA \
+      org.opencontainers.image.created=$BUILD_DATE \
+      org.opencontainers.image.source="https://github.com/SylveonDeko/Mewdeko"
+
 # Set environment variables
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false \
     DOTNET_EnableDiagnostics=0 \

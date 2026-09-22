@@ -40,6 +40,7 @@ namespace Mewdeko.Modules.OwnerOnly;
 /// <param name="commandHandler">Handler for processing and executing commands received from users.</param>
 /// <param name="creds">Bot credentials and configuration secrets.</param>
 /// <param name="logger">The logger instance for structured logging.</param>
+/// <param name="botHells">Service that flags servers littered with bots.</param>
 [SlashOwnerOnly]
 [Discord.Interactions.Group("owneronly", "Commands only the bot owner can use")]
 public partial class SlashOwnerOnly(
@@ -51,7 +52,8 @@ public partial class SlashOwnerOnly(
     GuildSettingsService guildSettings,
     CommandHandler commandHandler,
     BotCredentials creds,
-    ILogger<SlashOwnerOnly> logger)
+    ILogger<SlashOwnerOnly> logger,
+    BotHellService botHells)
     : MewdekoSlashModuleBase<OwnerOnlyService>
 {
     /// <summary>
@@ -349,6 +351,92 @@ public partial class SlashOwnerOnly(
     public Task LeaveServer([Remainder] string guildStr)
     {
         return Service.LeaveGuild(guildStr);
+    }
+
+    /// <summary>
+    ///     Lists servers littered with bots, based on the bot count and bot percentage thresholds in bot config.
+    /// </summary>
+    [SlashCommand("bothells", "Lists servers littered with bots")]
+    public async Task BotHells()
+    {
+        var hells = botHells.Scan();
+        if (hells.Count == 0)
+        {
+            await ReplyConfirmAsync(Strings.BotHellNone(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var paginator = new LazyPaginatorBuilder()
+            .AddUser(ctx.User)
+            .WithPageFactory(PageFactory)
+            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+            .WithMaxPageIndex((hells.Count - 1) / 10)
+            .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+            .Build();
+
+        await serv.SendPaginatorAsync(paginator, Context.Interaction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+
+        async Task<PageBuilder> PageFactory(int page)
+        {
+            await Task.CompletedTask;
+            var eb = new PageBuilder()
+                .WithOkColor()
+                .WithTitle(Strings.BotHellTitle(ctx.Guild.Id, hells.Count))
+                .WithDescription(Strings.BotHellThresholds(ctx.Guild.Id, botHells.MinMembers,
+                    botHells.BotCountLimit, botHells.BotPercentLimit));
+
+            foreach (var entry in hells.Skip(10 * page).Take(10))
+            {
+                eb.AddField($"{entry.GuildName} `{entry.GuildId}`",
+                    Strings.BotHellEntry(ctx.Guild.Id, entry.Humans, entry.Bots, entry.Percent, entry.Total,
+                        entry.TriggerDescription));
+            }
+
+            return eb;
+        }
+    }
+
+    /// <summary>
+    ///     Checks a single server against the bot hell thresholds after downloading its full member list.
+    /// </summary>
+    /// <param name="guildId">The server to check, or the current one when omitted.</param>
+    [SlashCommand("bothellcheck", "Checks a server against the bot hell thresholds")]
+    public async Task BotHellCheck(string? guildId = null)
+    {
+        await DeferAsync().ConfigureAwait(false);
+        ulong id = ctx.Guild.Id;
+        if (!string.IsNullOrWhiteSpace(guildId) && !ulong.TryParse(guildId, out id))
+        {
+            await ctx.Interaction.SendErrorFollowupAsync(Strings.BotHellGuildNotFound(ctx.Guild.Id, guildId), Config)
+                .ConfigureAwait(false);
+            return;
+        }
+
+        var guild = client.GetGuild(id);
+        if (guild is null)
+        {
+            await ctx.Interaction.SendErrorFollowupAsync(Strings.BotHellGuildNotFound(ctx.Guild.Id, id), Config)
+                .ConfigureAwait(false);
+            return;
+        }
+
+        var verdict = await botHells.EvaluateFullAsync(guild).ConfigureAwait(false);
+        var eb = new EmbedBuilder()
+            .WithTitle($"{verdict.GuildName} `{verdict.GuildId}`")
+            .WithDescription(verdict.IsBotHell
+                ? Strings.BotHellVerdictYes(ctx.Guild.Id, verdict.TriggerDescription)
+                : Strings.BotHellVerdictNo(ctx.Guild.Id))
+            .AddField(Strings.BotHellFieldMembers(ctx.Guild.Id), verdict.Total, true)
+            .AddField(Strings.BotHellFieldHumans(ctx.Guild.Id), verdict.Humans, true)
+            .AddField(Strings.BotHellFieldBots(ctx.Guild.Id), $"{verdict.Bots} ({verdict.Percent}%)", true);
+
+        if (verdict.IsBotHell)
+            eb.WithErrorColor();
+        else
+            eb.WithOkColor();
+
+        await ctx.Interaction.FollowupAsync(embed: eb.Build()).ConfigureAwait(false);
     }
 
     /// <summary>
