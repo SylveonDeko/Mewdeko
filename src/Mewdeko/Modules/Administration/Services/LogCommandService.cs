@@ -121,6 +121,9 @@ public class LogCommandService(
         /// <summary> A user's server nickname changed. </summary>
         NicknameUpdated,
 
+        /// <summary> A user's avatar changed. </summary>
+        AvatarUpdated,
+
         /// <summary> A thread was deleted. </summary>
         ThreadDeleted,
 
@@ -2222,6 +2225,7 @@ public class LogCommandService(
             case LogType.UserRoleRemoved: logSetting.UserRoleRemovedId = channelId; break;
             case LogType.UsernameUpdated: logSetting.UsernameUpdatedId = channelId; break;
             case LogType.NicknameUpdated: logSetting.NicknameUpdatedId = channelId; break;
+            case LogType.AvatarUpdated: logSetting.AvatarUpdatedId = channelId; break;
             case LogType.ThreadDeleted: logSetting.ThreadDeletedId = channelId; break;
             case LogType.ThreadUpdated: logSetting.ThreadUpdatedId = channelId; break;
             case LogType.MessageUpdated: logSetting.MessageUpdatedId = channelId; break;

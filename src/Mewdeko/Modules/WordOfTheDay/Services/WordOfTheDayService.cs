@@ -753,17 +753,7 @@ public class WordOfTheDayService : INService, IDisposable
 
         if (!string.IsNullOrWhiteSpace(config.MessageTemplate))
         {
-            var replacer = new ReplacementBuilder()
-                .WithOverride("%wotd.word%", () => entry.Word)
-                .WithOverride("%wotd.definition%", () => entry.Definition)
-                .WithOverride("%wotd.pos%", () => entry.PartOfSpeech ?? "")
-                .WithOverride("%wotd.example%", () => entry.Example ?? "")
-                .WithOverride("%wotd.phonetic%", () => entry.Phonetic ?? "")
-                .WithOverride("%wotd.date%", () => localDate.ToString("MMMM d, yyyy"))
-                .WithOverride("%wotd.ping%", () => pingText ?? "")
-                .WithDefault(client.CurrentUser, channel, guild as SocketGuild, client)
-                .Build();
-
+            var replacer = BuildReplacer(guild, channel, entry, localDate, pingText);
             var rendered = replacer.Replace(config.MessageTemplate);
             if (SmartEmbed.TryParse(rendered, guild.Id, out var embeds, out var plain, out var components))
             {
@@ -796,6 +786,66 @@ public class WordOfTheDayService : INService, IDisposable
         builder.WithFooter(footer);
 
         return (pingText, [builder.Build()], null);
+    }
+
+    /// <summary>
+    ///     Builds the placeholder replacer shared by the message template and the thread name.
+    /// </summary>
+    /// <param name="guild">The guild the message is for.</param>
+    /// <param name="channel">The destination channel.</param>
+    /// <param name="entry">The word to render.</param>
+    /// <param name="localDate">The guild-local date to display.</param>
+    /// <param name="pingText">Mention of the ping role, if any.</param>
+    /// <returns>A replacer with every %wotd.*% placeholder and the server defaults.</returns>
+    private Replacer BuildReplacer(IGuild guild, IMessageChannel channel, WordEntry entry, DateTime localDate,
+        string? pingText)
+    {
+        return new ReplacementBuilder()
+            .WithOverride("%wotd.word%", () => entry.Word)
+            .WithOverride("%wotd.definition%", () => entry.Definition)
+            .WithOverride("%wotd.pos%", () => entry.PartOfSpeech ?? "")
+            .WithOverride("%wotd.example%", () => entry.Example ?? "")
+            .WithOverride("%wotd.phonetic%", () => entry.Phonetic ?? "")
+            .WithOverride("%wotd.date%", () => localDate.ToString("MMMM d, yyyy"))
+            .WithOverride("%wotd.ping%", () => pingText ?? "")
+            .WithDefault(client.CurrentUser, channel, guild as SocketGuild, client)
+            .Build();
+    }
+
+    /// <summary>
+    ///     Resolves the discussion thread name for a post, applying the guild template or the default.
+    /// </summary>
+    /// <param name="guild">The guild the post is for.</param>
+    /// <param name="channel">The destination channel.</param>
+    /// <param name="config">The guild configuration.</param>
+    /// <param name="entry">The word being posted.</param>
+    /// <param name="localDate">The guild-local date.</param>
+    /// <returns>A thread name no longer than Discord's 100 character limit.</returns>
+    public string BuildThreadName(IGuild guild, IMessageChannel channel, WordOfTheDayConfig config, WordEntry entry,
+        DateTime localDate)
+    {
+        var template = string.IsNullOrWhiteSpace(config.ThreadName)
+            ? strings.WotdThreadDefaultName(guild.Id)
+            : config.ThreadName;
+        var name = BuildReplacer(guild, channel, entry, localDate, null).Replace(template).Trim();
+        if (string.IsNullOrWhiteSpace(name)) name = entry.Word;
+        return name.Length <= 100 ? name : name[..100];
+    }
+
+    /// <summary>
+    ///     Maps a stored auto-archive duration to the closest value Discord accepts.
+    /// </summary>
+    /// <param name="minutes">Minutes from the configuration.</param>
+    /// <returns>A valid archive duration.</returns>
+    public static ThreadArchiveDuration ArchiveDuration(int minutes)
+    {
+        return minutes switch
+        {
+            <= 60 => ThreadArchiveDuration.OneHour,
+            <= 1440 => ThreadArchiveDuration.OneDay,
+            <= 4320 => ThreadArchiveDuration.ThreeDays,
+            _ => ThreadArchiveDuration.OneWeek
+        };
     }
 
     /// <summary>
@@ -837,8 +887,11 @@ public class WordOfTheDayService : INService, IDisposable
         try
         {
             var (text, embeds, components) = BuildMessage(guild, channel, config, entry, localNow);
-            await channel.SendMessageAsync(text, embeds: embeds, components: components,
+            var message = await channel.SendMessageAsync(text, embeds: embeds, components: components,
                 allowedMentions: AllowedMentions.All);
+
+            if (config.CreateThread)
+                await CreateDiscussionThreadAsync(guild, channel, config, entry, localNow, message);
         }
         catch (Exception ex)
         {
@@ -854,6 +907,23 @@ public class WordOfTheDayService : INService, IDisposable
         collector.Feature("word_of_the_day", guildId);
         await RecordPostAsync(config, entry, localNow.Date);
         return (entry, null);
+    }
+
+    private async Task CreateDiscussionThreadAsync(SocketGuild guild, ITextChannel channel,
+        WordOfTheDayConfig config, WordEntry entry, DateTime localDate, IUserMessage message)
+    {
+        try
+        {
+            var name = BuildThreadName(guild, channel, config, entry, localDate);
+            var thread = await channel.CreateThreadAsync(name, ThreadType.PublicThread,
+                ArchiveDuration(config.ThreadAutoArchiveMinutes), message);
+            var prompt = strings.WotdThreadStarter(guild.Id, entry.Word);
+            await thread.SendMessageAsync(prompt, allowedMentions: AllowedMentions.None);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "Failed to create word of the day thread in guild {GuildId}", guild.Id);
+        }
     }
 
     private async Task RecordPostAsync(WordOfTheDayConfig config, WordEntry entry, DateTime localDate)

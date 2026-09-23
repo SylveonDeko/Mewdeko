@@ -147,6 +147,61 @@ public static class WotdFormatter
     }
 
     /// <summary>
+    ///     Parses a user supplied archive duration such as "24h" or "3d" into minutes.
+    /// </summary>
+    /// <param name="input">User input.</param>
+    /// <param name="minutes">Minutes when parsed.</param>
+    /// <returns>True when the input is one of the four durations Discord supports.</returns>
+    public static bool TryParseArchive(string input, out int minutes)
+    {
+        minutes = 0;
+        var key = input.Trim().ToLowerInvariant().Replace(" ", "");
+        minutes = key switch
+        {
+            "1h" or "60" or "60m" or "hour" => 60,
+            "24h" or "1d" or "1440" or "day" => 1440,
+            "3d" or "72h" or "4320" => 4320,
+            "7d" or "1w" or "168h" or "10080" or "week" => 10080,
+            _ => 0
+        };
+        return minutes != 0;
+    }
+
+    /// <summary>
+    ///     Human label for an archive duration in minutes.
+    /// </summary>
+    /// <param name="strings">Localized strings.</param>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="minutes">Duration in minutes.</param>
+    /// <returns>A short label such as "1 day".</returns>
+    public static string ArchiveLabel(GeneratedBotStrings strings, ulong guildId, int minutes)
+    {
+        return minutes switch
+        {
+            <= 60 => strings.WotdThreadArchiveHour(guildId),
+            <= 1440 => strings.WotdThreadArchiveDay(guildId),
+            <= 4320 => strings.WotdThreadArchiveThreeDays(guildId),
+            _ => strings.WotdThreadArchiveWeek(guildId)
+        };
+    }
+
+    /// <summary>
+    ///     Summarizes the thread setting for the configuration embed.
+    /// </summary>
+    /// <param name="strings">Localized strings.</param>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="config">The configuration.</param>
+    /// <returns>Off, or the archive duration and template.</returns>
+    public static string DescribeThread(GeneratedBotStrings strings, ulong guildId, WordOfTheDayConfig config)
+    {
+        if (!config.CreateThread) return strings.WotdDisabledStatus(guildId);
+        var name = string.IsNullOrWhiteSpace(config.ThreadName)
+            ? strings.WotdThreadDefaultName(guildId)
+            : config.ThreadName;
+        return $"{ArchiveLabel(strings, guildId, config.ThreadAutoArchiveMinutes)}, `{name}`";
+    }
+
+    /// <summary>
     ///     Builds the configuration overview embed.
     /// </summary>
     /// <param name="strings">Localized strings.</param>
@@ -186,6 +241,7 @@ public static class WotdFormatter
             .AddField(strings.WotdConfigDifficulty(guildId), difficulty, true)
             .AddField(strings.WotdConfigLast(guildId), lastPosted, true)
             .AddField(strings.WotdConfigRules(guildId), ruleCount.ToString(), true)
+            .AddField(strings.WotdConfigThread(guildId), DescribeThread(strings, guildId, config), true)
             .AddField(strings.WotdConfigTemplate(guildId), template);
     }
 }

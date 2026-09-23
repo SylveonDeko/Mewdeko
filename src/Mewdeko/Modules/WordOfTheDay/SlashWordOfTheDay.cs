@@ -465,6 +465,66 @@ public class SlashWordOfTheDay : MewdekoSlashModuleBase<WordOfTheDayService>
         await ctx.Interaction.RespondAsync(embed: embed.Build());
     }
 
+    /// <summary>
+    ///     Configures the discussion thread created under each daily word post.
+    /// </summary>
+    /// <param name="enabled">Whether to create a thread.</param>
+    /// <param name="name">Thread name template, or "clear" to reset.</param>
+    /// <param name="archive">Auto-archive duration.</param>
+    [SlashCommand("thread", "Creates a discussion thread under each daily word")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
+    [CheckPermissions]
+    public async Task Thread(bool? enabled = null, string? name = null, ThreadArchiveChoice? archive = null)
+    {
+        if (enabled is null && name is null && archive is null)
+        {
+            var config = await Service.GetConfigAsync(ctx.Guild.Id);
+            await ConfirmAsync(WotdFormatter.DescribeThread(Strings, ctx.Guild.Id, config));
+            return;
+        }
+
+        var updated = await Service.UpdateConfigAsync(ctx.Guild.Id, c =>
+        {
+            if (enabled.HasValue) c.CreateThread = enabled.Value;
+            if (name is not null)
+                c.ThreadName = name.Equals("clear", StringComparison.OrdinalIgnoreCase) ? null : name.Trim();
+            if (archive.HasValue) c.ThreadAutoArchiveMinutes = (int)archive.Value;
+        });
+
+        var parts = new List<string>();
+        if (enabled.HasValue)
+            parts.Add(updated.CreateThread
+                ? Strings.WotdThreadEnabled(ctx.Guild.Id)
+                : Strings.WotdThreadDisabled(ctx.Guild.Id));
+        if (name is not null)
+            parts.Add(updated.ThreadName is null
+                ? Strings.WotdThreadNameCleared(ctx.Guild.Id)
+                : Strings.WotdThreadNameSet(ctx.Guild.Id, updated.ThreadName));
+        if (archive.HasValue)
+            parts.Add(Strings.WotdThreadArchiveSet(ctx.Guild.Id,
+                WotdFormatter.ArchiveLabel(Strings, ctx.Guild.Id, updated.ThreadAutoArchiveMinutes)));
+        await ConfirmAsync(string.Join("\n", parts));
+    }
+
+    /// <summary>
+    ///     Auto-archive durations Discord supports, in minutes.
+    /// </summary>
+    public enum ThreadArchiveChoice
+    {
+        /// <summary>One hour.</summary>
+        [ChoiceDisplay("1 hour")] OneHour = 60,
+
+        /// <summary>One day.</summary>
+        [ChoiceDisplay("1 day")] OneDay = 1440,
+
+        /// <summary>Three days.</summary>
+        [ChoiceDisplay("3 days")] ThreeDays = 4320,
+
+        /// <summary>One week.</summary>
+        [ChoiceDisplay("1 week")] OneWeek = 10080
+    }
+
     private async Task SetRuleAsync(ScheduleRuleType type, int key, string name, string? topic,
         WordPartOfSpeech? partOfSpeech, WordDifficulty? difficulty)
     {

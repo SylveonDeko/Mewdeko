@@ -219,3 +219,29 @@ wotdschedule:
     - ''
   desc: 'Shows all weekday and month rules, plus the filters in effect today.'
   params: [ ]
+wotdthread:
+  args:
+    - ''
+  desc: 'Toggles creating a public discussion thread under each daily word post, with a starter prompt asking people to use the word in a sentence.'
+  params: [ ]
+wotdthreadname:
+  args:
+    - ''
+    - 'Sentence challenge: %wotd.word%'
+    - clear
+  desc: 'Sets the name template for the discussion thread. Supports %wotd.word%, %wotd.date%, %wotd.pos%, and server placeholders. Send with no text to view the current template, or "clear" to reset.'
+  params:
+    - desc: The thread name template. Omit to view, or "clear" to reset.
+      name: template
+      optional: true
+      type: string
+wotdthreadarchive:
+  args:
+    - 24h
+    - 7d
+  desc: 'Sets how long a discussion thread stays open without activity before Discord archives it: 1h, 24h, 3d, or 7d.'
+  params:
+    - desc: One of 1h, 24h, 3d, or 7d.
+      name: duration
+      optional: false
+      type: string

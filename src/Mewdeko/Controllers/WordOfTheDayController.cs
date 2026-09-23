@@ -64,6 +64,9 @@ public class WordOfTheDayController : Controller
             PartOfSpeech = config.PartOfSpeech,
             Difficulty = config.Difficulty,
             SourceMode = config.SourceMode,
+            CreateThread = config.CreateThread,
+            ThreadName = config.ThreadName,
+            ThreadAutoArchiveMinutes = config.ThreadAutoArchiveMinutes,
             LastPostedDate = config.LastPostedDate,
             CustomWordCount = customCount
         });
@@ -104,6 +107,12 @@ public class WordOfTheDayController : Controller
         if (request.SourceMode is < 0 or > 2)
             return BadRequest("SourceMode must be between 0 and 2.");
 
+        if (request.ThreadAutoArchiveMinutes is int archive && archive is not (60 or 1440 or 4320 or 10080))
+            return BadRequest("ThreadAutoArchiveMinutes must be 60, 1440, 4320, or 10080.");
+
+        if (request.ThreadName is { Length: > 100 })
+            return BadRequest("ThreadName must be 100 characters or fewer.");
+
         try
         {
             auditContext.RecordBefore(await service.GetConfigAsync(guildId));
@@ -130,6 +139,12 @@ public class WordOfTheDayController : Controller
                     config.Difficulty = request.Difficulty.Value;
                 if (request.SourceMode.HasValue)
                     config.SourceMode = request.SourceMode.Value;
+                if (request.CreateThread.HasValue)
+                    config.CreateThread = request.CreateThread.Value;
+                if (request.ThreadName is not null)
+                    config.ThreadName = request.ThreadName.Length == 0 ? null : request.ThreadName;
+                if (request.ThreadAutoArchiveMinutes.HasValue)
+                    config.ThreadAutoArchiveMinutes = request.ThreadAutoArchiveMinutes.Value;
             });
 
             auditContext.RecordAfter(await service.GetConfigAsync(guildId));

@@ -500,6 +500,74 @@ public class WordOfTheDay : MewdekoModuleBase<WordOfTheDayService>
         await ctx.Channel.SendMessageAsync(embed: embed.Build());
     }
 
+    /// <summary>
+    ///     Toggles creating a discussion thread under each daily word post.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public async Task WotdThread()
+    {
+        var updated = await Service.UpdateConfigAsync(ctx.Guild.Id, c => c.CreateThread = !c.CreateThread);
+        await ConfirmAsync(updated.CreateThread
+            ? Strings.WotdThreadEnabled(ctx.Guild.Id)
+            : Strings.WotdThreadDisabled(ctx.Guild.Id));
+    }
+
+    /// <summary>
+    ///     Sets, shows, or clears the discussion thread name template.
+    /// </summary>
+    /// <param name="template">The template, "clear" to reset, or empty to view.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public async Task WotdThreadName([Remainder] string? template = null)
+    {
+        if (string.IsNullOrWhiteSpace(template))
+        {
+            var config = await Service.GetConfigAsync(ctx.Guild.Id);
+            var current = string.IsNullOrWhiteSpace(config.ThreadName)
+                ? Strings.WotdThreadDefaultName(ctx.Guild.Id)
+                : config.ThreadName;
+            await ConfirmAsync(Strings.WotdThreadNameCurrent(ctx.Guild.Id, current));
+            return;
+        }
+
+        if (template.Equals("clear", StringComparison.OrdinalIgnoreCase))
+        {
+            await Service.UpdateConfigAsync(ctx.Guild.Id, c => c.ThreadName = null);
+            await ConfirmAsync(Strings.WotdThreadNameCleared(ctx.Guild.Id));
+            return;
+        }
+
+        var cleaned = template.Trim();
+        await Service.UpdateConfigAsync(ctx.Guild.Id, c => c.ThreadName = cleaned);
+        await ConfirmAsync(Strings.WotdThreadNameSet(ctx.Guild.Id, cleaned));
+    }
+
+    /// <summary>
+    ///     Sets how long a discussion thread stays open before auto-archiving.
+    /// </summary>
+    /// <param name="duration">1h, 24h, 3d, or 7d.</param>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public async Task WotdThreadArchive(string duration)
+    {
+        if (!WotdFormatter.TryParseArchive(duration, out var minutes))
+        {
+            await ErrorAsync(Strings.WotdThreadArchiveInvalid(ctx.Guild.Id));
+            return;
+        }
+
+        await Service.UpdateConfigAsync(ctx.Guild.Id, c => c.ThreadAutoArchiveMinutes = minutes);
+        await ConfirmAsync(Strings.WotdThreadArchiveSet(ctx.Guild.Id,
+            WotdFormatter.ArchiveLabel(Strings, ctx.Guild.Id, minutes)));
+    }
+
     private async Task SetRuleTopicAsync(ScheduleRuleType type, int key, string name, string? topic)
     {
         if (string.IsNullOrWhiteSpace(topic) || topic.Equals("clear", StringComparison.OrdinalIgnoreCase))

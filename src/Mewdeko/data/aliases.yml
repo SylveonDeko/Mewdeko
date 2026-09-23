@@ -3707,6 +3707,15 @@ wotdmonthfilter:
 wotdschedule:
   - wotdschedule
   - wotdrules
+wotdthread:
+  - wotdthread
+  - wotdthreads
+wotdthreadname:
+  - wotdthreadname
+  - wotdthreadtitle
+wotdthreadarchive:
+  - wotdthreadarchive
+  - wotdthreadexpire
 wowjoke:
   - wowjoke
 xkcd:

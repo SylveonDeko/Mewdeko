@@ -70,5 +70,19 @@
   "wotd_schedule_base": "from the base settings",
   "wotd_schedule_none": "none",
   "wotd_rule_inherit": "inherits everything",
-  "wotd_config_rules": "Schedule rules"
+  "wotd_config_rules": "Schedule rules",
+  "wotd_config_thread": "Discussion thread",
+  "wotd_thread_default_name": "Word of the day: %wotd.word%",
+  "wotd_thread_starter": "Use **{0}** in a sentence! Reply here with your best attempt.",
+  "wotd_thread_enabled": "🧵 A discussion thread will be created under each daily word.",
+  "wotd_thread_disabled": "🧵 Discussion threads are off.",
+  "wotd_thread_name_set": "Thread name template saved: {0}",
+  "wotd_thread_name_cleared": "Thread name template cleared, the default will be used.",
+  "wotd_thread_name_current": "Current thread name template: {0}\nPlaceholders: `%wotd.word%`, `%wotd.date%`, `%wotd.pos%`, `%server.name%`. Send `clear` to reset.",
+  "wotd_thread_archive_set": "Threads will auto-archive after **{0}** of inactivity.",
+  "wotd_thread_archive_invalid": "Auto-archive must be one of: 1h, 24h, 3d, 7d.",
+  "wotd_thread_archive_hour": "1 hour",
+  "wotd_thread_archive_day": "1 day",
+  "wotd_thread_archive_three_days": "3 days",
+  "wotd_thread_archive_week": "1 week"
 }

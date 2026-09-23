@@ -524,6 +524,7 @@ public class LogSlashCommands : MewdekoSlashModuleBase<LogCommandService>
             LogType.UserRoleAdded => l.UserRoleAddedId,
             LogType.UserRoleRemoved => l.UserRoleRemovedId,
             LogType.UsernameUpdated => l.UsernameUpdatedId,
+            LogType.AvatarUpdated => l.AvatarUpdatedId,
             LogType.InviteCreated => l.InviteCreatedId,
             LogType.InviteDeleted => l.InviteDeletedId,
             LogType.MessagesBulkDeleted => l.MessagesBulkDeletedId,

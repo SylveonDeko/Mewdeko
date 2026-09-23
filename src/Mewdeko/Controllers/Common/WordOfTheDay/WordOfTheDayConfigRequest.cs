@@ -54,6 +54,21 @@ public class WordOfTheDayConfigRequest
     ///     Word source: 0 dictionary, 1 custom, 2 mixed.
     /// </summary>
     public int? SourceMode { get; set; }
+
+    /// <summary>
+    ///     Whether a public discussion thread is created under each post.
+    /// </summary>
+    public bool? CreateThread { get; set; }
+
+    /// <summary>
+    ///     Thread name template. Empty string clears it.
+    /// </summary>
+    public string? ThreadName { get; set; }
+
+    /// <summary>
+    ///     Auto-archive duration in minutes: 60, 1440, 4320, or 10080.
+    /// </summary>
+    public int? ThreadAutoArchiveMinutes { get; set; }
 }
 
 /// <summary>

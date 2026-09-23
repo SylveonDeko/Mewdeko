@@ -22,6 +22,9 @@ namespace DataModel
 		[Column("Difficulty"                                                                                       )] public int       Difficulty      { get; set; } // integer
 		[Column("SourceMode"                                                                                       )] public int       SourceMode      { get; set; } // integer
 		[Column("LastPostedDate"                                                                                   )] public DateTime? LastPostedDate  { get; set; } // date
+		[Column("CreateThread"                                                                                     )] public bool      CreateThread    { get; set; } // boolean
+		[Column("ThreadName"                                                                                       )] public string?   ThreadName      { get; set; } // text
+		[Column("ThreadAutoArchiveMinutes"                                                                         )] public int       ThreadAutoArchiveMinutes { get; set; } = 1440; // integer
 		[Column("DateAdded"                                                                                        )] public DateTime  DateAdded       { get; set; } // timestamp (6) without time zone
 		[Column("DateModified"                                                                                     )] public DateTime  DateModified    { get; set; } // timestamp (6) without time zone
 	}
