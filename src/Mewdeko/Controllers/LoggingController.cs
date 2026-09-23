@@ -71,6 +71,9 @@ public class LoggingController(
             config.LogTypes["ChannelDestroyed"] = logSettings.ChannelDestroyedId;
             config.LogTypes["ChannelUpdated"] = logSettings.ChannelUpdatedId;
             config.LogTypes["ReactionEvents"] = logSettings.ReactionEventsId;
+            config.LogTypes["MessagesBulkDeleted"] = logSettings.MessagesBulkDeletedId;
+            config.LogTypes["InviteCreated"] = logSettings.InviteCreatedId;
+            config.LogTypes["InviteDeleted"] = logSettings.InviteDeletedId;
         }
 
         return Ok(config);

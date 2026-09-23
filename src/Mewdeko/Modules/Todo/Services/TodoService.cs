@@ -606,14 +606,17 @@ public class TodoService : INService
     }
 
     /// <summary>
-    ///     Edits a todo item's title and description.
+    ///     Edits a todo item's title, description, and optionally its priority and due date.
     /// </summary>
     /// <param name="itemId">The item ID</param>
     /// <param name="userId">The user editing the item</param>
-    /// <param name="title">The new title</param>
+    /// <param name="title">The new title, or null to keep the current title</param>
     /// <param name="description">The new description</param>
+    /// <param name="priority">The new priority (clamped to 1-4), or null to keep the current priority</param>
+    /// <param name="dueDate">The new due date, or null to keep the current due date</param>
     /// <returns>True if successful</returns>
-    public async Task<bool> EditTodoItemAsync(int itemId, ulong userId, string title, string? description = null)
+    public async Task<bool> EditTodoItemAsync(int itemId, ulong userId, string? title, string? description = null,
+        int? priority = null, DateTime? dueDate = null)
     {
         await using var ctx = await dbFactory.CreateConnectionAsync();
 
@@ -623,10 +626,16 @@ public class TodoService : INService
         if (!await CanUserEditItemAsync(item.TodoListId, userId, item.CreatedBy))
             return false;
 
+        var newTitle = string.IsNullOrWhiteSpace(title) ? item.Title : title;
+        var newPriority = priority.HasValue ? Math.Clamp(priority.Value, 1, 4) : item.Priority;
+        var newDueDate = dueDate ?? item.DueDate;
+
         var updated = await ctx.TodoItems
             .Where(x => x.Id == itemId)
-            .Set(x => x.Title, title)
+            .Set(x => x.Title, newTitle)
             .Set(x => x.Description, description)
+            .Set(x => x.Priority, newPriority)
+            .Set(x => x.DueDate, newDueDate)
             .UpdateAsync();
 
         if (updated > 0)

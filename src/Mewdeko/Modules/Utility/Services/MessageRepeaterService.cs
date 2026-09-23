@@ -694,6 +694,36 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
     }
 
     /// <summary>
+    ///     Updates the start time of day of an existing repeater and reschedules it.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild that owns the repeater.</param>
+    /// <param name="repeaterId">The ID of the repeater to update.</param>
+    /// <param name="startTimeOfDay">The new start time of day (e.g., "09:00"), or null to clear it.</param>
+    /// <returns>True if the repeater was found and updated, otherwise false.</returns>
+    public async Task<bool> UpdateRepeaterStartTimeOfDayAsync(ulong guildId, int repeaterId, string? startTimeOfDay)
+    {
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+
+        var item = await dbContext.GuildRepeaters
+            .FirstOrDefaultAsync(r => r.Id == repeaterId && r.GuildId == guildId);
+
+        if (item == null) return false;
+
+        item.StartTimeOfDay = string.IsNullOrWhiteSpace(startTimeOfDay) ? null : startTimeOfDay.Trim();
+        await dbContext.UpdateAsync(item);
+
+        if (Repeaters.TryGetValue(guildId, out var guildRepeaters) &&
+            guildRepeaters.TryGetValue(repeaterId, out var runner))
+        {
+            runner.Repeater.StartTimeOfDay = item.StartTimeOfDay;
+            if (runner.Repeater.IsEnabled)
+                runner.Reset();
+        }
+
+        return true;
+    }
+
+    /// <summary>
     ///     Toggles the enabled state of a repeater.
     /// </summary>
     public async Task<bool> ToggleRepeaterEnabledAsync(ulong guildId, int repeaterId)
@@ -897,7 +927,18 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
     /// <summary>
     ///     Updates the expiry settings (max age and max triggers) for a repeater.
     /// </summary>
-    public async Task<bool> UpdateRepeaterExpiryAsync(ulong guildId, int repeaterId, string? maxAge, int? maxTriggers)
+    /// <param name="guildId">The ID of the guild that owns the repeater.</param>
+    /// <param name="repeaterId">The ID of the repeater to update.</param>
+    /// <param name="maxAge">
+    ///     The new max age as a TimeSpan string. Null keeps the existing value, an empty or whitespace string
+    ///     clears it back to unlimited.
+    /// </param>
+    /// <param name="maxTriggers">The new max trigger count. Null keeps the existing value.</param>
+    /// <param name="clearMaxAge">When true, clears the max age regardless of <paramref name="maxAge" />.</param>
+    /// <param name="clearMaxTriggers">When true, clears the max triggers regardless of <paramref name="maxTriggers" />.</param>
+    /// <returns>True if the repeater was found and updated, otherwise false.</returns>
+    public async Task<bool> UpdateRepeaterExpiryAsync(ulong guildId, int repeaterId, string? maxAge, int? maxTriggers,
+        bool clearMaxAge = false, bool clearMaxTriggers = false)
     {
         await using var dbContext = await dbFactory.CreateConnectionAsync();
 
@@ -906,13 +947,20 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
 
         if (item == null) return false;
 
-        // Set maxAge if provided (stored as TimeSpan string)
-        if (!string.IsNullOrWhiteSpace(maxAge))
+        if (clearMaxAge || (maxAge != null && string.IsNullOrWhiteSpace(maxAge)))
         {
-            item.MaxAge = maxAge;
+            item.MaxAge = null;
+        }
+        else if (maxAge != null)
+        {
+            item.MaxAge = maxAge.Trim();
         }
 
-        if (maxTriggers.HasValue)
+        if (clearMaxTriggers)
+        {
+            item.MaxTriggers = null;
+        }
+        else if (maxTriggers.HasValue)
         {
             item.MaxTriggers = maxTriggers.Value;
         }

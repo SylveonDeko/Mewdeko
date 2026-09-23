@@ -3639,6 +3639,74 @@ wikia:
   - fandom
 wink:
   - wink
+wotd:
+  - wotd
+  - wordoftheday
+wotdtoggle:
+  - wotdtoggle
+  - wordofthedaytoggle
+wotdchannel:
+  - wotdchannel
+  - wordofthedaychannel
+wotdtime:
+  - wotdtime
+  - wotdhour
+wotdtimezone:
+  - wotdtimezone
+  - wotdtz
+wotdpingrole:
+  - wotdpingrole
+  - wotdping
+wotdmessage:
+  - wotdmessage
+  - wotdmsg
+  - wotdtemplate
+wotdtopic:
+  - wotdtopic
+  - wotdtheme
+wotdpos:
+  - wotdpos
+  - wotdpartofspeech
+wotddifficulty:
+  - wotddifficulty
+  - wotdlevel
+wotdmode:
+  - wotdmode
+  - wotdsource
+wotdadd:
+  - wotdadd
+  - wotdaddword
+wotdremove:
+  - wotdremove
+  - wotdrem
+  - wotddelete
+wotdlist:
+  - wotdlist
+  - wotdwords
+wotdhistory:
+  - wotdhistory
+  - wotdrecent
+wotdconfig:
+  - wotdconfig
+  - wotdsettings
+wotdpost:
+  - wotdpost
+  - wotdnow
+wotdreset:
+  - wotdreset
+wotdday:
+  - wotdday
+  - wotdweekday
+wotddayfilter:
+  - wotddayfilter
+  - wotdweekdayfilter
+wotdmonth:
+  - wotdmonth
+wotdmonthfilter:
+  - wotdmonthfilter
+wotdschedule:
+  - wotdschedule
+  - wotdrules
 wowjoke:
   - wowjoke
 xkcd:

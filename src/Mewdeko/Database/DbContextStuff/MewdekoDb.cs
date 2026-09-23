@@ -2139,4 +2139,24 @@ public class MewdekoDb : DataConnection
             return this.GetTable<TwitchQuote>();
         }
     }
+
+    /// <summary>
+    ///     Gets the Word of the Day configurations table.
+    /// </summary>
+    public ITable<WordOfTheDayConfig> WordOfTheDayConfigs => this.GetTable<WordOfTheDayConfig>();
+
+    /// <summary>
+    ///     Gets the Word of the Day custom words table.
+    /// </summary>
+    public ITable<WordOfTheDayWord> WordOfTheDayWords => this.GetTable<WordOfTheDayWord>();
+
+    /// <summary>
+    ///     Gets the Word of the Day history table.
+    /// </summary>
+    public ITable<WordOfTheDayHistory> WordOfTheDayHistories => this.GetTable<WordOfTheDayHistory>();
+
+    /// <summary>
+    ///     Gets the Word of the Day weekday and month schedule rules table.
+    /// </summary>
+    public ITable<WordOfTheDaySchedule> WordOfTheDaySchedules => this.GetTable<WordOfTheDaySchedule>();
 }

@@ -77,6 +77,7 @@ public class HelpService : INService, IReadyExecutor
             ["Todo"] = "utility",
             ["UserProfile"] = "utility",
             ["Birthday"] = "utility",
+            ["WordOfTheDay"] = "utility",
             ["Highlights"] = "utility",
             ["CoprMonitoring"] = "utility",
             ["OwnerOnly"] = "owner",

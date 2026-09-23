@@ -351,103 +351,171 @@ public class RepeatersController : Controller
                 }
             }
 
-            // Update individual properties
-            var updateTasks = new List<Task<bool>>();
+            if (!string.IsNullOrWhiteSpace(request.StartTimeOfDay) &&
+                (!TimeSpan.TryParse(request.StartTimeOfDay.Trim(), out var startTime) ||
+                 startTime < TimeSpan.Zero || startTime >= TimeSpan.FromDays(1)))
+            {
+                return BadRequest("Start time of day must be a valid time between 00:00 and 23:59");
+            }
+
+            var clearMaxAge = request.ClearMaxAge == true;
+            var clearMaxTriggers = request.ClearMaxTriggers == true;
+
+            if (!clearMaxAge && !string.IsNullOrWhiteSpace(request.MaxAge) &&
+                (!TimeSpan.TryParse(request.MaxAge.Trim(), out var maxAge) || maxAge <= TimeSpan.Zero))
+            {
+                return BadRequest("Max age must be a positive duration such as 7.00:00:00");
+            }
+
+            if (!clearMaxTriggers && request.MaxTriggers is < 1)
+            {
+                return BadRequest("Max triggers must be at least 1. Use clearMaxTriggers to remove the limit");
+            }
+
+            var updateTimeConditions = request.TimeConditions != null;
+            var timeConditionsJson = request.TimeConditions;
+
+            if (!string.IsNullOrWhiteSpace(request.TimeSchedulePreset))
+            {
+                var preset = request.TimeSchedulePreset.Trim().ToLowerInvariant();
+                switch (preset)
+                {
+                    case "business" or "evening" or "weekend":
+                        if (stickyConditionService == null)
+                            return StatusCode(503, "Time-based scheduling is not available");
+
+                        if (timezoneService?.GetTimeZoneOrDefault(guildId) == null)
+                        {
+                            return BadRequest(
+                                "Time-based scheduling requires a guild timezone to be set. Use the timezone command first.");
+                        }
+
+                        timeConditionsJson = preset switch
+                        {
+                            "business" => stickyConditionService.CreateBusinessHoursCondition(),
+                            "evening" => stickyConditionService.CreateEveningHoursCondition(),
+                            _ => stickyConditionService.CreateWeekendCondition()
+                        };
+                        updateTimeConditions = true;
+                        break;
+                    case "none":
+                        timeConditionsJson = null;
+                        updateTimeConditions = true;
+                        break;
+                    case "custom":
+                        break;
+                    default:
+                        return BadRequest(
+                            "Invalid time schedule preset. Use business, evening, weekend, none, or custom");
+                }
+            }
+
+            var updates = new List<Func<Task<bool>>>();
 
             if (!string.IsNullOrWhiteSpace(request.Message))
             {
-                updateTasks.Add(repeaterService.UpdateRepeaterMessageAsync(guildId, repeaterId, request.Message,
+                updates.Add(() => repeaterService.UpdateRepeaterMessageAsync(guildId, repeaterId, request.Message,
                     request.AllowMentions ?? false));
             }
 
             if (request.ChannelId.HasValue)
             {
-                updateTasks.Add(repeaterService.UpdateRepeaterChannelAsync(guildId, repeaterId,
+                updates.Add(() => repeaterService.UpdateRepeaterChannelAsync(guildId, repeaterId,
                     request.ChannelId.Value));
             }
 
             if (request.TriggerMode.HasValue)
             {
-                updateTasks.Add(repeaterService.UpdateRepeaterTriggerModeAsync(guildId, repeaterId,
+                updates.Add(() => repeaterService.UpdateRepeaterTriggerModeAsync(guildId, repeaterId,
                     request.TriggerMode.Value));
+            }
+
+            if (request.StartTimeOfDay != null)
+            {
+                updates.Add(() => repeaterService.UpdateRepeaterStartTimeOfDayAsync(guildId, repeaterId,
+                    request.StartTimeOfDay));
             }
 
             if (request.ActivityThreshold.HasValue && request.ActivityTimeWindow != null)
             {
                 if (TimeSpan.TryParse(request.ActivityTimeWindow, out var timeWindow))
                 {
-                    updateTasks.Add(repeaterService.UpdateRepeaterActivityThresholdAsync(guildId, repeaterId,
+                    updates.Add(() => repeaterService.UpdateRepeaterActivityThresholdAsync(guildId, repeaterId,
                         request.ActivityThreshold.Value, timeWindow));
                 }
             }
 
             if (request.Priority.HasValue)
             {
-                updateTasks.Add(repeaterService.UpdateRepeaterPriorityAsync(guildId, repeaterId,
+                updates.Add(() => repeaterService.UpdateRepeaterPriorityAsync(guildId, repeaterId,
                     request.Priority.Value));
             }
 
             if (request.ConversationDetection.HasValue)
             {
-                updateTasks.Add(repeaterService.ToggleRepeaterConversationDetectionAsync(guildId, repeaterId));
+                updates.Add(() => repeaterService.ToggleRepeaterConversationDetectionAsync(guildId, repeaterId));
             }
 
             if (request.NoRedundant.HasValue)
             {
-                updateTasks.Add(repeaterService.ToggleRepeaterRedundancyAsync(guildId, repeaterId));
+                updates.Add(() => repeaterService.ToggleRepeaterRedundancyAsync(guildId, repeaterId));
             }
 
             if (request.IsEnabled.HasValue)
             {
-                updateTasks.Add(repeaterService.ToggleRepeaterEnabledAsync(guildId, repeaterId));
+                updates.Add(() => repeaterService.ToggleRepeaterEnabledAsync(guildId, repeaterId));
             }
 
-            if (request.TimeConditions != null)
+            if (updateTimeConditions)
             {
-                updateTasks.Add(repeaterService.UpdateRepeaterTimeConditionsAsync(guildId, repeaterId,
-                    request.TimeConditions));
+                updates.Add(() => repeaterService.UpdateRepeaterTimeConditionsAsync(guildId, repeaterId,
+                    timeConditionsJson));
             }
 
             if (request.ConversationThreshold.HasValue)
             {
-                updateTasks.Add(repeaterService.UpdateRepeaterConversationThresholdAsync(guildId, repeaterId,
+                updates.Add(() => repeaterService.UpdateRepeaterConversationThresholdAsync(guildId, repeaterId,
                     request.ConversationThreshold.Value));
             }
 
-            if (request.MaxAge != null || request.MaxTriggers.HasValue)
+            if (request.MaxAge != null || request.MaxTriggers.HasValue || clearMaxAge || clearMaxTriggers)
             {
-                updateTasks.Add(repeaterService.UpdateRepeaterExpiryAsync(guildId, repeaterId,
-                    request.MaxAge, request.MaxTriggers));
+                updates.Add(() => repeaterService.UpdateRepeaterExpiryAsync(guildId, repeaterId,
+                    request.MaxAge, request.MaxTriggers, clearMaxAge, clearMaxTriggers));
             }
 
             if (request.ThreadAutoSticky.HasValue)
             {
-                // Only toggle if the value differs from current
                 if (request.ThreadAutoSticky.Value != repeater.Repeater.ThreadAutoSticky)
-                    updateTasks.Add(repeaterService.ToggleRepeaterThreadAutoStickyAsync(guildId, repeaterId));
+                    updates.Add(() => repeaterService.ToggleRepeaterThreadAutoStickyAsync(guildId, repeaterId));
             }
 
             if (request.ThreadOnlyMode.HasValue)
             {
                 if (request.ThreadOnlyMode.Value != repeater.Repeater.ThreadOnlyMode)
-                    updateTasks.Add(repeaterService.ToggleRepeaterThreadOnlyModeAsync(guildId, repeaterId));
+                    updates.Add(() => repeaterService.ToggleRepeaterThreadOnlyModeAsync(guildId, repeaterId));
             }
 
             if (request.ForumTagConditions != null)
             {
-                updateTasks.Add(repeaterService.UpdateRepeaterForumTagConditionsAsync(guildId, repeaterId,
+                updates.Add(() => repeaterService.UpdateRepeaterForumTagConditionsAsync(guildId, repeaterId,
                     request.ForumTagConditions));
             }
 
             if (request.SuppressNotifications.HasValue)
             {
                 if (request.SuppressNotifications.Value != repeater.Repeater.SuppressNotifications)
-                    updateTasks.Add(repeaterService.ToggleRepeaterSuppressNotificationsAsync(guildId, repeaterId));
+                    updates.Add(() => repeaterService.ToggleRepeaterSuppressNotificationsAsync(guildId, repeaterId));
             }
 
-            // Wait for all updates to complete
-            var results = await Task.WhenAll(updateTasks);
-            if (results.Any(r => !r))
+            var allSucceeded = true;
+            foreach (var update in updates)
+            {
+                if (!await update())
+                    allSucceeded = false;
+            }
+
+            if (!allSucceeded)
             {
                 return StatusCode(500, "Some updates failed");
             }

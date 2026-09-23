@@ -173,6 +173,10 @@ namespace DataModel
 		public ITable<WarningPunishment>         WarningPunishments         => this.GetTable<WarningPunishment>();
 		public ITable<WarningPunishment2>        WarningPunishment2         => this.GetTable<WarningPunishment2>();
 		public ITable<Warning>                   Warnings                   => this.GetTable<Warning>();
+		public ITable<WordOfTheDayConfig>        WordOfTheDayConfigs        => this.GetTable<WordOfTheDayConfig>();
+		public ITable<WordOfTheDayWord>          WordOfTheDayWords          => this.GetTable<WordOfTheDayWord>();
+		public ITable<WordOfTheDayHistory>       WordOfTheDayHistories      => this.GetTable<WordOfTheDayHistory>();
+		public ITable<WordOfTheDaySchedule>      WordOfTheDaySchedules      => this.GetTable<WordOfTheDaySchedule>();
 		public ITable<Warnings2>                 Warnings2                  => this.GetTable<Warnings2>();
 		public ITable<WhitelistedRole>           WhitelistedRoles           => this.GetTable<WhitelistedRole>();
 		public ITable<WhitelistedUser>           WhitelistedUsers           => this.GetTable<WhitelistedUser>();

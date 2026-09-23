@@ -1,5 +1,6 @@
 using LinqToDB.Async;
 using Mewdeko.Controllers.Common.StreamNotifications;
+using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Mewdeko.Modules.Searches.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -287,16 +288,21 @@ public class StreamNotificationsController(
     }
 
     /// <summary>
-    ///     Helper method to get stream type name from type integer
+    ///     Maps a stored stream type integer to its display name using the <see cref="FType" /> enum that the stream
+    ///     notification service writes, so the names always match the platform that was actually followed.
     /// </summary>
+    /// <param name="type">The stored <see cref="FType" /> value.</param>
+    /// <returns>The platform display name, or "Unknown" for values that are not part of the enum.</returns>
     private static string GetStreamTypeName(int type)
     {
-        return type switch
+        return (FType)type switch
         {
-            0 => "Twitch",
-            1 => "YouTube",
-            2 => "Trovo",
-            3 => "Facebook",
+            FType.Twitch => "Twitch",
+            FType.Picarto => "Picarto",
+            FType.Youtube => "YouTube",
+            FType.Facebook => "Facebook",
+            FType.Trovo => "Trovo",
+            FType.Kick => "Kick",
             _ => "Unknown"
         };
     }

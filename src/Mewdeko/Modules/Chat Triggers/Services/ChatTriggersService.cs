@@ -524,6 +524,96 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         }
     }
 
+    /// <summary>
+    ///     Replaces every editable field of a guild trigger with the values from the api, saves the row and
+    ///     refreshes the cache. Bot-managed state (id, guild, use count, application command id, round robin
+    ///     position and creation date) is kept from the stored row.
+    /// </summary>
+    /// <param name="guildId">The guild the trigger belongs to.</param>
+    /// <param name="incoming">The trigger as sent by the client.</param>
+    /// <returns>The saved trigger, or null when no trigger with that id exists in the guild.</returns>
+    public async Task<CTModel?> UpdateTriggerFromApiAsync(ulong guildId, CTModel incoming)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var ct = await db.ChatTriggers.FirstOrDefaultAsync(x => x.Id == incoming.Id && x.GuildId == guildId)
+            .ConfigureAwait(false);
+        if (ct is null)
+            return null;
+
+        var oldTrigger = ct.Trigger;
+        var oldCommandType = ct.ApplicationCommandType;
+
+        ct.IsRegex = incoming.IsRegex;
+        ct.OwnerOnly = incoming.OwnerOnly;
+        ct.Response = incoming.Response;
+        ct.Trigger = incoming.Trigger;
+        ct.PrefixType = incoming.PrefixType;
+        ct.CustomPrefix = incoming.CustomPrefix;
+        ct.AutoDeleteTrigger = incoming.AutoDeleteTrigger;
+        ct.ReactToTrigger = incoming.ReactToTrigger;
+        ct.NoRespond = incoming.NoRespond;
+        ct.DmResponse = incoming.DmResponse;
+        ct.ContainsAnywhere = incoming.ContainsAnywhere;
+        ct.AllowTarget = incoming.AllowTarget;
+        ct.Reactions = incoming.Reactions;
+        ct.GrantedRoles = incoming.GrantedRoles;
+        ct.RemovedRoles = incoming.RemovedRoles;
+        ct.RoleGrantType = incoming.RoleGrantType;
+        ct.ValidTriggerTypes = incoming.ValidTriggerTypes;
+        ct.ApplicationCommandName = incoming.ApplicationCommandName;
+        ct.ApplicationCommandDescription = incoming.ApplicationCommandDescription;
+        ct.ApplicationCommandType = incoming.ApplicationCommandType;
+        ct.EphemeralResponse = incoming.EphemeralResponse;
+        ct.CrosspostingChannelId = incoming.CrosspostingChannelId;
+        ct.CrosspostingWebhookUrl = incoming.CrosspostingWebhookUrl;
+        ct.ReplyToTrigger = incoming.ReplyToTrigger;
+        ct.DeleteResponseAfter = incoming.DeleteResponseAfter;
+        ct.CooldownSeconds = incoming.CooldownSeconds;
+        ct.CooldownScope = incoming.CooldownScope;
+        ct.CounterName = incoming.CounterName;
+        ct.CounterMin = incoming.CounterMin;
+        ct.CounterMax = incoming.CounterMax;
+        ct.Category = incoming.Category;
+        ct.AllowBots = incoming.AllowBots;
+        ct.NextTriggerId = incoming.NextTriggerId;
+        ct.EventType = incoming.EventType;
+        ct.EventChannelId = incoming.EventChannelId;
+        ct.TimeConditions = incoming.TimeConditions;
+        ct.ExpiresAt = incoming.ExpiresAt;
+        ct.MaxUses = incoming.MaxUses;
+        ct.MinAccountAgeMinutes = incoming.MinAccountAgeMinutes;
+        ct.MinServerMembershipMinutes = incoming.MinServerMembershipMinutes;
+        ct.IsDisabled = incoming.IsDisabled;
+        ct.AdditionalResponses = incoming.AdditionalResponses;
+        ct.ResponseMode = incoming.ResponseMode;
+        ct.CurrencyCost = incoming.CurrencyCost;
+        ct.CurrencyReward = incoming.CurrencyReward;
+        ct.XpReward = incoming.XpReward;
+        ct.RequiredXpLevel = incoming.RequiredXpLevel;
+        ct.RequirementFailMessage = incoming.RequirementFailMessage;
+
+        await db.UpdateAsync(ct).ConfigureAwait(false);
+
+        if (!string.IsNullOrWhiteSpace(oldTrigger) &&
+            !string.Equals(oldTrigger, ct.Trigger, StringComparison.OrdinalIgnoreCase))
+        {
+            await RekeyLegacyTriggerPermissionsAsync(guildId, oldTrigger, ct.Id).ConfigureAwait(false);
+        }
+
+        ct.Trigger = ct.Trigger?.Replace(MentionPh, client.CurrentUser.Mention) ?? "";
+
+        await UpdateInternalAsync(guildId, ct).ConfigureAwait(false);
+
+        if (oldCommandType != (int)CtApplicationCommandType.None &&
+            ct.ApplicationCommandType == (int)CtApplicationCommandType.None &&
+            client.GetGuild(guildId) is { } guild)
+        {
+            await RegisterTriggersToGuildAsync(guild).ConfigureAwait(false);
+        }
+
+        return ct;
+    }
+
 
     /// <summary>
     ///     Handles the event when a chat trigger is added.

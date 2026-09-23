@@ -125,7 +125,10 @@ public static class AnalyticsFeatureDefinitions
         new("patreon",
             db => db.GuildConfigs.Where(x => x.PatreonCampaignId != null).Select(x => x.GuildId),
             db => db.GuildConfigs.Where(x => x.PatreonCampaignId != null && x.PatreonEnabled)
-                .Select(x => x.GuildId))
+                .Select(x => x.GuildId)),
+        new("word_of_the_day",
+            db => db.WordOfTheDayConfigs.Select(x => x.GuildId),
+            db => db.WordOfTheDayConfigs.Where(x => x.Enabled && x.ChannelId != null).Select(x => x.GuildId))
     ];
 
     /// <summary>

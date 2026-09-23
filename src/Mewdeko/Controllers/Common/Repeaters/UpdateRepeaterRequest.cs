@@ -23,6 +23,19 @@ public class UpdateRepeaterRequest
     public string? Interval { get; set; }
 
     /// <summary>
+    ///     The new start time of day for time-interval repeaters, in UTC (e.g., "09:00").
+    ///     Null keeps the existing value, an empty or whitespace string clears it.
+    /// </summary>
+    public string? StartTimeOfDay { get; set; }
+
+    /// <summary>
+    ///     Time-based scheduling preset to apply: "business", "evening", "weekend", "none" (clears the schedule),
+    ///     or "custom" (uses <see cref="TimeConditions" />). Null keeps the existing schedule unless
+    ///     <see cref="TimeConditions" /> is provided. A named preset takes precedence over <see cref="TimeConditions" />.
+    /// </summary>
+    public string? TimeSchedulePreset { get; set; }
+
+    /// <summary>
     ///     Whether to allow mentions in the message (null to keep existing)
     /// </summary>
     public bool? AllowMentions { get; set; }
@@ -78,14 +91,28 @@ public class UpdateRepeaterRequest
     public string? TimeConditions { get; set; }
 
     /// <summary>
-    ///     Maximum age before auto-expiry (null to keep existing)
+    ///     Maximum age before auto-expiry (e.g., "7.00:00:00"). Null keeps the existing value,
+    ///     an empty or whitespace string clears it back to unlimited.
     /// </summary>
     public string? MaxAge { get; set; }
 
     /// <summary>
-    ///     Maximum displays before auto-expiry (null to keep existing)
+    ///     Maximum displays before auto-expiry, must be at least 1 (null to keep existing).
+    ///     Use <see cref="ClearMaxTriggers" /> to remove the limit.
     /// </summary>
     public int? MaxTriggers { get; set; }
+
+    /// <summary>
+    ///     When true, removes the max age limit so the repeater never expires by age.
+    ///     Takes precedence over <see cref="MaxAge" />.
+    /// </summary>
+    public bool? ClearMaxAge { get; set; }
+
+    /// <summary>
+    ///     When true, removes the max triggers limit so the repeater never expires by display count.
+    ///     Takes precedence over <see cref="MaxTriggers" />.
+    /// </summary>
+    public bool? ClearMaxTriggers { get; set; }
 
     /// <summary>
     ///     Whether to auto-create in threads (null to keep existing)

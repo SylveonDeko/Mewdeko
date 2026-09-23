@@ -41,15 +41,18 @@ public class ChatTriggersController(
     ///     Updates the provided trigger for a guild
     /// </summary>
     /// <param name="guildId">The guild id to update a trigger for</param>
-    /// <param name="toUpdate">The updated trigger info</param>
-    /// <returns></returns>
+    /// <param name="toUpdate">The updated trigger info. Every editable field is saved.</param>
+    /// <returns>An empty OK response, or 404 when the trigger does not exist in the guild.</returns>
     [HttpPatch]
     public async Task<IActionResult> UpdateTriggerForGuild(ulong guildId, [FromBody] ChatTrigger toUpdate)
     {
         var existing = (await service.GetChatTriggersFor(guildId)).FirstOrDefault(t => t.Id == toUpdate.Id);
         auditContext.RecordBefore(existing);
-        await service.UpdateInternalAsync(guildId, toUpdate);
-        auditContext.RecordAfter(toUpdate);
+        var updated = await service.UpdateTriggerFromApiAsync(guildId, toUpdate);
+        if (updated is null)
+            return NotFound();
+
+        auditContext.RecordAfter(updated);
         return Ok();
     }
 

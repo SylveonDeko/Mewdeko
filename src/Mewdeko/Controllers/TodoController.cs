@@ -163,7 +163,8 @@ public class TodoController(
     [HttpPut("items/{itemId}")]
     public async Task<IActionResult> UpdateTodoItem(ulong guildId, int itemId, [FromBody] UpdateTodoItemRequest request)
     {
-        var success = await todoService.EditTodoItemAsync(itemId, request.UserId, request.Title, request.Description);
+        var success = await todoService.EditTodoItemAsync(itemId, request.UserId, request.Title, request.Description,
+            request.Priority, request.DueDate);
         if (!success)
             return BadRequest("Failed to update todo item");
 

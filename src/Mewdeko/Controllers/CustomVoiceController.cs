@@ -3,6 +3,7 @@ using DataModel;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Controllers.Common.CustomVoice;
+using Mewdeko.Modules.CustomVoice.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,8 +17,95 @@ namespace Mewdeko.Controllers;
 [Authorize("ApiKeyPolicy")]
 public class CustomVoiceController(
     IDataConnectionFactory dbFactory,
-    IDashboardAuditContext auditContext) : Controller
+    IDashboardAuditContext auditContext,
+    CustomVoiceService customVoiceService) : Controller
 {
+    /// <summary>
+    ///     Gets a member's saved custom voice preferences. Returns an empty preference set (all values null)
+    ///     when the member has never saved any, so the dashboard can still edit them.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="userId">The member's user ID.</param>
+    [HttpGet("user-preferences/{userId}")]
+    public async Task<IActionResult> GetUserPreferences(ulong guildId, ulong userId)
+    {
+        if (userId == 0)
+        {
+            return BadRequest(new
+            {
+                error = "A valid user ID is required"
+            });
+        }
+
+        var prefs = await customVoiceService.GetUserPreferencesAsync(guildId, userId);
+
+        return Ok(new CustomVoiceUserPreferenceResponse
+        {
+            UserId = userId,
+            GuildId = guildId,
+            DefaultName = prefs?.NameFormat,
+            DefaultUserLimit = prefs?.UserLimit,
+            DefaultBitrate = prefs?.Bitrate
+        });
+    }
+
+    /// <summary>
+    ///     Replaces a member's saved channel name, user limit, and bitrate preferences, creating the record if needed.
+    ///     Lock, keep alive, and whitelist/blacklist preferences are left untouched.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="userId">The member's user ID.</param>
+    /// <param name="request">The new preference values; null clears a value.</param>
+    [HttpPut("user-preferences/{userId}")]
+    public async Task<IActionResult> UpdateUserPreferences(ulong guildId, ulong userId,
+        [FromBody] UpdateCustomVoiceUserPreferenceRequest request)
+    {
+        if (userId == 0)
+        {
+            return BadRequest(new
+            {
+                error = "A valid user ID is required"
+            });
+        }
+
+        if (request.DefaultUserLimit is < 0)
+        {
+            return BadRequest(new
+            {
+                error = "User limit cannot be negative"
+            });
+        }
+
+        if (request.DefaultBitrate is <= 0)
+        {
+            return BadRequest(new
+            {
+                error = "Bitrate must be greater than 0"
+            });
+        }
+
+        var prefs = await customVoiceService.GetUserPreferencesAsync(guildId, userId);
+
+        auditContext.RecordBefore(prefs);
+
+        prefs ??= new UserVoicePreference
+        {
+            GuildId = guildId, UserId = userId, DateAdded = DateTime.UtcNow
+        };
+
+        prefs.NameFormat = string.IsNullOrWhiteSpace(request.DefaultName) ? null : request.DefaultName.Trim();
+        prefs.UserLimit = request.DefaultUserLimit;
+        prefs.Bitrate = request.DefaultBitrate;
+
+        await customVoiceService.SetUserPreferencesAsync(prefs);
+
+        auditContext.RecordAfter(prefs);
+        return Ok(new
+        {
+            success = true, message = "User preferences updated successfully"
+        });
+    }
+
     /// <summary>
     ///     Gets the custom voice configuration for a guild
     /// </summary>

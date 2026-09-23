@@ -1,0 +1,221 @@
+wotd:
+  args:
+    - ''
+  desc: "Shows today's word of the day, or a preview if it hasn't been posted yet."
+  params: [ ]
+wotdtoggle:
+  args:
+    - ''
+  desc: 'Turns daily word posting on or off. A channel must be set first.'
+  params: [ ]
+wotdchannel:
+  args:
+    - '#vocab'
+    - ''
+  desc: 'Sets the channel daily words are posted in and enables posting. Leave empty to clear the channel and disable.'
+  params:
+    - desc: The channel to post in. Omit to clear.
+      name: channel
+      optional: true
+      type: ITextChannel
+wotdtime:
+  args:
+    - 9
+    - 18
+  desc: 'Sets the local hour (0 to 23) the daily word is posted at.'
+  params:
+    - desc: Hour of the day in 24 hour format.
+      name: hour
+      optional: false
+      type: int
+wotdtimezone:
+  args:
+    - Europe/London
+    - America/New_York
+  desc: 'Sets the timezone used for the daily post time and for deciding when a new day begins.'
+  params:
+    - desc: An IANA timezone name.
+      name: timezone
+      optional: false
+      type: string
+wotdpingrole:
+  args:
+    - '@Vocab Enjoyers'
+    - ''
+  desc: 'Sets a role to ping with each daily word. Leave empty to clear.'
+  params:
+    - desc: The role to ping. Omit to clear.
+      name: role
+      optional: true
+      type: IRole
+wotdmessage:
+  args:
+    - ''
+    - 'Today''s word is **%wotd.word%**: %wotd.definition%'
+    - clear
+  desc: 'Sets a custom message template for daily words, supporting embed JSON and placeholders. Send with no text to view the current template, or "clear" to use the default embed.'
+  params:
+    - desc: The template text. Omit to view, or "clear" to reset.
+      name: template
+      optional: true
+      type: string
+wotdtopic:
+  args:
+    - science
+    - cooking food
+    - clear
+  desc: 'Sets a topic that dictionary words should lean toward, up to five words. Leave empty or send "clear" to remove.'
+  params:
+    - desc: Theme words such as "space" or "medieval history". Omit to clear.
+      name: topic
+      optional: true
+      type: string
+wotdpos:
+  args:
+    - noun
+    - adjective
+  desc: 'Restricts dictionary words to a part of speech: any, noun, verb, adjective, or adverb.'
+  params:
+    - desc: The part of speech to allow.
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+wotddifficulty:
+  args:
+    - common
+    - rare
+  desc: 'Sets how obscure dictionary words should be: any, common, moderate, or rare.'
+  params:
+    - desc: The difficulty level.
+      name: difficulty
+      optional: false
+      type: WordDifficulty
+wotdmode:
+  args:
+    - dictionary
+    - custom
+    - mixed
+  desc: 'Chooses where words come from. Dictionary uses Datamuse with your filters, custom uses only words added with wotdadd, and mixed uses custom words until they run out.'
+  params:
+    - desc: The word source.
+      name: mode
+      optional: false
+      type: WordSourceMode
+wotdadd:
+  args:
+    - serendipity
+    - 'petrichor The pleasant smell after rain on dry ground'
+  desc: 'Adds a word to this server''s custom word list. If no definition is given, one is looked up automatically.'
+  params:
+    - desc: The word to add.
+      name: word
+      optional: false
+      type: string
+    - desc: A definition for the word. Looked up if omitted.
+      name: definition
+      optional: true
+      type: string
+wotdremove:
+  args:
+    - serendipity
+  desc: 'Removes a word from this server''s custom word list.'
+  params:
+    - desc: The word to remove.
+      name: word
+      optional: false
+      type: string
+wotdlist:
+  args:
+    - ''
+  desc: 'Lists this server''s custom words and how often each has been posted.'
+  params: [ ]
+wotdhistory:
+  args:
+    - ''
+  desc: 'Shows the most recently posted words.'
+  params: [ ]
+wotdconfig:
+  args:
+    - ''
+  desc: 'Shows the current word of the day configuration.'
+  params: [ ]
+wotdpost:
+  args:
+    - ''
+  desc: 'Posts a new word immediately, regardless of the schedule.'
+  params: [ ]
+wotdreset:
+  args:
+    - ''
+  desc: 'Resets all word of the day settings, custom words, and history for this server.'
+  params: [ ]
+wotdday:
+  args:
+    - monday science
+    - friday
+  desc: 'Sets a topic for a specific weekday, overriding the base topic on that day. Give no topic to remove the rule for that day.'
+  params:
+    - desc: The day of the week.
+      name: day
+      optional: false
+      type: DayOfWeek
+    - desc: Topic words for that day. Omit to remove the rule.
+      name: topic
+      optional: true
+      type: string
+wotddayfilter:
+  args:
+    - monday noun
+    - friday adjective rare
+  desc: 'Sets a part of speech and optional difficulty for a specific weekday. Use "any" to inherit the base setting.'
+  params:
+    - desc: The day of the week.
+      name: day
+      optional: false
+      type: DayOfWeek
+    - desc: Part of speech for that day, or any.
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+    - desc: Difficulty for that day, or any.
+      name: difficulty
+      optional: true
+      type: WordDifficulty
+wotdmonth:
+  args:
+    - october spooky halloween
+    - '12 winter holidays'
+    - march
+  desc: 'Sets a topic for a specific month, overriding the base topic during that month. Weekday rules still win over month rules. Give no topic to remove the rule.'
+  params:
+    - desc: Month number or name.
+      name: month
+      optional: false
+      type: string
+    - desc: Topic words for that month. Omit to remove the rule.
+      name: topic
+      optional: true
+      type: string
+wotdmonthfilter:
+  args:
+    - october adjective
+    - '2 noun common'
+  desc: 'Sets a part of speech and optional difficulty for a specific month. Use "any" to inherit the base setting.'
+  params:
+    - desc: Month number or name.
+      name: month
+      optional: false
+      type: string
+    - desc: Part of speech for that month, or any.
+      name: partOfSpeech
+      optional: false
+      type: WordPartOfSpeech
+    - desc: Difficulty for that month, or any.
+      name: difficulty
+      optional: true
+      type: WordDifficulty
+wotdschedule:
+  args:
+    - ''
+  desc: 'Shows all weekday and month rules, plus the filters in effect today.'
+  params: [ ]
