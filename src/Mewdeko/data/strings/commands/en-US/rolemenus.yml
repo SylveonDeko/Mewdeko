@@ -1,0 +1,210 @@
+rolemenus:
+  args:
+    - ''
+  desc: 'Lists every role menu in this server with its channel, type, number of options, and status.'
+  params: [ ]
+rolemenuinfo:
+  args:
+    - 3
+  desc: 'Shows everything about one role menu: channel, type, picking rules, required role, confirmation, and options.'
+  params:
+    - desc: The menu ID from rolemenus.
+      name: menuId
+      optional: false
+      type: int
+rolemenucreate:
+  args:
+    - '#roles dropdown @He/Him @She/Her @They/Them'
+    - '#colors buttons @Red @Blue'
+  desc: 'Posts a new role menu in a channel with one option per role. Members pick from a dropdown or a row of buttons to get or drop those roles.'
+  params:
+    - desc: The channel to post the menu in.
+      name: channel
+      optional: false
+      type: ITextChannel
+    - desc: dropdown or buttons.
+      name: style
+      optional: false
+      type: RoleMenuStyle
+    - desc: One or more roles, up to 25.
+      name: roles
+      optional: false
+      type: IRole[]
+rolemenuadd:
+  args:
+    - '3 @Blue 🔵 Blue'
+    - '3 @Gamer'
+  desc: 'Adds a role to a menu, with an optional emoji and name, and updates the posted message.'
+  params:
+    - desc: The menu ID.
+      name: menuId
+      optional: false
+      type: int
+    - desc: The role the new option gives.
+      name: role
+      optional: false
+      type: IRole
+    - desc: An optional emoji followed by the name shown on the menu. Defaults to the role name.
+      name: emojiAndLabel
+      optional: true
+      type: string
+rolemenuremove:
+  args:
+    - '3 @Blue'
+  desc: 'Removes a role from a menu and updates the posted message.'
+  params:
+    - desc: The menu ID.
+      name: menuId
+      optional: false
+      type: int
+    - desc: The role to take off the menu.
+      name: role
+      optional: false
+      type: IRole
+rolemenuname:
+  args:
+    - '3 Pronouns'
+  desc: 'Renames a menu. The name titles the default message and shows in lists.'
+  params:
+    - desc: The menu ID.
+      name: menuId
+      optional: false
+      type: int
+    - desc: The new name, up to 100 characters.
+      name: name
+      optional: false
+      type: string
+rolemenumessage:
+  args:
+    - '3'
+    - '3 Pick the pronouns you go by.'
+    - '3 clear'
+  desc: 'Sets the text above a menu, as plain text or embed JSON from the embed builder. Send only the ID to see the current message, or "clear" to go back to the default list of options.'
+  params:
+    - desc: The menu ID.
+      name: menuId
+      optional: false
+      type: int
+    - desc: The message, "clear", or nothing to view.
+      name: message
+      optional: true
+      type: string
+rolemenustyle:
+  args:
+    - '3 buttons'
+  desc: 'Switches a menu between a dropdown and buttons.'
+  params:
+    - desc: The menu ID.
+      name: menuId
+      optional: false
+      type: int
+    - desc: dropdown or buttons.
+      name: style
+      optional: false
+      type: RoleMenuStyle
+rolemenumode:
+  args:
+    - '3 exclusive'
+    - '3 multi'
+  desc: 'Sets whether members pick one role (picking another swaps it) or any number of roles from the menu.'
+  params:
+    - desc: The menu ID.
+      name: menuId
+      optional: false
+      type: int
+    - desc: exclusive for pick one, multi for pick any.
+      name: mode
+      optional: false
+      type: RoleMenuMode
+rolemenulimits:
+  args:
+    - '3 0 2'
+    - '3 1 0'
+  desc: 'Sets how many roles from a menu a member must keep and can hold. A maximum of 0 means no limit.'
+  params:
+    - desc: The menu ID.
+      name: menuId
+      optional: false
+      type: int
+    - desc: The fewest roles a member must keep once they pick.
+      name: min
+      optional: false
+      type: int
+    - desc: The most roles a member can hold, 0 for no limit.
+      name: max
+      optional: false
+      type: int
+rolemenurequire:
+  args:
+    - '3 @Verified'
+    - '3'
+  desc: 'Only lets members with a role use the menu. Leave the role out to let anyone use it.'
+  params:
+    - desc: The menu ID.
+      name: menuId
+      optional: false
+      type: int
+    - desc: The role needed to use the menu. Omit to clear.
+      name: role
+      optional: true
+      type: IRole
+rolemenureply:
+  args:
+    - '3 private'
+    - '3 silent'
+  desc: 'Chooses whether members get a private note listing the roles they gained and lost, or no note at all.'
+  params:
+    - desc: The menu ID.
+      name: menuId
+      optional: false
+      type: int
+    - desc: private or silent.
+      name: mode
+      optional: false
+      type: RoleMenuReplyMode
+rolemenupause:
+  args:
+    - '3'
+  desc: 'Pauses a menu, greying out its dropdown or buttons, or resumes it if it is paused.'
+  params:
+    - desc: The menu ID.
+      name: menuId
+      optional: false
+      type: int
+rolemenurepost:
+  args:
+    - '3'
+    - '3 #roles'
+  desc: 'Posts a fresh copy of a menu, in the same or another channel, and deletes the old message.'
+  params:
+    - desc: The menu ID.
+      name: menuId
+      optional: false
+      type: int
+    - desc: Where to post it. Defaults to its current channel.
+      name: channel
+      optional: true
+      type: ITextChannel
+rolemenudelete:
+  args:
+    - '3'
+  desc: 'Deletes a menu and its message. Members keep the roles they already picked.'
+  params:
+    - desc: The menu ID.
+      name: menuId
+      optional: false
+      type: int
+rolemenuimport:
+  args:
+    - '1122334455667788990'
+    - '1122334455667788990 buttons'
+  desc: 'Moves an older emoji role setup on a message into a new role menu in the same channel, then retires the old setup.'
+  params:
+    - desc: The ID of the message with the older setup.
+      name: messageId
+      optional: false
+      type: ulong
+    - desc: dropdown or buttons. Defaults to dropdown.
+      name: style
+      optional: true
+      type: RoleMenuStyle

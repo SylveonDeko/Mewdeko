@@ -131,6 +131,8 @@ namespace DataModel
 		public ITable<ReactionRoleMessage>       ReactionRoleMessages       => this.GetTable<ReactionRoleMessage>();
 		public ITable<Reminder>                  Reminders                  => this.GetTable<Reminder>();
 		public ITable<RoleGreet>                 RoleGreets                 => this.GetTable<RoleGreet>();
+		public ITable<RoleMenu>                  RoleMenus                  => this.GetTable<RoleMenu>();
+		public ITable<RoleMenuOption>            RoleMenuOptions            => this.GetTable<RoleMenuOption>();
 		public ITable<RoleMonitoringSetting>     RoleMonitoringSettings     => this.GetTable<RoleMonitoringSetting>();
 		public ITable<RoleStateSetting>          RoleStateSettings          => this.GetTable<RoleStateSetting>();
 		public ITable<RotatingStatus>            RotatingStatuses           => this.GetTable<RotatingStatus>();

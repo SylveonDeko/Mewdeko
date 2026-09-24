@@ -57,6 +57,7 @@ public class HelpService : INService, IReadyExecutor
             ["ChannelAccess"] = "serversetup",
             ["CustomVoice"] = "serversetup",
             ["ChatTriggers"] = "serversetup",
+            ["RoleMenus"] = "serversetup",
             ["PollCommands"] = "serversetup",
             ["Giveaways"] = "serversetup",
             ["Games"] = "fun",

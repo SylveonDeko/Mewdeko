@@ -2159,4 +2159,14 @@ public class MewdekoDb : DataConnection
     ///     Gets the Word of the Day weekday and month schedule rules table.
     /// </summary>
     public ITable<WordOfTheDaySchedule> WordOfTheDaySchedules => this.GetTable<WordOfTheDaySchedule>();
+
+    /// <summary>
+    ///     Gets the role menus table: posted messages with a dropdown or buttons that give and take roles.
+    /// </summary>
+    public ITable<RoleMenu> RoleMenus => this.GetTable<RoleMenu>();
+
+    /// <summary>
+    ///     Gets the role menu options table: one role per option on a role menu.
+    /// </summary>
+    public ITable<RoleMenuOption> RoleMenuOptions => this.GetTable<RoleMenuOption>();
 }

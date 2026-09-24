@@ -260,4 +260,40 @@ public class RoleCommandsService : INService
                 guildId);
         }
     }
+
+    /// <summary>
+    ///     Removes a reaction role message and its reaction roles by ID, scoped to a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild that owns the message.</param>
+    /// <param name="reactionRoleMessageId">The ID of the reaction role message row.</param>
+    /// <returns>True when the message row was deleted.</returns>
+    public async Task<bool> RemoveByIdAsync(ulong guildId, int reactionRoleMessageId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        try
+        {
+            var exists = await db.GetTable<ReactionRoleMessage>()
+                .AnyAsync(x => x.Id == reactionRoleMessageId && x.GuildId == guildId).ConfigureAwait(false);
+            if (!exists)
+                return false;
+
+            await db.GetTable<ReactionRole>()
+                .Where(rr => rr.ReactionRoleMessageId == reactionRoleMessageId)
+                .DeleteAsync().ConfigureAwait(false);
+
+            var deleted = await db.GetTable<ReactionRoleMessage>()
+                .Where(x => x.Id == reactionRoleMessageId && x.GuildId == guildId)
+                .DeleteAsync().ConfigureAwait(false);
+
+            guildSettings.ClearCacheForGuild(guildId);
+            return deleted > 0;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to remove ReactionRoleMessage {Id} for Guild {GuildId}",
+                reactionRoleMessageId, guildId);
+            return false;
+        }
+    }
 }

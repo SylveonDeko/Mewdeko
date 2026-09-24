@@ -128,7 +128,10 @@ public static class AnalyticsFeatureDefinitions
                 .Select(x => x.GuildId)),
         new("word_of_the_day",
             db => db.WordOfTheDayConfigs.Select(x => x.GuildId),
-            db => db.WordOfTheDayConfigs.Where(x => x.Enabled && x.ChannelId != null).Select(x => x.GuildId))
+            db => db.WordOfTheDayConfigs.Where(x => x.Enabled && x.ChannelId != null).Select(x => x.GuildId)),
+        new("role_menus",
+            db => db.RoleMenus.Select(x => x.GuildId),
+            db => db.RoleMenus.Where(x => x.Enabled && x.MessageId != null).Select(x => x.GuildId))
     ];
 
     /// <summary>

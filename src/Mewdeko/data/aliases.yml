@@ -4120,3 +4120,57 @@ serverreportfrequency:
 serverreportnow:
   - serverreportnow
   - reportnow
+rolemenulist:
+  - rolemenus
+  - rolemenulist
+  - rmenus
+rolemenuinfo:
+  - rolemenuinfo
+  - rmenuinfo
+rolemenucreate:
+  - rolemenucreate
+  - rmenucreate
+  - rolemenunew
+rolemenuadd:
+  - rolemenuadd
+  - rmenuadd
+rolemenuremove:
+  - rolemenuremove
+  - rmenuremove
+rolemenuname:
+  - rolemenuname
+  - rmenuname
+  - rolemenurename
+rolemenumessage:
+  - rolemenumessage
+  - rolemenumsg
+  - rmenumsg
+rolemenusetstyle:
+  - rolemenustyle
+  - rmenustyle
+rolemenusetmode:
+  - rolemenumode
+  - rmenumode
+rolemenulimits:
+  - rolemenulimits
+  - rmenulimits
+rolemenurequire:
+  - rolemenurequire
+  - rmenurequire
+rolemenusetreply:
+  - rolemenureply
+  - rmenureply
+rolemenupause:
+  - rolemenupause
+  - rmenupause
+  - rolemenuresume
+rolemenurepost:
+  - rolemenurepost
+  - rmenurepost
+rolemenudelete:
+  - rolemenudelete
+  - rmenudelete
+  - rolemenudel
+rolemenuimport:
+  - rolemenuimport
+  - rmenuimport
