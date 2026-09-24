@@ -5261,6 +5261,9 @@ public class TicketService : INService
                     case "archivecategoryid":
                         button.ArchiveCategoryId = (ulong?)setting.Value;
                         break;
+                    case "channelnameformat":
+                        button.ChannelNameFormat = (string)setting.Value;
+                        break;
                     case "supportroles":
                         // Directly set internal field to ensure linq2db detects the change
                         var supportRolesUlong = (ulong[])setting.Value;
@@ -5389,6 +5392,9 @@ public class TicketService : INService
                         break;
                     case "archivecategoryid":
                         option.ArchiveCategoryId = (ulong?)setting.Value;
+                        break;
+                    case "channelnameformat":
+                        option.ChannelNameFormat = (string)setting.Value;
                         break;
                     case "supportroles":
                         // Directly set internal field to ensure linq2db detects the change

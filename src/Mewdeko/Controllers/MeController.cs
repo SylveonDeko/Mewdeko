@@ -610,22 +610,26 @@ public class MeController(
 
         // Get user's presence across all bot guilds
         var userGuilds = client.Guilds.Where(g => g.GetUser(userId) != null).ToList();
+        var guildNames = userGuilds.ToDictionary(g => g.Id, g => g.Name);
+
+        var xpRows = await db.GuildUserXps
+            .Where(x => x.UserId == userId)
+            .ToListAsync();
 
         var analytics = new
         {
             // XP across servers
             TotalServers = userGuilds.Count,
-            XpData = await db.GuildUserXps
-                .Where(x => x.UserId == userId)
+            XpData = xpRows
                 .Select(x => new
                 {
                     x.GuildId,
-                    GuildName = userGuilds.FirstOrDefault(g => g.Id == x.GuildId).Name ?? "Unknown",
+                    GuildName = guildNames.GetValueOrDefault(x.GuildId) ?? "Unknown",
                     x.TotalXp,
                     Level = XpCalculator.CalculateLevel(x.TotalXp, XpCurveType.Linear), // Default curve
                     x.LastActivity
                 })
-                .ToListAsync(),
+                .ToList(),
 
             // Global currency
             GlobalBalance = await db.GlobalUserBalances

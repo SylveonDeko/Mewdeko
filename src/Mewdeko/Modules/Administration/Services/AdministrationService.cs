@@ -433,6 +433,13 @@ public class AdministrationService : INService
         var botMember = guild?.GetUser(shardedClient.CurrentUser.Id);
         result["nick"] = botMember?.Nickname;
 
+        // The stored avatar URL is whatever was submitted when the profile was
+        // set and may have expired (Discord attachment links do), so the live
+        // guild avatar Discord serves is preferred when one is applied.
+        var liveAvatar = botMember?.GetGuildAvatarUrl(size: 256);
+        if (!string.IsNullOrWhiteSpace(liveAvatar))
+            result["avatar"] = liveAvatar;
+
         return result;
     }
 

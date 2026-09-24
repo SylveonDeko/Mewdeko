@@ -346,7 +346,10 @@ public class CountingController : Controller
                 SuccessEmote = config.SuccessEmote,
                 ErrorEmote = config.ErrorEmote,
                 EnableAchievements = config.EnableAchievements,
-                EnableCompetitions = config.EnableCompetitions
+                EnableCompetitions = config.EnableCompetitions,
+                SuccessMessage = config.SuccessMessage,
+                FailureMessage = config.FailureMessage,
+                MilestoneMessage = config.MilestoneMessage
             };
 
             return Ok(response);

@@ -139,6 +139,8 @@ public class AdministrationController(
                 action = antiSpamStats?.AntiSpamSettings.Action ?? 0,
                 muteTime = antiSpamStats?.AntiSpamSettings.MuteTime ?? 0,
                 roleId = antiSpamStats?.AntiSpamSettings.RoleId ?? 0,
+                ignoredChannels = antiSpamStats?.AntiSpamSettings.AntiSpamIgnores?.Select(i => i.ChannelId).ToList()
+                    ?? new List<ulong>(),
                 userCount = antiSpamStats?.UserStats.Count ?? 0
             },
             antiAlt = new
@@ -651,8 +653,23 @@ public class AdministrationController(
         if (guild == null)
             return NotFound("Guild not found");
 
-        var roles = await selfAssignedRolesService.GetRoles(guild);
-        return Ok(roles);
+        var (exclusive, roleList, groupNames) = await selfAssignedRolesService.GetRoles(guild);
+        return Ok(new
+        {
+            exclusive,
+            roles = roleList.Select(r => new
+            {
+                model = new
+                {
+                    roleId = r.Model.RoleId, group = r.Model.Group, levelRequirement = r.Model.LevelRequirement
+                },
+                role = new
+                {
+                    id = r.Role.Id, name = r.Role.Name
+                }
+            }),
+            groups = groupNames.ToDictionary(kvp => kvp.Key.ToString(), kvp => kvp.Value)
+        });
     }
 
     /// <summary>
@@ -879,8 +896,8 @@ public class AdministrationController(
             {
                 channelId = kvp.Key,
                 channelName = channel?.Name ?? $"Channel {kvp.Key}",
-                roleId = kvp.Value,
-                roleName = role?.Name ?? $"Role {kvp.Value}"
+                roleId = kvp.Value.Id,
+                roleName = role?.Name ?? $"Role {kvp.Value.Id}"
             };
         });
 
@@ -1435,12 +1452,17 @@ public class AdministrationController(
             .Set(gc => gc.VerbosePermissions, verbose)
             .UpdateAsync();
 
+        // Reflect the new value on the config object used to refresh the permission cache,
+        // since it was fetched before the update above ran.
+        config.VerbosePermissions = verbose;
+
         // Update cache
         var permissions = await db.Permissions1
             .Where(p => p.GuildId == guildId)
             .ToListAsync();
 
         permissionService.UpdateCache(guildId, permissions, config);
+        guildSettingsService.ClearCacheForGuild(guildId);
 
         return Ok();
     }
@@ -1466,6 +1488,7 @@ public class AdministrationController(
             .Where(p => p.GuildId == guildId).ToListAsync();
 
         permissionService.UpdateCache(guildId, permissions, config);
+        guildSettingsService.ClearCacheForGuild(guildId);
 
         return Ok();
     }

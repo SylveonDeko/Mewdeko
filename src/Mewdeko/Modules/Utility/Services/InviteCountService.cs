@@ -414,9 +414,14 @@ public class InviteCountService : INService, IReadyExecutor
     /// <param name="label">The label text.</param>
     /// <param name="roleId">A role granted on join through the code, or null.</param>
     /// <param name="ownerUserId">A member credited instead of the code's creator, or null.</param>
+    /// <param name="clearRole">
+    ///     When <c>true</c>, <paramref name="roleId" /> replaces the stored role unconditionally, so passing
+    ///     <c>null</c> clears it. The text/slash commands never pass this, since their role parameter is
+    ///     optional shorthand for "leave the existing role alone".
+    /// </param>
     /// <returns>The saved label.</returns>
     public async Task<InviteLabel> SetLabelAsync(ulong guildId, string code, string label, ulong? roleId = null,
-        ulong? ownerUserId = null)
+        ulong? ownerUserId = null, bool clearRole = false)
     {
         code = NormalizeCode(code);
         await using var db = await dbFactory.CreateConnectionAsync();
@@ -438,7 +443,7 @@ public class InviteCountService : INService, IReadyExecutor
         }
 
         existing.Label = label;
-        existing.RoleId = roleId ?? existing.RoleId;
+        existing.RoleId = clearRole ? roleId : roleId ?? existing.RoleId;
         existing.OwnerUserId = ownerUserId ?? existing.OwnerUserId;
         await db.UpdateAsync(existing);
         return existing;

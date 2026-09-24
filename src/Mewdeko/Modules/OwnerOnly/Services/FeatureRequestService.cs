@@ -191,16 +191,27 @@ public class FeatureRequestService : INService
     }
 
     /// <summary>
-    ///     Returns everything one user has submitted, newest first.
+    ///     Returns everything one user has submitted, newest first, along with which of those
+    ///     requests the same user has upvoted (a user can vote on their own request).
     /// </summary>
     /// <param name="userId">The submitter.</param>
-    public async Task<List<FeatureRequest>> GetMineAsync(ulong userId)
+    public async Task<(List<FeatureRequest> Items, HashSet<int> VotedIds)> GetMineAsync(ulong userId)
     {
         await using var db = await dbFactory.CreateConnectionAsync().ConfigureAwait(false);
-        return await db.FeatureRequests
+        var items = await db.FeatureRequests
             .Where(x => x.UserId == userId)
             .OrderByDescending(x => x.DateAdded)
             .ToListAsync().ConfigureAwait(false);
+
+        var ids = items.Select(x => x.Id).ToList();
+        var voted = ids.Count == 0
+            ? []
+            : await db.FeatureRequestVotes
+                .Where(x => x.UserId == userId && ids.Contains(x.RequestId))
+                .Select(x => x.RequestId)
+                .ToListAsync().ConfigureAwait(false);
+
+        return (items, voted.ToHashSet());
     }
 
     /// <summary>

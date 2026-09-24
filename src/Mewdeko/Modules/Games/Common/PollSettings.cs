@@ -56,6 +56,12 @@ public class PollSettings
     public bool ShowResults { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets the poll type this template should default to when reused.
+    /// </summary>
+    [JsonPropertyName("defaultType")]
+    public PollType? DefaultType { get; set; }
+
+    /// <summary>
     /// Gets or sets whether to show progress bars for vote counts.
     /// </summary>
     [JsonPropertyName("showProgressBars")]

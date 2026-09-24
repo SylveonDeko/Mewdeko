@@ -27,6 +27,10 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
     private readonly ConcurrentDictionary<ulong, AntiMassMentionStats> antiMassMentionGuilds = new();
     private readonly ConcurrentDictionary<ulong, AntiMassPostStats> antiMassPostGuilds = new();
     private readonly ConcurrentDictionary<ulong, AntiPatternStats> antiPatternGuilds = new();
+    private static readonly TimeSpan PunishRetryInterval = TimeSpan.FromMinutes(30);
+    private static readonly TimeSpan OwnerNoticeInterval = TimeSpan.FromHours(24);
+    private readonly ConcurrentDictionary<ulong, PunishmentPause> pausedPunishments = new();
+    private readonly ConcurrentDictionary<ulong, DateTime> ownerNotices = new();
     private readonly ConcurrentDictionary<ulong, AntiPostChannelStats> antiPostChannelGuilds = new();
     private readonly ConcurrentDictionary<ulong, AntiRaidStats> antiRaidGuilds = new();
     private readonly ConcurrentDictionary<ulong, AntiSpamStats> antiSpamGuilds = new();
@@ -170,8 +174,16 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
                     continue;
                 }
 
-                await punishService.ApplyPunishment(gu.Guild, gu, currentUser, (PunishmentAction)item.Action, muteTime,
-                    item.RoleId, $"{item.Type} Protection").ConfigureAwait(false);
+                try
+                {
+                    await punishService.ApplyPunishment(gu.Guild, gu, currentUser, (PunishmentAction)item.Action,
+                        muteTime, item.RoleId, $"{item.Type} Protection").ConfigureAwait(false);
+                }
+                catch (Discord.Net.HttpException ex) when (ex.DiscordCode == DiscordErrorCode.MissingPermissions)
+                {
+                    await PausePunishmentsAsync(gu.Guild, (PunishmentAction)item.Action, item.Type,
+                        "Discord rejected the action with Missing Permissions").ConfigureAwait(false);
+                }
 
                 await Task.Delay(1000);
             }
@@ -621,8 +633,24 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
             _ => "automod_post"
         }, gus[0].GuildId);
 
+        var punishment = (PunishmentAction)action;
+        var guild = gus[0].Guild;
+        var bot = await guild.GetCurrentUserAsync().ConfigureAwait(false);
+        var queued = new List<IGuildUser>(gus.Length);
+
+        if (pausedPunishments.TryGetValue(guild.Id, out var pause) && DateTime.UtcNow < pause.RetryAfter)
+            return;
+
         foreach (var gu in gus)
         {
+            var blocker = bot is null ? null : MissingPermissionFor(bot, gu, punishment, roleId);
+            if (blocker is not null)
+            {
+                await PausePunishmentsAsync(guild, punishment, pt, blocker).ConfigureAwait(false);
+                return;
+            }
+
+            queued.Add(gu);
             await punishUserQueue.Writer.WriteAsync(new PunishQueueItem
             {
                 Action = action,
@@ -633,7 +661,132 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
             }).ConfigureAwait(false);
         }
 
-        _ = OnAntiProtectionTriggered((PunishmentAction)action, pt, gus);
+        if (pausedPunishments.TryRemove(guild.Id, out var resumed))
+        {
+            logger.LogInformation(
+                "Automod punishments resumed in {GuildName} ({GuildId}) after being paused since {Since:u}",
+                guild.Name, guild.Id, resumed.Since);
+        }
+
+        if (queued.Count > 0)
+            _ = OnAntiProtectionTriggered(punishment, pt, queued.ToArray());
+    }
+
+    /// <summary>
+    ///     Reports whether automod punishments are currently paused for a guild because the bot cannot apply them.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <returns>The pause details, or null when punishments are active.</returns>
+    public PunishmentPause? GetPunishmentPause(ulong guildId)
+    {
+        return pausedPunishments.TryGetValue(guildId, out var pause) ? pause : null;
+    }
+
+    /// <summary>
+    ///     Clears a punishment pause so the next trigger re-checks permissions immediately.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <returns>True when a pause was cleared.</returns>
+    public bool ResumePunishments(ulong guildId)
+    {
+        return pausedPunishments.TryRemove(guildId, out _);
+    }
+
+    /// <summary>
+    ///     Explains why the bot cannot apply a punishment to a member, or returns null when it can.
+    /// </summary>
+    /// <param name="bot">The bot's own guild member.</param>
+    /// <param name="target">The member to punish.</param>
+    /// <param name="action">The punishment.</param>
+    /// <param name="roleId">The role involved for role based punishments.</param>
+    /// <returns>A short reason, or null when the action should be attempted.</returns>
+    private static string? MissingPermissionFor(IGuildUser bot, IGuildUser target, PunishmentAction action,
+        ulong? roleId)
+    {
+        if (action is PunishmentAction.None or PunishmentAction.Warn or PunishmentAction.Delete)
+            return null;
+
+        if (target.Id == target.Guild.OwnerId)
+            return "the target is the server owner";
+
+        if (target.Id == bot.Id)
+            return "the target is the bot itself";
+
+        var perms = bot.GuildPermissions;
+        if (perms.Administrator)
+            return bot.Hierarchy > target.Hierarchy ? null : "the bot's highest role is not above the target's";
+
+        var missing = action switch
+        {
+            PunishmentAction.Kick => perms.KickMembers ? null : "Kick Members",
+            PunishmentAction.Ban or PunishmentAction.Softban => perms.BanMembers ? null : "Ban Members",
+            PunishmentAction.Timeout => perms.ModerateMembers ? null : "Moderate Members",
+            PunishmentAction.Mute or PunishmentAction.ChatMute or PunishmentAction.RemoveRoles
+                or PunishmentAction.AddRole => perms.ManageRoles ? null : "Manage Roles",
+            PunishmentAction.VoiceMute => perms.MuteMembers ? null : "Mute Members",
+            _ => null
+        };
+        if (missing is not null)
+            return $"the bot lacks the {missing} permission";
+
+        if (bot.Hierarchy <= target.Hierarchy)
+            return "the bot's highest role is not above the target's";
+
+        if (action is PunishmentAction.AddRole or PunishmentAction.RemoveRoles && roleId.HasValue)
+        {
+            var role = target.Guild.GetRole(roleId.Value);
+            if (role is not null && role.Position >= bot.Hierarchy)
+                return $"the role {role.Name} is above the bot's highest role";
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    ///     Pauses automod punishments for a guild without touching its settings, logs once, and tells the owner.
+    ///     The next trigger after the retry interval re-checks permissions and resumes automatically.
+    /// </summary>
+    private async Task PausePunishmentsAsync(IGuild guild, PunishmentAction action, ProtectionType type,
+        string reason)
+    {
+        var alreadyPaused = pausedPunishments.ContainsKey(guild.Id);
+        pausedPunishments[guild.Id] = new PunishmentPause
+        {
+            Reason = reason,
+            Action = action,
+            Type = type,
+            Since = alreadyPaused ? pausedPunishments[guild.Id].Since : DateTime.UtcNow,
+            RetryAfter = DateTime.UtcNow + PunishRetryInterval
+        };
+
+        if (!alreadyPaused)
+        {
+            logger.LogWarning(
+                "[{ProtectionType}] Automod punishments paused in {GuildName} ({GuildId}) because {Reason}. Settings are kept; punishments resume automatically once the bot can {Action} members again",
+                type, guild.Name, guild.Id, reason, action);
+        }
+
+        await NotifyOwnerAsync(guild, action, reason).ConfigureAwait(false);
+    }
+
+    private async Task NotifyOwnerAsync(IGuild guild, PunishmentAction action, string reason)
+    {
+        if (ownerNotices.TryGetValue(guild.Id, out var last) && DateTime.UtcNow - last < OwnerNoticeInterval)
+            return;
+        ownerNotices[guild.Id] = DateTime.UtcNow;
+
+        try
+        {
+            var owner = await guild.GetOwnerAsync().ConfigureAwait(false);
+            if (owner is null) return;
+            var dm = await owner.CreateDMChannelAsync().ConfigureAwait(false);
+            await dm.SendMessageAsync(strings.ProtectionPunishPausedDm(guild.Id, guild.Name, action.ToString(),
+                reason)).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            logger.LogDebug(ex, "Could not DM the owner of {GuildId} about paused punishments", guild.Id);
+        }
     }
 
     /// <summary>

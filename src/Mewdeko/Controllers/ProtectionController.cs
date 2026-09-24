@@ -28,9 +28,13 @@ public class ProtectionController(
                 antiPostChannelStats) =
             protectionService.GetAntiStats(guildId);
         var imageHashStats = protectionService.GetAntiImageHashStats(guildId);
+        var pause = protectionService.GetPunishmentPause(guildId);
 
         return Ok(new
         {
+            punishmentsPaused = pause is not null,
+            punishmentsPausedReason = pause?.Reason,
+            punishmentsPausedSince = pause?.Since,
             antiRaid = new
             {
                 enabled = antiRaidStats != null,
@@ -47,7 +51,8 @@ public class ProtectionController(
                 action = antiSpamStats?.AntiSpamSettings?.Action ?? 0,
                 muteTime = antiSpamStats?.AntiSpamSettings?.MuteTime ?? 0,
                 roleId = antiSpamStats?.AntiSpamSettings?.RoleId ?? 0,
-                ignoredChannels = new List<ulong>(), // Ignored channels are retrieved separately
+                ignoredChannels = antiSpamStats?.AntiSpamSettings?.AntiSpamIgnores?.Select(i => i.ChannelId).ToList()
+                    ?? new List<ulong>(),
                 userCount = antiSpamStats?.UserStats?.Count ?? 0
             },
             antiAlt = new

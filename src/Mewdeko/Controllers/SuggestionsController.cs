@@ -523,8 +523,8 @@ public class SuggestionsController(
     public async Task<IActionResult> GetSuggestButtonLabel(ulong guildId)
     {
         var guild = client.GetGuild(guildId);
-        var label = await service.GetSuggestButton(guild);
-        return Ok(label);
+        var label = await service.GetSuggestButtonName(guild);
+        return Ok(label is "-" or null ? "" : label);
     }
 
     /// <summary>

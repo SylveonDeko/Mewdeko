@@ -89,8 +89,8 @@ public class FeatureRequestsController(FeatureRequestService service, BotCredent
     [HttpGet("mine")]
     public async Task<IActionResult> GetMine()
     {
-        var items = await service.GetMineAsync(userId);
-        return Ok(items.Select(x => Map(x, false)).ToList());
+        var (items, voted) = await service.GetMineAsync(userId);
+        return Ok(items.Select(x => Map(x, voted.Contains(x.Id))).ToList());
     }
 
     /// <summary>

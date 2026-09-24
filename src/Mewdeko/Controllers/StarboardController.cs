@@ -232,16 +232,20 @@ public class StarboardController : Controller
     }
 
     /// <summary>
-    ///     Gets recent starboard highlights for a guild
+    ///     Gets starboard highlights for a guild
     /// </summary>
+    /// <param name="guildId">The guild id.</param>
+    /// <param name="limit">Maximum number of highlights, 1 through 25.</param>
+    /// <param name="sort">"recent" (default) for newest starred first, "top" for most starred first.</param>
     [HttpGet("highlights")]
-    public async Task<IActionResult> GetStarboardHighlights(ulong guildId, [FromQuery] int limit = 5)
+    public async Task<IActionResult> GetStarboardHighlights(ulong guildId, [FromQuery] int limit = 5,
+        [FromQuery] string? sort = null)
     {
         var guild = client.GetGuild(guildId);
         if (guild == null)
             return NotFound("Guild not found");
 
-        var highlights = await starboardService.GetRecentHighlights(guildId, limit);
+        var highlights = await starboardService.GetRecentHighlights(guildId, limit, sort);
         return Ok(highlights);
     }
 

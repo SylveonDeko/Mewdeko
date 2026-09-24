@@ -486,7 +486,7 @@ public class InviteTrackingController : Controller
 
         auditContext.RecordBefore(await inviteService.GetLabelAsync(guildId, request.Code));
         var label = await inviteService.SetLabelAsync(guildId, request.Code, request.Label, request.RoleId,
-            request.OwnerUserId);
+            request.OwnerUserId, clearRole: true);
         auditContext.RecordAfter(label);
         return Ok(label);
     }

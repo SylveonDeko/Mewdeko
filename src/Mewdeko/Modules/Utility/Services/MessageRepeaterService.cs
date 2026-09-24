@@ -646,6 +646,55 @@ public class MessageRepeaterService : INService, IReadyExecutor, IDisposable
     }
 
     /// <summary>
+    ///     Updates the repeat interval of an existing repeater.
+    /// </summary>
+    public async Task<bool> UpdateRepeaterIntervalAsync(ulong guildId, int repeaterId, TimeSpan interval)
+    {
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+
+        var item = await dbContext.GuildRepeaters
+            .FirstOrDefaultAsync(r => r.Id == repeaterId && r.GuildId == guildId);
+
+        if (item == null) return false;
+
+        item.Interval = interval.ToString();
+        await dbContext.UpdateAsync(item);
+
+        if (Repeaters.TryGetValue(guildId, out var guildRepeaters) &&
+            guildRepeaters.TryGetValue(repeaterId, out var runner))
+        {
+            runner.Repeater.Interval = item.Interval;
+            runner.Reset();
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    ///     Updates the queue position of an existing repeater.
+    /// </summary>
+    public async Task<bool> UpdateRepeaterQueuePositionAsync(ulong guildId, int repeaterId, int queuePosition)
+    {
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+
+        var item = await dbContext.GuildRepeaters
+            .FirstOrDefaultAsync(r => r.Id == repeaterId && r.GuildId == guildId);
+
+        if (item == null) return false;
+
+        item.QueuePosition = queuePosition;
+        await dbContext.UpdateAsync(item);
+
+        if (Repeaters.TryGetValue(guildId, out var guildRepeaters) &&
+            guildRepeaters.TryGetValue(repeaterId, out var runner))
+        {
+            runner.Repeater.QueuePosition = item.QueuePosition;
+        }
+
+        return true;
+    }
+
+    /// <summary>
     ///     Toggles conversation detection for a repeater.
     /// </summary>
     public async Task<bool> ToggleRepeaterConversationDetectionAsync(ulong guildId, int repeaterId)

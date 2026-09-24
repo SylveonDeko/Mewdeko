@@ -59,7 +59,15 @@ public class GuildController : ControllerBase
                 Banner = guild.BannerId,
                 BannerUrl =
                     guild.BannerId != null
-                        ? $"https://cdn.discordapp.com/banners/{guild.Id}/{guild.BannerId}.{(guild.BannerId.StartsWith("a_") ? "gif" : "png")}"
+                        ? $"https://cdn.discordapp.com/banners/{guild.Id}/{guild.BannerId}.{(guild.BannerId.StartsWith("a_") ? "gif" : "png")}?size=1024"
+                        : null,
+                SplashUrl =
+                    guild.SplashId != null
+                        ? $"https://cdn.discordapp.com/splashes/{guild.Id}/{guild.SplashId}.png?size=1024"
+                        : null,
+                DiscoverySplashUrl =
+                    guild.DiscoverySplashId != null
+                        ? $"https://cdn.discordapp.com/discovery-splashes/{guild.Id}/{guild.DiscoverySplashId}.png?size=1024"
                         : null,
                 Description = guild.Description,
                 MemberCount = guild.MemberCount,

@@ -157,6 +157,21 @@ public class CountingConfigResponse
     /// Whether to enable competition features for this channel.
     /// </summary>
     public bool EnableCompetitions { get; set; }
+
+    /// <summary>
+    /// Custom message shown on a successful count, or null for the default.
+    /// </summary>
+    public string? SuccessMessage { get; set; }
+
+    /// <summary>
+    /// Custom message shown on a failed count, or null for the default.
+    /// </summary>
+    public string? FailureMessage { get; set; }
+
+    /// <summary>
+    /// Custom message shown when a milestone is reached, or null for the default.
+    /// </summary>
+    public string? MilestoneMessage { get; set; }
 }
 
 /// <summary>

@@ -18,7 +18,8 @@ namespace Mewdeko.Controllers;
 public class FilterController(
     FilterService filterService,
     IDataConnectionFactory dbFactory,
-    IDashboardAuditContext auditContext) : Controller
+    IDashboardAuditContext auditContext,
+    GuildSettingsService guildSettingsService) : Controller
 {
     /// <summary>
     ///     Gets all filter settings for a guild
@@ -99,6 +100,7 @@ public class FilterController(
         guildConfig.FilterLinks = request.FilterLinks;
 
         await db.UpdateAsync(guildConfig);
+        guildSettingsService.ClearCacheForGuild(guildId);
 
         auditContext.RecordAfter(new
         {

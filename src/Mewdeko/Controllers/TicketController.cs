@@ -564,13 +564,21 @@ public class TicketController : Controller
             if (request.Label != null) settings["label"] = request.Label;
             if (request.Emoji != null) settings["emoji"] = request.Emoji;
             if (request.Style.HasValue) settings["style"] = (int)request.Style.Value;
-            if (request.CategoryId.HasValue) settings["categoryId"] = request.CategoryId.Value;
-            if (request.ArchiveCategoryId.HasValue) settings["archiveCategoryId"] = request.ArchiveCategoryId.Value;
+            if (request.CategoryId.HasValue)
+                settings["categoryId"] = request.CategoryId.Value == 0 ? null : request.CategoryId.Value;
+            if (request.ArchiveCategoryId.HasValue)
+                settings["archiveCategoryId"] = request.ArchiveCategoryId.Value == 0 ? null : request.ArchiveCategoryId.Value;
+            if (request.ChannelFormat != null) settings["channelNameFormat"] = request.ChannelFormat;
             if (request.SupportRoles != null) settings["supportRoles"] = request.SupportRoles.ToArray();
             if (request.ViewerRoles != null) settings["viewerRoles"] = request.ViewerRoles.ToArray();
-            if (request.AutoCloseTime.HasValue) settings["autoCloseTime"] = request.AutoCloseTime.Value;
+            if (request.AutoCloseTime.HasValue)
+                settings["autoCloseTime"] = request.AutoCloseTime.Value == TimeSpan.Zero
+                    ? null
+                    : request.AutoCloseTime.Value;
             if (request.RequiredResponseTime.HasValue)
-                settings["requiredResponseTime"] = request.RequiredResponseTime.Value;
+                settings["requiredResponseTime"] = request.RequiredResponseTime.Value == TimeSpan.Zero
+                    ? null
+                    : request.RequiredResponseTime.Value;
             if (request.MaxActiveTickets.HasValue) settings["maxActiveTickets"] = request.MaxActiveTickets.Value;
             if (request.AllowedPriorities != null) settings["allowedPriorities"] = request.AllowedPriorities.ToArray();
             if (request.DefaultPriority != null) settings["defaultPriority"] = request.DefaultPriority;
@@ -920,13 +928,21 @@ public class TicketController : Controller
             if (request.Label != null) settings["label"] = request.Label;
             if (request.Description != null) settings["description"] = request.Description;
             if (request.Emoji != null) settings["emoji"] = request.Emoji;
-            if (request.CategoryId.HasValue) settings["categoryId"] = request.CategoryId.Value;
-            if (request.ArchiveCategoryId.HasValue) settings["archiveCategoryId"] = request.ArchiveCategoryId.Value;
+            if (request.CategoryId.HasValue)
+                settings["categoryId"] = request.CategoryId.Value == 0 ? null : request.CategoryId.Value;
+            if (request.ArchiveCategoryId.HasValue)
+                settings["archiveCategoryId"] = request.ArchiveCategoryId.Value == 0 ? null : request.ArchiveCategoryId.Value;
+            if (request.ChannelFormat != null) settings["channelNameFormat"] = request.ChannelFormat;
             if (request.SupportRoles != null) settings["supportRoles"] = request.SupportRoles.ToArray();
             if (request.ViewerRoles != null) settings["viewerRoles"] = request.ViewerRoles.ToArray();
-            if (request.AutoCloseTime.HasValue) settings["autoCloseTime"] = request.AutoCloseTime.Value;
+            if (request.AutoCloseTime.HasValue)
+                settings["autoCloseTime"] = request.AutoCloseTime.Value == TimeSpan.Zero
+                    ? null
+                    : request.AutoCloseTime.Value;
             if (request.RequiredResponseTime.HasValue)
-                settings["requiredResponseTime"] = request.RequiredResponseTime.Value;
+                settings["requiredResponseTime"] = request.RequiredResponseTime.Value == TimeSpan.Zero
+                    ? null
+                    : request.RequiredResponseTime.Value;
             if (request.MaxActiveTickets.HasValue) settings["maxActiveTickets"] = request.MaxActiveTickets.Value;
             if (request.AllowedPriorities != null) settings["allowedPriorities"] = request.AllowedPriorities.ToArray();
             if (request.DefaultPriority != null) settings["defaultPriority"] = request.DefaultPriority;

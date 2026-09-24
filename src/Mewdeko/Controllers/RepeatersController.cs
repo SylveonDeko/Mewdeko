@@ -424,6 +424,23 @@ public class RepeatersController : Controller
                     request.ChannelId.Value));
             }
 
+            if (!string.IsNullOrWhiteSpace(request.Interval))
+            {
+                if (!TimeSpan.TryParse(request.Interval, out var interval) ||
+                    interval < TimeSpan.FromSeconds(5) || interval > TimeSpan.FromMinutes(25000))
+                {
+                    return BadRequest("Interval must be between 5 seconds and 25000 minutes");
+                }
+
+                updates.Add(() => repeaterService.UpdateRepeaterIntervalAsync(guildId, repeaterId, interval));
+            }
+
+            if (request.QueuePosition.HasValue)
+            {
+                updates.Add(() => repeaterService.UpdateRepeaterQueuePositionAsync(guildId, repeaterId,
+                    request.QueuePosition.Value));
+            }
+
             if (request.TriggerMode.HasValue)
             {
                 updates.Add(() => repeaterService.UpdateRepeaterTriggerModeAsync(guildId, repeaterId,
@@ -451,17 +468,18 @@ public class RepeatersController : Controller
                     request.Priority.Value));
             }
 
-            if (request.ConversationDetection.HasValue)
+            if (request.ConversationDetection.HasValue &&
+                request.ConversationDetection.Value != repeater.Repeater.ConversationDetection)
             {
                 updates.Add(() => repeaterService.ToggleRepeaterConversationDetectionAsync(guildId, repeaterId));
             }
 
-            if (request.NoRedundant.HasValue)
+            if (request.NoRedundant.HasValue && request.NoRedundant.Value != repeater.Repeater.NoRedundant)
             {
                 updates.Add(() => repeaterService.ToggleRepeaterRedundancyAsync(guildId, repeaterId));
             }
 
-            if (request.IsEnabled.HasValue)
+            if (request.IsEnabled.HasValue && request.IsEnabled.Value != repeater.Repeater.IsEnabled)
             {
                 updates.Add(() => repeaterService.ToggleRepeaterEnabledAsync(guildId, repeaterId));
             }
@@ -734,59 +752,52 @@ public class RepeatersController : Controller
     private async Task UpdateRepeaterProperties(ulong guildId, int repeaterId, CreateRepeaterRequest request,
         string? timeConditionsJson)
     {
-        // Update all the new sticky properties that aren't handled by the basic CreateRepeaterAsync
-        var updateTasks = new List<Task<bool>>
-        {
-            repeaterService.UpdateRepeaterActivityThresholdAsync(guildId, repeaterId, request.ActivityThreshold,
-                TimeSpan.Parse(request.ActivityTimeWindow)),
-            repeaterService.UpdateRepeaterPriorityAsync(guildId, repeaterId, request.Priority)
-        };
+        // Update all the new sticky properties that aren't handled by the basic CreateRepeaterAsync.
+        // Each of these methods does its own read-modify-write of the whole row, so they must run
+        // one after another rather than concurrently, or later writes can clobber earlier ones.
+        await repeaterService.UpdateRepeaterActivityThresholdAsync(guildId, repeaterId, request.ActivityThreshold,
+            TimeSpan.Parse(request.ActivityTimeWindow));
+        await repeaterService.UpdateRepeaterPriorityAsync(guildId, repeaterId, request.Priority);
 
         if (request.ConversationDetection)
         {
-            updateTasks.Add(repeaterService.ToggleRepeaterConversationDetectionAsync(guildId, repeaterId));
+            await repeaterService.ToggleRepeaterConversationDetectionAsync(guildId, repeaterId);
         }
 
         if (request.ConversationThreshold > 0)
         {
-            updateTasks.Add(
-                repeaterService.UpdateRepeaterConversationThresholdAsync(guildId, repeaterId,
-                    request.ConversationThreshold));
+            await repeaterService.UpdateRepeaterConversationThresholdAsync(guildId, repeaterId,
+                request.ConversationThreshold);
         }
 
         if (request.NoRedundant)
         {
-            updateTasks.Add(repeaterService.ToggleRepeaterRedundancyAsync(guildId, repeaterId));
+            await repeaterService.ToggleRepeaterRedundancyAsync(guildId, repeaterId);
         }
 
         if (!string.IsNullOrWhiteSpace(timeConditionsJson))
         {
-            updateTasks.Add(
-                repeaterService.UpdateRepeaterTimeConditionsAsync(guildId, repeaterId, timeConditionsJson));
+            await repeaterService.UpdateRepeaterTimeConditionsAsync(guildId, repeaterId, timeConditionsJson);
         }
 
         if (!string.IsNullOrWhiteSpace(request.MaxAge))
         {
-            updateTasks.Add(
-                repeaterService.UpdateRepeaterExpiryAsync(guildId, repeaterId, request.MaxAge, request.MaxTriggers));
+            await repeaterService.UpdateRepeaterExpiryAsync(guildId, repeaterId, request.MaxAge,
+                request.MaxTriggers);
         }
 
-        if (request.ThreadOnlyMode)
-        {
-            updateTasks.Add(repeaterService.ToggleRepeaterThreadOnlyModeAsync(guildId, repeaterId));
-        }
+        // ThreadOnlyMode is not toggled here: CreateRepeaterAsync already inserts the row with
+        // this value, so toggling it again would flip it straight back off.
 
         if (request.SuppressNotifications)
         {
-            updateTasks.Add(repeaterService.ToggleRepeaterSuppressNotificationsAsync(guildId, repeaterId));
+            await repeaterService.ToggleRepeaterSuppressNotificationsAsync(guildId, repeaterId);
         }
 
         if (!string.IsNullOrWhiteSpace(request.ForumTagConditions))
         {
-            updateTasks.Add(
-                repeaterService.UpdateRepeaterForumTagConditionsAsync(guildId, repeaterId, request.ForumTagConditions));
+            await repeaterService.UpdateRepeaterForumTagConditionsAsync(guildId, repeaterId,
+                request.ForumTagConditions);
         }
-
-        await Task.WhenAll(updateTasks);
     }
 }

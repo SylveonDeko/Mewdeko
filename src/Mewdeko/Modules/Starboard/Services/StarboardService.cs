@@ -149,187 +149,367 @@ public class StarboardService : INService, IReadyExecutor, IUnloadableService
         => starboardConfigs.Where(x => x.GuildId == guildId).ToList();
 
     /// <summary>
-    ///     Gets recent starboard highlights for a guild.
+    ///     Matches the author link line a starboard repost starts its container with.
+    /// </summary>
+    private static readonly Regex RepostAuthorRegex =
+        new(@"^\[\*\*(.+?)\*\*\]\(https://discord\.com/users/(\d+)\)$", RegexOptions.Compiled);
+
+    /// <summary>
+    ///     Matches a Discord message jump link and captures its channel and message ids.
+    /// </summary>
+    private static readonly Regex JumpLinkRegex =
+        new(@"discord(?:app)?\.com/channels/\d+/(\d+)/(\d+)", RegexOptions.Compiled);
+
+    /// <summary>
+    ///     Matches a bolded reaction count on a starboard repost stars line.
+    /// </summary>
+    private static readonly Regex StarsCountRegex = new(@"\*\*(\d+)\*\*", RegexOptions.Compiled);
+
+    /// <summary>
+    ///     Gets starboard highlights for a guild, resolving each post back to the original message so the
+    ///     real content, author, image and channel are returned.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
-    /// <param name="limit">The maximum number of highlights to return.</param>
-    /// <returns>A list of recent starboard highlights.</returns>
-    public async Task<List<StarboardHighlight>> GetRecentHighlights(ulong guildId, int limit = 5)
+    /// <param name="limit">The maximum number of highlights to return, clamped to 1 through 25.</param>
+    /// <param name="sort">
+    ///     "top" orders by star count (current or peak, whichever is higher); anything else returns the most
+    ///     recently starred posts first.
+    /// </param>
+    /// <returns>A list of starboard highlights.</returns>
+    public async Task<List<StarboardHighlight>> GetRecentHighlights(ulong guildId, int limit = 5,
+        string? sort = null)
     {
-        await using var dbContext = await dbFactory.CreateConnectionAsync();
+        var sortByTop = string.Equals(sort, "top", StringComparison.OrdinalIgnoreCase);
+        limit = Math.Clamp(limit, 1, 25);
 
-        // Get starboard configs for this guild
         var guildStarboards = starboardConfigs.Where(s => s.GuildId == guildId).ToList();
         if (guildStarboards.Count == 0)
-            return new List<StarboardHighlight>();
+            return [];
 
-        // Get recent starboard posts for this guild
-        var recentPosts = await dbContext.StarboardPosts
-            .Where(sp => guildStarboards.Select(gs => gs.Id).Contains(sp.StarboardConfigId))
-            .OrderByDescending(sp => sp.DateAdded)
-            .Take(limit * 2) // Get more than needed in case some messages are deleted
-            .ToListAsync();
+        var guild = client.GetGuild(guildId);
+        if (guild == null)
+            return [];
+
+        var starboardIds = guildStarboards.Select(gs => gs.Id).ToList();
+        var statsByMessage = starboardStats
+            .ToList()
+            .Where(s => starboardIds.Contains(s.StarboardId))
+            .GroupBy(s => s.MessageId)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
+        await using var dbContext = await dbFactory.CreateConnectionAsync();
+        var postsQuery = dbContext.StarboardPosts.Where(sp => starboardIds.Contains(sp.StarboardConfigId));
+
+        List<StarboardPost> candidates;
+        if (sortByTop)
+        {
+            var allPosts = await postsQuery.ToListAsync();
+            candidates = allPosts
+                .OrderByDescending(p => HighlightScore(p, statsByMessage))
+                .ThenByDescending(p => p.Id)
+                .Take(limit * 3)
+                .ToList();
+        }
+        else
+        {
+            candidates = await postsQuery
+                .OrderByDescending(sp => sp.Id)
+                .Take(limit * 3)
+                .ToListAsync();
+        }
 
         var highlights = new List<StarboardHighlight>();
-        var guild = client.GetGuild(guildId);
 
-        if (guild == null)
-            return highlights;
-
-        // Process each post and try to get message content from Discord
-        foreach (var post in recentPosts)
+        foreach (var post in candidates)
         {
             if (highlights.Count >= limit)
                 break;
 
             try
             {
-                var starboardConfig = guildStarboards.FirstOrDefault(s => s.Id == post.StarboardConfigId);
-                if (starboardConfig == null) continue;
-
-                var starboardChannel = guild.GetTextChannel(starboardConfig.StarboardChannelId);
-                if (starboardChannel == null) continue;
-
-                var starboardMessage = await starboardChannel.GetMessageAsync(post.PostId);
-                if (starboardMessage == null) continue;
-
-                // Parse star count from the starboard message - handle different emotes
-                var starCount = post.ReactionCount ?? 0;
-                var emoteUsed = "⭐"; // Default fallback
-
-                // Try to parse from message content if ReactionCount is null
-                if (starCount == 0)
-                {
-                    var starboardEmotes = ParseEmotes(starboardConfig.Emote);
-                    if (starboardEmotes.Count > 0)
-                    {
-                        emoteUsed = starboardEmotes.First();
-                        if (starboardMessage.Content.Contains(emoteUsed))
-                        {
-                            var starText = starboardMessage.Content.Split(' ')[0];
-                            if (int.TryParse(starText.Replace(emoteUsed, "").Trim(), out var parsedCount))
-                                starCount = parsedCount;
-                        }
-                    }
-                }
-                else
-                {
-                    // Use the first emote from the configuration for display
-                    var starboardEmotes = ParseEmotes(starboardConfig.Emote);
-                    if (starboardEmotes.Count > 0)
-                        emoteUsed = starboardEmotes.First();
-                }
-
-                // Try to get original message content and author info
-                var originalContent = "Message content unavailable";
-                var authorName = "Unknown User";
-                var authorAvatarUrl = "";
-                var imageUrl = "";
-
-                // First try to extract from embeds (older format)
-                if (starboardMessage.Embeds.Any())
-                {
-                    var embed = starboardMessage.Embeds.First();
-                    originalContent = embed.Description ?? originalContent;
-                    authorName = embed.Author?.Name ?? authorName;
-                    authorAvatarUrl = embed.Author?.IconUrl ?? "";
-
-                    // Check for images in embed
-                    if (embed.Image.HasValue)
-                        imageUrl = embed.Image.Value.Url;
-                    else if (embed.Thumbnail.HasValue)
-                        imageUrl = embed.Thumbnail.Value.Url;
-                }
-                // If no embeds, try to parse from components (newer format)
-                else if (starboardMessage.Components.Any())
-                {
-                    try
-                    {
-                        // Parse the message content from components
-                        // ComponentsV2 format has text displays in container components
-                        var componentText = starboardMessage.Content ?? "";
-
-                        // Extract author from the first link (format: [**AuthorName**](https://discord.com/users/UserId))
-                        var authorMatch = Regex.Match(componentText,
-                            @"\[\*\*(.+?)\*\*\]\(https://discord\.com/users/(\d+)\)");
-                        if (authorMatch.Success)
-                        {
-                            authorName = authorMatch.Groups[1].Value;
-                            var userId = authorMatch.Groups[2].Value;
-
-                            // Try to get the user's avatar
-                            try
-                            {
-                                var user = await client.GetUserAsync(ulong.Parse(userId), CacheMode.AllowDownload,
-                                    RequestOptions.Default);
-                                if (user != null)
-                                {
-                                    authorAvatarUrl = user.GetAvatarUrl() ?? user.GetDefaultAvatarUrl();
-                                    authorName = user.Username; // Use actual username if we can get it
-                                }
-                            }
-                            catch
-                            {
-                                // If we can't get the user, use default avatar
-                                authorAvatarUrl =
-                                    $"https://cdn.discordapp.com/embed/avatars/{ulong.Parse(userId) % 5}.png";
-                            }
-
-                            // Remove the author link from content to get the actual message
-                            originalContent = componentText.Replace(authorMatch.Value, "").Trim();
-                        }
-
-                        // Clean up the content - remove reaction counts at the start
-                        var contentLines = originalContent.Split('\n');
-                        if (contentLines.Length > 0 && contentLines[0].Contains("**") &&
-                            Regex.IsMatch(contentLines[0], @"[⭐✨🌟💫⚡️🔥💖] \*\*\d+\*\*"))
-                        {
-                            // Skip the first line if it's reaction counts
-                            originalContent = string.Join('\n', contentLines.Skip(1)).Trim();
-                        }
-
-                        // If content is still empty or just whitespace, check for media URLs
-                        if (string.IsNullOrWhiteSpace(originalContent))
-                        {
-                            // Look for media gallery items in the components
-                            if (componentText.Contains("http"))
-                            {
-                                var urlMatch = Regex.Match(componentText, @"https?://[^\s\)]+");
-                                if (urlMatch.Success)
-                                {
-                                    imageUrl = urlMatch.Value;
-                                    originalContent = "[Media]";
-                                }
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        // If parsing fails, keep the defaults
-                    }
-                }
-
-                highlights.Add(new StarboardHighlight
-                {
-                    MessageId = post.MessageId,
-                    ChannelId = 0, // We'd need to store this in the DB to get it
-                    StarCount = starCount,
-                    Content = originalContent,
-                    AuthorName = authorName,
-                    AuthorAvatarUrl = authorAvatarUrl,
-                    ImageUrl = imageUrl,
-                    StarEmote = emoteUsed,
-                    CreatedAt = post.DateAdded ?? DateTime.UtcNow
-                });
+                var highlight = await BuildHighlight(guild, post, guildStarboards, statsByMessage);
+                if (highlight != null)
+                    highlights.Add(highlight);
             }
             catch (Exception ex)
             {
-                // Log error but continue processing other messages
-                logger.LogWarning($"Failed to process starboard highlight for post {post.Id}: {ex.Message}");
+                logger.LogWarning("Failed to process starboard highlight for post {PostId}: {Message}", post.Id,
+                    ex.Message);
             }
         }
 
-        return highlights.OrderByDescending(h => h.StarCount).ToList();
+        return sortByTop
+            ? highlights.OrderByDescending(h => h.StarCount).ToList()
+            : highlights;
+    }
+
+    /// <summary>
+    ///     Scores a starboard post for the "top" ordering: the higher of its stored reaction count and the
+    ///     peak count tracked in the starboard stats.
+    /// </summary>
+    private static int HighlightScore(StarboardPost post, Dictionary<ulong, List<StarboardStats>> statsByMessage)
+    {
+        var peak = statsByMessage.TryGetValue(post.MessageId, out var stats)
+            ? stats.Where(s => s.StarboardId == post.StarboardConfigId).Select(s => s.PeakReactionCount)
+                .DefaultIfEmpty(0).Max()
+            : 0;
+        return Math.Max(post.ReactionCount ?? 0, peak);
+    }
+
+    /// <summary>
+    ///     Builds a single highlight. The original message is preferred; the starboard repost is only parsed
+    ///     when the original can no longer be fetched. Returns null when neither message exists.
+    /// </summary>
+    private async Task<StarboardHighlight?> BuildHighlight(SocketGuild guild, StarboardPost post,
+        List<DataModel.Starboard> guildStarboards, Dictionary<ulong, List<StarboardStats>> statsByMessage)
+    {
+        var starboardConfig = guildStarboards.FirstOrDefault(s => s.Id == post.StarboardConfigId);
+        if (starboardConfig == null)
+            return null;
+
+        statsByMessage.TryGetValue(post.MessageId, out var messageStats);
+        var stat = messageStats?.FirstOrDefault(s => s.StarboardId == post.StarboardConfigId)
+                   ?? messageStats?.FirstOrDefault();
+
+        var channelId = stat?.ChannelId ?? 0;
+        IMessage? repost = null;
+
+        if (channelId == 0)
+        {
+            repost = await TryGetMessageAsync(guild, starboardConfig.StarboardChannelId, post.PostId);
+            channelId = FindJumpChannelId(repost, post.MessageId);
+        }
+
+        var original = channelId == 0 ? null : await TryGetMessageAsync(guild, channelId, post.MessageId);
+
+        string? content;
+        string authorName;
+        string? authorAvatarUrl;
+        string? imageUrl;
+
+        if (original != null)
+        {
+            content = string.IsNullOrWhiteSpace(original.Content)
+                ? original.Embeds.Select(e => e.Description).FirstOrDefault(d => !string.IsNullOrWhiteSpace(d))
+                : original.Content;
+
+            var member = guild.GetUser(original.Author.Id);
+            authorName = member?.DisplayName ?? original.Author.GlobalName ?? original.Author.Username;
+            authorAvatarUrl = member?.GetGuildAvatarUrl() ?? original.Author.GetDisplayAvatarUrl();
+            imageUrl = FindImageUrl(original);
+        }
+        else
+        {
+            repost ??= await TryGetMessageAsync(guild, starboardConfig.StarboardChannelId, post.PostId);
+            if (repost == null)
+                return null;
+
+            (content, authorName, authorAvatarUrl, imageUrl) = await ParseRepost(guild, repost);
+        }
+
+        var starboardEmotes = ParseEmotes(starboardConfig.Emote);
+        var starEmote = !string.IsNullOrWhiteSpace(stat?.Emote) ? stat.Emote : starboardEmotes.FirstOrDefault();
+
+        var starCount = post.ReactionCount ?? 0;
+        if (starCount == 0)
+            starCount = messageStats?.Where(s => s.StarboardId == post.StarboardConfigId)
+                .Sum(s => s.ReactionCount) ?? 0;
+        if (starCount == 0 && repost != null)
+            starCount = ParseRepostStarCount(repost);
+
+        return new StarboardHighlight
+        {
+            MessageId = post.MessageId,
+            ChannelId = channelId,
+            StarCount = starCount,
+            Content = string.IsNullOrWhiteSpace(content) ? null : content.Trim(),
+            AuthorName = authorName,
+            AuthorAvatarUrl = string.IsNullOrWhiteSpace(authorAvatarUrl) ? null : authorAvatarUrl,
+            ImageUrl = string.IsNullOrWhiteSpace(imageUrl) ? null : imageUrl,
+            StarEmote = starEmote ?? "⭐",
+            CreatedAt = original?.Timestamp.UtcDateTime
+                        ?? post.DateAdded
+                        ?? stat?.FirstStarredAt
+                        ?? SnowflakeUtils.FromSnowflake(post.MessageId).UtcDateTime
+        };
+    }
+
+    /// <summary>
+    ///     Fetches a message from a guild channel, using the cache first and REST second. Returns null when the
+    ///     channel is gone, is not a message channel, or the message was deleted or is not readable.
+    /// </summary>
+    private static async Task<IMessage?> TryGetMessageAsync(SocketGuild guild, ulong channelId, ulong messageId)
+    {
+        if (channelId == 0 || guild.GetChannel(channelId) is not IMessageChannel channel)
+            return null;
+
+        try
+        {
+            return await channel.GetMessageAsync(messageId);
+        }
+        catch (Discord.Net.HttpException)
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    ///     Finds the source channel id in a starboard repost by reading its jump link, from the link button on
+    ///     Components V2 reposts or from the embed on legacy reposts. Returns 0 when none is found.
+    /// </summary>
+    private static ulong FindJumpChannelId(IMessage? repost, ulong messageId)
+    {
+        if (repost == null)
+            return 0;
+
+        var sources = repost.Components
+            .OfType<ActionRowComponent>()
+            .SelectMany(row => row.Components.OfType<ButtonComponent>())
+            .Select(button => button.Url)
+            .Concat(repost.Embeds.SelectMany(e =>
+                new[] { e.Url, e.Description }.Concat(e.Fields.Select(f => f.Value))))
+            .Append(repost.Content);
+
+        foreach (var source in sources)
+        {
+            if (string.IsNullOrEmpty(source))
+                continue;
+
+            foreach (Match match in JumpLinkRegex.Matches(source))
+            {
+                if (ulong.TryParse(match.Groups[2].Value, out var linkedMessage) && linkedMessage == messageId &&
+                    ulong.TryParse(match.Groups[1].Value, out var linkedChannel))
+                    return linkedChannel;
+            }
+        }
+
+        return 0;
+    }
+
+    /// <summary>
+    ///     Finds the first image on a message: an image attachment first, then an embed image or thumbnail.
+    /// </summary>
+    private static string? FindImageUrl(IMessage message)
+    {
+        var attachment = message.Attachments.FirstOrDefault(a =>
+            a.ContentType?.StartsWith("image/", StringComparison.OrdinalIgnoreCase) == true
+            || IsImageExtension(Path.GetExtension(a.Filename).ToLowerInvariant()));
+        if (attachment != null)
+            return attachment.ProxyUrl ?? attachment.Url;
+
+        foreach (var embed in message.Embeds)
+        {
+            if (embed.Image.HasValue)
+                return embed.Image.Value.Url;
+            if (embed.Thumbnail.HasValue)
+                return embed.Thumbnail.Value.Url;
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    ///     Reads content, author and image back out of a starboard repost. Handles Components V2 reposts (a
+    ///     container of an author link, the content and a media gallery), legacy embed reposts and legacy plain
+    ///     text reposts.
+    /// </summary>
+    private async Task<(string? Content, string AuthorName, string? AuthorAvatarUrl, string? ImageUrl)>
+        ParseRepost(SocketGuild guild, IMessage repost)
+    {
+        if (repost.Embeds.Count > 0)
+        {
+            var embed = repost.Embeds.First();
+            var embedImage = embed.Image.HasValue ? embed.Image.Value.Url :
+                embed.Thumbnail.HasValue ? embed.Thumbnail.Value.Url : null;
+            return (embed.Description, embed.Author?.Name ?? "Unknown User", embed.Author?.IconUrl, embedImage);
+        }
+
+        var textParts = new List<string>();
+        string? imageUrl = null;
+        string? authorName = null;
+        ulong authorId = 0;
+
+        var containers = repost.Components.OfType<ContainerComponent>().ToList();
+        foreach (var child in containers.SelectMany(c => c.Components))
+        {
+            switch (child)
+            {
+                case TextDisplayComponent text when authorName == null && RepostAuthorRegex.IsMatch(text.Content):
+                    var authorMatch = RepostAuthorRegex.Match(text.Content);
+                    authorName = authorMatch.Groups[1].Value;
+                    ulong.TryParse(authorMatch.Groups[2].Value, out authorId);
+                    break;
+                case TextDisplayComponent text:
+                    if (!string.IsNullOrWhiteSpace(text.Content))
+                        textParts.Add(text.Content);
+                    break;
+                case MediaGalleryComponent gallery when imageUrl == null:
+                    imageUrl = gallery.Items.Select(item => item.Media.Url)
+                        .FirstOrDefault(url => !string.IsNullOrWhiteSpace(url));
+                    break;
+            }
+        }
+
+        if (containers.Count == 0 && !string.IsNullOrWhiteSpace(repost.Content))
+        {
+            var legacyMatch = Regex.Match(repost.Content, @"\[\*\*(.+?)\*\*\]\(https://discord\.com/users/(\d+)\)");
+            if (legacyMatch.Success)
+            {
+                authorName = legacyMatch.Groups[1].Value;
+                ulong.TryParse(legacyMatch.Groups[2].Value, out authorId);
+                textParts.Add(repost.Content.Replace(legacyMatch.Value, "").Trim());
+            }
+        }
+
+        string? authorAvatarUrl = null;
+        if (authorId != 0)
+        {
+            var member = guild.GetUser(authorId);
+            if (member != null)
+            {
+                authorName = member.DisplayName;
+                authorAvatarUrl = member.GetGuildAvatarUrl() ?? member.GetDisplayAvatarUrl();
+            }
+            else
+            {
+                try
+                {
+                    var user = await client.Rest.GetUserAsync(authorId);
+                    if (user != null)
+                    {
+                        authorName = user.GlobalName ?? user.Username;
+                        authorAvatarUrl = user.GetDisplayAvatarUrl();
+                    }
+                }
+                catch (Discord.Net.HttpException)
+                {
+                    authorAvatarUrl = CDN.GetDefaultUserAvatarUrl(authorId);
+                }
+            }
+        }
+
+        var content = textParts.Count > 0 ? string.Join('\n', textParts) : null;
+        return (content, authorName ?? "Unknown User", authorAvatarUrl, imageUrl);
+    }
+
+    /// <summary>
+    ///     Sums the bolded reaction counts on a repost stars line, which is the first top level text display on
+    ///     Components V2 reposts and the message content on legacy ones.
+    /// </summary>
+    private static int ParseRepostStarCount(IMessage repost)
+    {
+        var starsLine = repost.Components.OfType<TextDisplayComponent>().FirstOrDefault()?.Content
+                        ?? repost.Content;
+        if (string.IsNullOrWhiteSpace(starsLine))
+            return 0;
+
+        var total = StarsCountRegex.Matches(starsLine)
+            .Sum(m => int.TryParse(m.Groups[1].Value, out var n) ? n : 0);
+        if (total > 0)
+            return total;
+
+        var digits = new string(starsLine.Split(' ')[0].Where(char.IsDigit).ToArray());
+        return int.TryParse(digits, out var legacy) ? legacy : 0;
     }
 
     /// <summary>
@@ -1065,7 +1245,7 @@ public class StarboardService : INService, IReadyExecutor, IUnloadableService
         else
         {
             if (!starboard.CheckedChannels.IsNullOrWhiteSpace() &&
-                !starboard.CheckedChannels.Split(" ").Contains(newMessage.Channel.ToString()))
+                !starboard.CheckedChannels.Split(" ").Contains(newMessage.Channel.Id.ToString()))
                 return;
         }
 
@@ -1408,9 +1588,10 @@ public class StarboardHighlight
     public int StarCount { get; set; }
 
     /// <summary>
-    ///     The content of the message
+    ///     The text content of the message, or null when it has no text (attachment only, or the original and
+    ///     the repost carry nothing readable).
     /// </summary>
-    public string Content { get; set; } = string.Empty;
+    public string? Content { get; set; }
 
     /// <summary>
     ///     The name of the message author

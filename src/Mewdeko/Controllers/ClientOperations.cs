@@ -183,6 +183,82 @@ public class ClientOperations(DiscordShardedClient client, DashboardAccessServic
     }
 
     /// <summary>
+    ///     Gets every non-thread channel in a guild, typed and with category info, so clients can build a
+    ///     channel picker without pulling in threads or having to guess the concrete channel type.
+    /// </summary>
+    /// <param name="guildId">The guild id to get channels from</param>
+    /// <returns>404 if the guild is not found, otherwise the typed channel list</returns>
+    [HttpGet("guildchannels/{guildId}")]
+    public async Task<IActionResult> GetGuildChannels(ulong guildId)
+    {
+        await Task.CompletedTask;
+        var guild = client.GetGuild(guildId);
+        if (guild == null)
+            return NotFound();
+
+        var channels = guild.Channels
+            .Where(x => x is not SocketThreadChannel)
+            .Select(x => x switch
+            {
+                SocketCategoryChannel category => new GuildChannelLiteInfo
+                {
+                    Id = category.Id, Name = category.Name, Type = "category", Position = category.Position
+                },
+                SocketStageChannel stage => new GuildChannelLiteInfo
+                {
+                    Id = stage.Id,
+                    Name = stage.Name,
+                    Type = "stage",
+                    CategoryId = stage.CategoryId,
+                    CategoryName = stage.Category?.Name,
+                    Position = stage.Position
+                },
+                SocketVoiceChannel voice => new GuildChannelLiteInfo
+                {
+                    Id = voice.Id,
+                    Name = voice.Name,
+                    Type = "voice",
+                    CategoryId = voice.CategoryId,
+                    CategoryName = voice.Category?.Name,
+                    Position = voice.Position
+                },
+                SocketNewsChannel news => new GuildChannelLiteInfo
+                {
+                    Id = news.Id,
+                    Name = news.Name,
+                    Type = "announcement",
+                    CategoryId = news.CategoryId,
+                    CategoryName = news.Category?.Name,
+                    Position = news.Position
+                },
+                SocketForumChannel forum => new GuildChannelLiteInfo
+                {
+                    Id = forum.Id,
+                    Name = forum.Name,
+                    Type = "forum",
+                    CategoryId = forum.CategoryId,
+                    CategoryName = forum.Category?.Name,
+                    Position = forum.Position
+                },
+                SocketTextChannel text => new GuildChannelLiteInfo
+                {
+                    Id = text.Id,
+                    Name = text.Name,
+                    Type = "text",
+                    CategoryId = text.CategoryId,
+                    CategoryName = text.Category?.Name,
+                    Position = text.Position
+                },
+                _ => null
+            })
+            .Where(x => x != null)
+            .OrderBy(x => x!.CategoryId ?? 0)
+            .ThenBy(x => x!.Position);
+
+        return Ok(channels);
+    }
+
+    /// <summary>
     ///     Gets a single user from a guild.
     /// </summary>
     /// <param name="guildId">The guildId to get the users for</param>
@@ -239,7 +315,13 @@ public class ClientOperations(DiscordShardedClient client, DashboardAccessServic
                 permissions = (int)guildUser.GuildPermissions.RawValue,
                 features = Enum.GetValues(typeof(GuildFeature)).Cast<GuildFeature>()
                     .Where(feature => guild.Features.Value.HasFlag(feature)),
-                banner = guild.BannerUrl + "?size=4096",
+                banner = guild.BannerUrl != null
+                    ? $"{guild.BannerUrl}?size=1024"
+                    : guild.SplashId != null
+                        ? $"https://cdn.discordapp.com/splashes/{guild.Id}/{guild.SplashId}.png?size=1024"
+                        : guild.DiscoverySplashId != null
+                            ? $"https://cdn.discordapp.com/discovery-splashes/{guild.Id}/{guild.DiscoverySplashId}.png?size=1024"
+                            : null,
                 hasAdminAccess,
                 hasRestrictedAccess
             });

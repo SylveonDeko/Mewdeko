@@ -96,24 +96,25 @@ public class BirthdayController : Controller
             if (guild is null)
                 return NotFound("Guild not found.");
 
-            // Validate channel if provided
-            if (request.BirthdayChannelId.HasValue)
+            // Validate channel if provided. `0` means "clear the channel" (see the update lambda
+            // below), so only a non-zero id needs to resolve to a real channel.
+            if (request.BirthdayChannelId is > 0)
             {
                 var channel = guild.GetTextChannel(request.BirthdayChannelId.Value);
                 if (channel is null)
                     return BadRequest("Birthday channel not found in guild.");
             }
 
-            // Validate birthday role if provided
-            if (request.BirthdayRoleId.HasValue)
+            // Validate birthday role if provided. `0` means "clear the role".
+            if (request.BirthdayRoleId is > 0)
             {
                 var role = guild.GetRole(request.BirthdayRoleId.Value);
                 if (role is null)
                     return BadRequest("Birthday role not found in guild.");
             }
 
-            // Validate ping role if provided
-            if (request.BirthdayPingRoleId.HasValue)
+            // Validate ping role if provided. `0` means "clear the ping role".
+            if (request.BirthdayPingRoleId is > 0)
             {
                 var pingRole = guild.GetRole(request.BirthdayPingRoleId.Value);
                 if (pingRole is null)
@@ -132,13 +133,13 @@ public class BirthdayController : Controller
             await birthdayService.UpdateBirthdayConfigAsync(guildId, config =>
             {
                 if (request.BirthdayChannelId.HasValue)
-                    config.BirthdayChannelId = request.BirthdayChannelId.Value;
+                    config.BirthdayChannelId = request.BirthdayChannelId.Value == 0 ? null : request.BirthdayChannelId;
                 if (request.BirthdayRoleId.HasValue)
-                    config.BirthdayRoleId = request.BirthdayRoleId.Value;
-                if (!string.IsNullOrEmpty(request.BirthdayMessage))
-                    config.BirthdayMessage = request.BirthdayMessage;
+                    config.BirthdayRoleId = request.BirthdayRoleId.Value == 0 ? null : request.BirthdayRoleId;
+                if (request.BirthdayMessage != null)
+                    config.BirthdayMessage = request.BirthdayMessage.Length == 0 ? null : request.BirthdayMessage;
                 if (request.BirthdayPingRoleId.HasValue)
-                    config.BirthdayPingRoleId = request.BirthdayPingRoleId.Value;
+                    config.BirthdayPingRoleId = request.BirthdayPingRoleId.Value == 0 ? null : request.BirthdayPingRoleId;
                 if (request.BirthdayReminderDays.HasValue)
                     config.BirthdayReminderDays = request.BirthdayReminderDays.Value;
                 if (!string.IsNullOrEmpty(request.DefaultTimezone))

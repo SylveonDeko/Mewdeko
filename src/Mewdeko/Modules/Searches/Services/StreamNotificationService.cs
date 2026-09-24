@@ -741,6 +741,10 @@ public class StreamNotificationService : IReadyExecutor, INService
         // Update database
         await db.UpdateAsync(gc);
 
+        // Drop the cached GuildConfig so a subsequent write elsewhere does not
+        // copy the stale in-memory value back over this one.
+        guildSettings.ClearCacheForGuild(guildId);
+
         // Update local list
         if (gc.NotifyStreamOffline)
             OfflineNotificationServers.Add(guildId);

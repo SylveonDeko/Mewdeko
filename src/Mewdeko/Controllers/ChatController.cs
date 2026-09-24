@@ -1,4 +1,3 @@
-using System.Globalization;
 using Mewdeko.Controllers.Common.Chat;
 using Mewdeko.Modules.Utility.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -108,7 +107,7 @@ public class ChatController(
             l.ChannelName,
             l.Name,
             CreatedBy = l.CreatedBy.ToString(),
-            Timestamp = l.DateAdded.Value.ToString(CultureInfo.InvariantCulture),
+            Timestamp = l.DateAdded.Value.ToString("o"),
             l.MessageCount
         });
 
@@ -142,7 +141,7 @@ public class ChatController(
             log.ChannelName,
             log.Name,
             CreatedBy = log.CreatedBy.ToString(),
-            Timestamp = log.DateAdded.Value.ToString(CultureInfo.InvariantCulture),
+            Timestamp = log.DateAdded.Value.ToString("o"),
             log.MessageCount,
             Messages = messages
         };

@@ -36,6 +36,16 @@ public class GuildInfoModel
     public string? BannerUrl { get; set; }
 
     /// <summary>
+    ///     The invite splash image URL, usable as a banner fallback
+    /// </summary>
+    public string? SplashUrl { get; set; }
+
+    /// <summary>
+    ///     The discovery splash image URL, usable as a banner fallback
+    /// </summary>
+    public string? DiscoverySplashUrl { get; set; }
+
+    /// <summary>
     ///     The guild description
     /// </summary>
     public string? Description { get; set; }

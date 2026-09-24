@@ -862,7 +862,7 @@ public class MusicController : Controller
     [Authorize("ApiKeyPolicy")]
     public async Task<IActionResult> GetSettings(ulong guildId)
     {
-        var settings = await cache.GetMusicPlayerSettings(guildId);
+        var settings = await GetOrCreateMusicSettings(guildId);
         return Ok(settings);
     }
 
@@ -1468,7 +1468,7 @@ public class MusicController : Controller
             {
                 GuildId = guildId
             };
-            await db.InsertAsync(settings);
+            settings.Id = await db.InsertWithInt32IdentityAsync(settings);
         }
 
         await cache.SetMusicPlayerSettings(guildId, settings);

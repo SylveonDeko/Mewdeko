@@ -222,7 +222,9 @@ public class RoleStatesService : INService
     }
 
     /// <summary>
-    ///     Updates the role state settings for a guild.
+    ///     Updates the role state settings for a guild, creating the row first when the guild has
+    ///     never toggled role states before (its identity PK is still 0, so a plain update matches
+    ///     nothing and silently drops the edit).
     /// </summary>
     /// <param name="roleStateSettings">The <see cref="RoleStateSetting" /> to be updated.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -230,7 +232,45 @@ public class RoleStatesService : INService
     {
         await using var db = await dbFactory.CreateConnectionAsync();
 
-        await db.UpdateAsync(roleStateSettings);
+        var existing = await db.RoleStateSettings
+            .FirstOrDefaultAsync(x => x.GuildId == roleStateSettings.GuildId);
+
+        if (existing is null)
+        {
+            roleStateSettings.DateAdded ??= DateTime.UtcNow;
+            roleStateSettings.Id = await db.InsertWithInt32IdentityAsync(roleStateSettings);
+            return;
+        }
+
+        existing.Enabled = roleStateSettings.Enabled;
+        existing.ClearOnBan = roleStateSettings.ClearOnBan;
+        existing.IgnoreBots = roleStateSettings.IgnoreBots;
+        existing.DeniedRoles = roleStateSettings.DeniedRoles;
+        existing.DeniedUsers = roleStateSettings.DeniedUsers;
+        existing.SkipAutoAssignRoles = roleStateSettings.SkipAutoAssignRoles;
+        await db.UpdateAsync(existing);
+    }
+
+    /// <summary>
+    ///     Gets the role state settings for a guild, creating a disabled default row first when
+    ///     none exists yet.
+    /// </summary>
+    /// <param name="guildId">The unique identifier of the guild.</param>
+    /// <returns>A task that represents the asynchronous operation, containing the settings row.</returns>
+    public async Task<RoleStateSetting> GetOrCreateRoleStateSettings(ulong guildId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var existing = await db.RoleStateSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
+        if (existing is not null)
+            return existing;
+
+        var created = new RoleStateSetting
+        {
+            GuildId = guildId, DateAdded = DateTime.UtcNow
+        };
+        created.Id = await db.InsertWithInt32IdentityAsync(created);
+        return created;
     }
 
     /// <summary>

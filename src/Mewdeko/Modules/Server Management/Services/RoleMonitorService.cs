@@ -571,6 +571,7 @@ public class RoleMonitorService : INService, IReadyExecutor
         if (existing != null)
         {
             existing.DefaultPunishmentAction = (int)punishmentAction;
+            await context.UpdateAsync(existing);
         }
         else
         {

@@ -1343,7 +1343,11 @@ public class CountingService : INService, IReadyExecutor
                 SuccessEmote = updatedConfig.SuccessEmote,
                 ErrorEmote = updatedConfig.ErrorEmote,
                 EnableAchievements = updatedConfig.EnableAchievements,
-                EnableCompetitions = updatedConfig.EnableCompetitions
+                EnableCompetitions = updatedConfig.EnableCompetitions,
+                Milestones = updatedConfig.Milestones,
+                MilestoneMessage = updatedConfig.MilestoneMessage,
+                SuccessMessage = updatedConfig.SuccessMessage,
+                FailureMessage = updatedConfig.FailureMessage
             });
 
         // Clear cache

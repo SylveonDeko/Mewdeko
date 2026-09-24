@@ -490,10 +490,21 @@ public class XpCardGenerator : INService
         }
     }
 
+    /// <summary>
+    ///     Parses a custom element colour. Element colours are authored in CSS order
+    ///     (#RRGGBB or #RRGGBBAA) by the dashboard, the mobile apps and the element
+    ///     defaults, while SkiaSharp reads eight digits as AARRGGBB, so eight-digit
+    ///     values are reordered before parsing.
+    /// </summary>
     private static SKColor ParseElementColor(string? value)
     {
         if (string.IsNullOrWhiteSpace(value)) return SKColors.Transparent;
-        return SKColor.TryParse(value.StartsWith('#') ? value : $"#{value}", out var color)
+        var hex = value.Trim().TrimStart('#');
+        if (hex.Length == 8)
+            hex = string.Concat(hex.AsSpan(6, 2), hex.AsSpan(0, 6));
+        else if (hex.Length == 4)
+            hex = string.Concat(hex.AsSpan(3, 1), hex.AsSpan(0, 3));
+        return SKColor.TryParse($"#{hex}", out var color)
             ? color
             : SKColors.Transparent;
     }

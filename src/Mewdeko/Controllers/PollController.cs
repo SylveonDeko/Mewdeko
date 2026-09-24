@@ -495,7 +495,8 @@ public class PollController : Controller
                 IsAnonymous = request.IsAnonymous,
                 AllowVoteChanges = request.AllowVoteChanges,
                 Color = request.Color,
-                ShowResults = request.ShowResults
+                ShowResults = request.ShowResults,
+                DefaultType = request.DefaultType
             };
 
             var template = await templateService.CreateTemplateAsync(guildId, request.UserId,

@@ -171,9 +171,7 @@ public class RoleStatesController : Controller
     [HttpPost("clear-on-ban")]
     public async Task<IActionResult> ToggleClearOnBan(ulong guildId, [FromBody] object data)
     {
-        var settings = await roleStatesService.GetRoleStateSettings(guildId);
-        if (settings == null)
-            return NotFound("Role state settings not found");
+        var settings = await roleStatesService.GetOrCreateRoleStateSettings(guildId);
 
         auditContext.RecordBefore(settings);
         var result = await roleStatesService.ToggleClearOnBan(settings);
@@ -187,9 +185,7 @@ public class RoleStatesController : Controller
     [HttpPost("ignore-bots")]
     public async Task<IActionResult> ToggleIgnoreBots(ulong guildId, [FromBody] object data)
     {
-        var settings = await roleStatesService.GetRoleStateSettings(guildId);
-        if (settings == null)
-            return NotFound("Role state settings not found");
+        var settings = await roleStatesService.GetOrCreateRoleStateSettings(guildId);
 
         auditContext.RecordBefore(settings);
         var result = await roleStatesService.ToggleIgnoreBots(settings);

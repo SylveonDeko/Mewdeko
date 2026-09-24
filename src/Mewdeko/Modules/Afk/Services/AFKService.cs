@@ -27,7 +27,6 @@ public class AfkService : INService, IReadyExecutor, IDisposable
     private readonly BotConfigService config;
     private readonly IDataConnectionFactory dbFactory;
     private readonly EventHandler eventHandler;
-    private readonly ConcurrentDictionary<ulong, (GuildConfig Config, DateTime Expiry)> guildConfigCache = new();
     private readonly ConcurrentDictionary<ulong, bool> guildDataLoaded = new();
     private readonly GuildSettingsService guildSettings;
     private readonly ILogger<AfkService> logger;
@@ -152,7 +151,6 @@ public class AfkService : INService, IReadyExecutor, IDisposable
         if (guildConfig == null) return;
         guildConfig.AfkMessage = afkMessage;
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
-        InvalidateGuildConfigCache(guild.Id);
     }
 
     /// <summary>
@@ -251,7 +249,6 @@ public class AfkService : INService, IReadyExecutor, IDisposable
         if (guildConfig == null) return;
         guildConfig.AfkType = num;
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
-        InvalidateGuildConfigCache(guild.Id);
     }
 
     /// <summary>
@@ -267,7 +264,6 @@ public class AfkService : INService, IReadyExecutor, IDisposable
         if (guildConfig == null) return;
         guildConfig.AfkDel = num;
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
-        InvalidateGuildConfigCache(guild.Id);
     }
 
     /// <summary>
@@ -282,7 +278,6 @@ public class AfkService : INService, IReadyExecutor, IDisposable
         if (guildConfig == null) return;
         guildConfig.AfkLength = num;
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
-        InvalidateGuildConfigCache(guild.Id);
     }
 
     /// <summary>
@@ -297,7 +292,6 @@ public class AfkService : INService, IReadyExecutor, IDisposable
         if (guildConfig == null) return;
         guildConfig.AfkTimeout = num;
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
-        InvalidateGuildConfigCache(guild.Id);
     }
 
     /// <summary>
@@ -312,7 +306,6 @@ public class AfkService : INService, IReadyExecutor, IDisposable
         if (guildConfig == null) return;
         guildConfig.AfkDisabledChannels = channels;
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
-        InvalidateGuildConfigCache(guild.Id);
     }
 
     /// <summary>
@@ -382,25 +375,16 @@ public class AfkService : INService, IReadyExecutor, IDisposable
 
     #region Private Implementation
 
+    /// <summary>
+    ///     Fetches the guild config for AFK lookups. Delegates to
+    ///     <see cref="GuildSettingsService.GetGuildConfig" /> directly instead of keeping a
+    ///     second, independently-expiring cache here: that second cache used to go stale for up
+    ///     to 15 minutes after a dashboard/app save through `api/GuildConfig`, since only this
+    ///     service's own setters below knew to invalidate it.
+    /// </summary>
     private async Task<GuildConfig?> GetGuildConfigCached(ulong guildId)
     {
-        if (guildConfigCache.TryGetValue(guildId, out var cached) && cached.Expiry > DateTime.UtcNow)
-        {
-            return cached.Config;
-        }
-
-        var config = await guildSettings.GetGuildConfig(guildId);
-        if (config != null)
-        {
-            guildConfigCache[guildId] = (config, DateTime.UtcNow.AddMinutes(15));
-        }
-
-        return config;
-    }
-
-    private void InvalidateGuildConfigCache(ulong guildId)
-    {
-        guildConfigCache.TryRemove(guildId, out _);
+        return await guildSettings.GetGuildConfig(guildId);
     }
 
     private async Task EnsureGuildAfksLoaded(ulong guildId)
@@ -499,12 +483,6 @@ public class AfkService : INService, IReadyExecutor, IDisposable
         {
             logger.LogDebug("Running AFK timer cleanup, current count: {TimerCount}", afkTimers.Count);
             var now = DateTime.UtcNow;
-
-            var expiredConfigs = guildConfigCache
-                .Where(kv => kv.Value.Expiry < now)
-                .Select(kv => kv.Key)
-                .ToList();
-            foreach (var guildId in expiredConfigs) guildConfigCache.TryRemove(guildId, out _);
 
             var timersToCheck = afkTimers.ToList();
             foreach (var timerEntry in timersToCheck)
