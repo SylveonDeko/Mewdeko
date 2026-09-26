@@ -607,7 +607,7 @@ public partial class ServerManagement
                     }
 
                     return;
-                case >= 21600:
+                case > 21600:
                     await channel.SendErrorAsync(
                             Strings.SlowmodeMax(ctx.Guild.Id),
                             Config)
@@ -616,7 +616,7 @@ public partial class ServerManagement
                 default:
                     await channel.ModifyAsync(x => x.SlowModeInterval = time).ConfigureAwait(false);
                     await channel.SendConfirmAsync(
-                            $"Slowmode enabled in {channel.Mention} for {TimeSpan.FromSeconds(time).Humanize(maxUnit: TimeUnit.Hour)}")
+                            $"Slowmode enabled in {channel.Mention} for {TimeSpan.FromSeconds(time).Humanize(2, maxUnit: TimeUnit.Hour)}")
                         .ConfigureAwait(false);
                     break;
             }

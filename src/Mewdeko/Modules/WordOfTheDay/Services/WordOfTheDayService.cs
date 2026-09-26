@@ -743,10 +743,14 @@ public class WordOfTheDayService : INService, IDisposable
     /// <param name="config">The guild configuration.</param>
     /// <param name="entry">The word to render.</param>
     /// <param name="localDate">The guild-local date to display.</param>
-    /// <returns>Plain text, embeds, and components to send.</returns>
-    public (string? Text, Discord.Embed[]? Embeds, MessageComponent? Components) BuildMessage(IGuild guild,
-        IMessageChannel channel, WordOfTheDayConfig config, WordEntry entry, DateTime localDate)
+    /// <returns>
+    ///     Plain text, embeds, and components to send, plus whether the guild template was ignored because it
+    ///     rendered an empty message.
+    /// </returns>
+    public (string? Text, Discord.Embed[]? Embeds, MessageComponent? Components, bool UsedFallback) BuildMessage(
+        IGuild guild, IMessageChannel channel, WordOfTheDayConfig config, WordEntry entry, DateTime localDate)
     {
+        var usedFallback = false;
         var pingText = config.PingRoleId.HasValue && guild.GetRole(config.PingRoleId.Value) is { } role
             ? role.Mention
             : null;
@@ -758,10 +762,23 @@ public class WordOfTheDayService : INService, IDisposable
             if (SmartEmbed.TryParse(rendered, guild.Id, out var embeds, out var plain, out var components))
             {
                 var text = string.IsNullOrWhiteSpace(plain) ? pingText : plain;
-                return (text, embeds, components?.Build());
+                var usableEmbeds = embeds?.Where(HasVisibleContent).ToArray();
+                if (usableEmbeds is { Length: 0 }) usableEmbeds = null;
+                var built = components?.Build();
+                var hasComponents = built?.Components is { Count: > 0 };
+
+                if (!string.IsNullOrWhiteSpace(text) || usableEmbeds is not null || hasComponents)
+                    return (text, usableEmbeds, built, false);
+            }
+            else if (!string.IsNullOrWhiteSpace(rendered))
+            {
+                return (rendered.SanitizeMentions(true), null, null, false);
             }
 
-            return (rendered.SanitizeMentions(true), null, null);
+            usedFallback = true;
+            logger.LogWarning(
+                "Word of the day template for guild {GuildId} rendered an empty message, using the default embed",
+                guild.Id);
         }
 
         var title = strings.WotdEmbedTitle(guild.Id, localDate.ToString("MMMM d, yyyy"));
@@ -785,7 +802,25 @@ public class WordOfTheDayService : INService, IDisposable
             : strings.WotdFooterDatamuse(guild.Id);
         builder.WithFooter(footer);
 
-        return (pingText, [builder.Build()], null);
+        return (pingText, [builder.Build()], null, usedFallback);
+    }
+
+    /// <summary>
+    ///     Checks whether an embed carries anything Discord will render, so a template that only sets a
+    ///     color is not sent as an empty embed that Discord rejects.
+    /// </summary>
+    /// <param name="embed">The embed to inspect.</param>
+    /// <returns>True when the embed has text, fields, media, an author, or a footer.</returns>
+    private static bool HasVisibleContent(Discord.Embed embed)
+    {
+        return !string.IsNullOrWhiteSpace(embed.Title)
+               || !string.IsNullOrWhiteSpace(embed.Description)
+               || !string.IsNullOrWhiteSpace(embed.Url)
+               || embed.Fields.Length > 0
+               || embed.Image.HasValue
+               || embed.Thumbnail.HasValue
+               || embed.Author.HasValue
+               || embed.Footer.HasValue;
     }
 
     /// <summary>
@@ -864,29 +899,35 @@ public class WordOfTheDayService : INService, IDisposable
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
     /// <param name="force">When true, posts even if a word was already posted today.</param>
-    /// <returns>The posted entry, or null when nothing was posted.</returns>
-    public async Task<(WordEntry? Entry, string? FailureKey)> PostNowAsync(ulong guildId, bool force)
+    /// <returns>
+    ///     The posted entry, or null when nothing was posted, plus whether the guild template was ignored
+    ///     because it rendered an empty message.
+    /// </returns>
+    public async Task<(WordEntry? Entry, string? FailureKey, bool UsedFallback)> PostNowAsync(ulong guildId,
+        bool force)
     {
         var guild = client.GetGuild(guildId);
-        if (guild is null) return (null, "guild");
+        if (guild is null) return (null, "guild", false);
 
         var config = await GetConfigAsync(guildId);
-        if (!config.ChannelId.HasValue) return (null, "channel");
+        if (!config.ChannelId.HasValue) return (null, "channel", false);
 
         var channel = guild.GetTextChannel(config.ChannelId.Value);
-        if (channel is null) return (null, "channel");
+        if (channel is null) return (null, "channel", false);
 
         var localNow = GetLocalNow(config);
         if (!force && config.LastPostedDate.HasValue && config.LastPostedDate.Value.Date == localNow.Date)
-            return (null, "already");
+            return (null, "already", false);
 
         var entry = await SelectWordAsync(config);
-        if (entry is null) return (null, "noword");
+        if (entry is null) return (null, "noword", false);
 
+        bool usedFallback;
         await postLock.WaitAsync();
         try
         {
-            var (text, embeds, components) = BuildMessage(guild, channel, config, entry, localNow);
+            var (text, embeds, components, fallback) = BuildMessage(guild, channel, config, entry, localNow);
+            usedFallback = fallback;
             var message = await channel.SendMessageAsync(text, embeds: embeds, components: components,
                 allowedMentions: AllowedMentions.All);
 
@@ -897,7 +938,7 @@ public class WordOfTheDayService : INService, IDisposable
         {
             collector.Feature("word_of_the_day", guildId, false, ex.GetType().Name);
             logger.LogWarning(ex, "Failed to post word of the day in guild {GuildId}", guildId);
-            return (null, "send");
+            return (null, "send", false);
         }
         finally
         {
@@ -906,7 +947,7 @@ public class WordOfTheDayService : INService, IDisposable
 
         collector.Feature("word_of_the_day", guildId);
         await RecordPostAsync(config, entry, localNow.Date);
-        return (entry, null);
+        return (entry, null, usedFallback);
     }
 
     private async Task CreateDiscussionThreadAsync(SocketGuild guild, ITextChannel channel,

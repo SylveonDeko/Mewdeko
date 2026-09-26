@@ -2610,6 +2610,31 @@ public class TicketService : INService
     }
 
     /// <summary>
+    ///     Normalises a panel identifier from an API route to the panel's Discord message id.
+    ///     Routes key on the message id, but older clients sent the database id instead, so a value that
+    ///     matches no message id is also tried as a database id within the guild.
+    /// </summary>
+    /// <param name="guildId">The guild the panel must belong to.</param>
+    /// <param name="panelId">The message id or database id supplied by the caller.</param>
+    /// <returns>The message id when a panel matched, otherwise the value unchanged.</returns>
+    public async Task<ulong> ResolvePanelMessageIdAsync(ulong guildId, ulong panelId)
+    {
+        await using var ctx = await dbFactory.CreateConnectionAsync();
+        if (await ctx.TicketPanels.AnyAsync(x => x.GuildId == guildId && x.MessageId == panelId))
+            return panelId;
+
+        if (panelId > int.MaxValue)
+            return panelId;
+
+        var databaseId = (int)panelId;
+        var byDatabaseId = await ctx.TicketPanels
+            .Where(x => x.GuildId == guildId && x.Id == databaseId)
+            .Select(x => (ulong?)x.MessageId)
+            .FirstOrDefaultAsync();
+        return byDatabaseId ?? panelId;
+    }
+
+    /// <summary>
     ///     Adds a select menu to an existing ticket panel
     /// </summary>
     /// <param name="panel">The panel to add the select menu to</param>

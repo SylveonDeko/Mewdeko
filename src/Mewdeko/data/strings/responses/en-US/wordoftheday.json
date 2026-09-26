@@ -52,6 +52,7 @@
   "wotd_enabled_status": "✅ Enabled",
   "wotd_disabled_status": "❌ Disabled",
   "wotd_posted": "Posted today's word: **{0}**.",
+  "wotd_template_fallback": "Your custom message template rendered an empty message (no text, embed content, or buttons), so the default embed was used instead. Edit the template to fix this.",
   "wotd_post_failed_channel": "No valid channel is configured. Set one with `wotdchannel #channel`.",
   "wotd_post_failed_send": "Couldn't send the message. Check the bot's permissions in the configured channel.",
   "wotd_reset_confirm": "Reset all Word of the Day settings, custom words, and history for this server?",

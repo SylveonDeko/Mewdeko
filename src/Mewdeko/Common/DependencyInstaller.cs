@@ -178,6 +178,13 @@ public static class DependencyInstaller
             return;
         }
 
+        if (OperatingSystem.IsMacOS())
+        {
+            Log.Information(
+                "Running on macOS. Dependency installation is handled by the desktop launcher or Homebrew; skipping.");
+            return;
+        }
+
         switch (Environment.OSVersion.Platform)
         {
             case PlatformID.Unix:

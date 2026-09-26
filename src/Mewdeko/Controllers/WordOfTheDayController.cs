@@ -185,14 +185,23 @@ public class WordOfTheDayController : Controller
         if (client.GetGuild(guildId) is null)
             return NotFound("Guild not found.");
 
-        var (entry, failure) = await service.PostNowAsync(guildId, true);
+        var (entry, failure, usedFallback) = await service.PostNowAsync(guildId, true);
         if (entry is not null)
-            return Ok(entry);
+        {
+            return Ok(new WordOfTheDayPostResponse
+            {
+                Entry = entry,
+                UsedFallback = usedFallback,
+                Warning = usedFallback
+                    ? "Your custom message template rendered an empty message (no text, embed content, or buttons), so the default embed was posted instead. Edit the template to fix this."
+                    : null
+            });
+        }
 
         return failure switch
         {
             "channel" => BadRequest("No valid channel is configured."),
-            "send" => StatusCode(502, "Failed to send the message to Discord."),
+            "send" => StatusCode(500, "Discord rejected the message. Check the message template and channel permissions."),
             _ => StatusCode(503, "No word could be found with the current filters.")
         };
     }

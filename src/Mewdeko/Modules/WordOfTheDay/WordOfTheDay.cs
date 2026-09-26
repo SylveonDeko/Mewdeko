@@ -62,7 +62,10 @@ public class WordOfTheDay : MewdekoModuleBase<WordOfTheDayService>
             note = Strings.WotdPreviewNote(ctx.Guild.Id);
         }
 
-        var (text, embeds, components) = Service.BuildMessage(ctx.Guild, ctx.Channel, config, entry, localNow);
+        var (text, embeds, components, usedFallback) =
+            Service.BuildMessage(ctx.Guild, ctx.Channel, config, entry, localNow);
+        if (usedFallback)
+            note = Strings.WotdTemplateFallback(ctx.Guild.Id);
         var content = note ?? (posted is null ? text : null);
         await ctx.Channel.SendMessageAsync(content, embeds: embeds, components: components);
     }
@@ -594,10 +597,12 @@ public class WordOfTheDay : MewdekoModuleBase<WordOfTheDayService>
     [UserPerm(GuildPermission.ManageGuild)]
     public async Task WotdPost()
     {
-        var (entry, failure) = await Service.PostNowAsync(ctx.Guild.Id, true);
+        var (entry, failure, usedFallback) = await Service.PostNowAsync(ctx.Guild.Id, true);
         if (entry is not null)
         {
             await ConfirmAsync(Strings.WotdPosted(ctx.Guild.Id, entry.Word));
+            if (usedFallback)
+                await ErrorAsync(Strings.WotdTemplateFallback(ctx.Guild.Id));
             return;
         }
 

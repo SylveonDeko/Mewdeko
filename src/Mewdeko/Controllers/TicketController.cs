@@ -145,6 +145,8 @@ public class TicketController : Controller
             if (guild == null)
                 return NotFound("Guild not found");
 
+            panelId = await ticketService.ResolvePanelMessageIdAsync(guildId, panelId);
+
             auditContext.RecordBefore(new
             {
                 PanelId = panelId, GuildId = guildId, Force = force
@@ -192,6 +194,7 @@ public class TicketController : Controller
             if (guild == null)
                 return NotFound("Guild not found");
 
+            panelId = await ticketService.ResolvePanelMessageIdAsync(guildId, panelId);
             var success = await ticketService.UpdatePanelEmbedAsync(guild, panelId, request.EmbedJson);
 
             if (success)
@@ -221,6 +224,7 @@ public class TicketController : Controller
             if (guild == null)
                 return NotFound("Guild not found");
 
+            panelId = await ticketService.ResolvePanelMessageIdAsync(guildId, panelId);
             var success = await ticketService.MovePanelAsync(guild, panelId, request.ChannelId);
 
             if (success)
@@ -251,6 +255,7 @@ public class TicketController : Controller
             if (guild == null)
                 return NotFound("Guild not found");
 
+            panelId = await ticketService.ResolvePanelMessageIdAsync(guildId, panelId);
             var newPanel = await ticketService.DuplicatePanelAsync(guild, panelId, request.ChannelId);
 
             if (newPanel != null)
@@ -286,6 +291,7 @@ public class TicketController : Controller
     {
         try
         {
+            panelId = await ticketService.ResolvePanelMessageIdAsync(guildId, panelId);
             var (success, newMessageId, channelMention, error) =
                 await ticketService.RecreatePanelAsync(guildId, panelId);
 
@@ -324,6 +330,7 @@ public class TicketController : Controller
             if (guild == null)
                 return NotFound("Guild not found");
 
+            panelId = await ticketService.ResolvePanelMessageIdAsync(guildId, panelId);
             var panel = await ticketService.GetPanelAsync(panelId);
             if (panel == null || panel.GuildId != guildId)
                 return NotFound("Panel not found");
@@ -417,6 +424,7 @@ public class TicketController : Controller
     {
         try
         {
+            panelId = await ticketService.ResolvePanelMessageIdAsync(guildId, panelId);
             var buttons = await ticketService.GetPanelButtonsAsync(panelId);
             return Ok(buttons);
         }
@@ -439,6 +447,7 @@ public class TicketController : Controller
     {
         try
         {
+            panelId = await ticketService.ResolvePanelMessageIdAsync(guildId, panelId);
             var panel = await ticketService.GetPanelAsync(panelId);
             if (panel == null || panel.GuildId != guildId)
                 return NotFound("Panel not found");
@@ -460,6 +469,9 @@ public class TicketController : Controller
                 request.MaxActiveTickets,
                 request.AllowedPriorities,
                 request.DefaultPriority);
+
+            if (button == null)
+                return BadRequest("This panel has no room for another component. Discord allows 25 per message.");
 
             return Ok(new
             {
@@ -630,6 +642,7 @@ public class TicketController : Controller
             if (guild == null)
                 return NotFound("Guild not found");
 
+            panelId = await ticketService.ResolvePanelMessageIdAsync(guildId, panelId);
             var success = await ticketService.ReorderPanelButtonsAsync(guild, panelId, request.ButtonOrder);
 
             if (success)
@@ -689,6 +702,7 @@ public class TicketController : Controller
     {
         try
         {
+            panelId = await ticketService.ResolvePanelMessageIdAsync(guildId, panelId);
             var selectMenus = await ticketService.GetPanelSelectMenusAsync(panelId);
             return Ok(selectMenus);
         }
@@ -712,6 +726,7 @@ public class TicketController : Controller
     {
         try
         {
+            panelId = await ticketService.ResolvePanelMessageIdAsync(guildId, panelId);
             var panel = await ticketService.GetPanelAsync(panelId);
             if (panel == null || panel.GuildId != guildId)
                 return NotFound("Panel not found");
@@ -722,6 +737,9 @@ public class TicketController : Controller
                 request.FirstOptionLabel,
                 request.FirstOptionDescription,
                 request.FirstOptionEmoji);
+
+            if (menu == null)
+                return BadRequest("This panel has no room for a select menu. A menu takes 5 of the 25 component slots Discord allows.");
 
             return Ok(new
             {
