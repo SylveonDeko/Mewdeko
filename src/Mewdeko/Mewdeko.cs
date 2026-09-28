@@ -330,7 +330,7 @@ public class Mewdeko : IDisposable
             throw;
         }
 #if !DEBUG
-        await interactionService.RegisterCommandsGloballyAsync().ConfigureAwait(false);
+        await RegisterGlobalCommandsWithRetryAsync(interactionService).ConfigureAwait(false);
 #endif
 #if DEBUG
         if (Client.Guilds.Select(x => x.Id).Contains(Credentials.DebugGuildId))
@@ -349,6 +349,32 @@ public class Mewdeko : IDisposable
     {
         logger.LogInformation(arg.ToString());
         return Task.CompletedTask;
+    }
+
+    /// <summary>
+    ///     Registers global slash commands, retrying transient Discord failures. A 5xx from Discord here
+    ///     used to escape as an unhandled exception and take the whole process down at startup.
+    /// </summary>
+    /// <param name="interactionService">The interaction service holding the loaded modules.</param>
+    private async Task RegisterGlobalCommandsWithRetryAsync(InteractionService interactionService)
+    {
+        const int attempts = 5;
+        for (var attempt = 1; attempt <= attempts; attempt++)
+        {
+            try
+            {
+                await interactionService.RegisterCommandsGloballyAsync().ConfigureAwait(false);
+                return;
+            }
+            catch (HttpException ex) when ((int)ex.HttpCode >= 500 && attempt < attempts)
+            {
+                var delay = TimeSpan.FromSeconds(10 * attempt);
+                logger.LogWarning(ex,
+                    "Discord returned {Status} registering global commands (attempt {Attempt}/{Attempts}), retrying in {Delay}s",
+                    (int)ex.HttpCode, attempt, attempts, delay.TotalSeconds);
+                await Task.Delay(delay).ConfigureAwait(false);
+            }
+        }
     }
 
     private async Task ExecuteReadySubscriptions()

@@ -671,13 +671,15 @@ public class XpCacheManager : INService
             // Get the Redis server instance
             var server = dataCache.Redis.GetServer(dataCache.Redis.GetEndPoints().First());
 
+            // Leaderboard pages are versioned rather than deleted
+            await InvalidateLeaderboardCacheAsync(guildId).ConfigureAwait(false);
+
             // Define patterns for Redis keys to remove
             var patterns = new[]
             {
                 $"{RedisKeyPrefix}{GuildUserKey}:{guildId}:*", $"{RedisKeyPrefix}{GuildSettingsKey}:{guildId}",
                 $"{RedisKeyPrefix}{ExclusionKey}:{guildId}:*", $"{RedisKeyPrefix}{MultiplierKey}:{guildId}:*",
-                $"{RedisKeyPrefix}{CooldownKey}:{guildId}:*", $"{RedisKeyPrefix}{FirstMsgKey}:{guildId}:*",
-                $"{RedisKeyPrefix}leaderboard:{guildId}:*", $"{RedisKeyPrefix}leaderboard:count:{guildId}"
+                $"{RedisKeyPrefix}{CooldownKey}:{guildId}:*", $"{RedisKeyPrefix}{FirstMsgKey}:{guildId}:*"
             };
 
             // Gather all keys to delete
@@ -715,8 +717,22 @@ public class XpCacheManager : INService
     }
 
     /// <summary>
-    ///     Invalidates the leaderboard cache for a specific guild.
-    ///     This is called after XP updates to ensure leaderboard reflects changes immediately.
+    ///     Returns the current leaderboard cache version for a guild. Leaderboard cache keys embed this
+    ///     number, so bumping it orphans every cached page and count at once; the orphans expire on
+    ///     their own TTL. Zero when the guild has never been invalidated.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <returns>The version number to build leaderboard cache keys with.</returns>
+    public async Task<long> GetLeaderboardVersionAsync(ulong guildId)
+    {
+        var value = await redisCache.StringGetAsync(LeaderboardVersionKey(guildId)).ConfigureAwait(false);
+        return value.HasValue && value.TryParse(out long version) ? version : 0;
+    }
+
+    /// <summary>
+    ///     Invalidates the leaderboard cache for a specific guild by bumping its version. This runs after
+    ///     every XP batch, so it must be a single constant-time command: an INCR on one key. Scanning the
+    ///     keyspace for the guild's pages, as this once did, walked every key in Redis per call.
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
@@ -724,38 +740,17 @@ public class XpCacheManager : INService
     {
         try
         {
-            // Get the Redis server instance
-            var server = dataCache.Redis.GetServer(dataCache.Redis.GetEndPoints().First());
-
-            // Define patterns for leaderboard cache keys
-            var patterns = new[]
-            {
-                $"{RedisKeyPrefix}leaderboard:{guildId}:*", $"{RedisKeyPrefix}leaderboard:count:{guildId}"
-            };
-
-            // Gather all keys to delete
-            var redisKeysToDelete = new List<RedisKey>();
-
-            foreach (var pattern in patterns)
-            {
-                await foreach (var key in server.KeysAsync(pattern: pattern))
-                {
-                    redisKeysToDelete.Add(key);
-                }
-            }
-
-            // Delete all matching keys in one operation
-            if (redisKeysToDelete.Count > 0)
-            {
-                await redisCache.KeyDeleteAsync(redisKeysToDelete.ToArray()).ConfigureAwait(false);
-                logger.LogDebug("Invalidated {Count} leaderboard cache keys for guild {GuildId}",
-                    redisKeysToDelete.Count, guildId);
-            }
+            await redisCache.StringIncrementAsync(LeaderboardVersionKey(guildId)).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Error invalidating leaderboard cache for guild {GuildId}", guildId);
         }
+    }
+
+    private static string LeaderboardVersionKey(ulong guildId)
+    {
+        return $"{RedisKeyPrefix}leaderboard:ver:{guildId}";
     }
 
     /// <summary>

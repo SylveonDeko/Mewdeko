@@ -96,12 +96,9 @@ public class XpRewardManager : INService
                 rewardToCache = newReward;
             }
 
-            // Immediately cache the new/updated reward
-            var cacheKey = $"xp:rewards:{guildId}:role:{level}";
-            var serializedReward = JsonSerializer.Serialize(rewardToCache);
-            await cacheManager.GetRedisDatabase().StringSetAsync(cacheKey, serializedReward);
+            await cacheManager.GetRedisDatabase().KeyDeleteAsync(RoleRewardsKey(guildId));
 
-            logger.LogInformation("Set and cached role reward for guild {GuildId} level {Level}: Role {RoleId}",
+            logger.LogInformation("Set role reward for guild {GuildId} level {Level}: Role {RoleId}",
                 guildId, level, roleId.Value);
         }
         else if (existingReward != null)
@@ -111,11 +108,84 @@ public class XpRewardManager : INService
                 .Where(x => x.Id == existingReward.Id)
                 .DeleteAsync();
 
-            // Clear from cache
-            await cacheManager.GetRedisDatabase().KeyDeleteAsync($"xp:rewards:{guildId}:role:{level}");
+            await cacheManager.GetRedisDatabase().KeyDeleteAsync(RoleRewardsKey(guildId));
 
             logger.LogInformation("Removed role reward for guild {GuildId} level {Level}", guildId, level);
         }
+    }
+
+    private static readonly TimeSpan RewardCacheTtl = TimeSpan.FromHours(1);
+
+    private static string RoleRewardsKey(ulong guildId)
+    {
+        return $"xp:rewards:{guildId}:role:all";
+    }
+
+    private static string CurrencyRewardsKey(ulong guildId)
+    {
+        return $"xp:rewards:{guildId}:currency:all";
+    }
+
+    /// <summary>
+    ///     Loads every role reward for a guild: one Redis key holding the whole list, filled from the
+    ///     database on a miss and dropped whenever a reward changes. One GET per level-up instead of a
+    ///     keyspace scan.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <returns>The guild's role rewards, empty when it has none.</returns>
+    private async Task<List<XpRoleReward>> GetRoleRewardsAsync(ulong guildId)
+    {
+        var redis = cacheManager.GetRedisDatabase();
+        var key = RoleRewardsKey(guildId);
+        var cached = await redis.StringGetAsync(key);
+        if (cached.HasValue)
+        {
+            try
+            {
+                var list = JsonSerializer.Deserialize<List<XpRoleReward>>((string)cached);
+                if (list != null)
+                    return list;
+            }
+            catch (JsonException)
+            {
+                /* rebuilt below */
+            }
+        }
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var rewards = await db.XpRoleRewards.Where(x => x.GuildId == guildId).ToListAsync();
+        await redis.StringSetAsync(key, JsonSerializer.Serialize(rewards), RewardCacheTtl);
+        return rewards;
+    }
+
+    /// <summary>
+    ///     Loads every currency reward for a guild, cached the same way as <see cref="GetRoleRewardsAsync" />.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <returns>The guild's currency rewards, empty when it has none.</returns>
+    private async Task<List<XpCurrencyReward>> GetCurrencyRewardsAsync(ulong guildId)
+    {
+        var redis = cacheManager.GetRedisDatabase();
+        var key = CurrencyRewardsKey(guildId);
+        var cached = await redis.StringGetAsync(key);
+        if (cached.HasValue)
+        {
+            try
+            {
+                var list = JsonSerializer.Deserialize<List<XpCurrencyReward>>((string)cached);
+                if (list != null)
+                    return list;
+            }
+            catch (JsonException)
+            {
+                /* rebuilt below */
+            }
+        }
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var rewards = await db.XpCurrencyRewards.Where(x => x.GuildId == guildId).ToListAsync();
+        await redis.StringSetAsync(key, JsonSerializer.Serialize(rewards), RewardCacheTtl);
+        return rewards;
     }
 
     /// <summary>
@@ -159,8 +229,7 @@ public class XpRewardManager : INService
                 .DeleteAsync();
         }
 
-        // Clear cache
-        await cacheManager.GetRedisDatabase().KeyDeleteAsync($"xp:rewards:{guildId}:currency:{level}");
+        await cacheManager.GetRedisDatabase().KeyDeleteAsync(CurrencyRewardsKey(guildId));
     }
 
     /// <summary>
@@ -693,34 +762,12 @@ public class XpRewardManager : INService
         try
         {
             var settings = await cacheManager.GetGuildXpSettingsAsync(eventArgs.GuildId);
-            var redis = cacheManager.GetRedisDatabase();
-            var server = redis.Multiplexer.GetServer(redis.Multiplexer.GetEndPoints().First());
             if (bss.Data.LogXpRewards)
                 logger.LogInformation($"Processing rewards for {eventArgs.GuildId}");
 
-            var pattern = $"xp:rewards:{eventArgs.GuildId}:role:*";
-            var keys = new List<RedisKey>();
-
-            await foreach (var key in server.KeysAsync(pattern: pattern))
-            {
-                keys.Add(key);
-            }
-
-            if (keys.Count == 0)
+            var allRoleRewards = await GetRoleRewardsAsync(eventArgs.GuildId);
+            if (allRoleRewards.Count == 0)
                 return;
-
-            var values = await redis.StringGetAsync(keys.ToArray());
-            var allRoleRewards = new List<XpRoleReward>();
-
-            for (var i = 0; i < values.Length; i++)
-            {
-                if (values[i].HasValue)
-                {
-                    var reward = JsonSerializer.Deserialize<XpRoleReward>((string)values[i]);
-                    if (reward != null)
-                        allRoleRewards.Add(reward);
-                }
-            }
 
             var guild = client.GetGuild(eventArgs.GuildId);
             var user = guild?.GetUser(eventArgs.UserId);
@@ -805,32 +852,7 @@ public class XpRewardManager : INService
     {
         try
         {
-            var redis = cacheManager.GetRedisDatabase();
-            var server = redis.Multiplexer.GetServer(redis.Multiplexer.GetEndPoints().First());
-
-            var pattern = $"xp:rewards:{eventArgs.GuildId}:currency:*";
-            var keys = new List<RedisKey>();
-
-            await foreach (var key in server.KeysAsync(pattern: pattern))
-            {
-                keys.Add(key);
-            }
-
-            if (keys.Count == 0)
-                return;
-
-            var values = await redis.StringGetAsync(keys.ToArray());
-            var allCurrencyRewards = new List<XpCurrencyReward>();
-
-            for (var i = 0; i < values.Length; i++)
-            {
-                if (values[i].HasValue)
-                {
-                    var reward = JsonSerializer.Deserialize<XpCurrencyReward>((string)values[i]);
-                    if (reward != null)
-                        allCurrencyRewards.Add(reward);
-                }
-            }
+            var allCurrencyRewards = await GetCurrencyRewardsAsync(eventArgs.GuildId);
 
             if (allCurrencyRewards.Count == 0)
                 return;

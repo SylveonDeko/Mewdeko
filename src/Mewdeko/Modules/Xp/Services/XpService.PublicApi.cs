@@ -45,25 +45,7 @@ public partial class XpService
         if (users.Count == 0)
             return 0;
 
-        // Clear relevant leaderboard cache keys
-        var redis = cacheManager.GetRedisDatabase();
-        var keysToDelete = new List<RedisKey>();
-
-        // Get a Redis server for scanning
-        var server = redis.Multiplexer.GetServer(redis.Multiplexer.GetEndPoints().First());
-        var pattern = $"xp:leaderboard:{guildId}:*";
-
-        await foreach (var key in server.KeysAsync(pattern: pattern))
-        {
-            keysToDelete.Add(key);
-        }
-
-        if (keysToDelete.Count > 0)
-        {
-            await redis.KeyDeleteAsync(keysToDelete.ToArray());
-            logger.LogDebug("Deleted {Count} leaderboard cache keys for guild {GuildId}",
-                keysToDelete.Count, guildId);
-        }
+        await cacheManager.InvalidateLeaderboardCacheAsync(guildId);
 
         logger.LogInformation("Recomputed levels for {Count} users in guild {GuildId}",
             users.Count, guildId);
@@ -155,9 +137,11 @@ public partial class XpService
         if (pageSize is < 1 or > 100)
             pageSize = 10;
 
-        // Check cache for leaderboard and count
-        var cacheKeyLb = $"xp:leaderboard:{guildId}:{page}:{pageSize}";
-        var cacheKeyCount = $"xp:leaderboard:count:{guildId}";
+        // Cache keys carry the guild's leaderboard version, so invalidation is one INCR
+        // and outdated pages simply expire.
+        var version = await cacheManager.GetLeaderboardVersionAsync(guildId);
+        var cacheKeyLb = $"xp:leaderboard:{guildId}:v{version}:{page}:{pageSize}";
+        var cacheKeyCount = $"xp:leaderboard:count:{guildId}:v{version}";
 
         var red = cacheManager.GetRedisDatabase();
 
