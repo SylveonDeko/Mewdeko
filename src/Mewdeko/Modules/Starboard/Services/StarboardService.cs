@@ -926,8 +926,7 @@ public class StarboardService : INService, IReadyExecutor, IUnloadableService
         {
             try
             {
-                var reactionUsers = await message.GetReactionUsersAsync(emote, int.MaxValue).FlattenAsync();
-                var count = allowBots ? reactionUsers.Count() : reactionUsers.Count(u => !u.IsBot);
+                var count = await CountStarsAsync(message, emote, allowBots);
                 if (count > 0)
                 {
                     reactionCountsText.Add($"{emote} **{count}**");
@@ -1158,6 +1157,36 @@ public class StarboardService : INService, IReadyExecutor, IUnloadableService
         starboardPosts.Remove(toRemove);
     }
 
+    /// <summary>
+    ///     Counts the stars a message has for one emote, using the reaction metadata
+    ///     Discord already sends with the message. The reactor list is only fetched
+    ///     when bots must be excluded and the raw count could matter: at or above
+    ///     <paramref name="listWhenAtLeast" /> when given, otherwise whenever it is
+    ///     non-zero. Below the threshold the bot's own reaction is subtracted from the
+    ///     metadata count, since it is the only bot reaction knowable without a fetch.
+    /// </summary>
+    /// <param name="message">The message being counted.</param>
+    /// <param name="emote">The starboard emote to count.</param>
+    /// <param name="allowBots">Whether reactions from bots count.</param>
+    /// <param name="listWhenAtLeast">Raw count at which the exact non-bot count is worth a fetch.</param>
+    /// <returns>The number of counting reactions.</returns>
+    private static async Task<int> CountStarsAsync(IUserMessage message, IEmote emote, bool allowBots,
+        int? listWhenAtLeast = null)
+    {
+        if (!message.Reactions.TryGetValue(emote, out var meta) || meta.ReactionCount <= 0)
+            return 0;
+
+        var raw = meta.ReactionCount;
+        if (allowBots)
+            return raw;
+
+        if (listWhenAtLeast is { } floor && raw < floor)
+            return meta.IsMe ? raw - 1 : raw;
+
+        var users = await message.GetReactionUsersAsync(emote, raw).FlattenAsync();
+        return users.Count(u => !u.IsBot);
+    }
+
     private async Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> message,
         Cacheable<IMessageChannel, ulong> channel,
         SocketReaction reaction)
@@ -1277,13 +1306,11 @@ public class StarboardService : INService, IReadyExecutor, IUnloadableService
             return;
 
         var reactionEmote = matchingEmote.ToIEmote();
-        var emoteCount = await newMessage.GetReactionUsersAsync(reactionEmote, int.MaxValue).FlattenAsync();
-        var count = emoteCount.Where(x => !x.IsBot);
-        var enumerable = count as IUser[] ?? count.ToArray();
+        var matchingCount = await CountStarsAsync(newMessage, reactionEmote, starboard.AllowBots, starboard.Threshold);
         var maybePost = starboardPosts.Find(x => x.MessageId == newMessage.Id && x.StarboardConfigId == starboard.Id);
 
         // Track stats and individual reactions
-        await TrackStarboardStats(newMessage, starboard.Id, matchingEmote, enumerable.Length, textChannel.Id);
+        await TrackStarboardStats(newMessage, starboard.Id, matchingEmote, matchingCount, textChannel.Id);
         if (isAdd && reaction.User.IsSpecified)
         {
             await TrackStarboardReaction(newMessage.Id, starboard.Id, reaction.User.Value.Id, matchingEmote);
@@ -1296,9 +1323,9 @@ public class StarboardService : INService, IReadyExecutor, IUnloadableService
             var emote = emoteString.ToIEmote();
             try
             {
-                var reactions = await newMessage.GetReactionUsersAsync(emote, int.MaxValue).FlattenAsync();
-                var validReactions = reactions.Count(u => !u.IsBot);
-                totalStars += validReactions;
+                totalStars += emote.Equals(reactionEmote)
+                    ? matchingCount
+                    : await CountStarsAsync(newMessage, emote, starboard.AllowBots, starboard.Threshold);
             }
             catch
             {
