@@ -447,9 +447,14 @@ public class HighlightsService : INService, IReadyExecutor, IUnloadableService
     /// <param name="toremove">The db record to remove</param>
     public async Task RemoveHighlight(Highlight? toremove)
     {
+        if (toremove is null)
+            return;
+
         await using var dbContext = await dbFactory.CreateConnectionAsync();
 
-        await dbContext.Highlights.Select(x => toremove).DeleteAsync();
+        await dbContext.Highlights
+            .Where(x => x.Id == toremove.Id)
+            .DeleteAsync();
 
         var current = await cache.GetOrSetAsync($"highlights_{toremove.GuildId}",
             _ => Task.FromResult(new List<Highlight>()));

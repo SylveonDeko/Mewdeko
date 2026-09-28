@@ -64,6 +64,8 @@ public class ServerRecoveryService : INService
     public async Task ClearRecoverySetup(ServerRecoveryStore serverRecoveryStore)
     {
         await using var dbContext = await dbFactory.CreateConnectionAsync();
-        await dbContext.ServerRecoveryStores.Select(x => serverRecoveryStore).DeleteAsync();
+        await dbContext.ServerRecoveryStores
+            .Where(x => x.Id == serverRecoveryStore.Id)
+            .DeleteAsync();
     }
 }

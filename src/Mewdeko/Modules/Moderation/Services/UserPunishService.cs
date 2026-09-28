@@ -708,7 +708,9 @@ public class UserPunishService : INService, IDisposable
                 if (template is null)
                     return;
 
-                await dbContext.BanTemplates.Select(x => template).DeleteAsync();
+                await dbContext.BanTemplates
+                    .Where(x => x.Id == template.Id)
+                    .DeleteAsync();
             }
             else if (template == null)
             {

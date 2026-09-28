@@ -1616,7 +1616,9 @@ public class CustomVoice(IDataConnectionFactory dbFactory, GuildSettingsService 
 
         if (prefs != null)
         {
-            await dbContext.UserVoicePreferences.Select(x => prefs).DeleteAsync();
+            await dbContext.UserVoicePreferences
+                .Where(x => x.Id == prefs.Id)
+                .DeleteAsync();
             await ReplyConfirmAsync(Strings.CustomVoicePrefsAllReset(Context.Guild.Id));
         }
         else
