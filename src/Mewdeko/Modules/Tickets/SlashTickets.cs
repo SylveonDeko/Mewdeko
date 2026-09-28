@@ -548,8 +548,12 @@ public partial class TicketsSlash : MewdekoSlashModuleBase<TicketService>
             {
                 try
                 {
-                    await Service.CreateTicketAsync(ctx.Guild, ctx.User, option: option);
-                    await FollowupAsync($"{Config.SuccessEmote} Ticket created successfully!", ephemeral: true);
+                    var created = await Service.CreateTicketAsync(ctx.Guild, ctx.User, option: option);
+                    await FollowupAsync(
+                        created != null
+                            ? $"{Config.SuccessEmote} Ticket created: <#{created.ChannelId}>"
+                            : $"{Config.ErrorEmote} Failed to create ticket. Please try again.",
+                        ephemeral: true);
                     await (Context.Interaction as IComponentInteraction).Message.ModifyAsync(x =>
                     {
                         // Don't change content or embeds - just trigger component rebuild to clear selection
@@ -1030,12 +1034,16 @@ public partial class TicketsSlash : MewdekoSlashModuleBase<TicketService>
             }
             else
             {
-                await Service.CreateTicketAsync(
+                var created = await Service.CreateTicketAsync(
                     ctx.Guild,
                     ctx.User,
                     panelButton
                 );
-                await RespondAsync("Ticket created successfully!", ephemeral: true);
+                await RespondAsync(
+                    created != null
+                        ? $"{Config.SuccessEmote} Ticket created: <#{created.ChannelId}>"
+                        : $"{Config.ErrorEmote} Failed to create ticket. Please try again.",
+                    ephemeral: true);
             }
         }
         catch (InvalidOperationException ex)

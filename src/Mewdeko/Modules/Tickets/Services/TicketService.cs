@@ -924,6 +924,7 @@ public class TicketService : INService
             if (!string.IsNullOrEmpty(openMessageJson))
             {
                 var replacer = new ReplacementBuilder()
+                    .WithDefault(creator, channel, guild as SocketGuild, client)
                     .WithOverride("%ticket.id%", () => newId.ToString())
                     .WithOverride("%ticket.channel%", () => channel.Mention)
                     .WithOverride("%ticket.user%", () => creator.ToString())
@@ -951,7 +952,11 @@ public class TicketService : INService
                     out var components
                 );
 
-                if (success)
+                var rendered = actre.Replace(openMessageJson);
+                var hasEmbeds = embeds is { Length: > 0 };
+                var looksLikeJson = rendered.TrimStart().StartsWith('{');
+
+                if (success && (hasEmbeds || !string.IsNullOrWhiteSpace(plainText)))
                 {
                     // Add existing components if any
                     var finalComponents = new ComponentBuilder();
@@ -967,12 +972,16 @@ public class TicketService : INService
 
                     await channel.SendMessageAsync(plainText, embeds: embeds, components: finalComponents.Build());
                 }
-                else
+                else if (!success && !looksLikeJson && !string.IsNullOrWhiteSpace(rendered))
                 {
                     await channel.SendMessageAsync(
-                        actre.Replace(openMessageJson),
+                        rendered,
                         components: GetDefaultTicketComponents().Build()
                     );
+                }
+                else
+                {
+                    await SendDefaultOpenMessage(channel, ticket);
                 }
             }
             else
@@ -3053,8 +3062,16 @@ public class TicketService : INService
     }
 
     /// <summary>
-    ///     Cleans up channel stuffs for tickets.
+    ///     Cleans up a closed ticket's channel: rename, creator removal, lock, then archive or
+    ///     scheduled deletion, each as the button, option, or guild settings ask.
     /// </summary>
+    /// <remarks>
+    ///     The lock always applies when enabled. When deletion is scheduled it only stops new
+    ///     messages, so the creator can still read the channel until it goes; otherwise it also
+    ///     hides the channel from everyone but staff. Members with their own overwrite (the
+    ///     creator, anyone added to the ticket) get sending denied on that overwrite too, since a
+    ///     deny on everyone would not beat their explicit allow.
+    /// </remarks>
     /// <param name="guild">The guild containing the ticket</param>
     /// <param name="channel">The ticket channel</param>
     /// <param name="ticket">The ticket being closed</param>
@@ -3109,18 +3126,36 @@ public class TicketService : INService
                 }
             }
 
-            // 3. Lock channel if enabled (and not deleting)
-            if (lockOnClose && !deleteOnClose)
+            // 3. Lock channel if enabled
+            if (lockOnClose)
             {
                 try
                 {
                     await channel.AddPermissionOverwriteAsync(guild.EveryoneRole,
                         new OverwritePermissions(
-                            viewChannel: PermValue.Deny,
+                            viewChannel: deleteOnClose ? PermValue.Inherit : PermValue.Deny,
                             sendMessages: PermValue.Deny,
+                            sendMessagesInThreads: PermValue.Deny,
+                            createPublicThreads: PermValue.Deny,
+                            createPrivateThreads: PermValue.Deny,
                             addReactions: PermValue.Deny,
                             useSlashCommands: PermValue.Deny
                         ));
+
+                    foreach (var overwrite in channel.PermissionOverwrites.Where(o => o.TargetType == PermissionTarget.User))
+                    {
+                        var member = await guild.GetUserAsync(overwrite.TargetId);
+                        if (member == null) continue;
+                        var existing = overwrite.Permissions;
+                        await channel.AddPermissionOverwriteAsync(member,
+                            existing.Modify(
+                                sendMessages: PermValue.Deny,
+                                sendMessagesInThreads: PermValue.Deny,
+                                createPublicThreads: PermValue.Deny,
+                                createPrivateThreads: PermValue.Deny,
+                                addReactions: PermValue.Deny,
+                                useSlashCommands: PermValue.Deny));
+                    }
 
                     // Keep staff access
                     var supportRoles = ticket.Button?.SupportRoles ?? ticket.SelectOption?.SupportRoles ?? [];
@@ -5249,6 +5284,21 @@ public class TicketService : INService
     }
 
     /// <summary>
+    ///     Turns a submitted open message into what is stored: null for anything blank or an empty
+    ///     JSON object, so clearing the message in the dashboard restores the default, and the text
+    ///     unchanged otherwise.
+    /// </summary>
+    /// <param name="value">The submitted value, a string or null.</param>
+    /// <returns>The value to store.</returns>
+    private static string? NormalizeOpenMessageJson(object? value)
+    {
+        var text = value as string;
+        if (string.IsNullOrWhiteSpace(text)) return null;
+        var trimmed = text.Trim();
+        return trimmed is "{}" or "null" ? null : text;
+    }
+
+    /// <summary>
     ///     Updates multiple settings for a panel button in a single operation.
     /// </summary>
     /// <param name="guild">The guild containing the panel.</param>
@@ -5348,7 +5398,7 @@ public class TicketService : INService
                         button.ModalJson = (string)setting.Value;
                         break;
                     case "openmessagejson":
-                        button.OpenMessageJson = (string)setting.Value;
+                        button.OpenMessageJson = NormalizeOpenMessageJson(setting.Value);
                         break;
 
                     default:
@@ -5480,7 +5530,7 @@ public class TicketService : INService
                         option.ModalJson = (string)setting.Value;
                         break;
                     case "openmessagejson":
-                        option.OpenMessageJson = (string)setting.Value;
+                        option.OpenMessageJson = NormalizeOpenMessageJson(setting.Value);
                         break;
 
                     default:
