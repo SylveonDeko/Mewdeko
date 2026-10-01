@@ -366,7 +366,7 @@ public class NewEmbed
                 embed.WithUrl(i.Url);
             if (i.Color is not null)
                 embed.WithColor(i.Color.Value);
-            if (i.Footer != null)
+            if (i.Footer != null && !string.IsNullOrWhiteSpace(i.Footer.Text))
             {
                 embed.WithFooter(efb =>
                 {
