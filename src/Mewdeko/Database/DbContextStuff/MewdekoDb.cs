@@ -1,3 +1,5 @@
+using System.Data;
+using System.Threading;
 using DataModel;
 using LinqToDB;
 using LinqToDB.Data;
@@ -23,6 +25,92 @@ public class MewdekoDb : DataConnection
     {
         // Set connection to close after each operation for better connection pooling
         (this as IDataContext).CloseAfterUse = true;
+    }
+
+    /// <inheritdoc />
+    public override DataConnectionTransaction BeginTransaction()
+    {
+        var transaction = base.BeginTransaction();
+        SyncCloseAfterUse();
+        return transaction;
+    }
+
+    /// <inheritdoc />
+    public override DataConnectionTransaction BeginTransaction(IsolationLevel isolationLevel)
+    {
+        var transaction = base.BeginTransaction(isolationLevel);
+        SyncCloseAfterUse();
+        return transaction;
+    }
+
+    /// <inheritdoc />
+    public override async Task<DataConnectionTransaction> BeginTransactionAsync(
+        CancellationToken cancellationToken = default)
+    {
+        var transaction = await base.BeginTransactionAsync(cancellationToken).ConfigureAwait(false);
+        SyncCloseAfterUse();
+        return transaction;
+    }
+
+    /// <inheritdoc />
+    public override async Task<DataConnectionTransaction> BeginTransactionAsync(IsolationLevel isolationLevel,
+        CancellationToken cancellationToken = default)
+    {
+        var transaction = await base.BeginTransactionAsync(isolationLevel, cancellationToken).ConfigureAwait(false);
+        SyncCloseAfterUse();
+        return transaction;
+    }
+
+    /// <inheritdoc />
+    public override void CommitTransaction()
+    {
+        base.CommitTransaction();
+        SyncCloseAfterUse();
+    }
+
+    /// <inheritdoc />
+    public override async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
+    {
+        await base.CommitTransactionAsync(cancellationToken).ConfigureAwait(false);
+        SyncCloseAfterUse();
+    }
+
+    /// <inheritdoc />
+    public override void RollbackTransaction()
+    {
+        base.RollbackTransaction();
+        SyncCloseAfterUse();
+    }
+
+    /// <inheritdoc />
+    public override async Task RollbackTransactionAsync(CancellationToken cancellationToken = default)
+    {
+        await base.RollbackTransactionAsync(cancellationToken).ConfigureAwait(false);
+        SyncCloseAfterUse();
+    }
+
+    /// <inheritdoc />
+    public override void DisposeTransaction()
+    {
+        base.DisposeTransaction();
+        SyncCloseAfterUse();
+    }
+
+    /// <inheritdoc />
+    public override async Task DisposeTransactionAsync()
+    {
+        await base.DisposeTransactionAsync().ConfigureAwait(false);
+        SyncCloseAfterUse();
+    }
+
+    /// <summary>
+    ///     Keeps the connection open while a transaction is running. linq2db closes the connection after every query
+    ///     when <see cref="IDataContext.CloseAfterUse" /> is set, and closing it disposes the open transaction, which
+    ///     rolls back everything written so far and runs the rest of the work outside the transaction.
+    /// </summary>
+    private void SyncCloseAfterUse()
+    {
+        (this as IDataContext).CloseAfterUse = Transaction is null;
     }
 
     /// <summary>
