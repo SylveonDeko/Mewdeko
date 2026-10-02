@@ -364,9 +364,7 @@ public class AdministrationService : INService
             .UpdateAsync()
             .ConfigureAwait(false);
 
-        // Now update Discord API
         using var httpClient = httpClientFactory.CreateClient();
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bot", credentials.Token);
 
         var payload = new Dictionary<string, object?>();
 
@@ -396,11 +394,14 @@ public class AdministrationService : INService
         if (payload.Count > 0)
         {
             var jsonContent = JsonSerializer.Serialize(payload);
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            using var request = new HttpRequestMessage(HttpMethod.Patch,
+                $"https://discord.com/api/v10/guilds/{guildId}/members/@me")
+            {
+                Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
+            };
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bot", credentials.Token);
 
-            var response = await httpClient.PatchAsync(
-                $"https://discord.com/api/v10/guilds/{guildId}/members/@me",
-                content).ConfigureAwait(false);
+            using var response = await httpClient.SendAsync(request).ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();
         }
@@ -444,13 +445,19 @@ public class AdministrationService : INService
     }
 
     /// <summary>
-    ///     Downloads an image from a URL and converts it to a base64 data URI.
+    ///     Downloads an image from a user-supplied URL and converts it to a base64 data URI.
+    ///     The client must carry no credentials, since the URL is untrusted and receives every header sent.
     /// </summary>
-    /// <param name="httpClient">The HTTP client to use</param>
-    /// <param name="imageUrl">The URL of the image</param>
+    /// <param name="httpClient">An HTTP client with no default authorization headers</param>
+    /// <param name="imageUrl">The absolute http or https URL of the image</param>
     /// <returns>A base64-encoded data URI string</returns>
+    /// <exception cref="ArgumentException">Thrown when the URL is not an absolute http or https URL</exception>
     private static async Task<string> DownloadAndConvertImage(HttpClient httpClient, string imageUrl)
     {
+        if (!Uri.TryCreate(imageUrl, UriKind.Absolute, out var uri)
+            || (uri.Scheme != Uri.UriSchemeHttps && uri.Scheme != Uri.UriSchemeHttp))
+            throw new ArgumentException("Image URL must be an absolute http or https URL.", nameof(imageUrl));
+
         var imageBytes = await httpClient.GetByteArrayAsync(imageUrl).ConfigureAwait(false);
         var base64 = Convert.ToBase64String(imageBytes);
 
