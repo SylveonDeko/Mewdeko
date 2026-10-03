@@ -9,7 +9,9 @@
   "module_description_utility": "",
   "module_description_administration": "",
   "module_description_permissions": "",
+  "module_description_rolemenus": "Umožní členům vybrat si vlastní role z menu s tlačítky nebo rozbalovacími seznamy",
   "module_description_searches": "",
+  "module_description_wordoftheday": "Zveřejní slovo dne podle rozvrhu, s vlastní šablonou embedu",
   "module_description_xp": "",
   "module_description_servermanagement": ""
 }

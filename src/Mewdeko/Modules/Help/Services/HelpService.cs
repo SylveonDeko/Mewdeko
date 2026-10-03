@@ -69,6 +69,7 @@ public class HelpService : INService, IReadyExecutor
             ["Currency"] = "economy",
             ["Xp"] = "economy",
             ["Reputation"] = "economy",
+            ["Achievements"] = "economy",
             ["Vote"] = "economy",
             ["Patreon"] = "economy",
             ["Music"] = "music",

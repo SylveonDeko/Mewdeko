@@ -1,0 +1,482 @@
+achievements:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Shows your achievement overview: rank, points, progress in every category, and recent unlocks. Mention someone to see theirs.'
+  params:
+    - desc: The member to look at. Defaults to you.
+      name: user
+      optional: true
+      type: IGuildUser
+achcategory:
+  args:
+    - 'messages'
+    - 'voice @Someone'
+  desc: 'Shows every achievement in one category, with progress toward the ones still locked.'
+  params:
+    - desc: The category key or name, such as messages, voice, reactions, invites, commands, loyalty, boosts, community, prestige, or custom.
+      name: category
+      optional: false
+      type: string
+    - desc: The member to look at. Defaults to you.
+      name: user
+      optional: true
+      type: IGuildUser
+achlist:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Shows every achievement in the server with progress, page by page.'
+  params:
+    - desc: The member to look at. Defaults to you.
+      name: user
+      optional: true
+      type: IGuildUser
+achlatest:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Shows the five most recent unlocks.'
+  params:
+    - desc: The member to look at. Defaults to you.
+      name: user
+      optional: true
+      type: IGuildUser
+achhighest:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Shows the five best unlocks by grade and points.'
+  params:
+    - desc: The member to look at. Defaults to you.
+      name: user
+      optional: true
+      type: IGuildUser
+achsearch:
+  args:
+    - 'voice'
+    - 'night owl'
+  desc: 'Finds achievements by name or description and shows your progress on each.'
+  params:
+    - desc: What to search for.
+      name: query
+      optional: false
+      type: string
+achglobal:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Shows achievements earned across every server: total points, servers, and global achievements.'
+  params:
+    - desc: The user to look at. Defaults to you.
+      name: user
+      optional: true
+      type: IUser
+achleaderboard:
+  args:
+    - ''
+    - 'unlocked'
+    - 'recent'
+  desc: 'Shows who has earned the most achievements in the server. Members who hide themselves are left out.'
+  params:
+    - desc: Points, Unlocked, or Recent. Defaults to Points.
+      name: sort
+      optional: true
+      type: AchievementLeaderboardSort
+achgloballeaderboard:
+  args:
+    - ''
+    - 'unlocked'
+  desc: 'Shows who has earned the most achievements across every server.'
+  params:
+    - desc: Points, Unlocked, or Recent. Defaults to Points.
+      name: sort
+      optional: true
+      type: AchievementLeaderboardSort
+achcard:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Draws an achievement profile card with rank, points, progress to the next rank, and equipped badges.'
+  params:
+    - desc: The member to draw. Defaults to you.
+      name: user
+      optional: true
+      type: IGuildUser
+achstats:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Shows every number achievements track: messages, voice time, reactions, invites, commands, time in the server, boosting, level, and reputation.'
+  params:
+    - desc: The member to look at. Defaults to you.
+      name: user
+      optional: true
+      type: IGuildUser
+achview:
+  args:
+    - 'Night Owl'
+    - '@Someone voice_hours_100'
+  desc: 'Draws an achievement as an image: unlocked, or locked with how close you or someone else is.'
+  params:
+    - desc: The member to look at. Defaults to you.
+      name: user
+      optional: true
+      type: IGuildUser
+    - desc: The achievement name or key.
+      name: achievement
+      optional: false
+      type: string
+achicon:
+  args:
+    - '"Night Owl" moon'
+    - 'voice_hours_100 :partymic:'
+    - '"Event Winner" https://example.com/trophy.png'
+    - '"Night Owl"'
+  desc: 'Sets the icon an achievement shows in its image, the dashboard, and the apps: an icon name like trophy, a server emoji, or an https image link. Leave the icon out to use its category''s again.'
+  params:
+    - desc: The achievement name or key, in quotes when it has spaces.
+      name: achievement
+      optional: false
+      type: string
+    - desc: The icon, or nothing to clear it.
+      name: icon
+      optional: true
+      type: string
+badges:
+  args:
+    - ''
+    - '@Someone'
+  desc: 'Shows every badge you or someone else owns, with the four equipped slots at the top.'
+  params:
+    - desc: The member to look at. Defaults to you.
+      name: user
+      optional: true
+      type: IGuildUser
+badgeequip:
+  args:
+    - '1 messages:gold'
+    - '4 tier:silver'
+  desc: 'Puts a badge you own in one of your four profile slots. Badge keys are shown by badges.'
+  params:
+    - desc: The slot, 1 to 4.
+      name: slot
+      optional: false
+      type: int
+    - desc: The badge key.
+      name: badge
+      optional: false
+      type: string
+badgeremove:
+  args:
+    - '2'
+  desc: 'Empties one of your four profile slots.'
+  params:
+    - desc: The slot, 1 to 4.
+      name: slot
+      optional: false
+      type: int
+badgepreview:
+  args:
+    - 'voice:emerald'
+  desc: 'Shows what a badge is and how to earn it.'
+  params:
+    - desc: The badge key.
+      name: badge
+      optional: false
+      type: string
+achprivacy:
+  args:
+    - 'leaderboard onlyme'
+    - 'badges everyone'
+  desc: 'Sets who can see your achievement profile, achievements, badges, and leaderboard spot.'
+  params:
+    - desc: Profile, Achievements, Badges, or Leaderboard.
+      name: area
+      optional: false
+      type: AchievementPrivacyArea
+    - desc: Everyone or OnlyMe.
+      name: visibility
+      optional: false
+      type: AchievementVisibility
+achnotify:
+  args:
+    - 'dm true'
+    - 'mention false'
+  desc: 'Turns unlock DMs, unlock messages in the server, or mentions in them on or off for you.'
+  params:
+    - desc: Dm, Message, or Mention.
+      name: option
+      optional: false
+      type: AchievementNotifyOption
+    - desc: True for on, false for off.
+      name: enabled
+      optional: false
+      type: bool
+achmanage:
+  args:
+    - ''
+  desc: 'Lists every achievement in the server with its key, whether it is on, and how many members unlocked it.'
+  params: [ ]
+achtoggle:
+  args:
+    - ''
+  desc: 'Starts or pauses earning achievements in the server. Starting it also turns on message counting, and members who already qualify get their achievements quietly.'
+  params: [ ]
+achlogchannel:
+  args:
+    - '#achievements'
+    - ''
+  desc: 'Sets the channel unlocks are announced in. Leave it out to stop using a log channel.'
+  params:
+    - desc: The channel.
+      name: channel
+      optional: true
+      type: ITextChannel
+achannounce:
+  args:
+    - 'auto'
+    - 'dmonly'
+  desc: 'Sets where unlocks are announced: Auto uses the log channel when set and the channel it happened in otherwise, Here uses the channel it happened in, LogChannel only uses the log channel, DmOnly only sends DMs, and Silent announces nothing.'
+  params:
+    - desc: Auto, Here, LogChannel, DmOnly, or Silent.
+      name: mode
+      optional: false
+      type: AchievementAnnounceMode
+achdmdefault:
+  args:
+    - 'true'
+  desc: 'Sets whether members get their unlocks in DMs unless they turn it off themselves.'
+  params:
+    - desc: True for on, false for off.
+      name: enabled
+      optional: false
+      type: bool
+achmessage:
+  args:
+    - '%user.mention% unlocked %achievement.emoji% **%achievement.name%**!'
+    - ''
+  desc: 'Sets the unlock message. Plain text and embed JSON both work, with placeholders such as %achievement.name%, %achievement.points%, %achievement.list%, and %achievements.tier%. Leave it out to go back to the default.'
+  params:
+    - desc: The message, or nothing to clear.
+      name: message
+      optional: true
+      type: string
+achxpperpoint:
+  args:
+    - '2'
+    - '0'
+  desc: 'Gives members XP for every achievement point they earn. 0 turns it off.'
+  params:
+    - desc: XP per point, 0 to 1000.
+      name: amount
+      optional: false
+      type: int
+achenable:
+  args:
+    - 'Night Owl'
+    - 'voice_hours_100'
+  desc: 'Activates one achievement so members can earn it.'
+  params:
+    - desc: The achievement name or key.
+      name: achievement
+      optional: false
+      type: string
+achdisable:
+  args:
+    - 'Night Owl'
+    - 'commands_10'
+  desc: 'Deactivates one achievement. Members who already unlocked it keep it.'
+  params:
+    - desc: The achievement name or key.
+      name: achievement
+      optional: false
+      type: string
+achcategorytoggle:
+  args:
+    - 'boosts'
+  desc: 'Activates or deactivates a whole category.'
+  params:
+    - desc: The category key or name.
+      name: category
+      optional: false
+      type: string
+achgrant:
+  args:
+    - '@Someone Event Winner'
+  desc: 'Hands an achievement to a member and announces it like any other unlock.'
+  params:
+    - desc: The member.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: The achievement name or key.
+      name: achievement
+      optional: false
+      type: string
+achrevoke:
+  args:
+    - '@Someone Event Winner'
+  desc: 'Takes an achievement away from a member.'
+  params:
+    - desc: The member.
+      name: user
+      optional: false
+      type: IGuildUser
+    - desc: The achievement name or key.
+      name: achievement
+      optional: false
+      type: string
+achreset:
+  args:
+    - '@Someone'
+  desc: 'Clears every achievement a member has in the server after asking to confirm.'
+  params:
+    - desc: The member.
+      name: user
+      optional: false
+      type: IGuildUser
+achcreate:
+  args:
+    - 'MessagesTotal 500 Silver Getting Chatty'
+    - 'VoiceHours 50 Gold Night Shift'
+  desc: 'Makes an achievement unlocked by reaching a number. Metrics include MessagesTotal, MessagesToday, VoiceHours, Reactions, Invites, Commands, TenureDays, XpLevel, Reputation, and NetWorth.'
+  params:
+    - desc: What to count.
+      name: metric
+      optional: false
+      type: AchievementMetric
+    - desc: The number to reach.
+      name: goal
+      optional: false
+      type: long
+    - desc: Bronze, Silver, Gold, Emerald, Amethyst, or Champion.
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: The name.
+      name: name
+      optional: false
+      type: string
+achcreatephrase:
+  args:
+    - '"good morning" Bronze Early Bird'
+  desc: 'Makes an achievement unlocked by saying a phrase anywhere in the server.'
+  params:
+    - desc: The phrase, in quotes when it has spaces.
+      name: phrase
+      optional: false
+      type: string
+    - desc: Bronze, Silver, Gold, Emerald, Amethyst, or Champion.
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: The name.
+      name: name
+      optional: false
+      type: string
+achcreatereaction:
+  args:
+    - '🍕 Bronze Pizza Fan'
+  desc: 'Makes an achievement unlocked by reacting with an emoji.'
+  params:
+    - desc: The emoji.
+      name: emoji
+      optional: false
+      type: string
+    - desc: Bronze, Silver, Gold, Emerald, Amethyst, or Champion.
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: The name.
+      name: name
+      optional: false
+      type: string
+achcreatemanual:
+  args:
+    - 'Champion Tournament Winner'
+  desc: 'Makes an achievement only staff can hand out with achgrant.'
+  params:
+    - desc: Bronze, Silver, Gold, Emerald, Amethyst, or Champion.
+      name: grade
+      optional: false
+      type: AchievementGrade
+    - desc: The name.
+      name: name
+      optional: false
+      type: string
+achdelete:
+  args:
+    - 'Pizza Fan'
+  desc: 'Deletes an achievement the server made after asking to confirm. Everyone who unlocked it loses it.'
+  params:
+    - desc: The achievement name or key.
+      name: achievement
+      optional: false
+      type: string
+achrewardrole:
+  args:
+    - '@Regular Regular'
+  desc: 'Gives a role to members when they unlock an achievement.'
+  params:
+    - desc: The role.
+      name: role
+      optional: false
+      type: IRole
+    - desc: The achievement name or key.
+      name: achievement
+      optional: false
+      type: string
+achrewardcurrency:
+  args:
+    - '500 Chatterbox'
+  desc: 'Gives currency to members when they unlock an achievement. 0 removes it.'
+  params:
+    - desc: The amount.
+      name: amount
+      optional: false
+      type: long
+    - desc: The achievement name or key.
+      name: achievement
+      optional: false
+      type: string
+achrewardxp:
+  args:
+    - '250 Tuned In'
+  desc: 'Gives XP to members when they unlock an achievement. 0 removes it.'
+  params:
+    - desc: The amount.
+      name: amount
+      optional: false
+      type: int
+    - desc: The achievement name or key.
+      name: achievement
+      optional: false
+      type: string
+achrewardclear:
+  args:
+    - 'Chatterbox'
+  desc: 'Removes every reward from an achievement.'
+  params:
+    - desc: The achievement name or key.
+      name: achievement
+      optional: false
+      type: string
+achexcluderole:
+  args:
+    - '@Bots'
+  desc: 'Stops members with a role from earning achievements. Run it again to let them earn again.'
+  params:
+    - desc: The role.
+      name: role
+      optional: false
+      type: IRole
+achexcludechannel:
+  args:
+    - '#spam'
+  desc: 'Stops activity in a channel from counting toward achievements. Run it again to count it again.'
+  params:
+    - desc: The channel.
+      name: channel
+      optional: false
+      type: IGuildChannel

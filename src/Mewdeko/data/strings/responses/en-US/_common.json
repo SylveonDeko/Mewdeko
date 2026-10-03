@@ -312,6 +312,8 @@
   "current_min_message_setting": "Your current minimum length for a message to count is {0}",
   "custom_emojis": "Custom emojis",
   "form_submission_title": "New Form Submission: {0}",
+  "form_response_approved_title": "Your response was approved",
+  "form_response_rejected_title": "Your response was not accepted",
   "form_submission_footer": "Response ID: #{0} | Form ID: #{1}",
   "cx_disable": "Disabled usage of {0} {1} on channel {2}.",
   "cx_enable": "Enabled usage of {0} {1} on channel {2}.",

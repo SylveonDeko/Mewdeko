@@ -9,6 +9,7 @@ using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.Settings;
+using Mewdeko.Services.Strings;
 
 namespace Mewdeko.Modules.OwnerOnly.Services;
 
@@ -78,6 +79,7 @@ public class GuildDataRetentionService : INService, IReadyExecutor
     private readonly IDataConnectionFactory dbFactory;
     private readonly EventHandler handler;
     private readonly ILogger<GuildDataRetentionService> logger;
+    private readonly GeneratedBotStrings strings;
     private readonly SemaphoreSlim purgeLock = new(1, 1);
     private DateTime lastOrphanScan = DateTime.MinValue;
     private SchemaSnapshot? schema;
@@ -90,9 +92,10 @@ public class GuildDataRetentionService : INService, IReadyExecutor
     /// <param name="dbFactory">The database connection factory.</param>
     /// <param name="bss">The bot config service.</param>
     /// <param name="creds">The bot credentials.</param>
+    /// <param name="strings">The localization strings provider.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     public GuildDataRetentionService(EventHandler handler, DiscordShardedClient client,
-        IDataConnectionFactory dbFactory, BotConfigService bss, BotCredentials creds,
+        IDataConnectionFactory dbFactory, BotConfigService bss, BotCredentials creds, GeneratedBotStrings strings,
         ILogger<GuildDataRetentionService> logger)
     {
         this.handler = handler;
@@ -100,6 +103,7 @@ public class GuildDataRetentionService : INService, IReadyExecutor
         this.dbFactory = dbFactory;
         this.bss = bss;
         this.creds = creds;
+        this.strings = strings;
         this.logger = logger;
     }
 
@@ -526,7 +530,7 @@ public class GuildDataRetentionService : INService, IReadyExecutor
 
             var eb = new EmbedBuilder()
                 .WithOkColor()
-                .WithTitle("Server Data Purged")
+                .WithTitle(strings.RetentionPurgedTitle(null))
                 .AddField("Servers", batch.Count, true)
                 .AddField("Rows Removed", rows, true)
                 .AddField("Sources", string.Join(", ", batch.GroupBy(x => x.Source)

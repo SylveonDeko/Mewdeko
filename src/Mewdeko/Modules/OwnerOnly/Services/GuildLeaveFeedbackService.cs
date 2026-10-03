@@ -422,7 +422,7 @@ public class GuildLeaveFeedbackService : INService, IReadyExecutor
 
             var eb = new EmbedBuilder()
                 .WithOkColor()
-                .WithTitle("Leave Feedback")
+                .WithTitle(strings.LeaveFeedbackLogTitle(null))
                 .AddField("Server", $"{record.GuildName} `{record.GuildId}`")
                 .AddField("Members", record.MemberCount, true)
                 .AddField("Owner", $"{responder} `{record.OwnerId}`", true)

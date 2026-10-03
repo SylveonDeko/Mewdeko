@@ -914,118 +914,39 @@ public class TicketService : INService
         };
 
         var newId = await ctx.InsertWithInt32IdentityAsync(ticket);
+        ticket.Id = newId;
 
-
-        // Send messages in order
         try
         {
-            // 1. Opening message (custom or default)
             var openMessageJson = button?.OpenMessageJson ?? option?.OpenMessageJson;
+            var sent = false;
             if (!string.IsNullOrEmpty(openMessageJson))
             {
-                var replacer = new ReplacementBuilder()
-                    .WithDefault(creator, channel, guild as SocketGuild, client)
-                    .WithOverride("%ticket.id%", () => newId.ToString())
-                    .WithOverride("%ticket.channel%", () => channel.Mention)
-                    .WithOverride("%ticket.user%", () => creator.ToString())
-                    .WithOverride("%ticket.user.mention%", () => creator.Mention)
-                    .WithOverride("%ticket.user.avatar%", () => creator.GetAvatarUrl())
-                    .WithOverride("%ticket.user.id%", () => creator.Id.ToString())
-                    .WithOverride("%ticket.created%", () => ticket.CreatedAt.ToString("g"));
-
-                // Add modal responses if present
-                if (modalResponses != null)
+                try
                 {
-                    foreach (var (key, value) in modalResponses)
-                    {
-                        replacer.WithOverride($"%modal.{key}%", () => value);
-                    }
+                    sent = await SendCustomOpenMessageAsync(openMessageJson, channel, creator, guild, ticket,
+                        modalResponses);
                 }
-
-                var actre = replacer.Build();
-
-                var success = SmartEmbed.TryParse(
-                    actre.Replace(openMessageJson),
-                    guild.Id,
-                    out var embeds,
-                    out var plainText,
-                    out var components
-                );
-
-                var rendered = actre.Replace(openMessageJson);
-                var hasEmbeds = embeds is { Length: > 0 };
-                var looksLikeJson = rendered.TrimStart().StartsWith('{');
-
-                if (success && (hasEmbeds || !string.IsNullOrWhiteSpace(plainText)))
+                catch (Exception ex)
                 {
-                    // Add existing components if any
-                    var finalComponents = new ComponentBuilder();
-                    if (components != null)
-                    {
-                        foreach (var i in components.ActionRows)
-                        {
-                            finalComponents.AddRow(i);
-                        }
-                    }
-
-                    finalComponents.WithRows(GetDefaultTicketComponents().ActionRows);
-
-                    await channel.SendMessageAsync(plainText, embeds: embeds, components: finalComponents.Build());
-                }
-                else if (!success && !looksLikeJson && !string.IsNullOrWhiteSpace(rendered))
-                {
-                    await channel.SendMessageAsync(
-                        rendered,
-                        components: GetDefaultTicketComponents().Build()
-                    );
-                }
-                else
-                {
-                    await SendDefaultOpenMessage(channel, ticket);
+                    logger.LogWarning(ex, "Custom ticket open message failed in {GuildId}, sending the default",
+                        guild.Id);
                 }
             }
-            else
-            {
+
+            if (!sent)
                 await SendDefaultOpenMessage(channel, ticket);
-            }
 
-            // Send notifications
             await SendTicketNotificationsAsync(ticket, creator, guild, settings);
-
-            // Log ticket creation
-            if (settings?.LogChannelId.HasValue == true)
-            {
-                var logChannel = await guild.GetTextChannelAsync(settings.LogChannelId.Value);
-                if (logChannel != null)
-                {
-                    var logEmbed = new EmbedBuilder()
-                        .WithTitle(strings.NewTicketCreated(guild.Id))
-                        .WithDescription(strings.TicketCreatedBy(guild.Id, newId, creator.Mention))
-                        .AddField("Channel", channel.Mention, true)
-                        .AddField("Type", button != null ? $"Button: {button.Label}" : $"Option: {option.Label}", true)
-                        .WithColor(Color.Green)
-                        .WithCurrentTimestamp()
-                        .Build();
-
-                    await logChannel.SendMessageAsync(embed: logEmbed);
-                }
-            }
-
-            // Let chat triggers listening for a ticket being opened respond
-            await triggerEvents.PublishAsync(guild.Id, CtEventType.TicketOpened, creator).ConfigureAwait(false);
-            collector.Feature("ticket_open", guild.Id);
-
-            return ticket;
         }
         catch (Exception ex)
         {
             collector.Feature("ticket_open", guild.Id, false, ex.GetType().Name);
-            // Cleanup on failure
             logger.LogError(ex, "Error during ticket creation messages/notifications");
             try
             {
+                await ctx.Tickets.Where(t => t.Id == newId).DeleteAsync();
                 await channel.DeleteAsync();
-                await ctx.DeleteAsync(ticket);
             }
             catch (Exception cleanupEx)
             {
@@ -1034,6 +955,92 @@ public class TicketService : INService
 
             throw new InvalidOperationException("Failed to complete ticket creation.");
         }
+
+        if (settings?.LogChannelId.HasValue == true)
+        {
+            try
+            {
+                var logChannel = await guild.GetTextChannelAsync(settings.LogChannelId.Value);
+                if (logChannel != null)
+                {
+                    var logEmbed = new EmbedBuilder()
+                        .WithTitle(strings.NewTicketCreated(guild.Id))
+                        .WithDescription(strings.TicketCreatedBy(guild.Id, newId, creator.Mention))
+                        .AddField("Channel", channel.Mention, true)
+                        .AddField("Type", button != null ? $"Button: {button.Label}" : $"Option: {option?.Label}", true)
+                        .WithColor(Color.Green)
+                        .WithCurrentTimestamp()
+                        .Build();
+
+                    await logChannel.SendMessageAsync(embed: logEmbed);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "Could not log ticket creation in {GuildId}", guild.Id);
+            }
+        }
+
+        try
+        {
+            await triggerEvents.PublishAsync(guild.Id, CtEventType.TicketOpened, creator).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "Ticket opened triggers failed in {GuildId}", guild.Id);
+        }
+
+        collector.Feature("ticket_open", guild.Id);
+        return ticket;
+    }
+
+    /// <summary>
+    ///     Sends a panel's own opening message in a new ticket.
+    /// </summary>
+    /// <returns>False when the message has nothing Discord would show, so the default should go instead.</returns>
+    private async Task<bool> SendCustomOpenMessageAsync(string openMessageJson, ITextChannel channel, IUser creator,
+        IGuild guild, Ticket ticket, Dictionary<string, string>? modalResponses)
+    {
+        var replacer = new ReplacementBuilder()
+            .WithDefault(creator, channel, guild as SocketGuild, client)
+            .WithOverride("%ticket.id%", () => ticket.Id.ToString())
+            .WithOverride("%ticket.channel%", () => channel.Mention)
+            .WithOverride("%ticket.user%", () => creator.ToString())
+            .WithOverride("%ticket.user.mention%", () => creator.Mention)
+            .WithOverride("%ticket.user.avatar%", () => creator.GetAvatarUrl())
+            .WithOverride("%ticket.user.id%", () => creator.Id.ToString())
+            .WithOverride("%ticket.created%", () => ticket.CreatedAt.ToString("g"));
+
+        if (modalResponses != null)
+        {
+            foreach (var (key, value) in modalResponses)
+                replacer.WithOverride($"%modal.{key}%", () => value);
+        }
+
+        var rendered = replacer.Build().Replace(openMessageJson);
+        var success = SmartEmbed.TryParse(rendered, guild.Id, out var embeds, out var plainText, out var components);
+
+        if (success && (embeds is { Length: > 0 } || !string.IsNullOrWhiteSpace(plainText)))
+        {
+            var finalComponents = new ComponentBuilder();
+            if (components != null)
+            {
+                foreach (var row in components.ActionRows)
+                    finalComponents.AddRow(row);
+            }
+
+            finalComponents.WithRows(GetDefaultTicketComponents().ActionRows);
+            await channel.SendMessageAsync(plainText, embeds: embeds, components: finalComponents.Build());
+            return true;
+        }
+
+        if (!success && !rendered.TrimStart().StartsWith('{') && !string.IsNullOrWhiteSpace(rendered))
+        {
+            await channel.SendMessageAsync(rendered, components: GetDefaultTicketComponents().Build());
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>

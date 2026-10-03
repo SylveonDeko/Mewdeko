@@ -242,7 +242,9 @@ public partial class FormsService
             var guild = client.GetGuild(form.GuildId);
 
             var embed = new EmbedBuilder()
-                .WithTitle(approved ? "Your response was approved" : "Your response was not accepted")
+                .WithTitle(approved
+                    ? strings.FormResponseApprovedTitle(form.GuildId)
+                    : strings.FormResponseRejectedTitle(form.GuildId))
                 .WithDescription(form.Name)
                 .WithColor(approved ? Mewdeko.OkColor : Mewdeko.ErrorColor)
                 .WithCurrentTimestamp();

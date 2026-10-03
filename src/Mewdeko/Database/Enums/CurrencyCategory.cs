@@ -105,5 +105,10 @@ public enum CurrencyCategory
     /// <summary>
     ///     Currency taken or paid out by a chat trigger.
     /// </summary>
-    ChatTrigger
+    ChatTrigger,
+
+    /// <summary>
+    ///     Currency handed out for unlocking an achievement.
+    /// </summary>
+    Achievement
 }

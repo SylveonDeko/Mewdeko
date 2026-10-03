@@ -1418,7 +1418,7 @@ public class OwnerOnly(
 
         var verdict = await botHells.EvaluateFullAsync(guild).ConfigureAwait(false);
         var eb = new EmbedBuilder()
-            .WithTitle($"{verdict.GuildName} `{verdict.GuildId}`")
+            .WithTitle(Strings.BotHellServerTitle(ctx.Guild.Id, verdict.GuildName, verdict.GuildId))
             .WithDescription(verdict.IsBotHell
                 ? Strings.BotHellVerdictYes(ctx.Guild.Id, verdict.TriggerDescription)
                 : Strings.BotHellVerdictNo(ctx.Guild.Id))

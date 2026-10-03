@@ -302,9 +302,10 @@ public class SlashNsfw : MewdekoSlashModuleBase<ISearchImagesService>
         if (string.IsNullOrWhiteSpace(tag))
         {
             var blTags = await Service.GetBlacklistedTags(ctx.Guild.Id).ConfigureAwait(false);
+            var tagList = blTags.Length > 0 ? string.Join(", ", blTags) : "-";
             await ctx.Interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor()
                 .WithTitle(Strings.NsfwBlacklistTitle(ctx.Guild.Id))
-                .WithDescription(blTags.Length > 0 ? string.Join(", ", blTags) : "-")
+                .WithDescription(tagList)
                 .Build());
         }
         else

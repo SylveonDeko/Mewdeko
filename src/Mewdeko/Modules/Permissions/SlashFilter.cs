@@ -490,6 +490,7 @@ public class SlashFilter(
             .GroupBy(_ => i++ / 2)
             .Select(ig => string.Concat(ig.Select(s => $"{s,-30}")));
 
-        await ctx.Interaction.RespondAsync($"```css\n{string.Join("\n", rows)}\n```").ConfigureAwait(false);
+        var table = Format.Code(string.Join("\n", rows), "css");
+        await ctx.Interaction.RespondAsync(table).ConfigureAwait(false);
     }
 }

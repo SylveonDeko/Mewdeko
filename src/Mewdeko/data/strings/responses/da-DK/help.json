@@ -9,7 +9,9 @@
   "module_description_utility": "",
   "module_description_administration": "",
   "module_description_permissions": "",
+  "module_description_rolemenus": "Lad medlemmer vælge deres egne roller fra menuer med knapper eller dropdowns",
   "module_description_searches": "",
+  "module_description_wordoftheday": "Send et dagens ord efter en tidsplan, med en brugerdefineret embed-skabelon",
   "module_description_xp": "",
   "module_description_servermanagement": ""
 }

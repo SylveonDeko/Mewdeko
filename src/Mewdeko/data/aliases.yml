@@ -4174,3 +4174,104 @@ rolemenudelete:
 rolemenuimport:
   - rolemenuimport
   - rmenuimport
+achoverview:
+  - achievements
+  - achoverview
+  - achs
+achcategory:
+  - achcategory
+  - achcat
+achlist:
+  - achlist
+  - achall
+achlatest:
+  - achlatest
+achhighest:
+  - achhighest
+  - achbest
+achsearch:
+  - achsearch
+achglobal:
+  - achglobal
+achleaderboard:
+  - achleaderboard
+  - achlb
+achgloballeaderboard:
+  - achgloballeaderboard
+  - achglb
+achcard:
+  - achcard
+  - achprofile
+achstats:
+  - achstats
+achview:
+  - achview
+  - achimage
+achicon:
+  - achicon
+badges:
+  - badges
+  - badgeinv
+badgeequip:
+  - badgeequip
+  - equipbadge
+badgeremove:
+  - badgeremove
+  - unequipbadge
+badgepreview:
+  - badgepreview
+achprivacy:
+  - achprivacy
+achnotify:
+  - achnotify
+achmanage:
+  - achmanage
+  - achadmin
+achtoggle:
+  - achtoggle
+achlogchannel:
+  - achlogchannel
+  - achlog
+achannounce:
+  - achannounce
+achdmdefault:
+  - achdmdefault
+achmessage:
+  - achmessage
+achxpperpoint:
+  - achxpperpoint
+achenable:
+  - achenable
+achdisable:
+  - achdisable
+achcategorytoggle:
+  - achcategorytoggle
+  - achcattoggle
+achgrant:
+  - achgrant
+achrevoke:
+  - achrevoke
+achreset:
+  - achreset
+achcreate:
+  - achcreate
+achcreatephrase:
+  - achcreatephrase
+achcreatereaction:
+  - achcreatereaction
+achcreatemanual:
+  - achcreatemanual
+achdelete:
+  - achdelete
+achrewardrole:
+  - achrewardrole
+achrewardcurrency:
+  - achrewardcurrency
+achrewardxp:
+  - achrewardxp
+achrewardclear:
+  - achrewardclear
+achexcluderole:
+  - achexcluderole
+achexcludechannel:
+  - achexcludechannel

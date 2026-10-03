@@ -2257,4 +2257,54 @@ public class MewdekoDb : DataConnection
     ///     Gets the role menu options table: one role per option on a role menu.
     /// </summary>
     public ITable<RoleMenuOption> RoleMenuOptions => this.GetTable<RoleMenuOption>();
+
+    /// <summary>
+    ///     Gets the achievement settings table: one row of achievement settings per server.
+    /// </summary>
+    public ITable<AchievementSetting> AchievementSettings => this.GetTable<AchievementSetting>();
+
+    /// <summary>
+    ///     Gets the achievement categories table: categories a server made for its own achievements.
+    /// </summary>
+    public ITable<AchievementCategory> AchievementCategories => this.GetTable<AchievementCategory>();
+
+    /// <summary>
+    ///     Gets the achievement icon uploads table: images a server uploaded to use as achievement icons.
+    /// </summary>
+    public ITable<AchievementIconUpload> AchievementIconUploads => this.GetTable<AchievementIconUpload>();
+
+    /// <summary>
+    ///     Gets the achievement card designs table: named card designs a server made in the designer.
+    /// </summary>
+    public ITable<AchievementCardDesign> AchievementCardDesigns => this.GetTable<AchievementCardDesign>();
+
+    /// <summary>
+    ///     Gets the custom achievements table: achievements a server made itself.
+    /// </summary>
+    public ITable<CustomAchievement> CustomAchievements => this.GetTable<CustomAchievement>();
+
+    /// <summary>
+    ///     Gets the achievement overrides table: a server's changes to built in achievements.
+    /// </summary>
+    public ITable<AchievementOverride> AchievementOverrides => this.GetTable<AchievementOverride>();
+
+    /// <summary>
+    ///     Gets the user achievements table: every unlocked achievement, with guild 0 for global ones.
+    /// </summary>
+    public ITable<UserAchievement> UserAchievements => this.GetTable<UserAchievement>();
+
+    /// <summary>
+    ///     Gets the achievement members table: totals, counters, and equipped badges per member.
+    /// </summary>
+    public ITable<AchievementMember> AchievementMembers => this.GetTable<AchievementMember>();
+
+    /// <summary>
+    ///     Gets the achievement emoji uses table: how often each member reacted with each emoji.
+    /// </summary>
+    public ITable<AchievementEmojiUse> AchievementEmojiUses => this.GetTable<AchievementEmojiUse>();
+
+    /// <summary>
+    ///     Gets the achievement user settings table: each user's achievement privacy and notification choices.
+    /// </summary>
+    public ITable<AchievementUserSetting> AchievementUserSettings => this.GetTable<AchievementUserSetting>();
 }

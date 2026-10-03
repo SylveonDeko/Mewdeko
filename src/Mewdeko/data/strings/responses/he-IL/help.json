@@ -9,7 +9,9 @@
   "module_description_utility": "",
   "module_description_administration": "",
   "module_description_permissions": "",
+  "module_description_rolemenus": "אפשר לחברים לבחור לעצמם תפקידים מתפריטים עם כפתורים או תפריטים נפתחים",
   "module_description_searches": "",
+  "module_description_wordoftheday": "פרסם מילה יומית לפי לוח זמנים, עם תבנית embed מותאמת אישית",
   "module_description_xp": "",
   "module_description_servermanagement": ""
 }

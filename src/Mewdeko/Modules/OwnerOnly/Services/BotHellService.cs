@@ -2,6 +2,7 @@ using Discord.Rest;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.Settings;
+using Mewdeko.Services.Strings;
 
 namespace Mewdeko.Modules.OwnerOnly.Services;
 
@@ -17,6 +18,7 @@ public class BotHellService : INService, IReadyExecutor
     private readonly BotCredentials creds;
     private readonly EventHandler handler;
     private readonly ILogger<BotHellService> logger;
+    private readonly GeneratedBotStrings strings;
 
     /// <summary>
     ///     Initializes a new instance of <see cref="BotHellService" />.
@@ -25,14 +27,16 @@ public class BotHellService : INService, IReadyExecutor
     /// <param name="client">The discord client.</param>
     /// <param name="bss">The bot config service.</param>
     /// <param name="creds">The bot credentials.</param>
+    /// <param name="strings">The localization strings provider.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
     public BotHellService(EventHandler handler, DiscordShardedClient client, BotConfigService bss,
-        BotCredentials creds, ILogger<BotHellService> logger)
+        BotCredentials creds, GeneratedBotStrings strings, ILogger<BotHellService> logger)
     {
         this.handler = handler;
         this.client = client;
         this.bss = bss;
         this.creds = creds;
+        this.strings = strings;
         this.logger = logger;
     }
 
@@ -323,7 +327,7 @@ public class BotHellService : INService, IReadyExecutor
 
             var eb = new EmbedBuilder()
                 .WithErrorColor()
-                .WithTitle("Bot Hell Detected")
+                .WithTitle(strings.BotHellDetectedTitle(null))
                 .AddField("Server", $"{verdict.GuildName} `{verdict.GuildId}`")
                 .AddField("Members", verdict.Total, true)
                 .AddField("Humans", verdict.Humans, true)

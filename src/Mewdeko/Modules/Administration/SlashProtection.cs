@@ -366,7 +366,7 @@ public class SlashProtection : MewdekoSlashModuleBase<ProtectionService>
                     }
 
                     await ctx.Interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor()
-                        .WithTitle("Anti-Alt")
+                        .WithTitle(Strings.AntiAltTitle(ctx.Guild.Id))
                         .WithDescription(GetAntiAltString(Strings, ctx.Guild.Id, alt))
                         .Build()).ConfigureAwait(false);
                     return;
@@ -470,7 +470,7 @@ public class SlashProtection : MewdekoSlashModuleBase<ProtectionService>
                     }
 
                     await ctx.Interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor()
-                        .WithTitle("Anti-Raid")
+                        .WithTitle(Strings.AntiRaidTitle(ctx.Guild.Id))
                         .WithDescription(GetAntiRaidString(Strings, ctx.Guild.Id, raid))
                         .Build()).ConfigureAwait(false);
                     return;
@@ -587,7 +587,7 @@ public class SlashProtection : MewdekoSlashModuleBase<ProtectionService>
                     }
 
                     await ctx.Interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor()
-                        .WithTitle("Anti-Spam")
+                        .WithTitle(Strings.AntiSpamTitle(ctx.Guild.Id))
                         .WithDescription(GetAntiSpamString(Strings, ctx.Guild.Id, spam))
                         .Build()).ConfigureAwait(false);
                     return;
@@ -733,7 +733,7 @@ public class SlashProtection : MewdekoSlashModuleBase<ProtectionService>
                     }
 
                     await ctx.Interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor()
-                        .WithTitle("Anti-Mass-Mention")
+                        .WithTitle(Strings.AntiMassMentionTitle(ctx.Guild.Id))
                         .WithDescription(GetAntiMassMentionString(Strings, ctx.Guild.Id, massMention))
                         .Build()).ConfigureAwait(false);
                     return;
@@ -834,7 +834,7 @@ public class SlashProtection : MewdekoSlashModuleBase<ProtectionService>
                     }
 
                     await ctx.Interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor()
-                        .WithTitle("Anti-Pattern")
+                        .WithTitle(Strings.AntiPatternTitle(ctx.Guild.Id))
                         .WithDescription(GetAntiPatternString(Strings, ctx.Guild.Id, pattern))
                         .Build()).ConfigureAwait(false);
                     return;
@@ -1192,7 +1192,7 @@ public class SlashProtection : MewdekoSlashModuleBase<ProtectionService>
                         return;
                     }
 
-                    var embed = new EmbedBuilder().WithOkColor().WithTitle("Anti-Mass-Post");
+                    var embed = new EmbedBuilder().WithOkColor().WithTitle(Strings.AntiMassPostTitle(ctx.Guild.Id));
 
                     if (massPost != null)
                     {
@@ -1316,7 +1316,7 @@ public class SlashProtection : MewdekoSlashModuleBase<ProtectionService>
                     }
 
                     await ctx.Interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor()
-                        .WithTitle("Anti-Post-Channel")
+                        .WithTitle(Strings.AntiPostChannelTitle(ctx.Guild.Id))
                         .WithDescription(GetAntiPostChannelString(Strings, ctx.Guild.Id, postChannel))
                         .Build()).ConfigureAwait(false);
                     return;
@@ -1469,7 +1469,7 @@ public class SlashProtection : MewdekoSlashModuleBase<ProtectionService>
                     }
 
                     await ctx.Interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor()
-                        .WithTitle("Anti-Image-Hash")
+                        .WithTitle(Strings.AntiImageHashTitle(ctx.Guild.Id))
                         .WithDescription(GetAntiImageHashString(Strings, ctx.Guild.Id, stats))
                         .Build()).ConfigureAwait(false);
                     return;

@@ -133,6 +133,16 @@ namespace DataModel
 		public ITable<RoleGreet>                 RoleGreets                 => this.GetTable<RoleGreet>();
 		public ITable<RoleMenu>                  RoleMenus                  => this.GetTable<RoleMenu>();
 		public ITable<RoleMenuOption>            RoleMenuOptions            => this.GetTable<RoleMenuOption>();
+		public ITable<AchievementSetting>        AchievementSettings        => this.GetTable<AchievementSetting>();
+		public ITable<AchievementCategory>       AchievementCategories      => this.GetTable<AchievementCategory>();
+		public ITable<AchievementIconUpload>     AchievementIconUploads     => this.GetTable<AchievementIconUpload>();
+		public ITable<AchievementCardDesign>     AchievementCardDesigns     => this.GetTable<AchievementCardDesign>();
+		public ITable<CustomAchievement>         CustomAchievements         => this.GetTable<CustomAchievement>();
+		public ITable<AchievementOverride>       AchievementOverrides       => this.GetTable<AchievementOverride>();
+		public ITable<UserAchievement>           UserAchievements           => this.GetTable<UserAchievement>();
+		public ITable<AchievementMember>         AchievementMembers         => this.GetTable<AchievementMember>();
+		public ITable<AchievementEmojiUse>       AchievementEmojiUses       => this.GetTable<AchievementEmojiUse>();
+		public ITable<AchievementUserSetting>    AchievementUserSettings    => this.GetTable<AchievementUserSetting>();
 		public ITable<RoleMonitoringSetting>     RoleMonitoringSettings     => this.GetTable<RoleMonitoringSetting>();
 		public ITable<RoleStateSetting>          RoleStateSettings          => this.GetTable<RoleStateSetting>();
 		public ITable<RotatingStatus>            RotatingStatuses           => this.GetTable<RotatingStatus>();
