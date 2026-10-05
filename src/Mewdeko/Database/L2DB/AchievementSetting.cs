@@ -42,7 +42,7 @@ public class AchievementSetting
     public bool UnlockImage { get; set; } = true;
 
     [Column("DeleteAfter")]
-    public int DeleteAfter { get; set; }
+    public int DeleteAfter { get; set; } = 5;
 
     [Column("DefaultCardId")]
     public int? DefaultCardId { get; set; }
@@ -61,6 +61,12 @@ public class AchievementSetting
 
     [Column("ExcludedChannelIds")]
     public string ExcludedChannelIds { get; set; } = "";
+
+    [Column("QuietChannelIds")]
+    public string QuietChannelIds { get; set; } = "";
+
+    [Column("RequireSendPermission")]
+    public bool RequireSendPermission { get; set; } = true;
 
     [Column("BackfilledAt")]
     public DateTime? BackfilledAt { get; set; }

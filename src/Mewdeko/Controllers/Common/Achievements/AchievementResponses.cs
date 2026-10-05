@@ -558,6 +558,16 @@ public class AchievementSettingsResponse
     public List<ulong> ExcludedChannelIds { get; set; } = [];
 
     /// <summary>
+    ///     Channels where achievements are earned but unlocks are never announced.
+    /// </summary>
+    public List<ulong> QuietChannelIds { get; set; } = [];
+
+    /// <summary>
+    ///     Unlocks are kept out of channels the member cannot send messages in.
+    /// </summary>
+    public bool RequireSendPermission { get; set; }
+
+    /// <summary>
     ///     When existing members were first checked, or null when not yet.
     /// </summary>
     public DateTime? BackfilledAt { get; set; }

@@ -350,6 +350,7 @@ public sealed partial class AchievementService : INService, IReadyExecutor, IUnl
             CategoryOrder = SplitKeys(row.CategoryOrder).ToList(),
             ExcludedRoles = SplitIds(row.ExcludedRoleIds),
             ExcludedChannels = SplitIds(row.ExcludedChannelIds),
+            QuietChannels = SplitIds(row.QuietChannelIds),
             CardAssignments = AchievementCardAssignments.Parse(row.CardAssignments)
         };
     }

@@ -122,6 +122,8 @@ public static class AchievementMapping
             CategoryOrder = settings.CategoryOrder,
             ExcludedRoleIds = settings.ExcludedRoles.ToList(),
             ExcludedChannelIds = settings.ExcludedChannels.ToList(),
+            QuietChannelIds = settings.QuietChannels.ToList(),
+            RequireSendPermission = row.RequireSendPermission,
             BackfilledAt = row.BackfilledAt
         };
     }

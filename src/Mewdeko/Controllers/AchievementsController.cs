@@ -164,6 +164,10 @@ public class AchievementsController : Controller
                 row.ExcludedRoleIds = AchievementService.JoinKeys(request.ExcludedRoleIds);
             if (request.ExcludedChannelIds is not null)
                 row.ExcludedChannelIds = AchievementService.JoinKeys(request.ExcludedChannelIds);
+            if (request.QuietChannelIds is not null)
+                row.QuietChannelIds = AchievementService.JoinKeys(request.QuietChannelIds);
+            if (request.RequireSendPermission is { } requireSend)
+                row.RequireSendPermission = requireSend;
         });
 
         var response = AchievementMapping.MapSettings(saved);

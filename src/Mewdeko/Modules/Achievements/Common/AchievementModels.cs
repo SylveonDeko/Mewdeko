@@ -33,6 +33,11 @@ public sealed class AchievementGuildSettings
     public required HashSet<ulong> ExcludedChannels { get; init; }
 
     /// <summary>
+    ///     Channels where achievements are still earned but unlocks are never announced.
+    /// </summary>
+    public required HashSet<ulong> QuietChannels { get; init; }
+
+    /// <summary>
     ///     Which saved card designs categories and achievements use instead of the server's default.
     /// </summary>
     public required AchievementCardAssignments CardAssignments { get; init; }

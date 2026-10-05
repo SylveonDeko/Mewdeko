@@ -58,6 +58,8 @@ public sealed partial class AchievementService
             {
                 var logChannel = settings.Row.LogChannelId is { } logId ? guild.GetTextChannel(logId) : null;
                 var here = channelId != 0 ? guild.GetTextChannel(channelId) : null;
+                if (here is not null && here.Id != logChannel?.Id && !CanAnnounceWhereItHappened(user, here, settings))
+                    here = null;
                 target = mode switch
                 {
                     AchievementAnnounceMode.Here => here ?? logChannel,
@@ -100,6 +102,38 @@ public sealed partial class AchievementService
         {
             logger.LogError(ex, "Failed to announce achievements in {GuildId}", user.Guild.Id);
         }
+    }
+
+    /// <summary>
+    ///     Whether an unlock may be announced in the channel it happened in. Quiet channels never take
+    ///     announcements, and when the server asks for it, neither do channels the member cannot talk in.
+    ///     A thread follows its parent channel.
+    /// </summary>
+    /// <param name="user">The member.</param>
+    /// <param name="channel">Where it happened.</param>
+    /// <param name="settings">The server's settings.</param>
+    /// <returns>True when the announcement can go there.</returns>
+    private static bool CanAnnounceWhereItHappened(SocketGuildUser user, SocketTextChannel channel,
+        AchievementGuildSettings settings)
+    {
+        var thread = channel as SocketThreadChannel;
+        var parent = thread?.ParentChannel;
+        if (settings.QuietChannels.Contains(channel.Id) || parent is not null && settings.QuietChannels.Contains(parent.Id))
+            return false;
+
+        if (!settings.Row.RequireSendPermission)
+            return true;
+
+        if (thread is null)
+        {
+            var perms = user.GetPermissions(channel);
+            return perms.ViewChannel && perms.SendMessages;
+        }
+
+        if (parent is null)
+            return false;
+        var parentPerms = user.GetPermissions(parent);
+        return parentPerms.ViewChannel && parentPerms.SendMessagesInThreads;
     }
 
     private async Task SendAnnouncementAsync(IMessageChannel channel, SocketGuildUser user,

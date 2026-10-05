@@ -67,6 +67,16 @@ public class AchievementSettingsRequest
     ///     Channels that earn nothing.
     /// </summary>
     public List<ulong>? ExcludedChannelIds { get; set; }
+
+    /// <summary>
+    ///     Channels where achievements are earned but unlocks are never announced.
+    /// </summary>
+    public List<ulong>? QuietChannelIds { get; set; }
+
+    /// <summary>
+    ///     Whether unlocks are kept out of channels the member cannot send messages in.
+    /// </summary>
+    public bool? RequireSendPermission { get; set; }
 }
 
 /// <summary>
