@@ -165,4 +165,47 @@ public class GuildController : ControllerBase
             return StatusCode(500, "Internal server error");
         }
     }
+
+    /// <summary>
+    ///     Resets parts of the bot's guild-specific profile so the bot shows its global avatar, banner or bio
+    ///     in this guild again. Every part is reset when none is named.
+    /// </summary>
+    /// <param name="guildId">The guild ID</param>
+    /// <param name="avatar">Whether to reset the avatar</param>
+    /// <param name="banner">Whether to reset the banner</param>
+    /// <param name="bio">Whether to reset the bio</param>
+    /// <returns>Success status</returns>
+    [HttpDelete("{guildId}/bot-profile")]
+    public async Task<IActionResult> ResetBotGuildProfile(ulong guildId, [FromQuery] bool avatar = true,
+        [FromQuery] bool banner = true, [FromQuery] bool bio = true)
+    {
+        try
+        {
+            var guild = client.GetGuild(guildId);
+            if (guild == null)
+                return NotFound($"Guild with ID {guildId} not found");
+
+            if (!avatar && !banner && !bio)
+                return BadRequest("At least one of avatar, banner or bio must be reset");
+
+            auditContext.RecordBefore(await adminService.GetGuildProfile(guildId));
+            await adminService.ResetGuildProfile(guildId, avatar, banner, bio);
+            auditContext.RecordAfter(await adminService.GetGuildProfile(guildId));
+
+            return Ok(new
+            {
+                success = true, message = "Guild profile reset successfully"
+            });
+        }
+        catch (HttpRequestException ex)
+        {
+            logger.LogError(ex, "HTTP error resetting bot guild profile for {GuildId}", guildId);
+            return StatusCode(502, "Failed to communicate with Discord API");
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error resetting bot guild profile for {GuildId}", guildId);
+            return StatusCode(500, "Internal server error");
+        }
+    }
 }

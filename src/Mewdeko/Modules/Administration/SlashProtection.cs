@@ -99,9 +99,10 @@ public class SlashProtection : MewdekoSlashModuleBase<ProtectionService>
     {
         var (spam, raid, alt, massMention, pattern, massPost, postChannel) = Service.GetAntiStats(ctx.Guild.Id);
         var imageHash = Service.GetAntiImageHashStats(ctx.Guild.Id);
+        var externalApp = Service.GetAntiExternalAppStats(ctx.Guild.Id);
 
         if (spam is null && raid is null && alt is null && massMention is null && pattern is null &&
-            massPost is null && postChannel is null && imageHash is null)
+            massPost is null && postChannel is null && imageHash is null && externalApp is null)
         {
             await ReplyConfirmAsync(Strings.ProtNone(ctx.Guild.Id)).ConfigureAwait(false);
             return;
@@ -141,6 +142,12 @@ public class SlashProtection : MewdekoSlashModuleBase<ProtectionService>
         {
             embed.AddField("Anti-Image-Hash", GetAntiImageHashString(Strings, ctx.Guild.Id, imageHash).TrimTo(1024),
                 true);
+        }
+
+        if (externalApp != null)
+        {
+            embed.AddField("Anti-External-App",
+                GetAntiExternalAppString(Strings, ctx.Guild.Id, externalApp).TrimTo(1024), true);
         }
 
         await ctx.Interaction.RespondAsync(embed: embed.Build()).ConfigureAwait(false);
@@ -320,6 +327,132 @@ public class SlashProtection : MewdekoSlashModuleBase<ProtectionService>
             Format.Bold(stats.Hashes.Count.ToString()),
             Format.Bold(settings.HashThreshold.ToString()),
             Format.Bold(stats.Counter.ToString()));
+    }
+
+    /// <summary>
+    ///     Builds the string for the Anti-External-App settings display.
+    /// </summary>
+    /// <param name="strings">The bot strings.</param>
+    /// <param name="guildId">The guild id.</param>
+    /// <param name="stats">The AntiExternalAppStats object.</param>
+    /// <returns>A formatted string showing the current Anti-External-App settings.</returns>
+    internal static string GetAntiExternalAppString(GeneratedBotStrings strings, ulong guildId,
+        AntiExternalAppStats stats)
+    {
+        var settings = stats.AntiExternalAppSettings;
+        var add = "";
+        if (settings.PunishDuration > 0)
+            add = $" ({TimeSpan.FromMinutes(settings.PunishDuration).Humanize()})";
+
+        return strings.AntiExternalAppStats(guildId,
+            Format.Bold(((PunishmentAction)settings.Action).ToString()),
+            add,
+            Format.Bold(settings.MentionThreshold > 0 ? settings.MentionThreshold.ToString() : "Off"),
+            Format.Bold(settings.BlockInvites ? "Yes" : "No"),
+            Format.Bold(settings.MaxMessages > 0 ? settings.MaxMessages.ToString() : "Off"),
+            Format.Bold(settings.TimeWindowSeconds.ToString()),
+            Format.Bold(stats.Counter.ToString()));
+    }
+
+    /// <summary>
+    ///     Anti-External-App protection, which watches messages sent through apps members added to their own account.
+    /// </summary>
+    [Group("external-app", "Punish abuse of apps members added to their own account")]
+    public class ProtectionExternalApp : MewdekoSlashSubmodule<ProtectionService>
+    {
+        /// <summary>
+        ///     Shows, enables or disables Anti-External-App protection.
+        /// </summary>
+        /// <param name="mode">Whether to show the settings, enable the protection, or disable it.</param>
+        /// <param name="action">The punishment for the member who ran the app. Required to enable.</param>
+        /// <param name="mentionThreshold">How many mentions one app message may carry, 0 to turn the check off.</param>
+        /// <param name="maxMessages">How many app messages one member may send in the window, 0 to turn the check off.</param>
+        /// <param name="seconds">The length of the window for the message limit, in seconds.</param>
+        /// <param name="blockInvites">Whether app messages with invite links count as violations.</param>
+        /// <param name="punishTime">The punishment duration, for actions that support one.</param>
+        [SlashCommand("set", "Shows, enables or disables Anti-External-App protection")]
+        [RequireContext(ContextType.Guild)]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        public async Task AntiExternalApp(
+            [Summary("mode", "Show the settings, enable, or disable")]
+            ProtectionAction mode,
+            [Summary("action", "The punishment to apply, required to enable")]
+            PunishmentAction? action = null,
+            [Summary("mention-threshold", "Mentions allowed in one app message, 0 for no limit")]
+            int mentionThreshold = 5,
+            [Summary("max-messages", "App messages allowed per member in the window, 0 for no limit")]
+            int maxMessages = 5,
+            [Summary("seconds", "Length of the window for the message limit")]
+            int seconds = 10,
+            [Summary("block-invites", "Treat invite links in app messages as violations")]
+            bool blockInvites = true,
+            [Summary("punish-time", "Punishment duration, for example 1h30m")]
+            TimeSpan? punishTime = null)
+        {
+            switch (mode)
+            {
+                case ProtectionAction.Status:
+                {
+                    var stats = Service.GetAntiExternalAppStats(ctx.Guild.Id);
+                    if (stats is null)
+                    {
+                        await ReplyErrorAsync(Strings.AntiExternalAppNotEnabled(ctx.Guild.Id)).ConfigureAwait(false);
+                        return;
+                    }
+
+                    await ctx.Interaction.RespondAsync(embed: new EmbedBuilder().WithOkColor()
+                        .WithTitle(Strings.AntiExternalAppTitle(ctx.Guild.Id))
+                        .WithDescription(GetAntiExternalAppString(Strings, ctx.Guild.Id, stats))
+                        .Build()).ConfigureAwait(false);
+                    return;
+                }
+                case ProtectionAction.Disable:
+                {
+                    if (await Service.TryStopAntiExternalApp(ctx.Guild.Id).ConfigureAwait(false))
+                    {
+                        await ReplyConfirmAsync(Strings.AntiExternalAppDisabled(ctx.Guild.Id)).ConfigureAwait(false);
+                        return;
+                    }
+
+                    await ReplyErrorAsync(Strings.AntiExternalAppNotEnabled(ctx.Guild.Id)).ConfigureAwait(false);
+                    return;
+                }
+            }
+
+            if (action is null || mentionThreshold < 0 || maxMessages < 0 || seconds is < 1 or > 300)
+            {
+                await ReplyErrorAsync(Strings.InvalidInput(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            switch (action.Value)
+            {
+                case PunishmentAction.Timeout when punishTime?.Days > 28:
+                    await ReplyErrorAsync(Strings.TimeoutLengthTooLong(ctx.Guild.Id)).ConfigureAwait(false);
+                    return;
+                case PunishmentAction.Timeout when punishTime is null || punishTime == TimeSpan.Zero:
+                    await ReplyErrorAsync(Strings.TimeoutNeedsTime(ctx.Guild.Id)).ConfigureAwait(false);
+                    return;
+            }
+
+            var punishDuration = (int?)punishTime?.TotalMinutes ?? 0;
+            var result = await Service.StartAntiExternalAppAsync(ctx.Guild.Id, action.Value, punishDuration, null,
+                mentionThreshold, blockInvites, maxMessages, seconds, true, true).ConfigureAwait(false);
+
+            if (result is null)
+            {
+                await ReplyErrorAsync(Strings.AntiExternalAppFailedStart(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            var durationText = punishDuration > 0 ? $" for {TimeSpan.FromMinutes(punishDuration).Humanize()}" : "";
+            var settings = result.AntiExternalAppSettings;
+            await ReplyConfirmAsync(Strings.AntiExternalAppEnabled(ctx.Guild.Id, action.Value.ToString(), durationText,
+                settings.MentionThreshold > 0 ? settings.MentionThreshold.ToString() : "Off",
+                settings.MaxMessages > 0 ? settings.MaxMessages.ToString() : "Off",
+                settings.TimeWindowSeconds)).ConfigureAwait(false);
+        }
     }
 
     /// <summary>

@@ -48,7 +48,12 @@ public enum ProtectionType
     /// <summary>
     ///     Protection against posting images that match a blocked perceptual hash.
     /// </summary>
-    ImageHash
+    ImageHash,
+
+    /// <summary>
+    ///     Protection against abuse through apps members installed on their own account.
+    /// </summary>
+    ExternalApp
 }
 
 /// <summary>
@@ -628,6 +633,61 @@ public class AntiImageHashStats
     public void Increment()
     {
         AntiImageHashSettings.TotalTriggers = baseTriggers + Interlocked.Increment(ref sessionCounter);
+    }
+}
+
+/// <summary>
+///     Represents statistics related to anti-external-app measures.
+/// </summary>
+public class AntiExternalAppStats
+{
+    private readonly int baseTriggers;
+    private int sessionCounter;
+
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="AntiExternalAppStats" /> class with the specified anti-external-app
+    ///     setting.
+    /// </summary>
+    /// <param name="setting">The anti-external-app setting.</param>
+    public AntiExternalAppStats(AntiExternalAppSetting setting)
+    {
+        AntiExternalAppSettings = setting;
+        baseTriggers = setting.TotalTriggers;
+    }
+
+    /// <summary>
+    ///     Gets or sets the anti-external-app settings.
+    /// </summary>
+    public AntiExternalAppSetting AntiExternalAppSettings { get; set; }
+
+    /// <summary>
+    ///     When each member last ran an external app, newest last, for the rate check.
+    /// </summary>
+    public NonBlocking.ConcurrentDictionary<ulong, ConcurrentQueue<DateTime>> RecentRuns { get; } = new();
+
+    /// <summary>
+    ///     Stores the last 10 members punished through this protection, with the rule they broke.
+    /// </summary>
+    public ConcurrentQueue<(ulong UserId, string Username, string Reason, DateTimeOffset PunishedAt)>
+        RecentViolations { get; } = new();
+
+    /// <summary>
+    ///     Gets the lifetime number of times this protection has triggered, including triggers from before the last restart.
+    /// </summary>
+    public int Counter
+    {
+        get
+        {
+            return baseTriggers + sessionCounter;
+        }
+    }
+
+    /// <summary>
+    ///     Increments the trigger counter and mirrors it onto the cached settings.
+    /// </summary>
+    public void Increment()
+    {
+        AntiExternalAppSettings.TotalTriggers = baseTriggers + Interlocked.Increment(ref sessionCounter);
     }
 }
 

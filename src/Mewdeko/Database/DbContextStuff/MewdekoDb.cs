@@ -558,6 +558,17 @@ public class MewdekoDb : DataConnection
     }
 
     /// <summary>
+    ///     Gets the anti-external-app settings table.
+    /// </summary>
+    public ITable<AntiExternalAppSetting> AntiExternalAppSettings
+    {
+        get
+        {
+            return this.GetTable<AntiExternalAppSetting>();
+        }
+    }
+
+    /// <summary>
     ///     Gets the anti-image-hash settings table.
     /// </summary>
     public ITable<AntiImageHashSetting> AntiImageHashSettings

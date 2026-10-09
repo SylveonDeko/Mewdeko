@@ -5073,6 +5073,21 @@ antiimagehashignore:
     - '<channel>'
   desc: 'Toggles a role or channel as exempt from Anti-Image-Hash protection.'
   params: [ ]
+antiexternalapp:
+  args:
+    - ''
+    - 'Timeout'
+    - 'Timeout 5 5 1h'
+    - 'Kick 3 0'
+  desc: >-
+    Enables Anti-External-App protection, which watches messages members send
+    through apps they added to their own account. A message is removed and the
+    member who ran the app is punished when it mentions too many people or roles
+    (default 5, 0 turns it off), pings everyone, contains an invite link, or when
+    the member runs apps more than the allowed number of times in 10 seconds
+    (default 5, 0 turns it off). Apps added to the server itself are not checked.
+    Run with no arguments to disable it.
+  params: [ ]
 blockimage:
   args:
     - ''

@@ -490,9 +490,10 @@ public partial class Administration
         {
             var (spam, raid, alt, massMention, pattern, massPost, postChannel) = Service.GetAntiStats(ctx.Guild.Id);
             var imageHash = Service.GetAntiImageHashStats(ctx.Guild.Id);
+            var externalApp = Service.GetAntiExternalAppStats(ctx.Guild.Id);
 
             if (spam is null && raid is null && alt is null && massMention is null && pattern is null &&
-                massPost is null && postChannel is null && imageHash is null)
+                massPost is null && postChannel is null && imageHash is null && externalApp is null)
             {
                 await ReplyConfirmAsync(Strings.ProtNone(ctx.Guild.Id)).ConfigureAwait(false);
                 return;
@@ -541,6 +542,12 @@ public partial class Administration
             if (imageHash != null)
             {
                 embed.AddField("Anti-Image-Hash", GetAntiImageHashString(imageHash).TrimTo(1024), true);
+            }
+
+            if (externalApp != null)
+            {
+                embed.AddField("Anti-External-App",
+                    SlashProtection.GetAntiExternalAppString(Strings, ctx.Guild.Id, externalApp).TrimTo(1024), true);
             }
 
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
@@ -1269,6 +1276,73 @@ public partial class Administration
             var durationText = punishDuration > 0 ? $" for {TimeSpan.FromMinutes(punishDuration).Humanize()}" : "";
             await ReplyConfirmAsync(Strings.AntiImageHashEnabled(ctx.Guild.Id, action.ToString(), durationText,
                 result.AntiImageHashSettings.HashThreshold)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Disables Anti-External-App protection for the guild.
+        /// </summary>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        public async Task AntiExternalApp()
+        {
+            if (await Service.TryStopAntiExternalApp(ctx.Guild.Id).ConfigureAwait(false))
+            {
+                await ReplyConfirmAsync(Strings.AntiExternalAppDisabled(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            await ReplyErrorAsync(Strings.AntiExternalAppNotEnabled(ctx.Guild.Id)).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Enables Anti-External-App protection, which watches messages members send through apps they added to their
+        ///     own account and punishes the member who ran the app when a message breaks the rules.
+        /// </summary>
+        /// <param name="action">The punishment for the member who ran the app.</param>
+        /// <param name="mentionThreshold">How many mentions one app message may carry, 0 to turn the check off.</param>
+        /// <param name="maxMessages">How many app messages one member may send in 10 seconds, 0 to turn the check off.</param>
+        /// <param name="punishTime">The punishment duration, for actions that support one.</param>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        public async Task AntiExternalApp(PunishmentAction action, int mentionThreshold = 5, int maxMessages = 5,
+            [Remainder] StoopidTime? punishTime = null)
+        {
+            if (mentionThreshold < 0 || maxMessages < 0)
+            {
+                await ReplyErrorAsync(Strings.InvalidInput(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            switch (action)
+            {
+                case PunishmentAction.Timeout when punishTime?.Time.Days > 28:
+                    await ReplyErrorAsync(Strings.TimeoutLengthTooLong(ctx.Guild.Id)).ConfigureAwait(false);
+                    return;
+                case PunishmentAction.Timeout when punishTime is null || punishTime.Time == TimeSpan.Zero:
+                    await ReplyErrorAsync(Strings.TimeoutNeedsTime(ctx.Guild.Id)).ConfigureAwait(false);
+                    return;
+            }
+
+            var punishDuration = (int?)punishTime?.Time.TotalMinutes ?? 0;
+            var result = await Service.StartAntiExternalAppAsync(ctx.Guild.Id, action, punishDuration, null,
+                mentionThreshold, true, maxMessages, 10, true, true).ConfigureAwait(false);
+
+            if (result is null)
+            {
+                await ReplyErrorAsync(Strings.AntiExternalAppFailedStart(ctx.Guild.Id)).ConfigureAwait(false);
+                return;
+            }
+
+            var durationText = punishDuration > 0 ? $" for {TimeSpan.FromMinutes(punishDuration).Humanize()}" : "";
+            var settings = result.AntiExternalAppSettings;
+            await ReplyConfirmAsync(Strings.AntiExternalAppEnabled(ctx.Guild.Id, action.ToString(), durationText,
+                settings.MentionThreshold > 0 ? settings.MentionThreshold.ToString() : "Off",
+                settings.MaxMessages > 0 ? settings.MaxMessages.ToString() : "Off",
+                settings.TimeWindowSeconds)).ConfigureAwait(false);
         }
 
         /// <summary>

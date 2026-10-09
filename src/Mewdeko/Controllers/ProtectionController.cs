@@ -28,6 +28,7 @@ public class ProtectionController(
                 antiPostChannelStats) =
             protectionService.GetAntiStats(guildId);
         var imageHashStats = protectionService.GetAntiImageHashStats(guildId);
+        var externalAppStats = protectionService.GetAntiExternalAppStats(guildId);
         var pause = protectionService.GetPunishmentPause(guildId);
 
         return Ok(new
@@ -148,7 +149,79 @@ public class ProtectionController(
                 ignoredRoles = imageHashStats?.IgnoredRoles.ToList() ?? [],
                 ignoredChannels = imageHashStats?.IgnoredChannels.ToList() ?? [],
                 counter = imageHashStats?.Counter ?? 0
+            },
+            antiExternalApp = new
+            {
+                enabled = externalAppStats != null,
+                action = externalAppStats?.AntiExternalAppSettings.Action ?? 10,
+                punishDuration = externalAppStats?.AntiExternalAppSettings.PunishDuration ?? 60,
+                roleId = externalAppStats?.AntiExternalAppSettings.RoleId ?? 0,
+                mentionThreshold = externalAppStats?.AntiExternalAppSettings.MentionThreshold ?? 5,
+                blockInvites = externalAppStats?.AntiExternalAppSettings.BlockInvites ?? true,
+                maxMessages = externalAppStats?.AntiExternalAppSettings.MaxMessages ?? 5,
+                timeWindowSeconds = externalAppStats?.AntiExternalAppSettings.TimeWindowSeconds ?? 10,
+                deleteMessages = externalAppStats?.AntiExternalAppSettings.DeleteMessages ?? true,
+                notifyUser = externalAppStats?.AntiExternalAppSettings.NotifyUser ?? true,
+                counter = externalAppStats?.Counter ?? 0
             }
+        });
+    }
+
+    /// <summary>
+    ///     Configures anti-external-app protection, which watches messages members send through apps they added to their
+    ///     own account
+    /// </summary>
+    [HttpPut("anti-external-app")]
+    public async Task<IActionResult> ConfigureAntiExternalApp(ulong guildId,
+        [FromBody] AntiExternalAppConfigRequest? request)
+    {
+        if (request == null)
+            return BadRequest("Invalid request data");
+
+        auditContext.RecordBefore(protectionService.GetAntiExternalAppStats(guildId));
+
+        if (!request.Enabled)
+        {
+            var stopped = await protectionService.TryStopAntiExternalApp(guildId);
+            return Ok(new
+            {
+                success = stopped
+            });
+        }
+
+        if (request.MentionThreshold is < 0 or > 100)
+            return BadRequest("Mention threshold must be between 0 and 100");
+
+        if (request.MaxMessages is < 0 or > 100)
+            return BadRequest("Max messages must be between 0 and 100");
+
+        if (request.TimeWindowSeconds is < 1 or > 300)
+            return BadRequest("Time window must be between 1 and 300 seconds");
+
+        if (request.PunishDuration is < 0 or > 40320)
+            return BadRequest("Punishment duration must be between 0 and 40320 minutes");
+
+        if (request.Action == Modules.Administration.Common.PunishmentAction.Timeout && request.PunishDuration == 0)
+            return BadRequest("A timeout needs a duration");
+
+        var result = await protectionService.StartAntiExternalAppAsync(
+            guildId,
+            request.Action,
+            request.PunishDuration,
+            request.RoleId,
+            request.MentionThreshold,
+            request.BlockInvites,
+            request.MaxMessages,
+            request.TimeWindowSeconds,
+            request.DeleteMessages,
+            request.NotifyUser);
+
+        if (result == null)
+            return BadRequest("Failed to start anti-external-app protection");
+
+        return Ok(new
+        {
+            success = true
         });
     }
 

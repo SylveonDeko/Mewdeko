@@ -408,6 +408,73 @@ public class AdministrationService : INService
     }
 
     /// <summary>
+    ///     Resets parts of the bot's guild-specific profile back to its global profile, on Discord and in the
+    ///     database. The stored record is removed once nothing custom is left on it.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="avatar">Whether to reset the avatar</param>
+    /// <param name="banner">Whether to reset the banner</param>
+    /// <param name="bio">Whether to reset the bio</param>
+    /// <returns>A task representing the asynchronous operation</returns>
+    public async Task ResetGuildProfile(ulong guildId, bool avatar, bool banner, bool bio)
+    {
+        if (!avatar && !banner && !bio)
+            return;
+
+        var payload = new Dictionary<string, object?>();
+        if (avatar)
+            payload["avatar"] = null;
+        if (banner)
+            payload["banner"] = null;
+        if (bio)
+            payload["bio"] = null;
+
+        using var httpClient = httpClientFactory.CreateClient();
+        using var request = new HttpRequestMessage(HttpMethod.Patch,
+            $"https://discord.com/api/v10/guilds/{guildId}/members/@me")
+        {
+            Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json")
+        };
+        request.Headers.Authorization = new AuthenticationHeaderValue("Bot", credentials.Token);
+
+        using var response = await httpClient.SendAsync(request).ConfigureAwait(false);
+        response.EnsureSuccessStatusCode();
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var profile = await db.GuildBotProfiles
+            .FirstOrDefaultAsync(x => x.GuildId == guildId)
+            .ConfigureAwait(false);
+        if (profile == null)
+            return;
+
+        if (avatar)
+            profile.AvatarUrl = null;
+        if (banner)
+            profile.BannerUrl = null;
+        if (bio)
+            profile.Bio = null;
+
+        if (profile.AvatarUrl == null && profile.BannerUrl == null && profile.Bio == null)
+        {
+            await db.GuildBotProfiles
+                .Where(x => x.GuildId == guildId)
+                .DeleteAsync()
+                .ConfigureAwait(false);
+            return;
+        }
+
+        await db.GuildBotProfiles
+            .Where(x => x.GuildId == guildId)
+            .Set(x => x.AvatarUrl, profile.AvatarUrl)
+            .Set(x => x.BannerUrl, profile.BannerUrl)
+            .Set(x => x.Bio, profile.Bio)
+            .Set(x => x.DateUpdated, DateTime.UtcNow)
+            .UpdateAsync()
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
     ///     Gets the bot's current guild profile information from the database.
     /// </summary>
     /// <param name="guildId">The ID of the guild</param>
