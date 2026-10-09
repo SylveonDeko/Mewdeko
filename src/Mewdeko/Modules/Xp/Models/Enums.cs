@@ -59,7 +59,22 @@ public enum XpCurveType
     /// <summary>
     ///     Uses the old xp curve approach before the xp rewrite.
     /// </summary>
-    Legacy = 5
+    Legacy = 5,
+
+    /// <summary>
+    ///     MEE6's curve: each level costs 5n² + 50n + 100 XP, so imported MEE6 XP keeps its level.
+    /// </summary>
+    Mee6 = 6,
+
+    /// <summary>
+    ///     Lurkr's curve: each level costs 50n² - 100n + 150 XP.
+    /// </summary>
+    Lurkr = 7,
+
+    /// <summary>
+    ///     Amari's curve: each level costs 20n² - 40n + 55 XP.
+    /// </summary>
+    Amari = 8
 }
 
 /// <summary>
