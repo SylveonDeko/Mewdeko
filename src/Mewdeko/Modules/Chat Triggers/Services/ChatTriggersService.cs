@@ -3810,15 +3810,23 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         if (cachedUser?.IsBot == true)
             return;
 
-        // Get the message and channel
+        var cachedChannel = channel.HasValue ? channel.Value as IGuildChannel : client.GetChannel(channel.Id) as IGuildChannel;
+        if (cachedChannel is null)
+            return;
+
+        var triggers = await GetChatTriggersFor(cachedChannel.GuildId).ConfigureAwait(false);
+        var reactionTriggers = triggers.Where(ct =>
+            !ct.IsDisabled &&
+            ((ChatTriggerType)ct.ValidTriggerTypes).HasFlag(triggerType) &&
+            IsReactionMatch(ct, reaction.Emote)).ToArray();
+
+        if (reactionTriggers.Length == 0)
+            return;
+
         var msg = await message.GetOrDownloadAsync().ConfigureAwait(false);
         var ch = await channel.GetOrDownloadAsync().ConfigureAwait(false);
 
-        if (msg is null || ch is null)
-            return;
-
-        // Only process guild messages
-        if (ch is not IGuildChannel guildChannel)
+        if (msg is null || ch is not IGuildChannel guildChannel)
             return;
 
         var guild = guildChannel.Guild;
@@ -3826,15 +3834,6 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         if (user is null || user.IsBot)
             return;
-
-        // Get reaction triggers for this guild
-        var triggers = await GetChatTriggersFor(guild.Id).ConfigureAwait(false);
-
-        // Find matching reaction triggers
-        var reactionTriggers = triggers.Where(ct =>
-            !ct.IsDisabled &&
-            ((ChatTriggerType)ct.ValidTriggerTypes).HasFlag(triggerType) &&
-            IsReactionMatch(ct, reaction.Emote)).ToArray();
 
         foreach (var ct in reactionTriggers)
         {

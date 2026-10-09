@@ -55,8 +55,7 @@ public class RoleCommandsService : INService
             if (reactRoles == null || reactRoles.Count == 0)
                 return;
 
-            var message = msg.HasValue ? msg.Value : await msg.GetOrDownloadAsync().ConfigureAwait(false);
-            var conf = reactRoles.FirstOrDefault(x => x.MessageId == message.Id);
+            var conf = reactRoles.FirstOrDefault(x => x.MessageId == msg.Id);
 
             var reactionRole = conf?.ReactionRoles.FirstOrDefault(x =>
                 x.EmoteName == reaction.Emote.Name || x.EmoteName == reaction.Emote.ToString());
@@ -154,8 +153,7 @@ public class RoleCommandsService : INService
             if (reactRoles == null || reactRoles.Count == 0)
                 return;
 
-            var message = msg.HasValue ? msg.Value : await msg.GetOrDownloadAsync().ConfigureAwait(false);
-            var conf = reactRoles.FirstOrDefault(x => x.MessageId == message.Id);
+            var conf = reactRoles.FirstOrDefault(x => x.MessageId == msg.Id);
             if (conf == null) return;
 
             if (conf.Exclusive)

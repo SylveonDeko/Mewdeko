@@ -208,16 +208,16 @@ public class SuggestionsService : INService
             return;
         if (channel.Id != await GetSuggestionChannel(channel.Guild.Id))
             return;
-        var message = await arg1.GetOrDownloadAsync().ConfigureAwait(false);
-        if (message is null)
-            return;
 
         await using var dbContext = await dbFactory.CreateConnectionAsync();
 
         await using var _ = dbContext.ConfigureAwait(false);
         var maybeSuggest =
-            dbContext.Suggestions.FirstOrDefault(x => x.GuildId == channel.GuildId && x.MessageId == message.Id);
+            dbContext.Suggestions.FirstOrDefault(x => x.GuildId == channel.GuildId && x.MessageId == arg1.Id);
         if (maybeSuggest is null)
+            return;
+        var message = await arg1.GetOrDownloadAsync().ConfigureAwait(false);
+        if (message is null)
             return;
         var tup = new Emoji("\uD83D\uDC4D");
         var tdown = new Emoji("\uD83D\uDC4E");
@@ -275,10 +275,6 @@ public class SuggestionsService : INService
     private async Task UpdateCountOnRemoveReact(Cacheable<IUserMessage, ulong> arg1,
         Cacheable<IMessageChannel, ulong> arg2, SocketReaction arg3)
     {
-        var message = await arg1.GetOrDownloadAsync().ConfigureAwait(false);
-        if (message is null)
-            return;
-
         if (await arg2.GetOrDownloadAsync().ConfigureAwait(false) is not ITextChannel channel)
             return;
         if (channel.Id != await GetSuggestionChannel(channel.Guild.Id))
@@ -287,8 +283,11 @@ public class SuggestionsService : INService
         await using var dbContext = await dbFactory.CreateConnectionAsync();
 
         var maybeSuggest =
-            dbContext.Suggestions.FirstOrDefault(x => x.GuildId == channel.GuildId && x.MessageId == message.Id);
+            dbContext.Suggestions.FirstOrDefault(x => x.GuildId == channel.GuildId && x.MessageId == arg1.Id);
         if (maybeSuggest is null)
+            return;
+        var message = await arg1.GetOrDownloadAsync().ConfigureAwait(false);
+        if (message is null)
             return;
         var tup = new Emoji("\uD83D\uDC4D");
         var tdown = new Emoji("\uD83D\uDC4E");
