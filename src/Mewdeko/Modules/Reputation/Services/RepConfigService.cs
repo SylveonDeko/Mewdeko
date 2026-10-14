@@ -71,7 +71,8 @@ public class RepConfigService : INService
             .WithTextDisplay($"*{GetCategoryDescription(ConfigCategory.Basic, ctx.Guild.Id)}*");
 
         var message =
-            await ctx.Channel.SendMessageAsync(components: componentsV2.Build(), flags: MessageFlags.ComponentsV2);
+            await ctx.Channel.SendMessageAsync(components: componentsV2.Build(), flags: MessageFlags.ComponentsV2,
+                allowedMentions: AllowedMentions.None);
         session.MessageId = message.Id;
 
         // Set up timeout to clean up session
@@ -812,7 +813,7 @@ public class RepConfigService : INService
             .WithTextDisplay($"# {strings.RepConfigTitle(ctx.Guild.Id)}")
             .WithTextDisplay($"*{GetCategoryDescription(category, ctx.Guild.Id)}*");
 
-        await ctx.Interaction.RespondAsync(components: componentsV2.Build());
+        await ctx.Interaction.RespondAsync(components: componentsV2.Build(), allowedMentions: AllowedMentions.None);
     }
 
     /// <summary>

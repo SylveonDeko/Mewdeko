@@ -769,6 +769,7 @@ public partial class SlashMusic(
 
             return new PageBuilder()
                 .WithComponents(componentsV2.Build())
+                .WithAllowedMentions(AllowedMentions.None)
                 .Build();
         }
     }
