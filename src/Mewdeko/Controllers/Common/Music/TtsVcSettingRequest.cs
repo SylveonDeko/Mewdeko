@@ -34,4 +34,10 @@ public class TtsVcSettingRequest
     ///     Custom leave announcement format. Use {user} placeholder.
     /// </summary>
     public string? LeaveFormat { get; set; }
+
+    /// <summary>
+    ///     Whether the bot should join this voice channel on its own when a member joins it and the bot is not
+    ///     already in voice for the guild.
+    /// </summary>
+    public bool AutoJoin { get; set; }
 }

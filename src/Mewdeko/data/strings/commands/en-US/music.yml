@@ -784,6 +784,11 @@ ttsannounce:
     - ''
   desc: 'Toggles join/leave announcements for the current voice channel.'
   params: [ ]
+ttsautojoin:
+  args:
+    - ''
+  desc: 'Toggles auto-join for the voice channel you are in. When on, the bot joins that channel by itself when a member enters (if it is not already in voice) and leaves once it is empty. Works without the bot being connected.'
+  params: [ ]
 ttsjoinformat:
   args:
     - '%user.name% has entered the chat'

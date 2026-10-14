@@ -315,73 +315,93 @@ public class MusicController : Controller
     /// <returns>A task that completes when the SSE connection is closed</returns>
     private async Task HandleServerSentEvents(ulong guildId, ulong userId)
     {
-        HttpContext.Response.Headers["Content-Type"] = "text/event-stream";
-        HttpContext.Response.Headers["Cache-Control"] = "no-cache";
-        HttpContext.Response.Headers["Connection"] = "keep-alive";
+        var response = HttpContext.Response;
+        var aborted = HttpContext.RequestAborted;
+        response.Headers["Content-Type"] = "text/event-stream";
+        response.Headers["Cache-Control"] = "no-cache";
+        response.Headers["Connection"] = "keep-alive";
 
-        // Send initial status
-        var initialStatus = await GetInitialStatus(guildId, userId);
-        var initialJson = JsonSerializer.Serialize(initialStatus);
-        await HttpContext.Response.WriteAsync($"event: status\ndata: {initialJson}\n\n");
-        await HttpContext.Response.Body.FlushAsync();
-
-        // Register for updates
         var connectionId = Guid.NewGuid().ToString();
-        var completion = new TaskCompletionSource<bool>();
+        var completion = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var writeLock = new SemaphoreSlim(1, 1);
+        using var stop = CancellationTokenSource.CreateLinkedTokenSource(aborted);
+        var closed = false;
 
-        // Register for player updates
-        eventManager.RegisterSseConnection(guildId, connectionId, async status =>
+        async Task SendAsync(string payload)
         {
+            await writeLock.WaitAsync(stop.Token).ConfigureAwait(false);
             try
             {
-                var json = JsonSerializer.Serialize(status);
-                await HttpContext.Response.WriteAsync($"event: status\ndata: {json}\n\n");
-                await HttpContext.Response.Body.FlushAsync();
+                if (closed)
+                    return;
+                await response.WriteAsync(payload, stop.Token).ConfigureAwait(false);
+                await response.Body.FlushAsync(stop.Token).ConfigureAwait(false);
             }
-            catch (Exception ex)
+            finally
             {
-                logger.LogError(ex, "Error sending SSE update");
-                completion.TrySetResult(false);
+                writeLock.Release();
             }
-        }, userId);
+        }
 
-        // Handle disconnection
-        HttpContext.RequestAborted.Register(() =>
+        try
         {
-            eventManager.UnregisterSseConnection(guildId, connectionId);
-            completion.TrySetResult(true);
-        });
+            var initialJson = JsonSerializer.Serialize(await GetInitialStatus(guildId, userId));
+            await SendAsync($"event: status\ndata: {initialJson}\n\n");
 
-        // Keep the connection alive with heartbeats
-        _ = Task.Run(async () =>
-        {
-            try
+            eventManager.RegisterSseConnection(guildId, connectionId, async status =>
             {
-                while (!completion.Task.IsCompleted)
+                try
                 {
-                    await Task.Delay(30000); // 30 second heartbeat
-                    try
+                    await SendAsync($"event: status\ndata: {JsonSerializer.Serialize(status)}\n\n");
+                }
+                catch (OperationCanceledException)
+                {
+                    completion.TrySetResult(true);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogDebug(ex, "SSE update could not be sent, closing the stream");
+                    completion.TrySetResult(false);
+                }
+            }, userId);
+
+            aborted.Register(() => completion.TrySetResult(true));
+
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    while (!stop.Token.IsCancellationRequested)
                     {
-                        await HttpContext.Response.WriteAsync("event: heartbeat\ndata: {\"time\":" +
-                                                              DateTimeOffset.UtcNow.ToUnixTimeSeconds() + "}\n\n");
-                        await HttpContext.Response.Body.FlushAsync();
-                    }
-                    catch
-                    {
-                        completion.TrySetResult(false);
-                        break;
+                        await Task.Delay(TimeSpan.FromSeconds(30), stop.Token).ConfigureAwait(false);
+                        await SendAsync("event: heartbeat\ndata: {\"time\":" +
+                                        DateTimeOffset.UtcNow.ToUnixTimeSeconds() + "}\n\n");
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "Error in SSE heartbeat");
-            }
-        });
+                catch (OperationCanceledException)
+                {
+                    completion.TrySetResult(true);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogDebug(ex, "SSE heartbeat could not be sent, closing the stream");
+                    completion.TrySetResult(false);
+                }
+            });
 
-        // Wait for the connection to close
-        await completion.Task;
-        eventManager.UnregisterSseConnection(guildId, connectionId);
+            await completion.Task.ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        finally
+        {
+            eventManager.UnregisterSseConnection(guildId, connectionId);
+            await stop.CancelAsync().ConfigureAwait(false);
+            await writeLock.WaitAsync(CancellationToken.None).ConfigureAwait(false);
+            closed = true;
+            writeLock.Release();
+        }
     }
 
     /// <summary>
@@ -998,7 +1018,8 @@ public class MusicController : Controller
                 vc.LinkedTextChannelId,
                 vc.AnnounceJoinLeave,
                 vc.JoinFormat,
-                vc.LeaveFormat
+                vc.LeaveFormat,
+                vc.AutoJoin
             })
         });
     }
@@ -1055,7 +1076,8 @@ public class MusicController : Controller
             LinkedTextChannelId = request.LinkedTextChannelId,
             AnnounceJoinLeave = request.AnnounceJoinLeave,
             JoinFormat = request.JoinFormat,
-            LeaveFormat = request.LeaveFormat
+            LeaveFormat = request.LeaveFormat,
+            AutoJoin = request.AutoJoin
         };
 
         await using var db = await dbFactory.CreateConnectionAsync();

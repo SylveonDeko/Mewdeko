@@ -25,7 +25,8 @@ public partial class Music
         IAudioService service,
         GuildSettingsService guildSettingsService,
         IDataConnectionFactory dbFactory,
-        InteractiveService interactiveService) : MewdekoSubmodule
+        InteractiveService interactiveService,
+        TtsService ttsService) : MewdekoSubmodule
     {
         /// <summary>
         ///     Enables or disables TTS for the voice channel you are currently in.
@@ -55,7 +56,8 @@ public partial class Music
                     LinkedTextChannelId = existing.LinkedTextChannelId,
                     AnnounceJoinLeave = existing.AnnounceJoinLeave,
                     JoinFormat = existing.JoinFormat,
-                    LeaveFormat = existing.LeaveFormat
+                    LeaveFormat = existing.LeaveFormat,
+                    AutoJoin = existing.AutoJoin
                 });
                 await ReplyConfirmAsync("TTS has been **disabled** for this voice channel.");
             }
@@ -68,7 +70,8 @@ public partial class Music
                     LinkedTextChannelId = existing?.LinkedTextChannelId,
                     AnnounceJoinLeave = existing?.AnnounceJoinLeave ?? false,
                     JoinFormat = existing?.JoinFormat,
-                    LeaveFormat = existing?.LeaveFormat
+                    LeaveFormat = existing?.LeaveFormat,
+                    AutoJoin = existing?.AutoJoin ?? false
                 });
                 await ReplyConfirmAsync("TTS has been **enabled** for this voice channel.");
             }
@@ -102,7 +105,8 @@ public partial class Music
                 LinkedTextChannelId = channel?.Id,
                 AnnounceJoinLeave = existing?.AnnounceJoinLeave ?? false,
                 JoinFormat = existing?.JoinFormat,
-                LeaveFormat = existing?.LeaveFormat
+                LeaveFormat = existing?.LeaveFormat,
+                AutoJoin = existing?.AutoJoin ?? false
             });
 
             if (channel is null)
@@ -138,12 +142,38 @@ public partial class Music
                 LinkedTextChannelId = existing?.LinkedTextChannelId,
                 AnnounceJoinLeave = newVal,
                 JoinFormat = existing?.JoinFormat,
-                LeaveFormat = existing?.LeaveFormat
+                LeaveFormat = existing?.LeaveFormat,
+                AutoJoin = existing?.AutoJoin ?? false
             });
 
             await ReplyConfirmAsync(newVal
                 ? "Join/leave announcements **enabled** for this voice channel."
                 : "Join/leave announcements **disabled** for this voice channel.");
+        }
+
+        /// <summary>
+        ///     Toggles auto-join for the voice channel you are currently in. When on, the bot joins that channel
+        ///     by itself as soon as a member enters it (if it is not already in voice) and leaves again once it
+        ///     is empty. The bot does not need to be connected to use this command.
+        /// </summary>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
+        public async Task TtsAutoJoin()
+        {
+            var vc = (ctx.User as IGuildUser)?.VoiceChannel;
+            if (vc is null)
+            {
+                await ReplyErrorAsync(Strings.MusicNotInChannel(ctx.Guild.Id));
+                return;
+            }
+
+            var newVal = await ttsService.ToggleAutoJoinAsync(ctx.Guild.Id, vc.Id);
+
+            await ReplyConfirmAsync(newVal
+                ? Strings.TtsAutojoinEnabled(ctx.Guild.Id, vc.Id)
+                : Strings.TtsAutojoinDisabled(ctx.Guild.Id, vc.Id));
         }
 
         /// <summary>
@@ -174,7 +204,8 @@ public partial class Music
                 LinkedTextChannelId = existing?.LinkedTextChannelId,
                 AnnounceJoinLeave = existing?.AnnounceJoinLeave ?? false,
                 JoinFormat = format,
-                LeaveFormat = existing?.LeaveFormat
+                LeaveFormat = existing?.LeaveFormat,
+                AutoJoin = existing?.AutoJoin ?? false
             });
 
             await ReplyConfirmAsync(string.IsNullOrWhiteSpace(format)
@@ -210,7 +241,8 @@ public partial class Music
                 LinkedTextChannelId = existing?.LinkedTextChannelId,
                 AnnounceJoinLeave = existing?.AnnounceJoinLeave ?? false,
                 JoinFormat = existing?.JoinFormat,
-                LeaveFormat = format
+                LeaveFormat = format,
+                AutoJoin = existing?.AutoJoin ?? false
             });
 
             await ReplyConfirmAsync(string.IsNullOrWhiteSpace(format)
@@ -416,6 +448,7 @@ public partial class Music
 
                 return new PageBuilder()
                     .WithComponents(componentsV2.Build())
+                    .WithAllowedMentions(AllowedMentions.None)
                     .Build();
             }
         }
@@ -516,6 +549,7 @@ public partial class Music
 
                 return new PageBuilder()
                     .WithComponents(componentsV2.Build())
+                    .WithAllowedMentions(AllowedMentions.None)
                     .Build();
             }
         }
@@ -668,6 +702,7 @@ public partial class Music
                 ? $"<#{vcSetting.LinkedTextChannelId.Value}>"
                 : "None (VC text chat only)";
             var announce = vcSetting?.AnnounceJoinLeave == true ? "Yes" : "No";
+            var autoJoin = vcSetting?.AutoJoin == true ? "Yes" : "No";
             var joinFmt = vcSetting?.JoinFormat ?? TtsService.DefaultJoinFormat;
             var leaveFmt = vcSetting?.LeaveFormat ?? TtsService.DefaultLeaveFormat;
             var defaultVoice = string.IsNullOrWhiteSpace(settings.TtsDefaultVoice)
@@ -685,6 +720,7 @@ public partial class Music
                     $"**VC TTS Enabled:** {vcEnabled}\n" +
                     $"**Linked Text Channel:** {linkedChannel}\n" +
                     $"**Join/Leave Announce:** {announce}\n" +
+                    $"**Auto-Join:** {autoJoin}\n" +
                     $"**Join Format:** {joinFmt}\n" +
                     $"**Leave Format:** {leaveFmt}"))
                 .WithSeparator()

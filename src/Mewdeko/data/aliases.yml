@@ -3297,6 +3297,9 @@ ttslink:
 ttsannounce:
   - ttsannounce
   - ttsjoinleave
+ttsautojoin:
+  - ttsautojoin
+  - ttsauto
 ttsjoinformat:
   - ttsjoinformat
   - ttsjoin

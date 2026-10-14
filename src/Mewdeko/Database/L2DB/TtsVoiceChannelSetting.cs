@@ -31,4 +31,7 @@ public class TtsVoiceChannelSetting
 
     [Column("LeaveFormat")]
     public string? LeaveFormat { get; set; }
+
+    [Column("AutoJoin")]
+    public bool AutoJoin { get; set; }
 }

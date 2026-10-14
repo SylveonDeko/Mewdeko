@@ -28,7 +28,8 @@ public class SlashMusicTts(
     IDataConnectionFactory dbFactory,
     InteractiveService interactiveService,
     IHttpClientFactory httpClientFactory,
-    IMemoryCache memoryCache) : MewdekoSlashCommandModule
+    IMemoryCache memoryCache,
+    TtsService ttsService) : MewdekoSlashCommandModule
 {
     /// <summary>
     ///     Enables or disables TTS for the voice channel the bot is currently in.
@@ -60,7 +61,8 @@ public class SlashMusicTts(
                 LinkedTextChannelId = existing.LinkedTextChannelId,
                 AnnounceJoinLeave = existing.AnnounceJoinLeave,
                 JoinFormat = existing.JoinFormat,
-                LeaveFormat = existing.LeaveFormat
+                LeaveFormat = existing.LeaveFormat,
+                AutoJoin = existing.AutoJoin
             });
             await ReplyConfirmAsync(Strings.TtsDisabled(ctx.Guild.Id)).ConfigureAwait(false);
         }
@@ -73,7 +75,8 @@ public class SlashMusicTts(
                 LinkedTextChannelId = existing?.LinkedTextChannelId,
                 AnnounceJoinLeave = existing?.AnnounceJoinLeave ?? false,
                 JoinFormat = existing?.JoinFormat,
-                LeaveFormat = existing?.LeaveFormat
+                LeaveFormat = existing?.LeaveFormat,
+                AutoJoin = existing?.AutoJoin ?? false
             });
             await ReplyConfirmAsync(Strings.TtsEnabled(ctx.Guild.Id)).ConfigureAwait(false);
         }
@@ -111,7 +114,8 @@ public class SlashMusicTts(
             LinkedTextChannelId = channel?.Id,
             AnnounceJoinLeave = existing?.AnnounceJoinLeave ?? false,
             JoinFormat = existing?.JoinFormat,
-            LeaveFormat = existing?.LeaveFormat
+            LeaveFormat = existing?.LeaveFormat,
+            AutoJoin = existing?.AutoJoin ?? false
         });
 
         if (channel is null)
@@ -149,12 +153,40 @@ public class SlashMusicTts(
             LinkedTextChannelId = existing?.LinkedTextChannelId,
             AnnounceJoinLeave = newVal,
             JoinFormat = existing?.JoinFormat,
-            LeaveFormat = existing?.LeaveFormat
+            LeaveFormat = existing?.LeaveFormat,
+            AutoJoin = existing?.AutoJoin ?? false
         });
 
         await ReplyConfirmAsync(newVal
             ? Strings.TtsAnnounceEnabled(ctx.Guild.Id)
             : Strings.TtsAnnounceDisabled(ctx.Guild.Id)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Toggles auto-join for the voice channel you are currently in. When on, the bot joins that channel
+    ///     by itself as soon as a member enters it (if it is not already in voice) and leaves again once it
+    ///     is empty. The bot does not need to be connected to use this command.
+    /// </summary>
+    [SlashCommand("autojoin", "Toggles whether the bot joins your current voice channel on its own for TTS")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
+    public async Task TtsAutoJoin()
+    {
+        await DeferAsync();
+
+        var vc = (ctx.User as IGuildUser)?.VoiceChannel;
+        if (vc is null)
+        {
+            await SendPlayerErrorAsync(Strings.MusicNotInChannel(ctx.Guild.Id)).ConfigureAwait(false);
+            return;
+        }
+
+        var newVal = await ttsService.ToggleAutoJoinAsync(ctx.Guild.Id, vc.Id);
+
+        await ReplyConfirmAsync(newVal
+            ? Strings.TtsAutojoinEnabled(ctx.Guild.Id, vc.Id)
+            : Strings.TtsAutojoinDisabled(ctx.Guild.Id, vc.Id)).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -189,7 +221,8 @@ public class SlashMusicTts(
             LinkedTextChannelId = existing?.LinkedTextChannelId,
             AnnounceJoinLeave = existing?.AnnounceJoinLeave ?? false,
             JoinFormat = format,
-            LeaveFormat = existing?.LeaveFormat
+            LeaveFormat = existing?.LeaveFormat,
+            AutoJoin = existing?.AutoJoin ?? false
         });
 
         await ReplyConfirmAsync(string.IsNullOrWhiteSpace(format)
@@ -229,7 +262,8 @@ public class SlashMusicTts(
             LinkedTextChannelId = existing?.LinkedTextChannelId,
             AnnounceJoinLeave = existing?.AnnounceJoinLeave ?? false,
             JoinFormat = existing?.JoinFormat,
-            LeaveFormat = format
+            LeaveFormat = format,
+            AutoJoin = existing?.AutoJoin ?? false
         });
 
         await ReplyConfirmAsync(string.IsNullOrWhiteSpace(format)
@@ -719,6 +753,7 @@ public class SlashMusicTts(
             ? $"<#{vcSetting.LinkedTextChannelId.Value}>"
             : Strings.TtsSettingsNoLinkedChannel(ctx.Guild.Id);
         var announce = vcSetting?.AnnounceJoinLeave == true ? yes : no;
+        var autoJoin = vcSetting?.AutoJoin == true ? yes : no;
         var joinFmt = vcSetting?.JoinFormat ?? TtsService.DefaultJoinFormat;
         var leaveFmt = vcSetting?.LeaveFormat ?? TtsService.DefaultLeaveFormat;
         var defaultVoice = string.IsNullOrWhiteSpace(settings.TtsDefaultVoice)
@@ -737,7 +772,8 @@ public class SlashMusicTts(
             ], Mewdeko.OkColor)
             .WithSeparator()
             .WithContainer(new TextDisplayBuilder(
-                Strings.TtsSettingsChannel(ctx.Guild.Id, vcEnabled, linkedChannel, announce, joinFmt, leaveFmt)))
+                Strings.TtsSettingsChannel(ctx.Guild.Id, vcEnabled, linkedChannel, announce, joinFmt, leaveFmt,
+                    autoJoin)))
             .WithSeparator()
             .WithContainer(new TextDisplayBuilder(
                 Strings.TtsSettingsGuild(ctx.Guild.Id, settings.TtsVolume, settings.TtsSpeed.ToString("F1"),

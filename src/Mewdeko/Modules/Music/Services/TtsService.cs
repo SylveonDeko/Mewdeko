@@ -8,13 +8,16 @@ using Lavalink4NET.Rest.Entities.Tracks;
 using LinqToDB;
 using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Common.PubSub;
 using Mewdeko.Modules.Music.CustomPlayer;
+using Microsoft.Extensions.Options;
 
 namespace Mewdeko.Modules.Music.Services;
 
 /// <summary>
 ///     Listens for messages in TTS-enabled voice channels and reads them aloud.
-///     Also handles VC join/leave announcements.
+///     Also handles VC join/leave announcements and, for channels that opt in, joins the voice channel on its own
+///     when a member arrives and leaves again once everyone has gone.
 /// </summary>
 public class TtsService : INService, IReadyExecutor
 {
@@ -34,7 +37,18 @@ public class TtsService : INService, IReadyExecutor
 
     private static readonly TimeSpan CooldownDuration = TimeSpan.FromSeconds(5);
 
+    /// <summary>
+    ///     How long to wait after the last member leaves an auto-joined channel before disconnecting. Gives any
+    ///     pending leave announcement time to be spoken.
+    /// </summary>
+    private static readonly TimeSpan AutoLeaveDelay = TimeSpan.FromSeconds(2);
+
     private readonly IAudioService audioService;
+
+    /// <summary>
+    ///     Voice channels the service joined on its own, keyed by guild. Only these are left again automatically.
+    /// </summary>
+    private readonly NonBlocking.ConcurrentDictionary<ulong, ulong> autoJoinedChannels = new();
     private readonly IDataCache cache;
     private readonly DiscordShardedClient client;
     private readonly NonBlocking.ConcurrentDictionary<(ulong GuildId, ulong UserId), DateTime> cooldowns = new();
@@ -42,6 +56,8 @@ public class TtsService : INService, IReadyExecutor
     private readonly GuildSettingsService guildSettingsService;
     private readonly NonBlocking.ConcurrentDictionary<ulong, ulong> lastSpeaker = new();
     private readonly ILogger<TtsService> logger;
+    private readonly MusicEventManager eventManager;
+    private readonly IPubSub pubSub;
     private readonly NonBlocking.ConcurrentDictionary<ulong, TaskCompletionSource> ttsCompletions = new();
     private readonly NonBlocking.ConcurrentDictionary<ulong, SemaphoreSlim> ttsLocks = new();
 
@@ -57,13 +73,17 @@ public class TtsService : INService, IReadyExecutor
         IDataConnectionFactory dbFactory,
         GuildSettingsService guildSettingsService,
         EventHandler eventHandler,
+        IPubSub pubSub,
+        MusicEventManager eventManager,
         ILogger<TtsService> logger)
     {
+        this.eventManager = eventManager;
         this.audioService = audioService;
         this.cache = cache;
         this.client = client;
         this.dbFactory = dbFactory;
         this.guildSettingsService = guildSettingsService;
+        this.pubSub = pubSub;
         this.logger = logger;
 
         eventHandler.Subscribe("MessageReceived", "TtsService", HandleMessage);
@@ -76,6 +96,39 @@ public class TtsService : INService, IReadyExecutor
     public Task OnReadyAsync()
     {
         return Task.CompletedTask;
+    }
+
+    /// <summary>
+    ///     Gets the TTS settings row for a voice channel, or null when none has been configured.
+    /// </summary>
+    public Task<TtsVoiceChannelSetting?> GetVcSettingAsync(ulong guildId, ulong voiceChannelId)
+    {
+        return GetVcSetting(guildId, voiceChannelId);
+    }
+
+    /// <summary>
+    ///     Toggles auto-join for a voice channel and returns the new value. Creates the settings row (with TTS
+    ///     enabled) when the channel has not been configured yet, so the command works before the bot has ever
+    ///     joined that channel.
+    /// </summary>
+    public async Task<bool> ToggleAutoJoinAsync(ulong guildId, ulong voiceChannelId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var existing = await db.GetTable<TtsVoiceChannelSetting>()
+            .FirstOrDefaultAsync(x => x.GuildId == guildId && x.VoiceChannelId == voiceChannelId);
+
+        if (existing is not null)
+        {
+            existing.AutoJoin = !existing.AutoJoin;
+            await db.UpdateAsync(existing);
+            return existing.AutoJoin;
+        }
+
+        await db.InsertAsync(new TtsVoiceChannelSetting
+        {
+            GuildId = guildId, VoiceChannelId = voiceChannelId, Enabled = true, AutoJoin = true
+        });
+        return true;
     }
 
     /// <summary>
@@ -105,10 +158,17 @@ public class TtsService : INService, IReadyExecutor
             var vc = after.VoiceChannel;
             var guild = vc.Guild;
             var vcSetting = await GetVcSetting(guild.Id, vc.Id);
-            if (vcSetting is not { Enabled: true, AnnounceJoinLeave: true })
+            if (vcSetting is not { Enabled: true })
                 return;
 
             var player = await audioService.Players.GetPlayerAsync<MewdekoPlayer>(guild.Id);
+
+            if (player is null && vcSetting.AutoJoin)
+                player = await TryAutoJoinAsync(guild, vc, vcSetting);
+
+            if (!vcSetting.AnnounceJoinLeave)
+                return;
+
             if (player is null || player.VoiceChannelId != vc.Id)
                 return;
 
@@ -128,23 +188,140 @@ public class TtsService : INService, IReadyExecutor
             var vc = before.VoiceChannel;
             var guild = vc.Guild;
             var vcSetting = await GetVcSetting(guild.Id, vc.Id);
-            if (vcSetting is not { Enabled: true, AnnounceJoinLeave: true })
+            if (vcSetting is not { Enabled: true })
                 return;
 
             var player = await audioService.Players.GetPlayerAsync<MewdekoPlayer>(guild.Id);
             if (player is null || player.VoiceChannelId != vc.Id)
                 return;
 
-            var format = vcSetting.LeaveFormat ?? DefaultLeaveFormat;
-            var replacer = new ReplacementBuilder()
-                .WithUser(user)
-                .WithServer(client, guild)
-                .WithClient(client)
-                .Build();
-            var text = replacer.Replace(format);
-            var voice = await player.GetEffectiveTtsVoiceAsync(user.Id);
-            EnqueueTts(guild.Id, text, voice);
+            if (vcSetting.AnnounceJoinLeave)
+            {
+                var format = vcSetting.LeaveFormat ?? DefaultLeaveFormat;
+                var replacer = new ReplacementBuilder()
+                    .WithUser(user)
+                    .WithServer(client, guild)
+                    .WithClient(client)
+                    .Build();
+                var text = replacer.Replace(format);
+                var voice = await player.GetEffectiveTtsVoiceAsync(user.Id);
+                EnqueueTts(guild.Id, text, voice);
+            }
+
+            if (autoJoinedChannels.TryGetValue(guild.Id, out var autoJoinedVc) && autoJoinedVc == vc.Id
+                                                                               && !HasHumans(vc))
+                _ = AutoLeaveWhenIdleAsync(guild.Id, vc.Id);
         }
+    }
+
+    /// <summary>
+    ///     Joins the given voice channel because a member arrived and the channel has auto-join turned on.
+    ///     Returns the new player, or null when joining failed (for example, missing Connect permission).
+    /// </summary>
+    private async Task<MewdekoPlayer?> TryAutoJoinAsync(SocketGuild guild, SocketVoiceChannel vc,
+        TtsVoiceChannelSetting vcSetting)
+    {
+        try
+        {
+            IMessageChannel messageChannel = vcSetting.LinkedTextChannelId.HasValue
+                ? guild.GetTextChannel(vcSetting.LinkedTextChannelId.Value) ?? (IMessageChannel)vc
+                : vc;
+
+            var result = await audioService.Players
+                .RetrieveAsync<MewdekoPlayer, MewdekoPlayerOptions>(guild.Id, vc.Id, CreatePlayerAsync,
+                    new OptionsWrapper<MewdekoPlayerOptions>(new MewdekoPlayerOptions
+                    {
+                        Channel = messageChannel
+                    }),
+                    new PlayerRetrieveOptions(PlayerChannelBehavior.Join))
+                .ConfigureAwait(false);
+
+            if (!result.IsSuccess || result.Player is null)
+            {
+                logger.LogWarning("TTS auto-join failed for guild {GuildId} channel {ChannelId}: {Status}",
+                    guild.Id, vc.Id, result.Status);
+                return null;
+            }
+
+            var player = result.Player;
+            await player.SetVolumeAsync(await player.GetVolume() / 100f).ConfigureAwait(false);
+            autoJoinedChannels[guild.Id] = vc.Id;
+
+            await pubSub.Pub(new TypedKey<string>($"music:player:created:{guild.Id}"), "created");
+            logger.LogInformation("TTS auto-joined voice channel {ChannelId} in guild {GuildId}", vc.Id, guild.Id);
+            return player;
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "TTS auto-join threw for guild {GuildId} channel {ChannelId}", guild.Id, vc.Id);
+            return null;
+        }
+    }
+
+    /// <summary>
+    ///     Leaves an auto-joined voice channel once it has stayed empty, any queued TTS has been spoken, and no
+    ///     music is playing. Re-checks everything after the delay so a quick rejoin or a manual play cancels it.
+    /// </summary>
+    private async Task AutoLeaveWhenIdleAsync(ulong guildId, ulong voiceChannelId)
+    {
+        try
+        {
+            await Task.Delay(AutoLeaveDelay);
+
+            if (ttsLocks.TryGetValue(guildId, out var semaphore))
+            {
+                if (await semaphore.WaitAsync(TimeSpan.FromSeconds(30)))
+                    semaphore.Release();
+            }
+
+            if (!autoJoinedChannels.TryGetValue(guildId, out var trackedVc) || trackedVc != voiceChannelId)
+                return;
+
+            var vc = client.GetGuild(guildId)?.GetVoiceChannel(voiceChannelId);
+            if (vc is not null && HasHumans(vc))
+                return;
+
+            var player = await audioService.Players.GetPlayerAsync<MewdekoPlayer>(guildId);
+            if (player is null)
+            {
+                autoJoinedChannels.TryRemove(guildId, out _);
+                return;
+            }
+
+            if (player.VoiceChannelId != voiceChannelId)
+            {
+                autoJoinedChannels.TryRemove(guildId, out _);
+                return;
+            }
+
+            if (player.State == PlayerState.Playing && player.CurrentTrack?.SourceName != "flowery-tts")
+                return;
+
+            autoJoinedChannels.TryRemove(guildId, out _);
+            await player.DisconnectAsync().ConfigureAwait(false);
+            await eventManager.BroadcastDisconnection(guildId).ConfigureAwait(false);
+            await pubSub.Pub(new TypedKey<string>($"music:player:destroyed:{guildId}"), "destroyed");
+            logger.LogInformation("TTS auto-left empty voice channel {ChannelId} in guild {GuildId}",
+                voiceChannelId, guildId);
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning(ex, "TTS auto-leave failed for guild {GuildId}", guildId);
+        }
+    }
+
+    private static bool HasHumans(SocketVoiceChannel vc)
+    {
+        return vc.ConnectedUsers.Any(u => !u.IsBot);
+    }
+
+    private static ValueTask<MewdekoPlayer> CreatePlayerAsync(
+        IPlayerProperties<MewdekoPlayer, MewdekoPlayerOptions> properties,
+        CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ArgumentNullException.ThrowIfNull(properties);
+        return ValueTask.FromResult(new MewdekoPlayer(properties));
     }
 
     private async Task HandleMessage(SocketMessage msg)
